@@ -2,11 +2,11 @@
 
 namespace StandardAssets.Characters.ThirdPerson
 {
-	[RequireComponent(typeof(ThirdPersonMotor))]
+	[RequireComponent(typeof(IThirdPersonMotor))]
 	[RequireComponent(typeof(Animator))]
 	public class ThirdPersonAnimationController : MonoBehaviour
 	{
-		ThirdPersonMotor m_Motor;
+		IThirdPersonMotor m_Motor;
 		Animator m_Animator;
 		
 		readonly int m_HashForwardSpeed = Animator.StringToHash("ForwardSpeed");
@@ -15,7 +15,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		void Awake()
 		{
-			m_Motor = GetComponent<ThirdPersonMotor>();
+			m_Motor = GetComponent<IThirdPersonMotor>();
 			m_Animator = GetComponent<Animator>();
 		}
 

@@ -4,7 +4,7 @@ using UnityEngine.AI;
 namespace StandardAssets.Characters.ThirdPerson
 {
 	[RequireComponent(typeof(NavMeshAgent))]
-	public class NavMeshThirdPersonMotor : ThirdPersonMotor
+	public class NavMeshThirdPersonMotor : MonoBehaviour, IThirdPersonMotor
 	{
 		NavMeshAgent m_Agent;
 
@@ -15,17 +15,17 @@ namespace StandardAssets.Characters.ThirdPerson
 			m_Agent = GetComponent<NavMeshAgent>();
 		}
 
-		public override float turningSpeed
+		public float turningSpeed
 		{
 			get { return m_Agent.angularSpeed/maxAngularSpeed; }
 		}
 
-		public override float lateralSpeed
+		public float lateralSpeed
 		{
 			get { return m_Agent.velocity.x/maxLateralSpeed; }
 		}
 
-		public override float forwardSpeed
+		public float forwardSpeed
 		{
 			get { return m_Agent.velocity.z/maxForwardSpeed; }
 		}
