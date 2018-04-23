@@ -22,12 +22,18 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public float lateralSpeed
 		{
-			get { return m_Agent.velocity.x/maxLateralSpeed; }
+			get { return GetVelocityOnAxis(m_Agent.transform.right, m_Agent.velocity) / maxLateralSpeed; }
 		}
 
 		public float forwardSpeed
 		{
-			get { return m_Agent.velocity.z/maxForwardSpeed; }
+			get { return GetVelocityOnAxis(m_Agent.transform.forward, m_Agent.velocity) / maxForwardSpeed; }
+		}
+
+		private float GetVelocityOnAxis(Vector3 axis, Vector3 velocity)
+		{
+			float dot = Vector3.Dot(axis, velocity);
+			return dot * velocity.magnitude;
 		}
 	}
 }
