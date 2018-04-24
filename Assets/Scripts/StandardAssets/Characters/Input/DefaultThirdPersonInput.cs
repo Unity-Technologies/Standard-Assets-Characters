@@ -16,7 +16,7 @@ namespace StandardAssets.Characters.Input
 			get { return moveInput.sqrMagnitude > 0; }
 		}
 
-		private void Update()
+		void Update()
 		{
 			m_MoveInput.Set(UnityInput.GetAxis("Horizontal"), UnityInput.GetAxis("Vertical"));
 		}

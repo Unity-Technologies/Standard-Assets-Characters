@@ -17,7 +17,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public float turningSpeed
 		{
-			get { return m_Agent.angularSpeed/maxAngularSpeed; }
+			get { return 0f*m_Agent.angularSpeed/maxAngularSpeed; }
 		}
 
 		public float lateralSpeed
@@ -32,8 +32,11 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private float GetVelocityOnAxis(Vector3 axis, Vector3 velocity)
 		{
-			float dot = Vector3.Dot(axis, velocity);
-			return dot * velocity.magnitude;
+			float dot = Vector3.Dot(axis, velocity.normalized);
+			float val = dot * velocity.magnitude;
+			
+			Debug.Log(val);
+			return val;
 		}
 	}
 }
