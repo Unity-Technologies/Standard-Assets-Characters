@@ -136,7 +136,7 @@ namespace ProBuilder2.EditorCommon
 						if(	(PrefabUtility.GetPrefabType(go) == PrefabType.PrefabInstance ||
 							 PrefabUtility.GetPrefabType(go) == PrefabType.Prefab ) )
 						{
-							GameObject pref = (GameObject)PrefabUtility.GetPrefabParent(go);
+							GameObject pref = (GameObject)PrefabUtility.GetCorrespondingObjectFromSource(go);
 
 							if(pref && (pref.GetComponent<pb_Object>() || pref.GetComponent<pb_Entity>()))
 							{
