@@ -2,9 +2,8 @@
 
 namespace StandardAssets.Characters.Input
 {
-	public interface IThirdPersonInput
+	public interface IThirdPersonInput : IInput
 	{
-		Vector2 moveInput { get; }
-		bool isMoveInput { get; }
+		
 	}
 }

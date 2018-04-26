@@ -12,6 +12,11 @@ namespace StandardAssets.Characters.Physics
 			m_CharacterController.Move(moveVector3);
 		}
 
+		public bool canJump
+		{
+			get { return m_CharacterController.isGrounded; }
+		}
+
 		void Awake()
 		{
 			m_CharacterController = GetComponent<CharacterController>();

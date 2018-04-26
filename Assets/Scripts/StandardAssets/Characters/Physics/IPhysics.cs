@@ -9,5 +9,7 @@ namespace StandardAssets.Characters.Physics
 	public interface IPhysics
 	{
 		void Move(Vector3 moveVector3);
+		
+		bool canJump { get; }
 	}
 }

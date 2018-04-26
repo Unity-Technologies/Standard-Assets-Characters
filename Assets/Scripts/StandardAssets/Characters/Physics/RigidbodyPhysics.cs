@@ -16,5 +16,10 @@ namespace StandardAssets.Characters.Physics
 		{
 			m_Rigidbody.MovePosition(transform.position + moveVector3);
 		}
+
+		public bool canJump
+		{
+			get { return false; }
+		}
 	}
 }
