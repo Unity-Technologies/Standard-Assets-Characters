@@ -54,15 +54,10 @@ namespace StandardAssets.Characters.FirstPerson
 				{
 					movementTime = 0f;
 				}
+
 				Decelerate();
 			}
 
-
-			if (currentSpeed < Mathf.Epsilon)
-			{
-				return;
-			}
-			
 			Vector2 input = m_Input.moveInput;
 			if (input.sqrMagnitude > 1)
 			{

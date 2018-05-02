@@ -394,6 +394,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eb889feba9d41d4bfbbade70ee269c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gravity: 0.1
 --- !u!143 &1182356000
 CharacterController:
   m_ObjectHideFlags: 0
@@ -410,7 +411,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.001
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.901, z: 0}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!114 &1182356001
 MonoBehaviour:
   m_ObjectHideFlags: 0
