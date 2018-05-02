@@ -16,6 +16,10 @@ namespace StandardAssets.Characters.FirstPerson
 		protected IPhysics m_Physics;
 
 		protected IFirstPersonInput m_Input;
+
+		protected float currentSpeed = 0f, movementTime = 0f;
+
+		protected bool prevIsMoveInput = false;
 		
 		protected virtual void Awake()
 		{
@@ -38,22 +42,56 @@ namespace StandardAssets.Characters.FirstPerson
 
 			if (m_Input.isMoveInput)
 			{
+				if (!prevIsMoveInput)
+				{
+					movementTime = 0f;
+				}
 				Accelerate();
 			}
 			else
 			{
+				if (prevIsMoveInput)
+				{
+					movementTime = 0f;
+				}
 				Decelerate();
 			}
+
+
+			if (currentSpeed < Mathf.Epsilon)
+			{
+				return;
+			}
+			
+			Vector2 input = m_Input.moveInput;
+			if (input.sqrMagnitude > 1)
+			{
+				input.Normalize();
+			}
+
+			Vector3 forward = transform.forward * m_Input.moveInput.y;
+			Vector3 sideways = transform.right * m_Input.moveInput.x;
+			
+			m_Physics.Move((forward + sideways) * currentSpeed * Time.deltaTime);
+
+			prevIsMoveInput = m_Input.isMoveInput;
 		}	
 
 		void Accelerate()
 		{
-			throw new System.NotImplementedException();
+			movementTime += Time.fixedDeltaTime;
+			movementTime = Mathf.Clamp(movementTime, 0f, m_CurrentMotorState.acceleration.maxValue);
+			currentSpeed = m_CurrentMotorState.acceleration.Evaluate(movementTime) * m_CurrentMotorState.maxSpeed;
 		}
 		
 		void Decelerate()
 		{
-			throw new System.NotImplementedException();
+			currentSpeed = 0f;
+		}
+
+		void ClampCurrentSpeed()
+		{
+			currentSpeed = Mathf.Clamp(currentSpeed, 0f, m_CurrentMotorState.maxSpeed);
 		}
 
 		public virtual void ChangeState(FirstPersonMotorState newState)

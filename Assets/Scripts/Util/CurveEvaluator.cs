@@ -11,6 +11,7 @@ namespace Util
 		
 		public virtual float Evaluate(float currentValue)
 		{
+			currentValue = Mathf.Clamp(currentValue, 0f, maxValue);
 			return curve.Evaluate(currentValue / maxValue);
 		}
 	}
