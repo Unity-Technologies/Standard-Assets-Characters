@@ -209,17 +209,42 @@ MonoBehaviour:
   m_GameObject: {fileID: 18861183}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa7155796051b734daa718462081dc5f, type: 3}
+  m_Script: {fileID: 11500000, guid: 9384ab8608cdc3d479fe89cd51eed48f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 1
-  m_FollowOffset: {x: 4.12, y: 1.35, z: 2.59}
+  m_FollowOffset: {x: 0, y: 2.65, z: -10.18}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
   m_PitchDamping: 0
   m_YawDamping: 0
   m_RollDamping: 0
+  m_Heading:
+    m_Definition: 2
+    m_VelocityFilterStrength: 4
+    m_Bias: 0
+  m_RecenterToTargetHeading:
+    m_enabled: 1
+    m_WaitTime: 1
+    m_RecenteringTime: 2
+    m_LegacyHeadingDefinition: -1
+    m_LegacyVelocityFilterStrength: -1
+  m_XAxis:
+    Value: 0
+    m_MaxSpeed: 300
+    m_AccelTime: 2
+    m_DecelTime: 1
+    m_InputAxisName: Mouse X
+    m_InputAxisValue: 0
+    m_InvertInput: 1
+    m_MinValue: -180
+    m_MaxValue: 180
+    m_Wrap: 1
+  m_LegacyRadius: 3.4028235e+38
+  m_LegacyHeightOffset: 3.4028235e+38
+  m_LegacyHeadingBias: 3.4028235e+38
+  m_HeadingIsSlave: 0
 --- !u!114 &18861186
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -433,8 +458,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 409482393}
-  m_LocalRotation: {x: 0.19341837, y: -0.002480145, z: 0.0004889042, w: 0.98111314}
-  m_LocalPosition: {x: -0.03, y: 2.32, z: -3.58}
+  m_LocalRotation: {x: 0.05814352, y: -0.0025235997, z: 0.00014694475, w: 0.9983051}
+  m_LocalPosition: {x: 0, y: 2.07, z: -10.12}
   m_LocalScale: {x: 1.0000005, y: 1, z: 1.0000002}
   m_Children:
   - {fileID: 1432865538}
@@ -581,8 +606,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 466969627}
-  m_LocalRotation: {x: 0.00035154974, y: 0.9902742, z: -0.13910677, w: 0.0025028451}
-  m_LocalPosition: {x: -0.08, y: 2.74, z: 6.31}
+  m_LocalRotation: {x: -0.058232702, y: 0.0025230835, z: -0.00014714408, w: -0.9982999}
+  m_LocalPosition: {x: 0, y: 2.08, z: -10.19}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1940149375}
@@ -825,8 +850,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 846881900}
-  m_LocalRotation: {x: 0.015231379, y: -0.8750117, z: 0.027589094, w: 0.48307502}
-  m_LocalPosition: {x: 4.12, y: 1.35, z: 2.59}
+  m_LocalRotation: {x: 0.07965515, y: -0.008566159, z: 0.0006845064, w: 0.99678546}
+  m_LocalPosition: {x: 0, y: 2.65, z: -10.18}
   m_LocalScale: {x: 1.0000005, y: 1, z: 1.0000002}
   m_Children:
   - {fileID: 18861184}
@@ -872,31 +897,31 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4669822505212912, guid: ec0f96812776e284489508050a84ef56, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 4.12
+      value: 0.03
       objectReference: {fileID: 0}
     - target: {fileID: 4669822505212912, guid: ec0f96812776e284489508050a84ef56, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 1.35
+      value: 4.99
       objectReference: {fileID: 0}
     - target: {fileID: 4669822505212912, guid: ec0f96812776e284489508050a84ef56, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 2.59
+      value: -11.12
       objectReference: {fileID: 0}
     - target: {fileID: 4669822505212912, guid: ec0f96812776e284489508050a84ef56, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0.015231379
+      value: 0.16526486
       objectReference: {fileID: 0}
     - target: {fileID: 4669822505212912, guid: ec0f96812776e284489508050a84ef56, type: 2}
       propertyPath: m_LocalRotation.y
-      value: -0.8750117
+      value: -0.004485056
       objectReference: {fileID: 0}
     - target: {fileID: 4669822505212912, guid: ec0f96812776e284489508050a84ef56, type: 2}
       propertyPath: m_LocalRotation.z
-      value: 0.027589094
+      value: 0.0007515418
       objectReference: {fileID: 0}
     - target: {fileID: 4669822505212912, guid: ec0f96812776e284489508050a84ef56, type: 2}
       propertyPath: m_LocalRotation.w
-      value: 0.48307502
+      value: 0.9862388
       objectReference: {fileID: 0}
     - target: {fileID: 4669822505212912, guid: ec0f96812776e284489508050a84ef56, type: 2}
       propertyPath: m_RootOrder
@@ -909,7 +934,7 @@ Prefab:
     - target: {fileID: 20765046318219734, guid: ec0f96812776e284489508050a84ef56,
         type: 2}
       propertyPath: field of view
-      value: 40
+      value: 31
       objectReference: {fileID: 0}
     - target: {fileID: 20765046318219734, guid: ec0f96812776e284489508050a84ef56,
         type: 2}
@@ -944,7 +969,7 @@ Transform:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1350473394}
-  m_LocalRotation: {x: 0.165261, y: -0.004485056, z: 0.0007515274, w: 0.98623943}
+  m_LocalRotation: {x: 0.16526486, y: -0.004485056, z: 0.0007515418, w: 0.9862388}
   m_LocalPosition: {x: 0.03, y: 4.99, z: -11.12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1033,17 +1058,42 @@ MonoBehaviour:
   m_GameObject: {fileID: 1432865537}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa7155796051b734daa718462081dc5f, type: 3}
+  m_Script: {fileID: 11500000, guid: 9384ab8608cdc3d479fe89cd51eed48f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 1
-  m_FollowOffset: {x: -0.03, y: 2.32, z: -3.58}
+  m_FollowOffset: {x: 0, y: 2.07, z: -10.12}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
   m_PitchDamping: 0
   m_YawDamping: 0
   m_RollDamping: 0
+  m_Heading:
+    m_Definition: 2
+    m_VelocityFilterStrength: 4
+    m_Bias: 0
+  m_RecenterToTargetHeading:
+    m_enabled: 1
+    m_WaitTime: 1
+    m_RecenteringTime: 2
+    m_LegacyHeadingDefinition: -1
+    m_LegacyVelocityFilterStrength: -1
+  m_XAxis:
+    Value: 0
+    m_MaxSpeed: 300
+    m_AccelTime: 2
+    m_DecelTime: 1
+    m_InputAxisName: Mouse X
+    m_InputAxisValue: 0
+    m_InvertInput: 1
+    m_MinValue: -180
+    m_MaxValue: 180
+    m_Wrap: 1
+  m_LegacyRadius: 3.4028235e+38
+  m_LegacyHeightOffset: 3.4028235e+38
+  m_LegacyHeadingBias: 3.4028235e+38
+  m_HeadingIsSlave: 0
 --- !u!114 &1432865540
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1304,17 +1354,42 @@ MonoBehaviour:
   m_GameObject: {fileID: 1940149374}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa7155796051b734daa718462081dc5f, type: 3}
+  m_Script: {fileID: 11500000, guid: 9384ab8608cdc3d479fe89cd51eed48f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 1
-  m_FollowOffset: {x: -0.08, y: 2.74, z: 6.31}
+  m_FollowOffset: {x: 0, y: 2.08, z: -10.19}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
   m_PitchDamping: 0
   m_YawDamping: 0
   m_RollDamping: 0
+  m_Heading:
+    m_Definition: 2
+    m_VelocityFilterStrength: 4
+    m_Bias: 0
+  m_RecenterToTargetHeading:
+    m_enabled: 1
+    m_WaitTime: 1
+    m_RecenteringTime: 2
+    m_LegacyHeadingDefinition: -1
+    m_LegacyVelocityFilterStrength: -1
+  m_XAxis:
+    Value: 0
+    m_MaxSpeed: 300
+    m_AccelTime: 2
+    m_DecelTime: 1
+    m_InputAxisName: Mouse X
+    m_InputAxisValue: 0
+    m_InvertInput: 1
+    m_MinValue: -180
+    m_MaxValue: 180
+    m_Wrap: 1
+  m_LegacyRadius: 3.4028235e+38
+  m_LegacyHeightOffset: 3.4028235e+38
+  m_LegacyHeadingBias: 3.4028235e+38
+  m_HeadingIsSlave: 0
 --- !u!114 &1940149377
 MonoBehaviour:
   m_ObjectHideFlags: 3
