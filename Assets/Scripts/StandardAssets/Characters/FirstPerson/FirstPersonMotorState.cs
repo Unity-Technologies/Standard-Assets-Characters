@@ -5,6 +5,10 @@ using Util;
 
 namespace StandardAssets.Characters.FirstPerson
 {
+	/// <summary>
+	/// The state that modifies the behaviour of the first person motor
+	/// e.g. the difference between standing and crouching
+	/// </summary>
 	[Serializable]
 	public class FirstPersonMotorState
 	{

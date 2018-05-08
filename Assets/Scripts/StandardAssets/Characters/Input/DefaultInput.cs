@@ -3,7 +3,10 @@ using UnityInput = UnityEngine.Input;
 
 namespace StandardAssets.Characters.Input
 {
-	public class DefaultThirdPersonInput : MonoBehaviour, IThirdPersonInput
+	/// <summary>
+	/// Unity original input implementation
+	/// </summary>
+	public class DefaultInput : MonoBehaviour, IInput
 	{
 		Vector2 m_MoveInput;
 
@@ -18,6 +21,7 @@ namespace StandardAssets.Characters.Input
 
 		void Update()
 		{
+			//Cache the inputs
 			m_MoveInput.Set(UnityInput.GetAxis("Horizontal"), UnityInput.GetAxis("Vertical"));
 		}
 	}

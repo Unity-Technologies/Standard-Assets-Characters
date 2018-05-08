@@ -1,16 +1,20 @@
 ﻿using StandardAssets.Characters.Input;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
-using UnityEngine.Scripting.APIUpdating;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
+	/// <summary>
+	/// The main third person controller
+	/// </summary>
 	[RequireComponent(typeof(IPhysics))]
-	[RequireComponent(typeof(IThirdPersonInput))]
+	[RequireComponent(typeof(IInput))]
 	public class PhysicsThirdPersonMotor : MonoBehaviour, IThirdPersonMotor
 	{
 		#region Inspector
-		
+		/// <summary>
+		/// Movement values
+		/// </summary>
 		public Transform    cameraTransform;
 		public float        maxForwardSpeed             = 10f;
 		public bool         useAcceleration             = true;
@@ -30,29 +34,48 @@ namespace StandardAssets.Characters.ThirdPerson
 		#endregion
 
 		#region Properties
-		
+		/// <inheritdoc />
 		public float turningSpeed { get; private set; }
+		
+		/// <inheritdoc />
 		public float lateralSpeed { get; private set; }
+		
+		/// <inheritdoc />
 		public float forwardSpeed { get; private set; }
 		
 		#endregion
 
 
 		#region Required Components
+		/// <summary>
+		/// The input implementation
+		/// </summary>
+		IInput m_Input;
 		
-		IThirdPersonInput m_Input;
+		/// <summary>
+		/// The physic implementation
+		/// </summary>
 		IPhysics m_Physics;
 		
 		#endregion
 		
+		/// <summary>
+		/// Is the user grounded
+		/// </summary>
 		bool m_IsGrounded    = true;
 
+		/// <summary>
+		/// Gets required components
+		/// </summary>
 		void Awake()
 		{
-			m_Input = GetComponent<IThirdPersonInput>();
+			m_Input = GetComponent<IInput>();
 			m_Physics = GetComponent<IPhysics>();
 		}
 		
+		/// <summary>
+		/// Movement Logic on physics update
+		/// </summary>
 		void FixedUpdate ()
 		{
 			SetForward ();
@@ -62,7 +85,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			Move();
 		}
 
-
+		/// <summary>
+		/// Sets forward rotation
+		/// </summary>
 		void SetForward()
 		{
 			if (!m_Input.isMoveInput)
@@ -90,6 +115,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			transform.rotation = targetRotation;
 		}
 
+		/// <summary>
+		/// Calculates the forward movement
+		/// </summary>
 		void CalculateForwardMovement()
 		{
 			Vector2 moveInput = m_Input.moveInput;
@@ -119,6 +147,9 @@ namespace StandardAssets.Characters.ThirdPerson
 //			throw new System.NotImplementedException();
 //		}
 		
+		/// <summary>
+		/// Moves the character
+		/// </summary>
 		void Move()
 		{
 			Vector3 movement;

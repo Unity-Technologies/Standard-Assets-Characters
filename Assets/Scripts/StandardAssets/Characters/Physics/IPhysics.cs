@@ -3,13 +3,19 @@
 namespace StandardAssets.Characters.Physics
 {
 	/// <summary>
-	/// A wrapper for the physics controllers
-	/// Can swa
+	/// A wrapper for the physics controllers so that character controllers are agnostic of the physic implementation
 	/// </summary>
 	public interface IPhysics
 	{
+		/// <summary>
+		/// Handles movement
+		/// </summary>
+		/// <param name="moveVector3"></param>
 		void Move(Vector3 moveVector3);
 		
-		bool canJump { get; }
+		/// <summary>
+		/// Returns true if the physic objects are grounded
+		/// </summary>
+		bool isGrounded { get; }
 	}
 }

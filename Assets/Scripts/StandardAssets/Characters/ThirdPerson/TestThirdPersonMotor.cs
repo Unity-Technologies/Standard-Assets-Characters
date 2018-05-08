@@ -2,6 +2,9 @@
 
 namespace StandardAssets.Characters.ThirdPerson
 {
+	/// <summary>
+	/// A motor used for testing animations
+	/// </summary>
 	public class TestThirdPersonMotor : MonoBehaviour, IThirdPersonMotor
 	{
 		public float forwardMovement = 1f;
