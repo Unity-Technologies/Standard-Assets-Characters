@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 114192279291377324}
   - component: {fileID: 114630324196339270}
   - component: {fileID: 114381574941385694}
-  - component: {fileID: 114573639622606688}
+  - component: {fileID: 114498609054474922}
   m_Layer: 0
   m_Name: FemaleCharacter
   m_TagString: Player
@@ -565,7 +565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eb889feba9d41d4bfbbade70ee269c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravity: 0
+  gravity: 0.1
 --- !u!114 &114470201805088182
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -621,6 +621,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114498609054474922
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1245845456985614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1052986cb0c4fe4b8cfbdfeba746ea0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114519926364889652
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -646,17 +657,6 @@ MonoBehaviour:
   m_SoftZoneHeight: 0.81
   m_BiasX: 0
   m_BiasY: 0
---- !u!114 &114573639622606688
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1245845456985614}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eeea413e1e6a4aa08fd9096f8f297d09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114575124681753196
 MonoBehaviour:
   m_ObjectHideFlags: 1

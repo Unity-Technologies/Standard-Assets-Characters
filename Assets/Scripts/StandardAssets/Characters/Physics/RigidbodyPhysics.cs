@@ -2,6 +2,10 @@
 
 namespace StandardAssets.Characters.Physics
 {
+	/// <summary>
+	/// Rigidbody implementation of Physics
+	/// Test example of a different Physics implementation
+	/// </summary>
 	[RequireComponent(typeof(Rigidbody))]
 	public class RigidbodyPhysics : MonoBehaviour, IPhysics
 	{
@@ -17,7 +21,7 @@ namespace StandardAssets.Characters.Physics
 			m_Rigidbody.MovePosition(transform.position + moveVector3);
 		}
 
-		public bool canJump
+		public bool isGrounded
 		{
 			get { return false; }
 		}

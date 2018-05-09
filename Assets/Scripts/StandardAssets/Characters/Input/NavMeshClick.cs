@@ -3,6 +3,9 @@ using UnityEngine.AI;
 
 namespace StandardAssets.Characters.Input
 {
+	/// <summary>
+	/// NavMesh click controls for Third Person NavMesh scene
+	/// </summary>
 	public class NavMeshClick : MonoBehaviour
 	{
 		public NavMeshAgent agent;

@@ -5,34 +5,67 @@ using UnityEngine.Scripting.APIUpdating;
 
 namespace StandardAssets.Characters.FirstPerson
 {
+	/// <summary>
+	/// The main controller of first person character
+	/// Ties together the input and physics implementations
+	/// </summary>
 	[RequireComponent(typeof(IPhysics))]
-	[RequireComponent(typeof(IFirstPersonInput))]
+	[RequireComponent(typeof(IInput))]
 	public class FirstPersonMotor : MonoBehaviour
 	{
+		/// <summary>
+		/// The state that first person motor starts in
+		/// </summary>
 		public FirstPersonMotorState startingMotorState;
 
+		/// <summary>
+		/// The current motor state - controls how the character moves in different states
+		/// </summary>
 		protected FirstPersonMotorState m_CurrentMotorState;
 
+		/// <summary>
+		/// The Physic implementation used to do the movement
+		/// e.g. CharacterController or Rigidbody (or New C# CharacterController analog)
+		/// </summary>
 		protected IPhysics m_Physics;
 
-		protected IFirstPersonInput m_Input;
+		/// <summary>
+		/// The Input implementation to be used
+		/// e.g. Default unity input or (in future) the new new input system
+		/// </summary>
+		protected IInput m_Input;
 
+		/// <summary>
+		/// The current movement properties
+		/// </summary>
 		protected float currentSpeed = 0f, movementTime = 0f;
 
+		/// <summary>
+		/// A check to see if input was previous being applied
+		/// </summary>
 		protected bool prevIsMoveInput = false;
 		
+		/// <summary>
+		/// Get the attached implementations on wake
+		/// </summary>
 		protected virtual void Awake()
 		{
 			m_Physics = GetComponent<IPhysics>();
-			m_Input = GetComponent<IFirstPersonInput>();
+			m_Input = GetComponent<IInput>();
 			ChangeState(startingMotorState);
 		}
 
+		/// <summary>
+		/// Handles movement on Physics update
+		/// </summary>
 		void FixedUpdate()
 		{
 			Move();
 		}
 
+		/// <summary>
+		/// State based movement
+		/// </summary>
 		void Move()
 		{
 			if (startingMotorState == null)
@@ -72,6 +105,9 @@ namespace StandardAssets.Characters.FirstPerson
 			prevIsMoveInput = m_Input.isMoveInput;
 		}	
 
+		/// <summary>
+		/// Calculates current speed based on acceleration anim curve
+		/// </summary>
 		void Accelerate()
 		{
 			movementTime += Time.fixedDeltaTime;
@@ -79,16 +115,27 @@ namespace StandardAssets.Characters.FirstPerson
 			currentSpeed = m_CurrentMotorState.acceleration.Evaluate(movementTime) * m_CurrentMotorState.maxSpeed;
 		}
 		
+		/// <summary>
+		/// Calculates the current speed based on the deceleration anim curve
+		/// </summary>
 		void Decelerate()
 		{
+			//TODO: implement
 			currentSpeed = 0f;
 		}
 
+		/// <summary>
+		/// Clamps the current speed
+		/// </summary>
 		void ClampCurrentSpeed()
 		{
 			currentSpeed = Mathf.Clamp(currentSpeed, 0f, m_CurrentMotorState.maxSpeed);
 		}
 
+		/// <summary>
+		/// Changes the current motor state and play events associated with state change
+		/// </summary>
+		/// <param name="newState"></param>
 		public virtual void ChangeState(FirstPersonMotorState newState)
 		{
 			if (newState == null)
