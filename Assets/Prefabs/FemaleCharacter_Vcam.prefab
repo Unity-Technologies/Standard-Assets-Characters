@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114869345975265786}
   - component: {fileID: 114040232138707948}
   - component: {fileID: 114202217180408984}
-  - component: {fileID: 114258899360772708}
+  - component: {fileID: 114923168474912962}
   m_Layer: 0
   m_Name: FemaleCharacter_Vcam
   m_TagString: Player
@@ -89,7 +89,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1594493020477176}
-  m_LocalRotation: {x: 0.07924477, y: -0.0000000916237, z: 0.0000000072836026, w: 0.9968552}
+  m_LocalRotation: {x: 0.07924485, y: -0.00000004581185, z: 0.0000000036418042, w: 0.9968552}
   m_LocalPosition: {x: 0, y: 1.9999998, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -177,7 +177,7 @@ MonoBehaviour:
   gravity: 10
   jumpSpeed: 15
   interpolateTurning: 1
-  turnSpeed: 200
+  turnSpeed: 150
   airborneTurnSpeedProportion: 0.5
 --- !u!114 &114043160816419610
 MonoBehaviour:
@@ -250,18 +250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eb889feba9d41d4bfbbade70ee269c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravity: 0
---- !u!114 &114258899360772708
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1262955221647676}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eeea413e1e6a4aa08fd9096f8f297d09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  gravity: 0.1
 --- !u!114 &114485406870764872
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -281,8 +270,8 @@ MonoBehaviour:
   m_VerticalDamping: 0.5
   m_ScreenX: 0.5
   m_ScreenY: 0.5
-  m_DeadZoneWidth: 0.631
-  m_DeadZoneHeight: 0.604
+  m_DeadZoneWidth: 0.253
+  m_DeadZoneHeight: 0.338
   m_SoftZoneWidth: 0.8
   m_SoftZoneHeight: 0.8
   m_BiasX: 0
@@ -315,6 +304,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 50675fc63f6845a9b80e1db1c59a5d83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114923168474912962
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1262955221647676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1052986cb0c4fe4b8cfbdfeba746ea0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!137 &137729958687690272
