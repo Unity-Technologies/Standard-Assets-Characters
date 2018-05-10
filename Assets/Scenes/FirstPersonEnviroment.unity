@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.18203652, g: 0.22772755, b: 0.30740222, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -22674,6 +22674,22 @@ Transform:
   m_Father: {fileID: 795399649}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!1 &443858423 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1350860872162924, guid: 67bcc91c1c7c3440d8b5f93fa927a9c3,
+    type: 2}
+  m_PrefabInternal: {fileID: 1156596314}
+--- !u!114 &443858424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 443858423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a881622476b489b863543fc2b65f981, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &470841493
 GameObject:
   m_ObjectHideFlags: 0
@@ -23930,6 +23946,26 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4346837742657700, guid: 67bcc91c1c7c3440d8b5f93fa927a9c3, type: 2}
       propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114477437577510916, guid: 67bcc91c1c7c3440d8b5f93fa927a9c3,
+        type: 2}
+      propertyPath: startingMotorState.maxSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114477437577510916, guid: 67bcc91c1c7c3440d8b5f93fa927a9c3,
+        type: 2}
+      propertyPath: startingMotorState.acceleration.curve.m_Curve.Array.data[0].outSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114477437577510916, guid: 67bcc91c1c7c3440d8b5f93fa927a9c3,
+        type: 2}
+      propertyPath: startingMotorState.acceleration.curve.m_Curve.Array.data[1].inSlope
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114477437577510916, guid: 67bcc91c1c7c3440d8b5f93fa927a9c3,
+        type: 2}
+      propertyPath: startingMotorState.acceleration.curve.m_Curve.Array.data[1].outSlope
       value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []

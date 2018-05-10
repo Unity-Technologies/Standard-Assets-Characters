@@ -1,10 +1,12 @@
 ﻿using StandardAssets.Characters.Cameras;
+using StandardAssets.Characters.Input;
 using UnityEngine;
 using UnityInput = UnityEngine.Input;
 
 namespace StandardAssets.Characters.FirstPerson
 {
 	[RequireComponent(typeof(ICameraManager))]
+	[RequireComponent(typeof(ILookInput))]
 	public class FirstPersonLook : MonoBehaviour
 	{
 		public GameObject character;
@@ -19,12 +21,14 @@ namespace StandardAssets.Characters.FirstPerson
 		
 	    private bool m_cursorIsLocked = true;
 		ICameraManager m_CameraManager;
+		ILookInput m_LookInput;
 
 		Quaternion m_CharacterTargetRot;
 
 		void Awake()
 		{
 			m_CameraManager = GetComponent<ICameraManager>();
+			m_LookInput = GetComponent<ILookInput>();
 			m_CharacterTargetRot = character.transform.localRotation;
 		}
 
@@ -36,8 +40,8 @@ namespace StandardAssets.Characters.FirstPerson
 		void LookRotation()
 		{
 			GameObject camera = m_CameraManager.currentCamera;
-            float yRot = UnityInput.GetAxis("Mouse X") * XSensitivity;
-            float xRot = UnityInput.GetAxis("Mouse Y") * YSensitivity;
+            float yRot = m_LookInput.lookInput.x * XSensitivity;
+            float xRot = m_LookInput.lookInput.y * YSensitivity;
 
 			m_CharacterTargetRot	*= Quaternion.Euler(0f, -yRot, 0f);
 			Quaternion m_CameraTargetRot = camera.transform.localRotation;
