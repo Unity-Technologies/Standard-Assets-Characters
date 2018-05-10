@@ -73,8 +73,7 @@ namespace StandardAssets.Characters.FirstPerson
 				return;
 			}
 
-			
-			 if (m_Input.isMoveInput)
+			if (m_Input.isMoveInput)
 			{
 				if (!prevIsMoveInput)
 				{
@@ -92,8 +91,6 @@ namespace StandardAssets.Characters.FirstPerson
 				Decelerate();
 			}
 
-
-			
 			Vector2 input = m_Input.moveInput;
 			if (input.sqrMagnitude > 1)
 			{
