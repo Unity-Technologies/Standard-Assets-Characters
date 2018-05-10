@@ -8,7 +8,12 @@ namespace StandardAssets.Characters.Cameras
 		
 		public void SetCurrentCamera(GameObject newCamera)
 		{
+			if (currentCamera != null)
+			{
+				currentCamera.SetActive(false);
+			}
 			currentCamera = newCamera;
+			currentCamera.SetActive(true);
 		}
 	}
 }

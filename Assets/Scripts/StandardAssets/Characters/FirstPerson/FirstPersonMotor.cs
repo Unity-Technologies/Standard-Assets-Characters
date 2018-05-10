@@ -19,11 +19,6 @@ namespace StandardAssets.Characters.FirstPerson
 		public FirstPersonMotorState startingMotorState;
 
 		/// <summary>
-		/// The current motor state - controls how the character moves in different states
-		/// </summary>
-		protected FirstPersonMotorState m_CurrentMotorState;
-
-		/// <summary>
 		/// The Physic implementation used to do the movement
 		/// e.g. CharacterController or Rigidbody (or New C# CharacterController analog)
 		/// </summary>
@@ -44,6 +39,11 @@ namespace StandardAssets.Characters.FirstPerson
 		/// A check to see if input was previous being applied
 		/// </summary>
 		protected bool prevIsMoveInput = false;
+		
+		/// <summary>
+		/// The current motor state - controls how the character moves in different states
+		/// </summary>
+		public FirstPersonMotorState currentMotorState { get; protected set; }
 		
 		/// <summary>
 		/// Get the attached implementations on wake
@@ -111,8 +111,8 @@ namespace StandardAssets.Characters.FirstPerson
 		void Accelerate()
 		{
 			movementTime += Time.fixedDeltaTime;
-			movementTime = Mathf.Clamp(movementTime, 0f, m_CurrentMotorState.acceleration.maxValue);
-			currentSpeed = m_CurrentMotorState.acceleration.Evaluate(movementTime) * m_CurrentMotorState.maxSpeed;
+			movementTime = Mathf.Clamp(movementTime, 0f, currentMotorState.acceleration.maxValue);
+			currentSpeed = currentMotorState.acceleration.Evaluate(movementTime) * currentMotorState.maxSpeed;
 		}
 		
 		/// <summary>
@@ -129,7 +129,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		void ClampCurrentSpeed()
 		{
-			currentSpeed = Mathf.Clamp(currentSpeed, 0f, m_CurrentMotorState.maxSpeed);
+			currentSpeed = Mathf.Clamp(currentSpeed, 0f, currentMotorState.maxSpeed);
 		}
 
 		/// <summary>
@@ -143,13 +143,13 @@ namespace StandardAssets.Characters.FirstPerson
 				return;
 			}
 			
-			if (m_CurrentMotorState != null)
+			if (currentMotorState != null)
 			{
-				m_CurrentMotorState.ExitState();
+				currentMotorState.ExitState();
 			}
 
-			m_CurrentMotorState = newState;
-			m_CurrentMotorState.EnterState();
+			currentMotorState = newState;
+			currentMotorState.EnterState();
 		}
 	}
 }
