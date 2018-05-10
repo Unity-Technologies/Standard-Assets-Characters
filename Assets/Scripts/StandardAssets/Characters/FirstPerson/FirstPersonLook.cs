@@ -10,16 +10,16 @@ namespace StandardAssets.Characters.FirstPerson
 	public class FirstPersonLook : MonoBehaviour
 	{
 		public GameObject character;
-	    public float XSensitivity = 2f;
-	    public float YSensitivity = 2f;
+	    public float xSensitivity = 2f;
+	    public float ySensitivity = 2f;
 	    public bool clampVerticalRotation = true;
-	    public float MinimumX = -90F;
-	    public float MaximumX = 90F;
+	    public float minimumX = -90F;
+	    public float maximumX = 90F;
 	    public bool smooth;
 	    public float smoothTime = 5f;
 	    public bool lockCursor = true;
 		
-	    private bool m_cursorIsLocked = true;
+	    private bool m_CursorIsLocked = true;
 		ICameraManager m_CameraManager;
 		ILookInput m_LookInput;
 
@@ -39,68 +39,74 @@ namespace StandardAssets.Characters.FirstPerson
 
 		void LookRotation()
 		{
-			GameObject camera = m_CameraManager.currentCamera;
-            float yRot = m_LookInput.lookInput.x * XSensitivity;
-            float xRot = m_LookInput.lookInput.y * YSensitivity;
+			GameObject currentCamera = m_CameraManager.currentCamera;
+            float yRot = m_LookInput.lookInput.x * xSensitivity;
+            float xRot = m_LookInput.lookInput.y * ySensitivity;
 
 			m_CharacterTargetRot	*= Quaternion.Euler(0f, -yRot, 0f);
-			Quaternion m_CameraTargetRot = camera.transform.localRotation;
-            m_CameraTargetRot *= Quaternion.Euler(xRot, 0f, 0f);
+			Quaternion cameraTargetRot = currentCamera.transform.localRotation;
+            cameraTargetRot *= Quaternion.Euler(xRot, 0f, 0f);
 
             if (clampVerticalRotation)
-                m_CameraTargetRot = ClampRotationAroundXAxis(m_CameraTargetRot);
+            {
+	            cameraTargetRot = ClampRotationAroundXAxis(cameraTargetRot);
+            }
 
-            if (smooth)
+			if (smooth)
             {
                 character.transform.localRotation = Quaternion.Slerp(character.transform.localRotation, m_CharacterTargetRot,
                     smoothTime * Time.deltaTime);
-                camera.transform.localRotation = Quaternion.Slerp(camera.transform.localRotation, m_CameraTargetRot,
+                currentCamera.transform.localRotation = Quaternion.Slerp(currentCamera.transform.localRotation, cameraTargetRot,
                     smoothTime * Time.deltaTime);
             }
             else
             {
                 character.transform.localRotation = m_CharacterTargetRot;
-                camera.transform.localRotation = m_CameraTargetRot;
+                currentCamera.transform.localRotation = cameraTargetRot;
             }
 
             UpdateCursorLock();
         }
 
-        public void SetCursorLock(bool value)
+		void SetCursorLock(bool value)
         {
             lockCursor = value;
-            if (!lockCursor)
-            {
-                //we force unlock the cursor if the user disable the cursor locking helper
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-            }
+	        if (lockCursor)
+	        {
+		        return;
+	        }
+
+	        //we force unlock the cursor if the user disable the cursor locking helper
+	        Cursor.lockState = CursorLockMode.None;
+	        Cursor.visible = true;
         }
 
-        public void UpdateCursorLock()
+		void UpdateCursorLock()
         {
             //if the user set "lockCursor" we check & properly lock the cursos
             if (lockCursor)
-                InternalLockUpdate();
+            {
+	            InternalLockUpdate();
+            }
         }
 
-        private void InternalLockUpdate()
+		void InternalLockUpdate()
         {
             if (UnityInput.GetKeyUp(KeyCode.Escape))
             {
-                m_cursorIsLocked = false;
+                m_CursorIsLocked = false;
             }
             else if (UnityInput.GetMouseButtonUp(0))
             {
-                m_cursorIsLocked = true;
+                m_CursorIsLocked = true;
             }
 
-            if (m_cursorIsLocked)
+            if (m_CursorIsLocked)
             {
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
             }
-            else if (!m_cursorIsLocked)
+            else if (!m_CursorIsLocked)
             {
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
@@ -116,7 +122,7 @@ namespace StandardAssets.Characters.FirstPerson
 
             float angleX = 2.0f * Mathf.Rad2Deg * Mathf.Atan(q.x);
 
-            angleX = Mathf.Clamp(angleX, MinimumX, MaximumX);
+            angleX = Mathf.Clamp(angleX, minimumX, maximumX);
 
             q.x = Mathf.Tan(0.5f * Mathf.Deg2Rad * angleX);
 

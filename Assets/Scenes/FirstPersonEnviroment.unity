@@ -23968,6 +23968,16 @@ Prefab:
       propertyPath: startingMotorState.acceleration.curve.m_Curve.Array.data[1].outSlope
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114035648389210676, guid: 67bcc91c1c7c3440d8b5f93fa927a9c3,
+        type: 2}
+      propertyPath: smooth
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114035648389210676, guid: 67bcc91c1c7c3440d8b5f93fa927a9c3,
+        type: 2}
+      propertyPath: smoothTime
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 67bcc91c1c7c3440d8b5f93fa927a9c3, type: 2}
   m_IsPrefabAsset: 0
