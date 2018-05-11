@@ -5,8 +5,12 @@ using UnityInput = UnityEngine.Input;
 
 namespace StandardAssets.Characters.FirstPerson
 {
+	/// <summary>
+	/// Handles the look using the current camera from the camera manager
+	/// Refactor of MouseLook
+	/// </summary>
 	[RequireComponent(typeof(ICameraManager))]
-	[RequireComponent(typeof(ILookInput))]
+	[RequireComponent(typeof(IInput))]
 	public class FirstPersonLook : MonoBehaviour
 	{
 		public GameObject character;
@@ -19,24 +23,33 @@ namespace StandardAssets.Characters.FirstPerson
 	    public float smoothTime = 5f;
 	    public bool lockCursor = true;
 		
-	    private bool m_CursorIsLocked = true;
+	    bool m_CursorIsLocked = true;
 		ICameraManager m_CameraManager;
-		ILookInput m_LookInput;
+		IInput m_LookInput;
 
 		Quaternion m_CharacterTargetRot;
 
+		/// <summary>
+		/// Cache required components
+		/// </summary>
 		void Awake()
 		{
 			m_CameraManager = GetComponent<ICameraManager>();
-			m_LookInput = GetComponent<ILookInput>();
+			m_LookInput = GetComponent<IInput>();
 			m_CharacterTargetRot = character.transform.localRotation;
 		}
 
+		/// <summary>
+		/// Look rotation updated every frame
+		/// </summary>
 		void Update()
 		{
 			LookRotation();
 		}
 
+		/// <summary>
+		/// Gets the current camera from the camera manager and adjusts rotations
+		/// </summary>
 		void LookRotation()
 		{
 			GameObject currentCamera = m_CameraManager.currentCamera;
@@ -113,6 +126,11 @@ namespace StandardAssets.Characters.FirstPerson
             }
         }
 
+		/// <summary>
+		/// Clamps the rotation
+		/// </summary>
+		/// <param name="q"></param>
+		/// <returns></returns>
         Quaternion ClampRotationAroundXAxis(Quaternion q)
         {
             q.x /= q.w;
