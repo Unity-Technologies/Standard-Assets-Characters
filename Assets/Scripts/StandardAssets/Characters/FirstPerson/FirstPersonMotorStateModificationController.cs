@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace StandardAssets.Characters.FirstPerson
 {
@@ -8,17 +9,20 @@ namespace StandardAssets.Characters.FirstPerson
 		public FirstPersonMotorStateModification[] modifiers;
 		
 		FirstPersonMotor m_Motor;
-		FirstPersonMotorState m_PrevState;
+		Stack<FirstPersonMotorState> m_PrevStates = new Stack<FirstPersonMotorState>();
 
 		public void ChangeState(FirstPersonMotorState newState)
 		{
-			m_PrevState = m_Motor.currentMotorState;
+			m_PrevStates.Push(m_Motor.currentMotorState);
 			m_Motor.ChangeState(newState);
 		}
 
 		public void ResetState()
 		{
-			m_Motor.ChangeState(m_PrevState);
+			if (m_PrevStates.Count > 0)
+			{
+				m_Motor.ChangeState(m_PrevStates.Pop());
+			}
 		}
 		
 		void Awake()

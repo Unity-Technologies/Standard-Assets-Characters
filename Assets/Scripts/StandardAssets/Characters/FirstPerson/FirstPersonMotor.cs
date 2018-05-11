@@ -131,6 +131,13 @@ namespace StandardAssets.Characters.FirstPerson
 		{
 			currentSpeed = Mathf.Clamp(currentSpeed, 0f, currentMotorState.maxSpeed);
 		}
+		
+		/// <summary>
+		/// Ensures that the current speed doesn't rapidly increase
+		/// </summary>
+		void CalculateMovementTimeFromCurrentSpeed()
+		{
+		}
 
 		/// <summary>
 		/// Changes the current motor state and play events associated with state change
@@ -150,6 +157,8 @@ namespace StandardAssets.Characters.FirstPerson
 
 			currentMotorState = newState;
 			currentMotorState.EnterState();
+			CalculateMovementTimeFromCurrentSpeed();
 		}
+
 	}
 }

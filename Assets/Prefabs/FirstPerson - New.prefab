@@ -27,6 +27,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1132613749218642
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4144731638739772}
+  - component: {fileID: 114976835155075594}
+  m_Layer: 0
+  m_Name: Crouch
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1341614026007384
 GameObject:
   m_ObjectHideFlags: 1
@@ -85,7 +101,7 @@ GameObject:
   - component: {fileID: 4982771823515692}
   - component: {fileID: 114148430575328634}
   m_Layer: 0
-  m_Name: Crouch
+  m_Name: Prone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -205,6 +221,19 @@ Transform:
   m_Father: {fileID: 4256311515234010}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4144731638739772
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1132613749218642}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4225323011361130}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4151927649127610
 Transform:
   m_ObjectHideFlags: 1
@@ -243,8 +272,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4982771823515692}
+  - {fileID: 4144731638739772}
   - {fileID: 4151927649127610}
+  - {fileID: 4982771823515692}
   m_Father: {fileID: 4214208954697362}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -337,12 +367,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1441185474033528}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4225323011361130}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114032775237222472
 MonoBehaviour:
@@ -490,9 +520,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8ef6768158d46bfb1a5d434cd929656, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  input: {fileID: 11400000, guid: 7d60fd307346c4da688e568bfd0b9d43, type: 2}
+  input: {fileID: 11400000, guid: e2cc03e054ab3412e84c918085c0abe2, type: 2}
   state:
-    maxSpeed: 2
+    maxSpeed: 1
     acceleration:
       curve:
         serializedVersion: 2
@@ -552,7 +582,7 @@ MonoBehaviour:
           m_MethodName: SetCurrentCamera
           m_Mode: 2
           m_Arguments:
-            m_ObjectArgument: {fileID: 1703821568182924}
+            m_ObjectArgument: {fileID: 1374904705716726}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
@@ -733,8 +763,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modifiers:
-  - {fileID: 114148430575328634}
+  - {fileID: 114976835155075594}
   - {fileID: 114378014739459276}
+  - {fileID: 114148430575328634}
 --- !u!114 &114678246901017894
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -783,6 +814,93 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bef735c1db11420fa83d6652643c2b20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114976835155075594
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1132613749218642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8ef6768158d46bfb1a5d434cd929656, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  input: {fileID: 11400000, guid: 7d60fd307346c4da688e568bfd0b9d43, type: 2}
+  state:
+    maxSpeed: 2
+    acceleration:
+      curve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      maxValue: 1
+    deceleration:
+      curve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      maxValue: 1
+    enterState:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 114937247400224044}
+          m_MethodName: SetCurrentCamera
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 1703821568182924}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+    exitState:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
 --- !u!143 &143567579996899374
 CharacterController:
   m_ObjectHideFlags: 1
