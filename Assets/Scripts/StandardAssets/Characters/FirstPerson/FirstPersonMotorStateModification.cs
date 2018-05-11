@@ -1,10 +1,10 @@
 ﻿using System;
 using StandardAssets.Characters.Input;
+using UnityEngine;
 
 namespace StandardAssets.Characters.FirstPerson
 {
-	[Serializable]
-	public class FirstPersonMotorStateModification
+	public class FirstPersonMotorStateModification : MonoBehaviour
 	{
 		public InputResponse input;
 		public FirstPersonMotorState state;
@@ -19,7 +19,7 @@ namespace StandardAssets.Characters.FirstPerson
 			input.disabled += OnStateReset;
 		}
 
-		public void Tick()
+		void Update()
 		{
 			input.Tick();
 		}

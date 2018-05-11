@@ -29,13 +29,5 @@ namespace StandardAssets.Characters.FirstPerson
 				modifier.Init(this);
 			}
 		}
-
-		void Update()
-		{
-			foreach (FirstPersonMotorStateModification modifier in modifiers)
-			{
-				modifier.Tick();
-			}
-		}
 	}
 }
