@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 
 namespace StandardAssets.Characters.Physics
 {
@@ -32,10 +33,13 @@ namespace StandardAssets.Characters.Physics
 		/// The current vertical vector
 		/// </summary>
 		Vector3 m_VerticalVector = Vector3.zero;
+
+		
 		
 		/// <inheritdoc />
 		public void Move(Vector3 moveVector3)
 		{
+			
 			m_CharacterController.Move(moveVector3 + m_VerticalVector);
 		}
 
@@ -48,6 +52,7 @@ namespace StandardAssets.Characters.Physics
 		public void Jump(float initialVelocity)
 		{
 			m_InitialJumpVelocity = initialVelocity;
+			
 		}
 
 		void Awake()
@@ -64,7 +69,10 @@ namespace StandardAssets.Characters.Physics
 
 		void FixedUpdate()
 		{
+			
 			Fall();
+			
+			
 		}
 		
 		/// <summary>
@@ -72,18 +80,21 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		void Fall()
 		{
+			
 			if (isGrounded)
 			{
 				m_AirTime = 0f;
 				m_InitialJumpVelocity = 0f;
 				m_VerticalVector = Vector3.zero;
+				
 				return;
 			}
-
+			
 			m_AirTime += Time.fixedDeltaTime;
 
 			float currentVerticalVelocity = m_InitialJumpVelocity + gravity * m_AirTime;
 			m_VerticalVector = new Vector3(0, currentVerticalVelocity, 0);
+			
 		}
 	}
 }

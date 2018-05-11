@@ -34,6 +34,7 @@ namespace StandardAssets.Characters.Input
 		{
 			get { return m_Jump; }
 			set { m_Jump = value; }
+			
 		}
 
 		void Update()
@@ -43,6 +44,7 @@ namespace StandardAssets.Characters.Input
 			m_LookInput.Set(UnityInput.GetAxis("Mouse X"), UnityInput.GetAxis("Mouse Y"));
 			if (UnityInput.GetKeyDown(KeyCode.Space))
 			{
+				
 				if (jump != null)
 				{
 					jump();
