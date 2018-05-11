@@ -34,7 +34,8 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		Vector3 m_VerticalVector = Vector3.zero;
 
-		
+		//This is a TEMP solution to the character ungrounding
+		private bool grounded;
 		
 		/// <inheritdoc />
 		public void Move(Vector3 moveVector3)
@@ -51,8 +52,11 @@ namespace StandardAssets.Characters.Physics
 
 		public void Jump(float initialVelocity)
 		{
+			Debug.Log("Character controller Jump called INITAL VELOCITY: "+initialVelocity);
 			m_InitialJumpVelocity = initialVelocity;
 			
+			grounded = false; //This resets the jump bool
+
 		}
 
 		void Awake()
@@ -64,11 +68,19 @@ namespace StandardAssets.Characters.Physics
 			if (gravity > 0)
 			{
 				gravity = -gravity;
+				//gravity = Time.deltaTime * -9.81f;
 			}
 		}
 
 		void FixedUpdate()
 		{
+			/*
+			 * The character is ungrounding, this is used instead to check if a jump is possible 
+			 */
+			if (isGrounded)
+			{
+				grounded = true;
+			}
 			
 			Fall();
 			
@@ -80,8 +92,12 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		void Fall()
 		{
-			
-			if (isGrounded)
+			/*
+			 * I think, becuase the IS gounded is changing so much, that it kills the jump before it happens
+			 * The IF has been checked against 'grounded' not 'isGrounded'
+			 * Doing this, "fixes" the unresponsive jump action
+			 */
+			if (grounded)
 			{
 				m_AirTime = 0f;
 				m_InitialJumpVelocity = 0f;
@@ -90,6 +106,7 @@ namespace StandardAssets.Characters.Physics
 				return;
 			}
 			
+			Debug.Log("FALLINGL : "+m_InitialJumpVelocity);
 			m_AirTime += Time.fixedDeltaTime;
 
 			float currentVerticalVelocity = m_InitialJumpVelocity + gravity * m_AirTime;

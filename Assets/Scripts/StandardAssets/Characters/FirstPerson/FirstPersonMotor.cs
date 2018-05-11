@@ -62,10 +62,18 @@ namespace StandardAssets.Characters.FirstPerson
 
 		void Jump()
 		{
+			//TO DO 
+			// Adjust and calebrate the jump force, it feels un natural. 
+			Debug.Log("Jump Mehtod Called");
 			if (canJump)
 			{
-				m_Physics.Jump(0.15f);
+				Debug.Log("CAN JUMP CALLED");
+				m_Physics.Jump(.3f);
 				canJump = false;
+			}
+			else
+			{
+				Debug.Log("Jump Mehtod Called but not able to jump");
 			}
 			
 			/*
@@ -79,12 +87,8 @@ namespace StandardAssets.Characters.FirstPerson
 			 
 			 This seems like it should not be needed as there is something wrong with the isGrounded.
 			 
-			 More investigation is needed. 
-			 
-			 This solution does not FIX the problem, but it feels like the JUMP is about twice as responsive 
-			 VS isGrounded.
-			 
-			 Maybe Raycasting.
+			
+			 Maybe Raycasting?.
 			 
 			 *
 			 * 

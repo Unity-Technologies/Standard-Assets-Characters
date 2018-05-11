@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18203652, g: 0.22772755, b: 0.30740222, a: 1}
+  m_IndirectSpecularColor: {r: 0.18203613, g: 0.22772716, b: 0.30740166, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -22745,7 +22745,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh28604
+  m_Name: pb_Mesh9082
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -23906,7 +23906,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4214208954697362, guid: 5b511a81b4c5942e288cde63452d321f, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 4
+      value: 5.972
       objectReference: {fileID: 0}
     - target: {fileID: 4214208954697362, guid: 5b511a81b4c5942e288cde63452d321f, type: 2}
       propertyPath: m_LocalPosition.z
@@ -23931,6 +23931,36 @@ Prefab:
     - target: {fileID: 4214208954697362, guid: 5b511a81b4c5942e288cde63452d321f, type: 2}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114032775237222472, guid: 5b511a81b4c5942e288cde63452d321f,
+        type: 2}
+      propertyPath: gravity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114143577993093488, guid: 5b511a81b4c5942e288cde63452d321f,
+        type: 2}
+      propertyPath: startingMotorState.maxSpeed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 143567579996899374, guid: 5b511a81b4c5942e288cde63452d321f,
+        type: 2}
+      propertyPath: m_SkinWidth
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 143567579996899374, guid: 5b511a81b4c5942e288cde63452d321f,
+        type: 2}
+      propertyPath: m_Height
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 143567579996899374, guid: 5b511a81b4c5942e288cde63452d321f,
+        type: 2}
+      propertyPath: m_Radius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 143567579996899374, guid: 5b511a81b4c5942e288cde63452d321f,
+        type: 2}
+      propertyPath: m_Center.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5b511a81b4c5942e288cde63452d321f, type: 2}
@@ -26816,7 +26846,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1840918332}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5, z: 0}
+  m_LocalPosition: {x: 0, y: 6.972, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -27065,7 +27095,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh28712
+  m_Name: pb_Mesh9194
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
