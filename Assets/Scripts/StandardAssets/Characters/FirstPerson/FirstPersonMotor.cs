@@ -52,7 +52,16 @@ namespace StandardAssets.Characters.FirstPerson
 		{
 			m_Physics = GetComponent<IPhysics>();
 			m_Input = GetComponent<IInput>();
+			m_Input.jump += Jump;
 			ChangeState(startingMotorState);
+		}
+
+		void Jump()
+		{
+			if (m_Physics.isGrounded)
+			{
+				m_Physics.Jump(0.1f);
+			}
 		}
 
 		/// <summary>

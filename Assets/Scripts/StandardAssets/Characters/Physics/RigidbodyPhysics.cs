@@ -25,5 +25,10 @@ namespace StandardAssets.Characters.Physics
 		{
 			get { return false; }
 		}
+
+		public void Jump(float initialVelocity)
+		{
+			m_Rigidbody.velocity = m_Rigidbody.velocity + new Vector3(0, initialVelocity, 0);
+		}
 	}
 }

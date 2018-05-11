@@ -17,5 +17,8 @@ namespace StandardAssets.Characters.Physics
 		/// Returns true if the physic objects are grounded
 		/// </summary>
 		bool isGrounded { get; }
+
+		
+		void Jump(float initialVelocity);
 	}
 }

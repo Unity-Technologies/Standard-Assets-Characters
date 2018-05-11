@@ -45,6 +45,11 @@ namespace StandardAssets.Characters.Physics
 			get { return m_CharacterController.isGrounded; }
 		}
 
+		public void Jump(float initialVelocity)
+		{
+			m_InitialJumpVelocity = initialVelocity;
+		}
+
 		void Awake()
 		{
 			//Gets the attached character controller
