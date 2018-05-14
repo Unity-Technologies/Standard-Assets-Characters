@@ -45,9 +45,6 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		public FirstPersonMotorState currentMotorState { get; protected set; }
 		
-		//CAN JUMP VARIABLE 
-		private bool canJump;
-		
 		/// <summary>
 		/// Get the attached implementations on wake
 		/// </summary>
@@ -62,45 +59,10 @@ namespace StandardAssets.Characters.FirstPerson
 
 		void Jump()
 		{
-			//TO DO 
-			// Adjust and calebrate the jump force, it feels un natural. 
-			Debug.Log("Jump Mehtod Called");
-			if (canJump)
-			{
-				Debug.Log("CAN JUMP CALLED");
-				m_Physics.Jump(.3f);
-				canJump = false;
-			}
-			else
-			{
-				Debug.Log("Jump Mehtod Called but not able to jump");
-			}
-			
-			/*
-			 ADDED 
-			 This is not working to check if the player can or cant jump,
-			 The Character collider is grounding and un-grounding in a loop
-			 This causes the isGrounded state to be inconsistet when the player is "On the ground"
-			 By using the canJump bool, at the first time the player is grounded, it is set true, and 
-			 then only changed when the actual jump button is pressed, and upon returning to the ground 
-			 for the first time, the canJump is then reset.
-			 
-			 This seems like it should not be needed as there is something wrong with the isGrounded.
-			 
-			
-			 Maybe Raycasting?.
-			 
-			 *
-			 * 
 			if (m_Physics.isGrounded)
 			{
-				m_Physics.Jump(0.15f);
-				
-			}
-			 */
-			
-			
-			
+				m_Physics.Jump(0.3f);
+			}	
 		}
 
 		/// <summary>
@@ -109,18 +71,6 @@ namespace StandardAssets.Characters.FirstPerson
 		void FixedUpdate()
 		{
 			Move();
-			
-			/*
-			 * ADDED
-			 * This IF is to set the canJump to true on the FIRST contact with ground
-			 * The canJump bool will only be set false if there is an actual jump action
-			 */
-			if (m_Physics.isGrounded)
-			{
-				canJump = true;
-			}
-
-			
 		}
 
 		/// <summary>
