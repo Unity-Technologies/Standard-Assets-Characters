@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18203667, g: 0.22772786, b: 0.30740282, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -18676,6 +18676,11 @@ Prefab:
       propertyPath: m_Center.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114032775237222472, guid: 5b511a81b4c5942e288cde63452d321f,
+        type: 2}
+      propertyPath: groundCheckThreshold
+      value: 0.55
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5b511a81b4c5942e288cde63452d321f, type: 2}
   m_IsPrefabAsset: 0
@@ -27953,7 +27958,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh19414
+  m_Name: pb_Mesh21266
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2

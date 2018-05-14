@@ -15,6 +15,11 @@ namespace StandardAssets.Characters.Physics
 		public float gravity;
 
 		/// <summary>
+		/// The distance used to check if grounded
+		/// </summary>
+		public float groundCheckThreshold = 0.51f;
+
+		/// <summary>
 		/// Character controller
 		/// </summary>
 		CharacterController m_CharacterController;
@@ -35,7 +40,13 @@ namespace StandardAssets.Characters.Physics
 		Vector3 m_VerticalVector = Vector3.zero;
 
 		//This is a TEMP solution to the character ungrounding
-		private bool grounded;
+		private bool m_Grounded;
+		
+		/// <inheritdoc />
+		public bool isGrounded
+		{
+			get { return m_Grounded; }
+		}
 		
 		/// <inheritdoc />
 		public void Move(Vector3 moveVector3)
@@ -44,19 +55,10 @@ namespace StandardAssets.Characters.Physics
 			m_CharacterController.Move(moveVector3 + m_VerticalVector);
 		}
 
-		/// <inheritdoc />
-		public bool isGrounded
-		{
-			get { return m_CharacterController.isGrounded; }
-		}
 
 		public void Jump(float initialVelocity)
 		{
-			Debug.Log("Character controller Jump called INITAL VELOCITY: "+initialVelocity);
 			m_InitialJumpVelocity = initialVelocity;
-			
-			grounded = false; //This resets the jump bool
-
 		}
 
 		void Awake()
@@ -68,23 +70,12 @@ namespace StandardAssets.Characters.Physics
 			if (gravity > 0)
 			{
 				gravity = -gravity;
-				//gravity = Time.deltaTime * -9.81f;
 			}
 		}
 
 		void FixedUpdate()
 		{
-			/*
-			 * The character is ungrounding, this is used instead to check if a jump is possible 
-			 */
-			if (isGrounded)
-			{
-				grounded = true;
-			}
-			
 			Fall();
-			
-			
 		}
 		
 		/// <summary>
@@ -92,26 +83,31 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		void Fall()
 		{
-			/*
-			 * I think, becuase the IS gounded is changing so much, that it kills the jump before it happens
-			 * The IF has been checked against 'grounded' not 'isGrounded'
-			 * Doing this, "fixes" the unresponsive jump action
-			 */
-			if (grounded)
+			Debug.DrawRay(transform.position + m_CharacterController.center, new Vector3(0,-groundCheckThreshold * m_CharacterController.height,0), Color.red);
+			if (UnityEngine.Physics.Raycast(transform.position + m_CharacterController.center, -transform.up, groundCheckThreshold * m_CharacterController.height))
+			{
+				Debug.Log("Grounded");
+				m_Grounded = true;
+			}
+			else
+			{
+				m_Grounded = false;
+			}
+			
+			m_AirTime += Time.fixedDeltaTime;
+
+			float currentVerticalVelocity = m_InitialJumpVelocity + gravity * m_AirTime;
+			
+			
+			if (currentVerticalVelocity < 0f && isGrounded)
 			{
 				m_AirTime = 0f;
 				m_InitialJumpVelocity = 0f;
 				m_VerticalVector = Vector3.zero;
-				
 				return;
 			}
 			
-			Debug.Log("FALLINGL : "+m_InitialJumpVelocity);
-			m_AirTime += Time.fixedDeltaTime;
-
-			float currentVerticalVelocity = m_InitialJumpVelocity + gravity * m_AirTime;
 			m_VerticalVector = new Vector3(0, currentVerticalVelocity, 0);
-			
 		}
 	}
 }

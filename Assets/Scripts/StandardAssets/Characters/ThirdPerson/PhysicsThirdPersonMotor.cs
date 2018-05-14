@@ -24,7 +24,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		public float        airborneAccelProportion     = 0.5f;
 		[Range (0f, 1f)] 
 		public float        airborneDecelProportion     = 0.5f;
-		public float        gravity                     = 10f;
 		public float        jumpSpeed                   = 15f;
 		public bool         interpolateTurning          = true;
 		public float        turnSpeed                   = 500f;
@@ -58,11 +57,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		IPhysics m_Physics;
 		
 		#endregion
-		
-		/// <summary>
-		/// Is the user grounded
-		/// </summary>
-		bool m_IsGrounded    = true;
 
 		/// <summary>
 		/// Gets required components
@@ -70,9 +64,18 @@ namespace StandardAssets.Characters.ThirdPerson
 		void Awake()
 		{
 			m_Input = GetComponent<IInput>();
+			m_Input.jump += Jump;
 			m_Physics = GetComponent<IPhysics>();
 		}
-		
+
+		void Jump()
+		{
+			if (m_Physics.isGrounded)
+			{
+				m_Physics.Jump(jumpSpeed);			
+			}
+		}
+
 		/// <summary>
 		/// Movement Logic on physics update
 		/// </summary>
@@ -80,8 +83,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			SetForward ();
 			CalculateForwardMovement ();
-//			CalculateVerticalMovement ();
-			//SetNormalisedTime ();
 			Move();
 		}
 
@@ -108,7 +109,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			if (interpolateTurning)
 			{
-				float actualTurnSpeed = m_IsGrounded ? turnSpeed : turnSpeed * airborneTurnSpeedProportion;
+				float actualTurnSpeed = m_Physics.isGrounded ? turnSpeed : turnSpeed * airborneTurnSpeedProportion;
 				targetRotation = Quaternion.RotateTowards(transform.rotation, targetRotation, actualTurnSpeed * Time.deltaTime);
 			}
 
@@ -130,7 +131,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			if (useAcceleration)
 			{
-				float acceleration = m_IsGrounded
+				float acceleration = m_Physics.isGrounded
 					? (m_Input.isMoveInput ? groundAcceleration : groundDeceleration)
 					: (m_Input.isMoveInput ? groundAcceleration : groundDeceleration) * airborneDecelProportion;
 
@@ -142,11 +143,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
-//		void CalculateVerticalMovement()
-//		{
-//			throw new System.NotImplementedException();
-//		}
-		
 		/// <summary>
 		/// Moves the character
 		/// </summary>
