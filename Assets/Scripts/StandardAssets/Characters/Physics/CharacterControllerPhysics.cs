@@ -15,6 +15,11 @@ namespace StandardAssets.Characters.Physics
 		public float gravity;
 
 		/// <summary>
+		/// The distance used to check if grounded
+		/// </summary>
+		public float groundCheckThreshold = 0.51f;
+
+		/// <summary>
 		/// Character controller
 		/// </summary>
 		CharacterController m_CharacterController;
@@ -78,8 +83,8 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		void Fall()
 		{
-			Debug.DrawRay(transform.position, new Vector3(0,-0.6f * m_CharacterController.height,0), Color.red);
-			if (UnityEngine.Physics.Raycast(transform.position, -transform.up, 0.6f * m_CharacterController.height))
+			Debug.DrawRay(transform.position + m_CharacterController.center, new Vector3(0,-groundCheckThreshold * m_CharacterController.height,0), Color.red);
+			if (UnityEngine.Physics.Raycast(transform.position + m_CharacterController.center, -transform.up, groundCheckThreshold * m_CharacterController.height))
 			{
 				Debug.Log("Grounded");
 				m_Grounded = true;
