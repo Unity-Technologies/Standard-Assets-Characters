@@ -83,16 +83,8 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		void Fall()
 		{
-			Debug.DrawRay(transform.position + m_CharacterController.center, new Vector3(0,-groundCheckThreshold * m_CharacterController.height,0), Color.red);
-			if (UnityEngine.Physics.Raycast(transform.position + m_CharacterController.center, -transform.up, groundCheckThreshold * m_CharacterController.height))
-			{
-				Debug.Log("Grounded");
-				m_Grounded = true;
-			}
-			else
-			{
-				m_Grounded = false;
-			}
+			
+			m_Grounded = CheckGrounded();
 			
 			m_AirTime += Time.fixedDeltaTime;
 
@@ -109,5 +101,57 @@ namespace StandardAssets.Characters.Physics
 			
 			m_VerticalVector = new Vector3(0, currentVerticalVelocity, 0);
 		}
+		
+		/// <summary>
+		/// Checks character controller grounding
+		/// </summary>
+		bool CheckGrounded()
+		{
+			Debug.DrawRay(transform.position + m_CharacterController.center, new Vector3(0,-groundCheckThreshold * m_CharacterController.height,0), Color.red);
+			if (UnityEngine.Physics.Raycast(transform.position + m_CharacterController.center, 
+				-transform.up, groundCheckThreshold * m_CharacterController.height))
+			{
+				Debug.Log("Grounded");
+				return true;
+			}
+			return CheckEdgeGrounded();
+			
+		}
+
+		/// <summary>
+		/// Checks character controller edges for ground
+		/// </summary>
+		bool CheckEdgeGrounded()
+		{
+			
+			Vector3 xRayOffset = new Vector3(m_CharacterController.radius,0f,0f);
+			Vector3 zRayOffset = new Vector3(0f,0f,m_CharacterController.radius);		
+			
+			for (int i = 0; i < 4; i++)
+			{
+				float sign = 1f;
+				Vector3 rayOffset;
+				if (i % 2 == 0)
+				{
+					rayOffset = xRayOffset;
+					sign = i - 1f;
+				}
+				else
+				{
+					rayOffset = zRayOffset;
+					sign = i - 2f;
+				}
+				Debug.DrawRay(transform.position + m_CharacterController.center + sign * rayOffset, 
+					new Vector3(0,-groundCheckThreshold * m_CharacterController.height,0), Color.blue);
+
+				if (UnityEngine.Physics.Raycast(transform.position + m_CharacterController.center + sign * rayOffset,
+					-transform.up,groundCheckThreshold * m_CharacterController.height))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
 	}
+	
 }

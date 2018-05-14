@@ -340,7 +340,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1345035737603512}
-  m_LocalRotation: {x: -0.1795655, y: 0, z: 0, w: 0.98374605}
+  m_LocalRotation: {x: 0.20802797, y: 0, z: 0, w: 0.9781229}
   m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -386,7 +386,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gravity: -1
-  groundCheckThreshold: 0.6
+  groundCheckThreshold: 0.55
 --- !u!114 &114048471120111414
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -749,7 +749,7 @@ MonoBehaviour:
   clampVerticalRotation: 1
   minimumX: -90
   maximumX: 90
-  smooth: 1
+  smooth: 0
   smoothTime: 20
   lockCursor: 1
 --- !u!114 &114639985955335308
@@ -798,7 +798,7 @@ MonoBehaviour:
   m_Follow: {fileID: 0}
   m_PositionBlending: 0
   m_Lens:
-    FieldOfView: 40
+    FieldOfView: 81.1
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -913,7 +913,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 2
-  m_Radius: 0.41
+  m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
