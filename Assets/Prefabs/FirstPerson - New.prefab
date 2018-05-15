@@ -385,7 +385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eb889feba9d41d4bfbbade70ee269c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravity: -1
+  gravity: 0.5
   groundCheckThreshold: 0.55
 --- !u!114 &114048471120111414
 MonoBehaviour:
@@ -510,6 +510,7 @@ MonoBehaviour:
         m_Calls: []
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
+  jumpSpeed: 0.3
 --- !u!114 &114148430575328634
 MonoBehaviour:
   m_ObjectHideFlags: 1

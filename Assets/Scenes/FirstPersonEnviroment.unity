@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.18203652, g: 0.22772755, b: 0.30740222, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -18646,40 +18646,15 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114143577993093488, guid: 5b511a81b4c5942e288cde63452d321f,
+        type: 2}
+      propertyPath: jumpSpeed
+      value: 0.15
+      objectReference: {fileID: 0}
     - target: {fileID: 114032775237222472, guid: 5b511a81b4c5942e288cde63452d321f,
         type: 2}
       propertyPath: gravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114143577993093488, guid: 5b511a81b4c5942e288cde63452d321f,
-        type: 2}
-      propertyPath: startingMotorState.maxSpeed
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 143567579996899374, guid: 5b511a81b4c5942e288cde63452d321f,
-        type: 2}
-      propertyPath: m_SkinWidth
-      value: 0.08
-      objectReference: {fileID: 0}
-    - target: {fileID: 143567579996899374, guid: 5b511a81b4c5942e288cde63452d321f,
-        type: 2}
-      propertyPath: m_Height
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 143567579996899374, guid: 5b511a81b4c5942e288cde63452d321f,
-        type: 2}
-      propertyPath: m_Radius
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 143567579996899374, guid: 5b511a81b4c5942e288cde63452d321f,
-        type: 2}
-      propertyPath: m_Center.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114032775237222472, guid: 5b511a81b4c5942e288cde63452d321f,
-        type: 2}
-      propertyPath: groundCheckThreshold
-      value: 0.55
+      value: 0.4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5b511a81b4c5942e288cde63452d321f, type: 2}
@@ -25898,7 +25873,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1840918332}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.20802797, y: 0, z: 0, w: 0.9781229}
   m_LocalPosition: {x: 0, y: 6.972, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -25970,7 +25945,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 40
+  field of view: 81.1
   orthographic: 0
   orthographic size: 10
   m_Depth: -1
