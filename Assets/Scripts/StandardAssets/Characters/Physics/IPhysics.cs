@@ -18,7 +18,10 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		bool isGrounded { get; }
 
-		
+		/// <summary>
+		/// Jump with initial velocity
+		/// </summary>
+		/// <param name="initialVelocity"></param>
 		void Jump(float initialVelocity);
 	}
 }

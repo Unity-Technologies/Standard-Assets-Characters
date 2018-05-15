@@ -116,7 +116,6 @@ namespace StandardAssets.Characters.Physics
 			if (UnityEngine.Physics.Raycast(transform.position + m_CharacterController.center, 
 				-transform.up, groundCheckThreshold * m_CharacterController.height))
 			{
-				Debug.Log("Grounded");
 				return true;
 			}
 			return CheckEdgeGrounded();

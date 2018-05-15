@@ -13,10 +13,6 @@ namespace StandardAssets.Characters.ThirdPerson
 	public class PhysicsThirdPersonMotor : MonoBehaviour, IThirdPersonMotor
 	{
 		
-		
-		
-		
-		
 		#region Inspector
 		/// <summary>
 		/// Movement values
