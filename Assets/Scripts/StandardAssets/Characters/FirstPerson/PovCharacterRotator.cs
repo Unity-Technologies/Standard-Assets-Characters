@@ -8,28 +8,22 @@ namespace StandardAssets.Characters.FirstPerson
 	{
 		public Camera mainCamera;
 		
-//		ICameraManager m_CameraManager;
-//		GameObject m_CurrentCamera;
+		ICameraManager m_CameraManager;
 		
-//		void Awake()
-//		{
-//			m_CameraManager = GetComponent<ICameraManager>();
-//			CameraChanged();
-//			m_CameraManager.cameraChanged += CameraChanged;
-//		}
-//
-//		void CameraChanged()
-//		{
-//			m_CurrentCamera = m_CameraManager.currentCamera;
-//		}
+		void Awake()
+		{
+			m_CameraManager = GetComponent<ICameraManager>();
+			CameraChanged();
+			m_CameraManager.cameraChanged += CameraChanged;
+		}
+
+		void CameraChanged()
+		{
+			//DAVE check out keeping the POV the same
+		}
 
 		void Update()
 		{
-//			if (m_CurrentCamera == null)
-//			{
-//				return;
-//			}
-
 			Vector3 currentRotation = transform.rotation.eulerAngles;
 			currentRotation.y = mainCamera.transform.rotation.eulerAngles.y;
 			transform.rotation = Quaternion.Euler(currentRotation);
