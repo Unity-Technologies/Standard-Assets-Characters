@@ -18646,15 +18646,9 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 114143577993093488, guid: 5b511a81b4c5942e288cde63452d321f,
-        type: 2}
-      propertyPath: jumpSpeed
-      value: 0.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 114032775237222472, guid: 5b511a81b4c5942e288cde63452d321f,
-        type: 2}
-      propertyPath: gravity
-      value: 0.4
+    - target: {fileID: 1689098228584824, guid: 5b511a81b4c5942e288cde63452d321f, type: 2}
+      propertyPath: m_Name
+      value: FirstPerson
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5b511a81b4c5942e288cde63452d321f, type: 2}
@@ -25945,7 +25939,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 81.1
+  field of view: 80
   orthographic: 0
   orthographic size: 10
   m_Depth: -1
