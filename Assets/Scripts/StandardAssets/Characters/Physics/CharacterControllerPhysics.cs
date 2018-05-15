@@ -55,7 +55,10 @@ namespace StandardAssets.Characters.Physics
 			m_CharacterController.Move(moveVector3 + m_VerticalVector);
 		}
 
-
+		/// <summary>
+		/// Tries to jump
+		/// </summary>
+		/// <param name="initialVelocity"></param>
 		public void Jump(float initialVelocity)
 		{
 			m_InitialJumpVelocity = initialVelocity;
@@ -73,6 +76,9 @@ namespace StandardAssets.Characters.Physics
 			}
 		}
 
+		/// <summary>
+		/// Handle physic
+		/// </summary>
 		void FixedUpdate()
 		{
 			Fall();
@@ -83,7 +89,6 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		void Fall()
 		{
-			
 			m_Grounded = CheckGrounded();
 			
 			m_AirTime += Time.fixedDeltaTime;

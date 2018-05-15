@@ -68,6 +68,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			m_Physics = GetComponent<IPhysics>();
 		}
 
+		/// <summary>
+		/// Subscribes to the Jump action on input
+		/// </summary>
 		void Jump()
 		{
 			if (m_Physics.isGrounded)
