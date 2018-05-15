@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace StandardAssets.Characters.Cameras
 {
@@ -9,6 +10,9 @@ namespace StandardAssets.Characters.Cameras
 	{
 		/// <inheritdoc />
 		public GameObject currentCamera { get; private set; }
+		
+		/// <inheritdoc />
+		public Action cameraChanged { get; set; }
 		
 		/// <inheritdoc />
 		public void SetCurrentCamera(GameObject newCamera)
@@ -22,6 +26,13 @@ namespace StandardAssets.Characters.Cameras
 			}
 			currentCamera = newCamera;
 			currentCamera.SetActive(true);
+			
+			if (cameraChanged != null)
+			{
+				cameraChanged();
+			}
 		}
+
+		
 	}
 }

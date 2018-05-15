@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace StandardAssets.Characters.Cameras
 {
@@ -18,5 +19,10 @@ namespace StandardAssets.Characters.Cameras
 		/// </summary>
 		/// <param name="newCamera"></param>
 		void SetCurrentCamera(GameObject newCamera);
+		
+		/// <summary>
+		/// The camera changed
+		/// </summary>
+		Action cameraChanged { get; set; }
 	}
 }

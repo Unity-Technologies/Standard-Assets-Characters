@@ -8,6 +8,7 @@ namespace StandardAssets.Characters.FirstPerson
 	/// <summary>
 	/// Handles the look using the current camera from the camera manager
 	/// Refactor of MouseLook
+	/// DEPRECATED
 	/// </summary>
 	[RequireComponent(typeof(ICameraManager))]
 	[RequireComponent(typeof(IInput))]
