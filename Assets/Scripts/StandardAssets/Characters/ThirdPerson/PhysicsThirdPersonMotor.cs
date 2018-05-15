@@ -1,4 +1,5 @@
-﻿using StandardAssets.Characters.Input;
+﻿using System;
+using StandardAssets.Characters.Input;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
 
@@ -11,6 +12,11 @@ namespace StandardAssets.Characters.ThirdPerson
 	[RequireComponent(typeof(IInput))]
 	public class PhysicsThirdPersonMotor : MonoBehaviour, IThirdPersonMotor
 	{
+		
+		
+		
+		
+		
 		#region Inspector
 		/// <summary>
 		/// Movement values
@@ -87,6 +93,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			SetForward ();
 			CalculateForwardMovement ();
 			Move();
+			
+			
 		}
 
 		/// <summary>
@@ -177,5 +185,8 @@ namespace StandardAssets.Characters.ThirdPerson
 //			m_IsGrounded = m_CharCtrl.isGrounded;
 //			m_Animator.SetBool(m_HashGroundedPara, m_IsGrounded);
 		}
+
+		
+
 	}
 }
