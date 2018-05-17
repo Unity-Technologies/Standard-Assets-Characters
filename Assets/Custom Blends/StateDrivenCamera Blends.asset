@@ -12,11 +12,22 @@ MonoBehaviour:
   m_Name: StateDrivenCamera Blends
   m_EditorClassIdentifier: 
   m_CustomBlends:
-  - m_From: (none)
-    m_To: (none)
+  - m_From: FreeLook
+    m_To: FreeLookWalk
     m_Blend:
       m_Style: 1
-      m_Time: 2
+      m_Time: 1.5
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: FreeLookWalk
+    m_To: FreeLookRun
+    m_Blend:
+      m_Style: 1
+      m_Time: 1.5
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
@@ -24,10 +35,21 @@ MonoBehaviour:
         m_PostInfinity: 0
         m_RotationOrder: 0
   - m_From: FreeLookRun
-    m_To: FreeLookIdle
+    m_To: FreeLookWalk
     m_Blend:
       m_Style: 1
-      m_Time: 1.49
+      m_Time: 0.75
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: FreeLookWalk
+    m_To: FreeLook
+    m_Blend:
+      m_Style: 1
+      m_Time: 0.75
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
