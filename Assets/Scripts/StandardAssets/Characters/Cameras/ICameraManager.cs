@@ -1,4 +1,5 @@
 ﻿using System;
+using Cinemachine;
 using UnityEngine;
 
 namespace StandardAssets.Characters.Cameras
@@ -12,13 +13,13 @@ namespace StandardAssets.Characters.Cameras
 		/// Returns the GameObject associated with the current camera
 		/// This allows the camera management to be agnostic of implementation
 		/// </summary>
-		GameObject currentCamera { get; }
+		CinemachineVirtualCamera currentCamera { get; }
 
 		/// <summary>
 		/// Sets the current camera game object
 		/// </summary>
 		/// <param name="newCamera"></param>
-		void SetCurrentCamera(GameObject newCamera);
+		void SetCurrentCamera(CinemachineVirtualCamera newCamera);
 		
 		/// <summary>
 		/// The camera changed

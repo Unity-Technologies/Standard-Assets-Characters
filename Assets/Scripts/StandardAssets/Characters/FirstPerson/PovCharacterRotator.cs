@@ -13,13 +13,6 @@ namespace StandardAssets.Characters.FirstPerson
 		void Awake()
 		{
 			m_CameraManager = GetComponent<ICameraManager>();
-			CameraChanged();
-			m_CameraManager.cameraChanged += CameraChanged;
-		}
-
-		void CameraChanged()
-		{
-			//DAVE check out keeping the POV the same
 		}
 
 		void Update()

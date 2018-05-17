@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4790683554502860}
   - component: {fileID: 114154828231134012}
+  - component: {fileID: 114226633587932940}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -52,6 +53,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4879059755635948}
   - component: {fileID: 114396249990503406}
+  - component: {fileID: 114009013634458116}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -90,7 +92,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1441185474033528
 GameObject:
   m_ObjectHideFlags: 1
@@ -116,6 +118,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4456961290912828}
   - component: {fileID: 114048471120111414}
+  - component: {fileID: 114289927037540256}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -151,8 +154,8 @@ GameObject:
   - component: {fileID: 114143577993093488}
   - component: {fileID: 114678246901017894}
   - component: {fileID: 114937247400224044}
-  - component: {fileID: 114624661625314998}
   - component: {fileID: 114639985955335308}
+  - component: {fileID: 114285714080339378}
   m_Layer: 0
   m_Name: FirstPerson
   m_TagString: Untagged
@@ -175,7 +178,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1878106069375768
 GameObject:
   m_ObjectHideFlags: 1
@@ -340,7 +343,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1345035737603512}
-  m_LocalRotation: {x: 0.20802797, y: 0, z: 0, w: 0.9781229}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -374,6 +377,51 @@ Transform:
   m_Father: {fileID: 4225323011361130}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114009013634458116
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1341614026007384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c9beda531928fc40968802117a5d256, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_VerticalAxis:
+    Value: 0
+    m_MaxSpeed: 300
+    m_AccelTime: 0.1
+    m_DecelTime: 0.1
+    m_InputAxisName: Mouse Y
+    m_InputAxisValue: 0
+    m_InvertInput: 0
+    m_MinValue: -90
+    m_MaxValue: 90
+    m_Wrap: 0
+  m_VerticalRecentering:
+    m_enabled: 0
+    m_WaitTime: 1
+    m_RecenteringTime: 2
+    m_LegacyHeadingDefinition: -1
+    m_LegacyVelocityFilterStrength: -1
+  m_HorizontalAxis:
+    Value: 0
+    m_MaxSpeed: 300
+    m_AccelTime: 0.1
+    m_DecelTime: 0.1
+    m_InputAxisName: Mouse X
+    m_InputAxisValue: 0
+    m_InvertInput: 1
+    m_MinValue: -180
+    m_MaxValue: 180
+    m_Wrap: 1
+  m_HorizontalRecentering:
+    m_enabled: 0
+    m_WaitTime: 1
+    m_RecenteringTime: 2
+    m_LegacyHeadingDefinition: -1
+    m_LegacyVelocityFilterStrength: -1
 --- !u!114 &114032775237222472
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -413,7 +461,7 @@ MonoBehaviour:
   - m_Script
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
-  m_Priority: 10
+  m_Priority: 0
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_PositionBlending: 0
@@ -496,8 +544,9 @@ MonoBehaviour:
           m_MethodName: SetCurrentCamera
           m_Mode: 2
           m_Arguments:
-            m_ObjectArgument: {fileID: 1345035737603512}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_ObjectArgument: {fileID: 114815118153672060}
+            m_ObjectArgumentAssemblyTypeName: Cinemachine.CinemachineVirtualCamera,
+              Cinemachine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -584,8 +633,9 @@ MonoBehaviour:
           m_MethodName: SetCurrentCamera
           m_Mode: 2
           m_Arguments:
-            m_ObjectArgument: {fileID: 1374904705716726}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_ObjectArgument: {fileID: 114074029731126304}
+            m_ObjectArgumentAssemblyTypeName: Cinemachine.CinemachineVirtualCamera,
+              Cinemachine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -609,6 +659,108 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114226633587932940
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1056655545290358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c9beda531928fc40968802117a5d256, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_VerticalAxis:
+    Value: 0
+    m_MaxSpeed: 300
+    m_AccelTime: 0.1
+    m_DecelTime: 0.1
+    m_InputAxisName: Mouse Y
+    m_InputAxisValue: 0
+    m_InvertInput: 0
+    m_MinValue: -90
+    m_MaxValue: 90
+    m_Wrap: 0
+  m_VerticalRecentering:
+    m_enabled: 0
+    m_WaitTime: 1
+    m_RecenteringTime: 2
+    m_LegacyHeadingDefinition: -1
+    m_LegacyVelocityFilterStrength: -1
+  m_HorizontalAxis:
+    Value: 0
+    m_MaxSpeed: 300
+    m_AccelTime: 0.1
+    m_DecelTime: 0.1
+    m_InputAxisName: Mouse X
+    m_InputAxisValue: 0
+    m_InvertInput: 1
+    m_MinValue: -180
+    m_MaxValue: 180
+    m_Wrap: 1
+  m_HorizontalRecentering:
+    m_enabled: 0
+    m_WaitTime: 1
+    m_RecenteringTime: 2
+    m_LegacyHeadingDefinition: -1
+    m_LegacyVelocityFilterStrength: -1
+--- !u!114 &114285714080339378
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1689098228584824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d013a7b7a7ca4e32894d045abefec011, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCamera: {fileID: 0}
+--- !u!114 &114289927037540256
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1509316522367382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c9beda531928fc40968802117a5d256, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_VerticalAxis:
+    Value: 0
+    m_MaxSpeed: 300
+    m_AccelTime: 0.1
+    m_DecelTime: 0.1
+    m_InputAxisName: Mouse Y
+    m_InputAxisValue: 0
+    m_InvertInput: 0
+    m_MinValue: -90
+    m_MaxValue: 90
+    m_Wrap: 0
+  m_VerticalRecentering:
+    m_enabled: 0
+    m_WaitTime: 1
+    m_RecenteringTime: 2
+    m_LegacyHeadingDefinition: -1
+    m_LegacyVelocityFilterStrength: -1
+  m_HorizontalAxis:
+    Value: 0
+    m_MaxSpeed: 300
+    m_AccelTime: 0.1
+    m_DecelTime: 0.1
+    m_InputAxisName: Mouse X
+    m_InputAxisValue: 0
+    m_InvertInput: 1
+    m_MinValue: -180
+    m_MaxValue: 180
+    m_Wrap: 1
+  m_HorizontalRecentering:
+    m_enabled: 0
+    m_WaitTime: 1
+    m_RecenteringTime: 2
+    m_LegacyHeadingDefinition: -1
+    m_LegacyVelocityFilterStrength: -1
 --- !u!114 &114374751453413580
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -624,7 +776,7 @@ MonoBehaviour:
   - m_Script
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
-  m_Priority: 10
+  m_Priority: 0
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_PositionBlending: 0
@@ -708,8 +860,9 @@ MonoBehaviour:
           m_MethodName: SetCurrentCamera
           m_Mode: 2
           m_Arguments:
-            m_ObjectArgument: {fileID: 1345035737603512}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_ObjectArgument: {fileID: 114815118153672060}
+            m_ObjectArgumentAssemblyTypeName: Cinemachine.CinemachineVirtualCamera,
+              Cinemachine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -733,26 +886,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114624661625314998
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1689098228584824}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c49b5ce811745519760e3d5def6ea9d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  character: {fileID: 1689098228584824}
-  xSensitivity: 2
-  ySensitivity: 2
-  clampVerticalRotation: 1
-  minimumX: -90
-  maximumX: 90
-  smooth: 0
-  smoothTime: 20
-  lockCursor: 1
 --- !u!114 &114639985955335308
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -889,8 +1022,9 @@ MonoBehaviour:
           m_MethodName: SetCurrentCamera
           m_Mode: 2
           m_Arguments:
-            m_ObjectArgument: {fileID: 1703821568182924}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_ObjectArgument: {fileID: 114374751453413580}
+            m_ObjectArgumentAssemblyTypeName: Cinemachine.CinemachineVirtualCamera,
+              Cinemachine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 

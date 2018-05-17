@@ -1,4 +1,5 @@
 ﻿using System;
+using Cinemachine;
 using UnityEngine;
 
 namespace StandardAssets.Characters.Cameras
@@ -9,23 +10,21 @@ namespace StandardAssets.Characters.Cameras
 	public class CameraManager : MonoBehaviour, ICameraManager
 	{
 		/// <inheritdoc />
-		public GameObject currentCamera { get; private set; }
+		public CinemachineVirtualCamera currentCamera { get; private set; }
 		
 		/// <inheritdoc />
 		public Action cameraChanged { get; set; }
 		
 		/// <inheritdoc />
-		public void SetCurrentCamera(GameObject newCamera)
+		public void SetCurrentCamera(CinemachineVirtualCamera newCamera)
 		{
-			//Designed to be used with Cinemachine
-			//disabling the current camera GameObject and enabling the newCamera GameObject
-			//allows the Cinemachine brain to transition between the different cameras
 			if (currentCamera != null)
 			{
-				currentCamera.SetActive(false);
+				currentCamera.Priority = 0;
 			}
+
 			currentCamera = newCamera;
-			currentCamera.SetActive(true);
+			currentCamera.Priority = 100;
 			
 			if (cameraChanged != null)
 			{
