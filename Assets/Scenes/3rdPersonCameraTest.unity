@@ -1007,6 +1007,7 @@ GameObject:
   - component: {fileID: 545372088}
   - component: {fileID: 545372087}
   - component: {fileID: 545372090}
+  - component: {fileID: 545372091}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1110,6 +1111,17 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Cinemachine.CinemachineBrain+VcamEvent, Cinemachine, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &545372091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 545372086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baa5dc2c89154d7497722e8161512603, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &580651440
 GameObject:
   m_ObjectHideFlags: 0
@@ -2613,7 +2625,7 @@ Transform:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1946859062}
-  m_LocalRotation: {x: 0.088700294, y: 0.00008146104, z: -0.000007254208, w: 0.9960584}
+  m_LocalRotation: {x: 0.088700645, y: 0.00008162503, z: -0.0000072688404, w: 0.9960584}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
