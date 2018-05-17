@@ -34,7 +34,7 @@ namespace StandardAssets.Characters.ThirdPerson
         /// </summary>
         void OnWalk()
         {
-            Debug.Log("THIS IS THE WALK CAMERA POSITION ");
+           
             SwitchCameras(mediumCamera);
         }
 
@@ -43,7 +43,7 @@ namespace StandardAssets.Characters.ThirdPerson
         /// </summary>
         void OnRun()
         {
-            Debug.Log("THIS IS THE RUN CAMERA POSITION ");
+           
             SwitchCameras(farCamera);
         }
 
@@ -52,7 +52,7 @@ namespace StandardAssets.Characters.ThirdPerson
         /// </summary>
         void OnIdle()
         {
-            Debug.Log("THIS IS THE IDLE CAMERA POSITION ");
+            
             SwitchCameras(closeCamera);
         }
 
