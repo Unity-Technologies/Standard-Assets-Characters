@@ -2613,7 +2613,7 @@ Transform:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1946859062}
-  m_LocalRotation: {x: 0.08870061, y: 0.000081133054, z: -0.00000722503, w: 0.9960584}
+  m_LocalRotation: {x: 0.088700294, y: 0.00008146104, z: -0.000007254208, w: 0.9960584}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2920,7 +2920,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eb889feba9d41d4bfbbade70ee269c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravity: 0.1
+  gravity: 0.3
   groundCheckThreshold: 0.51
 --- !u!114 &2041335161
 MonoBehaviour:
@@ -2941,7 +2941,7 @@ MonoBehaviour:
   groundDeceleration: 15
   airborneAccelProportion: 0.5
   airborneDecelProportion: 0.5
-  jumpSpeed: 0.1
+  jumpSpeed: 0.15
   interpolateTurning: 1
   turnSpeed: 500
   airborneTurnSpeedProportion: 0.5

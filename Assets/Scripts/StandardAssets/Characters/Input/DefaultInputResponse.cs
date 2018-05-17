@@ -54,7 +54,7 @@ namespace StandardAssets.Characters.Input
 		{
 			if (UnityInput.GetKeyDown(key))
 			{
-				if (m_Check)
+				if (!m_Check)
 				{
 					OnEnabled();
 				}
