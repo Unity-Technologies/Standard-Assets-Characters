@@ -174,6 +174,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		void Move()
 		{
 			Vector3 movement;
+			//TODO: clean-up
 //			if (m_IsGrounded && m_Animator.deltaPosition.z >= groundAcceleration * Time.deltaTime)
 //			{
 //				RaycastHit hit;
