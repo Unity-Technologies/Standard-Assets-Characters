@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace Util
 {
+	/// <summary>
+	/// Utility for combining curves and values
+	/// </summary>
 	[Serializable]
 	public class CurveEvaluator
 	{

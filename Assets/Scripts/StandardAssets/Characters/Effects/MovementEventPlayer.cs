@@ -22,6 +22,10 @@ namespace StandardAssets.Characters.Effects
 			PlayMovementEvent(movementEvent);
 		}
 
+		/// <summary>
+		/// Does the actual playing of the event
+		/// </summary>
+		/// <param name="movementEvent"></param>
 		protected abstract void PlayMovementEvent(MovementEvent movementEvent);
 	}
 }

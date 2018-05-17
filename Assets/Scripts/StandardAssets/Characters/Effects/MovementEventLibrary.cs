@@ -29,6 +29,10 @@ namespace StandardAssets.Characters.Effects
 			}
 		}
 
+		/// <summary>
+		/// Gets the MovementEventPlayers for a movement event and plays them
+		/// </summary>
+		/// <param name="movementEvent"></param>
 		public void PlayEvent(MovementEvent movementEvent)
 		{
 			//Play the movement event

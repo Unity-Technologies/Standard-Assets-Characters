@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Util
 {
+	/// <inheritdoc />
 	[Serializable]
 	public class MinMaxCurveEvaluator : CurveEvaluator
 	{
