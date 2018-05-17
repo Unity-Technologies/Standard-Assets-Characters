@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
@@ -21,5 +22,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			get { return forwardMovement; }
 		}
+
+		public Action jumpStart { get; set; }
+		public Action lands { get; set; }
 	}
 }

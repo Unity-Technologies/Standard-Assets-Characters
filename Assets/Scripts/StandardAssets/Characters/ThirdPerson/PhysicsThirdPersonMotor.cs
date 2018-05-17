@@ -43,7 +43,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		/// <inheritdoc />
 		public float forwardSpeed { get; private set; }
-		
+
+		public Action jumpStart { get; set; }
+		public Action lands { get; set; }
 		#endregion
 
 
@@ -66,18 +68,34 @@ namespace StandardAssets.Characters.ThirdPerson
 		void Awake()
 		{
 			m_Input = GetComponent<IInput>();
-			m_Input.jump += Jump;
+			m_Input.jump += OnJump;
 			m_Physics = GetComponent<IPhysics>();
+			m_Physics.lands += OnLand;
+		}
+
+		/// <summary>
+		/// Handles player landing
+		/// </summary>
+		void OnLand()
+		{
+			if (lands != null)
+			{
+				lands();
+			}
 		}
 
 		/// <summary>
 		/// Subscribes to the Jump action on input
 		/// </summary>
-		void Jump()
+		void OnJump()
 		{
 			if (m_Physics.isGrounded)
 			{
-				m_Physics.Jump(jumpSpeed);			
+				m_Physics.Jump(jumpSpeed);
+				if (jumpStart != null)
+				{
+					jumpStart();
+				}
 			}
 		}
 
@@ -177,9 +195,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			//movement += m_VerticalSpeed * Vector3.up * Time.deltaTime;
 
 			m_Physics.Move(movement);
-
-//			m_IsGrounded = m_CharCtrl.isGrounded;
-//			m_Animator.SetBool(m_HashGroundedPara, m_IsGrounded);
 		}
 
 		

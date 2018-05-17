@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.AI;
 
 namespace StandardAssets.Characters.ThirdPerson
@@ -46,13 +47,19 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return GetVelocityOnAxis(m_Agent.transform.forward, m_Agent.velocity) / maxForwardSpeed; }
 		}
 
+		/// <inheritdoc />
+		public Action jumpStart { get; set; }
+		
+		/// <inheritdoc />
+		public Action lands { get; set; }
+
 		/// <summary>
 		/// Helper function to get the component of velocity along an axis
 		/// </summary>
 		/// <param name="axis"></param>
 		/// <param name="velocity"></param>
 		/// <returns></returns>
-		private float GetVelocityOnAxis(Vector3 axis, Vector3 velocity)
+		float GetVelocityOnAxis(Vector3 axis, Vector3 velocity)
 		{
 			float dot = Vector3.Dot(axis, velocity.normalized);
 			float val = dot * velocity.magnitude;

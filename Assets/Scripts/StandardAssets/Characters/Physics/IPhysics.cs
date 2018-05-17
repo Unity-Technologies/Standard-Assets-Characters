@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace StandardAssets.Characters.Physics
 {
@@ -23,5 +24,10 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		/// <param name="initialVelocity"></param>
 		void Jump(float initialVelocity);
+		
+		/// <summary>
+		/// Invoked when the physic object goes from not grounded to grounded
+		/// </summary>
+		Action lands { get; set; }
 	}
 }

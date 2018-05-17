@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
@@ -22,6 +23,16 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// The forward speed. Range = -1 (run backwards) to 1 (run forwards). 0 is no forward movement 
 		/// </summary>
 		float forwardSpeed { get; }
+		
+		/// <summary>
+		/// Fired on jump
+		/// </summary>
+		Action jumpStart { get; set; }
+		
+		/// <summary>
+		/// When the character lands
+		/// </summary>
+		Action lands { get; set; }
 		
 		#endregion
 	}

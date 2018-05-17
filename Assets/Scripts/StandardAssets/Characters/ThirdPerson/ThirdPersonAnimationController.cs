@@ -25,6 +25,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		readonly int m_HashForwardSpeed = Animator.StringToHash("ForwardSpeed");
 		readonly int m_HashLateralSpeed = Animator.StringToHash("LateralSpeed");
 		readonly int m_HashTurningSpeed = Animator.StringToHash("TurningSpeed");
+		readonly int m_Grounded = Animator.StringToHash("Grounded");
 
 		/// <summary>
 		/// Gets the required components
@@ -32,7 +33,25 @@ namespace StandardAssets.Characters.ThirdPerson
 		void Awake()
 		{
 			m_Motor = GetComponent<IThirdPersonMotor>();
+			m_Motor.jumpStart += OnJumpStart;
+			m_Motor.lands += OnLand;
 			m_Animator = GetComponent<Animator>();
+		}
+
+		/// <summary>
+		/// Logic for dealing with animation on landing
+		/// </summary>
+		void OnLand()
+		{
+			m_Animator.SetBool(m_Grounded, true);
+		}
+
+		/// <summary>
+		/// Logic for dealing with animation on jumping
+		/// </summary>
+		void OnJumpStart()
+		{
+			m_Animator.SetBool(m_Grounded, false);
 		}
 
 		/// <summary>

@@ -2,17 +2,22 @@
 
 namespace StandardAssets.Characters.ThirdPerson
 {
+    /// <summary>
+    /// Camera manager that listens to state changes on the IThirdPersonMotorStateMachine
+    /// </summary>
     [RequireComponent(typeof(IThirdPersonMotorStateMachine))]
     public class ThirdPersonCameraManager:MonoBehaviour
     {
-        private IThirdPersonMotorStateMachine m_StateMachine;
-
-        private GameObject currentCamera;
+        IThirdPersonMotorStateMachine m_StateMachine;
+        GameObject m_CurrentCamera;
+        
         public GameObject closeCamera;
         public GameObject mediumCamera;
         public GameObject farCamera;
         
-
+        /// <summary>
+        /// Gets the state machine and subscribes to state change actions
+        /// </summary>
         void Awake()
         {
             m_StateMachine = GetComponent<IThirdPersonMotorStateMachine>();
@@ -21,39 +26,45 @@ namespace StandardAssets.Characters.ThirdPerson
             m_StateMachine.walking += OnWalk;
             
             //SetDefaultCamera
-            currentCamera = closeCamera;
+            m_CurrentCamera = closeCamera;
         }
 
-        private void OnWalk()
+        /// <summary>
+        /// Called on walk start
+        /// </summary>
+        void OnWalk()
         {
             Debug.Log("THIS IS THE WALK CAMERA POSITION ");
             SwitchCameras(mediumCamera);
-
         }
 
-        private void OnRun()
+        /// <summary>
+        /// Called on run start
+        /// </summary>
+        void OnRun()
         {
             Debug.Log("THIS IS THE RUN CAMERA POSITION ");
             SwitchCameras(farCamera);
-            
         }
 
-        private void OnIdle()
+        /// <summary>
+        /// Called on idle start
+        /// </summary>
+        void OnIdle()
         {
             Debug.Log("THIS IS THE IDLE CAMERA POSITION ");
             SwitchCameras(closeCamera);
         }
 
+        /// <summary>
+        /// Helper for switching cameras
+        /// </summary>
+        /// <param name="newCamera"></param>
         void SwitchCameras(GameObject newCamera)
         {
-            currentCamera.gameObject.SetActive(false);
-            currentCamera = newCamera;
-            currentCamera.gameObject.SetActive(true);
-        }
-        void Update()
-        {
-            //Do stuff with stateMachine Actions?
-            
+            m_CurrentCamera.gameObject.SetActive(false);
+            m_CurrentCamera = newCamera;
+            m_CurrentCamera.gameObject.SetActive(true);
         }
     }
 }

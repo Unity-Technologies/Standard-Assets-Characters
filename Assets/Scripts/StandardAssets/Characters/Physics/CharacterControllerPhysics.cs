@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 
 namespace StandardAssets.Characters.Physics
@@ -39,8 +40,10 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		Vector3 m_VerticalVector = Vector3.zero;
 
-		//This is a TEMP solution to the character ungrounding
-		private bool m_Grounded;
+		/// <summary>
+		/// Stores the grounded-ness of the physics object
+		/// </summary>
+		bool m_Grounded;
 		
 		/// <inheritdoc />
 		public bool isGrounded
@@ -64,6 +67,8 @@ namespace StandardAssets.Characters.Physics
 			m_InitialJumpVelocity = initialVelocity;
 		}
 
+		public Action lands { get; set; }
+
 		void Awake()
 		{
 			//Gets the attached character controller
@@ -77,7 +82,7 @@ namespace StandardAssets.Characters.Physics
 		}
 
 		/// <summary>
-		/// Handle physic
+		/// Handle falling physics
 		/// </summary>
 		void FixedUpdate()
 		{
@@ -101,6 +106,11 @@ namespace StandardAssets.Characters.Physics
 				m_AirTime = 0f;
 				m_InitialJumpVelocity = 0f;
 				m_VerticalVector = Vector3.zero;
+				if (lands != null)
+				{
+					lands();
+				}
+				
 				return;
 			}
 			
