@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Cinemachine;
+using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
@@ -9,11 +10,12 @@ namespace StandardAssets.Characters.ThirdPerson
     public class ThirdPersonCameraManager:MonoBehaviour
     {
         IThirdPersonMotorStateMachine m_StateMachine;
-        GameObject m_CurrentCamera;
+        CinemachineVirtualCameraBase m_CurrentCamera;
         
-        public GameObject closeCamera;
-        public GameObject mediumCamera;
-        public GameObject farCamera;
+        public CinemachineVirtualCameraBase closeCamera;
+        public CinemachineVirtualCameraBase mediumCamera;
+        public CinemachineVirtualCameraBase farCamera;
+        
         
         /// <summary>
         /// Gets the state machine and subscribes to state change actions
@@ -34,7 +36,6 @@ namespace StandardAssets.Characters.ThirdPerson
         /// </summary>
         void OnWalk()
         {
-           
             SwitchCameras(mediumCamera);
         }
 
@@ -60,11 +61,15 @@ namespace StandardAssets.Characters.ThirdPerson
         /// Helper for switching cameras
         /// </summary>
         /// <param name="newCamera"></param>
-        void SwitchCameras(GameObject newCamera)
+        void SwitchCameras(CinemachineVirtualCameraBase newCamera)
         {
-            m_CurrentCamera.gameObject.SetActive(false);
+            if (m_CurrentCamera != null)
+            {
+                m_CurrentCamera.Priority = 0;
+            }
+            
             m_CurrentCamera = newCamera;
-            m_CurrentCamera.gameObject.SetActive(true);
+            m_CurrentCamera.Priority = 100;
         }
     }
 }
