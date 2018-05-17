@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028355, g: 0.22571374, b: 0.30692255, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2625,17 +2625,17 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Existing third person refactored and camera controller refactored in line
+  m_Text: "Existing third person refactored and camera controller refactored in line
     with product vision, using Cinemachine Single and Multi-State VCams and the current
     Unity Input System using existing character animations. Since this is a refactor
     the character still uses the original animations and animation controller. The
-    ThirdPersonMotor is agnostic of the Physics implementation:
-
-    i.e. there is a component for CharacterController based movement (which is currently
-    being used), there is a component for Rigidbody based movement and we''ll be making
-    C# analog of the current CharacterController. The VCams states are triggered based
-    on the third person motor forward movement variable. These transitions can be
-    seen on starting and stopping movement. VCams are not finalized but rather WIP.'
+    ThirdPersonMotor is agnostic of the Physics implementation:\ni.e. there is a component
+    for CharacterController based movement (which is currently being used), there
+    is a component for Rigidbody based movement and we'll be making C# analog of the
+    current CharacterController. The VCams states are triggered based on the third
+    person motor forward movement variable. These transitions can be seen on starting
+    and stopping movement. VCams are not finalized but rather WIP.\x03\n<color=red>ESCAPE
+    - return to demo menu</color>"
 --- !u!222 &1760211430
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2985,7 +2985,7 @@ Transform:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1946859062}
-  m_LocalRotation: {x: 0.082500555, y: 0.00008166869, z: -0.0000067607616, w: 0.99659103}
+  m_LocalRotation: {x: 0.08250043, y: 0.00008166869, z: -0.0000067607552, w: 0.99659103}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

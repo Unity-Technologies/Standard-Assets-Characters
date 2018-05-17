@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.18203652, g: 0.22772755, b: 0.30740222, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -26462,26 +26462,19 @@ MonoBehaviour:
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0
-    m_RichText: 0
+    m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'First pass of First Person Movement and Camera Controllers using Cinemachine
-    VCams and the current Unity Input System:
-
-    WASD/Arrow Keys - move. Mouse  - look around using POV Cinemachine VCams.
-
-    C - Toggle Crouch (uses a different POV Cinemachine VCam). P - Toggle Prone (uses
-    a different POV Cinemachine VCam)
-
-    Hold Shift - Sprint. Space - Jump
-
-    Show case of the new FPS controller which blends different VCams when transitioning
-    different states.
-
-    Show case of the first pass of FPS environment.
-
-'
+  m_Text: "First pass of First Person Movement and Camera Controllers using Cinemachine
+    VCams and the current Unity Input System:\n<color=red>WASD/Arrow Keys</color>
+    - move. <color=red>Mouse </color> - look around using POV Cinemachine VCams.\n<color=red>C
+    </color>- Toggle Crouch (uses a different POV Cinemachine VCam). <color=red> P
+    </color>- Toggle Prone (uses a different POV Cinemachine VCam)\n<color=red>Hold
+    Shift</color> - Sprint. <color=red>Space</color> - Jump\nShow case of the new
+    FPS controller which blends different VCams when transitioning different states.
+    Show case of the first pass of FPS environment.\x03\x03\n<color=red>ESCAPE - return
+    to demo menu</color>"
 --- !u!222 &1982575945
 CanvasRenderer:
   m_ObjectHideFlags: 0
