@@ -19,11 +19,6 @@ namespace StandardAssets.Characters.FirstPerson
 		public FirstPersonMotorState startingMotorState;
 
 		/// <summary>
-		/// Jump speed 
-		/// </summary>
-		public float jumpSpeed = 0.3f;
-
-		/// <summary>
 		/// The Physic implementation used to do the movement
 		/// e.g. CharacterController or Rigidbody (or New C# CharacterController analog)
 		/// </summary>
@@ -67,9 +62,9 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		void Jump()
 		{
-			if (m_Physics.isGrounded)
+			if (m_Physics.isGrounded && currentMotorState.canJump)
 			{
-				m_Physics.Jump(jumpSpeed);
+				m_Physics.Jump(currentMotorState.jumpSpeed);
 			}	
 		}
 

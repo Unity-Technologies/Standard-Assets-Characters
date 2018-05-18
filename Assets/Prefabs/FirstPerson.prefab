@@ -537,6 +537,7 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
       maxValue: 1
+    jumpSpeed: 0.1
     enterState:
       m_PersistentCalls:
         m_Calls:
@@ -559,7 +560,6 @@ MonoBehaviour:
         m_Calls: []
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-  jumpSpeed: 0.15
 --- !u!114 &114148430575328634
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -626,6 +626,7 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
       maxValue: 1
+    jumpSpeed: 0
     enterState:
       m_PersistentCalls:
         m_Calls:
@@ -853,6 +854,7 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
       maxValue: 1
+    jumpSpeed: 0.5
     enterState:
       m_PersistentCalls:
         m_Calls:
@@ -1015,6 +1017,7 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
       maxValue: 1
+    jumpSpeed: 0.1
     enterState:
       m_PersistentCalls:
         m_Calls:

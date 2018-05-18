@@ -28,11 +28,24 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		[Tooltip("Value is the time is takes decelerate to stationary")]
 		public CurveEvaluator deceleration;
+		
+		/// <summary>
+		/// Jump speed 
+		/// </summary>
+		public float jumpSpeed = 0.3f;
 
 		/// <summary>
 		/// Unity events for entering/exiting state
 		/// </summary>
 		public UnityEvent enterState, exitState;
+
+		/// <summary>
+		/// Can the first person character jump in this state
+		/// </summary>
+		public bool canJump
+		{
+			get { return jumpSpeed > Mathf.Epsilon; }
+		}
 
 		/// <summary>
 		/// Plays the exit state
