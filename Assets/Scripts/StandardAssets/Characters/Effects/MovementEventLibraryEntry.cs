@@ -17,6 +17,6 @@ namespace StandardAssets.Characters.Effects
 		/// <summary>
 		/// The list of behaviours for visualize movement events
 		/// </summary>
-		public List<MovementEventPlayer> movementEventPlayers;
+		public MovementEventPlayer[] movementEventPlayers;
 	}
 }
