@@ -174,7 +174,6 @@ MonoBehaviour:
   groundDeceleration: 15
   airborneAccelProportion: 0.5
   airborneDecelProportion: 0.5
-  gravity: 10
   jumpSpeed: 15
   interpolateTurning: 1
   turnSpeed: 150
@@ -251,6 +250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gravity: 0.1
+  groundCheckThreshold: 0.51
 --- !u!114 &114485406870764872
 MonoBehaviour:
   m_ObjectHideFlags: 1
