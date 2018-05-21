@@ -20,7 +20,7 @@ namespace StandardAssets.Characters.Effects
 			m_PreviousPosition = transform.position;
 		}
 
-		void Update()
+		void FixedUpdate()
 		{
 			Vector3 currentPosition = transform.position;
 			m_SqrTravelledDistance += (currentPosition - m_PreviousPosition).sqrMagnitude;
