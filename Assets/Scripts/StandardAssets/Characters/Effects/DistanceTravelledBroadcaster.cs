@@ -2,25 +2,51 @@
 
 namespace StandardAssets.Characters.Effects
 {
+	/// <summary>
+	/// Broadcasts an event with an id selected from a list every x units of movementg
+	/// </summary>
 	public class DistanceTravelledBroadcaster : MovementEventBroadcaster
 	{
+		/// <summary>
+		/// Distance travelled between movement events
+		/// </summary>
 		public float distanceThreshold = 1f;
 
+		/// <summary>
+		/// List of IDs for movement events
+		/// </summary>
 		public string[] ids;
 
+		/// <summary>
+		/// The current index of the 
+		/// </summary>
 		int m_CurrentIdIndex = -1;
 
+		/// <summary>
+		/// Square distance moved from last event and the square of the threshold
+		/// </summary>
 		float m_SqrTravelledDistance = 0f, m_SqrDistanceThreshold;
 
+		/// <summary>
+		/// The position that the character was previously	
+		/// </summary>
 		Vector3 m_PreviousPosition;
 
+		/// <summary>
+		/// Initialize:
+		/// Precalculate the square of the threshold
+		/// Set the previous position
+		/// </summary>
 		void Awake()
 		{
 			m_SqrDistanceThreshold = distanceThreshold * distanceThreshold;
 			m_PreviousPosition = transform.position;
 		}
 
-		void Update()
+		/// <summary>
+		/// Calculate movement on FixedUpdate
+		/// </summary>
+		void FixedUpdate()
 		{
 			Vector3 currentPosition = transform.position;
 			m_SqrTravelledDistance += (currentPosition - m_PreviousPosition).sqrMagnitude;
@@ -34,6 +60,9 @@ namespace StandardAssets.Characters.Effects
 			m_PreviousPosition = currentPosition;
 		}
 
+		/// <summary>
+		/// Handle the broadcasting of the movement event
+		/// </summary>
 		void Moved()
 		{
 			int length = ids.Length;
