@@ -13,14 +13,15 @@ using UnityEngine.Experimental.Input;
 using UnityEngine.Experimental.Input.Composites;
 using Random = UnityEngine.Random;
 
-public class NewInputSystem : MonoBehaviour, IInput
+public class NewInputSystem : MonoBehaviour, INewInput
 {
 	private DefaultInputResponse d;
 
 	Vector2 m_MoveInput;
 	
 	private Vector2 moveVector2;
-	
+
+	Vector2 m_LookInput;
 
 	
 	public Camera mainCamera;
@@ -56,6 +57,8 @@ public class NewInputSystem : MonoBehaviour, IInput
 		controls.gameplay.prone.performed += context => Prone();
 
 		controls.gameplay.movement.performed += context => Move(context.control as KeyControl);
+		
+		controls.gameplay.look.performed += ctx => m_LookInput = ctx.GetValue<Vector2>();
 	}
 
 	void Move(KeyControl control)
@@ -117,7 +120,7 @@ public class NewInputSystem : MonoBehaviour, IInput
 	void Update () {
 		//m_MoveInput.Set(moveAxis.x,moveAxis.y);
 		//m_MoveInput.Set(UnityInput.GetAxis("Horizontal"), UnityInput.GetAxis("Vertical"));
-
+		Debug.Log("MOUSE: "+m_LookInput.ToString());
 	}
 	
 	
@@ -132,20 +135,13 @@ public class NewInputSystem : MonoBehaviour, IInput
 		get { return moveInput.sqrMagnitude > 0; }
 	}
 		
-	Vector2 m_LookInput;
+	
 
 	public Vector2 lookInput
 	{
 		get { return m_LookInput; }
 	}
 
-	Action m_Jump;
 
-	public Action jump
-	{
-		get { return m_Jump; }
-		set { m_Jump = value; }
-			
-	}
 
 }
