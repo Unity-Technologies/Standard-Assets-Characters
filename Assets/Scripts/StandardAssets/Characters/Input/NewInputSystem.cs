@@ -1,70 +1,86 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Contexts;
+using System.Security.Cryptography;
+using ProBuilder2.Common;
+using StandardAssets.Characters.Effects;
 using StandardAssets.Characters.Input;
 using UnityEngine;
 using UnityEngine.Experimental.Input;
 using UnityEngine.Experimental.Input.Controls;
 using UnityEngine.Experimental.Input;
+using UnityEngine.Experimental.Input.Composites;
 using Random = UnityEngine.Random;
 
 public class NewInputSystem : MonoBehaviour, IInput
 {
+	private DefaultInputResponse d;
 
 	Vector2 m_MoveInput;
+	
 	private Vector2 moveVector2;
+	
 
 	
 	public Camera mainCamera;
 	
 	public GameObject projectile; 
 	
-	public InputAction fireAction;
+	
+	public DemoInputActions controls;
 
-	public InputAction moveAction;
-
+	public ButtonAxis horizontal;
+	
+	
+	
 	public void OnEnable()
 	{
-		fireAction.Enable();
-		moveAction.Enable();
+		controls.Enable();
 	}
 
 	public void OnDisable()
 	{
-		fireAction.Disable();
-		moveAction.Disable();
+		controls.Disable();
 	
 	}
 
 	public void Awake()
 	{
-		fireAction.performed += context => Fire(context);
-		moveAction.performed += context => Move(context);
+		controls.gameplay.fire.performed += context => Fire(context);
+		//moveAction.performed += context => Move(context);
+		
+
+		controls.gameplay.crouch.performed += context => Crouch(context);
+
+		controls.gameplay.prone.performed += context => Prone();
+
+		controls.gameplay.movement.performed += context => Move(context.control as KeyControl);
 	}
 
-	void Move(InputAction.CallbackContext context)
+	void Move(KeyControl control)
 	{
 		
-		String axis = (context.control.ToString());
-		char last = axis[axis.Length - 1];
-		moveVector2 = new Vector2(0,0);
-		switch (last)
+		string keyName = control.keyCode.ToString();
+		int number = Convert.ToInt32(keyName.Substring(keyName.Length - 1));
+		Vector2 moveAxis = new Vector2(0,0);
+		switch (number)
 		{
-			case 'i':
-				moveVector2.y = 1f;
-				
+			case 8:
+				moveAxis.x = 1;
 				break;
-			case 'k':
-				moveVector2.y = -1f;
+			case 2:
+				moveAxis.x = -1;
 				break;
-			case 'j' :
-				moveVector2.x = -1f;
+			case 4:
+				moveAxis.y = -1;
 				break;
-			case 'l':
-				moveVector2.x = 1f;
+			case 6:
+				moveAxis.y = 1;
 				break;
-			
 		}
+		m_MoveInput.Set(moveAxis.x,moveAxis.y);
+		Debug.Log(moveAxis.ToString());
 		
 	
 	}
@@ -72,6 +88,7 @@ public class NewInputSystem : MonoBehaviour, IInput
 
 	void Fire(InputAction.CallbackContext context)
 	{
+		Debug.Log("NEW INPUT FIRE!");
 		var transform = this.transform;
 		var newProjectile = Instantiate(projectile);
 		newProjectile.transform.position = transform.position + transform.forward * 0.6f;
@@ -83,30 +100,52 @@ public class NewInputSystem : MonoBehaviour, IInput
 		newProjectile.GetComponent<MeshRenderer>().material.color =
 			new Color(Random.value, Random.value, Random.value, 1.0f);
 	}
-	// Use this for initialization
-	void Start () {
-		
+
+	void Crouch(InputAction.CallbackContext context)
+	{
+		Debug.Log("NEW INPUT CROUCH");
+		Debug.Log(context.control.displayName);
 	}
+
+	void Prone()
+	{
+		Debug.Log("NEW INPUT PRONE");
+	}
+	
 	
 	// Update is called once per frame
 	void Update () {
-		m_MoveInput.Set(moveVector2.x,moveVector2.y);
-		Debug.Log(m_MoveInput.ToString());
+		//m_MoveInput.Set(moveAxis.x,moveAxis.y);
+		//m_MoveInput.Set(UnityInput.GetAxis("Horizontal"), UnityInput.GetAxis("Vertical"));
 
 	}
 	
-	public bool isMoveInput 
-	{ 
-		get { return moveInput.sqrMagnitude > 0; }
-	}
 	
+
 	public Vector2 moveInput
 	{
 		get { return m_MoveInput; }
 	}
+		
+	public bool isMoveInput 
+	{ 
+		get { return moveInput.sqrMagnitude > 0; }
+	}
+		
+	Vector2 m_LookInput;
 
-	
-	//public bool isMoveInput { get; private set; }
-	public Vector2 lookInput { get; private set; }
-	public Action jump { get; set; }
+	public Vector2 lookInput
+	{
+		get { return m_LookInput; }
+	}
+
+	Action m_Jump;
+
+	public Action jump
+	{
+		get { return m_Jump; }
+		set { m_Jump = value; }
+			
+	}
+
 }
