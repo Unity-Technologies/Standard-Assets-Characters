@@ -33,8 +33,8 @@ namespace StandardAssets.Characters.FirstPerson
 		{
 			m_Controller = controller;
 			input.Init();
-			input.enabled += OnStateChange;
-			input.disabled += OnStateReset;
+			input.started += OnStateChange;
+			input.ended += OnStateReset;
 		}
 
 		void Update()

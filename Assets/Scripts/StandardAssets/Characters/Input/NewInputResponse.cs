@@ -22,11 +22,11 @@ namespace StandardAssets.Characters.Input
         {
             if (toggle)
             {
-                OnDisabled();
+                OnInputEnded();
             }
             else
             {
-                OnEnabled();
+                OnInputStarted();
             }
 
             toggle = !toggle;

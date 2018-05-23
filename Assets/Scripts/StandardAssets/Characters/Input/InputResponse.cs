@@ -12,7 +12,7 @@ namespace StandardAssets.Characters.Input
 		/// <summary>
 		/// Events when the input starts (enabled) and stops (disabled)
 		/// </summary>
-		public event Action enabled, disabled;
+		public event Action started, ended;
 
 		/// <summary>
 		/// Initialization
@@ -27,27 +27,27 @@ namespace StandardAssets.Characters.Input
 		/// <summary>
 		/// Safely broadcasts the enable event
 		/// </summary>
-		protected virtual void OnEnabled()
+		protected virtual void OnInputStarted()
 		{
-			if (enabled == null)
+			if (started == null)
 			{
 				return;
 			}
 
-			enabled();
+			started();
 		}
 
 		/// <summary>
 		/// Safely broadcasts the disable event
 		/// </summary>
-		protected virtual void OnDisabled()
+		protected virtual void OnInputEnded()
 		{
-			if (disabled == null)
+			if (ended == null)
 			{
 				return;
 			}
 
-			disabled();
+			ended();
 		}
 	}
 }

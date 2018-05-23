@@ -60,12 +60,12 @@ namespace StandardAssets.Characters.Input
 
 			if (!m_Check && keyPressed)
 			{
-				OnEnabled();
+				OnInputStarted();
 			}
 
 			if (m_Check && !keyPressed)
 			{
-				OnDisabled();
+				OnInputEnded();
 			}
 
 			m_Check = keyPressed;
@@ -80,11 +80,11 @@ namespace StandardAssets.Characters.Input
 			{
 				if (!m_Check)
 				{
-					OnEnabled();
+					OnInputStarted();
 				}
 				else
 				{
-					OnDisabled();
+					OnInputEnded();
 				}
 
 				m_Check = !m_Check;
