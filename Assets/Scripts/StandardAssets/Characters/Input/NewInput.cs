@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Remoting.Contexts;
 using System.Security.Cryptography;
+using Cinemachine;
 using ProBuilder2.Common;
 using StandardAssets.Characters.Effects;
 using StandardAssets.Characters.Input;
@@ -37,6 +38,17 @@ namespace StandardAssets.Characters.Input
 		public void OnDisable()
 		{
 			controls.Disable();
+		}
+		
+		void Awake()
+		{
+			CinemachineCore.GetInputAxis = LookInputOverride;
+		}
+
+		float LookInputOverride(string axis)
+		{
+			//TODO: Dave replace this
+			return Random.Range(-1f, 1f);
 		}
 
 		void Move(KeyControl control)
