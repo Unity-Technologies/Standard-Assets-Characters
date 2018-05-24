@@ -1,5 +1,4 @@
-﻿using StandardAssets.Characters.Cameras;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace StandardAssets.Characters.FirstPerson
 {
