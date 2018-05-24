@@ -1,17 +1,8 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.Remoting.Contexts;
-using System.Security.Cryptography;
 using Cinemachine;
-using ProBuilder2.Common;
-using StandardAssets.Characters.Effects;
-using StandardAssets.Characters.Input;
 using UnityEngine;
 using UnityEngine.Experimental.Input;
 using UnityEngine.Experimental.Input.Controls;
-using UnityEngine.Experimental.Input;
-using UnityEngine.Experimental.Input.Composites;
 using Random = UnityEngine.Random;
 
 namespace StandardAssets.Characters.Input
