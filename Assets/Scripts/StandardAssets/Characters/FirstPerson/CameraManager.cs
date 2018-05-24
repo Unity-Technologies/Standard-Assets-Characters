@@ -31,7 +31,5 @@ namespace StandardAssets.Characters.FirstPerson
 				cameraChanged();
 			}
 		}
-
-		
 	}
 }
