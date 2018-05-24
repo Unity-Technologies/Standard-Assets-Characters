@@ -47,8 +47,18 @@ namespace StandardAssets.Characters.Input
 
 		float LookInputOverride(string axis)
 		{
-			//TODO: Dave replace this
-			return Random.Range(-1f, 1f);
+			//TODO: DAVE overload this
+			if (axis == "Mouse X")
+			{
+				return 1;
+			}
+
+			if (axis == "Mouse Y")
+			{
+				return -1;
+			}
+
+			return 0;
 		}
 
 		void Move(KeyControl control)
