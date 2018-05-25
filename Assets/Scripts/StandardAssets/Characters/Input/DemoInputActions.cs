@@ -12,7 +12,7 @@ namespace StandardAssets.Characters.Input
         private void Initialize()
         {
             // gameplay
-            m_gameplay = asset.GetActionSet("gameplay");
+            m_gameplay = asset.GetActionMap("gameplay");
             m_gameplay_crouch = m_gameplay.GetAction("crouch");
             m_gameplay_prone = m_gameplay.GetAction("prone");
             m_gameplay_fire = m_gameplay.GetAction("fire");
@@ -22,7 +22,7 @@ namespace StandardAssets.Characters.Input
         }
 
         // gameplay
-        private UnityEngine.Experimental.Input.InputActionSet m_gameplay;
+        private UnityEngine.Experimental.Input.InputActionMap m_gameplay;
         private UnityEngine.Experimental.Input.InputAction m_gameplay_crouch;
         private UnityEngine.Experimental.Input.InputAction m_gameplay_prone;
         private UnityEngine.Experimental.Input.InputAction m_gameplay_fire;
@@ -63,7 +63,7 @@ namespace StandardAssets.Characters.Input
                 get { return m_Wrapper.m_gameplay_look; }
             }
 
-            public UnityEngine.Experimental.Input.InputActionSet Get()
+            public UnityEngine.Experimental.Input.InputActionMap Get()
             {
                 return m_Wrapper.m_gameplay;
             }
@@ -78,12 +78,12 @@ namespace StandardAssets.Characters.Input
                 Get().Disable();
             }
 
-            public UnityEngine.Experimental.Input.InputActionSet Clone()
+            public UnityEngine.Experimental.Input.InputActionMap Clone()
             {
                 return Get().Clone();
             }
 
-            public static implicit operator UnityEngine.Experimental.Input.InputActionSet(GameplayActions set)
+            public static implicit operator UnityEngine.Experimental.Input.InputActionMap(GameplayActions set)
             {
                 return set.Get();
             }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.Remoting.Contexts;
 using System.Security.Cryptography;
 using Cinemachine;
@@ -9,10 +10,10 @@ using StandardAssets.Characters.Effects;
 using StandardAssets.Characters.Input;
 using UnityEngine;
 using UnityEngine.Experimental.Input;
+using UnityEngine.Experimental.Input.Interactions;
 using UnityEngine.Experimental.Input.Controls;
-using UnityEngine.Experimental.Input;
-using UnityEngine.Experimental.Input.Composites;
 using Random = UnityEngine.Random;
+
 
 namespace StandardAssets.Characters.Input
 {
@@ -28,21 +29,44 @@ namespace StandardAssets.Characters.Input
 
 
 		public DemoInputActions controls;
+		
+		private static string compositeInputFile = "compositeInput.json";
+
+		private string compositeInputJsonString;
+
+		private Vector2 m_look;
 
 
 		public void OnEnable()
 		{
+
+			
+
 			controls.Enable();
+			
+
 		}
 
 		public void OnDisable()
 		{
+			
 			controls.Disable();
+		
 		}
 		
 		void Awake()
 		{
+
 			CinemachineCore.GetInputAxis = LookInputOverride;
+
+			controls.gameplay.look.performed += ctx => m_look = ctx.ReadValue<Vector2>();
+		}
+
+		void Update()
+		{
+			Debug.Log("MousE: "+m_look.ToString());
+			//controls.gameplay.look.performed += ctx => m_look = ctx.ReadValue<Vector2>();
+			//Debug.Log(CinemachineCore.GetInputAxis("Mouse x"));
 		}
 
 		float LookInputOverride(string axis)
@@ -50,12 +74,12 @@ namespace StandardAssets.Characters.Input
 			//TODO: DAVE overload this
 			if (axis == "Mouse X")
 			{
-				return 1;
+				return m_look.x;
 			}
 
 			if (axis == "Mouse Y")
 			{
-				return -1;
+				return m_look.y;
 			}
 
 			return 0;
