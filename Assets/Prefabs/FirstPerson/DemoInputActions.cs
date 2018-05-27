@@ -7,23 +7,23 @@ public class DemoInputActions : UnityEngine.Experimental.Input.InputActionWrappe
     private void Initialize()
     {
         // gameplay
-        m_gameplay = asset.GetActionSet("gameplay");
+        m_gameplay = asset.GetActionMap("gameplay");
         m_gameplay_crouch = m_gameplay.GetAction("crouch");
         m_gameplay_prone = m_gameplay.GetAction("prone");
         m_gameplay_fire = m_gameplay.GetAction("fire");
         m_gameplay_movement = m_gameplay.GetAction("movement");
         m_gameplay_look = m_gameplay.GetAction("look");
-        m_gameplay_action = m_gameplay.GetAction("action");
+        m_gameplay_hold = m_gameplay.GetAction("hold");
         m_Initialized = true;
     }
     // gameplay
-    private UnityEngine.Experimental.Input.InputActionSet m_gameplay;
+    private UnityEngine.Experimental.Input.InputActionMap m_gameplay;
     private UnityEngine.Experimental.Input.InputAction m_gameplay_crouch;
     private UnityEngine.Experimental.Input.InputAction m_gameplay_prone;
     private UnityEngine.Experimental.Input.InputAction m_gameplay_fire;
     private UnityEngine.Experimental.Input.InputAction m_gameplay_movement;
     private UnityEngine.Experimental.Input.InputAction m_gameplay_look;
-    private UnityEngine.Experimental.Input.InputAction m_gameplay_action;
+    private UnityEngine.Experimental.Input.InputAction m_gameplay_hold;
     public struct GameplayActions
     {
         private DemoInputActions m_Wrapper;
@@ -33,12 +33,12 @@ public class DemoInputActions : UnityEngine.Experimental.Input.InputActionWrappe
         public UnityEngine.Experimental.Input.InputAction @fire { get { return m_Wrapper.m_gameplay_fire; } }
         public UnityEngine.Experimental.Input.InputAction @movement { get { return m_Wrapper.m_gameplay_movement; } }
         public UnityEngine.Experimental.Input.InputAction @look { get { return m_Wrapper.m_gameplay_look; } }
-        public UnityEngine.Experimental.Input.InputAction @action { get { return m_Wrapper.m_gameplay_action; } }
-        public UnityEngine.Experimental.Input.InputActionSet Get() { return m_Wrapper.m_gameplay; }
+        public UnityEngine.Experimental.Input.InputAction @hold { get { return m_Wrapper.m_gameplay_hold; } }
+        public UnityEngine.Experimental.Input.InputActionMap Get() { return m_Wrapper.m_gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
-        public UnityEngine.Experimental.Input.InputActionSet Clone() { return Get().Clone(); }
-        public static implicit operator UnityEngine.Experimental.Input.InputActionSet(GameplayActions set) { return set.Get(); }
+        public UnityEngine.Experimental.Input.InputActionMap Clone() { return Get().Clone(); }
+        public static implicit operator UnityEngine.Experimental.Input.InputActionMap(GameplayActions set) { return set.Get(); }
     }
     public GameplayActions @gameplay
     {
