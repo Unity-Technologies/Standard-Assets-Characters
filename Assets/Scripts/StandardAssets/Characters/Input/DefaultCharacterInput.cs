@@ -18,7 +18,7 @@ namespace StandardAssets.Characters.Input
 			get { return m_MoveInput; }
 		}
 		
-		public bool isMoveInput 
+		public bool hasMovementInput 
 		{ 
 			get { return moveInput.sqrMagnitude > 0; }
 		}

@@ -106,7 +106,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		void SetForward()
 		{
-			if (!m_CharacterInput.isMoveInput)
+			if (!m_CharacterInput.hasMovementInput)
 			{
 				return;
 			}
@@ -147,8 +147,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (useAcceleration)
 			{
 				float acceleration = m_CharacterPhysics.isGrounded
-					? (m_CharacterInput.isMoveInput ? groundAcceleration : groundDeceleration)
-					: (m_CharacterInput.isMoveInput ? groundAcceleration : groundDeceleration) * airborneDecelProportion;
+					? (m_CharacterInput.hasMovementInput ? groundAcceleration : groundDeceleration)
+					: (m_CharacterInput.hasMovementInput ? groundAcceleration : groundDeceleration) * airborneDecelProportion;
 
 				forwardSpeed = Mathf.MoveTowards(forwardSpeed, desiredSpeed, acceleration * Time.deltaTime);
 			}

@@ -9,7 +9,7 @@ namespace StandardAssets.Characters.Input
 	public interface ICharacterInput
 	{
 		Vector2 moveInput { get; }
-		bool isMoveInput { get; }
+		bool hasMovementInput { get; }
 		Action jump { get; set; }
 	}
 }

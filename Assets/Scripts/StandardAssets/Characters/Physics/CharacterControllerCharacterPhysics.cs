@@ -45,6 +45,8 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		bool m_Grounded;
 		
+		public Action lands { get; set; }
+		
 		/// <inheritdoc />
 		public bool isGrounded
 		{
@@ -67,7 +69,6 @@ namespace StandardAssets.Characters.Physics
 			m_InitialJumpVelocity = initialVelocity;
 		}
 
-		public Action lands { get; set; }
 
 		void Awake()
 		{
@@ -86,13 +87,13 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		void FixedUpdate()
 		{
-			Fall();
+			AerailMovement();
 		}
 		
 		/// <summary>
 		/// Handles falling
 		/// </summary>
-		void Fall()
+		void AerailMovement()
 		{
 			m_Grounded = CheckGrounded();
 			

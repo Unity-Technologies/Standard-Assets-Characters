@@ -99,7 +99,7 @@ namespace StandardAssets.Characters.FirstPerson
 				return;
 			}
 
-			if (m_CharacterInput.isMoveInput)
+			if (m_CharacterInput.hasMovementInput)
 			{
 				if (!prevIsMoveInput)
 				{
@@ -128,7 +128,7 @@ namespace StandardAssets.Characters.FirstPerson
 			
 			m_CharacterPhysics.Move((forward + sideways) * currentSpeed * Time.deltaTime);
 
-			prevIsMoveInput = m_CharacterInput.isMoveInput;
+			prevIsMoveInput = m_CharacterInput.hasMovementInput;
 		}	
 
 		/// <summary>
