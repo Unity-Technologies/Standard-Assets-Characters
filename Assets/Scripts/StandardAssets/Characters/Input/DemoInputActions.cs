@@ -18,6 +18,8 @@ namespace StandardAssets.Characters.Input
             m_gameplay_fire = m_gameplay.GetAction("fire");
             m_gameplay_movement = m_gameplay.GetAction("movement");
             m_gameplay_look = m_gameplay.GetAction("look");
+            //m_gameplay_mouseLook = m_gameplay.GetAction("mouseLook");
+            m_gameplay_jump = m_gameplay.GetAction("jump");
             m_Initialized = true;
         }
 
@@ -26,8 +28,10 @@ namespace StandardAssets.Characters.Input
         private UnityEngine.Experimental.Input.InputAction m_gameplay_crouch;
         private UnityEngine.Experimental.Input.InputAction m_gameplay_prone;
         private UnityEngine.Experimental.Input.InputAction m_gameplay_fire;
-        private UnityEngine.Experimental.Input.InputAction m_gameplay_movement;
+       private UnityEngine.Experimental.Input.InputAction m_gameplay_movement;
         private UnityEngine.Experimental.Input.InputAction m_gameplay_look;
+        //private UnityEngine.Experimental.Input.InputAction m_gameplay_mouseLook;
+        private UnityEngine.Experimental.Input.InputAction m_gameplay_jump;
 
         public struct GameplayActions
         {
@@ -42,6 +46,11 @@ namespace StandardAssets.Characters.Input
             {
                 get { return m_Wrapper.m_gameplay_crouch; }
             }
+            
+            public UnityEngine.Experimental.Input.InputAction @jump
+            {
+                get { return m_Wrapper.m_gameplay_jump; }
+            }
 
             public UnityEngine.Experimental.Input.InputAction @prone
             {
@@ -55,13 +64,18 @@ namespace StandardAssets.Characters.Input
 
             public UnityEngine.Experimental.Input.InputAction @movement
             {
-                get { return m_Wrapper.m_gameplay_movement; }
+               get { return m_Wrapper.m_gameplay_movement; }
             }
 
             public UnityEngine.Experimental.Input.InputAction @look
             {
                 get { return m_Wrapper.m_gameplay_look; }
             }
+            
+           // public UnityEngine.Experimental.Input.InputAction @mouseLook
+          //  {
+           //     get { return m_Wrapper.m_gameplay_mouseLook; }
+          //  }    
 
             public UnityEngine.Experimental.Input.InputActionMap Get()
             {
