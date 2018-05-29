@@ -8,7 +8,7 @@ namespace StandardAssets.Characters.Physics
 	/// Test example of a different Physics implementation
 	/// </summary>
 	[RequireComponent(typeof(Rigidbody))]
-	public class RigidbodyPhysics : MonoBehaviour, IPhysics
+	public class RigidbodyCharacterPhysics : MonoBehaviour, ICharacterPhysics
 	{
 		/// <summary>
 		/// The required Rigidbody

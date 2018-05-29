@@ -6,7 +6,7 @@ namespace StandardAssets.Characters.Physics
 	/// <summary>
 	/// A wrapper for the physics controllers so that character controllers are agnostic of the physic implementation
 	/// </summary>
-	public interface IPhysics
+	public interface ICharacterPhysics
 	{
 		/// <summary>
 		/// Handles movement

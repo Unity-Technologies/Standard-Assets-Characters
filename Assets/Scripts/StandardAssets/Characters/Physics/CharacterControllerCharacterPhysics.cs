@@ -8,7 +8,7 @@ namespace StandardAssets.Characters.Physics
 	/// A physic implementation that uses the default Unity character controller
 	/// </summary>
 	[RequireComponent(typeof(CharacterController))]
-	public class CharacterControllerPhysics : MonoBehaviour, IPhysics
+	public class CharacterControllerCharacterPhysics : MonoBehaviour, ICharacterPhysics
 	{
 		/// <summary>
 		/// The value of gravity
