@@ -12,8 +12,6 @@ namespace StandardAssets.Characters.ThirdPerson
 	[RequireComponent(typeof(ICharacterInput))]
 	public class PhysicsThirdPersonMotor : MonoBehaviour, IThirdPersonMotor
 	{
-		
-		#region Inspector
 		/// <summary>
 		/// Movement values
 		/// </summary>
@@ -32,9 +30,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		[Range (0f, 1f)] 
 		public float        airborneTurnSpeedProportion = 0.5f;
 		
-		#endregion
-
-		#region Properties
 		/// <inheritdoc />
 		public float turningSpeed { get; private set; }
 		
@@ -46,10 +41,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public Action jumpStart { get; set; }
 		public Action lands { get; set; }
-		#endregion
 
-
-		#region Required Components
 		/// <summary>
 		/// The input implementation
 		/// </summary>
@@ -59,8 +51,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// The physic implementation
 		/// </summary>
 		ICharacterPhysics m_CharacterPhysics;
-		
-		#endregion
 
 		/// <summary>
 		/// Gets required components
