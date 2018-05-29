@@ -28,7 +28,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// The Input implementation to be used
 		/// e.g. Default unity input or (in future) the new new input system
 		/// </summary>
-		protected IInput m_Input;
+		protected NewInput m_Input;
 
 		/// <summary>
 		/// The current movement properties
@@ -52,7 +52,8 @@ namespace StandardAssets.Characters.FirstPerson
 		protected virtual void Awake()
 		{
 			m_Physics = GetComponent<IPhysics>();
-			m_Input = GetComponent<IInput>();
+			//m_Input = GetComponent<IInput>();
+			m_Input = GetComponent<NewInput>();
 			m_Input.jump += Jump;
 			ChangeState(startingMotorState);
 		}
