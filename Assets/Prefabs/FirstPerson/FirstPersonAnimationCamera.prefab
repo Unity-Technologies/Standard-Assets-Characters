@@ -156,7 +156,6 @@ GameObject:
   - component: {fileID: 114447820645956238}
   - component: {fileID: 114501385933726858}
   - component: {fileID: 114961145437418454}
-  - component: {fileID: 114551965307102652}
   - component: {fileID: 114736923435200732}
   - component: {fileID: 114750215591757036}
   - component: {fileID: 114570266145897858}
@@ -617,7 +616,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   input: {fileID: 11400000, guid: 8c1192daa77a944b393df7e0146d7a7f, type: 2}
-  state:
+  movementProperties:
     maxSpeed: 10
     acceleration:
       curve:
@@ -760,8 +759,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eec248ab0c3e4eeaafde0796225ff6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingMotorState:
-    maxSpeed: 6
+  startingMovementProperties:
+    maxSpeed: 5
     acceleration:
       curve:
         serializedVersion: 2
@@ -769,9 +768,9 @@ MonoBehaviour:
         - serializedVersion: 3
           time: 0
           value: 0
-          inSlope: 1
+          inSlope: 0
           outSlope: 1
-          tangentMode: 34
+          tangentMode: 0
           weightedMode: 0
           inWeight: 0
           outWeight: 0
@@ -779,15 +778,15 @@ MonoBehaviour:
           time: 1
           value: 1
           inSlope: 1
-          outSlope: 1
-          tangentMode: 34
+          outSlope: 0
+          tangentMode: 0
           weightedMode: 0
           inWeight: 0
           outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      maxValue: 0.1
+      maxValue: 1
     deceleration:
       curve:
         serializedVersion: 2
@@ -814,21 +813,10 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
       maxValue: 1
-    jumpSpeed: 0.12
+    jumpSpeed: 0.1
     enterState:
       m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 114074065261041036}
-          m_MethodName: SetAnimation
-          m_Mode: 5
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: Walk
-            m_BoolArgument: 0
-          m_CallState: 2
+        m_Calls: []
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
     exitState:
@@ -836,18 +824,7 @@ MonoBehaviour:
         m_Calls: []
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
---- !u!114 &114551965307102652
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1627797537853366}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b76581f054c4f97973bdc401127bd4e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  modifiers:
+  movementModifiers:
   - {fileID: 114761226687655832}
   - {fileID: 114455874080827772}
   - {fileID: 114972977164945490}
@@ -1010,7 +987,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   input: {fileID: 11400000, guid: 7d60fd307346c4da688e568bfd0b9d43, type: 2}
-  state:
+  movementProperties:
     maxSpeed: 3
     acceleration:
       curve:
@@ -1154,7 +1131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   input: {fileID: 11400000, guid: e2cc03e054ab3412e84c918085c0abe2, type: 2}
-  state:
+  movementProperties:
     maxSpeed: 1
     acceleration:
       curve:

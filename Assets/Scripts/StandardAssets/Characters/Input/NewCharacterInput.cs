@@ -1,23 +1,11 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Remoting.Contexts;
-using System.Security.Cryptography;
 using Cinemachine;
-using ProBuilder2.Common;
-using StandardAssets.Characters.Effects;
-using StandardAssets.Characters.Input;
 using UnityEngine;
 using UnityEngine.Experimental.Input;
-using UnityEngine.Experimental.Input.Interactions;
-using UnityEngine.Experimental.Input.Controls;
-using Random = UnityEngine.Random;
-
 
 namespace StandardAssets.Characters.Input
 {
-	public class NewInput : MonoBehaviour, IInput
+	public class NewCharacterInput : MonoBehaviour, ICharacterInput
 	{
 		Vector2 m_MoveInput;
 

@@ -9,7 +9,7 @@ namespace StandardAssets.Characters.Input
 	/// <summary>
 	/// Unity original input implementation
 	/// </summary>
-	public class DefaultInput : MonoBehaviour, IInput
+	public class DefaultCharacterInput : MonoBehaviour, ICharacterInput
 	{
 		Vector2 m_MoveInput;
 

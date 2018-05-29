@@ -9,7 +9,7 @@ namespace StandardAssets.Characters.ThirdPerson
 	/// The main third person controller
 	/// </summary>
 	[RequireComponent(typeof(IPhysics))]
-	[RequireComponent(typeof(IInput))]
+	[RequireComponent(typeof(ICharacterInput))]
 	public class PhysicsThirdPersonMotor : MonoBehaviour, IThirdPersonMotor
 	{
 		
@@ -53,7 +53,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// The input implementation
 		/// </summary>
-		IInput m_Input;
+		ICharacterInput m_CharacterInput;
 		
 		/// <summary>
 		/// The physic implementation
@@ -67,8 +67,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		void Awake()
 		{
-			m_Input = GetComponent<IInput>();
-			m_Input.jump += OnJump;
+			m_CharacterInput = GetComponent<ICharacterInput>();
+			m_CharacterInput.jump += OnJump;
 			m_Physics = GetComponent<IPhysics>();
 			m_Physics.lands += OnLand;
 		}
@@ -116,7 +116,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		void SetForward()
 		{
-			if (!m_Input.isMoveInput)
+			if (!m_CharacterInput.isMoveInput)
 			{
 				return;
 			}
@@ -125,7 +125,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			flatForward.y = 0f;
 			flatForward.Normalize();
 
-			Vector3 localMovementDirection = new Vector3(m_Input.moveInput.x, 0f, m_Input.moveInput.y);
+			Vector3 localMovementDirection = new Vector3(m_CharacterInput.moveInput.x, 0f, m_CharacterInput.moveInput.y);
             
 			Quaternion cameraToInputOffset = Quaternion.FromToRotation(Vector3.forward, localMovementDirection);
 			cameraToInputOffset.eulerAngles = new Vector3(0f, cameraToInputOffset.eulerAngles.y, 0f);
@@ -146,7 +146,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		void CalculateForwardMovement()
 		{
-			Vector2 moveInput = m_Input.moveInput;
+			Vector2 moveInput = m_CharacterInput.moveInput;
 			if (moveInput.sqrMagnitude > 1f)
 			{
 				moveInput.Normalize();
@@ -157,8 +157,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (useAcceleration)
 			{
 				float acceleration = m_Physics.isGrounded
-					? (m_Input.isMoveInput ? groundAcceleration : groundDeceleration)
-					: (m_Input.isMoveInput ? groundAcceleration : groundDeceleration) * airborneDecelProportion;
+					? (m_CharacterInput.isMoveInput ? groundAcceleration : groundDeceleration)
+					: (m_CharacterInput.isMoveInput ? groundAcceleration : groundDeceleration) * airborneDecelProportion;
 
 				forwardSpeed = Mathf.MoveTowards(forwardSpeed, desiredSpeed, acceleration * Time.deltaTime);
 			}
