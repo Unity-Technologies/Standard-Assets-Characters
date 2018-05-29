@@ -22,12 +22,6 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		[Tooltip("Value is the time is takes accelerate to max speed")]
 		public CurveEvaluator acceleration;
-
-		/// <summary>
-		/// The curve evaluator for deceleration
-		/// </summary>
-		[Tooltip("Value is the time is takes decelerate to stationary")]
-		public CurveEvaluator deceleration;
 		
 		/// <summary>
 		/// Jump speed 

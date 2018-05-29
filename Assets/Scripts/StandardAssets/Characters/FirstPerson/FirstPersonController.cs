@@ -2,8 +2,6 @@
 using StandardAssets.Characters.Input;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
-using UnityEngine.Scripting.APIUpdating;
-using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.FirstPerson
 {
@@ -12,7 +10,7 @@ namespace StandardAssets.Characters.FirstPerson
 	/// Ties together the input and physics implementations
 	/// </summary>
 	[RequireComponent(typeof(IPhysics))]
-	[RequireComponent(typeof(IInput))]
+	[RequireComponent(typeof(ICharacterInput))]
 	public class FirstPersonController : MonoBehaviour
 	{
 		/// <summary>
@@ -35,7 +33,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// The Input implementation to be used
 		/// e.g. Default unity input or (in future) the new new input system
 		/// </summary>
-		protected IInput m_Input;
+		protected ICharacterInput m_CharacterInput;
 
 		/// <summary>
 		/// The current movement properties
@@ -63,8 +61,8 @@ namespace StandardAssets.Characters.FirstPerson
 		protected virtual void Awake()
 		{
 			m_Physics = GetComponent<IPhysics>();
-			m_Input = GetComponent<IInput>();
-			m_Input.jump += Jump;
+			m_CharacterInput = GetComponent<ICharacterInput>();
+			m_CharacterInput.jump += Jump;
 			foreach (FirstPersonMovementModification modifier in movementModifiers)
 			{
 				modifier.Init(this);
@@ -101,7 +99,7 @@ namespace StandardAssets.Characters.FirstPerson
 				return;
 			}
 
-			if (m_Input.isMoveInput)
+			if (m_CharacterInput.isMoveInput)
 			{
 				if (!prevIsMoveInput)
 				{
@@ -116,21 +114,21 @@ namespace StandardAssets.Characters.FirstPerson
 					movementTime = 0f;
 				}
 
-				Decelerate();
+				Stop();
 			}
 
-			Vector2 input = m_Input.moveInput;
+			Vector2 input = m_CharacterInput.moveInput;
 			if (input.sqrMagnitude > 1)
 			{
 				input.Normalize();
 			}
 
-			Vector3 forward = transform.forward * m_Input.moveInput.y;
-			Vector3 sideways = transform.right * m_Input.moveInput.x;
+			Vector3 forward = transform.forward * m_CharacterInput.moveInput.y;
+			Vector3 sideways = transform.right * m_CharacterInput.moveInput.x;
 			
 			m_Physics.Move((forward + sideways) * currentSpeed * Time.deltaTime);
 
-			prevIsMoveInput = m_Input.isMoveInput;
+			prevIsMoveInput = m_CharacterInput.isMoveInput;
 		}	
 
 		/// <summary>
@@ -144,11 +142,10 @@ namespace StandardAssets.Characters.FirstPerson
 		}
 		
 		/// <summary>
-		/// Calculates the current speed based on the deceleration anim curve
+		/// Stops the movement
 		/// </summary>
-		void Decelerate()
+		void Stop()
 		{
-			//TODO: implement
 			currentSpeed = 0f;
 		}
 
