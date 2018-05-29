@@ -1,5 +1,7 @@
 ﻿using System;
+using Cinemachine;
 using UnityEngine;
+using Random = UnityEngine.Random;
 using UnityInput = UnityEngine.Input;
 
 namespace StandardAssets.Characters.Input
@@ -21,13 +23,6 @@ namespace StandardAssets.Characters.Input
 			get { return moveInput.sqrMagnitude > 0; }
 		}
 		
-		Vector2 m_LookInput;
-
-		public Vector2 lookInput
-		{
-			get { return m_LookInput; }
-		}
-
 		Action m_Jump;
 
 		public Action jump
@@ -41,7 +36,6 @@ namespace StandardAssets.Characters.Input
 		{
 			//Cache the inputs
 			m_MoveInput.Set(UnityInput.GetAxis("Horizontal"), UnityInput.GetAxis("Vertical"));
-			m_LookInput.Set(UnityInput.GetAxis("Mouse X"), UnityInput.GetAxis("Mouse Y"));
 			if (UnityInput.GetKeyDown(KeyCode.Space))
 			{
 				

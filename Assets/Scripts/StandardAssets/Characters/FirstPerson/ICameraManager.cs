@@ -1,8 +1,7 @@
 ﻿using System;
 using Cinemachine;
-using UnityEngine;
 
-namespace StandardAssets.Characters.Cameras
+namespace StandardAssets.Characters.FirstPerson
 {
 	/// <summary>
 	/// Camera management agnostic of camera implementation

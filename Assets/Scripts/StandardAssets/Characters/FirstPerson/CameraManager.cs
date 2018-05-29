@@ -2,7 +2,7 @@
 using Cinemachine;
 using UnityEngine;
 
-namespace StandardAssets.Characters.Cameras
+namespace StandardAssets.Characters.FirstPerson
 {
 	/// <summary>
 	/// Basic implementation of the camera manager
@@ -31,7 +31,5 @@ namespace StandardAssets.Characters.Cameras
 				cameraChanged();
 			}
 		}
-
-		
 	}
 }

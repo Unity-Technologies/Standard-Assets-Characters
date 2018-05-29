@@ -14,12 +14,15 @@ namespace StandardAssets.Characters.Input
         
         public override void Init()
         {
+            
             actionReference.action.performed += ctx => TogglePress();
 
         }
 
         private void TogglePress()
         {
+           
+            
             if (toggle)
             {
                 OnInputEnded();

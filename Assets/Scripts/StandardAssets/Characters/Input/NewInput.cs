@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.Remoting.Contexts;
 using System.Security.Cryptography;
+using Cinemachine;
 using ProBuilder2.Common;
 using StandardAssets.Characters.Effects;
 using StandardAssets.Characters.Input;
 using UnityEngine;
 using UnityEngine.Experimental.Input;
+using UnityEngine.Experimental.Input.Interactions;
 using UnityEngine.Experimental.Input.Controls;
-using UnityEngine.Experimental.Input;
-using UnityEngine.Experimental.Input.Composites;
 using Random = UnityEngine.Random;
+
 
 namespace StandardAssets.Characters.Input
 {
@@ -23,12 +25,15 @@ namespace StandardAssets.Characters.Input
 
 		public Camera mainCamera;
 
-		public GameObject projectile;
-
-
 		public DemoInputActions controls;
 
 
+		private Vector2 m_look;
+
+		public float rotateSpeed = 10f;
+		
+		private InputActionManager m_ActionManager;
+		
 		public void OnEnable()
 		{
 			controls.Enable();
@@ -38,46 +43,81 @@ namespace StandardAssets.Characters.Input
 		{
 			controls.Disable();
 		}
-
-		void Move(KeyControl control)
+		
+		void Awake()
 		{
-			string keyName = control.keyCode.ToString();
-			int number = Convert.ToInt32(keyName.Substring(keyName.Length - 1));
-			Vector2 moveAxis = new Vector2(0, 0);
-			switch (number)
+			//Cinemachine POV axis control override 
+			CinemachineCore.GetInputAxis = LookInputOverride;
+			controls.gameplay.look.performed += ctx => m_look = ctx.ReadValue<Vector2>();
+			
+			//'NEW NEW' Input action manager, this allows a dpad to be set to 
+			// WASD
+			m_ActionManager = new InputActionManager();
+
+			////TODO: this currently falls over due to missing support for composites in InputActionManager
+			////TEMP: we don't yet have support for setting up composite bindings in the UI; hack
+			////      in WASD keybindings as a temp workaround
+			controls.gameplay.movement.AppendCompositeBinding("Dpad")
+				.With("Left", "<Keyboard>/a")
+				.With("Right", "<Keyboard>/d")
+				.With("Up", "<Keyboard>/w")
+				.With("Down", "<Keyboard>/s");
+
+			m_ActionManager.AddActionMap(controls.gameplay);
+			
+			//Actions Performed triggers 
+			//Gets the 'vector' values for movement and look
+			
+			controls.gameplay.movement.performed += ctx => moveVector2 = ctx.ReadValue<Vector2>();
+
+
+		}
+
+		void Update ()
+		{
+			UpdateLook();
+			Move();
+		}
+
+		/// <summary>
+		/// Applies the mouse look scale, higher means more "sensitive"
+		/// </summary>
+		void UpdateLook()
+		{
+			var sccaledLookSpeed = rotateSpeed * Time.deltaTime;
+			m_look *= sccaledLookSpeed;
+		}
+		
+		/// <summary>
+		/// Sets the Cinemachine cam POV to mouse inputs.
+		/// </summary>
+		float LookInputOverride(string axis)
+		{
+			if (axis == "Mouse X")
 			{
-				case 8:
-					moveAxis.x = 1;
-					break;
-				case 2:
-					moveAxis.x = -1;
-					break;
-				case 4:
-					moveAxis.y = -1;
-					break;
-				case 6:
-					moveAxis.y = 1;
-					break;
+				return m_look.x;
 			}
 
-			m_MoveInput.Set(moveAxis.x, moveAxis.y);
-			Debug.Log(moveAxis.ToString());
+			if (axis == "Mouse Y")
+			{
+				return m_look.y;
+			}
+
+			return 0;
+		}
+
+		void Move()
+		
+		{
+			m_MoveInput.Set(moveVector2.x, moveVector2.y);
+			//Move Vector with 	
+			Debug.Log("WASD MOVES: "+m_MoveInput.ToString());
 		}
 
 
 		void Fire(InputAction.CallbackContext context)
 		{
-			Debug.Log("NEW INPUT FIRE!");
-			var transform = this.transform;
-			var newProjectile = Instantiate(projectile);
-			newProjectile.transform.position = transform.position + transform.forward * 0.6f;
-			newProjectile.transform.rotation = transform.rotation;
-			var size = 1;
-			newProjectile.transform.localScale *= size;
-			newProjectile.GetComponent<Rigidbody>().mass = Mathf.Pow(size, 3);
-			newProjectile.GetComponent<Rigidbody>().AddForce(transform.forward * 20f, ForceMode.Impulse);
-			newProjectile.GetComponent<MeshRenderer>().material.color =
-				new Color(Random.value, Random.value, Random.value, 1.0f);
+			//Fire Action 
 		}
 
 		public Vector2 moveInput
