@@ -9,7 +9,7 @@ namespace StandardAssets.Characters.FirstPerson
 	/// The main controller of first person character
 	/// Ties together the input and physics implementations
 	/// </summary>
-	[RequireComponent(typeof(IPhysics))]
+	[RequireComponent(typeof(ICharacterPhysics))]
 	[RequireComponent(typeof(ICharacterInput))]
 	public class FirstPersonController : MonoBehaviour
 	{
@@ -27,7 +27,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// The Physic implementation used to do the movement
 		/// e.g. CharacterController or Rigidbody (or New C# CharacterController analog)
 		/// </summary>
-		protected IPhysics m_Physics;
+		protected ICharacterPhysics m_CharacterPhysics;
 
 		/// <summary>
 		/// The Input implementation to be used
@@ -60,7 +60,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		protected virtual void Awake()
 		{
-			m_Physics = GetComponent<IPhysics>();
+			m_CharacterPhysics = GetComponent<ICharacterPhysics>();
 			m_CharacterInput = GetComponent<ICharacterInput>();
 			m_CharacterInput.jump += Jump;
 			foreach (FirstPersonMovementModification modifier in movementModifiers)
@@ -75,9 +75,9 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		void Jump()
 		{
-			if (m_Physics.isGrounded && currentMovementProperties.canJump)
+			if (m_CharacterPhysics.isGrounded && currentMovementProperties.canJump)
 			{
-				m_Physics.Jump(currentMovementProperties.jumpSpeed);
+				m_CharacterPhysics.Jump(currentMovementProperties.jumpSpeed);
 			}	
 		}
 
@@ -126,7 +126,7 @@ namespace StandardAssets.Characters.FirstPerson
 			Vector3 forward = transform.forward * m_CharacterInput.moveInput.y;
 			Vector3 sideways = transform.right * m_CharacterInput.moveInput.x;
 			
-			m_Physics.Move((forward + sideways) * currentSpeed * Time.deltaTime);
+			m_CharacterPhysics.Move((forward + sideways) * currentSpeed * Time.deltaTime);
 
 			prevIsMoveInput = m_CharacterInput.isMoveInput;
 		}	

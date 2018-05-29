@@ -8,7 +8,7 @@ namespace StandardAssets.Characters.ThirdPerson
 	/// <summary>
 	/// The main third person controller
 	/// </summary>
-	[RequireComponent(typeof(IPhysics))]
+	[RequireComponent(typeof(ICharacterPhysics))]
 	[RequireComponent(typeof(ICharacterInput))]
 	public class PhysicsThirdPersonMotor : MonoBehaviour, IThirdPersonMotor
 	{
@@ -58,7 +58,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// The physic implementation
 		/// </summary>
-		IPhysics m_Physics;
+		ICharacterPhysics m_CharacterPhysics;
 		
 		#endregion
 
@@ -69,8 +69,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			m_CharacterInput = GetComponent<ICharacterInput>();
 			m_CharacterInput.jump += OnJump;
-			m_Physics = GetComponent<IPhysics>();
-			m_Physics.lands += OnLand;
+			m_CharacterPhysics = GetComponent<ICharacterPhysics>();
+			m_CharacterPhysics.lands += OnLand;
 		}
 
 		/// <summary>
@@ -89,9 +89,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		void OnJump()
 		{
-			if (m_Physics.isGrounded)
+			if (m_CharacterPhysics.isGrounded)
 			{
-				m_Physics.Jump(jumpSpeed);
+				m_CharacterPhysics.Jump(jumpSpeed);
 				if (jumpStart != null)
 				{
 					jumpStart();
@@ -134,7 +134,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			if (interpolateTurning)
 			{
-				float actualTurnSpeed = m_Physics.isGrounded ? turnSpeed : turnSpeed * airborneTurnSpeedProportion;
+				float actualTurnSpeed = m_CharacterPhysics.isGrounded ? turnSpeed : turnSpeed * airborneTurnSpeedProportion;
 				targetRotation = Quaternion.RotateTowards(transform.rotation, targetRotation, actualTurnSpeed * Time.deltaTime);
 			}
 
@@ -156,7 +156,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			if (useAcceleration)
 			{
-				float acceleration = m_Physics.isGrounded
+				float acceleration = m_CharacterPhysics.isGrounded
 					? (m_CharacterInput.isMoveInput ? groundAcceleration : groundDeceleration)
 					: (m_CharacterInput.isMoveInput ? groundAcceleration : groundDeceleration) * airborneDecelProportion;
 
@@ -195,7 +195,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			//movement += m_VerticalSpeed * Vector3.up * Time.deltaTime;
 
-			m_Physics.Move(movement);
+			m_CharacterPhysics.Move(movement);
 		}
 
 		
