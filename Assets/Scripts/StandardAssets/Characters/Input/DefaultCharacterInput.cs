@@ -11,6 +11,9 @@ namespace StandardAssets.Characters.Input
 	/// </summary>
 	public class DefaultCharacterInput : MonoBehaviour, ICharacterInput
 	{
+		public string horizontalAxisName = "Horizontal";
+		public string verticalAxisName = "Vertical";
+		
 		Vector2 m_MoveInput;
 
 		public Vector2 moveInput
@@ -35,7 +38,7 @@ namespace StandardAssets.Characters.Input
 		void Update()
 		{
 			//Cache the inputs
-			m_MoveInput.Set(UnityInput.GetAxis("Horizontal"), UnityInput.GetAxis("Vertical"));
+			m_MoveInput.Set(UnityInput.GetAxis(horizontalAxisName), UnityInput.GetAxis(verticalAxisName));
 			if (UnityInput.GetKeyDown(KeyCode.Space))
 			{
 				

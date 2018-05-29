@@ -9,6 +9,11 @@ namespace StandardAssets.Characters.ThirdPerson
 	[RequireComponent(typeof(Animator))]
 	public class ThirdPersonAnimationController : MonoBehaviour
 	{
+		public string forwardSpeedParameterName = "ForwardSpeed";
+		public string lateralSpeedParameterName = "LateralSpeed";
+		public string turningSpeedParameterName = "TurningSpeed";
+		public string groundedParameterName = "Grounded";
+		
 		/// <summary>
 		/// Required motor
 		/// </summary>
@@ -22,16 +27,20 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Hashes of the animator parameters
 		/// </summary>
-		readonly int m_HashForwardSpeed = Animator.StringToHash("ForwardSpeed");
-		readonly int m_HashLateralSpeed = Animator.StringToHash("LateralSpeed");
-		readonly int m_HashTurningSpeed = Animator.StringToHash("TurningSpeed");
-		readonly int m_Grounded = Animator.StringToHash("Grounded");
+		int m_HashForwardSpeed;
+		int m_HashLateralSpeed;
+		int m_HashTurningSpeed;
+		int m_Grounded;
 
 		/// <summary>
 		/// Gets the required components
 		/// </summary>
 		void Awake()
 		{
+			m_HashForwardSpeed = Animator.StringToHash(forwardSpeedParameterName);
+			m_HashLateralSpeed = Animator.StringToHash(lateralSpeedParameterName);
+			m_HashTurningSpeed = Animator.StringToHash(turningSpeedParameterName);
+			m_Grounded = Animator.StringToHash(groundedParameterName);
 			m_Motor = GetComponent<IThirdPersonMotor>();
 			m_Motor.jumpStart += OnJumpStart;
 			m_Motor.lands += OnLand;
