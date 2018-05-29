@@ -13,55 +13,55 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: ForwardSpeed
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: LateralSpeed
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: JumpHeight
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: TurningSpeed
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: FallDistance
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Grounded
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_DefaultBool: 1
+    m_Controller: {fileID: 0}
   - m_Name: isCrouching
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: OnRightFoot
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -147,7 +147,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 0}
     m_Threshold: 0.2
-    m_Position: {x: 0.5, y: 0.26}
+    m_Position: {x: 0.5, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Blend
@@ -491,19 +491,19 @@ BlendTree:
     m_Threshold: 0
     m_Position: {x: 1, y: 0}
     m_TimeScale: 1
-    m_CycleOffset: 0
+    m_CycleOffset: 0.5
     m_DirectBlendParameter: Blend
-    m_Mirror: 0
+    m_Mirror: 1
   - serializedVersion: 2
     m_Motion: {fileID: 7400002, guid: bfc6ec110011ea34e9f81dc555ac390d, type: 3}
     m_Threshold: 0.25
     m_Position: {x: 0.5, y: 0}
     m_TimeScale: 1
-    m_CycleOffset: 0
+    m_CycleOffset: 0.5
     m_DirectBlendParameter: Blend
-    m_Mirror: 0
+    m_Mirror: 1
   - serializedVersion: 2
-    m_Motion: {fileID: 0}
+    m_Motion: {fileID: 7400000, guid: 984ce2a2251e54144bf3bb3c7237185b, type: 3}
     m_Threshold: 0.5
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -515,17 +515,17 @@ BlendTree:
     m_Threshold: 0.75
     m_Position: {x: -0.5, y: 0}
     m_TimeScale: 1
-    m_CycleOffset: 0
+    m_CycleOffset: 0.5
     m_DirectBlendParameter: Blend
-    m_Mirror: 0
+    m_Mirror: 1
   - serializedVersion: 2
     m_Motion: {fileID: 7400002, guid: fab08bf0f273ee94ca645945c698e1df, type: 3}
     m_Threshold: 1
     m_Position: {x: -1, y: 0}
     m_TimeScale: 1
-    m_CycleOffset: 0
+    m_CycleOffset: 0.5
     m_DirectBlendParameter: Blend
-    m_Mirror: 0
+    m_Mirror: 1
   m_BlendParameter: ForwardSpeed
   m_BlendParameterY: LateralSpeed
   m_MinThreshold: 0
@@ -599,17 +599,17 @@ BlendTree:
     m_Threshold: 0
     m_Position: {x: 1, y: 0}
     m_TimeScale: 1
-    m_CycleOffset: 0
+    m_CycleOffset: 0.5
     m_DirectBlendParameter: Blend
-    m_Mirror: 0
+    m_Mirror: 1
   - serializedVersion: 2
     m_Motion: {fileID: 7400002, guid: 4a5f6e499fe1d56469f326b6795efbf7, type: 3}
     m_Threshold: 0.25
     m_Position: {x: 0.5, y: 0}
     m_TimeScale: 1
-    m_CycleOffset: 0
+    m_CycleOffset: 0.5
     m_DirectBlendParameter: Blend
-    m_Mirror: 0
+    m_Mirror: 1
   - serializedVersion: 2
     m_Motion: {fileID: 0}
     m_Threshold: 0.5
@@ -623,17 +623,17 @@ BlendTree:
     m_Threshold: 0.75
     m_Position: {x: -0.5, y: 0}
     m_TimeScale: 1
-    m_CycleOffset: 0
+    m_CycleOffset: 0.5
     m_DirectBlendParameter: Blend
-    m_Mirror: 0
+    m_Mirror: 1
   - serializedVersion: 2
     m_Motion: {fileID: 7400002, guid: fab08bf0f273ee94ca645945c698e1df, type: 3}
     m_Threshold: 1
     m_Position: {x: -1, y: 0}
     m_TimeScale: 1
-    m_CycleOffset: 0
+    m_CycleOffset: 0.5
     m_DirectBlendParameter: Blend
-    m_Mirror: 0
+    m_Mirror: 1
   m_BlendParameter: ForwardSpeed
   m_BlendParameterY: LateralSpeed
   m_MinThreshold: 0
@@ -939,7 +939,10 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: 
-  m_Conditions: []
+  m_Conditions:
+  - m_ConditionMode: 2
+    m_ConditionEvent: Grounded
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
