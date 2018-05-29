@@ -5644,16 +5644,31 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 114736923435200732, guid: 1818690cc80044ecbadf3a53cc5f29e1,
-        type: 2}
-      propertyPath: mainCamera
-      value: 
-      objectReference: {fileID: 1840918336}
     - target: {fileID: 114570266145897858, guid: 1818690cc80044ecbadf3a53cc5f29e1,
         type: 2}
       propertyPath: startingMovementEventLibrary
       value: 
       objectReference: {fileID: 44208555}
+    - target: {fileID: 114736923435200732, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 1840918336}
+    - target: {fileID: 114972977164945490, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: movementProperties.jumpSpeed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114455874080827772, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: movementProperties.jumpSpeed
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 114761226687655832, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: movementProperties.jumpSpeed
+      value: 0.08
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1818690cc80044ecbadf3a53cc5f29e1, type: 2}
   m_IsPrefabAsset: 0

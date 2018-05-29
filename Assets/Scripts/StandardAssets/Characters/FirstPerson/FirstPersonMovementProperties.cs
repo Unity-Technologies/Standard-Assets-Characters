@@ -10,7 +10,7 @@ namespace StandardAssets.Characters.FirstPerson
 	/// e.g. the difference between standing and crouching
 	/// </summary>
 	[Serializable]
-	public class FirstPersonMotorState
+	public class FirstPersonMovementProperties
 	{
 		/// <summary>
 		/// The maximum movement speed

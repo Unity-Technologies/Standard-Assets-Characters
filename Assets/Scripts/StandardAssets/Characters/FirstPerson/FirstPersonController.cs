@@ -1,7 +1,9 @@
-﻿using StandardAssets.Characters.Input;
+﻿using System.Collections.Generic;
+using StandardAssets.Characters.Input;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
+using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.FirstPerson
 {
@@ -11,12 +13,17 @@ namespace StandardAssets.Characters.FirstPerson
 	/// </summary>
 	[RequireComponent(typeof(IPhysics))]
 	[RequireComponent(typeof(IInput))]
-	public class FirstPersonMotor : MonoBehaviour
+	public class FirstPersonController : MonoBehaviour
 	{
 		/// <summary>
 		/// The state that first person motor starts in
 		/// </summary>
-		public FirstPersonMotorState startingMotorState;
+		public FirstPersonMovementProperties startingMovementProperties;
+		
+		/// <summary>
+		/// List of possible state modifiers
+		/// </summary>
+		public FirstPersonMovementModification[] movementModifiers;
 
 		/// <summary>
 		/// The Physic implementation used to do the movement
@@ -43,18 +50,26 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// The current motor state - controls how the character moves in different states
 		/// </summary>
-		public FirstPersonMotorState currentMotorState { get; protected set; }
+		public FirstPersonMovementProperties currentMovementProperties { get; protected set; }
+		
+		/// <summary>
+		/// A stack of states which allows us to revert through previous states
+		/// </summary>
+		Stack<FirstPersonMovementProperties> m_PrevStates = new Stack<FirstPersonMovementProperties>();
 		
 		/// <summary>
 		/// Get the attached implementations on wake
 		/// </summary>
-		
 		protected virtual void Awake()
 		{
 			m_Physics = GetComponent<IPhysics>();
 			m_Input = GetComponent<IInput>();
 			m_Input.jump += Jump;
-			ChangeState(startingMotorState);
+			foreach (FirstPersonMovementModification modifier in movementModifiers)
+			{
+				modifier.Init(this);
+			}
+			ChangeState(startingMovementProperties);
 		}
 
 		/// <summary>
@@ -62,9 +77,9 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		void Jump()
 		{
-			if (m_Physics.isGrounded && currentMotorState.canJump)
+			if (m_Physics.isGrounded && currentMovementProperties.canJump)
 			{
-				m_Physics.Jump(currentMotorState.jumpSpeed);
+				m_Physics.Jump(currentMovementProperties.jumpSpeed);
 			}	
 		}
 
@@ -81,7 +96,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		void Move()
 		{
-			if (startingMotorState == null)
+			if (startingMovementProperties == null)
 			{
 				return;
 			}
@@ -124,8 +139,8 @@ namespace StandardAssets.Characters.FirstPerson
 		void Accelerate()
 		{
 			movementTime += Time.fixedDeltaTime;
-			movementTime = Mathf.Clamp(movementTime, 0f, currentMotorState.acceleration.maxValue);
-			currentSpeed = currentMotorState.acceleration.Evaluate(movementTime) * currentMotorState.maxSpeed;
+			movementTime = Mathf.Clamp(movementTime, 0f, currentMovementProperties.acceleration.maxValue);
+			currentSpeed = currentMovementProperties.acceleration.Evaluate(movementTime) * currentMovementProperties.maxSpeed;
 		}
 		
 		/// <summary>
@@ -142,7 +157,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		void ClampCurrentSpeed()
 		{
-			currentSpeed = Mathf.Clamp(currentSpeed, 0f, currentMotorState.maxSpeed);
+			currentSpeed = Mathf.Clamp(currentSpeed, 0f, currentMovementProperties.maxSpeed);
 		}
 		
 		/// <summary>
@@ -151,25 +166,46 @@ namespace StandardAssets.Characters.FirstPerson
 		void CalculateMovementTimeFromCurrentSpeed()
 		{
 		}
+		
+		/// <summary>
+		/// Change state to the new state and adds to previous state stack
+		/// </summary>
+		/// <param name="newState"></param>
+		public void EnterNewState(FirstPersonMovementProperties newState)
+		{
+			m_PrevStates.Push(currentMovementProperties);
+			ChangeState(newState);
+		}
 
+		/// <summary>
+		/// Resets state to previous state
+		/// </summary>
+		public void ResetState()
+		{
+			if (m_PrevStates.Count > 0)
+			{
+				ChangeState(m_PrevStates.Pop());
+			}
+		}
+		
 		/// <summary>
 		/// Changes the current motor state and play events associated with state change
 		/// </summary>
 		/// <param name="newState"></param>
-		public virtual void ChangeState(FirstPersonMotorState newState)
+		protected virtual void ChangeState(FirstPersonMovementProperties newState)
 		{
 			if (newState == null)
 			{
 				return;
 			}
 			
-			if (currentMotorState != null)
+			if (currentMovementProperties != null)
 			{
-				currentMotorState.ExitState();
+				currentMovementProperties.ExitState();
 			}
 
-			currentMotorState = newState;
-			currentMotorState.EnterState();
+			currentMovementProperties = newState;
+			currentMovementProperties.EnterState();
 			CalculateMovementTimeFromCurrentSpeed();
 		}
 

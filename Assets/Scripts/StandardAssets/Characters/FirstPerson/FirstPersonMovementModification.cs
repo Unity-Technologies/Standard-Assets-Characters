@@ -1,6 +1,7 @@
 ﻿using System;
 using StandardAssets.Characters.Input;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.FirstPerson
 {
@@ -8,7 +9,7 @@ namespace StandardAssets.Characters.FirstPerson
 	/// Mechanism of inducing the first person state modification
 	/// e.g. Used to set up crouching
 	/// </summary>
-	public class FirstPersonMotorStateModification : MonoBehaviour
+	public class FirstPersonMovementModification : MonoBehaviour
 	{
 		/// <summary>
 		/// The input
@@ -18,18 +19,18 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// The state
 		/// </summary>
-		public FirstPersonMotorState state;
+		public FirstPersonMovementProperties movementProperties;
 
 		/// <summary>
 		/// The controller
 		/// </summary>
-		FirstPersonMotorStateModificationController m_Controller;
+		FirstPersonController m_Controller;
 
 		/// <summary>
 		/// Initializes the modification
 		/// </summary>
 		/// <param name="controller"></param>
-		public void Init(FirstPersonMotorStateModificationController controller)
+		public void Init(FirstPersonController controller)
 		{
 			m_Controller = controller;
 			input.Init();
@@ -44,7 +45,7 @@ namespace StandardAssets.Characters.FirstPerson
 
 		void OnStateChange()
 		{
-			m_Controller.ChangeState(state);
+			m_Controller.EnterNewState(movementProperties);
 		}
 
 		void OnStateReset()
