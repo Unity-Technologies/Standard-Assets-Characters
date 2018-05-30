@@ -9,7 +9,7 @@ namespace StandardAssets.Characters.ThirdPerson
 	public class TestThirdPersonMotor : MonoBehaviour, IThirdPersonMotor
 	{
 		public float forwardMovement = 1f;
-		public float lateralMovement = 0f;
+		public float lateralMovement;
 		
 		public float turningSpeed { get; private set; }
 		

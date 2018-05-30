@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Experimental.Input;
 
-namespace StandardAssets.Characters.Input
+namespace StandardAssets.Characters.CharacterInput
 {
     [CreateAssetMenu(fileName = "NewInputResponse", menuName = "New Input Response/Create Unity Experimental Mouse Input Response", order = 1)]
     public class MouseLookResponse:InputResponse

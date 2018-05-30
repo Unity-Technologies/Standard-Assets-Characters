@@ -3,7 +3,7 @@ using Cinemachine;
 using UnityEngine;
 using UnityEngine.Experimental.Input;
 
-namespace StandardAssets.Characters.Input
+namespace StandardAssets.Characters.CharacterInput
 {
 	public class NewCharacterInput : MonoBehaviour, ICharacterInput
 	{
@@ -13,7 +13,7 @@ namespace StandardAssets.Characters.Input
 
 		public Camera mainCamera;
 
-		public DemoInputActions controls;
+		public CharacterInput.DemoInputActions controls;
 
 
 		private Vector2 m_look;

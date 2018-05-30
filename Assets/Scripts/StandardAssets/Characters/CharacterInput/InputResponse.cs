@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace StandardAssets.Characters.Input
+namespace StandardAssets.Characters.CharacterInput
 {
 	/// <summary>
 	/// A modifier input used by the FirstPersonMotorStateModification

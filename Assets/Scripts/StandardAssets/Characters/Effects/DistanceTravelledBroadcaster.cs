@@ -25,7 +25,7 @@ namespace StandardAssets.Characters.Effects
 		/// <summary>
 		/// Square distance moved from last event and the square of the threshold
 		/// </summary>
-		float m_SqrTravelledDistance = 0f, m_SqrDistanceThreshold;
+		float m_SqrTravelledDistance, m_SqrDistanceThreshold;
 
 		/// <summary>
 		/// The position that the character was previously	

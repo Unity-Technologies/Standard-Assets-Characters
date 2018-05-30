@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
-namespace StandardAssets.Characters.Input
+namespace StandardAssets.Characters.CharacterInput
 {
 	/// <summary>
 	/// NavMesh click controls for Third Person NavMesh scene

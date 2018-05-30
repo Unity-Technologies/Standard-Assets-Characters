@@ -1,5 +1,5 @@
 
-namespace StandardAssets.Characters.Input
+namespace StandardAssets.Characters.CharacterInput
 {
 
 // GENERATED AUTOMATICALLY FROM 'Assets/Prefabs/FirstPerson/DemoInputActions.inputactions'

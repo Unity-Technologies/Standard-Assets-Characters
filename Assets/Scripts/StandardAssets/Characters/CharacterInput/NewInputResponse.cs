@@ -1,16 +1,14 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Experimental.Input;
 
-
-namespace StandardAssets.Characters.Input
+namespace StandardAssets.Characters.CharacterInput
 {
     [CreateAssetMenu(fileName = "NewInputResponse", menuName = "New Input Response/Create Unity Experimental Input Response", order = 1)]
     public class NewInputResponse : InputResponse
     {
         public InputActionReference actionReference;
 
-        private bool toggle = false;
+        private bool toggle;
         
         public override void Init()
         {

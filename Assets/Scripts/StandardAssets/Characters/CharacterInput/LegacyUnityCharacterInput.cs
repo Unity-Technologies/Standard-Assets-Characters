@@ -1,18 +1,16 @@
 ﻿using System;
-using Cinemachine;
 using UnityEngine;
-using Random = UnityEngine.Random;
-using UnityInput = UnityEngine.Input;
 
-namespace StandardAssets.Characters.Input
+namespace StandardAssets.Characters.CharacterInput
 {
 	/// <summary>
 	/// Unity original input implementation
 	/// </summary>
-	public class DefaultCharacterInput : MonoBehaviour, ICharacterInput
+	public class LegacyUnityCharacterInput : MonoBehaviour, ICharacterInput
 	{
 		public string horizontalAxisName = "Horizontal";
 		public string verticalAxisName = "Vertical";
+		public KeyCode jumpKey = KeyCode.Space;
 		
 		Vector2 m_MoveInput;
 
@@ -38,8 +36,8 @@ namespace StandardAssets.Characters.Input
 		void Update()
 		{
 			//Cache the inputs
-			m_MoveInput.Set(UnityInput.GetAxis(horizontalAxisName), UnityInput.GetAxis(verticalAxisName));
-			if (UnityInput.GetKeyDown(KeyCode.Space))
+			m_MoveInput.Set(Input.GetAxis(horizontalAxisName), Input.GetAxis(verticalAxisName));
+			if (Input.GetKeyDown(jumpKey))
 			{
 				
 				if (jumpPressed != null)

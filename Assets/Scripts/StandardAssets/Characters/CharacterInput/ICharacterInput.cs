@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace StandardAssets.Characters.Input
+namespace StandardAssets.Characters.CharacterInput
 {
 	/// <summary>
 	/// Interface for handling character input

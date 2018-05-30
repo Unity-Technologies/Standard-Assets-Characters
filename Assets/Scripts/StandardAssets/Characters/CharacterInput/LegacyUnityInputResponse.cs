@@ -1,14 +1,13 @@
 ﻿using System;
 using UnityEngine;
-using UnityInput = UnityEngine.Input;
 
-namespace StandardAssets.Characters.Input
+namespace StandardAssets.Characters.CharacterInput
 {
 	/// <summary>
 	/// Default Unity Input System implementation of the InputResponse
 	/// </summary>
 	[CreateAssetMenu(fileName = "InputResponse", menuName = "Input Response/Create Default Unity Input Response", order = 1)]
-	public class DefaultInputResponse : InputResponse
+	public class LegacyUnityInputResponse : InputResponse
 	{
 		/// <summary>
 		/// Classification of the type of response
@@ -56,7 +55,7 @@ namespace StandardAssets.Characters.Input
 		/// </summary>
 		void Hold()
 		{
-			bool keyPressed = UnityInput.GetKey(key);
+			bool keyPressed = Input.GetKey(key);
 
 			if (!m_Check && keyPressed)
 			{
@@ -76,7 +75,7 @@ namespace StandardAssets.Characters.Input
 		/// </summary>
 		void Toggle()
 		{
-			if (UnityInput.GetKeyDown(key))
+			if (Input.GetKeyDown(key))
 			{
 				if (!m_Check)
 				{
