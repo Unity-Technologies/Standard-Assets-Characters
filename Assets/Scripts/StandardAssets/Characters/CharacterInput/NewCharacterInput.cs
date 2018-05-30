@@ -63,7 +63,8 @@ namespace StandardAssets.Characters.CharacterInput
 		{
 			if (axis == "Mouse X")
 			{
-				return m_look.x;
+				//Invert value to match legacy input
+				return -m_look.x;
 			}
 
 			if (axis == "Mouse Y")
