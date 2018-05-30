@@ -1,5 +1,5 @@
 ﻿using System;
-using StandardAssets.Characters.Input;
+using StandardAssets.Characters.CharacterInput;
 using UnityEngine;
 using UnityEngine.Serialization;
 

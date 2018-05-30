@@ -1,0 +1,56 @@
+{
+  "actions": [
+    {
+      "name": "gameplay/fire",
+      "bindings": [
+        {
+          "path": "*/{PrimaryAction}",
+          "modifiers": "Tap,SlowTap"
+        }
+      ]
+    },
+    {
+      "name": "gameplay/move",
+      "bindings": [
+        {
+          "path": "<Gamepad>/leftStick"
+        },
+        {
+          "path": "ButtonVector",
+          "isComposite" : true
+        },
+        {
+          "name": "Left",
+          "path": "<Keyboard>/a",
+          "isPartOfComposite": true
+        },
+        {
+          "name": "Right",
+          "path": "<Keyboard>/d",
+          "isPartOfComposite": true
+        },
+        {
+          "name": "Down",
+          "path": "<Keyboard>/s",
+          "isPartOfComposite": true
+        },
+        {
+          "name": "Up",
+          "path": "<Keyboard>/w",
+          "isPartOfComposite": true
+        }
+      ]
+    },
+    {
+      "name": "gameplay/look",
+      "bindings": [
+        {
+          "path": "<Gamepad>/rightStick"
+        },
+        {
+          "path": "<Pointer>/delta"
+        }
+      ]
+    }
+  ]
+}

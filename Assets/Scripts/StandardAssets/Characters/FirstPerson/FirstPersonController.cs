@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using StandardAssets.Characters.Input;
+using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
 
