@@ -18,8 +18,12 @@ namespace StandardAssets.Characters.Effects
 		/// <summary>
 		/// A dictionary of movement effects for optimized lookup
 		/// </summary>
-		readonly Dictionary<string, MovementEventLibraryEntry> m_MovementEventsDictionary = new Dictionary<string, MovementEventLibraryEntry>();
+		readonly Dictionary<string, MovementEventLibraryEntry> m_MovementEventsDictionary =
+			new Dictionary<string, MovementEventLibraryEntry>();
 
+		/// <summary>
+		/// Set up dictionary from public list
+		/// </summary>
 		void Awake()
 		{
 			//Set up the dictionary
@@ -36,10 +40,13 @@ namespace StandardAssets.Characters.Effects
 		public void PlayEvent(MovementEvent movementEvent)
 		{
 			//Play the movement event
-			MovementEventLibraryEntry entry = m_MovementEventsDictionary[movementEvent.id];
-			foreach (MovementEventPlayer movementEventPlayer in entry.movementEventPlayers)
+			MovementEventLibraryEntry entry;
+			if (m_MovementEventsDictionary.TryGetValue(movementEvent.id, out entry))
 			{
-				movementEventPlayer.Play(movementEvent);
+				foreach (MovementEventPlayer movementEventPlayer in entry.movementEventPlayers)
+				{
+					movementEventPlayer.Play(movementEvent);
+				}
 			}
 		}
 	}

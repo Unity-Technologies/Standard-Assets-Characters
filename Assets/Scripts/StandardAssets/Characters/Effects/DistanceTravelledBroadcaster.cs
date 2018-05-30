@@ -49,6 +49,13 @@ namespace StandardAssets.Characters.Effects
 		void FixedUpdate()
 		{
 			Vector3 currentPosition = transform.position;
+			
+			//Optimization - prevents the rest of the logic, which includes vector magnitude calculations, from being called if the character has not moved
+			if (currentPosition == m_PreviousPosition)
+			{
+				return;
+			}
+			
 			m_SqrTravelledDistance += (currentPosition - m_PreviousPosition).sqrMagnitude;
 
 			if (m_SqrTravelledDistance >= m_SqrDistanceThreshold)
