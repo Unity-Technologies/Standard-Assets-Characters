@@ -1199,7 +1199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gravity: 0.3
-  groundCheckThreshold: 0.51
+  groundCheckDistance: 0.51
 --- !u!114 &114287407285155522
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1664,6 +1664,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50675fc63f6845a9b80e1db1c59a5d83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forwardSpeedParameterName: ForwardSpeed
+  lateralSpeedParameterName: LateralSpeed
+  turningSpeedParameterName: TurningSpeed
+  groundedParameterName: Grounded
 --- !u!114 &114750277979835644
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1788,6 +1792,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1052986cb0c4fe4b8cfbdfeba746ea0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  horizontalAxisName: Horizontal
+  verticalAxisName: Vertical
+  jumpKey: 32
 --- !u!114 &114882816207139858
 MonoBehaviour:
   m_ObjectHideFlags: 1
