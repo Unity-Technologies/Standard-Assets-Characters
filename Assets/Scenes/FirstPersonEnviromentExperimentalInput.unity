@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.18203652, g: 0.22772755, b: 0.30740222, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -625,7 +625,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68a4a4aa15b8e3f43953fb8b1c70072e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 1840918336}
   controls:
     m_Asset: {fileID: 11400000, guid: 40952324d92091141ae7b75ba9420185, type: 3}
   rotateSpeed: 10
@@ -738,7 +737,6 @@ Transform:
   m_Children:
   - {fileID: 727240027}
   - {fileID: 500156878}
-  - {fileID: 1035706471}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2428,55 +2426,6 @@ Transform:
   m_Father: {fileID: 255571986}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 42.881, y: 94.91801, z: 150.3}
---- !u!1 &1035706470
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1035706471}
-  - component: {fileID: 1035706472}
-  m_Layer: 0
-  m_Name: MobileTestControls
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1035706471
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1035706470}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 223680110}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1035706472
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1035706470}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 308f71debebc465bafbc031c7fbe4635, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainCamera: {fileID: 1840918336}
-  controls:
-    m_Asset: {fileID: 11400000, guid: 66dde5dd31e88c041a16a8c9933d219e, type: 3}
-  rotateSpeed: 10
-  leftControlImage: {fileID: 1208453227}
-  rightControlImage: {fileID: 1658097896}
-  leftTextDebug: {fileID: 873190685}
-  rightTextDebug: {fileID: 1595215894}
-  touchDeltaXDebug: {fileID: 1111663110}
 --- !u!1 &1049673220
 GameObject:
   m_ObjectHideFlags: 0
@@ -4978,7 +4927,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1840918332}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 6.222, z: 0}
+  m_LocalPosition: {x: 0, y: 6.972, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
