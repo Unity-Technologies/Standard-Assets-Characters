@@ -12,11 +12,7 @@ namespace StandardAssets.Characters.CharacterInput
 
 		public DemoInputActions controls;
 
-
-		private Vector2 m_look;
-
-		public float rotateSpeed = 10f;
-		
+		Vector2 m_Look;
 		
 		Action m_Jump;
 		
@@ -41,7 +37,7 @@ namespace StandardAssets.Characters.CharacterInput
 
 		void Look(InputAction.CallbackContext ctx)
 		{
-			m_look = ctx.ReadValue<Vector2>();
+			m_Look = ctx.ReadValue<Vector2>();
 		}
 		
 		void Awake()
@@ -49,11 +45,6 @@ namespace StandardAssets.Characters.CharacterInput
 				
 			controls.gameplay.jump.performed += ctx => Jump();
 			CinemachineCore.GetInputAxis = LookInputOverride;
-		}
-
-		void Update()
-		{
-			Debug.Log(m_look.ToString());
 		}
 
 		/// <summary>
@@ -64,12 +55,12 @@ namespace StandardAssets.Characters.CharacterInput
 			if (axis == "Mouse X")
 			{
 				//Invert value to match legacy input
-				return -m_look.x;
+				return -m_Look.x;
 			}
 
 			if (axis == "Mouse Y")
 			{
-				return m_look.y;
+				return m_Look.y;
 			}
 
 			return 0;
