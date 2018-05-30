@@ -10,6 +10,7 @@ namespace StandardAssets.Characters.CharacterInput
 	{
 		public string horizontalAxisName = "Horizontal";
 		public string verticalAxisName = "Vertical";
+		public KeyCode jumpKey = KeyCode.Space;
 		
 		Vector2 m_MoveInput;
 
@@ -36,7 +37,7 @@ namespace StandardAssets.Characters.CharacterInput
 		{
 			//Cache the inputs
 			m_MoveInput.Set(Input.GetAxis(horizontalAxisName), Input.GetAxis(verticalAxisName));
-			if (Input.GetKeyDown(KeyCode.Space))
+			if (Input.GetKeyDown(jumpKey))
 			{
 				
 				if (jumpPressed != null)
