@@ -111,7 +111,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			if (m_CharacterPhysics.isGrounded)
 			{
-				m_CharacterPhysics.Jump(jumpSpeed);
+				m_CharacterPhysics.SetJumpVelocity(jumpSpeed);
 				if (jumpStarted != null)
 				{
 					jumpStarted();

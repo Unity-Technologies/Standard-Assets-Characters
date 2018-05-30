@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Rendering.PostProcessing;
 
 namespace StandardAssets.Characters.Physics
 {
@@ -18,7 +17,7 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// The distance used to check if grounded
 		/// </summary>
-		public float groundCheckThreshold = 0.51f;
+		public float groundCheckDistance = 0.51f;
 
 		/// <summary>
 		/// Character controller
@@ -64,7 +63,7 @@ namespace StandardAssets.Characters.Physics
 		/// Tries to jump
 		/// </summary>
 		/// <param name="initialVelocity"></param>
-		public void Jump(float initialVelocity)
+		public void SetJumpVelocity(float initialVelocity)
 		{
 			m_InitialJumpVelocity = initialVelocity;
 		}
@@ -123,9 +122,9 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		bool CheckGrounded()
 		{
-			Debug.DrawRay(transform.position + m_CharacterController.center, new Vector3(0,-groundCheckThreshold * m_CharacterController.height,0), Color.red);
+			Debug.DrawRay(transform.position + m_CharacterController.center, new Vector3(0,-groundCheckDistance * m_CharacterController.height,0), Color.red);
 			if (UnityEngine.Physics.Raycast(transform.position + m_CharacterController.center, 
-				-transform.up, groundCheckThreshold * m_CharacterController.height))
+				-transform.up, groundCheckDistance * m_CharacterController.height))
 			{
 				return true;
 			}
@@ -157,10 +156,10 @@ namespace StandardAssets.Characters.Physics
 					sign = i - 2f;
 				}
 				Debug.DrawRay(transform.position + m_CharacterController.center + sign * rayOffset, 
-					new Vector3(0,-groundCheckThreshold * m_CharacterController.height,0), Color.blue);
+					new Vector3(0,-groundCheckDistance * m_CharacterController.height,0), Color.blue);
 
 				if (UnityEngine.Physics.Raycast(transform.position + m_CharacterController.center + sign * rayOffset,
-					-transform.up,groundCheckThreshold * m_CharacterController.height))
+					-transform.up,groundCheckDistance * m_CharacterController.height))
 				{
 					return true;
 				}

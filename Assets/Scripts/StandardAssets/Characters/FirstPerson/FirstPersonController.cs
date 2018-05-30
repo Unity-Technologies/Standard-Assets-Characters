@@ -97,7 +97,7 @@ namespace StandardAssets.Characters.FirstPerson
 		{
 			if (m_CharacterPhysics.isGrounded && currentMovementProperties.canJump)
 			{
-				m_CharacterPhysics.Jump(currentMovementProperties.jumpSpeed);
+				m_CharacterPhysics.SetJumpVelocity(currentMovementProperties.jumpSpeed);
 			}	
 		}
 

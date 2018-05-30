@@ -29,6 +29,6 @@ namespace StandardAssets.Characters.Physics
 		/// Jump with initial velocity
 		/// </summary>
 		/// <param name="initialVelocity"></param>
-		void Jump(float initialVelocity);
+		void SetJumpVelocity(float initialVelocity);
 	}
 }
