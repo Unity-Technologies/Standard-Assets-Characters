@@ -5644,16 +5644,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 114570266145897858, guid: 1818690cc80044ecbadf3a53cc5f29e1,
-        type: 2}
-      propertyPath: startingMovementEventLibrary
-      value: 
-      objectReference: {fileID: 44208555}
     - target: {fileID: 114736923435200732, guid: 1818690cc80044ecbadf3a53cc5f29e1,
         type: 2}
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 1840918336}
+    - target: {fileID: 114570266145897858, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: startingMovementEventLibrary
+      value: 
+      objectReference: {fileID: 44208555}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1818690cc80044ecbadf3a53cc5f29e1, type: 2}
   m_IsPrefabAsset: 0
@@ -26943,7 +26943,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 80
+  field of view: 60
   orthographic: 0
   orthographic size: 10
   m_Depth: -1
@@ -27114,7 +27114,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh20376
+  m_Name: pb_Mesh20412
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -29166,7 +29166,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh27592
+  m_Name: pb_Mesh20378
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2

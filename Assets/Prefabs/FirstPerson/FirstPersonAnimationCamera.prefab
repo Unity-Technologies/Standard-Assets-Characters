@@ -506,7 +506,7 @@ MonoBehaviour:
   m_Follow: {fileID: 0}
   m_PositionBlending: 0
   m_Lens:
-    FieldOfView: 80
+    FieldOfView: 60
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -603,7 +603,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gravity: 0.4
-  groundCheckThreshold: 0.55
+  groundCheckDistance: 0.55
 --- !u!114 &114455874080827772
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -643,7 +643,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      maxValue: 0.1
+      maxValue: 0.01
     jumpSpeed: 0.15
     enterState:
       m_PersistentCalls:
@@ -760,7 +760,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      maxValue: 1
+      maxValue: 0.01
     jumpSpeed: 0.1
     enterState:
       m_PersistentCalls:
@@ -819,7 +819,7 @@ MonoBehaviour:
   m_Follow: {fileID: 0}
   m_PositionBlending: 0
   m_Lens:
-    FieldOfView: 80
+    FieldOfView: 60
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -901,7 +901,7 @@ MonoBehaviour:
   m_Follow: {fileID: 0}
   m_PositionBlending: 0
   m_Lens:
-    FieldOfView: 80
+    FieldOfView: 60
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -973,7 +973,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      maxValue: 0.1
+      maxValue: 0.01
     jumpSpeed: 0.08
     enterState:
       m_PersistentCalls:
@@ -1052,6 +1052,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1052986cb0c4fe4b8cfbdfeba746ea0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  horizontalAxisName: Horizontal
+  verticalAxisName: Vertical
+  jumpKey: 32
 --- !u!114 &114972977164945490
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1091,7 +1094,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      maxValue: 0.1
+      maxValue: 0.01
     jumpSpeed: 0
     enterState:
       m_PersistentCalls:

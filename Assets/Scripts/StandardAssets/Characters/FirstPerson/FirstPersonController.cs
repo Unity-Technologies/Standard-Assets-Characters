@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using StandardAssets.Characters.Input;
+using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
 
@@ -33,24 +33,17 @@ namespace StandardAssets.Characters.FirstPerson
 		/// The Input implementation to be used
 		/// e.g. Default unity input or (in future) the new new input system
 		/// </summary>
-		//protected ICharacterInput m_CharacterInput;
-		
-		protected MobileCharacterInputTest m_CharacterInput;
+		protected ICharacterInput m_CharacterInput;
 
 		/// <summary>
 		/// The current movement properties
 		/// </summary>
-		protected float currentSpeed = 0f, movementTime = 0f;
+		protected float currentSpeed, movementTime;
 
 		/// <summary>
 		/// A check to see if input was previous being applied
 		/// </summary>
-		protected bool prevIsMoveInput = false;
-		
-		/// <summary>
-		/// The current motor state - controls how the character moves in different states
-		/// </summary>
-		public FirstPersonMovementProperties currentMovementProperties { get; protected set; }
+		protected bool prevIsMoveInput;
 		
 		/// <summary>
 		/// A stack of states which allows us to revert through previous states
@@ -58,13 +51,17 @@ namespace StandardAssets.Characters.FirstPerson
 		Stack<FirstPersonMovementProperties> m_PrevStates = new Stack<FirstPersonMovementProperties>();
 		
 		/// <summary>
+		/// The current motor state - controls how the character moves in different states
+		/// </summary>
+		public FirstPersonMovementProperties currentMovementProperties { get; protected set; }
+		
+		/// <summary>
 		/// Get the attached implementations on wake
 		/// </summary>
 		protected virtual void Awake()
 		{
 			m_CharacterPhysics = GetComponent<ICharacterPhysics>();
-			m_CharacterInput = GetComponent<MobileCharacterInputTest>(); //CHANGET BACK TO ICharacterInput
-			m_CharacterInput.jump += Jump;
+			m_CharacterInput = GetComponent<ICharacterInput>();
 			foreach (FirstPersonMovementModification modifier in movementModifiers)
 			{
 				modifier.Init(this);
@@ -73,13 +70,34 @@ namespace StandardAssets.Characters.FirstPerson
 		}
 
 		/// <summary>
+		/// Subscribe
+		/// </summary>
+		void OnEnable()
+		{
+			m_CharacterInput.jumpPressed += OnJumpPressed;
+		}
+
+		/// <summary>
+		/// Unsubscribe
+		/// </summary>
+		void OnDisable()
+		{
+			if (m_CharacterInput == null)
+			{
+				return;
+			}
+			
+			m_CharacterInput.jumpPressed -= OnJumpPressed;
+		}
+
+		/// <summary>
 		/// Handles jumping
 		/// </summary>
-		void Jump()
+		void OnJumpPressed()
 		{
 			if (m_CharacterPhysics.isGrounded && currentMovementProperties.canJump)
 			{
-				m_CharacterPhysics.Jump(currentMovementProperties.jumpSpeed);
+				m_CharacterPhysics.SetJumpVelocity(currentMovementProperties.jumpSpeed);
 			}	
 		}
 
@@ -101,7 +119,7 @@ namespace StandardAssets.Characters.FirstPerson
 				return;
 			}
 
-			if (m_CharacterInput.isMoveInput)
+			if (m_CharacterInput.hasMovementInput)
 			{
 				if (!prevIsMoveInput)
 				{
@@ -130,7 +148,7 @@ namespace StandardAssets.Characters.FirstPerson
 			
 			m_CharacterPhysics.Move((forward + sideways) * currentSpeed * Time.deltaTime);
 
-			prevIsMoveInput = m_CharacterInput.isMoveInput;
+			prevIsMoveInput = m_CharacterInput.hasMovementInput;
 		}	
 
 		/// <summary>

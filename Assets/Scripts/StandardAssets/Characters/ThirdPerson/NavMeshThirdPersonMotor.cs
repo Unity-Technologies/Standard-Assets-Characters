@@ -19,15 +19,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// Max speed values used in normalization
 		/// </summary>
 		public float maxAngularSpeed, maxLateralSpeed, maxForwardSpeed;
-
-		/// <summary>
-		/// Get the NavMeshAgent on Awake
-		/// </summary>
-		void Awake()
-		{
-			m_Agent = GetComponent<NavMeshAgent>();
-		}
-
+		
 		/// <inheritdoc />
 		public float turningSpeed
 		{
@@ -48,10 +40,18 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 
 		/// <inheritdoc />
-		public Action jumpStart { get; set; }
+		public Action jumpStarted { get; set; }
 		
 		/// <inheritdoc />
-		public Action lands { get; set; }
+		public Action landed { get; set; }
+
+		/// <summary>
+		/// Get the NavMeshAgent on Awake
+		/// </summary>
+		void Awake()
+		{
+			m_Agent = GetComponent<NavMeshAgent>();
+		}
 
 		/// <summary>
 		/// Helper function to get the component of velocity along an axis

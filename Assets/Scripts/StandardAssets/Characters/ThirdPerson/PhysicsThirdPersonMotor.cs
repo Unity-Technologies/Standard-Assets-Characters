@@ -1,5 +1,5 @@
 ﻿using System;
-using StandardAssets.Characters.Input;
+using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
 
@@ -12,8 +12,6 @@ namespace StandardAssets.Characters.ThirdPerson
 	[RequireComponent(typeof(ICharacterInput))]
 	public class PhysicsThirdPersonMotor : MonoBehaviour, IThirdPersonMotor
 	{
-		
-		#region Inspector
 		/// <summary>
 		/// Movement values
 		/// </summary>
@@ -32,24 +30,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		[Range (0f, 1f)] 
 		public float        airborneTurnSpeedProportion = 0.5f;
 		
-		#endregion
-
-		#region Properties
-		/// <inheritdoc />
-		public float turningSpeed { get; private set; }
-		
-		/// <inheritdoc />
-		public float lateralSpeed { get; private set; }
-		
-		/// <inheritdoc />
-		public float forwardSpeed { get; private set; }
-
-		public Action jumpStart { get; set; }
-		public Action lands { get; set; }
-		#endregion
-
-
-		#region Required Components
 		/// <summary>
 		/// The input implementation
 		/// </summary>
@@ -60,7 +40,24 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		ICharacterPhysics m_CharacterPhysics;
 		
-		#endregion
+		/// <inheritdoc />
+		public float turningSpeed { get; private set; }
+		
+		/// <inheritdoc />
+		public float lateralSpeed { get; private set; }
+		
+		/// <inheritdoc />
+		public float forwardSpeed { get; private set; }
+
+		/// <summary>
+		/// Fires when the jump starts
+		/// </summary>
+		public Action jumpStarted { get; set; }
+		
+		/// <summary>
+		/// Fires when the player lands
+		/// </summary>
+		public Action landed { get; set; }
 
 		/// <summary>
 		/// Gets required components
@@ -68,33 +65,56 @@ namespace StandardAssets.Characters.ThirdPerson
 		void Awake()
 		{
 			m_CharacterInput = GetComponent<ICharacterInput>();
-			m_CharacterInput.jump += OnJump;
 			m_CharacterPhysics = GetComponent<ICharacterPhysics>();
-			m_CharacterPhysics.lands += OnLand;
+		}
+
+		/// <summary>
+		/// Subscribe
+		/// </summary>
+		void OnEnable()
+		{
+			m_CharacterInput.jumpPressed += OnJumpPressed;
+			m_CharacterPhysics.landed += OnLanding;
+		}
+
+		/// <summary>
+		/// Unsubscribe
+		/// </summary>
+		void OnDisable()
+		{
+			if (m_CharacterInput != null)
+			{
+				m_CharacterInput.jumpPressed -= OnJumpPressed;
+			}
+
+			if (m_CharacterPhysics != null)
+			{
+				m_CharacterPhysics.landed -= OnLanding;
+			}
 		}
 
 		/// <summary>
 		/// Handles player landing
 		/// </summary>
-		void OnLand()
+		void OnLanding()
 		{
-			if (lands != null)
+			if (landed != null)
 			{
-				lands();
+				landed();
 			}
 		}
 
 		/// <summary>
 		/// Subscribes to the Jump action on input
 		/// </summary>
-		void OnJump()
+		void OnJumpPressed()
 		{
 			if (m_CharacterPhysics.isGrounded)
 			{
-				m_CharacterPhysics.Jump(jumpSpeed);
-				if (jumpStart != null)
+				m_CharacterPhysics.SetJumpVelocity(jumpSpeed);
+				if (jumpStarted != null)
 				{
-					jumpStart();
+					jumpStarted();
 				}
 			}
 		}
@@ -107,8 +127,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			SetForward ();
 			CalculateForwardMovement ();
 			Move();
-			
-			
 		}
 
 		/// <summary>
@@ -116,7 +134,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		void SetForward()
 		{
-			if (!m_CharacterInput.isMoveInput)
+			if (!m_CharacterInput.hasMovementInput)
 			{
 				return;
 			}
@@ -157,8 +175,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (useAcceleration)
 			{
 				float acceleration = m_CharacterPhysics.isGrounded
-					? (m_CharacterInput.isMoveInput ? groundAcceleration : groundDeceleration)
-					: (m_CharacterInput.isMoveInput ? groundAcceleration : groundDeceleration) * airborneDecelProportion;
+					? (m_CharacterInput.hasMovementInput ? groundAcceleration : groundDeceleration)
+					: (m_CharacterInput.hasMovementInput ? groundAcceleration : groundDeceleration) * airborneDecelProportion;
 
 				forwardSpeed = Mathf.MoveTowards(forwardSpeed, desiredSpeed, acceleration * Time.deltaTime);
 			}

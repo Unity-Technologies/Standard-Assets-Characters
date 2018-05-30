@@ -15,14 +15,15 @@ namespace StandardAssets.Characters.FirstPerson
 		CinemachineVirtualCamera currentCamera { get; }
 
 		/// <summary>
+		/// The camera changed
+		/// </summary>
+		Action cameraChanged { get; set; }
+		
+		/// <summary>
 		/// Sets the current camera game object
 		/// </summary>
 		/// <param name="newCamera"></param>
 		void SetCurrentCamera(CinemachineVirtualCamera newCamera);
 		
-		/// <summary>
-		/// The camera changed
-		/// </summary>
-		Action cameraChanged { get; set; }
 	}
 }

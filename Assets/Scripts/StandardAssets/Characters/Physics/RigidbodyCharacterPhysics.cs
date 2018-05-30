@@ -33,12 +33,12 @@ namespace StandardAssets.Characters.Physics
 		public bool isGrounded { get; set; }
 
 		/// <inheritdoc />
-		public void Jump(float initialVelocity)
+		public void SetJumpVelocity(float initialVelocity)
 		{
 			m_Rigidbody.velocity = m_Rigidbody.velocity + new Vector3(0, initialVelocity, 0);
 		}
 
 		/// <inheritdoc />
-		public Action lands { get; set; }
+		public Action landed { get; set; }
 	}
 }

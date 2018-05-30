@@ -8,7 +8,6 @@ namespace StandardAssets.Characters.ThirdPerson
 	/// </summary>
 	public interface IThirdPersonMotor 
 	{
-		#region Properties
 		/// <summary>
 		/// The turning speed. Range =  -1 (rotate anticlockwise) to 1 (rotate clockwise). 0 is not turning.
 		/// </summary>
@@ -27,13 +26,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Fired on jump
 		/// </summary>
-		Action jumpStart { get; set; }
+		Action jumpStarted { get; set; }
 		
 		/// <summary>
 		/// When the character lands
 		/// </summary>
-		Action lands { get; set; }
-		
-		#endregion
+		Action landed { get; set; }
 	}
 }
