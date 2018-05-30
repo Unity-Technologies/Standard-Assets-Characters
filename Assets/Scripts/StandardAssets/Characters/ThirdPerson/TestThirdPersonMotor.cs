@@ -23,7 +23,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return forwardMovement; }
 		}
 
-		public Action jumpStart { get; set; }
-		public Action lands { get; set; }
+		public Action jumpStarted { get; set; }
+		public Action landed { get; set; }
 	}
 }

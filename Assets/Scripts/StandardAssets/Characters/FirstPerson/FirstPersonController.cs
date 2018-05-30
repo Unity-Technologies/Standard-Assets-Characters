@@ -62,7 +62,6 @@ namespace StandardAssets.Characters.FirstPerson
 		{
 			m_CharacterPhysics = GetComponent<ICharacterPhysics>();
 			m_CharacterInput = GetComponent<ICharacterInput>();
-			m_CharacterInput.jump += Jump;
 			foreach (FirstPersonMovementModification modifier in movementModifiers)
 			{
 				modifier.Init(this);
@@ -71,9 +70,30 @@ namespace StandardAssets.Characters.FirstPerson
 		}
 
 		/// <summary>
+		/// Subscribe
+		/// </summary>
+		void OnEnable()
+		{
+			m_CharacterInput.jumpPressed += OnJumpPressed;
+		}
+
+		/// <summary>
+		/// Unsubscribe
+		/// </summary>
+		void OnDisable()
+		{
+			if (m_CharacterInput == null)
+			{
+				return;
+			}
+			
+			m_CharacterInput.jumpPressed -= OnJumpPressed;
+		}
+
+		/// <summary>
 		/// Handles jumping
 		/// </summary>
-		void Jump()
+		void OnJumpPressed()
 		{
 			if (m_CharacterPhysics.isGrounded && currentMovementProperties.canJump)
 			{

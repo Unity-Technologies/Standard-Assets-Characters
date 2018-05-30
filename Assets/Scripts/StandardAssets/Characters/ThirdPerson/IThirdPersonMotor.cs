@@ -26,11 +26,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Fired on jump
 		/// </summary>
-		Action jumpStart { get; set; }
+		Action jumpStarted { get; set; }
 		
 		/// <summary>
 		/// When the character lands
 		/// </summary>
-		Action lands { get; set; }
+		Action landed { get; set; }
 	}
 }

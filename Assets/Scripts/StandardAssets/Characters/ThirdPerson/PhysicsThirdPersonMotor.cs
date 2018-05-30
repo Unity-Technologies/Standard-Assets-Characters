@@ -39,8 +39,15 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <inheritdoc />
 		public float forwardSpeed { get; private set; }
 
-		public Action jumpStart { get; set; }
-		public Action lands { get; set; }
+		/// <summary>
+		/// Fires when the jump starts
+		/// </summary>
+		public Action jumpStarted { get; set; }
+		
+		/// <summary>
+		/// Fires when the player lands
+		/// </summary>
+		public Action landed { get; set; }
 
 		/// <summary>
 		/// The input implementation
@@ -58,33 +65,56 @@ namespace StandardAssets.Characters.ThirdPerson
 		void Awake()
 		{
 			m_CharacterInput = GetComponent<ICharacterInput>();
-			m_CharacterInput.jump += OnJump;
 			m_CharacterPhysics = GetComponent<ICharacterPhysics>();
-			m_CharacterPhysics.lands += OnLand;
+		}
+
+		/// <summary>
+		/// Subscribe
+		/// </summary>
+		void OnEnable()
+		{
+			m_CharacterInput.jumpPressed += OnJumpPressed;
+			m_CharacterPhysics.landed += OnLanding;
+		}
+
+		/// <summary>
+		/// Unsubscribe
+		/// </summary>
+		void OnDisable()
+		{
+			if (m_CharacterInput != null)
+			{
+				m_CharacterInput.jumpPressed -= OnJumpPressed;
+			}
+
+			if (m_CharacterPhysics != null)
+			{
+				m_CharacterPhysics.landed -= OnLanding;
+			}
 		}
 
 		/// <summary>
 		/// Handles player landing
 		/// </summary>
-		void OnLand()
+		void OnLanding()
 		{
-			if (lands != null)
+			if (landed != null)
 			{
-				lands();
+				landed();
 			}
 		}
 
 		/// <summary>
 		/// Subscribes to the Jump action on input
 		/// </summary>
-		void OnJump()
+		void OnJumpPressed()
 		{
 			if (m_CharacterPhysics.isGrounded)
 			{
 				m_CharacterPhysics.Jump(jumpSpeed);
-				if (jumpStart != null)
+				if (jumpStarted != null)
 				{
-					jumpStart();
+					jumpStarted();
 				}
 			}
 		}
@@ -97,8 +127,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			SetForward ();
 			CalculateForwardMovement ();
 			Move();
-			
-			
 		}
 
 		/// <summary>

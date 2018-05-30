@@ -45,7 +45,7 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		bool m_Grounded;
 		
-		public Action lands { get; set; }
+		public Action landed { get; set; }
 		
 		/// <inheritdoc />
 		public bool isGrounded
@@ -107,9 +107,9 @@ namespace StandardAssets.Characters.Physics
 				m_AirTime = 0f;
 				m_InitialJumpVelocity = 0f;
 				m_VerticalVector = Vector3.zero;
-				if (lands != null)
+				if (landed != null)
 				{
-					lands();
+					landed();
 				}
 				
 				return;

@@ -162,9 +162,9 @@ namespace StandardAssets.Characters.Input
 		void Jump()
 		{
 			
-			if (jump != null)
+			if (jumpPressed != null)
 			{
-				jump();
+				jumpPressed();
 			}
 			
 		}
@@ -185,7 +185,7 @@ namespace StandardAssets.Characters.Input
 			get { return moveInput.sqrMagnitude > 0; }
 		}
 
-		public Action jump
+		public Action jumpPressed
 		{
 			get { return m_Jump; }
 			set { m_Jump = value; }

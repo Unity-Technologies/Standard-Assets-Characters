@@ -39,6 +39,6 @@ namespace StandardAssets.Characters.Physics
 		}
 
 		/// <inheritdoc />
-		public Action lands { get; set; }
+		public Action landed { get; set; }
 	}
 }

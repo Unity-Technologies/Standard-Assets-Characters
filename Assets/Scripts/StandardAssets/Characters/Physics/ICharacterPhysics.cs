@@ -28,6 +28,6 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Invoked when the physic object goes from not grounded to grounded
 		/// </summary>
-		Action lands { get; set; }
+		Action landed { get; set; }
 	}
 }

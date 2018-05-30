@@ -28,7 +28,7 @@ namespace StandardAssets.Characters.Input
 		
 		Action m_Jump;
 
-		public Action jump
+		public Action jumpPressed
 		{
 			get { return m_Jump; }
 			set { m_Jump = value; }
@@ -42,9 +42,9 @@ namespace StandardAssets.Characters.Input
 			if (UnityInput.GetKeyDown(KeyCode.Space))
 			{
 				
-				if (jump != null)
+				if (jumpPressed != null)
 				{
-					jump();
+					jumpPressed();
 				}
 			}
 		}

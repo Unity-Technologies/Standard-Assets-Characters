@@ -48,10 +48,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 
 		/// <inheritdoc />
-		public Action jumpStart { get; set; }
+		public Action jumpStarted { get; set; }
 		
 		/// <inheritdoc />
-		public Action lands { get; set; }
+		public Action landed { get; set; }
 
 		/// <summary>
 		/// Helper function to get the component of velocity along an axis
