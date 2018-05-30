@@ -28,12 +28,12 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// The amount of time that the character is in the air for
 		/// </summary>
-		float m_AirTime = 0f;
+		float m_AirTime;
 		
 		/// <summary>
 		/// The initial jump velocity
 		/// </summary>
-		float m_InitialJumpVelocity = 0f;
+		float m_InitialJumpVelocity;
 		
 		/// <summary>
 		/// The current vertical vector

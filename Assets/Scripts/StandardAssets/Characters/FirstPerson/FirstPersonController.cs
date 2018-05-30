@@ -38,12 +38,12 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// The current movement properties
 		/// </summary>
-		protected float currentSpeed = 0f, movementTime = 0f;
+		protected float currentSpeed, movementTime;
 
 		/// <summary>
 		/// A check to see if input was previous being applied
 		/// </summary>
-		protected bool prevIsMoveInput = false;
+		protected bool prevIsMoveInput;
 		
 		/// <summary>
 		/// A stack of states which allows us to revert through previous states

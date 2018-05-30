@@ -7,7 +7,7 @@ namespace Util
 	[Serializable]
 	public class MinMaxCurveEvaluator : CurveEvaluator
 	{
-		public float minValue = 0f;
+		public float minValue;
 
 		public override float Evaluate(float currentValue)
 		{

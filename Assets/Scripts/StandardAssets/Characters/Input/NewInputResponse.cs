@@ -10,7 +10,7 @@ namespace StandardAssets.Characters.Input
     {
         public InputActionReference actionReference;
 
-        private bool toggle = false;
+        private bool toggle;
         
         public override void Init()
         {
