@@ -46,14 +46,14 @@ namespace StandardAssets.Characters.FirstPerson
 		protected bool prevIsMoveInput = false;
 		
 		/// <summary>
-		/// The current motor state - controls how the character moves in different states
-		/// </summary>
-		public FirstPersonMovementProperties currentMovementProperties { get; protected set; }
-		
-		/// <summary>
 		/// A stack of states which allows us to revert through previous states
 		/// </summary>
 		Stack<FirstPersonMovementProperties> m_PrevStates = new Stack<FirstPersonMovementProperties>();
+		
+		/// <summary>
+		/// The current motor state - controls how the character moves in different states
+		/// </summary>
+		public FirstPersonMovementProperties currentMovementProperties { get; protected set; }
 		
 		/// <summary>
 		/// Get the attached implementations on wake

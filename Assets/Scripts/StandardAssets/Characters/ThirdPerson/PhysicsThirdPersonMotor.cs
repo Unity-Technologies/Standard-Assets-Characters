@@ -30,6 +30,16 @@ namespace StandardAssets.Characters.ThirdPerson
 		[Range (0f, 1f)] 
 		public float        airborneTurnSpeedProportion = 0.5f;
 		
+		/// <summary>
+		/// The input implementation
+		/// </summary>
+		ICharacterInput m_CharacterInput;
+		
+		/// <summary>
+		/// The physic implementation
+		/// </summary>
+		ICharacterPhysics m_CharacterPhysics;
+		
 		/// <inheritdoc />
 		public float turningSpeed { get; private set; }
 		
@@ -48,16 +58,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// Fires when the player lands
 		/// </summary>
 		public Action landed { get; set; }
-
-		/// <summary>
-		/// The input implementation
-		/// </summary>
-		ICharacterInput m_CharacterInput;
-		
-		/// <summary>
-		/// The physic implementation
-		/// </summary>
-		ICharacterPhysics m_CharacterPhysics;
 
 		/// <summary>
 		/// Gets required components
