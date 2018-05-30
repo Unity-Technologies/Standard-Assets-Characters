@@ -33,7 +33,9 @@ namespace StandardAssets.Characters.FirstPerson
 		/// The Input implementation to be used
 		/// e.g. Default unity input or (in future) the new new input system
 		/// </summary>
-		protected ICharacterInput m_CharacterInput;
+		//protected ICharacterInput m_CharacterInput;
+		
+		protected MobileCharacterInputTest m_CharacterInput;
 
 		/// <summary>
 		/// The current movement properties
@@ -61,7 +63,7 @@ namespace StandardAssets.Characters.FirstPerson
 		protected virtual void Awake()
 		{
 			m_CharacterPhysics = GetComponent<ICharacterPhysics>();
-			m_CharacterInput = GetComponent<ICharacterInput>();
+			m_CharacterInput = GetComponent<MobileCharacterInputTest>(); //CHANGET BACK TO ICharacterInput
 			m_CharacterInput.jump += Jump;
 			foreach (FirstPersonMovementModification modifier in movementModifiers)
 			{
