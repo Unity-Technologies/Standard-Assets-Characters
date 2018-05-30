@@ -76,10 +76,7 @@ namespace StandardAssets.Characters.CharacterInput
 
 		}
 
-		void GamePadTest()
-		{
-			Debug.Log("BUTTTON!!!!:");
-		}
+	
 		
 		void Update ()
 		{
@@ -131,7 +128,7 @@ namespace StandardAssets.Characters.CharacterInput
 		{
 			var sccaledLookSpeed = rotateSpeed * Time.deltaTime;
 			m_look *= sccaledLookSpeed;
-			Debug.Log(m_look.ToString());
+			//Debug.Log(m_look.ToString());
 		}
 		
 		/// <summary>
