@@ -6,6 +6,9 @@ using UnityEngine.Experimental.Input;
 
 namespace StandardAssets.Characters.CharacterInput
 {
+	/// <summary>
+	/// Character Input using the experimental input system.
+	/// </summary>
 	public class NewCharacterInput : MonoBehaviour, ICharacterInput
 	{
 		Vector2 m_MoveInput;
@@ -16,14 +19,31 @@ namespace StandardAssets.Characters.CharacterInput
 		
 		Action m_Jump;
 		
-		public void OnEnable()
+		public Vector2 moveInput
+		{
+			get { return m_MoveInput; }
+		}
+
+		public bool hasMovementInput 
+		{ 
+			get { return moveInput != Vector2.zero; }
+		}
+
+		public Action jumpPressed
+		{
+			get { return m_Jump; }
+			set { m_Jump = value; }
+		}
+		
+		void OnEnable()
 		{
 			controls.Enable();
 			controls.gameplay.movement.performed += Move;
 			controls.gameplay.look.performed += Look;
+			controls.gameplay.jump.performed += Jump;
 		}
 
-		public void OnDisable()
+		void OnDisable()
 		{
 			controls.Disable();
 			controls.gameplay.movement.performed -= Move;
@@ -42,8 +62,6 @@ namespace StandardAssets.Characters.CharacterInput
 		
 		void Awake()
 		{
-				
-			controls.gameplay.jump.performed += ctx => Jump();
 			CinemachineCore.GetInputAxis = LookInputOverride;
 		}
 
@@ -54,8 +72,7 @@ namespace StandardAssets.Characters.CharacterInput
 		{
 			if (axis == "Mouse X")
 			{
-				//Invert value to match legacy input
-				return -m_Look.x;
+				return m_Look.x;
 			}
 
 			if (axis == "Mouse Y")
@@ -66,28 +83,12 @@ namespace StandardAssets.Characters.CharacterInput
 			return 0;
 		}
 
-		void Jump()
+		void Jump(InputAction.CallbackContext ctx)
 		{
 			if (jumpPressed != null)
 			{
 				jumpPressed();
 			}	
-		}
-
-		public Vector2 moveInput
-		{
-			get { return m_MoveInput; }
-		}
-
-		public bool hasMovementInput
-		{
-			get { return moveInput.sqrMagnitude > 0; }
-		}
-
-		public Action jumpPressed
-		{
-			get { return m_Jump; }
-			set { m_Jump = value; }
 		}
 	}
 	
