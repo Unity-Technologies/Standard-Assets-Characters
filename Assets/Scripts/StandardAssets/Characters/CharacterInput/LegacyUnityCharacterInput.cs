@@ -21,7 +21,7 @@ namespace StandardAssets.Characters.CharacterInput
 		
 		public bool hasMovementInput 
 		{ 
-			get { return moveInput.sqrMagnitude > 0; }
+			get { return moveInput != Vector2.zero; }
 		}
 		
 		Action m_Jump;
