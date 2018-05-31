@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18203613, g: 0.22772716, b: 0.30740166, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3234,6 +3234,41 @@ Prefab:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 1840918336}
+    - target: {fileID: 114891128609857860, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: m_VerticalAxis.m_InvertInput
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114891128609857860, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: m_HorizontalAxis.m_InputAxisValue
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114302450818960272, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: m_VerticalAxis.m_InvertInput
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114792954165457610, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: m_VerticalAxis.m_InvertInput
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114891128609857860, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: m_HorizontalAxis.m_InvertInput
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114302450818960272, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: m_HorizontalAxis.m_InvertInput
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114792954165457610, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: m_HorizontalAxis.m_InvertInput
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2706dd163cab644aa0f7aec413a3457, type: 2}
   m_IsPrefabAsset: 0
