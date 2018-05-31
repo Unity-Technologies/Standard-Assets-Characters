@@ -18,6 +18,19 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		void Awake()
 		{
+			LazyLoad();
+		}
+
+		/// <summary>
+		/// Lazy load protected against out of order operations
+		/// </summary>
+		void LazyLoad()
+		{
+			if (m_Animator != null)
+			{
+				return;
+			}
+			
 			m_Animator = GetComponent<Animator>();
 		}
 
@@ -27,6 +40,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <param name="state"></param>
 		public void SetAnimation(AnimationState state)
 		{
+			LazyLoad();
 			m_Animator.Play(state.GetHashCode());
 		}
 		
@@ -36,6 +50,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <param name="state"></param>
 		public void SetAnimation(string state)
 		{
+			LazyLoad();
 			m_Animator.Play(state);
 		}
 	}
