@@ -69,6 +69,14 @@ namespace StandardAssets.Characters.FirstPerson
 			ChangeState(startingMovementProperties);
 		}
 
+		private void Update()
+		{
+			foreach (FirstPersonMovementModification modifier in movementModifiers)
+			{
+				modifier.Tick();
+			}
+		}
+
 		/// <summary>
 		/// Subscribe
 		/// </summary>
