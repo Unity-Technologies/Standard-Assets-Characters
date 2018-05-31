@@ -18,9 +18,7 @@ namespace StandardAssets.Characters.CharacterInput
         }
 
         private void TogglePress()
-        {
-           
-            
+        {   
             if (toggle)
             {
                 OnInputEnded();
