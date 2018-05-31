@@ -69,6 +69,11 @@ namespace StandardAssets.Characters.Effects
 		/// <param name="movementEvent"></param>
 		void OnMoved(MovementEvent movementEvent)
 		{
+			if (m_MovementEventLibrary == null)
+			{
+				return;
+			}
+			
 			m_MovementEventLibrary.PlayEvent(movementEvent);
 		}
 	}

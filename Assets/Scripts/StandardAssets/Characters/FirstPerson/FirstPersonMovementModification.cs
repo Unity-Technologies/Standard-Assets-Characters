@@ -9,7 +9,8 @@ namespace StandardAssets.Characters.FirstPerson
 	/// Mechanism of inducing the first person state modification
 	/// e.g. Used to set up crouching
 	/// </summary>
-	public class FirstPersonMovementModification : MonoBehaviour
+	[Serializable]
+	public class FirstPersonMovementModification
 	{
 		/// <summary>
 		/// The input
@@ -38,7 +39,7 @@ namespace StandardAssets.Characters.FirstPerson
 			input.ended += OnStateReset;
 		}
 
-		void Update()
+		public void Tick()
 		{
 			input.Tick();
 		}
