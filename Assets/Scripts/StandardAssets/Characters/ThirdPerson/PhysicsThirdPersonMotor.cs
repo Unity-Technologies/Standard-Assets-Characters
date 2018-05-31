@@ -15,49 +15,63 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Movement values
 		/// </summary>
-		public Transform    cameraTransform;
-		public float        maxForwardSpeed             = 10f;
-		public bool         useAcceleration             = true;
-		public float        groundAcceleration          = 20f;
-		public float        groundDeceleration          = 15f;
-		[Range (0f, 1f)]
-		public float        airborneAccelProportion     = 0.5f;
-		[Range (0f, 1f)] 
-		public float        airborneDecelProportion     = 0.5f;
-		public float        jumpSpeed                   = 15f;
-		public bool         interpolateTurning          = true;
-		public float        turnSpeed                   = 500f;
-		[Range (0f, 1f)] 
-		public float        airborneTurnSpeedProportion = 0.5f;
-		
+		public Transform cameraTransform;
+
+		public float maxForwardSpeed = 10f;
+		public bool useAcceleration = true;
+		public float groundAcceleration = 20f;
+		public float groundDeceleration = 15f;
+
+		[Range(0f, 1f)]
+		public float airborneAccelProportion = 0.5f;
+
+		[Range(0f, 1f)]
+		public float airborneDecelProportion = 0.5f;
+
+		public float jumpSpeed = 15f;
+		public bool interpolateTurning = true;
+		public float turnSpeed = 500f;
+
+		[Range(0f, 1f)]
+		public float airborneTurnSpeedProportion = 0.5f;
+
 		/// <summary>
 		/// The input implementation
 		/// </summary>
 		ICharacterInput m_CharacterInput;
-		
+
 		/// <summary>
 		/// The physic implementation
 		/// </summary>
 		ICharacterPhysics m_CharacterPhysics;
-		
+
 		/// <inheritdoc />
 		public float turningSpeed { get; private set; }
-		
+
 		/// <inheritdoc />
 		public float lateralSpeed { get; private set; }
-		
+
 		/// <inheritdoc />
-		public float forwardSpeed { get; private set; }
+		public float forwardSpeed
+		{
+			get
+			{
+				Debug.Log(currentForwardSpeed / maxForwardSpeed);
+				return currentForwardSpeed / maxForwardSpeed;
+			}
+		}
 
 		/// <summary>
 		/// Fires when the jump starts
 		/// </summary>
 		public Action jumpStarted { get; set; }
-		
+
 		/// <summary>
 		/// Fires when the player lands
 		/// </summary>
 		public Action landed { get; set; }
+
+		float currentForwardSpeed;
 
 		/// <summary>
 		/// Gets required components
@@ -122,10 +136,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Movement Logic on physics update
 		/// </summary>
-		void FixedUpdate ()
+		void FixedUpdate()
 		{
-			SetForward ();
-			CalculateForwardMovement ();
+			SetForward();
+			CalculateForwardMovement();
 			Move();
 		}
 
@@ -138,13 +152,14 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				return;
 			}
-			
+
 			Vector3 flatForward = cameraTransform.forward;
 			flatForward.y = 0f;
 			flatForward.Normalize();
 
-			Vector3 localMovementDirection = new Vector3(m_CharacterInput.moveInput.x, 0f, m_CharacterInput.moveInput.y);
-            
+			Vector3 localMovementDirection =
+				new Vector3(m_CharacterInput.moveInput.x, 0f, m_CharacterInput.moveInput.y);
+
 			Quaternion cameraToInputOffset = Quaternion.FromToRotation(Vector3.forward, localMovementDirection);
 			cameraToInputOffset.eulerAngles = new Vector3(0f, cameraToInputOffset.eulerAngles.y, 0f);
 
@@ -152,8 +167,10 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			if (interpolateTurning)
 			{
-				float actualTurnSpeed = m_CharacterPhysics.isGrounded ? turnSpeed : turnSpeed * airborneTurnSpeedProportion;
-				targetRotation = Quaternion.RotateTowards(transform.rotation, targetRotation, actualTurnSpeed * Time.deltaTime);
+				float actualTurnSpeed =
+					m_CharacterPhysics.isGrounded ? turnSpeed : turnSpeed * airborneTurnSpeedProportion;
+				targetRotation =
+					Quaternion.RotateTowards(transform.rotation, targetRotation, actualTurnSpeed * Time.deltaTime);
 			}
 
 			transform.rotation = targetRotation;
@@ -170,19 +187,22 @@ namespace StandardAssets.Characters.ThirdPerson
 				moveInput.Normalize();
 			}
 
+			Debug.Log(moveInput.magnitude);
 			float desiredSpeed = moveInput.magnitude * maxForwardSpeed;
 
 			if (useAcceleration)
 			{
 				float acceleration = m_CharacterPhysics.isGrounded
 					? (m_CharacterInput.hasMovementInput ? groundAcceleration : groundDeceleration)
-					: (m_CharacterInput.hasMovementInput ? groundAcceleration : groundDeceleration) * airborneDecelProportion;
+					: (m_CharacterInput.hasMovementInput ? groundAcceleration : groundDeceleration) *
+					  airborneDecelProportion;
 
-				forwardSpeed = Mathf.MoveTowards(forwardSpeed, desiredSpeed, acceleration * Time.deltaTime);
+				currentForwardSpeed =
+					Mathf.MoveTowards(currentForwardSpeed, desiredSpeed, acceleration * Time.deltaTime);
 			}
 			else
 			{
-				forwardSpeed = desiredSpeed;
+				currentForwardSpeed = desiredSpeed;
 			}
 		}
 
@@ -208,15 +228,12 @@ namespace StandardAssets.Characters.ThirdPerson
 //			}
 //			else
 //			{
-				movement = forwardSpeed * transform.forward * Time.deltaTime;
+			movement = currentForwardSpeed * transform.forward * Time.deltaTime;
 //			}
 
 			//movement += m_VerticalSpeed * Vector3.up * Time.deltaTime;
 
 			m_CharacterPhysics.Move(movement);
 		}
-
-		
-
 	}
 }
