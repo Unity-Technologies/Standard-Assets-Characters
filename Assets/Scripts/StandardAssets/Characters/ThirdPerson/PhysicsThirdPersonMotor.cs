@@ -2,6 +2,7 @@
 using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
+using UnityEngine.Assertions.Comparers;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
@@ -27,8 +28,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[Range(0f, 1f)]
 		public float airborneDecelProportion = 0.5f;
-
 		public float jumpSpeed = 15f;
+		
 		public bool interpolateTurning = true;
 		public float turnSpeed = 500f;
 
@@ -46,7 +47,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		ICharacterPhysics m_CharacterPhysics;
 
 		/// <inheritdoc />
-		public float turningSpeed { get; private set; }
+		public float turningSpeed { get; private set;}
 
 		/// <inheritdoc />
 		public float lateralSpeed { get; private set; }
@@ -56,7 +57,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			get
 			{
-				Debug.Log(currentForwardSpeed / maxForwardSpeed);
+				//Debug.Log("Forward Speed: "+currentForwardSpeed / maxForwardSpeed);
 				return currentForwardSpeed / maxForwardSpeed;
 			}
 		}
@@ -72,6 +73,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		public Action landed { get; set; }
 
 		float currentForwardSpeed;
+
+	
 
 		/// <summary>
 		/// Gets required components
@@ -167,14 +170,32 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			if (interpolateTurning)
 			{
+				//ADDED IN PREVIOUS ROTATION
+				Quaternion beforeRotation = targetRotation;
+				
+				
 				float actualTurnSpeed =
 					m_CharacterPhysics.isGrounded ? turnSpeed : turnSpeed * airborneTurnSpeedProportion;
 				targetRotation =
 					Quaternion.RotateTowards(transform.rotation, targetRotation, actualTurnSpeed * Time.deltaTime);
+				
+				//TS set to DIFFERENCE between last and next. 
+				//This is probably wrong...
+				turningSpeed = beforeRotation.y - targetRotation.y;
+
+
+
 			}
 
+			
+			
 			transform.rotation = targetRotation;
+			
+			
+
 		}
+
+		
 
 		/// <summary>
 		/// Calculates the forward movement
@@ -187,7 +208,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				moveInput.Normalize();
 			}
 
-			Debug.Log(moveInput.magnitude);
+			
 			float desiredSpeed = moveInput.magnitude * maxForwardSpeed;
 
 			if (useAcceleration)
