@@ -74,8 +74,12 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		float currentForwardSpeed;
 
-	
 
+		private float finalTargetRotation;
+		private float currentRotation;
+	
+		
+		
 		/// <summary>
 		/// Gets required components
 		/// </summary>
@@ -167,11 +171,13 @@ namespace StandardAssets.Characters.ThirdPerson
 			cameraToInputOffset.eulerAngles = new Vector3(0f, cameraToInputOffset.eulerAngles.y, 0f);
 
 			Quaternion targetRotation = Quaternion.LookRotation(cameraToInputOffset * flatForward);
-
+			
+			
+			
 			if (interpolateTurning)
 			{
 				//ADDED IN PREVIOUS ROTATION
-				Quaternion beforeRotation = targetRotation;
+				Quaternion previousTargetRotation = targetRotation;
 				
 				
 				float actualTurnSpeed =
@@ -179,15 +185,14 @@ namespace StandardAssets.Characters.ThirdPerson
 				targetRotation =
 					Quaternion.RotateTowards(transform.rotation, targetRotation, actualTurnSpeed * Time.deltaTime);
 				
+				/*
 				//TS set to DIFFERENCE between last and next. 
 				//This is probably wrong...
-				turningSpeed = beforeRotation.y - targetRotation.y;
-
-
-
+				*/
+				turningSpeed = previousTargetRotation.y - targetRotation.y;
 			}
-
-			
+			currentRotation = transform.rotation.y;
+			finalTargetRotation = targetRotation.y;
 			
 			transform.rotation = targetRotation;
 			
@@ -195,6 +200,28 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		}
 
+		void Update()
+		{
+			
+			//turningSpeed = getTurningSpeed();
+			
+		}
+
+		float getTurningSpeed()
+		{
+			//If the last rotated angle is not "about" the same as the target
+			//Then it works out the change in angle / speed
+			//Then it updates the last known angle.
+			//IF the current angle and the target ar teh  same, then it will return the 
+			//difference, which will be 0.
+			if (Math.Abs(currentRotation - finalTargetRotation) > 0.05)
+			{	
+				float speed = (transform.rotation.y - currentRotation) / Time.deltaTime;
+				currentRotation = transform.rotation.y;
+				return speed;
+			}	
+			return (transform.rotation.y - finalTargetRotation)/Time.deltaTime;
+		}
 		
 
 		/// <summary>
