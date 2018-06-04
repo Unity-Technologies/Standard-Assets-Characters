@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028355, g: 0.22571374, b: 0.30692255, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -187,8 +187,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0b89c23aecf40399612899e5abac13f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkThreshold: 0.1
-  runThreshold: 0.6
 --- !u!114 &44114425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -382,13 +380,29 @@ Prefab:
       objectReference: {fileID: 628857916}
     - target: {fileID: 4631057385778880, guid: dddc37ae404884f4899c4719b7b35cd0, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0.03296889
+      value: 0.03296854
       objectReference: {fileID: 0}
     - target: {fileID: 4631057385778880, guid: dddc37ae404884f4899c4719b7b35cd0, type: 2}
       propertyPath: m_LocalRotation.z
-      value: -0.002168321
+      value: -0.002168208
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 95933465175030944, guid: dddc37ae404884f4899c4719b7b35cd0,
+        type: 2}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114102421440112312, guid: dddc37ae404884f4899c4719b7b35cd0,
+        type: 2}
+      propertyPath: groundAcceleration
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114102421440112312, guid: dddc37ae404884f4899c4719b7b35cd0,
+        type: 2}
+      propertyPath: jumpSpeed
+      value: 0.1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 114125767912091782, guid: dddc37ae404884f4899c4719b7b35cd0, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: dddc37ae404884f4899c4719b7b35cd0, type: 2}
   m_IsPrefabAsset: 0
 --- !u!4 &313443540
@@ -540,8 +554,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0b89c23aecf40399612899e5abac13f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkThreshold: 0.1
-  runThreshold: 0.6
 --- !u!1 &570313497
 GameObject:
   m_ObjectHideFlags: 0
