@@ -14,6 +14,8 @@ namespace StandardAssets.Characters.Effects
 		/// The movement event id
 		/// </summary>
 		public string id;
+
+		public LayerMask layerMask;
 		
 		/// <summary>
 		/// Fired when movement is detected
@@ -41,9 +43,16 @@ namespace StandardAssets.Characters.Effects
 			{
 				return;
 			}
-			
+
+			//TODO FIX ME
+			if (other.gameObject.layer != 8)
+			{
+				return;
+			}
+
 			MovementEvent movementEvent = new MovementEvent();
 			movementEvent.id = id;
+			movementEvent.firedFrom = transform;
 			//TODO set position
 			OnDetection(movementEvent);
 		}
@@ -59,8 +68,15 @@ namespace StandardAssets.Characters.Effects
 				return;
 			}
 			
+			//TODO FIX ME
+			if (other.gameObject.layer != 8)
+			{
+				return;
+			}
+			
 			MovementEvent movementEvent = new MovementEvent();
 			movementEvent.id = id;
+			movementEvent.firedFrom = transform;
 			//TODO set position
 			OnDetection(movementEvent);
 		}
