@@ -74,9 +74,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		float currentForwardSpeed;
 
-
-		private float finalTargetRotation;
-		private float currentRotation;
+		float previousYRotation;
 	
 		
 		
@@ -87,6 +85,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			m_CharacterInput = GetComponent<ICharacterInput>();
 			m_CharacterPhysics = GetComponent<ICharacterPhysics>();
+			previousYRotation = Wrap180(transform.rotation.eulerAngles.y);
 		}
 
 		/// <summary>
@@ -147,7 +146,19 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			SetForward();
 			CalculateForwardMovement();
-			Move();
+			Move();	
+			CalculateYRotationSpeed();
+		}
+		
+		/// <summary>
+		/// Calculates the rotations
+		/// </summary>
+		void CalculateYRotationSpeed()
+		{
+			float currentYRotation = Wrap180(transform.rotation.eulerAngles.y);
+			float yRotationSpeed = Wrap180(currentYRotation - previousYRotation) / Time.deltaTime;
+			turningSpeed = Mathf.Clamp(yRotationSpeed / turnSpeed, -1, 1);
+			previousYRotation = currentYRotation;
 		}
 
 		/// <summary>
@@ -172,58 +183,34 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			Quaternion targetRotation = Quaternion.LookRotation(cameraToInputOffset * flatForward);
 			
-			
-			
 			if (interpolateTurning)
 			{
-				//ADDED IN PREVIOUS ROTATION
-				Quaternion previousTargetRotation = targetRotation;
-				
 				
 				float actualTurnSpeed =
 					m_CharacterPhysics.isGrounded ? turnSpeed : turnSpeed * airborneTurnSpeedProportion;
 				targetRotation =
 					Quaternion.RotateTowards(transform.rotation, targetRotation, actualTurnSpeed * Time.deltaTime);
-				
-				/*
-				//TS set to DIFFERENCE between last and next. 
-				//This is probably wrong...
-				*/
-				turningSpeed = previousTargetRotation.y - targetRotation.y;
+
 			}
-			currentRotation = transform.rotation.y;
-			finalTargetRotation = targetRotation.y;
 			
 			transform.rotation = targetRotation;
-			
-			
-
-		}
-
-		void Update()
-		{
-			
-			//turningSpeed = getTurningSpeed();
-			
-		}
-
-		float getTurningSpeed()
-		{
-			//If the last rotated angle is not "about" the same as the target
-			//Then it works out the change in angle / speed
-			//Then it updates the last known angle.
-			//IF the current angle and the target ar teh  same, then it will return the 
-			//difference, which will be 0.
-			if (Math.Abs(currentRotation - finalTargetRotation) > 0.05)
-			{	
-				float speed = (transform.rotation.y - currentRotation) / Time.deltaTime;
-				currentRotation = transform.rotation.y;
-				return speed;
-			}	
-			return (transform.rotation.y - finalTargetRotation)/Time.deltaTime;
 		}
 		
+		float Wrap180(float toWrap)
+		{
+			while (toWrap < -180)
+			{
+				toWrap += 360;
+			}
+			
+			while (toWrap > 180)
+			{
+				toWrap -= 360;
+			}
 
+			return toWrap;
+		}
+		
 		/// <summary>
 		/// Calculates the forward movement
 		/// </summary>
