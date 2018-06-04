@@ -2,6 +2,7 @@
 using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
+using UnityEngine.Assertions.Comparers;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
@@ -27,8 +28,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[Range(0f, 1f)]
 		public float airborneDecelProportion = 0.5f;
-
 		public float jumpSpeed = 15f;
+		
 		public bool interpolateTurning = true;
 		public float turnSpeed = 500f;
 
@@ -46,7 +47,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		ICharacterPhysics m_CharacterPhysics;
 
 		/// <inheritdoc />
-		public float turningSpeed { get; private set; }
+		public float turningSpeed { get; private set;}
 
 		/// <inheritdoc />
 		public float lateralSpeed { get; private set; }
@@ -56,7 +57,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			get
 			{
-				Debug.Log(currentForwardSpeed / maxForwardSpeed);
+				//Debug.Log("Forward Speed: "+currentForwardSpeed / maxForwardSpeed);
 				return currentForwardSpeed / maxForwardSpeed;
 			}
 		}
@@ -73,6 +74,12 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		float currentForwardSpeed;
 
+
+		private float finalTargetRotation;
+		private float currentRotation;
+	
+		
+		
 		/// <summary>
 		/// Gets required components
 		/// </summary>
@@ -164,17 +171,58 @@ namespace StandardAssets.Characters.ThirdPerson
 			cameraToInputOffset.eulerAngles = new Vector3(0f, cameraToInputOffset.eulerAngles.y, 0f);
 
 			Quaternion targetRotation = Quaternion.LookRotation(cameraToInputOffset * flatForward);
-
+			
+			
+			
 			if (interpolateTurning)
 			{
+				//ADDED IN PREVIOUS ROTATION
+				Quaternion previousTargetRotation = targetRotation;
+				
+				
 				float actualTurnSpeed =
 					m_CharacterPhysics.isGrounded ? turnSpeed : turnSpeed * airborneTurnSpeedProportion;
 				targetRotation =
 					Quaternion.RotateTowards(transform.rotation, targetRotation, actualTurnSpeed * Time.deltaTime);
+				
+				/*
+				//TS set to DIFFERENCE between last and next. 
+				//This is probably wrong...
+				*/
+				turningSpeed = previousTargetRotation.y - targetRotation.y;
 			}
-
+			currentRotation = transform.rotation.y;
+			finalTargetRotation = targetRotation.y;
+			
 			transform.rotation = targetRotation;
+			
+			
+
 		}
+
+		void Update()
+		{
+			
+			//turningSpeed = getTurningSpeed();
+			
+		}
+
+		float getTurningSpeed()
+		{
+			//If the last rotated angle is not "about" the same as the target
+			//Then it works out the change in angle / speed
+			//Then it updates the last known angle.
+			//IF the current angle and the target ar teh  same, then it will return the 
+			//difference, which will be 0.
+			if (Math.Abs(currentRotation - finalTargetRotation) > 0.05)
+			{	
+				float speed = (transform.rotation.y - currentRotation) / Time.deltaTime;
+				currentRotation = transform.rotation.y;
+				return speed;
+			}	
+			return (transform.rotation.y - finalTargetRotation)/Time.deltaTime;
+		}
+		
 
 		/// <summary>
 		/// Calculates the forward movement
@@ -187,7 +235,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				moveInput.Normalize();
 			}
 
-			Debug.Log(moveInput.magnitude);
+			
 			float desiredSpeed = moveInput.magnitude * maxForwardSpeed;
 
 			if (useAcceleration)
