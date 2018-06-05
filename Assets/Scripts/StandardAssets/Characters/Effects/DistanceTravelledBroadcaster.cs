@@ -65,6 +65,8 @@ namespace StandardAssets.Characters.Effects
 				m_PreviousPosition = currentPosition;
 				return;
 			}
+			
+			m_SqrTravelledDistance += (currentPosition - m_PreviousPosition).sqrMagnitude;
 
 			if (m_SqrTravelledDistance >= m_SqrDistanceThreshold)
 			{
