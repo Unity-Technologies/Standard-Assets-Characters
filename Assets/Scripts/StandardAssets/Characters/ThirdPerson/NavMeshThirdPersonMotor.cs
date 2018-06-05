@@ -8,49 +8,32 @@ namespace StandardAssets.Characters.ThirdPerson
 	/// Maps a NavMeshAgent movement to values that the animator understands
 	/// </summary>
 	[RequireComponent(typeof(NavMeshAgent))]
-	public class NavMeshThirdPersonMotor : MonoBehaviour, IThirdPersonMotor
+	public class NavMeshThirdPersonMotor : BaseThirdPersonMotor
 	{
 		/// <summary>
 		/// The attached NavMeshAgent
 		/// </summary>
 		NavMeshAgent m_Agent;
 
-		/// <summary>
-		/// Max speed values used in normalization
-		/// </summary>
-		public float maxAngularSpeed, maxLateralSpeed, maxForwardSpeed;
-		
 		/// <inheritdoc />
-		public float turningSpeed
+		public override float normalizedLateralSpeed
 		{
-			//TODO: get actual values
-			get { return 0f*m_Agent.angularSpeed/maxAngularSpeed; }
+			get { return GetVelocityOnAxis(m_Agent.transform.right, m_Agent.velocity) / m_Agent.speed; }
 		}
 
 		/// <inheritdoc />
-		public float lateralSpeed
+		public override float normalizedForwardSpeed
 		{
-			get { return GetVelocityOnAxis(m_Agent.transform.right, m_Agent.velocity) / maxLateralSpeed; }
+			get { return GetVelocityOnAxis(m_Agent.transform.forward, m_Agent.velocity) / m_Agent.speed; }
 		}
-
-		/// <inheritdoc />
-		public float forwardSpeed
-		{
-			get { return GetVelocityOnAxis(m_Agent.transform.forward, m_Agent.velocity) / maxForwardSpeed; }
-		}
-
-		/// <inheritdoc />
-		public Action jumpStarted { get; set; }
-		
-		/// <inheritdoc />
-		public Action landed { get; set; }
 
 		/// <summary>
 		/// Get the NavMeshAgent on Awake
 		/// </summary>
-		void Awake()
+		protected override void Awake()
 		{
 			m_Agent = GetComponent<NavMeshAgent>();
+			base.Awake();
 		}
 
 		/// <summary>
@@ -66,6 +49,14 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			Debug.Log(val);
 			return val;
+		}
+
+		/// <summary>
+		/// Calculates the rotation about Y
+		/// </summary>
+		void Update()
+		{
+			CalculateYRotationSpeed(Time.deltaTime);
 		}
 	}
 }

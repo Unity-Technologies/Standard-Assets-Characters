@@ -37,15 +37,15 @@ GameObject:
   m_Component:
   - component: {fileID: 4965165783443064}
   - component: {fileID: 143310835610149212}
+  - component: {fileID: 136542410859124520}
+  - component: {fileID: 95656115099292966}
   - component: {fileID: 114001913578004172}
   - component: {fileID: 114468311170067366}
+  - component: {fileID: 114099553648463976}
   - component: {fileID: 114479820653461454}
   - component: {fileID: 114266891504341116}
   - component: {fileID: 114591283884522816}
-  - component: {fileID: 136542410859124520}
-  - component: {fileID: 95656115099292966}
   - component: {fileID: 114688313537942486}
-  - component: {fileID: 114099553648463976}
   m_Layer: 0
   m_Name: FirstPersonNewInput
   m_TagString: Untagged
@@ -339,7 +339,7 @@ MonoBehaviour:
     m_DecelTime: 0.1
     m_InputAxisName: Mouse Y
     m_InputAxisValue: 0
-    m_InvertInput: 0
+    m_InvertInput: 1
     m_MinValue: -90
     m_MaxValue: 90
     m_Wrap: 0
@@ -356,7 +356,7 @@ MonoBehaviour:
     m_DecelTime: 0.1
     m_InputAxisName: Mouse X
     m_InputAxisValue: 0
-    m_InvertInput: 1
+    m_InvertInput: 0
     m_MinValue: -180
     m_MaxValue: 180
     m_Wrap: 1
@@ -729,6 +729,10 @@ MonoBehaviour:
     m_VirtualCamera: {fileID: 114962441330413634}
     m_ActivateAfter: 0
     m_MinDuration: 0
+  - m_FullHash: -1631381316
+    m_VirtualCamera: {fileID: 0}
+    m_ActivateAfter: 0
+    m_MinDuration: 0
   m_DefaultBlend:
     m_Style: 1
     m_Time: 0.5
@@ -745,6 +749,8 @@ MonoBehaviour:
   - m_Hash: -2065082259
     m_ParentHash: 756556552
   - m_Hash: 1063665824
+    m_ParentHash: 756556552
+  - m_Hash: -1631381316
     m_ParentHash: 756556552
 --- !u!114 &114792954165457610
 MonoBehaviour:
@@ -764,7 +770,7 @@ MonoBehaviour:
     m_DecelTime: 0.1
     m_InputAxisName: Mouse Y
     m_InputAxisValue: 0
-    m_InvertInput: 0
+    m_InvertInput: 1
     m_MinValue: -90
     m_MaxValue: 90
     m_Wrap: 0
@@ -781,7 +787,7 @@ MonoBehaviour:
     m_DecelTime: 0.1
     m_InputAxisName: Mouse X
     m_InputAxisValue: 0
-    m_InvertInput: 1
+    m_InvertInput: 0
     m_MinValue: -180
     m_MaxValue: 180
     m_Wrap: 1
@@ -820,7 +826,7 @@ MonoBehaviour:
     m_DecelTime: 0.1
     m_InputAxisName: Mouse Y
     m_InputAxisValue: 0
-    m_InvertInput: 0
+    m_InvertInput: 1
     m_MinValue: -90
     m_MaxValue: 90
     m_Wrap: 0
@@ -836,8 +842,8 @@ MonoBehaviour:
     m_AccelTime: 0.1
     m_DecelTime: 0.1
     m_InputAxisName: Mouse X
-    m_InputAxisValue: -0
-    m_InvertInput: 1
+    m_InputAxisValue: 0
+    m_InvertInput: 0
     m_MinValue: -180
     m_MaxValue: 180
     m_Wrap: 1

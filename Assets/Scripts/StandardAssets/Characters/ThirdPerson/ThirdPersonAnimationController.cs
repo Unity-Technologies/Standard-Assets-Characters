@@ -13,6 +13,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		public string lateralSpeedParameterName = "LateralSpeed";
 		public string turningSpeedParameterName = "TurningSpeed";
 		public string groundedParameterName = "Grounded";
+		public string hasInputParameterName = "HasInput";
 		
 		/// <summary>
 		/// Required motor
@@ -30,7 +31,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		int m_HashForwardSpeed;
 		int m_HashLateralSpeed;
 		int m_HashTurningSpeed;
-		int m_Grounded;
+		int m_HashGrounded;
+		int m_HashHasInput;
 
 		/// <summary>
 		/// Gets the required components
@@ -40,7 +42,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			m_HashForwardSpeed = Animator.StringToHash(forwardSpeedParameterName);
 			m_HashLateralSpeed = Animator.StringToHash(lateralSpeedParameterName);
 			m_HashTurningSpeed = Animator.StringToHash(turningSpeedParameterName);
-			m_Grounded = Animator.StringToHash(groundedParameterName);
+			m_HashGrounded = Animator.StringToHash(groundedParameterName);
+			m_HashHasInput = Animator.StringToHash(hasInputParameterName);
 			m_Motor = GetComponent<IThirdPersonMotor>();
 			m_Animator = GetComponent<Animator>();
 		}
@@ -73,7 +76,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		void OnLanding()
 		{
-			m_Animator.SetBool(m_Grounded, true);
+			m_Animator.SetBool(m_HashGrounded, true);
 		}
 
 		/// <summary>
@@ -81,7 +84,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		void OnJumpStarted()
 		{
-			m_Animator.SetBool(m_Grounded, false);
+			m_Animator.SetBool(m_HashGrounded, false);
 		}
 
 		/// <summary>
@@ -89,9 +92,15 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		void Update()
 		{
-			m_Animator.SetFloat(m_HashForwardSpeed, m_Motor.forwardSpeed);
-			m_Animator.SetFloat(m_HashLateralSpeed, m_Motor.lateralSpeed);
-			m_Animator.SetFloat(m_HashTurningSpeed, m_Motor.turningSpeed);
+			m_Animator.SetFloat(m_HashForwardSpeed, m_Motor.normalizedForwardSpeed);
+			m_Animator.SetFloat(m_HashLateralSpeed, m_Motor.normalizedLateralSpeed);
+			m_Animator.SetFloat(m_HashTurningSpeed, m_Motor.normalizedTurningSpeed);
+			m_Animator.SetBool(m_HashHasInput, CheckHasSpeed(m_Motor.normalizedForwardSpeed) || CheckHasSpeed(m_Motor.normalizedLateralSpeed));
+		}
+
+		bool CheckHasSpeed(float speed)
+		{
+			return Mathf.Abs(speed) > 0;
 		}
 	}
 }

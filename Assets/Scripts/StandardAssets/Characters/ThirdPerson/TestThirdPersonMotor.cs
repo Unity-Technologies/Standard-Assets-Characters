@@ -11,14 +11,14 @@ namespace StandardAssets.Characters.ThirdPerson
 		public float forwardMovement = 1f;
 		public float lateralMovement;
 		
-		public float turningSpeed { get; private set; }
+		public float normalizedTurningSpeed { get; private set; }
 		
-		public float lateralSpeed 
+		public float normalizedLateralSpeed 
 		{
 			get { return lateralMovement; }
 		}
 
-		public float forwardSpeed
+		public float normalizedForwardSpeed
 		{
 			get { return forwardMovement; }
 		}
