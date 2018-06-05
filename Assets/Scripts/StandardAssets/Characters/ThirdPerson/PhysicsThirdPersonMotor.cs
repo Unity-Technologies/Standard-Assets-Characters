@@ -56,31 +56,22 @@ namespace StandardAssets.Characters.ThirdPerson
 			get
 			{
 				//Debug.Log("Forward Speed: "+currentForwardSpeed / maxForwardSpeed);
-				return currentForwardSpeed / maxForwardSpeed;
+				return m_CurrentForwardSpeed / maxForwardSpeed;
 			}
 		}
 
-		/// <summary>
-		/// Fires when the jump starts
-		/// </summary>
-		public Action jumpStarted { get; set; }
-
-		/// <summary>
-		/// Fires when the player lands
-		/// </summary>
-		public Action landed { get; set; }
-
-		float currentForwardSpeed;
+		float m_CurrentForwardSpeed;
 		
 		
+		/// <inheritdoc />
 		/// <summary>
 		/// Gets required components
 		/// </summary>
-		void Awake()
+		protected override void Awake()
 		{
 			m_CharacterInput = GetComponent<ICharacterInput>();
 			m_CharacterPhysics = GetComponent<ICharacterPhysics>();
-			m_PreviousYRotation = Wrap180(transform.rotation.eulerAngles.y);
+			base.Awake();
 		}
 
 		/// <summary>
@@ -201,12 +192,12 @@ namespace StandardAssets.Characters.ThirdPerson
 					: (m_CharacterInput.hasMovementInput ? groundAcceleration : groundDeceleration) *
 					  airborneDecelProportion;
 
-				currentForwardSpeed =
-					Mathf.MoveTowards(currentForwardSpeed, desiredSpeed, acceleration * Time.deltaTime);
+				m_CurrentForwardSpeed =
+					Mathf.MoveTowards(m_CurrentForwardSpeed, desiredSpeed, acceleration * Time.deltaTime);
 			}
 			else
 			{
-				currentForwardSpeed = desiredSpeed;
+				m_CurrentForwardSpeed = desiredSpeed;
 			}
 		}
 
@@ -232,7 +223,7 @@ namespace StandardAssets.Characters.ThirdPerson
 //			}
 //			else
 //			{
-			movement = currentForwardSpeed * transform.forward * Time.deltaTime;
+			movement = m_CurrentForwardSpeed * transform.forward * Time.deltaTime;
 //			}
 
 			//movement += m_VerticalSpeed * Vector3.up * Time.deltaTime;
