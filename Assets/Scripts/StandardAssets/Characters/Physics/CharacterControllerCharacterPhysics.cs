@@ -51,7 +51,8 @@ namespace StandardAssets.Characters.Physics
 		bool m_Grounded;
 		
 		public Action landed { get; set; }
-		
+		public Action jumpVelocitySet { get; set; }
+
 		/// <inheritdoc />
 		public bool isGrounded
 		{
@@ -72,6 +73,10 @@ namespace StandardAssets.Characters.Physics
 		public void SetJumpVelocity(float initialVelocity)
 		{
 			m_InitialJumpVelocity = initialVelocity;
+			if (jumpVelocitySet != null)
+			{
+				jumpVelocitySet();
+			}
 		}
 
 

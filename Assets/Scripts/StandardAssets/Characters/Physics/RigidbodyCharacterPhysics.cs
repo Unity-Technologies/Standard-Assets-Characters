@@ -14,6 +14,12 @@ namespace StandardAssets.Characters.Physics
 		/// The required Rigidbody
 		/// </summary>
 		Rigidbody m_Rigidbody;
+		
+		/// <inheritdoc />
+		public Action jumpVelocitySet { get; set; }
+		
+		/// <inheritdoc />
+		public Action landed { get; set; }
 
 		/// <summary>
 		/// Gets Rigidbody on Awake
@@ -37,8 +43,5 @@ namespace StandardAssets.Characters.Physics
 		{
 			m_Rigidbody.velocity = m_Rigidbody.velocity + new Vector3(0, initialVelocity, 0);
 		}
-
-		/// <inheritdoc />
-		public Action landed { get; set; }
 	}
 }

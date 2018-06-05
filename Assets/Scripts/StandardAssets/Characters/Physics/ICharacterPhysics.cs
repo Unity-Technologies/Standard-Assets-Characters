@@ -19,6 +19,11 @@ namespace StandardAssets.Characters.Physics
 		Action landed { get; set; }
 		
 		/// <summary>
+		/// Invoked when the jump velocity is set
+		/// </summary>
+		Action jumpVelocitySet { get; set; }
+		
+		/// <summary>
 		/// Handles movement
 		/// </summary>
 		/// <param name="moveVector3"></param>

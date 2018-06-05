@@ -32,54 +32,40 @@ namespace StandardAssets.Characters.Effects
         void Awake()
         {
             m_CharacterPhysics = GetComponent<ICharacterPhysics>();
-            //TODO: subscribe to events
-            //m_CharacterPhysics.landed += Landed;
         }
 
-        private void FixedUpdate()
-        {
-            CheckJump();
-        }
-        
         /// <summary>
-        /// Checks if the character is jumping
+        /// Subscribe
         /// </summary>
-        void CheckJump()
+        private void OnEnable()
         {
-            if (!m_CharacterPhysics.isGrounded & !inJump)
-            {
-                Jumped();
-            }
-
-            if (inJump & m_CharacterPhysics.isGrounded)
-            {
-                Landed();
-            }
+            m_CharacterPhysics.landed += Landed;
+            m_CharacterPhysics.jumpVelocitySet += Jumped;
         }
-        
+
         /// <summary>
-        /// Set the IDs index and play sound
+        /// Unsubscribe
+        /// </summary>
+        private void OnDisable()
+        {
+            m_CharacterPhysics.landed -= Landed;
+            m_CharacterPhysics.jumpVelocitySet -= Jumped;
+        }
+
+        /// <summary>
+        /// Calls PlayEvent on the jump ID
         /// </summary>
         void Jumped()
         {
-            inJump = true;
-            PlaySound(jumpId);
+            BroadcastMovementEvent(jumpId);
         }
         
+        /// <summary>
+        /// Calls PlayEvent on the landing ID
+        /// </summary>
         void Landed()
         {
-            inJump = false;
-            PlaySound(landingId);
-        }
-
-        void PlaySound(string id)
-        {
-            MovementEvent movementEvent= new MovementEvent();
-            movementEvent.id = id;
-			
-            OnMoved(movementEvent);
-        }
-		
-        
+            BroadcastMovementEvent(landingId);
+        }        
     }
 }
