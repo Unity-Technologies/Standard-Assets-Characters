@@ -44,8 +44,7 @@ namespace StandardAssets.Characters.Effects
 				return;
 			}
 
-			//TODO FIX ME
-			if (other.gameObject.layer != 8)
+			if (layerMask != (layerMask | (1 << other.gameObject.layer)))
 			{
 				return;
 			}
@@ -68,8 +67,7 @@ namespace StandardAssets.Characters.Effects
 				return;
 			}
 			
-			//TODO FIX ME
-			if (other.gameObject.layer != 8)
+			if (layerMask != (layerMask | (1 << other.gameObject.layer)))
 			{
 				return;
 			}
