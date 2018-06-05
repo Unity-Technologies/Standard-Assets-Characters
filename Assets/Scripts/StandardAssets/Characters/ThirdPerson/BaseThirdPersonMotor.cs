@@ -12,6 +12,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// The actual turn speed
 		/// </summary>
 		public float turnSpeed = 300f;
+
+		[Tooltip("Determines how quickly the normalized turning speed can change")]
+		[Range(1, 20)]
+		public float normalizedTurnLerpFactor = 5f;
 		
 		/// <summary>
 		/// Needed to calculate turning
@@ -64,11 +68,13 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Calculates the rotations
 		/// </summary>
-		protected void CalculateYRotationSpeed()
+		protected void CalculateYRotationSpeed(float deltaTime)
 		{
 			float currentYRotation = Wrap180(transform.rotation.eulerAngles.y);
-			float yRotationSpeed = Wrap180(currentYRotation - m_PreviousYRotation) / Time.deltaTime;
-			m_NormalizedTurningSpeed = Mathf.Clamp(yRotationSpeed / turnSpeed, -1, 1);
+			float yRotationSpeed = Wrap180(currentYRotation - m_PreviousYRotation) / deltaTime;
+			float targetNormalizedTurningSpeed = Mathf.Clamp(yRotationSpeed / turnSpeed, -1, 1);
+			m_NormalizedTurningSpeed = 
+				Mathf.Lerp(m_NormalizedTurningSpeed, targetNormalizedTurningSpeed, deltaTime * normalizedTurnLerpFactor);
 			m_PreviousYRotation = currentYRotation;
 		}
 

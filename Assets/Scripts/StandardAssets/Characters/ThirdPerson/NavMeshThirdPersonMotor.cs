@@ -56,7 +56,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		void Update()
 		{
-			CalculateYRotationSpeed();
+			CalculateYRotationSpeed(Time.deltaTime);
 		}
 	}
 }

@@ -133,7 +133,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			SetForward();
 			CalculateForwardMovement();
 			Move();	
-			CalculateYRotationSpeed();
+			CalculateYRotationSpeed(Time.fixedDeltaTime);
 		}
 
 		/// <summary>
@@ -164,7 +164,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				float actualTurnSpeed =
 					m_CharacterPhysics.isGrounded ? turnSpeed : turnSpeed * airborneTurnSpeedProportion;
 				targetRotation =
-					Quaternion.RotateTowards(transform.rotation, targetRotation, actualTurnSpeed * Time.deltaTime);
+					Quaternion.RotateTowards(transform.rotation, targetRotation, actualTurnSpeed * Time.fixedDeltaTime);
 
 			}
 			
@@ -193,7 +193,7 @@ namespace StandardAssets.Characters.ThirdPerson
 					  airborneDecelProportion;
 
 				m_CurrentForwardSpeed =
-					Mathf.MoveTowards(m_CurrentForwardSpeed, desiredSpeed, acceleration * Time.deltaTime);
+					Mathf.MoveTowards(m_CurrentForwardSpeed, desiredSpeed, acceleration * Time.fixedDeltaTime);
 			}
 			else
 			{
@@ -223,7 +223,7 @@ namespace StandardAssets.Characters.ThirdPerson
 //			}
 //			else
 //			{
-			movement = m_CurrentForwardSpeed * transform.forward * Time.deltaTime;
+			movement = m_CurrentForwardSpeed * transform.forward * Time.fixedDeltaTime;
 //			}
 
 			//movement += m_VerticalSpeed * Vector3.up * Time.deltaTime;
