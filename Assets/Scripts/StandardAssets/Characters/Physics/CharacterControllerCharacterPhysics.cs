@@ -92,13 +92,13 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		void FixedUpdate()
 		{
-			AerailMovement();
+			AerialMovement();
 		}
 		
 		/// <summary>
 		/// Handles falling
 		/// </summary>
-		void AerailMovement()
+		void AerialMovement()
 		{
 			m_Grounded = CheckGrounded();
 			
@@ -107,16 +107,21 @@ namespace StandardAssets.Characters.Physics
 			float currentVerticalVelocity = m_InitialJumpVelocity + gravity * m_AirTime;
 			
 			
-			if (currentVerticalVelocity < 0f && isGrounded)
+			if (currentVerticalVelocity < 0f && m_Grounded)
 			{
-				m_AirTime = 0f;
 				m_InitialJumpVelocity = 0f;
 				m_VerticalVector = Vector3.zero;
-				if (landed != null)
+				
+				//Play the moment that the character lands and only at that moment
+				if (Math.Abs(m_AirTime - Time.fixedDeltaTime) > Mathf.Epsilon)
 				{
-					landed();
+					if (landed != null)
+					{
+						landed();
+					}
 				}
 				
+				m_AirTime = 0f;
 				return;
 			}
 			
