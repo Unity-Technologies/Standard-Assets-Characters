@@ -89,9 +89,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		void Update()
 		{
-			m_Animator.SetFloat(m_HashForwardSpeed, m_Motor.forwardSpeed);
-			m_Animator.SetFloat(m_HashLateralSpeed, m_Motor.lateralSpeed);
-			m_Animator.SetFloat(m_HashTurningSpeed, m_Motor.turningSpeed);
+			m_Animator.SetFloat(m_HashForwardSpeed, m_Motor.normalizedForwardSpeed);
+			m_Animator.SetFloat(m_HashLateralSpeed, m_Motor.normalizedLateralSpeed);
+			m_Animator.SetFloat(m_HashTurningSpeed, m_Motor.normalizedTurningSpeed);
 		}
 	}
 }

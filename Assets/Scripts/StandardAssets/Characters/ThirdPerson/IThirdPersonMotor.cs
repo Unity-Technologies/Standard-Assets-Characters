@@ -11,17 +11,17 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// The turning speed. Range =  -1 (rotate anticlockwise) to 1 (rotate clockwise). 0 is not turning.
 		/// </summary>
-		float turningSpeed { get; }
+		float normalizedTurningSpeed { get; }
 		
 		/// <summary>
 		/// The lateral speed. Range = - 1 (strafe left) to 1 (strafe). 0 is no strafing
 		/// </summary>
-		float lateralSpeed { get; }
+		float normalizedLateralSpeed { get; }
 		
 		/// <summary>
 		/// The forward speed. Range = -1 (run backwards) to 1 (run forwards). 0 is no forward movement 
 		/// </summary>
-		float forwardSpeed { get; }
+		float normalizedForwardSpeed { get; }
 		
 		/// <summary>
 		/// Fired on jump
