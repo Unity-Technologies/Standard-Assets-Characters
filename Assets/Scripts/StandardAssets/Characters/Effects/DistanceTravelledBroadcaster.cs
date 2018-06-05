@@ -41,8 +41,6 @@ namespace StandardAssets.Characters.Effects
 		/// </summary>
 		ICharacterPhysics m_CharacterPhysics;
 
-		private bool inJump;
-
 		/// <summary>
 		/// Initialize:
 		/// Precalculate the square of the threshold
@@ -61,7 +59,7 @@ namespace StandardAssets.Characters.Effects
 		/// </summary>
 		void FixedUpdate()
 		{
-			checkLanding();
+			//checkLanding();
 			
 			Vector3 currentPosition = transform.position;
 			
@@ -86,40 +84,7 @@ namespace StandardAssets.Characters.Effects
 			
 			
 		}
-		
-		/// <summary>
-		/// Simple check to see if character has landd 
-		/// </summary>
-		void checkLanding()
-		{	
-			if (!m_CharacterPhysics.isGrounded & !inJump)
-			{
-				inJump = true;
-				Jumped();
-			}
-
-			if (inJump & m_CharacterPhysics.isGrounded)
-			{
-				Landed();
-				inJump = false;
-			}
-		}
-
-		void Landed()
-		{
-			MovementEvent movementEvent= new MovementEvent();
-			movementEvent.id = "landing";
-			
-			OnMoved(movementEvent);
-		}
-		
-		void Jumped()
-		{
-			MovementEvent movementEvent= new MovementEvent();
-			movementEvent.id = "jumping";
-			
-			OnMoved(movementEvent);
-		}
+	
 
 		/// <summary>
 		/// Handle the broadcasting of the movement event
