@@ -11,7 +11,7 @@ namespace StandardAssets.Characters.ThirdPerson
 	/// </summary>
 	[RequireComponent(typeof(ICharacterPhysics))]
 	[RequireComponent(typeof(ICharacterInput))]
-	public class PhysicsThirdPersonMotor : MonoBehaviour, IThirdPersonMotor
+	public class PhysicsThirdPersonMotor : BaseThirdPersonMotor
 	{
 		/// <summary>
 		/// Movement values
@@ -31,7 +31,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		public float jumpSpeed = 15f;
 		
 		public bool interpolateTurning = true;
-		public float turnSpeed = 500f;
 
 		[Range(0f, 1f)]
 		public float airborneTurnSpeedProportion = 0.5f;
@@ -47,13 +46,12 @@ namespace StandardAssets.Characters.ThirdPerson
 		ICharacterPhysics m_CharacterPhysics;
 
 		/// <inheritdoc />
-		public float turningSpeed { get; private set;}
-
+		public override float normalizedLateralSpeed 
+		{
+			get { return 0f; } 
+		}
 		/// <inheritdoc />
-		public float lateralSpeed { get; private set; }
-
-		/// <inheritdoc />
-		public float forwardSpeed
+		public override float normalizedForwardSpeed
 		{
 			get
 			{
@@ -73,9 +71,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		public Action landed { get; set; }
 
 		float currentForwardSpeed;
-
-		float previousYRotation;
-	
 		
 		
 		/// <summary>
@@ -85,7 +80,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			m_CharacterInput = GetComponent<ICharacterInput>();
 			m_CharacterPhysics = GetComponent<ICharacterPhysics>();
-			previousYRotation = Wrap180(transform.rotation.eulerAngles.y);
+			m_PreviousYRotation = Wrap180(transform.rotation.eulerAngles.y);
 		}
 
 		/// <summary>
@@ -149,17 +144,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			Move();	
 			CalculateYRotationSpeed();
 		}
-		
-		/// <summary>
-		/// Calculates the rotations
-		/// </summary>
-		void CalculateYRotationSpeed()
-		{
-			float currentYRotation = Wrap180(transform.rotation.eulerAngles.y);
-			float yRotationSpeed = Wrap180(currentYRotation - previousYRotation) / Time.deltaTime;
-			turningSpeed = Mathf.Clamp(yRotationSpeed / turnSpeed, -1, 1);
-			previousYRotation = currentYRotation;
-		}
 
 		/// <summary>
 		/// Sets forward rotation
@@ -194,21 +178,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			
 			transform.rotation = targetRotation;
-		}
-		
-		float Wrap180(float toWrap)
-		{
-			while (toWrap < -180)
-			{
-				toWrap += 360;
-			}
-			
-			while (toWrap > 180)
-			{
-				toWrap -= 360;
-			}
-
-			return toWrap;
 		}
 		
 		/// <summary>

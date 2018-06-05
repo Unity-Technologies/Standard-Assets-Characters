@@ -21,20 +21,20 @@ namespace StandardAssets.Characters.ThirdPerson
 		public float maxAngularSpeed, maxLateralSpeed, maxForwardSpeed;
 		
 		/// <inheritdoc />
-		public float turningSpeed
+		public float normalizedTurningSpeed
 		{
 			//TODO: get actual values
 			get { return 0f*m_Agent.angularSpeed/maxAngularSpeed; }
 		}
 
 		/// <inheritdoc />
-		public float lateralSpeed
+		public float normalizedLateralSpeed
 		{
 			get { return GetVelocityOnAxis(m_Agent.transform.right, m_Agent.velocity) / maxLateralSpeed; }
 		}
 
 		/// <inheritdoc />
-		public float forwardSpeed
+		public float normalizedForwardSpeed
 		{
 			get { return GetVelocityOnAxis(m_Agent.transform.forward, m_Agent.velocity) / maxForwardSpeed; }
 		}
