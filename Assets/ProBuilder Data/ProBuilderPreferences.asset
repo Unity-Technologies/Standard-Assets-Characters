@@ -11,7 +11,9 @@ MonoBehaviour:
   m_Script: {fileID: 680703436, guid: 4f0627da958b4bb78c260446066f065f, type: 3}
   m_Name: ProBuilderPreferences
   m_EditorClassIdentifier: 
-  m_Bool_keys: []
+  m_Bool_keys:
+  - pbEnableBackfaceSelection
+  - pbUVMaterialPreview
   m_Int_keys:
   - pbHandleAlignment
   - pbDefaultEditLevel
@@ -27,18 +29,22 @@ MonoBehaviour:
   - pbVertexColorPrefs8
   - pbVertexColorPrefs5
   - pbVertexColorPrefs6
+  - pbCurrentMaterialPalette
+  - pbVertexColorPrefs4
   m_Color_keys: []
   m_Material_keys: []
-  m_Bool_values: 
-  m_Int_values: 0000000001000000010000000100000000000000
+  m_Bool_values: 0001
+  m_Int_values: 0000000001000000020000000100000000000000
   m_Float_values:
   - 0
   - 0
   m_String_values:
   - RGBA(0.000, 0.962, 1.000, 1.000)
-  - RGBA(0.858, 0.439, 0.028, 1.000)
+  - RGBA(0.689, 0.365, 0.036, 1.000)
   - RGBA(0.264, 0.250, 0.250, 1.000)
   - RGBA(0.142, 0.141, 0.141, 1.000)
   - RGBA(0.500, 0.500, 0.500, 1.000)
+  - Assets/ProBuilder Data/Default Material Palette.asset
+  - RGBA(0.868, 0.592, 0.053, 1.000)
   m_Color_values: []
   m_Material_values: []
