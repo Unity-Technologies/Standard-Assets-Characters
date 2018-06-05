@@ -1227,7 +1227,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &503879060
 Transform:
   m_ObjectHideFlags: 0
@@ -1828,7 +1828,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1078677782
 Transform:
   m_ObjectHideFlags: 0
@@ -3215,7 +3215,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1736172522
 Transform:
   m_ObjectHideFlags: 0
@@ -3468,6 +3468,16 @@ Prefab:
         type: 2}
       propertyPath: m_ParentHash.Array.data[3].m_ParentHash
       value: 756556552
+      objectReference: {fileID: 0}
+    - target: {fileID: 114266891504341116, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: distanceThreshold
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: startingMovementProperties.maxSpeed
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2706dd163cab644aa0f7aec413a3457, type: 2}
@@ -3753,38 +3763,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baa5dc2c89154d7497722e8161512603, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &2016366071 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1061151631119762, guid: f2706dd163cab644aa0f7aec413a3457,
-    type: 2}
-  m_PrefabInternal: {fileID: 1812529121}
---- !u!114 &2016366082
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2016366071}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f15fdcce5f854ef08215491f1d17f1a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startingMovementEventLibrary: {fileID: 0}
---- !u!114 &2016366083
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2016366071}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c7789a178b748a187e03661002abd65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  distanceThreshold: 0.6
-  ids:
-  - leftfoot
-  - rightfoot
 --- !u!43 &2033599670
 Mesh:
   m_ObjectHideFlags: 0
