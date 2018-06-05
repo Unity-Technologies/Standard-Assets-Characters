@@ -10,14 +10,14 @@ namespace StandardAssets.Characters.Effects
     public class JumpAirTimeBroadcaster : MovementEventBroadcaster
     {
         /// <summary>
-        /// List of IDs for movement events
+        /// Id of Jumping event
         /// </summary>
-        public string[] ids;
+        public string jumpId = "jumping";
 
         /// <summary>
-        /// The current index of the 
+        /// Id of Landing event
         /// </summary>
-        int m_CurrentIdIndex = -1;
+        public string landingId = "landing";
         
         /// <summary>
         /// CharacterPhysics
@@ -32,7 +32,8 @@ namespace StandardAssets.Characters.Effects
         void Awake()
         {
             m_CharacterPhysics = GetComponent<ICharacterPhysics>();
-           
+            //TODO: subscribe to events
+            //m_CharacterPhysics.landed += Landed;
         }
 
         private void FixedUpdate()
@@ -62,28 +63,19 @@ namespace StandardAssets.Characters.Effects
         void Jumped()
         {
             inJump = true;
-            m_CurrentIdIndex = 0;
-            PlaySound();
+            PlaySound(jumpId);
         }
         
         void Landed()
         {
             inJump = false;
-            m_CurrentIdIndex = 1;
-            PlaySound();
-
+            PlaySound(landingId);
         }
 
-        void PlaySound()
+        void PlaySound(string id)
         {
-            int length = ids.Length;
-            if (ids == null || length == 0)
-            {
-                return;
-            }
-            
             MovementEvent movementEvent= new MovementEvent();
-            movementEvent.id = ids[m_CurrentIdIndex];
+            movementEvent.id = id;
 			
             OnMoved(movementEvent);
         }

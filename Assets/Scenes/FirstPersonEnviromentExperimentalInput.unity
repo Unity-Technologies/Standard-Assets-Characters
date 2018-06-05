@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18203613, g: 0.22772716, b: 0.30740166, a: 1}
+  m_IndirectSpecularColor: {r: 0.18203652, g: 0.22772755, b: 0.30740222, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1054,7 +1054,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1260874601674640, guid: 3cf572f2a908bdf43a8f90f60ef99fa8, type: 2}
       propertyPath: m_Name
-      value: FooststepSounds
+      value: FootstepSounds
       objectReference: {fileID: 0}
     - target: {fileID: 82713748196703282, guid: 3cf572f2a908bdf43a8f90f60ef99fa8,
         type: 2}
@@ -3017,9 +3017,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79b8563e9117458bb97ca06f29b17116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ids:
-  - jumping
-  - landing
+  jumpId: jumping
+  landingId: landing
 --- !u!1 &1469011751
 GameObject:
   m_ObjectHideFlags: 0
