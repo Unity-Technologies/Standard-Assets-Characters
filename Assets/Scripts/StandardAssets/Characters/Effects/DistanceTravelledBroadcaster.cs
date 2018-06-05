@@ -1,4 +1,6 @@
-﻿using StandardAssets.Characters.Physics;
+﻿using System;
+using System.Xml.Linq;
+using StandardAssets.Characters.Physics;
 using UnityEngine;
 
 namespace StandardAssets.Characters.Effects
@@ -39,6 +41,8 @@ namespace StandardAssets.Characters.Effects
 		/// </summary>
 		ICharacterPhysics m_CharacterPhysics;
 
+		private bool inJump;
+
 		/// <summary>
 		/// Initialize:
 		/// Precalculate the square of the threshold
@@ -51,13 +55,17 @@ namespace StandardAssets.Characters.Effects
 			m_CharacterPhysics = GetComponent<ICharacterPhysics>();
 		}
 
+		
 		/// <summary>
 		/// Calculate movement on FixedUpdate
 		/// </summary>
 		void FixedUpdate()
 		{
+			checkLanding();
 			
 			Vector3 currentPosition = transform.position;
+			
+			
 			
 			//Optimization - prevents the rest of the logic, which includes vector magnitude calculations, from being called if the character has not moved
 			if (currentPosition == m_PreviousPosition || !m_CharacterPhysics.isGrounded)
@@ -75,6 +83,42 @@ namespace StandardAssets.Characters.Effects
 			}
 			
 			m_PreviousPosition = currentPosition;
+			
+			
+		}
+		
+		/// <summary>
+		/// Simple check to see if character has landd 
+		/// </summary>
+		void checkLanding()
+		{	
+			if (!m_CharacterPhysics.isGrounded & !inJump)
+			{
+				inJump = true;
+				Jumped();
+			}
+
+			if (inJump & m_CharacterPhysics.isGrounded)
+			{
+				Landed();
+				inJump = false;
+			}
+		}
+
+		void Landed()
+		{
+			MovementEvent movementEvent= new MovementEvent();
+			movementEvent.id = "landing";
+			
+			OnMoved(movementEvent);
+		}
+		
+		void Jumped()
+		{
+			MovementEvent movementEvent= new MovementEvent();
+			movementEvent.id = "jumping";
+			
+			OnMoved(movementEvent);
 		}
 
 		/// <summary>

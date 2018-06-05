@@ -20,6 +20,7 @@ namespace StandardAssets.Characters.Effects
 			}
 			
 			PlayMovementEvent(movementEvent);
+			
 		}
 
 		/// <summary>
