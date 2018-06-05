@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿using StandardAssets.Characters.Physics;
+using UnityEngine;
 
 namespace StandardAssets.Characters.Effects
 {
 	/// <summary>
 	/// Broadcasts an event with an id selected from a list every x units of movementg
 	/// </summary>
+	[RequireComponent(typeof(ICharacterPhysics))]
 	public class DistanceTravelledBroadcaster : MovementEventBroadcaster
 	{
 		/// <summary>
@@ -33,6 +35,11 @@ namespace StandardAssets.Characters.Effects
 		Vector3 m_PreviousPosition;
 
 		/// <summary>
+		/// CharacterPhysics
+		/// </summary>
+		ICharacterPhysics m_CharacterPhysics;
+
+		/// <summary>
 		/// Initialize:
 		/// Precalculate the square of the threshold
 		/// Set the previous position
@@ -41,6 +48,7 @@ namespace StandardAssets.Characters.Effects
 		{
 			m_SqrDistanceThreshold = distanceThreshold * distanceThreshold;
 			m_PreviousPosition = transform.position;
+			m_CharacterPhysics = GetComponent<ICharacterPhysics>();
 		}
 
 		/// <summary>
@@ -48,15 +56,15 @@ namespace StandardAssets.Characters.Effects
 		/// </summary>
 		void FixedUpdate()
 		{
+			
 			Vector3 currentPosition = transform.position;
 			
 			//Optimization - prevents the rest of the logic, which includes vector magnitude calculations, from being called if the character has not moved
-			if (currentPosition == m_PreviousPosition)
+			if (currentPosition == m_PreviousPosition || !m_CharacterPhysics.isGrounded)
 			{
+				m_PreviousPosition = currentPosition;
 				return;
 			}
-			
-			m_SqrTravelledDistance += (currentPosition - m_PreviousPosition).sqrMagnitude;
 
 			if (m_SqrTravelledDistance >= m_SqrDistanceThreshold)
 			{
