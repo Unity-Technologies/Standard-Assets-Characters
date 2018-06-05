@@ -32,6 +32,7 @@ namespace StandardAssets.Characters.Effects
         void Awake()
         {
             m_CharacterPhysics = GetComponent<ICharacterPhysics>();
+           
         }
 
         private void FixedUpdate()

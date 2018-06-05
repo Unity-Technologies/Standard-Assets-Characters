@@ -442,7 +442,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 8e115fcabf6b1b148b45482419acbb7d, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.517
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -755,7 +755,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: fadd678de64ad014da4c175e7b0ec18f, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.536
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1083,7 +1083,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4132791945657212, guid: 3cf572f2a908bdf43a8f90f60ef99fa8, type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114609749466994864, guid: 3cf572f2a908bdf43a8f90f60ef99fa8,
         type: 2}
@@ -1110,6 +1110,31 @@ Prefab:
       propertyPath: movementEvents.Array.data[3].movementEventPlayers.Array.data[0]
       value: 
       objectReference: {fileID: 40423290}
+    - target: {fileID: 82145592827633118, guid: 3cf572f2a908bdf43a8f90f60ef99fa8,
+        type: 2}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 994712bb425483d4aba54ce08f354d12, type: 3}
+    - target: {fileID: 82145592827633118, guid: 3cf572f2a908bdf43a8f90f60ef99fa8,
+        type: 2}
+      propertyPath: m_Volume
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 82713748196703282, guid: 3cf572f2a908bdf43a8f90f60ef99fa8,
+        type: 2}
+      propertyPath: m_Pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 82713748196703282, guid: 3cf572f2a908bdf43a8f90f60ef99fa8,
+        type: 2}
+      propertyPath: m_Volume
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 82713748196703282, guid: 3cf572f2a908bdf43a8f90f60ef99fa8,
+        type: 2}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 46522b8af2c3ee34e9c55ffe6cb663e4, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3cf572f2a908bdf43a8f90f60ef99fa8, type: 2}
   m_IsPrefabAsset: 0
@@ -1612,9 +1637,9 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 524219157}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.2691358, y: -0.5182033, z: -0.45889157}
-  m_LocalScale: {x: 0.06172839, y: 0.1891253, z: 0.032045502}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 228336849}
   - {fileID: 40423288}
@@ -2976,6 +3001,25 @@ Transform:
   m_Father: {fileID: 1078677782}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1466114704 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1061151631119762, guid: f2706dd163cab644aa0f7aec413a3457,
+    type: 2}
+  m_PrefabInternal: {fileID: 1812529121}
+--- !u!114 &1466114715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1466114704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79b8563e9117458bb97ca06f29b17116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ids:
+  - jumping
+  - landing
 --- !u!1 &1469011751
 GameObject:
   m_ObjectHideFlags: 0
@@ -3851,7 +3895,7 @@ Prefab:
     - target: {fileID: 114266891504341116, guid: f2706dd163cab644aa0f7aec413a3457,
         type: 2}
       propertyPath: distanceThreshold
-      value: 0.5
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
         type: 2}
@@ -3863,6 +3907,11 @@ Prefab:
       propertyPath: startingMovementEventLibrary
       value: 
       objectReference: {fileID: 461215606}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: startingMovementProperties.jumpSpeed
+      value: 0.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2706dd163cab644aa0f7aec413a3457, type: 2}
   m_IsPrefabAsset: 0
