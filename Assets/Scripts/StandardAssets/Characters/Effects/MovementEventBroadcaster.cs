@@ -13,6 +13,8 @@ namespace StandardAssets.Characters.Effects
 		/// </summary>
 		public event Action<MovementEvent> moved;
 
+
+
 		/// <summary>
 		/// Helper function for broadcasting events
 		/// </summary>
@@ -24,5 +26,9 @@ namespace StandardAssets.Characters.Effects
 				moved(movementEvent);
 			}
 		}
+
+		
+		
+		
 	}
 }
