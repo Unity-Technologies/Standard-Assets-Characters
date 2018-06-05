@@ -397,6 +397,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravity: 0.4
   groundCheckDistance: 0.55
+  groundCheckMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!114 &114473157933188712
 MonoBehaviour:
   m_ObjectHideFlags: 1

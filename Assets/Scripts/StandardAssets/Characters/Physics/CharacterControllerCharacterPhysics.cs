@@ -20,6 +20,12 @@ namespace StandardAssets.Characters.Physics
 		public float groundCheckDistance = 0.51f;
 
 		/// <summary>
+		/// Layers to use in the ground check
+		/// </summary>
+		[Tooltip("Layers to use in the ground check")]
+		public LayerMask groundCheckMask;
+
+		/// <summary>
 		/// Character controller
 		/// </summary>
 		CharacterController m_CharacterController;
@@ -124,7 +130,7 @@ namespace StandardAssets.Characters.Physics
 		{
 			Debug.DrawRay(transform.position + m_CharacterController.center, new Vector3(0,-groundCheckDistance * m_CharacterController.height,0), Color.red);
 			if (UnityEngine.Physics.Raycast(transform.position + m_CharacterController.center, 
-				-transform.up, groundCheckDistance * m_CharacterController.height))
+				-transform.up, groundCheckDistance * m_CharacterController.height, groundCheckMask))
 			{
 				return true;
 			}
@@ -159,7 +165,7 @@ namespace StandardAssets.Characters.Physics
 					new Vector3(0,-groundCheckDistance * m_CharacterController.height,0), Color.blue);
 
 				if (UnityEngine.Physics.Raycast(transform.position + m_CharacterController.center + sign * rayOffset,
-					-transform.up,groundCheckDistance * m_CharacterController.height))
+					-transform.up,groundCheckDistance * m_CharacterController.height, groundCheckMask))
 				{
 					return true;
 				}

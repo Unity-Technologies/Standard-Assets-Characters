@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 114266891504341116}
   - component: {fileID: 114591283884522816}
   - component: {fileID: 114688313537942486}
+  - component: {fileID: 114181725713053120}
   m_Layer: 0
   m_Name: FirstPersonNewInput
   m_TagString: Untagged
@@ -293,6 +294,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravity: 0.4
   groundCheckDistance: 0.55
+  groundCheckMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!114 &114099553648463976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -306,6 +310,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controls:
     m_Asset: {fileID: 11400000, guid: 40952324d92091141ae7b75ba9420185, type: 3}
+--- !u!114 &114181725713053120
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1061151631119762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79b8563e9117458bb97ca06f29b17116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpId: jumping
+  landingId: landing
 --- !u!114 &114266891504341116
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -442,7 +459,7 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
       maxValue: 0.01
-    jumpSpeed: 0.1
+    jumpSpeed: 0.2
     enterState:
       m_PersistentCalls:
         m_Calls:

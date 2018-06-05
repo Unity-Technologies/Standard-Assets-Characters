@@ -272,7 +272,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4311198683862444}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RightToesEnd
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -409,7 +409,7 @@ GameObject:
   - component: {fileID: 4512715927359848}
   - component: {fileID: 65860863053544406}
   - component: {fileID: 114779977547202190}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: LeftFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -484,7 +484,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4064914085119030}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RightToes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -545,7 +545,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4839309337606406}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: LeftToesEnd
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1075,7 +1075,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4348590162540792}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: LeftToes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1155,7 +1155,7 @@ GameObject:
   - component: {fileID: 4082324074648218}
   - component: {fileID: 65504262985843870}
   - component: {fileID: 114619646795869678}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RightFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1986,7 +1986,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1779006566584624}
-  m_LocalRotation: {x: 0.032968547, y: -0.065652214, z: -0.0021675096, w: -0.99729544}
+  m_LocalRotation: {x: 0.03296882, y: -0.065652214, z: -0.0021660572, w: -0.99729544}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2351,6 +2351,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa9e7d81288849478ba8661fffb1643c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  turnSpeed: 500
+  normalizedTurnLerpFactor: 5
   cameraTransform: {fileID: 0}
   maxForwardSpeed: 10
   useAcceleration: 1
@@ -2360,7 +2362,6 @@ MonoBehaviour:
   airborneDecelProportion: 0.5
   jumpSpeed: 0.1
   interpolateTurning: 1
-  turnSpeed: 500
   airborneTurnSpeedProportion: 0.5
 --- !u!114 &114185693627462568
 MonoBehaviour:
@@ -2446,6 +2447,7 @@ MonoBehaviour:
   lateralSpeedParameterName: LateralSpeed
   turningSpeedParameterName: TurningSpeed
   groundedParameterName: Grounded
+  hasInputParameterName: HasInput
 --- !u!114 &114331604567674214
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2627,6 +2629,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravity: 0.1
   groundCheckDistance: 0.51
+  groundCheckMask:
+    serializedVersion: 2
+    m_Bits: 311
 --- !u!114 &114619646795869678
 MonoBehaviour:
   m_ObjectHideFlags: 1
