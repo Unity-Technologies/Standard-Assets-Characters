@@ -75,6 +75,12 @@ namespace StandardAssets.Characters.Effects
 
         void PlaySound()
         {
+            int length = ids.Length;
+            if (ids == null || length == 0)
+            {
+                return;
+            }
+            
             MovementEvent movementEvent= new MovementEvent();
             movementEvent.id = ids[m_CurrentIdIndex];
 			
