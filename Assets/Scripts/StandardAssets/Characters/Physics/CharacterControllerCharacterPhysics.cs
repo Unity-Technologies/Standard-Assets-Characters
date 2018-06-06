@@ -15,6 +15,11 @@ namespace StandardAssets.Characters.Physics
 		public float gravity;
 
 		/// <summary>
+		/// The maximum speed that the character can move downwards
+		/// </summary>
+		public float terminalVelocity = 10f;
+
+		/// <summary>
 		/// The distance used to check if grounded
 		/// </summary>
 		public float groundCheckDistance = 0.51f;
@@ -94,6 +99,11 @@ namespace StandardAssets.Characters.Physics
 			{
 				gravity = -gravity;
 			}
+
+			if (terminalVelocity > 0)
+			{
+				terminalVelocity = -terminalVelocity;
+			}
 		}
 
 		/// <summary>
@@ -112,22 +122,12 @@ namespace StandardAssets.Characters.Physics
 			m_Grounded = CheckGrounded();
 			
 			airTime += Time.fixedDeltaTime;
-
-			float previousVerticalVelocity = m_CurrentVerticalVelocity;
-			m_CurrentVerticalVelocity = m_InitialJumpVelocity + gravity * airTime;
+			m_CurrentVerticalVelocity = Mathf.Clamp(m_InitialJumpVelocity + gravity * airTime, terminalVelocity, Mathf.Infinity);
+			float previousFallTime = fallTime;
 
 			if (m_CurrentVerticalVelocity < 0)
 			{
 				fallTime += Time.fixedDeltaTime;
-				
-				if (previousVerticalVelocity >= 0)
-				{
-					Debug.Log("STARTED FALLING");
-					if (startedFalling != null)
-					{
-						startedFalling();
-					}
-				}
 			}
 			
 			if (m_CurrentVerticalVelocity < 0f && m_Grounded)
@@ -147,6 +147,14 @@ namespace StandardAssets.Characters.Physics
 				fallTime = 0f;
 				airTime = 0f;
 				return;
+			}
+			
+			if (previousFallTime < Mathf.Epsilon && fallTime > Mathf.Epsilon)
+			{
+				if (startedFalling != null)
+				{
+					startedFalling();
+				}
 			}
 			
 			m_VerticalVector = new Vector3(0, m_CurrentVerticalVelocity, 0);
