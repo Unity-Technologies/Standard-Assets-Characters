@@ -31,14 +31,15 @@ namespace StandardAssets.Characters.Physics
 		CharacterController m_CharacterController;
 		
 		/// <summary>
-		/// The amount of time that the character is in the air for
-		/// </summary>
-		float m_AirTime;
-		
-		/// <summary>
 		/// The initial jump velocity
 		/// </summary>
 		float m_InitialJumpVelocity;
+
+		/// <summary>
+		/// The current vertical velocity
+		/// </summary>
+		/// <returns></returns>
+		float m_CurrentVerticalVelocity;
 		
 		/// <summary>
 		/// The current vertical vector
@@ -52,6 +53,9 @@ namespace StandardAssets.Characters.Physics
 		
 		public Action landed { get; set; }
 		public Action jumpVelocitySet { get; set; }
+		public Action startedFalling { get; set; }
+		public float airTime { get; private set; }
+		public float fallTime { get; private set; }
 
 		/// <inheritdoc />
 		public bool isGrounded
@@ -101,36 +105,51 @@ namespace StandardAssets.Characters.Physics
 		}
 		
 		/// <summary>
-		/// Handles falling
+		/// Handles Jumping and Falling
 		/// </summary>
 		void AerialMovement()
 		{
 			m_Grounded = CheckGrounded();
 			
-			m_AirTime += Time.fixedDeltaTime;
+			airTime += Time.fixedDeltaTime;
 
-			float currentVerticalVelocity = m_InitialJumpVelocity + gravity * m_AirTime;
+			float previousVerticalVelocity = m_CurrentVerticalVelocity;
+			m_CurrentVerticalVelocity = m_InitialJumpVelocity + gravity * airTime;
+
+			if (m_CurrentVerticalVelocity < 0)
+			{
+				fallTime += Time.fixedDeltaTime;
+				
+				if (previousVerticalVelocity >= 0)
+				{
+					Debug.Log("STARTED FALLING");
+					if (startedFalling != null)
+					{
+						startedFalling();
+					}
+				}
+			}
 			
-			
-			if (currentVerticalVelocity < 0f && m_Grounded)
+			if (m_CurrentVerticalVelocity < 0f && m_Grounded)
 			{
 				m_InitialJumpVelocity = 0f;
 				m_VerticalVector = Vector3.zero;
 				
 				//Play the moment that the character lands and only at that moment
-				if (Math.Abs(m_AirTime - Time.fixedDeltaTime) > Mathf.Epsilon)
+				if (Math.Abs(airTime - Time.fixedDeltaTime) > Mathf.Epsilon)
 				{
 					if (landed != null)
 					{
 						landed();
 					}
 				}
-				
-				m_AirTime = 0f;
+
+				fallTime = 0f;
+				airTime = 0f;
 				return;
 			}
 			
-			m_VerticalVector = new Vector3(0, currentVerticalVelocity, 0);
+			m_VerticalVector = new Vector3(0, m_CurrentVerticalVelocity, 0);
 		}
 		
 		/// <summary>

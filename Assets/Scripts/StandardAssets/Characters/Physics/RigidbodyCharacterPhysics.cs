@@ -17,7 +17,11 @@ namespace StandardAssets.Characters.Physics
 		
 		/// <inheritdoc />
 		public Action jumpVelocitySet { get; set; }
-		
+
+		public Action startedFalling { get; set; }
+		public float airTime { get; private set; }
+		public float fallTime { get; private set; }
+
 		/// <inheritdoc />
 		public Action landed { get; set; }
 
