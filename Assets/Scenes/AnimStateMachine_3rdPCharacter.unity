@@ -204,6 +204,10 @@ MonoBehaviour:
   groundedParameterName: Grounded
   hasInputParameterName: HasInput
   fallingTimeParameterName: FallingTime
+  footednessParameterName: OnRightFoot
+  invert: 0
+  leftFoot: {fileID: 0}
+  rightfoot: {fileID: 0}
 --- !u!114 &44114426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -354,7 +358,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4479482033897960, guid: dddc37ae404884f4899c4719b7b35cd0, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -46
+      value: -45
       objectReference: {fileID: 0}
     - target: {fileID: 4479482033897960, guid: dddc37ae404884f4899c4719b7b35cd0, type: 2}
       propertyPath: m_LocalPosition.z
@@ -392,15 +396,66 @@ Prefab:
       objectReference: {fileID: 628857916}
     - target: {fileID: 4631057385778880, guid: dddc37ae404884f4899c4719b7b35cd0, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0.03296921
+      value: 0.032969095
       objectReference: {fileID: 0}
     - target: {fileID: 4631057385778880, guid: dddc37ae404884f4899c4719b7b35cd0, type: 2}
       propertyPath: m_LocalRotation.z
-      value: -0.002162583
+      value: -0.0021620172
+      objectReference: {fileID: 0}
+    - target: {fileID: 114310987076194804, guid: dddc37ae404884f4899c4719b7b35cd0,
+        type: 2}
+      propertyPath: leftFootTransform
+      value: 
+      objectReference: {fileID: 612811096}
+    - target: {fileID: 114310987076194804, guid: dddc37ae404884f4899c4719b7b35cd0,
+        type: 2}
+      propertyPath: rightfootTransform
+      value: 
+      objectReference: {fileID: 226898058}
+    - target: {fileID: 114310987076194804, guid: dddc37ae404884f4899c4719b7b35cd0,
+        type: 2}
+      propertyPath: leftFoot
+      value: 
+      objectReference: {fileID: 612811098}
+    - target: {fileID: 114310987076194804, guid: dddc37ae404884f4899c4719b7b35cd0,
+        type: 2}
+      propertyPath: rightfoot
+      value: 
+      objectReference: {fileID: 226898056}
+    - target: {fileID: 114310987076194804, guid: dddc37ae404884f4899c4719b7b35cd0,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 143184413499100492, guid: dddc37ae404884f4899c4719b7b35cd0,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114102421440112312, guid: dddc37ae404884f4899c4719b7b35cd0,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114540221202687398, guid: dddc37ae404884f4899c4719b7b35cd0,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dddc37ae404884f4899c4719b7b35cd0, type: 2}
   m_IsPrefabAsset: 0
+--- !u!114 &226898056 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114619646795869678, guid: dddc37ae404884f4899c4719b7b35cd0,
+    type: 2}
+  m_PrefabInternal: {fileID: 222133466}
+  m_Script: {fileID: 11500000, guid: dcb74f21ba404856bb13390a1b5f29ac, type: 3}
+--- !u!4 &226898058 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4082324074648218, guid: dddc37ae404884f4899c4719b7b35cd0,
+    type: 2}
+  m_PrefabInternal: {fileID: 222133466}
 --- !u!4 &313443540
 Transform:
   m_ObjectHideFlags: 0
@@ -546,6 +601,10 @@ MonoBehaviour:
   groundedParameterName: Grounded
   hasInputParameterName: HasInput
   fallingTimeParameterName: FallingTime
+  footednessParameterName: OnRightFoot
+  invert: 0
+  leftFoot: {fileID: 0}
+  rightfoot: {fileID: 0}
 --- !u!114 &313443548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1024,6 +1083,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!4 &612811096 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4512715927359848, guid: dddc37ae404884f4899c4719b7b35cd0,
+    type: 2}
+  m_PrefabInternal: {fileID: 222133466}
+--- !u!114 &612811098 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114779977547202190, guid: dddc37ae404884f4899c4719b7b35cd0,
+    type: 2}
+  m_PrefabInternal: {fileID: 222133466}
+  m_Script: {fileID: 11500000, guid: dcb74f21ba404856bb13390a1b5f29ac, type: 3}
 --- !u!1 &628857913
 GameObject:
   m_ObjectHideFlags: 0
@@ -1096,7 +1166,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 628857913}
   m_LocalRotation: {x: -0.06561641, y: 0.06554297, z: 0.0043193507, w: 0.9956807}
-  m_LocalPosition: {x: -1.8265467, y: -44.5, z: -80.68843}
+  m_LocalPosition: {x: -1.8265467, y: -43.5, z: -80.68843}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
