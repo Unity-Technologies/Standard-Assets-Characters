@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -202,6 +202,8 @@ MonoBehaviour:
   lateralSpeedParameterName: LateralSpeed
   turningSpeedParameterName: TurningSpeed
   groundedParameterName: Grounded
+  hasInputParameterName: HasInput
+  fallingTimeParameterName: FallingTime
 --- !u!114 &44114426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,6 +215,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa9e7d81288849478ba8661fffb1643c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  turnSpeed: 500
+  normalizedTurnLerpFactor: 5
   cameraTransform: {fileID: 628857916}
   maxForwardSpeed: 10
   useAcceleration: 1
@@ -222,7 +226,6 @@ MonoBehaviour:
   airborneDecelProportion: 0.5
   jumpSpeed: 15
   interpolateTurning: 1
-  turnSpeed: 500
   airborneTurnSpeedProportion: 0.5
 --- !u!114 &44114427
 MonoBehaviour:
@@ -236,7 +239,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gravity: 0.1
+  terminalVelocity: 10
   groundCheckDistance: 0.51
+  groundCheckMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &44114428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -373,23 +380,23 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 114102421440112312, guid: dddc37ae404884f4899c4719b7b35cd0,
-        type: 2}
-      propertyPath: cameraTransform
-      value: 
-      objectReference: {fileID: 628857916}
     - target: {fileID: 114344893283026570, guid: dddc37ae404884f4899c4719b7b35cd0,
         type: 2}
       propertyPath: startingMovementEventLibrary
       value: 
       objectReference: {fileID: 1913562217}
+    - target: {fileID: 114102421440112312, guid: dddc37ae404884f4899c4719b7b35cd0,
+        type: 2}
+      propertyPath: cameraTransform
+      value: 
+      objectReference: {fileID: 628857916}
     - target: {fileID: 4631057385778880, guid: dddc37ae404884f4899c4719b7b35cd0, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0.0329689
+      value: 0.032968882
       objectReference: {fileID: 0}
     - target: {fileID: 4631057385778880, guid: dddc37ae404884f4899c4719b7b35cd0, type: 2}
       propertyPath: m_LocalRotation.z
-      value: -0.0021660738
+      value: -0.0021633583
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dddc37ae404884f4899c4719b7b35cd0, type: 2}
@@ -458,7 +465,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gravity: 0.1
+  terminalVelocity: 10
   groundCheckDistance: 0.51
+  groundCheckMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!143 &313443544
 CharacterController:
   m_ObjectHideFlags: 0
@@ -506,6 +517,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa9e7d81288849478ba8661fffb1643c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  turnSpeed: 500
+  normalizedTurnLerpFactor: 5
   cameraTransform: {fileID: 628857916}
   maxForwardSpeed: 10
   useAcceleration: 1
@@ -515,7 +528,6 @@ MonoBehaviour:
   airborneDecelProportion: 0.5
   jumpSpeed: 15
   interpolateTurning: 1
-  turnSpeed: 500
   airborneTurnSpeedProportion: 0.5
 --- !u!114 &313443547
 MonoBehaviour:
@@ -532,6 +544,8 @@ MonoBehaviour:
   lateralSpeedParameterName: LateralSpeed
   turningSpeedParameterName: TurningSpeed
   groundedParameterName: Grounded
+  hasInputParameterName: HasInput
+  fallingTimeParameterName: FallingTime
 --- !u!114 &313443548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1081,8 +1095,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 628857913}
-  m_LocalRotation: {x: -0.0656164, y: 0.06554344, z: 0.0043193814, w: 0.99568063}
-  m_LocalPosition: {x: -1.5643754, y: -44.5, z: -78.70569}
+  m_LocalRotation: {x: -0.0656164, y: 0.06554308, z: 0.004319357, w: 0.99568063}
+  m_LocalPosition: {x: -1.564374, y: -44.5, z: -78.70569}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

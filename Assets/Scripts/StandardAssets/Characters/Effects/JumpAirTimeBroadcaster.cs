@@ -10,14 +10,14 @@ namespace StandardAssets.Characters.Effects
     public class JumpAirTimeBroadcaster : MovementEventBroadcaster
     {
         /// <summary>
-        /// List of IDs for movement events
+        /// Id of Jumping event
         /// </summary>
-        public string[] ids;
+        public string jumpId = "jumping";
 
         /// <summary>
-        /// The current index of the 
+        /// Id of Landing event
         /// </summary>
-        int m_CurrentIdIndex = -1;
+        public string landingId = "landing";
         
         /// <summary>
         /// CharacterPhysics
@@ -32,62 +32,40 @@ namespace StandardAssets.Characters.Effects
         void Awake()
         {
             m_CharacterPhysics = GetComponent<ICharacterPhysics>();
-           
         }
 
-        private void FixedUpdate()
-        {
-            CheckJump();
-        }
-        
         /// <summary>
-        /// Checks if the character is jumping
+        /// Subscribe
         /// </summary>
-        void CheckJump()
+        private void OnEnable()
         {
-            if (!m_CharacterPhysics.isGrounded & !inJump)
-            {
-                Jumped();
-            }
-
-            if (inJump & m_CharacterPhysics.isGrounded)
-            {
-                Landed();
-            }
+            m_CharacterPhysics.landed += Landed;
+            m_CharacterPhysics.jumpVelocitySet += Jumped;
         }
-        
+
         /// <summary>
-        /// Set the IDs index and play sound
+        /// Unsubscribe
+        /// </summary>
+        private void OnDisable()
+        {
+            m_CharacterPhysics.landed -= Landed;
+            m_CharacterPhysics.jumpVelocitySet -= Jumped;
+        }
+
+        /// <summary>
+        /// Calls PlayEvent on the jump ID
         /// </summary>
         void Jumped()
         {
-            inJump = true;
-            m_CurrentIdIndex = 0;
-            PlaySound();
+            BroadcastMovementEvent(jumpId);
         }
         
+        /// <summary>
+        /// Calls PlayEvent on the landing ID
+        /// </summary>
         void Landed()
         {
-            inJump = false;
-            m_CurrentIdIndex = 1;
-            PlaySound();
-
-        }
-
-        void PlaySound()
-        {
-            int length = ids.Length;
-            if (ids == null || length == 0)
-            {
-                return;
-            }
-            
-            MovementEvent movementEvent= new MovementEvent();
-            movementEvent.id = ids[m_CurrentIdIndex];
-			
-            OnMoved(movementEvent);
-        }
-		
-        
+            BroadcastMovementEvent(landingId);
+        }        
     }
 }

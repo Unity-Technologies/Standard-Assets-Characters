@@ -39,6 +39,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <inheritdoc />
 		public abstract float normalizedForwardSpeed { get; }
 		
+		public abstract float fallTime { get; }
+		
 		/// <inheritdoc />
 		public Action jumpStarted { get; set; }
 		

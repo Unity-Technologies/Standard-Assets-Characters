@@ -19,6 +19,26 @@ namespace StandardAssets.Characters.Physics
 		Action landed { get; set; }
 		
 		/// <summary>
+		/// Invoked when the jump velocity is set
+		/// </summary>
+		Action jumpVelocitySet { get; set; }
+		
+		/// <summary>
+		/// Invoked when the character started falling
+		/// </summary>
+		Action startedFalling { get; set; }
+		
+		/// <summary>
+		/// The time that the character in is not grounded for
+		/// </summary>
+		float airTime { get; }
+		
+		/// <summary>
+		/// The time that the character was falling for
+		/// </summary>
+		float fallTime { get; }
+		
+		/// <summary>
 		/// Handles movement
 		/// </summary>
 		/// <param name="moveVector3"></param>

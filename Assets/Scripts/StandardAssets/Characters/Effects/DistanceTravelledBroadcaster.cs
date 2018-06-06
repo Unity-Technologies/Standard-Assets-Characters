@@ -58,12 +58,8 @@ namespace StandardAssets.Characters.Effects
 		/// Calculate movement on FixedUpdate
 		/// </summary>
 		void FixedUpdate()
-		{
-			//checkLanding();
-			
+		{	
 			Vector3 currentPosition = transform.position;
-			
-			
 			
 			//Optimization - prevents the rest of the logic, which includes vector magnitude calculations, from being called if the character has not moved
 			if (currentPosition == m_PreviousPosition || !m_CharacterPhysics.isGrounded)
@@ -81,11 +77,8 @@ namespace StandardAssets.Characters.Effects
 			}
 			
 			m_PreviousPosition = currentPosition;
-			
-			
 		}
 	
-
 		/// <summary>
 		/// Handle the broadcasting of the movement event
 		/// </summary>
@@ -103,10 +96,7 @@ namespace StandardAssets.Characters.Effects
 				m_CurrentIdIndex = 0;
 			}
 
-			MovementEvent movementEvent = new MovementEvent();
-			movementEvent.id = ids[m_CurrentIdIndex];
-			
-			OnMoved(movementEvent);
+			BroadcastMovementEvent(ids[m_CurrentIdIndex]);
 		}
 	}
 }

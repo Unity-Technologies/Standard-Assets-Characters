@@ -272,7 +272,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4311198683862444}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RightToesEnd
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -409,7 +409,7 @@ GameObject:
   - component: {fileID: 4512715927359848}
   - component: {fileID: 65860863053544406}
   - component: {fileID: 114779977547202190}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: LeftFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -484,7 +484,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4064914085119030}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RightToes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -545,7 +545,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4839309337606406}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: LeftToesEnd
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1075,7 +1075,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4348590162540792}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: LeftToes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1155,7 +1155,7 @@ GameObject:
   - component: {fileID: 4082324074648218}
   - component: {fileID: 65504262985843870}
   - component: {fileID: 114619646795869678}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RightFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1283,7 +1283,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1278585544187230}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.26217508, y: 1.5, z: -1.9827423}
+  m_LocalPosition: {x: -0.26217365, y: 1.5, z: -1.9827423}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4555354995218662}
@@ -1394,7 +1394,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000768496969744}
-  m_LocalRotation: {x: 0.065616444, y: -0.06554569, z: -0.0043195277, w: -0.9956805}
+  m_LocalRotation: {x: 0.06561642, y: -0.06554569, z: -0.0043195267, w: -0.9956805}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1972,8 +1972,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1458918717074462}
-  m_LocalRotation: {x: -0.00000007306597, y: -0.06938611, z: 0.000000003696898, w: -0.9975899}
-  m_LocalPosition: {x: -0.014699936, y: 0, z: 0.0019989014}
+  m_LocalRotation: {x: -0.000000043519506, y: -0.069386125, z: 0.00000000332083, w: -0.99758995}
+  m_LocalPosition: {x: -0.014697552, y: 0, z: 0.0019989014}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4751751782852990}
@@ -1986,7 +1986,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1779006566584624}
-  m_LocalRotation: {x: 0.032968547, y: -0.065652214, z: -0.0021675096, w: -0.99729544}
+  m_LocalRotation: {x: 0.032968897, y: -0.06565228, z: -0.0021633594, w: -0.99729544}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2331,7 +2331,7 @@ Animator:
   m_GameObject: {fileID: 1100442150964288}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 20d97ea0953936148b25caa82b5e14f9, type: 3}
-  m_Controller: {fileID: 9100000, guid: 168e1e13eb9183643b6b20e6af46321d, type: 2}
+  m_Controller: {fileID: 9100000, guid: 9250483fadc19a444bcc66715ab615e9, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2351,6 +2351,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa9e7d81288849478ba8661fffb1643c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  turnSpeed: 500
+  normalizedTurnLerpFactor: 5
   cameraTransform: {fileID: 0}
   maxForwardSpeed: 10
   useAcceleration: 1
@@ -2360,7 +2362,6 @@ MonoBehaviour:
   airborneDecelProportion: 0.5
   jumpSpeed: 0.1
   interpolateTurning: 1
-  turnSpeed: 500
   airborneTurnSpeedProportion: 0.5
 --- !u!114 &114185693627462568
 MonoBehaviour:
@@ -2446,6 +2447,8 @@ MonoBehaviour:
   lateralSpeedParameterName: LateralSpeed
   turningSpeedParameterName: TurningSpeed
   groundedParameterName: Grounded
+  hasInputParameterName: HasInput
+  fallingTimeParameterName: FallDistance
 --- !u!114 &114331604567674214
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2625,8 +2628,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eb889feba9d41d4bfbbade70ee269c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravity: 0.1
+  gravity: 0.3
+  terminalVelocity: 10
   groundCheckDistance: 0.51
+  groundCheckMask:
+    serializedVersion: 2
+    m_Bits: 311
 --- !u!114 &114619646795869678
 MonoBehaviour:
   m_ObjectHideFlags: 1

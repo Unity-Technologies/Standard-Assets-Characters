@@ -17,7 +17,7 @@
 		{
 			foreach (ColliderMovementDetection colliderMovementDetection in movementDetections)
 			{
-				colliderMovementDetection.detection += OnMoved;
+				colliderMovementDetection.detection += BroadcastMovementEvent;
 			}
 		}
 	}

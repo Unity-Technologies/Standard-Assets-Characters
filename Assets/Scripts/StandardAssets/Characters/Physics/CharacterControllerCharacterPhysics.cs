@@ -15,9 +15,20 @@ namespace StandardAssets.Characters.Physics
 		public float gravity;
 
 		/// <summary>
+		/// The maximum speed that the character can move downwards
+		/// </summary>
+		public float terminalVelocity = 10f;
+
+		/// <summary>
 		/// The distance used to check if grounded
 		/// </summary>
 		public float groundCheckDistance = 0.51f;
+
+		/// <summary>
+		/// Layers to use in the ground check
+		/// </summary>
+		[Tooltip("Layers to use in the ground check")]
+		public LayerMask groundCheckMask;
 
 		/// <summary>
 		/// Character controller
@@ -25,14 +36,15 @@ namespace StandardAssets.Characters.Physics
 		CharacterController m_CharacterController;
 		
 		/// <summary>
-		/// The amount of time that the character is in the air for
-		/// </summary>
-		float m_AirTime;
-		
-		/// <summary>
 		/// The initial jump velocity
 		/// </summary>
 		float m_InitialJumpVelocity;
+
+		/// <summary>
+		/// The current vertical velocity
+		/// </summary>
+		/// <returns></returns>
+		float m_CurrentVerticalVelocity;
 		
 		/// <summary>
 		/// The current vertical vector
@@ -45,7 +57,11 @@ namespace StandardAssets.Characters.Physics
 		bool m_Grounded;
 		
 		public Action landed { get; set; }
-		
+		public Action jumpVelocitySet { get; set; }
+		public Action startedFalling { get; set; }
+		public float airTime { get; private set; }
+		public float fallTime { get; private set; }
+
 		/// <inheritdoc />
 		public bool isGrounded
 		{
@@ -66,6 +82,10 @@ namespace StandardAssets.Characters.Physics
 		public void SetJumpVelocity(float initialVelocity)
 		{
 			m_InitialJumpVelocity = initialVelocity;
+			if (jumpVelocitySet != null)
+			{
+				jumpVelocitySet();
+			}
 		}
 
 
@@ -79,6 +99,11 @@ namespace StandardAssets.Characters.Physics
 			{
 				gravity = -gravity;
 			}
+
+			if (terminalVelocity > 0)
+			{
+				terminalVelocity = -terminalVelocity;
+			}
 		}
 
 		/// <summary>
@@ -86,35 +111,53 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		void FixedUpdate()
 		{
-			AerailMovement();
+			AerialMovement();
 		}
 		
 		/// <summary>
-		/// Handles falling
+		/// Handles Jumping and Falling
 		/// </summary>
-		void AerailMovement()
+		void AerialMovement()
 		{
 			m_Grounded = CheckGrounded();
 			
-			m_AirTime += Time.fixedDeltaTime;
+			airTime += Time.fixedDeltaTime;
+			m_CurrentVerticalVelocity = Mathf.Clamp(m_InitialJumpVelocity + gravity * airTime, terminalVelocity, Mathf.Infinity);
+			float previousFallTime = fallTime;
 
-			float currentVerticalVelocity = m_InitialJumpVelocity + gravity * m_AirTime;
-			
-			
-			if (currentVerticalVelocity < 0f && isGrounded)
+			if (m_CurrentVerticalVelocity < 0)
 			{
-				m_AirTime = 0f;
+				fallTime += Time.fixedDeltaTime;
+			}
+			
+			if (m_CurrentVerticalVelocity < 0f && m_Grounded)
+			{
 				m_InitialJumpVelocity = 0f;
 				m_VerticalVector = Vector3.zero;
-				if (landed != null)
-				{
-					landed();
-				}
 				
+				//Play the moment that the character lands and only at that moment
+				if (Math.Abs(airTime - Time.fixedDeltaTime) > Mathf.Epsilon)
+				{
+					if (landed != null)
+					{
+						landed();
+					}
+				}
+
+				fallTime = 0f;
+				airTime = 0f;
 				return;
 			}
 			
-			m_VerticalVector = new Vector3(0, currentVerticalVelocity, 0);
+			if (previousFallTime < Mathf.Epsilon && fallTime > Mathf.Epsilon)
+			{
+				if (startedFalling != null)
+				{
+					startedFalling();
+				}
+			}
+			
+			m_VerticalVector = new Vector3(0, m_CurrentVerticalVelocity, 0);
 		}
 		
 		/// <summary>
@@ -124,7 +167,7 @@ namespace StandardAssets.Characters.Physics
 		{
 			Debug.DrawRay(transform.position + m_CharacterController.center, new Vector3(0,-groundCheckDistance * m_CharacterController.height,0), Color.red);
 			if (UnityEngine.Physics.Raycast(transform.position + m_CharacterController.center, 
-				-transform.up, groundCheckDistance * m_CharacterController.height))
+				-transform.up, groundCheckDistance * m_CharacterController.height, groundCheckMask))
 			{
 				return true;
 			}
@@ -159,7 +202,7 @@ namespace StandardAssets.Characters.Physics
 					new Vector3(0,-groundCheckDistance * m_CharacterController.height,0), Color.blue);
 
 				if (UnityEngine.Physics.Raycast(transform.position + m_CharacterController.center + sign * rayOffset,
-					-transform.up,groundCheckDistance * m_CharacterController.height))
+					-transform.up,groundCheckDistance * m_CharacterController.height, groundCheckMask))
 				{
 					return true;
 				}

@@ -60,8 +60,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
+		public override float fallTime
+		{
+			get { return m_CharacterPhysics.fallTime; }
+		}
+
 		float m_CurrentForwardSpeed;
-		
 		
 		/// <inheritdoc />
 		/// <summary>
