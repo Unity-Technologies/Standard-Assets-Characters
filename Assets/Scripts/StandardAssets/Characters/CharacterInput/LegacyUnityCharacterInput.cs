@@ -1,4 +1,5 @@
 ﻿using System;
+using Cinemachine;
 using UnityEngine;
 
 namespace StandardAssets.Characters.CharacterInput
@@ -33,6 +34,11 @@ namespace StandardAssets.Characters.CharacterInput
 			
 		}
 
+		void OnEnable()
+		{
+			CinemachineCore.GetInputAxis = LookInputOverride;
+		}
+
 		void Update()
 		{
 			//Cache the inputs
@@ -45,6 +51,14 @@ namespace StandardAssets.Characters.CharacterInput
 					jumpPressed();
 				}
 			}
+		}
+
+		/// <summary>
+		/// Sets the Cinemachine cam POV to mouse inputs.
+		/// </summary>
+		float LookInputOverride(string axis)
+		{
+			return Input.GetAxis(axis);
 		}
 	}
 }
