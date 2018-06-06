@@ -24,6 +24,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		float normalizedForwardSpeed { get; }
 		
 		/// <summary>
+		/// The time that the character has been falling
+		/// </summary>
+		float fallTime { get; }
+		
+		/// <summary>
 		/// Fired on jump
 		/// </summary>
 		Action jumpStarted { get; set; }

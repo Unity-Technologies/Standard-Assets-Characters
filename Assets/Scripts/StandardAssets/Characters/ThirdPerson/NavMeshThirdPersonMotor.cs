@@ -15,6 +15,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		NavMeshAgent m_Agent;
 
+		float m_FallTime;
+
 		/// <inheritdoc />
 		public override float normalizedLateralSpeed
 		{
@@ -25,6 +27,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		public override float normalizedForwardSpeed
 		{
 			get { return GetVelocityOnAxis(m_Agent.transform.forward, m_Agent.velocity) / m_Agent.speed; }
+		}
+
+		public override float fallTime
+		{
+			get { return m_FallTime; }
 		}
 
 		/// <summary>
