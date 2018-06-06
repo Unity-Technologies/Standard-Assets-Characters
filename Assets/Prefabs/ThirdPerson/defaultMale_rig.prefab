@@ -1283,7 +1283,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1278585544187230}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.26217365, y: 1.5, z: -1.9827423}
+  m_LocalPosition: {x: -0.52434635, y: 1.5, z: -3.9654846}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4555354995218662}
@@ -1973,7 +1973,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1458918717074462}
   m_LocalRotation: {x: -0.000000043519506, y: -0.069386125, z: 0.00000000332083, w: -0.99758995}
-  m_LocalPosition: {x: -0.014697552, y: 0, z: 0.0019989014}
+  m_LocalPosition: {x: -0.029395819, y: 0, z: 0.0039978027}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4751751782852990}
@@ -1986,7 +1986,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1779006566584624}
-  m_LocalRotation: {x: 0.032968897, y: -0.06565228, z: -0.0021633594, w: -0.99729544}
+  m_LocalRotation: {x: 0.03296924, y: -0.06565228, z: -0.0021625853, w: -0.99729544}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2351,7 +2351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa9e7d81288849478ba8661fffb1643c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnSpeed: 500
+  turnSpeed: 666
   normalizedTurnLerpFactor: 5
   cameraTransform: {fileID: 0}
   maxForwardSpeed: 10
@@ -2375,7 +2375,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 5
-  m_FollowOffset: {x: 0, y: 1.5, z: -2}
+  m_FollowOffset: {x: 0, y: 1.5, z: -4}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -2529,7 +2529,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 5
-  m_FollowOffset: {x: 0, y: 1.5, z: -2}
+  m_FollowOffset: {x: 0, y: 1.5, z: -4}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -2768,7 +2768,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 5
-  m_FollowOffset: {x: 0, y: 1.5, z: -2}
+  m_FollowOffset: {x: 0, y: 1.5, z: -4}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -2868,11 +2868,11 @@ MonoBehaviour:
   m_SplineCurvature: 0
   m_Orbits:
   - m_Height: 3
-    m_Radius: 4
+    m_Radius: 5
   - m_Height: 2
-    m_Radius: 3
+    m_Radius: 4.5
   - m_Height: 1.5
-    m_Radius: 2
+    m_Radius: 4
   m_LegacyHeadingBias: 3.4028235e+38
   m_Rigs:
   - {fileID: 114480797173966452}
