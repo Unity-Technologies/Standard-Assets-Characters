@@ -203,6 +203,7 @@ MonoBehaviour:
   turningSpeedParameterName: TurningSpeed
   groundedParameterName: Grounded
   hasInputParameterName: HasInput
+  fallingTimeParameterName: FallingTime
 --- !u!114 &44114426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -391,71 +392,11 @@ Prefab:
       objectReference: {fileID: 628857916}
     - target: {fileID: 4631057385778880, guid: dddc37ae404884f4899c4719b7b35cd0, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0.032969
+      value: 0.032968882
       objectReference: {fileID: 0}
     - target: {fileID: 4631057385778880, guid: dddc37ae404884f4899c4719b7b35cd0, type: 2}
       propertyPath: m_LocalRotation.z
-      value: -0.0021636842
-      objectReference: {fileID: 0}
-    - target: {fileID: 4058332801755004, guid: dddc37ae404884f4899c4719b7b35cd0, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -0.2621739
-      objectReference: {fileID: 0}
-    - target: {fileID: 4058332801755004, guid: dddc37ae404884f4899c4719b7b35cd0, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4058332801755004, guid: dddc37ae404884f4899c4719b7b35cd0, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: -1.9827423
-      objectReference: {fileID: 0}
-    - target: {fileID: 4631057385778880, guid: dddc37ae404884f4899c4719b7b35cd0, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: -0.06565225
-      objectReference: {fileID: 0}
-    - target: {fileID: 4631057385778880, guid: dddc37ae404884f4899c4719b7b35cd0, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: -0.99729544
-      objectReference: {fileID: 0}
-    - target: {fileID: 4555354995218662, guid: dddc37ae404884f4899c4719b7b35cd0, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: -0.00000027692556
-      objectReference: {fileID: 0}
-    - target: {fileID: 4555354995218662, guid: dddc37ae404884f4899c4719b7b35cd0, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: -0.06938612
-      objectReference: {fileID: 0}
-    - target: {fileID: 4555354995218662, guid: dddc37ae404884f4899c4719b7b35cd0, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0.00000001791529
-      objectReference: {fileID: 0}
-    - target: {fileID: 4555354995218662, guid: dddc37ae404884f4899c4719b7b35cd0, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: -0.99758995
-      objectReference: {fileID: 0}
-    - target: {fileID: 4555354995218662, guid: dddc37ae404884f4899c4719b7b35cd0, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -0.014698267
-      objectReference: {fileID: 0}
-    - target: {fileID: 4555354995218662, guid: dddc37ae404884f4899c4719b7b35cd0, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0.0019989014
-      objectReference: {fileID: 0}
-    - target: {fileID: 4122720205816740, guid: dddc37ae404884f4899c4719b7b35cd0, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0.06561658
-      objectReference: {fileID: 0}
-    - target: {fileID: 4122720205816740, guid: dddc37ae404884f4899c4719b7b35cd0, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: -0.065545686
-      objectReference: {fileID: 0}
-    - target: {fileID: 4122720205816740, guid: dddc37ae404884f4899c4719b7b35cd0, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: -0.0043195365
-      objectReference: {fileID: 0}
-    - target: {fileID: 4122720205816740, guid: dddc37ae404884f4899c4719b7b35cd0, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: -0.9956805
+      value: -0.0021633583
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dddc37ae404884f4899c4719b7b35cd0, type: 2}
@@ -604,6 +545,7 @@ MonoBehaviour:
   turningSpeedParameterName: TurningSpeed
   groundedParameterName: Grounded
   hasInputParameterName: HasInput
+  fallingTimeParameterName: FallingTime
 --- !u!114 &313443548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1153,8 +1095,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 628857913}
-  m_LocalRotation: {x: -0.0656164, y: 0.06554314, z: 0.0043193614, w: 0.99568063}
-  m_LocalPosition: {x: -1.5643742, y: -44.5, z: -78.70569}
+  m_LocalRotation: {x: -0.0656164, y: 0.06554308, z: 0.004319357, w: 0.99568063}
+  m_LocalPosition: {x: -1.564374, y: -44.5, z: -78.70569}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
