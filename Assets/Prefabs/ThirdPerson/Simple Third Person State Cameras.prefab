@@ -309,7 +309,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1107938386496766}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.83793116, y: 0, z: 0.98191833}
+  m_LocalPosition: {x: 12.891113, y: 47.154, z: 140.90671}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4820137179724512}
@@ -324,8 +324,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1071072325798808}
-  m_LocalRotation: {x: -0.00000004360057, y: 0.052335866, z: -0.0000000019914257,
-    w: -0.99862957}
+  m_LocalRotation: {x: -0.00000004343842, y: -0.090731926, z: 0.000000004251966, w: -0.9958754}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -339,7 +338,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1868133574474336}
-  m_LocalRotation: {x: 0.065668315, y: 0.052222595, z: 0.00344153, w: -0.9964681}
+  m_LocalRotation: {x: 0.0654872, y: -0.09053574, z: -0.005966396, w: -0.9937199}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -379,7 +378,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1283079301411650}
-  m_LocalRotation: {x: 0.065668315, y: 0.052222595, z: 0.00344153, w: -0.9964681}
+  m_LocalRotation: {x: 0.06548742, y: -0.09053554, z: -0.005966404, w: -0.9937199}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -393,7 +392,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1359487887483424}
-  m_LocalRotation: {x: 0.032994203, y: 0.052307528, z: 0.001737689, w: -0.9980843}
+  m_LocalRotation: {x: 0.032904483, y: -0.09051084, z: -0.002983531, w: -0.99534726}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -420,7 +419,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1626269604935996}
-  m_LocalRotation: {x: 0.032994367, y: 0.052307528, z: 0.0017376819, w: -0.9980843}
+  m_LocalRotation: {x: 0.03290498, y: -0.09068231, z: -0.0029893073, w: -0.99533165}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -449,8 +448,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1992574331631312}
-  m_LocalRotation: {x: -0.00000004360057, y: 0.052335866, z: -0.0000000019914257,
-    w: -0.99862957}
+  m_LocalRotation: {x: -0.00000004343842, y: -0.090731956, z: 0.0000000042519672,
+    w: -0.9958754}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -465,7 +464,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1864263028637152}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.9424573, y: 0, z: -0.01260376}
+  m_LocalPosition: {x: 12.710398, y: 47.154, z: 139.92317}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4181487689278928}
@@ -629,19 +628,29 @@ MonoBehaviour:
   - Extensions
   - m_Priority
   - m_Follow
+  - m_Transitions
   - m_Lens
   m_LockStageInInspector: 00000000
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
-  m_PositionBlending: 0
   m_Lens:
     FieldOfView: 67
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
+    LensShift: {x: 0, y: 0}
+  m_Transitions:
+    m_BlendHint: 0
+    m_InheritPosition: 0
+    m_OnCameraLive:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: Cinemachine.CinemachineBrain+VcamEvent, Cinemachine, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+  m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 4003643447555592}
 --- !u!114 &114108218011371370
 MonoBehaviour:
@@ -704,19 +713,29 @@ MonoBehaviour:
   - Extensions
   - m_Priority
   - m_Follow
+  - m_Transitions
   - m_Lens
   m_LockStageInInspector: 00000000
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
-  m_PositionBlending: 0
   m_Lens:
     FieldOfView: 67
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
+    LensShift: {x: 0, y: 0}
+  m_Transitions:
+    m_BlendHint: 0
+    m_InheritPosition: 0
+    m_OnCameraLive:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: Cinemachine.CinemachineBrain+VcamEvent, Cinemachine, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+  m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 4137827927345122}
 --- !u!114 &114146835171730392
 MonoBehaviour:
@@ -746,19 +765,29 @@ MonoBehaviour:
   - Extensions
   - m_Priority
   - m_Follow
+  - m_Transitions
   - m_Lens
   m_LockStageInInspector: 00000000
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
-  m_PositionBlending: 0
   m_Lens:
     FieldOfView: 67
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
+    LensShift: {x: 0, y: 0}
+  m_Transitions:
+    m_BlendHint: 0
+    m_InheritPosition: 0
+    m_OnCameraLive:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: Cinemachine.CinemachineBrain+VcamEvent, Cinemachine, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+  m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 4137125834590080}
 --- !u!114 &114318309898289774
 MonoBehaviour:
@@ -803,7 +832,6 @@ MonoBehaviour:
   m_Priority: 10
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
-  m_PositionBlending: 0
   m_CommonLens: 1
   m_Lens:
     FieldOfView: 67
@@ -811,6 +839,16 @@ MonoBehaviour:
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
+    LensShift: {x: 0, y: 0}
+  m_Transitions:
+    m_BlendHint: 0
+    m_InheritPosition: 1
+    m_OnCameraLive:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: Cinemachine.CinemachineBrain+VcamEvent, Cinemachine, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+  m_LegacyBlendHint: 0
   m_YAxis:
     Value: 0
     m_MaxSpeed: 5
@@ -891,19 +929,29 @@ MonoBehaviour:
   - Extensions
   - m_Priority
   - m_Follow
+  - m_Transitions
   - m_Lens
   m_LockStageInInspector: 00000000
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
-  m_PositionBlending: 0
   m_Lens:
     FieldOfView: 67
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
+    LensShift: {x: 0, y: 0}
+  m_Transitions:
+    m_BlendHint: 0
+    m_InheritPosition: 0
+    m_OnCameraLive:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: Cinemachine.CinemachineBrain+VcamEvent, Cinemachine, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+  m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 4312708186366368}
 --- !u!114 &114349871336028222
 MonoBehaviour:
@@ -922,19 +970,29 @@ MonoBehaviour:
   - Extensions
   - m_Priority
   - m_Follow
+  - m_Transitions
   - m_Lens
   m_LockStageInInspector: 00000000
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
-  m_PositionBlending: 0
   m_Lens:
     FieldOfView: 67
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
+    LensShift: {x: 0, y: 0}
+  m_Transitions:
+    m_BlendHint: 0
+    m_InheritPosition: 0
+    m_OnCameraLive:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: Cinemachine.CinemachineBrain+VcamEvent, Cinemachine, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+  m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 4333757991717308}
 --- !u!114 &114531890370173374
 MonoBehaviour:
@@ -1045,7 +1103,6 @@ MonoBehaviour:
   m_Priority: 10
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
-  m_PositionBlending: 0
   m_CommonLens: 1
   m_Lens:
     FieldOfView: 67
@@ -1053,6 +1110,16 @@ MonoBehaviour:
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
+    LensShift: {x: 0, y: 0}
+  m_Transitions:
+    m_BlendHint: 0
+    m_InheritPosition: 1
+    m_OnCameraLive:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: Cinemachine.CinemachineBrain+VcamEvent, Cinemachine, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+  m_LegacyBlendHint: 0
   m_YAxis:
     Value: 0
     m_MaxSpeed: 5
@@ -1237,19 +1304,29 @@ MonoBehaviour:
   - Extensions
   - m_Priority
   - m_Follow
+  - m_Transitions
   - m_Lens
   m_LockStageInInspector: 00000000
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
-  m_PositionBlending: 0
   m_Lens:
     FieldOfView: 67
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
+    LensShift: {x: 0, y: 0}
+  m_Transitions:
+    m_BlendHint: 0
+    m_InheritPosition: 0
+    m_OnCameraLive:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: Cinemachine.CinemachineBrain+VcamEvent, Cinemachine, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+  m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 4556879235415254}
 --- !u!114 &114778089431303156
 MonoBehaviour:
