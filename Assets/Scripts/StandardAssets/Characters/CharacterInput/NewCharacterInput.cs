@@ -3,6 +3,7 @@ using System.Security.Cryptography;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.Experimental.Input;
+using UnityEngine.UI;
 
 namespace StandardAssets.Characters.CharacterInput
 {
@@ -34,6 +35,8 @@ namespace StandardAssets.Characters.CharacterInput
 			get { return m_Jump; }
 			set { m_Jump = value; }
 		}
+
+		
 		
 		void OnEnable()
 		{
@@ -41,6 +44,8 @@ namespace StandardAssets.Characters.CharacterInput
 			controls.gameplay.movement.performed += Move;
 			controls.gameplay.look.performed += Look;
 			controls.gameplay.jump.performed += Jump;
+
+			CinemachineCore.GetInputAxis = LookInputOverride;
 		}
 
 		void OnDisable()
@@ -58,11 +63,7 @@ namespace StandardAssets.Characters.CharacterInput
 		void Look(InputAction.CallbackContext ctx)
 		{
 			m_Look = ctx.ReadValue<Vector2>();
-		}
-		
-		void Awake()
-		{
-			CinemachineCore.GetInputAxis = LookInputOverride;
+			
 		}
 
 		/// <summary>
