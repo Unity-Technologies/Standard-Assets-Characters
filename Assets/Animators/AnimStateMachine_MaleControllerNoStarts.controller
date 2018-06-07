@@ -870,7 +870,7 @@ BlendTree:
     m_Mirror: 0
   - serializedVersion: 2
     m_Motion: {fileID: 206238024781743390}
-    m_Threshold: -0.2
+    m_Threshold: -0.5
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -886,7 +886,7 @@ BlendTree:
     m_Mirror: 0
   - serializedVersion: 2
     m_Motion: {fileID: 206360049103838750}
-    m_Threshold: 0.2
+    m_Threshold: 0.5
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -1946,14 +1946,14 @@ AnimatorStateMachine:
   m_EntryTransitions:
   - {fileID: 1109838764005392862}
   m_StateMachineTransitions:
-  - first: {fileID: 1107563799764602758}
-    second:
-    - {fileID: 1109656484536368816}
-    - {fileID: 1109727769762428416}
   - first: {fileID: 1107877841531004928}
     second:
     - {fileID: 1109240623723878112}
     - {fileID: 1109072331430154632}
+  - first: {fileID: 1107563799764602758}
+    second:
+    - {fileID: 1109656484536368816}
+    - {fileID: 1109727769762428416}
   - first: {fileID: 1107920703856779502}
     second:
     - {fileID: 1109091859386678670}

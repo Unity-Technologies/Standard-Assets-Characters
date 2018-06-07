@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using StandardAssets.Characters.Effects;
+using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
@@ -15,6 +16,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		public string groundedParameterName = "Grounded";
 		public string hasInputParameterName = "HasInput";
 		public string fallingTimeParameterName = "FallingTime";
+		
+		[Header("Footedness")]
+		public string footednessParameterName = "OnRightFoot";
+		public bool invert;
+		public ColliderMovementDetection leftFoot, rightfoot;
 		
 		/// <summary>
 		/// Required motor
@@ -35,6 +41,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		int m_HashGrounded;
 		int m_HashHasInput;
 		int m_HashFallingTime;
+		int m_HashFootedness;
 
 		/// <summary>
 		/// Gets the required components
@@ -47,6 +54,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			m_HashGrounded = Animator.StringToHash(groundedParameterName);
 			m_HashHasInput = Animator.StringToHash(hasInputParameterName);
 			m_HashFallingTime = Animator.StringToHash(fallingTimeParameterName);
+			m_HashFootedness = Animator.StringToHash(footednessParameterName);
 			m_Motor = GetComponent<IThirdPersonMotor>();
 			m_Animator = GetComponent<Animator>();
 		}
@@ -58,6 +66,26 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			m_Motor.jumpStarted += OnJumpStarted;
 			m_Motor.landed += OnLanding;
+			if (leftFoot != null && rightfoot != null)
+			{
+				leftFoot.detection += OnLeftFoot;
+				rightfoot.detection += OnRightFoot;
+			}
+		}
+
+		void OnRightFoot(MovementEvent obj)
+		{
+			SetFootednessBool(!invert);
+		}
+
+		void OnLeftFoot(MovementEvent obj)
+		{
+			SetFootednessBool(invert);
+		}
+
+		void SetFootednessBool(bool value)
+		{
+			m_Animator.SetBool(m_HashFootedness, value);
 		}
 
 		/// <summary>
@@ -72,6 +100,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			m_Motor.jumpStarted -= OnJumpStarted;
 			m_Motor.landed -= OnLanding;
+
+			if (leftFoot != null && rightfoot != null)
+			{
+				leftFoot.detection -= OnLeftFoot;
+				rightfoot.detection -= OnRightFoot;
+			}
 		}
 		
 		/// <summary>
@@ -105,6 +139,21 @@ namespace StandardAssets.Characters.ThirdPerson
 		bool CheckHasSpeed(float speed)
 		{
 			return Mathf.Abs(speed) > 0;
+		}
+		
+		/// <summary>
+		/// Helper function to get the component of velocity along an axis
+		/// </summary>
+		/// <param name="axis"></param>
+		/// <param name="velocity"></param>
+		/// <returns></returns>
+		float GetVectorOnAxis(Vector3 axis, Vector3 vector)
+		{
+			float dot = Vector3.Dot(axis, vector.normalized);
+			float val = dot * vector.magnitude;
+			
+			Debug.Log(val);
+			return val;
 		}
 	}
 }
