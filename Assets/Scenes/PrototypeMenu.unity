@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028355, g: 0.22571374, b: 0.30692255, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -248,7 +248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e6e6e0297214e3a9cfdc5f1c6f2850b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: FirstPersonEnviroment
+  sceneName: FirstPersonLegacyInput
 --- !u!1 &102264199
 GameObject:
   m_ObjectHideFlags: 0
@@ -316,7 +316,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: First Person Scene - <color=red>Legacy Input </color>
+  m_Text: 'First Person Scene
+
+    <color=red>Legacy Input </color>'
 --- !u!222 &102264202
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -373,7 +375,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e6e6e0297214e3a9cfdc5f1c6f2850b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: FirstPersonEnviromentExperimentalInput
+  sceneName: FirstPersonNewInput
 --- !u!114 &161527092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -807,7 +809,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Third Person Scene - <color=red>Legacy Input </color>
+  m_Text: 'Third Person Scene
+
+    <color=blue>New Input </color>'
 --- !u!222 &475148823
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -882,7 +886,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Third Person Scene - <color=red>Legacy Input </color>
+  m_Text: 'Third Person Scene
+
+    <color=red>Legacy Input </color>'
 --- !u!222 &605930650
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1333,7 +1339,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 140
+    m_FontSize: 150
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -1344,7 +1350,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: First Person Walk Through <color=red>Legacy Input </color>
+  m_Text: "First Person Walk Through \x03\n<color=red>Legacy Input </color>"
 --- !u!222 &1111064355
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1724,7 +1730,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: First Person Scene - <color=red>New Input </color>
+  m_Text: 'First Person Scene
+
+    <color=blue>New Input </color>'
 --- !u!222 &1625342001
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1781,7 +1789,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e6e6e0297214e3a9cfdc5f1c6f2850b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: FirstPersonEnviroment
+  sceneName: NewEnvironment
 --- !u!114 &1780487548
 MonoBehaviour:
   m_ObjectHideFlags: 0
