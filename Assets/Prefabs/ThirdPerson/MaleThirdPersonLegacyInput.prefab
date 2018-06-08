@@ -2224,8 +2224,51 @@ MonoBehaviour:
   airborneAccelProportion: 0.5
   airborneDecelProportion: 0.5
   jumpSpeed: 0.1
-  interpolateTurning: 1
   airborneTurnSpeedProportion: 0.5
+  angleSnapBehaviour: 60
+  maxTurnSpeed: 5000
+  turnSpeedAsAFunctionOfForwardSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.0041656494
+      value: 0
+      inSlope: 0.009426124
+      outSlope: 0.009426124
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.26413867
+      value: 0.0025290698
+      inSlope: 0.009426124
+      outSlope: 2.4428508
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.6725371
+      value: 1.0001855
+      inSlope: 2.4428508
+      outSlope: -0.00056644477
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: -0.00056644477
+      outSlope: -0.00056644477
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &114798069747516348
 MonoBehaviour:
   m_ObjectHideFlags: 1

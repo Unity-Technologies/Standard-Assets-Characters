@@ -28,12 +28,17 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[Range(0f, 1f)]
 		public float airborneDecelProportion = 0.5f;
+
 		public float jumpSpeed = 15f;
-		
-		public bool interpolateTurning = true;
 
 		[Range(0f, 1f)]
 		public float airborneTurnSpeedProportion = 0.5f;
+
+
+		public float angleSnapBehaviour = 120f;
+		public float maxTurnSpeed = 10000f;
+
+		public AnimationCurve turnSpeedAsAFunctionOfForwardSpeed = AnimationCurve.Linear(0, 0, 1, 1);
 
 		/// <summary>
 		/// The input implementation
@@ -46,10 +51,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		ICharacterPhysics m_CharacterPhysics;
 
 		/// <inheritdoc />
-		public override float normalizedLateralSpeed 
+		public override float normalizedLateralSpeed
 		{
-			get { return 0f; } 
+			get { return 0f; }
 		}
+
 		/// <inheritdoc />
 		public override float normalizedForwardSpeed
 		{
@@ -66,7 +72,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 
 		float m_CurrentForwardSpeed;
-		
+
 		/// <inheritdoc />
 		/// <summary>
 		/// Gets required components
@@ -136,7 +142,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			SetForward();
 			CalculateForwardMovement();
-			Move();	
+			Move();
 			CalculateYRotationSpeed(Time.fixedDeltaTime);
 		}
 
@@ -161,20 +167,29 @@ namespace StandardAssets.Characters.ThirdPerson
 			cameraToInputOffset.eulerAngles = new Vector3(0f, cameraToInputOffset.eulerAngles.y, 0f);
 
 			Quaternion targetRotation = Quaternion.LookRotation(cameraToInputOffset * flatForward);
-			
-			if (interpolateTurning)
-			{
-				
-				float actualTurnSpeed =
-					m_CharacterPhysics.isGrounded ? turnSpeed : turnSpeed * airborneTurnSpeedProportion;
-				targetRotation =
-					Quaternion.RotateTowards(transform.rotation, targetRotation, actualTurnSpeed * Time.fixedDeltaTime);
 
+			float angleDifference = Mathf.Abs((transform.eulerAngles - targetRotation.eulerAngles).y);
+
+			float calculatedTurnSpeed = 0;
+			if (angleDifference > angleSnapBehaviour)
+			{
+				calculatedTurnSpeed = turnSpeed + (maxTurnSpeed - turnSpeed) *
+				                                  turnSpeedAsAFunctionOfForwardSpeed.Evaluate(
+					                                  Mathf.Abs(normalizedForwardSpeed));
 			}
-			
+			else
+			{
+				calculatedTurnSpeed = turnSpeed;
+			}
+
+			float actualTurnSpeed =
+				m_CharacterPhysics.isGrounded ? calculatedTurnSpeed : calculatedTurnSpeed * airborneTurnSpeedProportion;
+			targetRotation =
+				Quaternion.RotateTowards(transform.rotation, targetRotation, actualTurnSpeed * Time.fixedDeltaTime);
+
 			transform.rotation = targetRotation;
 		}
-		
+
 		/// <summary>
 		/// Calculates the forward movement
 		/// </summary>
@@ -186,7 +201,6 @@ namespace StandardAssets.Characters.ThirdPerson
 				moveInput.Normalize();
 			}
 
-			
 			float desiredSpeed = moveInput.magnitude * maxForwardSpeed;
 
 			if (useAcceleration)

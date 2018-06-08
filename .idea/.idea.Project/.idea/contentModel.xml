@@ -3,11 +3,10 @@
   <component name="ContentModelStore">
     <e p="$PROJECT_DIR$/../Libraries/OSX" t="ExcludeRecursive" />
     <e p="$PROJECT_DIR$" t="IncludeRecursive">
-      <e p="Assembly-CSharp-Editor-firstpass.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
-        <e p="DefaultCharacters" t="Include">
+        <e p="DefaultCharacters_OldBase" t="Include">
           <e p="Scripts" t="Include">
             <e p="Editor" t="Include">
               <e p="DefaultThirdPersonCharacterEditor.cs" t="Include" />
@@ -19,10 +18,98 @@
             </e>
           </e>
         </e>
-        <e p="Plugins" t="Include">
-          <e p="Editor" t="Include">
-            <e p="JetBrains" t="Include">
-              <e p="Unity3DRider.cs" t="Include" />
+        <e p="Prefabs" t="Include">
+          <e p="FirstPerson" t="Include">
+            <e p="MobileControls.cs" t="Include" />
+            <e p="NewInput" t="Include">
+              <e p="DemoInputActions.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Scripts" t="Include">
+          <e p="Demo" t="Include">
+            <e p="BulletController.cs" t="Include" />
+            <e p="ClayShootingController.cs" t="Include" />
+            <e p="DemoMenuItem.cs" t="Include" />
+            <e p="GoToMenu.cs" t="Include" />
+            <e p="Quit.cs" t="Include" />
+          </e>
+          <e p="StandardAssets" t="Include">
+            <e p="Characters" t="Include">
+              <e p="CharacterInput" t="Include">
+                <e p="ICharacterInput.cs" t="Include" />
+                <e p="InputResponse.cs" t="Include" />
+                <e p="LegacyUnityCharacterInput.cs" t="Include" />
+                <e p="LegacyUnityInputResponse.cs" t="Include" />
+                <e p="NavMeshClick.cs" t="Include" />
+                <e p="NewCharacterInput.cs" t="Include" />
+                <e p="NewInputResponse.cs" t="Include" />
+              </e>
+              <e p="Effects" t="Include">
+                <e p="AudioMovementEventPlayer.cs" t="Include" />
+                <e p="ColliderMovementDetection.cs" t="Include" />
+                <e p="ColliderMovementEventBroadcaster.cs" t="Include" />
+                <e p="DistanceTravelledBroadcaster.cs" t="Include" />
+                <e p="JumpAirTimeBroadcaster.cs" t="Include" />
+                <e p="MovementEvent.cs" t="Include" />
+                <e p="MovementEventBroadcaster.cs" t="Include" />
+                <e p="MovementEventLibrary.cs" t="Include" />
+                <e p="MovementEventLibraryEntry.cs" t="Include" />
+                <e p="MovementEventListener.cs" t="Include" />
+                <e p="MovementEventPlayer.cs" t="Include" />
+                <e p="MovementZone.cs" t="Include" />
+                <e p="ParticleMovementEventPlayer.cs" t="Include" />
+                <e p="TriggerMovementZone.cs" t="Include" />
+              </e>
+              <e p="FirstPerson" t="Include">
+                <e p="AnimationManager.cs" t="Include" />
+                <e p="CameraManager.cs" t="Include" />
+                <e p="FirstPersonController.cs" t="Include" />
+                <e p="FirstPersonMovementModification.cs" t="Include" />
+                <e p="FirstPersonMovementProperties.cs" t="Include" />
+                <e p="ICameraManager.cs" t="Include" />
+                <e p="PovCharacterRotator.cs" t="Include" />
+              </e>
+              <e p="Physics" t="Include">
+                <e p="CharacterControllerCharacterPhysics.cs" t="Include" />
+                <e p="ICharacterPhysics.cs" t="Include" />
+                <e p="RigidbodyCharacterPhysics.cs" t="Include" />
+              </e>
+              <e p="ThirdPerson" t="Include">
+                <e p="BaseThirdPersonMotor.cs" t="Include" />
+                <e p="IThirdPersonMotor.cs" t="Include" />
+                <e p="NavMeshThirdPersonMotor.cs" t="Include" />
+                <e p="PhysicsThirdPersonMotor.cs" t="Include" />
+                <e p="TestThirdPersonMotor.cs" t="Include" />
+                <e p="ThirdPersonAnimationController.cs" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="Util" t="Include">
+            <e p="ConfigurableUpdateBehaviour.cs" t="Include" />
+            <e p="ConfigurableUpdateType.cs" t="Include" />
+            <e p="CurveEvaluator.cs" t="Include" />
+            <e p="MinMaxCurveEvaluator.cs" t="Include" />
+          </e>
+        </e>
+        <e p="TextMesh Pro" t="Include">
+          <e p="Resources" t="Include">
+            <e p="LineBreaking Following Characters.txt" t="Include" />
+            <e p="LineBreaking Leading Characters.txt" t="Include" />
+            <e p="Shaders" t="Include">
+              <e p="TMP_Bitmap-Mobile.shader" t="Include" />
+              <e p="TMP_Bitmap.shader" t="Include" />
+              <e p="TMP_SDF Overlay.shader" t="Include" />
+              <e p="TMP_SDF-Mobile Masking.shader" t="Include" />
+              <e p="TMP_SDF-Mobile Overlay.shader" t="Include" />
+              <e p="TMP_SDF-Mobile.shader" t="Include" />
+              <e p="TMP_SDF-Surface-Mobile.shader" t="Include" />
+              <e p="TMP_SDF-Surface.shader" t="Include" />
+              <e p="TMP_SDF.shader" t="Include" />
+              <e p="TMP_Sprite.shader" t="Include" />
+              <e p="TMPro.cginc" t="Include" />
+              <e p="TMPro_Properties.cginc" t="Include" />
+              <e p="TMPro_Surface.cginc" t="Include" />
             </e>
           </e>
         </e>
@@ -34,6 +121,6 @@
         <e p="bin" t="ExcludeRecursive" />
       </e>
     </e>
-    <e p="$USER_HOME$/Library/Caches/Rider2017.3/resharper-host/local/Transient/ReSharperHost/v11/SolutionCaches/_Project.-1878735167.00" t="ExcludeRecursive" />
+    <e p="$USER_HOME$/Library/Caches/Rider2018.1/resharper-host/local/Transient/ReSharperHost/v12/SolutionCaches/_Project.-1878735167.00" t="ExcludeRecursive" />
   </component>
 </project>
