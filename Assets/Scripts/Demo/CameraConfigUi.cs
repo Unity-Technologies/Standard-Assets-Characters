@@ -36,6 +36,11 @@ namespace Demo
 
 		protected float m_XAxisMaxSpeed;
 		protected float m_YAxisMaxSpeed;
+
+		public float minXAxisSpeed;
+		public float maxXAxisSpeed;
+		public float minYAxisSpeed;
+		public float maxYAxisSpeed;
 		
 
 		protected virtual void SetMaxSpeedSliderInitialValues(Slider slider, float value, Text sliderText, float scaledValue)
@@ -49,7 +54,7 @@ namespace Demo
 		/// </summary>
 		public void SetVerticalSliderValue(Slider slider)
 		{
-			m_YAxisMaxSpeed = ((slider.value * 5) + 1);
+			m_YAxisMaxSpeed = ((slider.value * (maxYAxisSpeed-minYAxisSpeed)) + minYAxisSpeed);
 			verticalSliderValueText.text = m_YAxisMaxSpeed.ToString("0");
 			foreach (var camera in cameras)
 			{
@@ -62,7 +67,7 @@ namespace Demo
 		/// </summary>
 		public void SetHorizontalSliderValue(Slider slider)
 		{
-			m_XAxisMaxSpeed = ((slider.value * 300) + 100);
+			m_XAxisMaxSpeed = ((slider.value * (maxXAxisSpeed-minXAxisSpeed)) + minXAxisSpeed);
 			horizontalSliderValueText.text = m_XAxisMaxSpeed.ToString("0");
 			foreach (var camera in cameras)
 			{
