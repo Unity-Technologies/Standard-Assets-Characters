@@ -5,7 +5,7 @@ namespace Demo
 {
 	public class FreeLookCameraConfigUi : CameraConfigUi<CinemachineFreeLook>
 	{
-		protected virtual void Start()
+		protected void Start()
 		{
 			//SetInitalValues for cameraInversion toggles
 			xAxisToggle.isOn = cameras[0].m_XAxis.m_InvertInput;
