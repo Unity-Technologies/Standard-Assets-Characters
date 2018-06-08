@@ -34,6 +34,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		[Range(0f, 1f)]
 		public float airborneTurnSpeedProportion = 0.5f;
 
+
+		public float angleSnapBehaviour = 120f;
 		public float maxTurnSpeed = 10000f;
 
 		public AnimationCurve turnSpeedAsAFunctionOfForwardSpeed = AnimationCurve.Linear(0, 0, 1, 1);
@@ -166,12 +168,22 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			Quaternion targetRotation = Quaternion.LookRotation(cameraToInputOffset * flatForward);
 
-			float turnSpeedFromForwardSpeed = turnSpeed + (maxTurnSpeed - turnSpeed) *
-			                                  turnSpeedAsAFunctionOfForwardSpeed.Evaluate(
-				                                  Mathf.Abs(normalizedForwardSpeed));
+			float angleDifference = Mathf.Abs((transform.eulerAngles - targetRotation.eulerAngles).y);
+
+			float calculatedTurnSpeed = 0;
+			if (angleDifference > angleSnapBehaviour)
+			{
+				calculatedTurnSpeed = turnSpeed + (maxTurnSpeed - turnSpeed) *
+				                                  turnSpeedAsAFunctionOfForwardSpeed.Evaluate(
+					                                  Mathf.Abs(normalizedForwardSpeed));
+			}
+			else
+			{
+				calculatedTurnSpeed = turnSpeed;
+			}
 
 			float actualTurnSpeed =
-				m_CharacterPhysics.isGrounded ? turnSpeedFromForwardSpeed : turnSpeedFromForwardSpeed * airborneTurnSpeedProportion;
+				m_CharacterPhysics.isGrounded ? calculatedTurnSpeed : calculatedTurnSpeed * airborneTurnSpeedProportion;
 			targetRotation =
 				Quaternion.RotateTowards(transform.rotation, targetRotation, actualTurnSpeed * Time.fixedDeltaTime);
 

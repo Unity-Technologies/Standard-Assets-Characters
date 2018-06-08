@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e136a53-8aa4-431a-a764-b817eb8c0fba" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Project/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Project/.idea/contentModel.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Project/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Project/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/DefaultCharacters_New/3rdPerson_DefaultFemale/Animations/Crouch.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/DefaultCharacters_New/3rdPerson_DefaultFemale/Animations/Jump.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/DefaultCharacters_New/3rdPerson_DefaultFemale/Animations/Non-Cycle.meta" beforeDir="false" />
@@ -14,10 +12,7 @@
       <change beforePath="$PROJECT_DIR$/Assets/DefaultCharacters_New/3rdPerson_DefaultMale/Animations/Stops.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/DefaultCharacters_New/3rdPerson_DefaultMale/Animations/Transitions.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Plugins/Editor/JetBrains/JetBrains.Rider.Unity.Editor.Plugin.Repacked.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Editor/JetBrains/JetBrains.Rider.Unity.Editor.Plugin.Repacked.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/ThirdPerson/MaleThirdPersonLegacyInput.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/ThirdPerson/MaleThirdPersonLegacyInput.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/ThirdPerson/MaleThirdPersonNewInput.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/ThirdPerson/MaleThirdPersonNewInput.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/ThirdPersonLegacyInput.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/ThirdPersonLegacyInput.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/ThirdPersonNewInput.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/ThirdPersonNewInput.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/PhysicsThirdPersonMotor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/PhysicsThirdPersonMotor.cs" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -32,49 +27,51 @@
       <file leaf-file-name="PhysicsThirdPersonMotor.cs" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/PhysicsThirdPersonMotor.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="410">
-              <caret line="157" column="31" lean-forward="true" selection-start-line="157" selection-start-column="31" selection-end-line="157" selection-end-column="31" />
+            <state relative-caret-position="328">
+              <caret line="181" column="48" lean-forward="true" selection-start-line="181" selection-start-column="48" selection-end-line="181" selection-end-column="48" />
               <folding>
-                <marker date="1528455895000" expanded="false" signature="6:161" ph="..." />
-                <marker date="1528455895000" expanded="true" signature="210:5859" ph="{...}" />
-                <marker date="1528455895000" expanded="true" signature="214:281" ph="/// The main third person controller ... " />
-                <marker date="1528455895000" expanded="true" signature="434:5857" ph="{...}" />
-                <marker date="1528455895000" expanded="true" signature="440:492" ph="/// Movement values ... " />
-                <marker date="1528455895000" expanded="true" signature="1062:1123" ph="/// The input implementation ... " />
-                <marker date="1528455895000" expanded="true" signature="1163:1225" ph="/// The physic implementation ... " />
-                <marker date="1528455895000" expanded="true" signature="1334:1364" ph="{...}" />
-                <marker date="1528455895000" expanded="true" signature="1433:1584" ph="{...}" />
-                <marker date="1528455895000" expanded="true" signature="1444:1580" ph="{...}" />
-                <marker date="1528455895000" expanded="true" signature="1618:1673" ph="{...}" />
-                <marker date="1528455895000" expanded="true" signature="1709:1791" ph="/// Gets required components ... " />
-                <marker date="1528455895000" expanded="true" signature="1825:1964" ph="{...}" />
-                <marker date="1528455895000" expanded="true" signature="1968:2014" ph="/// Subscribe ... " />
-                <marker date="1528455895000" expanded="true" signature="2032:2133" ph="{...}" />
-                <marker date="1528455895000" expanded="true" signature="2137:2185" ph="/// Unsubscribe ... " />
-                <marker date="1528455895000" expanded="true" signature="2204:2396" ph="{...}" />
-                <marker date="1528455895000" expanded="true" signature="2241:2302" ph="{...}" />
-                <marker date="1528455895000" expanded="true" signature="2338:2392" ph="{...}" />
-                <marker date="1528455895000" expanded="true" signature="2400:2459" ph="/// Handles player landing ... " />
-                <marker date="1528455895000" expanded="true" signature="2478:2533" ph="{...}" />
-                <marker date="1528455895000" expanded="true" signature="2505:2529" ph="{...}" />
-                <marker date="1528455895000" expanded="true" signature="2537:2612" ph="/// Subscribes to the Jump action on input ... " />
-                <marker date="1528455895000" expanded="true" signature="2635:2803" ph="{...}" />
-                <marker date="1528455895000" expanded="true" signature="2677:2799" ph="{...}" />
-                <marker date="1528455895000" expanded="true" signature="2762:2794" ph="{...}" />
-                <marker date="1528455895000" expanded="true" signature="2807:2876" ph="/// Movement Logic on physics update ... " />
-                <marker date="1528455895000" expanded="true" signature="2897:3013" ph="{...}" />
-                <marker date="1528455895000" expanded="true" signature="3017:3075" ph="/// Sets forward rotation ... " />
-                <marker date="1528455895000" expanded="true" signature="3095:4228" ph="{...}" />
-                <marker date="1528455895000" expanded="true" signature="3142:3164" ph="{...}" />
-                <marker date="1528455895000" expanded="true" signature="4232:4300" ph="/// Calculates the forward movement ... " />
-                <marker date="1528455895000" expanded="true" signature="4334:5010" ph="{...}" />
-                <marker date="1528455895000" expanded="true" signature="4425:4462" ph="{...}" />
-                <marker date="1528455895000" expanded="true" signature="4551:4946" ph="{...}" />
-                <marker date="1528455895000" expanded="true" signature="4954:5006" ph="{...}" />
-                <marker date="1528455895000" expanded="true" signature="5014:5070" ph="/// Moves the character ... " />
-                <marker date="1528455895000" expanded="true" signature="5084:5854" ph="{...}" />
-                <marker date="1528455895000" expanded="true" signature="5113:5660" ph="/* TODO: clean-up ... */" />
-                <marker date="1528455895000" expanded="true" signature="5740:5811" ph="/* } ... */" />
+                <marker date="1528457731000" expanded="false" signature="6:161" ph="..." />
+                <marker date="1528457731000" expanded="true" signature="210:6120" ph="{...}" />
+                <marker date="1528457731000" expanded="true" signature="214:281" ph="/// The main third person controller ... " />
+                <marker date="1528457731000" expanded="true" signature="434:6118" ph="{...}" />
+                <marker date="1528457731000" expanded="true" signature="440:492" ph="/// Movement values ... " />
+                <marker date="1528457731000" expanded="true" signature="1105:1166" ph="/// The input implementation ... " />
+                <marker date="1528457731000" expanded="true" signature="1206:1268" ph="/// The physic implementation ... " />
+                <marker date="1528457731000" expanded="true" signature="1377:1407" ph="{...}" />
+                <marker date="1528457731000" expanded="true" signature="1476:1627" ph="{...}" />
+                <marker date="1528457731000" expanded="true" signature="1487:1623" ph="{...}" />
+                <marker date="1528457731000" expanded="true" signature="1661:1716" ph="{...}" />
+                <marker date="1528457731000" expanded="true" signature="1752:1834" ph="/// Gets required components ... " />
+                <marker date="1528457731000" expanded="true" signature="1868:2007" ph="{...}" />
+                <marker date="1528457731000" expanded="true" signature="2011:2057" ph="/// Subscribe ... " />
+                <marker date="1528457731000" expanded="true" signature="2075:2176" ph="{...}" />
+                <marker date="1528457731000" expanded="true" signature="2180:2228" ph="/// Unsubscribe ... " />
+                <marker date="1528457731000" expanded="true" signature="2247:2439" ph="{...}" />
+                <marker date="1528457731000" expanded="true" signature="2284:2345" ph="{...}" />
+                <marker date="1528457731000" expanded="true" signature="2381:2435" ph="{...}" />
+                <marker date="1528457731000" expanded="true" signature="2443:2502" ph="/// Handles player landing ... " />
+                <marker date="1528457731000" expanded="true" signature="2521:2576" ph="{...}" />
+                <marker date="1528457731000" expanded="true" signature="2548:2572" ph="{...}" />
+                <marker date="1528457731000" expanded="true" signature="2580:2655" ph="/// Subscribes to the Jump action on input ... " />
+                <marker date="1528457731000" expanded="true" signature="2678:2846" ph="{...}" />
+                <marker date="1528457731000" expanded="true" signature="2720:2842" ph="{...}" />
+                <marker date="1528457731000" expanded="true" signature="2805:2837" ph="{...}" />
+                <marker date="1528457731000" expanded="true" signature="2850:2919" ph="/// Movement Logic on physics update ... " />
+                <marker date="1528457731000" expanded="true" signature="2940:3056" ph="{...}" />
+                <marker date="1528457731000" expanded="true" signature="3060:3118" ph="/// Sets forward rotation ... " />
+                <marker date="1528457731000" expanded="true" signature="3138:4489" ph="{...}" />
+                <marker date="1528457731000" expanded="true" signature="3185:3207" ph="{...}" />
+                <marker date="1528457731000" expanded="true" signature="3892:4127" ph="{...}" />
+                <marker date="1528457731000" expanded="true" signature="4135:4182" ph="{...}" />
+                <marker date="1528457731000" expanded="true" signature="4493:4561" ph="/// Calculates the forward movement ... " />
+                <marker date="1528457731000" expanded="true" signature="4595:5271" ph="{...}" />
+                <marker date="1528457731000" expanded="true" signature="4686:4723" ph="{...}" />
+                <marker date="1528457731000" expanded="true" signature="4812:5207" ph="{...}" />
+                <marker date="1528457731000" expanded="true" signature="5215:5267" ph="{...}" />
+                <marker date="1528457731000" expanded="true" signature="5275:5331" ph="/// Moves the character ... " />
+                <marker date="1528457731000" expanded="true" signature="5345:6115" ph="{...}" />
+                <marker date="1528457731000" expanded="true" signature="5374:5921" ph="/* TODO: clean-up ... */" />
+                <marker date="1528457731000" expanded="true" signature="6001:6072" ph="/* } ... */" />
               </folding>
             </state>
           </provider>
@@ -245,12 +242,12 @@
       <workItem from="1523545337878" duration="33000" />
       <workItem from="1523545445486" duration="103000" />
       <workItem from="1523545823036" duration="939000" />
-      <workItem from="1528455508189" duration="508000" />
+      <workItem from="1528455508189" duration="1178000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1583000" />
+    <option name="totallyTimeSpent" value="2253000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -328,49 +325,51 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/PhysicsThirdPersonMotor.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="410">
-          <caret line="157" column="31" lean-forward="true" selection-start-line="157" selection-start-column="31" selection-end-line="157" selection-end-column="31" />
+        <state relative-caret-position="328">
+          <caret line="181" column="48" lean-forward="true" selection-start-line="181" selection-start-column="48" selection-end-line="181" selection-end-column="48" />
           <folding>
-            <marker date="1528455895000" expanded="false" signature="6:161" ph="..." />
-            <marker date="1528455895000" expanded="true" signature="210:5859" ph="{...}" />
-            <marker date="1528455895000" expanded="true" signature="214:281" ph="/// The main third person controller ... " />
-            <marker date="1528455895000" expanded="true" signature="434:5857" ph="{...}" />
-            <marker date="1528455895000" expanded="true" signature="440:492" ph="/// Movement values ... " />
-            <marker date="1528455895000" expanded="true" signature="1062:1123" ph="/// The input implementation ... " />
-            <marker date="1528455895000" expanded="true" signature="1163:1225" ph="/// The physic implementation ... " />
-            <marker date="1528455895000" expanded="true" signature="1334:1364" ph="{...}" />
-            <marker date="1528455895000" expanded="true" signature="1433:1584" ph="{...}" />
-            <marker date="1528455895000" expanded="true" signature="1444:1580" ph="{...}" />
-            <marker date="1528455895000" expanded="true" signature="1618:1673" ph="{...}" />
-            <marker date="1528455895000" expanded="true" signature="1709:1791" ph="/// Gets required components ... " />
-            <marker date="1528455895000" expanded="true" signature="1825:1964" ph="{...}" />
-            <marker date="1528455895000" expanded="true" signature="1968:2014" ph="/// Subscribe ... " />
-            <marker date="1528455895000" expanded="true" signature="2032:2133" ph="{...}" />
-            <marker date="1528455895000" expanded="true" signature="2137:2185" ph="/// Unsubscribe ... " />
-            <marker date="1528455895000" expanded="true" signature="2204:2396" ph="{...}" />
-            <marker date="1528455895000" expanded="true" signature="2241:2302" ph="{...}" />
-            <marker date="1528455895000" expanded="true" signature="2338:2392" ph="{...}" />
-            <marker date="1528455895000" expanded="true" signature="2400:2459" ph="/// Handles player landing ... " />
-            <marker date="1528455895000" expanded="true" signature="2478:2533" ph="{...}" />
-            <marker date="1528455895000" expanded="true" signature="2505:2529" ph="{...}" />
-            <marker date="1528455895000" expanded="true" signature="2537:2612" ph="/// Subscribes to the Jump action on input ... " />
-            <marker date="1528455895000" expanded="true" signature="2635:2803" ph="{...}" />
-            <marker date="1528455895000" expanded="true" signature="2677:2799" ph="{...}" />
-            <marker date="1528455895000" expanded="true" signature="2762:2794" ph="{...}" />
-            <marker date="1528455895000" expanded="true" signature="2807:2876" ph="/// Movement Logic on physics update ... " />
-            <marker date="1528455895000" expanded="true" signature="2897:3013" ph="{...}" />
-            <marker date="1528455895000" expanded="true" signature="3017:3075" ph="/// Sets forward rotation ... " />
-            <marker date="1528455895000" expanded="true" signature="3095:4228" ph="{...}" />
-            <marker date="1528455895000" expanded="true" signature="3142:3164" ph="{...}" />
-            <marker date="1528455895000" expanded="true" signature="4232:4300" ph="/// Calculates the forward movement ... " />
-            <marker date="1528455895000" expanded="true" signature="4334:5010" ph="{...}" />
-            <marker date="1528455895000" expanded="true" signature="4425:4462" ph="{...}" />
-            <marker date="1528455895000" expanded="true" signature="4551:4946" ph="{...}" />
-            <marker date="1528455895000" expanded="true" signature="4954:5006" ph="{...}" />
-            <marker date="1528455895000" expanded="true" signature="5014:5070" ph="/// Moves the character ... " />
-            <marker date="1528455895000" expanded="true" signature="5084:5854" ph="{...}" />
-            <marker date="1528455895000" expanded="true" signature="5113:5660" ph="/* TODO: clean-up ... */" />
-            <marker date="1528455895000" expanded="true" signature="5740:5811" ph="/* } ... */" />
+            <marker date="1528457731000" expanded="false" signature="6:161" ph="..." />
+            <marker date="1528457731000" expanded="true" signature="210:6120" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="214:281" ph="/// The main third person controller ... " />
+            <marker date="1528457731000" expanded="true" signature="434:6118" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="440:492" ph="/// Movement values ... " />
+            <marker date="1528457731000" expanded="true" signature="1105:1166" ph="/// The input implementation ... " />
+            <marker date="1528457731000" expanded="true" signature="1206:1268" ph="/// The physic implementation ... " />
+            <marker date="1528457731000" expanded="true" signature="1377:1407" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="1476:1627" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="1487:1623" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="1661:1716" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="1752:1834" ph="/// Gets required components ... " />
+            <marker date="1528457731000" expanded="true" signature="1868:2007" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="2011:2057" ph="/// Subscribe ... " />
+            <marker date="1528457731000" expanded="true" signature="2075:2176" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="2180:2228" ph="/// Unsubscribe ... " />
+            <marker date="1528457731000" expanded="true" signature="2247:2439" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="2284:2345" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="2381:2435" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="2443:2502" ph="/// Handles player landing ... " />
+            <marker date="1528457731000" expanded="true" signature="2521:2576" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="2548:2572" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="2580:2655" ph="/// Subscribes to the Jump action on input ... " />
+            <marker date="1528457731000" expanded="true" signature="2678:2846" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="2720:2842" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="2805:2837" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="2850:2919" ph="/// Movement Logic on physics update ... " />
+            <marker date="1528457731000" expanded="true" signature="2940:3056" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="3060:3118" ph="/// Sets forward rotation ... " />
+            <marker date="1528457731000" expanded="true" signature="3138:4489" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="3185:3207" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="3892:4127" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="4135:4182" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="4493:4561" ph="/// Calculates the forward movement ... " />
+            <marker date="1528457731000" expanded="true" signature="4595:5271" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="4686:4723" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="4812:5207" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="5215:5267" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="5275:5331" ph="/// Moves the character ... " />
+            <marker date="1528457731000" expanded="true" signature="5345:6115" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="5374:5921" ph="/* TODO: clean-up ... */" />
+            <marker date="1528457731000" expanded="true" signature="6001:6072" ph="/* } ... */" />
           </folding>
         </state>
       </provider>
