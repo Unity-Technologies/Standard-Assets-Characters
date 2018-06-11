@@ -1,7 +1,7 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/Prefabs/FirstPerson/NewInput/DemoInputActions.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/Prefabs/FirstPerson/NewInput/NewInputActions.inputactions'
 
 [System.Serializable]
-public class DemoInputActions : UnityEngine.Experimental.Input.InputActionWrapper
+public class NewInputActions : UnityEngine.Experimental.Input.InputActionWrapper
 {
     private bool m_Initialized;
     private void Initialize()
@@ -26,8 +26,8 @@ public class DemoInputActions : UnityEngine.Experimental.Input.InputActionWrappe
     private UnityEngine.Experimental.Input.InputAction m_gameplay_sprint;
     public struct GameplayActions
     {
-        private DemoInputActions m_Wrapper;
-        public GameplayActions(DemoInputActions wrapper) { m_Wrapper = wrapper; }
+        private NewInputActions m_Wrapper;
+        public GameplayActions(NewInputActions wrapper) { m_Wrapper = wrapper; }
         public UnityEngine.Experimental.Input.InputAction @crouch { get { return m_Wrapper.m_gameplay_crouch; } }
         public UnityEngine.Experimental.Input.InputAction @prone { get { return m_Wrapper.m_gameplay_prone; } }
         public UnityEngine.Experimental.Input.InputAction @look { get { return m_Wrapper.m_gameplay_look; } }

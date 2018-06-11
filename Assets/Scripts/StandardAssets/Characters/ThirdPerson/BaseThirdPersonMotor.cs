@@ -17,6 +17,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		[Range(1, 20)]
 		public float normalizedTurnLerpFactor = 5f;
 		
+		public Animator animator;
+		
 		/// <summary>
 		/// Needed to calculate turning
 		/// </summary>

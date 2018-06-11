@@ -2118,7 +2118,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 9250483fadc19a444bcc66715ab615e9, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -2216,6 +2216,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turnSpeed: 450
   normalizedTurnLerpFactor: 5
+  animator: {fileID: 95771403575124170}
   cameraTransform: {fileID: 0}
   maxForwardSpeed: 10
   useAcceleration: 1

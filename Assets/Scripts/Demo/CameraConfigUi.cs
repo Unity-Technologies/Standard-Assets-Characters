@@ -1,5 +1,6 @@
 ﻿using Cinemachine;
 using UnityEngine;
+using UnityEngine.Experimental.Input;
 using UnityEngine.UI;
 
 namespace Demo
@@ -41,7 +42,10 @@ namespace Demo
 		public float maxXAxisSpeed;
 		public float minYAxisSpeed;
 		public float maxYAxisSpeed;
-		
+
+
+		public Text activeInputDevices;
+
 
 		protected virtual void SetMaxSpeedSliderInitialValues(Slider slider, float value, Text sliderText, float scaledValue)
 		{
@@ -61,6 +65,8 @@ namespace Demo
 				SetYAxisMaxSpeed(camera, m_YAxisMaxSpeed);
 			}
 		}
+
+		
 
 		/// <summary>
 		/// Sets the horizontal sensisitivity
@@ -91,6 +97,28 @@ namespace Demo
 			{
 				InvertYAxis(camera, invertYAxis);
 			}
+		}
+		
+		/// <summary>
+		/// Get the active input devices 
+		/// </summary>
+		protected virtual void UpdateActiveInputDevices()
+		{
+			string devices = ""; 
+			foreach (var device in InputSystem.devices)
+			{
+				devices += ">"+device.ToString()+"\n";
+				
+			}
+
+			activeInputDevices.text = devices;
+		}
+
+
+		void Update()
+		{
+			UpdateActiveInputDevices();
+			
 		}
 
 		protected abstract void SetYAxisMaxSpeed(T camera, float newMaxYAxisMaxSpeed);
