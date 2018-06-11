@@ -760,11 +760,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114885225739208398, guid: ab3b32e38dca85b4180d5007c17a3505,
-        type: 2}
-      propertyPath: cameras.Array.size
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 4847589930490144, guid: ab3b32e38dca85b4180d5007c17a3505, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -812,31 +807,6 @@ Prefab:
       propertyPath: cameras.Array.data[2]
       value: 
       objectReference: {fileID: 1289247122}
-    - target: {fileID: 114885225739208398, guid: ab3b32e38dca85b4180d5007c17a3505,
-        type: 2}
-      propertyPath: activeInputDevices
-      value: 
-      objectReference: {fileID: 1729478745}
-    - target: {fileID: 224184914661509556, guid: ab3b32e38dca85b4180d5007c17a3505,
-        type: 2}
-      propertyPath: m_RootOrder
-      value: 14
-      objectReference: {fileID: 0}
-    - target: {fileID: 224178899674003076, guid: ab3b32e38dca85b4180d5007c17a3505,
-        type: 2}
-      propertyPath: m_RootOrder
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 224696613226549906, guid: ab3b32e38dca85b4180d5007c17a3505,
-        type: 2}
-      propertyPath: m_RootOrder
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 114946174736475714, guid: ab3b32e38dca85b4180d5007c17a3505,
-        type: 2}
-      propertyPath: m_Text
-      value: 
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab3b32e38dca85b4180d5007c17a3505, type: 2}
   m_IsPrefabAsset: 0
@@ -846,12 +816,6 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 1812529121}
   m_Script: {fileID: 11500000, guid: 0b47216618e54cb19f75a56e601bb515, type: 3}
---- !u!114 &1729478745 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114946174736475714, guid: ab3b32e38dca85b4180d5007c17a3505,
-    type: 2}
-  m_PrefabInternal: {fileID: 1637789868}
-  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1001 &1812529121
 Prefab:
   m_ObjectHideFlags: 0
@@ -1113,6 +1077,12 @@ Prefab:
       propertyPath: groundCheckMask.m_Bits
       value: 823
       objectReference: {fileID: 0}
+    - target: {fileID: 114099553648463976, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: controls.m_Asset
+      value: 
+      objectReference: {fileID: 11400000, guid: 40952324d92091141ae7b75ba9420185,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2706dd163cab644aa0f7aec413a3457, type: 2}
   m_IsPrefabAsset: 0

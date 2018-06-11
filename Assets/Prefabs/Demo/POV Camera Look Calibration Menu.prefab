@@ -889,7 +889,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: <b> Active Input Devices </b>
+  m_Text: <b> Active Inputs/Gamepads </b>
 --- !u!114 &114507693456758664
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1511,13 +1511,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'Keyboard:/Keyboard
-
-    Mouse:/Mouse
-
-    XInputControllerWindows:/XInputControllerWindows
-
-'
+  m_Text: 
 --- !u!114 &114952343410389276
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1895,9 +1889,9 @@ RectTransform:
   - {fileID: 224149543217421678}
   - {fileID: 224463070611799206}
   - {fileID: 224744601057554322}
-  - {fileID: 224184914661509556}
   - {fileID: 224178899674003076}
   - {fileID: 224696613226549906}
+  - {fileID: 224184914661509556}
   m_Father: {fileID: 224895836800338140}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1935,7 +1929,7 @@ RectTransform:
   m_LocalScale: {x: 1.0000048, y: 1.0000048, z: 1.0000048}
   m_Children: []
   m_Father: {fileID: 224136913134863582}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1953,7 +1947,7 @@ RectTransform:
   m_LocalScale: {x: 1.0000048, y: 1.0000048, z: 1.0000048}
   m_Children: []
   m_Father: {fileID: 224136913134863582}
-  m_RootOrder: 12
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2233,7 +2227,7 @@ RectTransform:
   m_LocalScale: {x: 1.0000048, y: 1.0000048, z: 1.0000048}
   m_Children: []
   m_Father: {fileID: 224136913134863582}
-  m_RootOrder: 14
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
