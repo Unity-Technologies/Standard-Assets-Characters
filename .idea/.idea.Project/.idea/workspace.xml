@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e136a53-8aa4-431a-a764-b817eb8c0fba" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Project/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Project/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Project/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Project/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/DefaultCharacters_New/3rdPerson_DefaultFemale/Animations/Crouch.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/DefaultCharacters_New/3rdPerson_DefaultFemale/Animations/Jump.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/DefaultCharacters_New/3rdPerson_DefaultFemale/Animations/Non-Cycle.meta" beforeDir="false" />
@@ -12,8 +14,6 @@
       <change beforePath="$PROJECT_DIR$/Assets/DefaultCharacters_New/3rdPerson_DefaultMale/Animations/Stops.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/DefaultCharacters_New/3rdPerson_DefaultMale/Animations/Transitions.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Plugins/Editor/JetBrains/JetBrains.Rider.Unity.Editor.Plugin.Repacked.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Editor/JetBrains/JetBrains.Rider.Unity.Editor.Plugin.Repacked.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/ThirdPersonLegacyInput.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/ThirdPersonLegacyInput.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/PhysicsThirdPersonMotor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/PhysicsThirdPersonMotor.cs" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -24,14 +24,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="PhysicsThirdPersonMotor.cs" pinned="false" current-in-tab="true">
+      <file leaf-file-name="PhysicsThirdPersonMotor.cs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/PhysicsThirdPersonMotor.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="328">
-              <caret line="181" column="48" lean-forward="true" selection-start-line="181" selection-start-column="48" selection-end-line="181" selection-end-column="48" />
+            <state relative-caret-position="2655">
+              <caret line="181" column="48" selection-start-line="181" selection-start-column="48" selection-end-line="181" selection-end-column="48" />
               <folding>
                 <marker date="1528457731000" expanded="false" signature="6:161" ph="..." />
-                <marker date="1528457731000" expanded="true" signature="210:6120" ph="{...}" />
                 <marker date="1528457731000" expanded="true" signature="214:281" ph="/// The main third person controller ... " />
                 <marker date="1528457731000" expanded="true" signature="434:6118" ph="{...}" />
                 <marker date="1528457731000" expanded="true" signature="440:492" ph="/// Movement values ... " />
@@ -77,6 +76,76 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="FreeLookCameraConfigUi.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Assets/Scripts/Demo/FreeLookCameraConfigUi.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+              <folding>
+                <marker date="1528463502000" expanded="true" signature="6:40" ph="..." />
+                <marker date="1528463502000" expanded="true" signature="56:1367" ph="{...}" />
+                <marker date="1528463502000" expanded="true" signature="133:1365" ph="{...}" />
+                <marker date="1528463502000" expanded="true" signature="161:780" ph="{...}" />
+                <marker date="1528463502000" expanded="true" signature="881:937" ph="{...}" />
+                <marker date="1528463502000" expanded="true" signature="1036:1092" ph="{...}" />
+                <marker date="1528463502000" expanded="true" signature="1172:1227" ph="{...}" />
+                <marker date="1528463502000" expanded="true" signature="1307:1362" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="VCamPovCameraConfigUi.cs" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Assets/Scripts/Demo/VCamPovCameraConfigUi.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="615">
+              <caret line="41" column="1" selection-start-line="41" selection-start-column="1" selection-end-line="41" selection-end-column="1" />
+              <folding>
+                <marker date="1528467162000" expanded="true" signature="34:1715" ph="{...}" />
+                <marker date="1528467162000" expanded="true" signature="115:1713" ph="{...}" />
+                <marker date="1528467162000" expanded="true" signature="143:912" ph="{...}" />
+                <marker date="1528467162000" expanded="true" signature="1016:1125" ph="{...}" />
+                <marker date="1528467162000" expanded="true" signature="1229:1340" ph="{...}" />
+                <marker date="1528467162000" expanded="true" signature="1425:1526" ph="{...}" />
+                <marker date="1528467162000" expanded="true" signature="1611:1710" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CinemachinePOV.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2C2249EE-6D23-48E9-B9C0-A87D3580307D/0c/ae9bab85/CinemachinePOV.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="210">
+              <caret line="14" column="15" selection-start-line="14" selection-start-column="15" selection-end-line="14" selection-end-column="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CameraConfigUi.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Assets/Scripts/Demo/CameraConfigUi.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="220">
+              <caret line="32" selection-start-line="32" selection-end-line="32" />
+              <folding>
+                <marker date="1528467162000" expanded="true" signature="6:59" ph="..." />
+                <marker date="1528467162000" expanded="true" signature="75:2507" ph="{...}" />
+                <marker date="1528467162000" expanded="true" signature="173:2505" ph="{...}" />
+                <marker date="1528467162000" expanded="true" signature="179:234" ph="/// Camera parameters  ... " />
+                <marker date="1528467162000" expanded="true" signature="318:383" ph="/// Cinemachine FreeLook Cameras ... " />
+                <marker date="1528467162000" expanded="true" signature="409:464" ph="/// UI Label Elements  ... " />
+                <marker date="1528467162000" expanded="true" signature="549:610" ph="/// UI Interactive elements  ... " />
+                <marker date="1528467162000" expanded="true" signature="1724:1889" ph="{...}" />
+                <marker date="1528467162000" expanded="true" signature="1828:1885" ph="{...}" />
+                <marker date="1528467162000" expanded="true" signature="1931:2052" ph="{...}" />
+                <marker date="1528467162000" expanded="true" signature="2000:2048" ph="{...}" />
+                <marker date="1528467162000" expanded="true" signature="2094:2215" ph="{...}" />
+                <marker date="1528467162000" expanded="true" signature="2163:2211" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="BaseThirdPersonMotor.cs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/BaseThirdPersonMotor.cs">
           <provider selected="true" editor-type-id="text-editor">
@@ -84,7 +153,6 @@
               <caret line="8" column="26" selection-start-line="8" selection-start-column="26" selection-end-line="8" selection-end-column="26" />
               <folding>
                 <marker date="1528284479000" expanded="false" signature="6:32" ph="..." />
-                <marker date="1528284479000" expanded="true" signature="81:2267" ph="{...}" />
                 <marker date="1528284479000" expanded="true" signature="85:203" ph="/// Base implementation of ThirdPersonMotor which knows how to report the turning speed ... " />
                 <marker date="1528284479000" expanded="true" signature="282:2265" ph="{...}" />
                 <marker date="1528284479000" expanded="true" signature="288:346" ph="/// The actual turn speed ... " />
@@ -110,13 +178,22 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Demo/VCamPovCameraConfigUi.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Demo/FreeLookCameraConfigUi.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/BaseThirdPersonMotor.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/PhysicsThirdPersonMotor.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Demo/CameraConfigUi.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2C2249EE-6D23-48E9-B9C0-A87D3580307D/0c/ae9bab85/CinemachinePOV.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/PhysicsThirdPersonMotor.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Demo/CameraLookConfig.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Demo/FreeLookCameraConfig.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Demo/CameraConfigUi.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Demo/FreeLookCameraConfigUi.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Demo/VCamPovCameraConfigUi.cs" />
       </list>
     </option>
   </component>
@@ -173,26 +250,7 @@
               <item name="Assembly-CSharp" type="977d5f41:SolutionExplorerNodeRider" />
               <item name="Assets" type="977d5f41:SolutionExplorerNodeRider" />
               <item name="Scripts" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="StandardAssets" type="977d5f41:SolutionExplorerNodeRider" />
-            </path>
-            <path>
-              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
-              <item name="Project (2 projects)" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="Assembly-CSharp" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="Assets" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="Scripts" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="StandardAssets" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="Characters" type="977d5f41:SolutionExplorerNodeRider" />
-            </path>
-            <path>
-              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
-              <item name="Project (2 projects)" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="Assembly-CSharp" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="Assets" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="Scripts" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="StandardAssets" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="Characters" type="977d5f41:SolutionExplorerNodeRider" />
-              <item name="ThirdPerson" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Demo" type="977d5f41:SolutionExplorerNodeRider" />
             </path>
           </expand>
           <select />
@@ -243,11 +301,12 @@
       <workItem from="1523545445486" duration="103000" />
       <workItem from="1523545823036" duration="939000" />
       <workItem from="1528455508189" duration="1178000" />
+      <workItem from="1528462171979" duration="1430000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2253000" />
+    <option name="totallyTimeSpent" value="3683000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -260,19 +319,18 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="260" y="43" width="1400" height="937" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="right" id="Errors In Solution" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Unit Tests" order="7" />
-      <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
-      <window_info anchor="bottom" id="Unity" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Unity" order="8" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
@@ -295,41 +353,12 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Assets/DefaultCharacters/Scripts/SharedScripts/DefaultControllerInput.cs" />
-    <entry file="file://$PROJECT_DIR$/Assets/DefaultCharacters/Scripts/SharedScripts/IControllerInput.cs" />
-    <entry file="file://$PROJECT_DIR$/Assets/DefaultCharacters/Scripts/SharedScripts/DefaultThirdPersonCharacter.cs" />
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/BaseThirdPersonMotor.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="8" column="26" selection-start-line="8" selection-start-column="26" selection-end-line="8" selection-end-column="26" />
-          <folding>
-            <marker date="1528284479000" expanded="false" signature="6:32" ph="..." />
-            <marker date="1528284479000" expanded="true" signature="81:2267" ph="{...}" />
-            <marker date="1528284479000" expanded="true" signature="85:203" ph="/// Base implementation of ThirdPersonMotor which knows how to report the turning speed ... " />
-            <marker date="1528284479000" expanded="true" signature="282:2265" ph="{...}" />
-            <marker date="1528284479000" expanded="true" signature="288:346" ph="/// The actual turn speed ... " />
-            <marker date="1528284479000" expanded="true" signature="527:591" ph="/// Needed to calculate turning ... " />
-            <marker date="1528284479000" expanded="true" signature="634:706" ph="/// The actual normalized turning speed ... " />
-            <marker date="1528284479000" expanded="true" signature="810:862" ph="{...}" />
-            <marker date="1528284479000" expanded="true" signature="1198:1344" ph="/// Helper function for handling wrapping of angles ... " />
-            <marker date="1528284479000" expanded="true" signature="1384:1522" ph="{...}" />
-            <marker date="1528284479000" expanded="true" signature="1413:1442" ph="{...}" />
-            <marker date="1528284479000" expanded="true" signature="1470:1499" ph="{...}" />
-            <marker date="1528284479000" expanded="true" signature="1528:1589" ph="/// Calculates the rotations ... " />
-            <marker date="1528284479000" expanded="true" signature="1647:2085" ph="{...}" />
-            <marker date="1528284479000" expanded="true" signature="2089:2153" ph="/// Cache the previous rotation ... " />
-            <marker date="1528284479000" expanded="true" signature="2186:2262" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/PhysicsThirdPersonMotor.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="328">
+        <state relative-caret-position="2655">
           <caret line="181" column="48" lean-forward="true" selection-start-line="181" selection-start-column="48" selection-end-line="181" selection-end-column="48" />
           <folding>
             <marker date="1528457731000" expanded="false" signature="6:161" ph="..." />
-            <marker date="1528457731000" expanded="true" signature="210:6120" ph="{...}" />
             <marker date="1528457731000" expanded="true" signature="214:281" ph="/// The main third person controller ... " />
             <marker date="1528457731000" expanded="true" signature="434:6118" ph="{...}" />
             <marker date="1528457731000" expanded="true" signature="440:492" ph="/// Movement values ... " />
@@ -370,6 +399,169 @@
             <marker date="1528457731000" expanded="true" signature="5345:6115" ph="{...}" />
             <marker date="1528457731000" expanded="true" signature="5374:5921" ph="/* TODO: clean-up ... */" />
             <marker date="1528457731000" expanded="true" signature="6001:6072" ph="/* } ... */" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/BaseThirdPersonMotor.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="8" column="26" selection-start-line="8" selection-start-column="26" selection-end-line="8" selection-end-column="26" />
+          <folding>
+            <marker date="1528284479000" expanded="false" signature="6:32" ph="..." />
+            <marker date="1528284479000" expanded="true" signature="85:203" ph="/// Base implementation of ThirdPersonMotor which knows how to report the turning speed ... " />
+            <marker date="1528284479000" expanded="true" signature="282:2265" ph="{...}" />
+            <marker date="1528284479000" expanded="true" signature="288:346" ph="/// The actual turn speed ... " />
+            <marker date="1528284479000" expanded="true" signature="527:591" ph="/// Needed to calculate turning ... " />
+            <marker date="1528284479000" expanded="true" signature="634:706" ph="/// The actual normalized turning speed ... " />
+            <marker date="1528284479000" expanded="true" signature="810:862" ph="{...}" />
+            <marker date="1528284479000" expanded="true" signature="1198:1344" ph="/// Helper function for handling wrapping of angles ... " />
+            <marker date="1528284479000" expanded="true" signature="1384:1522" ph="{...}" />
+            <marker date="1528284479000" expanded="true" signature="1413:1442" ph="{...}" />
+            <marker date="1528284479000" expanded="true" signature="1470:1499" ph="{...}" />
+            <marker date="1528284479000" expanded="true" signature="1528:1589" ph="/// Calculates the rotations ... " />
+            <marker date="1528284479000" expanded="true" signature="1647:2085" ph="{...}" />
+            <marker date="1528284479000" expanded="true" signature="2089:2153" ph="/// Cache the previous rotation ... " />
+            <marker date="1528284479000" expanded="true" signature="2186:2262" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/DefaultCharacters/Scripts/SharedScripts/DefaultControllerInput.cs" />
+    <entry file="file://$PROJECT_DIR$/Assets/DefaultCharacters/Scripts/SharedScripts/IControllerInput.cs" />
+    <entry file="file://$PROJECT_DIR$/Assets/DefaultCharacters/Scripts/SharedScripts/DefaultThirdPersonCharacter.cs" />
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/BaseThirdPersonMotor.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="8" column="26" selection-start-line="8" selection-start-column="26" selection-end-line="8" selection-end-column="26" />
+          <folding>
+            <marker date="1528284479000" expanded="false" signature="6:32" ph="..." />
+            <marker date="1528284479000" expanded="true" signature="85:203" ph="/// Base implementation of ThirdPersonMotor which knows how to report the turning speed ... " />
+            <marker date="1528284479000" expanded="true" signature="282:2265" ph="{...}" />
+            <marker date="1528284479000" expanded="true" signature="288:346" ph="/// The actual turn speed ... " />
+            <marker date="1528284479000" expanded="true" signature="527:591" ph="/// Needed to calculate turning ... " />
+            <marker date="1528284479000" expanded="true" signature="634:706" ph="/// The actual normalized turning speed ... " />
+            <marker date="1528284479000" expanded="true" signature="810:862" ph="{...}" />
+            <marker date="1528284479000" expanded="true" signature="1198:1344" ph="/// Helper function for handling wrapping of angles ... " />
+            <marker date="1528284479000" expanded="true" signature="1384:1522" ph="{...}" />
+            <marker date="1528284479000" expanded="true" signature="1413:1442" ph="{...}" />
+            <marker date="1528284479000" expanded="true" signature="1470:1499" ph="{...}" />
+            <marker date="1528284479000" expanded="true" signature="1528:1589" ph="/// Calculates the rotations ... " />
+            <marker date="1528284479000" expanded="true" signature="1647:2085" ph="{...}" />
+            <marker date="1528284479000" expanded="true" signature="2089:2153" ph="/// Cache the previous rotation ... " />
+            <marker date="1528284479000" expanded="true" signature="2186:2262" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/PhysicsThirdPersonMotor.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2655">
+          <caret line="181" column="48" selection-start-line="181" selection-start-column="48" selection-end-line="181" selection-end-column="48" />
+          <folding>
+            <marker date="1528457731000" expanded="false" signature="6:161" ph="..." />
+            <marker date="1528457731000" expanded="true" signature="214:281" ph="/// The main third person controller ... " />
+            <marker date="1528457731000" expanded="true" signature="434:6118" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="440:492" ph="/// Movement values ... " />
+            <marker date="1528457731000" expanded="true" signature="1105:1166" ph="/// The input implementation ... " />
+            <marker date="1528457731000" expanded="true" signature="1206:1268" ph="/// The physic implementation ... " />
+            <marker date="1528457731000" expanded="true" signature="1377:1407" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="1476:1627" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="1487:1623" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="1661:1716" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="1752:1834" ph="/// Gets required components ... " />
+            <marker date="1528457731000" expanded="true" signature="1868:2007" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="2011:2057" ph="/// Subscribe ... " />
+            <marker date="1528457731000" expanded="true" signature="2075:2176" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="2180:2228" ph="/// Unsubscribe ... " />
+            <marker date="1528457731000" expanded="true" signature="2247:2439" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="2284:2345" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="2381:2435" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="2443:2502" ph="/// Handles player landing ... " />
+            <marker date="1528457731000" expanded="true" signature="2521:2576" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="2548:2572" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="2580:2655" ph="/// Subscribes to the Jump action on input ... " />
+            <marker date="1528457731000" expanded="true" signature="2678:2846" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="2720:2842" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="2805:2837" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="2850:2919" ph="/// Movement Logic on physics update ... " />
+            <marker date="1528457731000" expanded="true" signature="2940:3056" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="3060:3118" ph="/// Sets forward rotation ... " />
+            <marker date="1528457731000" expanded="true" signature="3138:4489" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="3185:3207" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="3892:4127" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="4135:4182" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="4493:4561" ph="/// Calculates the forward movement ... " />
+            <marker date="1528457731000" expanded="true" signature="4595:5271" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="4686:4723" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="4812:5207" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="5215:5267" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="5275:5331" ph="/// Moves the character ... " />
+            <marker date="1528457731000" expanded="true" signature="5345:6115" ph="{...}" />
+            <marker date="1528457731000" expanded="true" signature="5374:5921" ph="/* TODO: clean-up ... */" />
+            <marker date="1528457731000" expanded="true" signature="6001:6072" ph="/* } ... */" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Demo/CameraConfigUi.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="32" selection-start-line="32" selection-end-line="32" />
+          <folding>
+            <marker date="1528467162000" expanded="true" signature="6:59" ph="..." />
+            <marker date="1528467162000" expanded="true" signature="75:2507" ph="{...}" />
+            <marker date="1528467162000" expanded="true" signature="173:2505" ph="{...}" />
+            <marker date="1528467162000" expanded="true" signature="179:234" ph="/// Camera parameters  ... " />
+            <marker date="1528467162000" expanded="true" signature="318:383" ph="/// Cinemachine FreeLook Cameras ... " />
+            <marker date="1528467162000" expanded="true" signature="409:464" ph="/// UI Label Elements  ... " />
+            <marker date="1528467162000" expanded="true" signature="549:610" ph="/// UI Interactive elements  ... " />
+            <marker date="1528467162000" expanded="true" signature="1724:1889" ph="{...}" />
+            <marker date="1528467162000" expanded="true" signature="1828:1885" ph="{...}" />
+            <marker date="1528467162000" expanded="true" signature="1931:2052" ph="{...}" />
+            <marker date="1528467162000" expanded="true" signature="2000:2048" ph="{...}" />
+            <marker date="1528467162000" expanded="true" signature="2094:2215" ph="{...}" />
+            <marker date="1528467162000" expanded="true" signature="2163:2211" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2C2249EE-6D23-48E9-B9C0-A87D3580307D/0c/ae9bab85/CinemachinePOV.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="15" selection-start-line="14" selection-start-column="15" selection-end-line="14" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Demo/FreeLookCameraConfigUi.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+          <folding>
+            <marker date="1528463502000" expanded="true" signature="6:40" ph="..." />
+            <marker date="1528463502000" expanded="true" signature="56:1367" ph="{...}" />
+            <marker date="1528463502000" expanded="true" signature="133:1365" ph="{...}" />
+            <marker date="1528463502000" expanded="true" signature="161:780" ph="{...}" />
+            <marker date="1528463502000" expanded="true" signature="881:937" ph="{...}" />
+            <marker date="1528463502000" expanded="true" signature="1036:1092" ph="{...}" />
+            <marker date="1528463502000" expanded="true" signature="1172:1227" ph="{...}" />
+            <marker date="1528463502000" expanded="true" signature="1307:1362" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Demo/VCamPovCameraConfigUi.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="41" column="1" selection-start-line="41" selection-start-column="1" selection-end-line="41" selection-end-column="1" />
+          <folding>
+            <marker date="1528467162000" expanded="true" signature="34:1715" ph="{...}" />
+            <marker date="1528467162000" expanded="true" signature="115:1713" ph="{...}" />
+            <marker date="1528467162000" expanded="true" signature="143:912" ph="{...}" />
+            <marker date="1528467162000" expanded="true" signature="1016:1125" ph="{...}" />
+            <marker date="1528467162000" expanded="true" signature="1229:1340" ph="{...}" />
+            <marker date="1528467162000" expanded="true" signature="1425:1526" ph="{...}" />
+            <marker date="1528467162000" expanded="true" signature="1611:1710" ph="{...}" />
           </folding>
         </state>
       </provider>
