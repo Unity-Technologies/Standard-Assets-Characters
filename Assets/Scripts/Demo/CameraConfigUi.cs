@@ -105,9 +105,10 @@ namespace Demo
 		protected virtual void UpdateActiveInputDevices()
 		{
 			string devices = ""; 
-			foreach (var device in InputSystem.devices)
+			foreach (var device in Gamepad.all)
 			{
 				devices += device.ToString()+"\n";
+				
 			}
 
 			activeInputDevices.text = devices;

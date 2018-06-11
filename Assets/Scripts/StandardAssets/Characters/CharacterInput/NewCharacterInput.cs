@@ -14,7 +14,12 @@ namespace StandardAssets.Characters.CharacterInput
 	{
 		Vector2 m_MoveInput;
 
-		public DemoInputActions controls;
+		//public DemoInputActions controls;
+		
+		/// <summary>
+		/// Xbox One mapped controller
+		/// </summary>
+		public XBoxOneActionController controls;
 
 		Vector2 m_Look;
 		
