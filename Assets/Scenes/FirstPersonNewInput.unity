@@ -760,11 +760,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114885225739208398, guid: ab3b32e38dca85b4180d5007c17a3505,
-        type: 2}
-      propertyPath: cameras.Array.size
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 4847589930490144, guid: ab3b32e38dca85b4180d5007c17a3505, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1082,6 +1077,12 @@ Prefab:
       propertyPath: groundCheckMask.m_Bits
       value: 823
       objectReference: {fileID: 0}
+    - target: {fileID: 114099553648463976, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: controls.m_Asset
+      value: 
+      objectReference: {fileID: 11400000, guid: 40952324d92091141ae7b75ba9420185,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2706dd163cab644aa0f7aec413a3457, type: 2}
   m_IsPrefabAsset: 0
