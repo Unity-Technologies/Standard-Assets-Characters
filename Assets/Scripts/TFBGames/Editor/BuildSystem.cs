@@ -15,6 +15,8 @@ using TFBGames.Management.Asset;
 using System.IO;
 #endif
 
+//THIS WILL NOT BE INCLUDED IN THE FINAL BUILD - IT IS FOR THE BUILD SERVER
+
 namespace TFBGames.Editor
 {
 	/// <summary>

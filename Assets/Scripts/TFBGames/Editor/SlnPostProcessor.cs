@@ -7,6 +7,8 @@ using System.Xml.Linq;
 using UnityEditor;
 using UnityEngine;
 
+//THIS WILL NOT BE INCLUDED IN THE FINAL BUILD - IT IS FOR THE BUILD SERVER
+
 namespace TFBGames.Editor
 {
 	/// <summary>
