@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <ItemGroup>
+        <ConfigurationList Condition="  '@(ConfigurationList)' == '' and $(Configuration) != '' " Include="$(Configuration.Split(';'))" />
+        <ConfigurationList Condition="  '@(ConfigurationList)' == '' " Include="Debug" />
+        <PlatformList Condition="  '@(PlatformList)' == '' and $(Platform) != '' " Include="$(Platform.Split(';'))" />
+        <PlatformList Condition="  '@(PlatformList)' == '' " Include="Windows"  />
+    </ItemGroup>
+    <ItemGroup>
+        <Solution Include="*.sln" />
+    </ItemGroup>
+    <Target Name="Build" Outputs="%(PlatformList.Identity)">
+        <PropertyGroup>
+            <CurrentPlatform>%(PlatformList.Identity)</CurrentPlatform>
+        </PropertyGroup>
+        <MSBuild Projects="@(Solution)"
+                 BuildInParallel="true"
+                 Targets="Build"
+                 Properties="Configuration=%(ConfigurationList.Identity);Platform=$(CurrentPlatform)" />
+    </Target>
+</Project>
