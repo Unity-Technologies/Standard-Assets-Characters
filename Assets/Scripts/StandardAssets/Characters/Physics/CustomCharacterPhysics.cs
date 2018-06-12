@@ -26,9 +26,10 @@ namespace StandardAssets.Characters.Physics
 
 		[Header("Movement")]
 		public float movementSpeed = 5f;
-
 		public bool enableInterpolation = true;
 		public float interpolationSpeed = 10f;
+		public bool useFixedDeltaTime;
+		public bool enableTransformDirection;
 
 		[Header("Jumping")]
 		public float jumpHeight;
@@ -88,7 +89,6 @@ namespace StandardAssets.Characters.Physics
 			CheckGrounding();
 			CheckCollision();
 			HandleJump();
-			MaintainMomentum();
 		}
 
 		private void LateUpdate()
@@ -98,28 +98,21 @@ namespace StandardAssets.Characters.Physics
 				playerObject.transform.localPosition = playerCentre;
 			}
 		}
-
-
-		private void MaintainMomentum()
-		{
-			if (previousVelocity != Vector3.zero && !isGrounded)
-			{
-				//TODO: Check the negative case
-				var forwardSpeed = previousVelocity.z > 0 ? previousVelocity.z : previousVelocity.x;
-				
-				Vector3 playerMovementVector = new Vector3(0, 0, forwardSpeed) * movementSpeed * 10;
-				
-				playerMovementVector = transform.TransformDirection(playerMovementVector);
-				transform.position += playerMovementVector * Time.deltaTime;
-			}
-		}
+		
 
 		public void Move(Vector3 moveVector3)
 		{
+
+			var deltaTime = useFixedDeltaTime ? Time.fixedDeltaTime : Time.deltaTime;
 			playerVelocity += moveVector3;
-			Vector3 playerMovementVector = new Vector3(playerVelocity.x, playerVelocity.y, playerVelocity.z) * movementSpeed;
-			playerMovementVector = transform.TransformDirection(playerMovementVector);
-			transform.position += playerMovementVector * Time.deltaTime;
+			Vector3 playerMovementVector = (new Vector3(playerVelocity.x, playerVelocity.y, playerVelocity.z) * movementSpeed) * deltaTime ;
+
+			if (enableTransformDirection)
+			{
+				playerMovementVector = transform.TransformDirection(playerMovementVector);
+			}
+
+			transform.position += playerMovementVector;
 
 			if (enableDebug)
 			{
@@ -129,6 +122,9 @@ namespace StandardAssets.Characters.Physics
 			previousVelocity = playerVelocity;
 			playerVelocity = Vector3.zero;
 		}
+		
+		
+		
 
 		public void SetJumpVelocity(float initialJumpVelocity)
 		{
