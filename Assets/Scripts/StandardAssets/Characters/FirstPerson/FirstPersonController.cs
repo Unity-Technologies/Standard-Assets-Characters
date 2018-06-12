@@ -16,12 +16,14 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// The state that first person motor starts in
 		/// </summary>
-		public FirstPersonMovementProperties startingMovementProperties;
+		[SerializeField]
+		private FirstPersonMovementProperties startingMovementProperties;
 		
 		/// <summary>
 		/// List of possible state modifiers
 		/// </summary>
-		public FirstPersonMovementModification[] movementModifiers;
+		[SerializeField]
+		private FirstPersonMovementModification[] movementModifiers;
 
 		/// <summary>
 		/// The Physic implementation used to do the movement
@@ -170,8 +172,8 @@ namespace StandardAssets.Characters.FirstPerson
 		private void Accelerate()
 		{
 			movementTime += Time.fixedDeltaTime;
-			movementTime = Mathf.Clamp(movementTime, 0f, currentMovementProperties.acceleration.maxValue);
-			currentSpeed = currentMovementProperties.acceleration.Evaluate(movementTime) * currentMovementProperties.maxSpeed;
+			movementTime = Mathf.Clamp(movementTime, 0f, currentMovementProperties.accelerationCurve.maxValue);
+			currentSpeed = currentMovementProperties.accelerationCurve.Evaluate(movementTime) * currentMovementProperties.maximumSpeed;
 		}
 		
 		/// <summary>
@@ -187,7 +189,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		private void ClampCurrentSpeed()
 		{
-			currentSpeed = Mathf.Clamp(currentSpeed, 0f, currentMovementProperties.maxSpeed);
+			currentSpeed = Mathf.Clamp(currentSpeed, 0f, currentMovementProperties.maximumSpeed);
 		}
 		
 		/// <summary>

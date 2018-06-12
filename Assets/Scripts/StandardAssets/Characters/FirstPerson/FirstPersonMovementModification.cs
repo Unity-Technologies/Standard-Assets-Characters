@@ -15,12 +15,14 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// The input
 		/// </summary>
-		public InputResponse input;
+		[SerializeField]
+		private InputResponse input;
 		
 		/// <summary>
 		/// The state
 		/// </summary>
-		public FirstPersonMovementProperties movementProperties;
+		[SerializeField]
+		private FirstPersonMovementProperties movementProperties;
 
 		/// <summary>
 		/// The controller

@@ -9,9 +9,14 @@ namespace StandardAssets.Characters.CharacterInput
 	/// </summary>
 	public class LegacyUnityCharacterInput : MonoBehaviour, ICharacterInput
 	{
-		public string horizontalAxisName = "Horizontal";
-		public string verticalAxisName = "Vertical";
-		public KeyCode jumpKey = KeyCode.Space;
+		[SerializeField]
+		private string horizontalAxisName = "Horizontal";
+		
+		[SerializeField]
+		private string verticalAxisName = "Vertical";
+		
+		[SerializeField]
+		private KeyCode jumpKey = KeyCode.Space;
 
 		private Vector2 moveInputVector;
 		private Action jumped;

@@ -12,7 +12,8 @@ namespace StandardAssets.Characters.CharacterInput
 	/// </summary>
 	public class NewCharacterInput : MonoBehaviour, ICharacterInput
 	{
-		public NewInputActions controls;
+		[SerializeField]
+		private NewInputActions controls;
 
 		private Vector2 look;
 

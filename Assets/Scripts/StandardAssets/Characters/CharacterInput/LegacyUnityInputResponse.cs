@@ -12,12 +12,14 @@ namespace StandardAssets.Characters.CharacterInput
 		/// <summary>
 		/// Classification of the type of response
 		/// </summary>
-		public DefaultInputResponseBehaviour behaviour;
+		[SerializeField]
+		private DefaultInputResponseBehaviour behaviour;
 
 		/// <summary>
 		/// The key
 		/// </summary>
-		public KeyCode key;
+		[SerializeField]
+		private KeyCode key;
 
 		/// <summary>
 		/// Multi-purpose bool. For Toggles in represents the on state. For Holds it represents the previous button state

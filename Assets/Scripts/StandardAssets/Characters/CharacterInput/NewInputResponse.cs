@@ -10,7 +10,8 @@ namespace StandardAssets.Characters.CharacterInput
         /// <summary>
         /// The action reference - e.g.  crouch
         /// </summary>
-        public InputActionReference actionReference;
+        [SerializeField]
+        private InputActionReference actionReference;
 
         private bool toggle;
         

@@ -15,13 +15,15 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// The maximum movement speed
 		/// </summary>
-		public float maxSpeed = 5f;
+		[SerializeField]
+		private float maxSpeed = 5f;
 
 		/// <summary>
 		/// The curve evaluator for acceleration
 		/// </summary>
 		[Tooltip("Value is the time is takes accelerate to max speed")]
-		public CurveEvaluator acceleration;
+		[SerializeField]
+		private CurveEvaluator acceleration;
 		
 		/// <summary>
 		/// Jump speed 
@@ -32,6 +34,22 @@ namespace StandardAssets.Characters.FirstPerson
 		/// Unity events for entering/exiting state
 		/// </summary>
 		public UnityEvent enterState, exitState;
+
+		/// <summary>
+		/// Gets the maximum speed
+		/// </summary>
+		public float maximumSpeed
+		{
+			get { return maxSpeed; }
+		}
+
+		/// <summary>
+		/// Gets the curve
+		/// </summary>
+		public CurveEvaluator accelerationCurve
+		{
+			get { return acceleration; }
+		}
 
 		/// <summary>
 		/// Can the first person character jump in this state
