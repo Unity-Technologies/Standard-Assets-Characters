@@ -251,7 +251,7 @@ namespace TFBGames.Editor
 			}
 #endif
 
-			if (buildSucceeded)
+			if (!buildSucceeded)
 			{
 				throw new Exception("Build error occurred");
 			}
