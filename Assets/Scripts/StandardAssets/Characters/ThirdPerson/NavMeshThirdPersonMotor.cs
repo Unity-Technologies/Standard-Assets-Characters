@@ -13,33 +13,31 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// The attached NavMeshAgent
 		/// </summary>
-		NavMeshAgent m_Agent;
+		private NavMeshAgent agent;
 
-		float m_FallTime;
+		private float fallingTime;
 
 		/// <inheritdoc />
 		public override float normalizedLateralSpeed
 		{
-			get { return GetVelocityOnAxis(m_Agent.transform.right, m_Agent.velocity) / m_Agent.speed; }
+			get { return GetVelocityOnAxis(agent.transform.right, agent.velocity) / agent.speed; }
 		}
 
 		/// <inheritdoc />
 		public override float normalizedForwardSpeed
 		{
-			get { return GetVelocityOnAxis(m_Agent.transform.forward, m_Agent.velocity) / m_Agent.speed; }
+			get { return GetVelocityOnAxis(agent.transform.forward, agent.velocity) / agent.speed; }
 		}
 
 		public override float fallTime
 		{
-			get { return m_FallTime; }
+			get { return fallingTime; }
 		}
 
-		/// <summary>
-		/// Get the NavMeshAgent on Awake
-		/// </summary>
+		/// <inheritdoc />
 		protected override void Awake()
 		{
-			m_Agent = GetComponent<NavMeshAgent>();
+			agent = GetComponent<NavMeshAgent>();
 			base.Awake();
 		}
 
@@ -49,7 +47,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <param name="axis"></param>
 		/// <param name="velocity"></param>
 		/// <returns></returns>
-		float GetVelocityOnAxis(Vector3 axis, Vector3 velocity)
+		private float GetVelocityOnAxis(Vector3 axis, Vector3 velocity)
 		{
 			float dot = Vector3.Dot(axis, velocity.normalized);
 			float val = dot * velocity.magnitude;
@@ -61,7 +59,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Calculates the rotation about Y
 		/// </summary>
-		void Update()
+		private void Update()
 		{
 			CalculateYRotationSpeed(Time.deltaTime);
 		}

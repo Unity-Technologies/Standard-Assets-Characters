@@ -10,16 +10,18 @@ namespace StandardAssets.Characters.CharacterInput
 	{
 		public NavMeshAgent agent;
 
-		void Update()
+		private void Update()
 		{
-			if (UnityEngine.Input.GetMouseButtonDown(0))
+			if (!Input.GetMouseButtonDown(0))
 			{
-				Ray ray = Camera.main.ScreenPointToRay(UnityEngine.Input.mousePosition);
-				RaycastHit hit;
-				if (UnityEngine.Physics.Raycast(ray, out hit, 100f, LayerMask.GetMask("Ground")))
-				{
-					agent.SetDestination(hit.point);
-				}
+				return;
+			}
+
+			Ray ray = Camera.main.ScreenPointToRay(UnityEngine.Input.mousePosition);
+			RaycastHit hit;
+			if (UnityEngine.Physics.Raycast(ray, out hit, 100f, LayerMask.GetMask("Ground")))
+			{
+				agent.SetDestination(hit.point);
 			}
 		}
 	}

@@ -25,15 +25,15 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// The controller
 		/// </summary>
-		FirstPersonController m_Controller;
+		private FirstPersonController controller;
 
 		/// <summary>
 		/// Initializes the modification
 		/// </summary>
-		/// <param name="controller"></param>
-		public void Init(FirstPersonController controller)
+		/// <param name="controllerToUse"></param>
+		public void Init(FirstPersonController controllerToUse)
 		{
-			m_Controller = controller;
+			controller = controllerToUse;
 			input.Init();
 			input.started += OnStateChange;
 			input.ended += OnStateReset;
@@ -44,14 +44,14 @@ namespace StandardAssets.Characters.FirstPerson
 			input.Tick();
 		}
 
-		void OnStateChange()
+		private void OnStateChange()
 		{
-			m_Controller.EnterNewState(movementProperties);
+			controller.EnterNewState(movementProperties);
 		}
 
-		void OnStateReset()
+		private void OnStateReset()
 		{
-			m_Controller.ResetState();
+			controller.ResetState();
 		}
 	}
 }

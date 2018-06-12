@@ -25,47 +25,47 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Required motor
 		/// </summary>
-		IThirdPersonMotor m_Motor;
+		private IThirdPersonMotor motor;
 		
 		/// <summary>
 		/// The animator
 		/// </summary>
-		Animator m_Animator;
+		private Animator animator;
 		
 		/// <summary>
 		/// Hashes of the animator parameters
 		/// </summary>
-		int m_HashForwardSpeed;
-		int m_HashLateralSpeed;
-		int m_HashTurningSpeed;
-		int m_HashGrounded;
-		int m_HashHasInput;
-		int m_HashFallingTime;
-		int m_HashFootedness;
+		private int hashForwardSpeed;
+		private int hashLateralSpeed;
+		private int hashTurningSpeed;
+		private int hashGrounded;
+		private int hashHasInput;
+		private int hashFallingTime;
+		private int hashFootedness;
 
 		/// <summary>
 		/// Gets the required components
 		/// </summary>
-		void Awake()
+		private void Awake()
 		{
-			m_HashForwardSpeed = Animator.StringToHash(forwardSpeedParameterName);
-			m_HashLateralSpeed = Animator.StringToHash(lateralSpeedParameterName);
-			m_HashTurningSpeed = Animator.StringToHash(turningSpeedParameterName);
-			m_HashGrounded = Animator.StringToHash(groundedParameterName);
-			m_HashHasInput = Animator.StringToHash(hasInputParameterName);
-			m_HashFallingTime = Animator.StringToHash(fallingTimeParameterName);
-			m_HashFootedness = Animator.StringToHash(footednessParameterName);
-			m_Motor = GetComponent<IThirdPersonMotor>();
-			m_Animator = GetComponent<Animator>();
+			hashForwardSpeed = Animator.StringToHash(forwardSpeedParameterName);
+			hashLateralSpeed = Animator.StringToHash(lateralSpeedParameterName);
+			hashTurningSpeed = Animator.StringToHash(turningSpeedParameterName);
+			hashGrounded = Animator.StringToHash(groundedParameterName);
+			hashHasInput = Animator.StringToHash(hasInputParameterName);
+			hashFallingTime = Animator.StringToHash(fallingTimeParameterName);
+			hashFootedness = Animator.StringToHash(footednessParameterName);
+			motor = GetComponent<IThirdPersonMotor>();
+			animator = GetComponent<Animator>();
 		}
 
 		/// <summary>
 		/// Subscribe
 		/// </summary>
-		void OnEnable()
+		private void OnEnable()
 		{
-			m_Motor.jumpStarted += OnJumpStarted;
-			m_Motor.landed += OnLanding;
+			motor.jumpStarted += OnJumpStarted;
+			motor.landed += OnLanding;
 			if (leftFoot != null && rightfoot != null)
 			{
 				leftFoot.detection += OnLeftFoot;
@@ -73,33 +73,33 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
-		void OnRightFoot(MovementEvent obj)
+		private void OnRightFoot(MovementEvent obj)
 		{
 			SetFootednessBool(!invert);
 		}
 
-		void OnLeftFoot(MovementEvent obj)
+		private void OnLeftFoot(MovementEvent obj)
 		{
 			SetFootednessBool(invert);
 		}
 
-		void SetFootednessBool(bool value)
+		private void SetFootednessBool(bool value)
 		{
-			m_Animator.SetBool(m_HashFootedness, value);
+			animator.SetBool(hashFootedness, value);
 		}
 
 		/// <summary>
 		/// Unsubscribe
 		/// </summary>
-		void OnDisable()
+		private void OnDisable()
 		{
-			if (m_Motor == null)
+			if (motor == null)
 			{
 				return;
 			}
 			
-			m_Motor.jumpStarted -= OnJumpStarted;
-			m_Motor.landed -= OnLanding;
+			motor.jumpStarted -= OnJumpStarted;
+			motor.landed -= OnLanding;
 
 			if (leftFoot != null && rightfoot != null)
 			{
@@ -111,32 +111,32 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Logic for dealing with animation on landing
 		/// </summary>
-		void OnLanding()
+		private void OnLanding()
 		{
-			m_Animator.SetBool(m_HashGrounded, true);
+			animator.SetBool(hashGrounded, true);
 		}
 
 		/// <summary>
 		/// Logic for dealing with animation on jumping
 		/// </summary>
-		void OnJumpStarted()
+		private void OnJumpStarted()
 		{
-			m_Animator.SetBool(m_HashGrounded, false);
+			animator.SetBool(hashGrounded, false);
 		}
 
 		/// <summary>
 		/// Sets the Animator parameters
 		/// </summary>
-		void Update()
+		private void Update()
 		{
-			m_Animator.SetFloat(m_HashForwardSpeed, m_Motor.normalizedForwardSpeed);
-			m_Animator.SetFloat(m_HashLateralSpeed, m_Motor.normalizedLateralSpeed);
-			m_Animator.SetFloat(m_HashTurningSpeed, m_Motor.normalizedTurningSpeed);
-			m_Animator.SetBool(m_HashHasInput, CheckHasSpeed(m_Motor.normalizedForwardSpeed) || CheckHasSpeed(m_Motor.normalizedLateralSpeed));
-			m_Animator.SetFloat(m_HashFallingTime, m_Motor.fallTime);
+			animator.SetFloat(hashForwardSpeed, motor.normalizedForwardSpeed);
+			animator.SetFloat(hashLateralSpeed, motor.normalizedLateralSpeed);
+			animator.SetFloat(hashTurningSpeed, motor.normalizedTurningSpeed);
+			animator.SetBool(hashHasInput, CheckHasSpeed(motor.normalizedForwardSpeed) || CheckHasSpeed(motor.normalizedLateralSpeed));
+			animator.SetFloat(hashFallingTime, motor.fallTime);
 		}
 
-		bool CheckHasSpeed(float speed)
+		private bool CheckHasSpeed(float speed)
 		{
 			return Mathf.Abs(speed) > 0;
 		}
@@ -147,7 +147,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <param name="axis"></param>
 		/// <param name="velocity"></param>
 		/// <returns></returns>
-		float GetVectorOnAxis(Vector3 axis, Vector3 vector)
+		private float GetVectorOnAxis(Vector3 axis, Vector3 vector)
 		{
 			float dot = Vector3.Dot(axis, vector.normalized);
 			float val = dot * vector.magnitude;

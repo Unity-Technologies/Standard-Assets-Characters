@@ -25,21 +25,21 @@ namespace StandardAssets.Characters.Effects
 		/// <summary>
 		/// Whether or not the attached collider is a trigger
 		/// </summary>
-		bool m_IsTrigger;
+		private bool isTrigger;
 
-		void Awake()
+		private void Awake()
 		{
 			//Is the Collider a Trigger
-			m_IsTrigger = GetComponent<Collider>().isTrigger;
+			isTrigger = GetComponent<Collider>().isTrigger;
 		}
 
 		/// <summary>
 		/// Handle triggering
 		/// </summary>
 		/// <param name="other"></param>
-		void OnTriggerEnter(Collider other)
+		private void OnTriggerEnter(Collider other)
 		{
-			if (!m_IsTrigger)
+			if (!isTrigger)
 			{
 				return;
 			}
@@ -60,9 +60,9 @@ namespace StandardAssets.Characters.Effects
 		/// Handle colliding
 		/// </summary>
 		/// <param name="other"></param>
-		void OnCollisionEnter(Collision other)
+		private void OnCollisionEnter(Collision other)
 		{
-			if (m_IsTrigger)
+			if (isTrigger)
 			{
 				return;
 			}
@@ -83,7 +83,7 @@ namespace StandardAssets.Characters.Effects
 		/// Safely broadcast detection
 		/// </summary>
 		/// <param name="movementEvent"></param>
-		void OnDetection(MovementEvent movementEvent)
+		private void OnDetection(MovementEvent movementEvent)
 		{
 			if (detection != null)
 			{

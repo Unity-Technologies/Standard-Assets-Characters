@@ -13,7 +13,7 @@
 		/// <summary>
 		/// Subscribe to the movement detection events
 		/// </summary>
-		void Awake()
+		private void Awake()
 		{
 			foreach (ColliderMovementDetection colliderMovementDetection in movementDetections)
 			{

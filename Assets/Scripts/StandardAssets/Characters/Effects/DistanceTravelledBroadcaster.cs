@@ -24,65 +24,65 @@ namespace StandardAssets.Characters.Effects
 		/// <summary>
 		/// The current index of the 
 		/// </summary>
-		int m_CurrentIdIndex = -1;
+		private int currentIdIndex = -1;
 
 		/// <summary>
 		/// Square distance moved from last event and the square of the threshold
 		/// </summary>
-		float m_SqrTravelledDistance, m_SqrDistanceThreshold;
+		private float sqrTravelledDistance, sqrDistanceThreshold;
 
 		/// <summary>
 		/// The position that the character was previously	
 		/// </summary>
-		Vector3 m_PreviousPosition;
+		private Vector3 previousPosition;
 
 		/// <summary>
 		/// CharacterPhysics
 		/// </summary>
-		ICharacterPhysics m_CharacterPhysics;
+		private ICharacterPhysics characterPhysics;
 
 		/// <summary>
 		/// Initialize:
 		/// Precalculate the square of the threshold
 		/// Set the previous position
 		/// </summary>
-		void Awake()
+		private void Awake()
 		{
-			m_SqrDistanceThreshold = distanceThreshold * distanceThreshold;
-			m_PreviousPosition = transform.position;
-			m_CharacterPhysics = GetComponent<ICharacterPhysics>();
+			sqrDistanceThreshold = distanceThreshold * distanceThreshold;
+			previousPosition = transform.position;
+			characterPhysics = GetComponent<ICharacterPhysics>();
 		}
 
 		
 		/// <summary>
 		/// Calculate movement on FixedUpdate
 		/// </summary>
-		void FixedUpdate()
+		private void FixedUpdate()
 		{	
 			Vector3 currentPosition = transform.position;
 			
 			//Optimization - prevents the rest of the logic, which includes vector magnitude calculations, from being called if the character has not moved
-			if (currentPosition == m_PreviousPosition || !m_CharacterPhysics.isGrounded)
+			if (currentPosition == previousPosition || !characterPhysics.isGrounded)
 			{
-				m_PreviousPosition = currentPosition;
+				previousPosition = currentPosition;
 				return;
 			}
 			
-			m_SqrTravelledDistance += (currentPosition - m_PreviousPosition).sqrMagnitude;
+			sqrTravelledDistance += (currentPosition - previousPosition).sqrMagnitude;
 
-			if (m_SqrTravelledDistance >= m_SqrDistanceThreshold)
+			if (sqrTravelledDistance >= sqrDistanceThreshold)
 			{
-				m_SqrTravelledDistance = 0;
+				sqrTravelledDistance = 0;
 				Moved();
 			}
 			
-			m_PreviousPosition = currentPosition;
+			previousPosition = currentPosition;
 		}
 	
 		/// <summary>
 		/// Handle the broadcasting of the movement event
 		/// </summary>
-		void Moved()
+		private void Moved()
 		{
 			int length = ids.Length;
 			if (ids == null || length == 0)
@@ -90,13 +90,13 @@ namespace StandardAssets.Characters.Effects
 				return;
 			}
 
-			m_CurrentIdIndex++;
-			if (m_CurrentIdIndex >= length)
+			currentIdIndex++;
+			if (currentIdIndex >= length)
 			{
-				m_CurrentIdIndex = 0;
+				currentIdIndex = 0;
 			}
 
-			BroadcastMovementEvent(ids[m_CurrentIdIndex]);
+			BroadcastMovementEvent(ids[currentIdIndex]);
 		}
 	}
 }

@@ -22,16 +22,16 @@ namespace StandardAssets.Characters.Effects
         /// <summary>
         /// CharacterPhysics
         /// </summary>
-        ICharacterPhysics m_CharacterPhysics;
+        private ICharacterPhysics characterPhysics;
         
         /// <summary>
         /// Is the jump in motion 
         /// </summary>
         private bool inJump;
 
-        void Awake()
+        private void Awake()
         {
-            m_CharacterPhysics = GetComponent<ICharacterPhysics>();
+            characterPhysics = GetComponent<ICharacterPhysics>();
         }
 
         /// <summary>
@@ -39,8 +39,8 @@ namespace StandardAssets.Characters.Effects
         /// </summary>
         private void OnEnable()
         {
-            m_CharacterPhysics.landed += Landed;
-            m_CharacterPhysics.jumpVelocitySet += Jumped;
+            characterPhysics.landed += Landed;
+            characterPhysics.jumpVelocitySet += Jumped;
         }
 
         /// <summary>
@@ -48,8 +48,8 @@ namespace StandardAssets.Characters.Effects
         /// </summary>
         private void OnDisable()
         {
-            m_CharacterPhysics.landed -= Landed;
-            m_CharacterPhysics.jumpVelocitySet -= Jumped;
+            characterPhysics.landed -= Landed;
+            characterPhysics.jumpVelocitySet -= Jumped;
         }
 
         /// <summary>
