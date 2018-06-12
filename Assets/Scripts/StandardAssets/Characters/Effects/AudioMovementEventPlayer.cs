@@ -8,7 +8,8 @@ namespace StandardAssets.Characters.Effects
 		/// <summary>
 		/// The audio source to be played
 		/// </summary>
-		public AudioSource source;
+		[SerializeField]
+		private AudioSource source;
 		
 		/// <inheritdoc />
 		protected override void PlayMovementEvent(MovementEvent movementEvent)

@@ -8,18 +8,21 @@ namespace StandardAssets.Characters.CharacterInput
 	/// </summary>
 	public class NavMeshClick : MonoBehaviour
 	{
-		public NavMeshAgent agent;
+		[SerializeField]
+		private NavMeshAgent agent;
 
-		void Update()
+		private void Update()
 		{
-			if (UnityEngine.Input.GetMouseButtonDown(0))
+			if (!Input.GetMouseButtonDown(0))
 			{
-				Ray ray = Camera.main.ScreenPointToRay(UnityEngine.Input.mousePosition);
-				RaycastHit hit;
-				if (UnityEngine.Physics.Raycast(ray, out hit, 100f, LayerMask.GetMask("Ground")))
-				{
-					agent.SetDestination(hit.point);
-				}
+				return;
+			}
+
+			Ray ray = Camera.main.ScreenPointToRay(UnityEngine.Input.mousePosition);
+			RaycastHit hit;
+			if (UnityEngine.Physics.Raycast(ray, out hit, 100f, LayerMask.GetMask("Ground")))
+			{
+				agent.SetDestination(hit.point);
 			}
 		}
 	}

@@ -12,34 +12,21 @@ namespace StandardAssets.Characters.CharacterInput
 	/// </summary>
 	public class NewCharacterInput : MonoBehaviour, ICharacterInput
 	{
-		Vector2 m_MoveInput;
+		[SerializeField]
+		private NewInputActions controls;
 
-		
-		public NewInputActions controls;
+		private Vector2 look;
 
-		Vector2 m_Look;
-		
-		Action m_Jump;
-		
-		public Vector2 moveInput
-		{
-			get { return m_MoveInput; }
-		}
+		public Vector2 moveInput { get; private set; }
 
 		public bool hasMovementInput 
 		{ 
 			get { return moveInput != Vector2.zero; }
 		}
 
-		public Action jumpPressed
-		{
-			get { return m_Jump; }
-			set { m_Jump = value; }
-		}
+		public Action jumpPressed { get; set; }
 
-		
-		
-		void OnEnable()
+		public void OnEnable()
 		{
 			controls.Enable();
 			controls.gameplay.movement.performed += Move;
@@ -49,43 +36,42 @@ namespace StandardAssets.Characters.CharacterInput
 			CinemachineCore.GetInputAxis = LookInputOverride;
 		}
 
-		void OnDisable()
+		public void OnDisable()
 		{
 			controls.Disable();
 			controls.gameplay.movement.performed -= Move;
 			controls.gameplay.look.performed -= Look;
 		}
 
-		void Move(InputAction.CallbackContext ctx)
+		private void Move(InputAction.CallbackContext ctx)
 		{
-			m_MoveInput = ctx.ReadValue<Vector2>();
+			moveInput = ctx.ReadValue<Vector2>();
 		}
 
-		void Look(InputAction.CallbackContext ctx)
+		private void Look(InputAction.CallbackContext ctx)
 		{
-			m_Look = ctx.ReadValue<Vector2>();
-			
+			look = ctx.ReadValue<Vector2>();	
 		}
 
 		/// <summary>
 		/// Sets the Cinemachine cam POV to mouse inputs.
 		/// </summary>
-		float LookInputOverride(string axis)
+		private float LookInputOverride(string axis)
 		{
 			if (axis == "Mouse X")
 			{
-				return m_Look.x;
+				return look.x;
 			}
 
 			if (axis == "Mouse Y")
 			{
-				return m_Look.y;
+				return look.y;
 			}
 
 			return 0;
 		}
 
-		void Jump(InputAction.CallbackContext ctx)
+		private void Jump(InputAction.CallbackContext ctx)
 		{
 			if (jumpPressed != null)
 			{

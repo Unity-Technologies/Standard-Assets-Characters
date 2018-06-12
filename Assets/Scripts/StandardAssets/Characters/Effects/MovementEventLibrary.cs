@@ -13,12 +13,13 @@ namespace StandardAssets.Characters.Effects
 		/// <summary>
 		/// The definable list of movement effects
 		/// </summary>
-		public List<MovementEventLibraryEntry> movementEvents;
+		[SerializeField]
+		private List<MovementEventLibraryEntry> movementEvents;
 
 		/// <summary>
 		/// A dictionary of movement effects for optimized lookup
 		/// </summary>
-		readonly Dictionary<string, MovementEventLibraryEntry> m_MovementEventsDictionary =
+		private readonly Dictionary<string, MovementEventLibraryEntry> movementEventsDictionary =
 			new Dictionary<string, MovementEventLibraryEntry>();
 
 		/// <summary>
@@ -29,7 +30,7 @@ namespace StandardAssets.Characters.Effects
 			//Set up the dictionary
 			foreach (MovementEventLibraryEntry movementEvent in movementEvents)
 			{
-				m_MovementEventsDictionary.Add(movementEvent.id, movementEvent);
+				movementEventsDictionary.Add(movementEvent.identifier, movementEvent);
 			}
 		}
 
@@ -41,9 +42,9 @@ namespace StandardAssets.Characters.Effects
 		{
 			//Play the movement event
 			MovementEventLibraryEntry entry;
-			if (m_MovementEventsDictionary.TryGetValue(movementEvent.id, out entry))
+			if (movementEventsDictionary.TryGetValue(movementEvent.id, out entry))
 			{
-				foreach (MovementEventPlayer movementEventPlayer in entry.movementEventPlayers)
+				foreach (MovementEventPlayer movementEventPlayer in entry.movementPlayers)
 				{
 					movementEventPlayer.Play(movementEvent);
 				}

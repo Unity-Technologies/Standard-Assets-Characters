@@ -11,12 +11,12 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// The animator
 		/// </summary>
-		Animator m_Animator;
+		private Animator animator;
 
 		/// <summary>
 		/// Cache the animator
 		/// </summary>
-		void Awake()
+		private void Awake()
 		{
 			LazyLoad();
 		}
@@ -24,14 +24,14 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// Lazy load protected against out of order operations
 		/// </summary>
-		void LazyLoad()
+		private void LazyLoad()
 		{
-			if (m_Animator != null)
+			if (animator != null)
 			{
 				return;
 			}
 			
-			m_Animator = GetComponent<Animator>();
+			animator = GetComponent<Animator>();
 		}
 
 		/// <summary>
@@ -41,7 +41,7 @@ namespace StandardAssets.Characters.FirstPerson
 		public void SetAnimation(AnimationState state)
 		{
 			LazyLoad();
-			m_Animator.Play(state.GetHashCode());
+			animator.Play(state.GetHashCode());
 		}
 		
 		/// <summary>
@@ -51,7 +51,7 @@ namespace StandardAssets.Characters.FirstPerson
 		public void SetAnimation(string state)
 		{
 			LazyLoad();
-			m_Animator.Play(state);
+			animator.Play(state);
 		}
 	}
 }

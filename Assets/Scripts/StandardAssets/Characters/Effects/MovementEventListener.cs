@@ -7,46 +7,47 @@ namespace StandardAssets.Characters.Effects
 	/// </summary>
 	public class MovementEventListener : MonoBehaviour
 	{
-		public MovementEventLibrary startingMovementEventLibrary;
+		[SerializeField]
+		private MovementEventLibrary startingMovementEventLibrary;
 		
 		/// <summary>
 		/// The attached movement event broadcasters
 		/// </summary>
-		MovementEventBroadcaster[] m_Broadcasters;
+		private MovementEventBroadcaster[] broadcasters;
 		
 		/// <summary>
 		/// The current movement event library
 		/// </summary>
-		MovementEventLibrary m_MovementEventLibrary;
+		private MovementEventLibrary movementEventLibrary;
 
 		/// <summary>
 		/// Sets the current movement event library
 		/// </summary>
-		/// <param name="movementEventLibrary"></param>
-		public void SetCurrentMovementEventLibrary(MovementEventLibrary movementEventLibrary)
+		/// <param name="newMovementEventLibrary"></param>
+		public void SetCurrentMovementEventLibrary(MovementEventLibrary newMovementEventLibrary)
 		{
-			m_MovementEventLibrary = movementEventLibrary;
+			movementEventLibrary = newMovementEventLibrary;
 		}
 
 		/// <summary>
 		/// Set the starting movement library
 		/// </summary>
-		void Awake()
+		private void Awake()
 		{
-			m_MovementEventLibrary = startingMovementEventLibrary;
+			movementEventLibrary = startingMovementEventLibrary;
 		}
 
 		/// <summary>
 		/// Subscribe to the broadcasters
 		/// </summary>
-		void OnEnable()
+		private void OnEnable()
 		{
-			if (m_Broadcasters == null || m_Broadcasters.Length == 0)
+			if (broadcasters == null || broadcasters.Length == 0)
 			{
-				m_Broadcasters = GetComponentsInChildren<MovementEventBroadcaster>();
+				broadcasters = GetComponentsInChildren<MovementEventBroadcaster>();
 			}
 			
-			foreach (MovementEventBroadcaster broadcaster in m_Broadcasters)
+			foreach (MovementEventBroadcaster broadcaster in broadcasters)
 			{
 				broadcaster.moved += OnMoved;
 			}
@@ -55,9 +56,9 @@ namespace StandardAssets.Characters.Effects
 		/// <summary>
 		/// Unsubscribe to the broadcasters
 		/// </summary>
-		void OnDisable()
+		private void OnDisable()
 		{
-			foreach (MovementEventBroadcaster broadcaster in m_Broadcasters)
+			foreach (MovementEventBroadcaster broadcaster in broadcasters)
 			{
 				broadcaster.moved -= OnMoved;
 			}
@@ -67,14 +68,14 @@ namespace StandardAssets.Characters.Effects
 		/// Plays the movement event
 		/// </summary>
 		/// <param name="movementEvent"></param>
-		void OnMoved(MovementEvent movementEvent)
+		private void OnMoved(MovementEvent movementEvent)
 		{
-			if (m_MovementEventLibrary == null)
+			if (movementEventLibrary == null)
 			{
 				return;
 			}
 			
-			m_MovementEventLibrary.PlayEvent(movementEvent);
+			movementEventLibrary.PlayEvent(movementEvent);
 		}
 	}
 }

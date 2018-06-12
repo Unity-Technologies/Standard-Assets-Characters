@@ -16,37 +16,57 @@ namespace StandardAssets.Characters.ThirdPerson
         /// <summary>
         /// Movement values
         /// </summary>
-        public Transform cameraTransform;
+        [SerializeField]
+        private Transform cameraTransform;
 
-        public float maxForwardSpeed = 10f;
-        public bool useAcceleration = true;
-        public float groundAcceleration = 20f;
-        public float groundDeceleration = 15f;
+        [SerializeField]
+        private float maxForwardSpeed = 10f;
+        
+        [SerializeField]
+        private bool useAcceleration = true;
+        
+        [SerializeField]
+        private float groundAcceleration = 20f;
+        
+        [SerializeField]
+        private float groundDeceleration = 15f;
 
-        [Range(0f, 1f)] public float airborneAccelProportion = 0.5f;
+        [Range(0f, 1f)] 
+        [SerializeField]
+        private float airborneAccelProportion = 0.5f;
 
-        [Range(0f, 1f)] public float airborneDecelProportion = 0.5f;
+        [Range(0f, 1f)] 
+        [SerializeField]
+        private float airborneDecelProportion = 0.5f;
 
-        public float jumpSpeed = 15f;
+        [SerializeField]
+        private float jumpSpeed = 15f;
 
-        [Range(0f, 1f)] public float airborneTurnSpeedProportion = 0.5f;
+        [Range(0f, 1f)] 
+        [SerializeField]
+        private float airborneTurnSpeedProportion = 0.5f;
 
+        [SerializeField]
+        private float angleSnapBehaviour = 120f;
+        
+        [SerializeField]
+        private float maxTurnSpeed = 10000f;
 
-        public float angleSnapBehaviour = 120f;
-        public float maxTurnSpeed = 10000f;
-
-        public AnimationCurve turnSpeedAsAFunctionOfForwardSpeed = AnimationCurve.Linear(0, 0, 1, 1);
+        [SerializeField]
+        private AnimationCurve turnSpeedAsAFunctionOfForwardSpeed = AnimationCurve.Linear(0, 0, 1, 1);
 
         /// <summary>
         /// The input implementation
         /// </summary>
-        ICharacterInput m_CharacterInput;
+        private ICharacterInput characterInput;
 
         /// <summary>
         /// The physic implementation
         /// </summary>
-        ICharacterPhysics m_CharacterPhysics;
+        private ICharacterPhysics characterPhysics;
 
+        private float currentForwardSpeed;
+        
         /// <inheritdoc />
         public override float normalizedLateralSpeed
         {
@@ -56,15 +76,13 @@ namespace StandardAssets.Characters.ThirdPerson
         /// <inheritdoc />
         public override float normalizedForwardSpeed
         {
-            get { return m_CurrentForwardSpeed / maxForwardSpeed; }
+            get { return currentForwardSpeed / maxForwardSpeed; }
         }
 
         public override float fallTime
         {
-            get { return m_CharacterPhysics.fallTime; }
+            get { return characterPhysics.fallTime; }
         }
-
-        float m_CurrentForwardSpeed;
 
         /// <inheritdoc />
         /// <summary>
@@ -72,40 +90,40 @@ namespace StandardAssets.Characters.ThirdPerson
         /// </summary>
         protected override void Awake()
         {
-            m_CharacterInput = GetComponent<ICharacterInput>();
-            m_CharacterPhysics = GetComponent<ICharacterPhysics>();
+            characterInput = GetComponent<ICharacterInput>();
+            characterPhysics = GetComponent<ICharacterPhysics>();
             base.Awake();
         }
 
         /// <summary>
         /// Subscribe
         /// </summary>
-        void OnEnable()
+        private void OnEnable()
         {
-            m_CharacterInput.jumpPressed += OnJumpPressed;
-            m_CharacterPhysics.landed += OnLanding;
+            characterInput.jumpPressed += OnJumpPressed;
+            characterPhysics.landed += OnLanding;
         }
 
         /// <summary>
         /// Unsubscribe
         /// </summary>
-        void OnDisable()
+        private void OnDisable()
         {
-            if (m_CharacterInput != null)
+            if (characterInput != null)
             {
-                m_CharacterInput.jumpPressed -= OnJumpPressed;
+                characterInput.jumpPressed -= OnJumpPressed;
             }
 
-            if (m_CharacterPhysics != null)
+            if (characterPhysics != null)
             {
-                m_CharacterPhysics.landed -= OnLanding;
+                characterPhysics.landed -= OnLanding;
             }
         }
 
         /// <summary>
         /// Handles player landing
         /// </summary>
-        void OnLanding()
+        private void OnLanding()
         {
             if (landed != null)
             {
@@ -116,22 +134,24 @@ namespace StandardAssets.Characters.ThirdPerson
         /// <summary>
         /// Subscribes to the Jump action on input
         /// </summary>
-        void OnJumpPressed()
+        private void OnJumpPressed()
         {
-            if (m_CharacterPhysics.isGrounded)
+            if (!characterPhysics.isGrounded)
             {
-                m_CharacterPhysics.SetJumpVelocity(jumpSpeed);
-                if (jumpStarted != null)
-                {
-                    jumpStarted();
-                }
+                return;
+            }
+
+            characterPhysics.SetJumpVelocity(jumpSpeed);
+            if (jumpStarted != null)
+            {
+                jumpStarted();
             }
         }
 
         /// <summary>
         /// Movement Logic on physics update
         /// </summary>
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             SetForward();
             CalculateForwardMovement();
@@ -156,9 +176,9 @@ namespace StandardAssets.Characters.ThirdPerson
         /// <summary>
         /// Sets forward rotation
         /// </summary>
-        void SetForward()
+        private void SetForward()
         {
-            if (!m_CharacterInput.hasMovementInput)
+            if (!characterInput.hasMovementInput)
             {
                 return;
             }
@@ -168,7 +188,7 @@ namespace StandardAssets.Characters.ThirdPerson
             flatForward.Normalize();
 
             Vector3 localMovementDirection =
-                new Vector3(m_CharacterInput.moveInput.x, 0f, m_CharacterInput.moveInput.y);
+                new Vector3(characterInput.moveInput.x, 0f, characterInput.moveInput.y);
 
             Quaternion cameraToInputOffset = Quaternion.FromToRotation(Vector3.forward, localMovementDirection);
             cameraToInputOffset.eulerAngles = new Vector3(0f, cameraToInputOffset.eulerAngles.y, 0f);
@@ -190,7 +210,7 @@ namespace StandardAssets.Characters.ThirdPerson
             }
 
             float actualTurnSpeed =
-                m_CharacterPhysics.isGrounded ? calculatedTurnSpeed : calculatedTurnSpeed * airborneTurnSpeedProportion;
+                characterPhysics.isGrounded ? calculatedTurnSpeed : calculatedTurnSpeed * airborneTurnSpeedProportion;
             targetRotation =
                 Quaternion.RotateTowards(transform.rotation, targetRotation, actualTurnSpeed * Time.fixedDeltaTime);
 
@@ -200,9 +220,9 @@ namespace StandardAssets.Characters.ThirdPerson
         /// <summary>
         /// Calculates the forward movement
         /// </summary>
-        void CalculateForwardMovement()
+        private void CalculateForwardMovement()
         {
-            Vector2 moveInput = m_CharacterInput.moveInput;
+            Vector2 moveInput = characterInput.moveInput;
             if (moveInput.sqrMagnitude > 1f)
             {
                 moveInput.Normalize();
@@ -212,38 +232,38 @@ namespace StandardAssets.Characters.ThirdPerson
 
             if (useAcceleration)
             {
-                float acceleration = m_CharacterPhysics.isGrounded
-                    ? (m_CharacterInput.hasMovementInput ? groundAcceleration : groundDeceleration)
-                    : (m_CharacterInput.hasMovementInput ? groundAcceleration : groundDeceleration) *
+                float acceleration = characterPhysics.isGrounded
+                    ? (characterInput.hasMovementInput ? groundAcceleration : groundDeceleration)
+                    : (characterInput.hasMovementInput ? groundAcceleration : groundDeceleration) *
                       airborneDecelProportion;
 
-                m_CurrentForwardSpeed =
-                    Mathf.MoveTowards(m_CurrentForwardSpeed, desiredSpeed, acceleration * Time.fixedDeltaTime);
+                currentForwardSpeed =
+                    Mathf.MoveTowards(currentForwardSpeed, desiredSpeed, acceleration * Time.fixedDeltaTime);
             }
             else
             {
-                m_CurrentForwardSpeed = desiredSpeed;
+                currentForwardSpeed = desiredSpeed;
             }
         }
 
         /// <summary>
         /// Moves the character
         /// </summary>
-        void Move()
+        private void Move()
         {
             Vector3 movement;
 
-            if (animator != null && m_CharacterPhysics.isGrounded &&
+            if (animator != null && characterPhysics.isGrounded &&
                 animator.deltaPosition.z >= groundAcceleration * Time.deltaTime)
             {
                 movement = animator.deltaPosition;
             }
             else
             {
-                movement = m_CurrentForwardSpeed * transform.forward * Time.fixedDeltaTime;
+                movement = currentForwardSpeed * transform.forward * Time.fixedDeltaTime;
             }
 
-            m_CharacterPhysics.Move(movement);
+            characterPhysics.Move(movement);
         }
     }
 }

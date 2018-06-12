@@ -12,26 +12,28 @@ namespace StandardAssets.Characters.Effects
         /// <summary>
         /// Id of Jumping event
         /// </summary>
-        public string jumpId = "jumping";
+        [SerializeField]
+        private string jumpId = "jumping";
 
         /// <summary>
         /// Id of Landing event
         /// </summary>
-        public string landingId = "landing";
+        [SerializeField]
+        private string landingId = "landing";
         
         /// <summary>
         /// CharacterPhysics
         /// </summary>
-        ICharacterPhysics m_CharacterPhysics;
+        private ICharacterPhysics characterPhysics;
         
         /// <summary>
         /// Is the jump in motion 
         /// </summary>
         private bool inJump;
 
-        void Awake()
+        private void Awake()
         {
-            m_CharacterPhysics = GetComponent<ICharacterPhysics>();
+            characterPhysics = GetComponent<ICharacterPhysics>();
         }
 
         /// <summary>
@@ -39,8 +41,8 @@ namespace StandardAssets.Characters.Effects
         /// </summary>
         private void OnEnable()
         {
-            m_CharacterPhysics.landed += Landed;
-            m_CharacterPhysics.jumpVelocitySet += Jumped;
+            characterPhysics.landed += Landed;
+            characterPhysics.jumpVelocitySet += Jumped;
         }
 
         /// <summary>
@@ -48,8 +50,8 @@ namespace StandardAssets.Characters.Effects
         /// </summary>
         private void OnDisable()
         {
-            m_CharacterPhysics.landed -= Landed;
-            m_CharacterPhysics.jumpVelocitySet -= Jumped;
+            characterPhysics.landed -= Landed;
+            characterPhysics.jumpVelocitySet -= Jumped;
         }
 
         /// <summary>

@@ -7,7 +7,7 @@ namespace Demo
 	/// </summary>
 	public class BulletController : MonoBehaviour
 	{
-		void Start()
+		private void Start()
 		{
 			Destroy(this.gameObject, 5);
 		}

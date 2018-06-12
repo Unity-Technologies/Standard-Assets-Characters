@@ -9,15 +9,21 @@ namespace StandardAssets.Characters.CharacterInput
 	/// </summary>
 	public class LegacyUnityCharacterInput : MonoBehaviour, ICharacterInput
 	{
-		public string horizontalAxisName = "Horizontal";
-		public string verticalAxisName = "Vertical";
-		public KeyCode jumpKey = KeyCode.Space;
+		[SerializeField]
+		private string horizontalAxisName = "Horizontal";
 		
-		Vector2 m_MoveInput;
+		[SerializeField]
+		private string verticalAxisName = "Vertical";
+		
+		[SerializeField]
+		private KeyCode jumpKey = KeyCode.Space;
+
+		private Vector2 moveInputVector;
+		private Action jumped;
 
 		public Vector2 moveInput
 		{
-			get { return m_MoveInput; }
+			get { return moveInputVector; }
 		}
 		
 		public bool hasMovementInput 
@@ -25,24 +31,21 @@ namespace StandardAssets.Characters.CharacterInput
 			get { return moveInput != Vector2.zero; }
 		}
 		
-		Action m_Jump;
-
 		public Action jumpPressed
 		{
-			get { return m_Jump; }
-			set { m_Jump = value; }
-			
+			get { return jumped; }
+			set { jumped = value; }
 		}
 
-		void OnEnable()
+		private void OnEnable()
 		{
 			CinemachineCore.GetInputAxis = LookInputOverride;
 		}
 
-		void Update()
+		private void Update()
 		{
 			//Cache the inputs
-			m_MoveInput.Set(Input.GetAxis(horizontalAxisName), Input.GetAxis(verticalAxisName));
+			moveInputVector.Set(Input.GetAxis(horizontalAxisName), Input.GetAxis(verticalAxisName));
 			if (Input.GetKeyDown(jumpKey))
 			{
 				
@@ -56,7 +59,7 @@ namespace StandardAssets.Characters.CharacterInput
 		/// <summary>
 		/// Sets the Cinemachine cam POV to mouse inputs.
 		/// </summary>
-		float LookInputOverride(string axis)
+		private float LookInputOverride(string axis)
 		{
 			return Input.GetAxis(axis);
 		}

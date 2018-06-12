@@ -11,29 +11,24 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// The actual turn speed
 		/// </summary>
-		public float turnSpeed = 300f;
+		[SerializeField]
+		protected float turnSpeed = 300f;
 
 		[Tooltip("Determines how quickly the normalized turning speed can change")]
 		[Range(1, 20)]
-		public float normalizedTurnLerpFactor = 5f;
+		[SerializeField]
+		protected float normalizedTurnLerpFactor = 5f;
 		
-		public Animator animator;
+		[SerializeField]
+		protected Animator animator;
 		
 		/// <summary>
 		/// Needed to calculate turning
 		/// </summary>
-		protected float m_PreviousYRotation;
-
-		/// <summary>
-		/// The actual normalized turning speed
-		/// </summary>
-		protected float m_NormalizedTurningSpeed;
+		private float previousYRotation;
 
 		/// <inheritdoc />
-		public float normalizedTurningSpeed
-		{
-			get { return m_NormalizedTurningSpeed; }
-		}
+		public float normalizedTurningSpeed { get; private set; }
 
 		/// <inheritdoc />
 		public abstract float normalizedLateralSpeed { get; }
@@ -54,7 +49,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		/// <param name="toWrap"></param>
 		/// <returns></returns>
-		protected float Wrap180(float toWrap)
+		private float Wrap180(float toWrap)
 		{
 			while (toWrap < -180)
 			{
@@ -75,11 +70,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected void CalculateYRotationSpeed(float deltaTime)
 		{
 			float currentYRotation = Wrap180(transform.rotation.eulerAngles.y);
-			float yRotationSpeed = Wrap180(currentYRotation - m_PreviousYRotation) / deltaTime;
+			float yRotationSpeed = Wrap180(currentYRotation - previousYRotation) / deltaTime;
 			float targetNormalizedTurningSpeed = Mathf.Clamp(yRotationSpeed / turnSpeed, -1, 1);
-			m_NormalizedTurningSpeed = 
-				Mathf.Lerp(m_NormalizedTurningSpeed, targetNormalizedTurningSpeed, deltaTime * normalizedTurnLerpFactor);
-			m_PreviousYRotation = currentYRotation;
+			normalizedTurningSpeed = 
+				Mathf.Lerp(normalizedTurningSpeed, targetNormalizedTurningSpeed, deltaTime * normalizedTurnLerpFactor);
+			previousYRotation = currentYRotation;
 		}
 
 		/// <summary>
@@ -87,7 +82,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		protected virtual void Awake()
 		{
-			m_PreviousYRotation = Wrap180(transform.rotation.eulerAngles.y);
+			previousYRotation = Wrap180(transform.rotation.eulerAngles.y);
 		}
 	}
 }

@@ -2,17 +2,21 @@
 
 namespace StandardAssets.Characters.Effects
 {
+	/// <inheritdoc />
+	[RequireComponent(typeof(ParticleSystem))]
 	public class ParticleMovementEventPlayer : MovementEventPlayer 
 	{
-		/// <summary>
-		/// Particles to be emitted
-		/// </summary>
-		public ParticleSystem partSource;
-		
+		private ParticleSystem particleSource;
+
+		private void Awake()
+		{
+			particleSource = GetComponent<ParticleSystem>();
+		}
+
 		/// <inheritdoc />
 		protected override void PlayMovementEvent(MovementEvent movementEvent)
 		{
-			partSource.Play();
+			particleSource.Play();
 		}
 
 	}

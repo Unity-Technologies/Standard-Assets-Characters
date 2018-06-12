@@ -13,7 +13,7 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// The required Rigidbody
 		/// </summary>
-		Rigidbody m_Rigidbody;
+		private Rigidbody rigidBody;
 		
 		/// <inheritdoc />
 		public Action jumpVelocitySet { get; set; }
@@ -31,13 +31,13 @@ namespace StandardAssets.Characters.Physics
 		void Awake()
 		{
 			isGrounded = true;
-			m_Rigidbody = GetComponent<Rigidbody>();
+			rigidBody = GetComponent<Rigidbody>();
 		}
 
 		/// <inheritdoc />
 		public void Move(Vector3 moveVector3)
 		{
-			m_Rigidbody.MovePosition(transform.position + moveVector3);
+			rigidBody.MovePosition(transform.position + moveVector3);
 		}
 
 		public bool isGrounded { get; set; }
@@ -45,7 +45,7 @@ namespace StandardAssets.Characters.Physics
 		/// <inheritdoc />
 		public void SetJumpVelocity(float initialVelocity)
 		{
-			m_Rigidbody.velocity = m_Rigidbody.velocity + new Vector3(0, initialVelocity, 0);
+			rigidBody.velocity = rigidBody.velocity + new Vector3(0, initialVelocity, 0);
 		}
 	}
 }

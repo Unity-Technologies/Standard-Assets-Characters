@@ -16,39 +16,46 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// The state that first person motor starts in
 		/// </summary>
-		public FirstPersonMovementProperties startingMovementProperties;
+		[SerializeField]
+		private FirstPersonMovementProperties startingMovementProperties;
 		
 		/// <summary>
 		/// List of possible state modifiers
 		/// </summary>
-		public FirstPersonMovementModification[] movementModifiers;
+		[SerializeField]
+		private FirstPersonMovementModification[] movementModifiers;
 
 		/// <summary>
 		/// The Physic implementation used to do the movement
 		/// e.g. CharacterController or Rigidbody (or New C# CharacterController analog)
 		/// </summary>
-		protected ICharacterPhysics m_CharacterPhysics;
+		private ICharacterPhysics characterPhysics;
 
 		/// <summary>
 		/// The Input implementation to be used
 		/// e.g. Default unity input or (in future) the new new input system
 		/// </summary>
-		protected ICharacterInput m_CharacterInput;
+		private ICharacterInput characterInput;
 
 		/// <summary>
 		/// The current movement properties
 		/// </summary>
-		protected float currentSpeed, movementTime;
+		private float currentSpeed;
+
+		/// <summary>
+		/// The current movement properties
+		/// </summary>
+		private float movementTime;
 
 		/// <summary>
 		/// A check to see if input was previous being applied
 		/// </summary>
-		protected bool prevIsMoveInput;
+		private bool previouslyHasInput;
 		
 		/// <summary>
 		/// A stack of states which allows us to revert through previous states
 		/// </summary>
-		Stack<FirstPersonMovementProperties> m_PrevStates = new Stack<FirstPersonMovementProperties>();
+		private readonly Stack<FirstPersonMovementProperties> prevStates = new Stack<FirstPersonMovementProperties>();
 		
 		/// <summary>
 		/// The current motor state - controls how the character moves in different states
@@ -60,8 +67,8 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		protected virtual void Awake()
 		{
-			m_CharacterPhysics = GetComponent<ICharacterPhysics>();
-			m_CharacterInput = GetComponent<ICharacterInput>();
+			characterPhysics = GetComponent<ICharacterPhysics>();
+			characterInput = GetComponent<ICharacterInput>();
 			foreach (FirstPersonMovementModification modifier in movementModifiers)
 			{
 				modifier.Init(this);
@@ -80,39 +87,39 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// Subscribe
 		/// </summary>
-		void OnEnable()
+		private void OnEnable()
 		{
-			m_CharacterInput.jumpPressed += OnJumpPressed;
+			characterInput.jumpPressed += OnJumpPressed;
 		}
 
 		/// <summary>
 		/// Unsubscribe
 		/// </summary>
-		void OnDisable()
+		private void OnDisable()
 		{
-			if (m_CharacterInput == null)
+			if (characterInput == null)
 			{
 				return;
 			}
 			
-			m_CharacterInput.jumpPressed -= OnJumpPressed;
+			characterInput.jumpPressed -= OnJumpPressed;
 		}
 
 		/// <summary>
 		/// Handles jumping
 		/// </summary>
-		void OnJumpPressed()
+		private void OnJumpPressed()
 		{
-			if (m_CharacterPhysics.isGrounded && currentMovementProperties.canJump)
+			if (characterPhysics.isGrounded && currentMovementProperties.canJump)
 			{
-				m_CharacterPhysics.SetJumpVelocity(currentMovementProperties.jumpSpeed);
+				characterPhysics.SetJumpVelocity(currentMovementProperties.jumpSpeed);
 			}	
 		}
 
 		/// <summary>
 		/// Handles movement on Physics update
 		/// </summary>
-		void FixedUpdate()
+		private void FixedUpdate()
 		{
 			Move();
 		}
@@ -120,16 +127,16 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// State based movement
 		/// </summary>
-		void Move()
+		private void Move()
 		{
 			if (startingMovementProperties == null)
 			{
 				return;
 			}
 
-			if (m_CharacterInput.hasMovementInput)
+			if (characterInput.hasMovementInput)
 			{
-				if (!prevIsMoveInput)
+				if (!previouslyHasInput)
 				{
 					movementTime = 0f;
 				}
@@ -137,7 +144,7 @@ namespace StandardAssets.Characters.FirstPerson
 			}
 			else
 			{
-				if (prevIsMoveInput)
+				if (previouslyHasInput)
 				{
 					movementTime = 0f;
 				}
@@ -145,34 +152,34 @@ namespace StandardAssets.Characters.FirstPerson
 				Stop();
 			}
 
-			Vector2 input = m_CharacterInput.moveInput;
+			Vector2 input = characterInput.moveInput;
 			if (input.sqrMagnitude > 1)
 			{
 				input.Normalize();
 			}
 
-			Vector3 forward = transform.forward * m_CharacterInput.moveInput.y;
-			Vector3 sideways = transform.right * m_CharacterInput.moveInput.x;
+			Vector3 forward = transform.forward * characterInput.moveInput.y;
+			Vector3 sideways = transform.right * characterInput.moveInput.x;
 			
-			m_CharacterPhysics.Move((forward + sideways) * currentSpeed * Time.deltaTime);
+			characterPhysics.Move((forward + sideways) * currentSpeed * Time.deltaTime);
 
-			prevIsMoveInput = m_CharacterInput.hasMovementInput;
+			previouslyHasInput = characterInput.hasMovementInput;
 		}	
 
 		/// <summary>
 		/// Calculates current speed based on acceleration anim curve
 		/// </summary>
-		void Accelerate()
+		private void Accelerate()
 		{
 			movementTime += Time.fixedDeltaTime;
-			movementTime = Mathf.Clamp(movementTime, 0f, currentMovementProperties.acceleration.maxValue);
-			currentSpeed = currentMovementProperties.acceleration.Evaluate(movementTime) * currentMovementProperties.maxSpeed;
+			movementTime = Mathf.Clamp(movementTime, 0f, currentMovementProperties.accelerationCurve.maxValue);
+			currentSpeed = currentMovementProperties.accelerationCurve.Evaluate(movementTime) * currentMovementProperties.maximumSpeed;
 		}
 		
 		/// <summary>
 		/// Stops the movement
 		/// </summary>
-		void Stop()
+		private void Stop()
 		{
 			currentSpeed = 0f;
 		}
@@ -180,37 +187,9 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// Clamps the current speed
 		/// </summary>
-		void ClampCurrentSpeed()
+		private void ClampCurrentSpeed()
 		{
-			currentSpeed = Mathf.Clamp(currentSpeed, 0f, currentMovementProperties.maxSpeed);
-		}
-		
-		/// <summary>
-		/// Ensures that the current speed doesn't rapidly increase
-		/// </summary>
-		void CalculateMovementTimeFromCurrentSpeed()
-		{
-		}
-		
-		/// <summary>
-		/// Change state to the new state and adds to previous state stack
-		/// </summary>
-		/// <param name="newState"></param>
-		public void EnterNewState(FirstPersonMovementProperties newState)
-		{
-			m_PrevStates.Push(currentMovementProperties);
-			ChangeState(newState);
-		}
-
-		/// <summary>
-		/// Resets state to previous state
-		/// </summary>
-		public void ResetState()
-		{
-			if (m_PrevStates.Count > 0)
-			{
-				ChangeState(m_PrevStates.Pop());
-			}
+			currentSpeed = Mathf.Clamp(currentSpeed, 0f, currentMovementProperties.maximumSpeed);
 		}
 		
 		/// <summary>
@@ -231,8 +210,27 @@ namespace StandardAssets.Characters.FirstPerson
 
 			currentMovementProperties = newState;
 			currentMovementProperties.EnterState();
-			CalculateMovementTimeFromCurrentSpeed();
 		}
 
+		/// <summary>
+		/// Change state to the new state and adds to previous state stack
+		/// </summary>
+		/// <param name="newState"></param>
+		public void EnterNewState(FirstPersonMovementProperties newState)
+		{
+			prevStates.Push(currentMovementProperties);
+			ChangeState(newState);
+		}
+
+		/// <summary>
+		/// Resets state to previous state
+		/// </summary>
+		public void ResetState()
+		{
+			if (prevStates.Count > 0)
+			{
+				ChangeState(prevStates.Pop());
+			}
+		}
 	}
 }

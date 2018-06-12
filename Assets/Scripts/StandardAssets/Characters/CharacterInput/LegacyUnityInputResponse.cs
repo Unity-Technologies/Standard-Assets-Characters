@@ -12,24 +12,26 @@ namespace StandardAssets.Characters.CharacterInput
 		/// <summary>
 		/// Classification of the type of response
 		/// </summary>
-		public DefaultInputResponseBehaviour behaviour;
+		[SerializeField]
+		private DefaultInputResponseBehaviour behaviour;
 
 		/// <summary>
 		/// The key
 		/// </summary>
-		public KeyCode key;
+		[SerializeField]
+		private KeyCode key;
 
 		/// <summary>
 		/// Multi-purpose bool. For Toggles in represents the on state. For Holds it represents the previous button state
 		/// </summary>
-		bool m_Check;
+		private bool check;
 
 		/// <summary>
 		/// Initializes
 		/// </summary>
 		public override void Init()
 		{
-			m_Check = false;
+			check = false;
 		}
 
 		/// <summary>
@@ -53,31 +55,31 @@ namespace StandardAssets.Characters.CharacterInput
 		/// <summary>
 		/// Logic for Holds
 		/// </summary>
-		void Hold()
+		private void Hold()
 		{
 			bool keyPressed = Input.GetKey(key);
 
-			if (!m_Check && keyPressed)
+			if (!check && keyPressed)
 			{
 				OnInputStarted();
 			}
 
-			if (m_Check && !keyPressed)
+			if (check && !keyPressed)
 			{
 				OnInputEnded();
 			}
 
-			m_Check = keyPressed;
+			check = keyPressed;
 		}
 
 		/// <summary>
 		/// Logic for Toggles
 		/// </summary>
-		void Toggle()
+		private void Toggle()
 		{
 			if (Input.GetKeyDown(key))
 			{
-				if (!m_Check)
+				if (!check)
 				{
 					OnInputStarted();
 				}
@@ -86,7 +88,7 @@ namespace StandardAssets.Characters.CharacterInput
 					OnInputEnded();
 				}
 
-				m_Check = !m_Check;
+				check = !check;
 			}
 		}
 	}

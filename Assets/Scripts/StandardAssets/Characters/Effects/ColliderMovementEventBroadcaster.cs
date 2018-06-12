@@ -1,4 +1,6 @@
-﻿namespace StandardAssets.Characters.Effects
+﻿using UnityEngine;
+
+namespace StandardAssets.Characters.Effects
 {
 	/// <summary>
 	/// Uses ColliderMovementDetection objects to broadcast movement events. i.e. footfalls
@@ -8,12 +10,13 @@
 		/// <summary>
 		/// The movement detections
 		/// </summary>
-		public ColliderMovementDetection[] movementDetections;
+		[SerializeField]
+		private ColliderMovementDetection[] movementDetections;
 
 		/// <summary>
 		/// Subscribe to the movement detection events
 		/// </summary>
-		void Awake()
+		private void Awake()
 		{
 			foreach (ColliderMovementDetection colliderMovementDetection in movementDetections)
 			{

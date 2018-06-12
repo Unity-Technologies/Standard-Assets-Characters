@@ -10,12 +10,13 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// Main Camera that is using the POV camera
 		/// </summary>
-		public Camera mainCamera;
+		[SerializeField]
+		private Camera mainCamera;
 
 		/// <summary>
 		/// Adjust rotation
 		/// </summary>
-		void Update()
+		private void Update()
 		{
 			Vector3 currentRotation = transform.rotation.eulerAngles;
 			currentRotation.y = mainCamera.transform.rotation.eulerAngles.y;
