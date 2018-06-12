@@ -12,23 +12,27 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// The value of gravity
 		/// </summary>
-		public float gravity;
+		[SerializeField]
+		private float gravity;
 
 		/// <summary>
 		/// The maximum speed that the character can move downwards
 		/// </summary>
-		public float terminalVelocity = 10f;
+		[SerializeField]
+		private float terminalVelocity = 10f;
 
 		/// <summary>
 		/// The distance used to check if grounded
 		/// </summary>
-		public float groundCheckDistance = 0.51f;
+		[SerializeField]
+		private float groundCheckDistance = 0.51f;
 
 		/// <summary>
 		/// Layers to use in the ground check
 		/// </summary>
 		[Tooltip("Layers to use in the ground check")]
-		public LayerMask groundCheckMask;
+		[SerializeField]
+		private LayerMask groundCheckMask;
 
 		/// <summary>
 		/// Character controller

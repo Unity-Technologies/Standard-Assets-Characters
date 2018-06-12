@@ -10,7 +10,8 @@ namespace StandardAssets.Characters.Effects
 		/// <summary>
 		/// The library of events to be played 
 		/// </summary>
-		public MovementEventLibrary library;
+		[SerializeField]
+		protected MovementEventLibrary library;
 
 		/// <summary>
 		/// Helper method for triggering movement events

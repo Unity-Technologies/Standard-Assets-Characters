@@ -11,13 +11,16 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// The actual turn speed
 		/// </summary>
-		public float turnSpeed = 300f;
+		[SerializeField]
+		protected float turnSpeed = 300f;
 
 		[Tooltip("Determines how quickly the normalized turning speed can change")]
 		[Range(1, 20)]
-		public float normalizedTurnLerpFactor = 5f;
+		[SerializeField]
+		protected float normalizedTurnLerpFactor = 5f;
 		
-		public Animator animator;
+		[SerializeField]
+		protected Animator animator;
 		
 		/// <summary>
 		/// Needed to calculate turning

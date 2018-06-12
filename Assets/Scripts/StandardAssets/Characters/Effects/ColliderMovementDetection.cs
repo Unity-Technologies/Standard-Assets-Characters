@@ -13,9 +13,11 @@ namespace StandardAssets.Characters.Effects
 		/// <summary>
 		/// The movement event id
 		/// </summary>
-		public string id;
+		[SerializeField]
+		private string id;
 
-		public LayerMask layerMask;
+		[SerializeField]
+		private LayerMask layerMask;
 		
 		/// <summary>
 		/// Fired when movement is detected

@@ -8,7 +8,8 @@ namespace StandardAssets.Characters.Effects
 		/// <summary>
 		/// Particles to be emitted
 		/// </summary>
-		public ParticleSystem particleSource;
+		[SerializeField]
+		private ParticleSystem particleSource;
 		
 		/// <inheritdoc />
 		protected override void PlayMovementEvent(MovementEvent movementEvent)

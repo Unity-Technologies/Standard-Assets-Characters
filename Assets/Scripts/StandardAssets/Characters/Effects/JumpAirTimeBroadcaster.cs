@@ -12,12 +12,14 @@ namespace StandardAssets.Characters.Effects
         /// <summary>
         /// Id of Jumping event
         /// </summary>
-        public string jumpId = "jumping";
+        [SerializeField]
+        private string jumpId = "jumping";
 
         /// <summary>
         /// Id of Landing event
         /// </summary>
-        public string landingId = "landing";
+        [SerializeField]
+        private string landingId = "landing";
         
         /// <summary>
         /// CharacterPhysics

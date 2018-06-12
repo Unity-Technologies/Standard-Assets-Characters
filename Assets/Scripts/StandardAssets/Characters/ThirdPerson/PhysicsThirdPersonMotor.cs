@@ -16,26 +16,44 @@ namespace StandardAssets.Characters.ThirdPerson
         /// <summary>
         /// Movement values
         /// </summary>
-        public Transform cameraTransform;
+        [SerializeField]
+        private Transform cameraTransform;
 
-        public float maxForwardSpeed = 10f;
-        public bool useAcceleration = true;
-        public float groundAcceleration = 20f;
-        public float groundDeceleration = 15f;
+        [SerializeField]
+        private float maxForwardSpeed = 10f;
+        
+        [SerializeField]
+        private bool useAcceleration = true;
+        
+        [SerializeField]
+        private float groundAcceleration = 20f;
+        
+        [SerializeField]
+        private float groundDeceleration = 15f;
 
-        [Range(0f, 1f)] public float airborneAccelProportion = 0.5f;
+        [Range(0f, 1f)] 
+        [SerializeField]
+        private float airborneAccelProportion = 0.5f;
 
-        [Range(0f, 1f)] public float airborneDecelProportion = 0.5f;
+        [Range(0f, 1f)] 
+        [SerializeField]
+        private float airborneDecelProportion = 0.5f;
 
-        public float jumpSpeed = 15f;
+        [SerializeField]
+        private float jumpSpeed = 15f;
 
-        [Range(0f, 1f)] public float airborneTurnSpeedProportion = 0.5f;
+        [Range(0f, 1f)] 
+        [SerializeField]
+        private float airborneTurnSpeedProportion = 0.5f;
 
+        [SerializeField]
+        private float angleSnapBehaviour = 120f;
+        
+        [SerializeField]
+        private float maxTurnSpeed = 10000f;
 
-        public float angleSnapBehaviour = 120f;
-        public float maxTurnSpeed = 10000f;
-
-        public AnimationCurve turnSpeedAsAFunctionOfForwardSpeed = AnimationCurve.Linear(0, 0, 1, 1);
+        [SerializeField]
+        private AnimationCurve turnSpeedAsAFunctionOfForwardSpeed = AnimationCurve.Linear(0, 0, 1, 1);
 
         /// <summary>
         /// The input implementation

@@ -1,5 +1,6 @@
 ﻿using System;
 using Boo.Lang;
+using UnityEngine;
 
 namespace StandardAssets.Characters.Effects
 {
@@ -12,11 +13,23 @@ namespace StandardAssets.Characters.Effects
 		/// <summary>
 		/// The Movement unique ID - e.g. footstep
 		/// </summary>
-		public string id;
+		[SerializeField]
+		private string id;
 
 		/// <summary>
 		/// The list of behaviours for visualize movement events
 		/// </summary>
-		public MovementEventPlayer[] movementEventPlayers;
+		[SerializeField]
+		private MovementEventPlayer[] movementEventPlayers;
+
+		public string identifier
+		{
+			get { return id; }
+		}
+
+		public MovementEventPlayer[] movementPlayers
+		{
+			get { return movementEventPlayers; }
+		}
 	}
 }

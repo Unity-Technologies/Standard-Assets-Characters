@@ -7,7 +7,8 @@ namespace StandardAssets.Characters.Effects
 	/// </summary>
 	public class MovementEventListener : MonoBehaviour
 	{
-		public MovementEventLibrary startingMovementEventLibrary;
+		[SerializeField]
+		private MovementEventLibrary startingMovementEventLibrary;
 		
 		/// <summary>
 		/// The attached movement event broadcasters
