@@ -6,17 +6,21 @@ namespace Demo
 	{
 		protected void Start()
 		{
+			float minSpeed = 100;
+			float speedRange = 400;
+			
 			//SetInitalValues for cameraInversion toggles
 			xAxisToggle.isOn = cameras[0].GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_InvertInput;
 			yAxisToggle.isOn = cameras[0].GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.m_InvertInput;
 
-			m_XAxisMaxSpeed = (cameras[0].GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_MaxSpeed - 200) / 300;
+			m_XAxisMaxSpeed = (cameras[0].GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_MaxSpeed - minSpeed) / speedRange;
+			
 			SetMaxSpeedSliderInitialValues(horizontalSlider, m_XAxisMaxSpeed, horizontalSliderValueText,
-				((m_XAxisMaxSpeed * 300) + 200));
+				((m_XAxisMaxSpeed * speedRange) + minSpeed));
 
-			m_YAxisMaxSpeed	= (cameras[0].GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_MaxSpeed - 200) / 300;
+			m_YAxisMaxSpeed	= (cameras[0].GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_MaxSpeed - minSpeed) / speedRange;
 			SetMaxSpeedSliderInitialValues(verticalSlider, m_YAxisMaxSpeed, verticalSliderValueText,
-				((m_YAxisMaxSpeed * 300) + 200));
+				((m_YAxisMaxSpeed * speedRange) + minSpeed));
 		}
 
 		protected override void SetYAxisMaxSpeed(CinemachineVirtualCamera camera, float newMaxYAxisMaxSpeed)
