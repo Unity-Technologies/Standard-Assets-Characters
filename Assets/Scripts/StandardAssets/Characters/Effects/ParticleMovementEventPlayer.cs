@@ -3,14 +3,16 @@
 namespace StandardAssets.Characters.Effects
 {
 	/// <inheritdoc />
+	[RequireComponent(typeof(ParticleSystem))]
 	public class ParticleMovementEventPlayer : MovementEventPlayer 
 	{
-		/// <summary>
-		/// Particles to be emitted
-		/// </summary>
-		[SerializeField]
 		private ParticleSystem particleSource;
-		
+
+		private void Awake()
+		{
+			particleSource = GetComponent<ParticleSystem>();
+		}
+
 		/// <inheritdoc />
 		protected override void PlayMovementEvent(MovementEvent movementEvent)
 		{
