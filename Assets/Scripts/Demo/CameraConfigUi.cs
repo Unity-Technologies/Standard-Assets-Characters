@@ -1,4 +1,5 @@
-﻿using Cinemachine;
+﻿using System.Text;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.Experimental.Input;
 using UnityEngine.UI;
@@ -104,14 +105,13 @@ namespace Demo
 		/// </summary>
 		protected virtual void UpdateActiveInputDevices()
 		{
-			string devices = ""; 
+			var devices = new StringBuilder();
 			foreach (var device in InputSystem.devices)
 			{
-				devices += ">"+device.ToString()+"\n";
+				devices.AppendFormat(">{0}\n", device);
 				
 			}
-
-			activeInputDevices.text = devices;
+			activeInputDevices.text = devices.ToString();
 		}
 
 
