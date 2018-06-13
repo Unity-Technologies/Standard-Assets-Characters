@@ -1,4 +1,5 @@
-﻿using StandardAssets.Characters.FirstPerson;
+﻿using StandardAssets.Characters.CharacterInput;
+using StandardAssets.Characters.FirstPerson;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,17 +13,38 @@ namespace Demo
         public Text currentMovementSpeedText;
         public FirstPersonController fpsController;
 
+        
+
+        public Slider speedSlider;
+
+        private float currentSpeed;
+        
+
+        private float minSpeed = 1;
+        private float maxSpeed = 15;
+        private float speedRange = 14;
+
+       
         private void Update()
         {
-            UpdateCurrentMovementSpeedProperty();
+            UpdateSpeedSlider();
         }
         
         /// <summary>
         /// Updates UI Label with current state max speed
         /// </summary>
-        void UpdateCurrentMovementSpeedProperty()
+        void UpdateSpeedSlider()
         {
-            currentMovementSpeedText.text = fpsController.currentMovementProperties.maximumSpeed.ToString();
+            currentSpeed = fpsController.currentMovementProperties.maximumSpeed;
+            currentMovementSpeedText.text = currentSpeed.ToString("0.0");
+            speedSlider.value = (currentSpeed - minSpeed) / speedRange;
+            
+        }
+
+        public void UpdateSpeedForCurrentState(Slider slider)
+        {
+            float speed = (slider.value*speedRange)+minSpeed;
+            fpsController.currentMovementProperties.maximumSpeed = speed;
         }
     }
 }
