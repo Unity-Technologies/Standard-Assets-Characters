@@ -12,6 +12,8 @@ namespace StandardAssets.Characters.FirstPerson
 	[Serializable]
 	public class FirstPersonMovementProperties
 	{
+	
+		
 		/// <summary>
 		/// The maximum movement speed
 		/// </summary>
@@ -40,7 +42,9 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		public float maximumSpeed
 		{
+			
 			get { return maxSpeed; }
+			set { maxSpeed = value; }
 		}
 
 		/// <summary>
