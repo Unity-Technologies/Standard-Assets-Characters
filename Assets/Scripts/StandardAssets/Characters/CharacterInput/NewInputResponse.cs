@@ -20,13 +20,6 @@ namespace StandardAssets.Characters.CharacterInput
         {
             actionReference.action.performed += ctx => TogglePress();
         }
-        
-        /// <inheritdoc />
-        public override void Tick()
-        {
-            //TODO: refactor to use better Update mechanism in the base class so that this is unnecessary here
-            //Do nothing
-        }
 
         /// <summary>
         /// Handes the toggling of the presses

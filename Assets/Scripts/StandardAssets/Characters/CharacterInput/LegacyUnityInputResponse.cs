@@ -6,7 +6,8 @@ namespace StandardAssets.Characters.CharacterInput
 	/// <summary>
 	/// Default Unity Input System implementation of the InputResponse
 	/// </summary>
-	[CreateAssetMenu(fileName = "InputResponse", menuName = "Input Response/Create Default Unity Input Response", order = 1)]
+	[CreateAssetMenu(fileName = "InputResponse", menuName = "Input Response/Create Default Unity Input Response",
+		order = 1)]
 	public class LegacyUnityInputResponse : InputResponse
 	{
 		/// <summary>
@@ -22,74 +23,30 @@ namespace StandardAssets.Characters.CharacterInput
 		private KeyCode key;
 
 		/// <summary>
-		/// Multi-purpose bool. For Toggles in represents the on state. For Holds it represents the previous button state
-		/// </summary>
-		private bool check;
-
-		/// <summary>
-		/// Initializes
+		/// Initializes the polling behaviour for the legacy input system
 		/// </summary>
 		public override void Init()
 		{
-			check = false;
+			GameObject gameObject = new GameObject();
+			gameObject.name = string.Format("LegacyInput_{0}_Poller", name);
+			LegacyUnityInputResponsePoller poller = gameObject.AddComponent<LegacyUnityInputResponsePoller>();
+			poller.Init(this, behaviour, key);
 		}
 
 		/// <summary>
-		/// Updates the Input Response
+		/// Exposes the input start for the poller
 		/// </summary>
-		public override void Tick()
+		public void BroadcastStart()
 		{
-			switch (behaviour)
-			{
-				case DefaultInputResponseBehaviour.Hold:
-					Hold();
-					break;
-				case DefaultInputResponseBehaviour.Toggle:
-					Toggle();
-					break;
-				default:
-					throw new ArgumentOutOfRangeException();
-			}
+			OnInputStarted();
 		}
 
 		/// <summary>
-		/// Logic for Holds
+		/// Exposes the input end for the poller
 		/// </summary>
-		private void Hold()
+		public void BroadcastEnd()
 		{
-			bool keyPressed = Input.GetKey(key);
-
-			if (!check && keyPressed)
-			{
-				OnInputStarted();
-			}
-
-			if (check && !keyPressed)
-			{
-				OnInputEnded();
-			}
-
-			check = keyPressed;
-		}
-
-		/// <summary>
-		/// Logic for Toggles
-		/// </summary>
-		private void Toggle()
-		{
-			if (Input.GetKeyDown(key))
-			{
-				if (!check)
-				{
-					OnInputStarted();
-				}
-				else
-				{
-					OnInputEnded();
-				}
-
-				check = !check;
-			}
+			OnInputEnded();
 		}
 	}
 

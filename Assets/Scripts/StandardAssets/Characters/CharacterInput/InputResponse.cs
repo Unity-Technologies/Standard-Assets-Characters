@@ -18,11 +18,6 @@ namespace StandardAssets.Characters.CharacterInput
 		/// Initialization
 		/// </summary>
 		public abstract void Init();
-		
-		/// <summary>
-		/// Tick/Update
-		/// </summary>
-		public abstract void Tick();
 
 		/// <summary>
 		/// Safely broadcasts the enable event
