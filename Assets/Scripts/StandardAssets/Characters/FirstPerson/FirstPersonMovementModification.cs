@@ -41,11 +41,6 @@ namespace StandardAssets.Characters.FirstPerson
 			input.ended += OnStateReset;
 		}
 
-		public void Tick()
-		{
-			input.Tick();
-		}
-
 		private void OnStateChange()
 		{
 			controller.EnterNewState(movementProperties);

@@ -61,7 +61,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// The current motor state - controls how the character moves in different states
 		/// </summary>
 		public FirstPersonMovementProperties currentMovementProperties { get; protected set; }
-		
+
 		/// <summary>
 		/// Get the attached implementations on wake
 		/// </summary>
@@ -73,15 +73,8 @@ namespace StandardAssets.Characters.FirstPerson
 			{
 				modifier.Init(this);
 			}
-			ChangeState(startingMovementProperties);
-		}
 
-		private void Update()
-		{
-			foreach (FirstPersonMovementModification modifier in movementModifiers)
-			{
-				modifier.Tick();
-			}
+			ChangeState(startingMovementProperties);
 		}
 
 		/// <summary>

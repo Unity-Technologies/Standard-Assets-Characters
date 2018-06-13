@@ -232,9 +232,10 @@ namespace StandardAssets.Characters.ThirdPerson
             }
             else
             {
-                Vector3 lateral = (currentLateralSpeed * transform.right * Time.fixedDeltaTime);
-                Debug.LogFormat("Lateral Speed = {0}", lateral);
-                movement = (currentForwardSpeed * transform.forward * Time.fixedDeltaTime + lateral);
+                Vector3 lateral = currentLateralSpeed * transform.right * Time.fixedDeltaTime;
+                Vector3 forward = currentForwardSpeed * transform.forward * Time.fixedDeltaTime;
+      
+                movement = forward + lateral;
             }
 
             characterPhysics.Move(movement);
