@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 136131221980381340}
   - component: {fileID: 95678976135669546}
   - component: {fileID: 114074065261041036}
+  - component: {fileID: 114651346732965486}
   m_Layer: 0
   m_Name: FirstPersonLegacyInput
   m_TagString: Untagged
@@ -228,7 +229,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1627797537853366}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalPosition: {x: 16, y: 2, z: 33}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4617565824343848}
@@ -309,13 +310,22 @@ MonoBehaviour:
   m_Priority: 0
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
-  m_PositionBlending: 0
   m_Lens:
     FieldOfView: 60
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
+    LensShift: {x: 0, y: 0}
+  m_Transitions:
+    m_BlendHint: 0
+    m_InheritPosition: 0
+    m_OnCameraLive:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: Cinemachine.CinemachineBrain+VcamEvent, Cinemachine, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+  m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 4774026149090618}
 --- !u!114 &114324813546737938
 MonoBehaviour:
@@ -395,11 +405,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eb889feba9d41d4bfbbade70ee269c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravity: 0.4
+  gravity: 19.62
+  terminalVelocity: 120
   groundCheckDistance: 0.55
   groundCheckMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 823
 --- !u!114 &114473157933188712
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -468,7 +479,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingMovementProperties:
-    maxSpeed: 5
+    maxSpeed: 7
     acceleration:
       curve:
         serializedVersion: 2
@@ -495,7 +506,7 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
       maxValue: 0.01
-    jumpSpeed: 0.1
+    jumpSpeed: 9
     enterState:
       m_PersistentCalls:
         m_Calls:
@@ -520,7 +531,7 @@ MonoBehaviour:
   movementModifiers:
   - input: {fileID: 11400000, guid: 7d60fd307346c4da688e568bfd0b9d43, type: 2}
     movementProperties:
-      maxSpeed: 2
+      maxSpeed: 3
       acceleration:
         curve:
           serializedVersion: 2
@@ -547,7 +558,7 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 4
         maxValue: 0.01
-      jumpSpeed: 0.05
+      jumpSpeed: 4
       enterState:
         m_PersistentCalls:
           m_Calls:
@@ -622,7 +633,7 @@ MonoBehaviour:
           Culture=neutral, PublicKeyToken=null
   - input: {fileID: 11400000, guid: 8c1192daa77a944b393df7e0146d7a7f, type: 2}
     movementProperties:
-      maxSpeed: 8
+      maxSpeed: 11
       acceleration:
         curve:
           serializedVersion: 2
@@ -649,7 +660,7 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 4
         maxValue: 0.01
-      jumpSpeed: 0.15
+      jumpSpeed: 10
       enterState:
         m_PersistentCalls:
           m_Calls:
@@ -662,6 +673,57 @@ MonoBehaviour:
               m_IntArgument: 0
               m_FloatArgument: 0
               m_StringArgument: Walk
+              m_BoolArgument: 0
+            m_CallState: 2
+        m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      exitState:
+        m_PersistentCalls:
+          m_Calls: []
+        m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+  - input: {fileID: 11400000, guid: 792f413f42ab38c408411c84b20128d0, type: 2}
+    movementProperties:
+      maxSpeed: 2
+      acceleration:
+        curve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 0
+            outSlope: 1
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 1
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        maxValue: 0.01
+      jumpSpeed: 0.05
+      enterState:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 114074065261041036}
+            m_MethodName: SetAnimation
+            m_Mode: 5
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: Crouch
               m_BoolArgument: 0
             m_CallState: 2
         m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
@@ -701,13 +763,22 @@ MonoBehaviour:
   m_Priority: 0
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
-  m_PositionBlending: 0
   m_Lens:
     FieldOfView: 60
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
+    LensShift: {x: 0, y: 0}
+  m_Transitions:
+    m_BlendHint: 0
+    m_InheritPosition: 0
+    m_OnCameraLive:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: Cinemachine.CinemachineBrain+VcamEvent, Cinemachine, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+  m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 4472433186970248}
 --- !u!114 &114621557451821460
 MonoBehaviour:
@@ -720,6 +791,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114651346732965486
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1627797537853366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79b8563e9117458bb97ca06f29b17116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpId: jumping
+  landingId: landing
 --- !u!114 &114693605703773754
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -783,13 +867,22 @@ MonoBehaviour:
   m_Priority: 10
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
-  m_PositionBlending: 0
   m_Lens:
     FieldOfView: 60
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
+    LensShift: {x: 0, y: 0}
+  m_Transitions:
+    m_BlendHint: 0
+    m_InheritPosition: 0
+    m_OnCameraLive:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: Cinemachine.CinemachineBrain+VcamEvent, Cinemachine, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+  m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 4467537354003894}
 --- !u!114 &114736923435200732
 MonoBehaviour:
