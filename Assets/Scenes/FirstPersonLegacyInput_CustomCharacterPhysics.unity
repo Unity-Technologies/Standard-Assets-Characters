@@ -1022,7 +1022,7 @@ MonoBehaviour:
   playerCentre: {x: 0, y: 0, z: 0}
   playerHeight: 1.56
   playerRadius: 0.45
-  gravity: 6
+  gravity: 9.81
   maxGroundingDist: 50
   groundCheckPoint: {x: 0, y: -0.85, z: 0}
   enableInterpolation: 1
@@ -1400,6 +1400,11 @@ Prefab:
       propertyPath: cameras.Array.data[2]
       value: 
       objectReference: {fileID: 394818130}
+    - target: {fileID: 114095905987974152, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: fpsController
+      value: 
+      objectReference: {fileID: 1038776966}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab3b32e38dca85b4180d5007c17a3505, type: 2}
   m_IsPrefabAsset: 0
