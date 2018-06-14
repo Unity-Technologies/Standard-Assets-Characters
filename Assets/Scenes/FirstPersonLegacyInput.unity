@@ -788,7 +788,27 @@ Prefab:
     - target: {fileID: 114501385933726858, guid: 1818690cc80044ecbadf3a53cc5f29e1,
         type: 2}
       propertyPath: startingMovementProperties.jumpSpeed
-      value: 0.12
+      value: 0.175
+      objectReference: {fileID: 0}
+    - target: {fileID: 114501385933726858, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: startingMovementProperties.maxSpeed
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 114501385933726858, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[0].movementProperties.maxSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114501385933726858, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[2].movementProperties.maxSpeed
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 114501385933726858, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[2].movementProperties.jumpSpeed
+      value: 0.175
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1818690cc80044ecbadf3a53cc5f29e1, type: 2}
