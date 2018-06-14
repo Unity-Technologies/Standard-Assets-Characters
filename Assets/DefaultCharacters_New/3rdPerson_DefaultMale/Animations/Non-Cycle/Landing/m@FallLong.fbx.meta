@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 438db78e03dda904f89dedb82f77f920
+guid: 27c8c0d990291ad4b99df19c3a7fa74c
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -143,7 +143,8 @@ ModelImporter:
     400134: Root
     400136: Spine
     400138: UpperChest
-    7400000: Neil_FallLong
+    7400000: FallLong
+    7400002: FallLong 1
     9500000: //RootNode
     2186277476908879412: ImportLogs
   externalObjects: {}
@@ -180,7 +181,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Neil_FallLong
+      name: FallLong 1
       takeName: Take 001
       firstFrame: 1
       lastFrame: 38
@@ -206,7 +207,7 @@ ModelImporter:
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+      additiveReferencePoseFrame: 1
     isReadable: 1
   meshes:
     lODScreenPercentages: []
