@@ -8,7 +8,8 @@ namespace StandardAssets.Characters.Physics
 	{
 
 		[Header("Player")]
-		public GameObject playerObject;
+		[Tooltip("The root bone in the avatar - used to compensate for the animator issues")]
+		public GameObject playerRootTransform;
 		public Vector3 playerCentre = new Vector3(0,0,0);
 		public float playerHeight = 1.56f;
 		public float playerRadius = 0.45f;
@@ -20,16 +21,10 @@ namespace StandardAssets.Characters.Physics
 		public float maxGroundingDist = 50;
 		[Tooltip("The point at which we check that the player is grounded")]
 		public Vector3 groundCheckPoint = new Vector3(0, -0.85f, 0);
-
+		public bool enableInterpolation = true;
 		public float groundCheckRadius = 0.35f;
 		public float pushupDist;
-
-		[Header("Movement")]
-		public float movementSpeed = 5f;
-		public bool enableInterpolation = true;
 		public float interpolationSpeed = 10f;
-		public bool useFixedDeltaTime;
-		public bool enableTransformDirection;
 
 		[Header("Jumping")]
 		public float jumpHeight;
@@ -93,24 +88,17 @@ namespace StandardAssets.Characters.Physics
 
 		private void LateUpdate()
 		{
-			if (playerObject != null)
+			if (playerRootTransform != null)
 			{
-				playerObject.transform.localPosition = playerCentre;
+				playerRootTransform.transform.localPosition = playerCentre;
 			}
 		}
 		
 
 		public void Move(Vector3 moveVector3)
 		{
-
-			var deltaTime = useFixedDeltaTime ? Time.fixedDeltaTime : Time.deltaTime;
 			playerVelocity += moveVector3;
-			Vector3 playerMovementVector = (new Vector3(playerVelocity.x, playerVelocity.y, playerVelocity.z) * movementSpeed) * deltaTime ;
-
-			if (enableTransformDirection)
-			{
-				playerMovementVector = transform.TransformDirection(playerMovementVector);
-			}
+			Vector3 playerMovementVector = (new Vector3(playerVelocity.x, playerVelocity.y, playerVelocity.z));// * movementSpeed) * deltaTime ;
 
 			transform.position += playerMovementVector;
 
@@ -122,9 +110,6 @@ namespace StandardAssets.Characters.Physics
 			previousVelocity = playerVelocity;
 			playerVelocity = Vector3.zero;
 		}
-		
-		
-		
 
 		public void SetJumpVelocity(float initialJumpVelocity)
 		{
@@ -167,7 +152,7 @@ namespace StandardAssets.Characters.Physics
 		{
 			if (!isGrounded)
 			{
-				playerVelocity.y -= gravity;
+				playerVelocity.y -= gravity * Time.fixedDeltaTime;
 			}
 		}
 
@@ -312,7 +297,7 @@ namespace StandardAssets.Characters.Physics
 
 				Gizmos.color = !isGrounded ? Color.red : Color.blue;
 
-				Gizmos.DrawWireSphere(transform.TransformPoint(groundCheckPoint), 0.1f);
+				Gizmos.DrawWireSphere(transform.TransformPoint(groundCheckPoint), groundCheckRadius);
 			}
 		}
 	}

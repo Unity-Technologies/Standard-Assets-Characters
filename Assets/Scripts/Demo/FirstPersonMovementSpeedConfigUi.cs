@@ -8,7 +8,7 @@ namespace Demo
     /// <summary>
     /// Exposes movement properties from the first person controller for a UI
     /// </summary>
-    public class FirstPersonConfigUi : MonoBehaviour
+    public class FirstPersonMovementSpeedConfigUi : MonoBehaviour
     {
         public Text currentMovementSpeedText;
         public FirstPersonController fpsController;
@@ -28,6 +28,7 @@ namespace Demo
         private void Update()
         {
             UpdateSpeedSlider();
+            
         }
         
         /// <summary>

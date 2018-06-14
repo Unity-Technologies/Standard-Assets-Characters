@@ -113,6 +113,13 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return groundAcceleration * (isRunToggled ? physicsMotorProperties.runAccelerationProportion : 
 							physicsMotorProperties.walkAccelerationProporiton); }
 		}
+		
+		public float currentSpeedForUi
+		{
+			get { return maxForwardSpeed; }
+			set { maxForwardSpeed = value; }
+		}
+
 
 		/// <inheritdoc />
 		/// <summary>

@@ -160,7 +160,7 @@ namespace StandardAssets.Characters.Physics
 				}
 			}
 			
-			verticalVector = new Vector3(0, currentVerticalVelocity, 0);
+			verticalVector = new Vector3(0, currentVerticalVelocity * Time.fixedDeltaTime, 0);
 		}
 		
 		/// <summary>
