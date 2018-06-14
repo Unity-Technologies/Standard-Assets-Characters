@@ -1,269 +1,344 @@
-﻿using System;
 using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
-using UnityEngine.Assertions.Comparers;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
-    /// <summary>
-    /// The main third person controller
-    /// </summary>
-    [RequireComponent(typeof(ICharacterPhysics))]
-    [RequireComponent(typeof(ICharacterInput))]
-    public class PhysicsThirdPersonMotor : BaseThirdPersonMotor
-    {
-        /// <summary>
-        /// Movement values
-        /// </summary>
-        [SerializeField]
-        private Transform cameraTransform;
+	/// <summary>
+	/// The main third person controller
+	/// </summary>
+	[RequireComponent(typeof(ICharacterPhysics))]
+	[RequireComponent(typeof(ICharacterInput))]
+	public class PhysicsThirdPersonMotor : BaseThirdPersonMotor
+	{
+		private enum State
+		{
+			Moving,
+			RapidTurnDecel,
+			RapidTurnRotation
+		}
+		
+		/// <summary>
+		/// Movement values
+		/// </summary>
+		[SerializeField]
+		private Transform cameraTransform;
 
-        [SerializeField]
-        private float maxForwardSpeed = 10f;
-        
-        [SerializeField]
-        private bool useAcceleration = true;
-        
-        [SerializeField]
-        private float groundAcceleration = 20f;
-        
-        [SerializeField]
-        private float groundDeceleration = 15f;
+		[SerializeField]
+		private float maxForwardSpeed = 10f;
+		
+		[SerializeField]
+		private bool useAcceleration = true;
+		
+		[SerializeField]    
+		private float groundAcceleration = 20f;
+		
+		[SerializeField]
+		private float groundDeceleration = 15f;
 
-        [Range(0f, 1f)] 
-        [SerializeField]
-        private float airborneAccelProportion = 0.5f;
+		[SerializeField, Range(0f, 1f)]
+		private float airborneAccelProportion = 0.5f;
 
-        [Range(0f, 1f)] 
-        [SerializeField]
-        private float airborneDecelProportion = 0.5f;
+		[SerializeField, Range(0f, 1f)]
+		private float airborneDecelProportion = 0.5f;
 
-        [SerializeField]
-        private float jumpSpeed = 15f;
+		[SerializeField]
+		private float jumpSpeed = 15f;
 
-        [Range(0f, 1f)] 
-        [SerializeField]
-        private float airborneTurnSpeedProportion = 0.5f;
+		[SerializeField, Range(0f, 1f)]
+		private float airborneTurnSpeedProportion = 0.5f;
 
-        [SerializeField]
-        private float angleSnapBehaviour = 120f;
-        
-        [SerializeField]
-        private float maxTurnSpeed = 10000f;
+		[SerializeField]
+		private float angleSnapBehaviour = 120f;
+		
+		[SerializeField]
+		private float maxTurnSpeed = 10000f;
 
-        [SerializeField]
-        private AnimationCurve turnSpeedAsAFunctionOfForwardSpeed = AnimationCurve.Linear(0, 0, 1, 1);
+		[SerializeField]
+		private AnimationCurve turnSpeedAsAFunctionOfForwardSpeed = AnimationCurve.Linear(0, 0, 1, 1);
+		
+		[SerializeField] 
+		private float snappingDecelaration = 30;
+		
+		[SerializeField, Range(0,1), Tooltip("Fraction of max forward speed")]
+		private float snapSpeedTarget = 0.2f;
 
-        /// <summary>
-        /// The input implementation
-        /// </summary>
-        private ICharacterInput characterInput;
+		[SerializeField] 
+		private PhysicsMotorProperties physicsMotorProperties;
 
-        /// <summary>
-        /// The physic implementation
-        /// </summary>
-        private ICharacterPhysics characterPhysics;
+		[SerializeField] 
+		private InputResponse runInput;
 
-        private float currentForwardSpeed;
-        
-        /// <inheritdoc />
-        public override float normalizedLateralSpeed
-        {
-            get { return 0f; }
-        }
+		/// <summary>
+		/// The input implementation
+		/// </summary>
+		private ICharacterInput characterInput;
 
-        /// <inheritdoc />
-        public override float normalizedForwardSpeed
-        {
-            get { return currentForwardSpeed / maxForwardSpeed; }
-        }
+		/// <summary>
+		/// The physic implementation
+		/// </summary>
+		private ICharacterPhysics characterPhysics;
 
-        public override float fallTime
-        {
-            get { return characterPhysics.fallTime; }
-        }
+		private bool isRunToggled;
 
-        /// <inheritdoc />
-        /// <summary>
-        /// Gets required components
-        /// </summary>
-        protected override void Awake()
-        {
-            characterInput = GetComponent<ICharacterInput>();
-            characterPhysics = GetComponent<ICharacterPhysics>();
-            base.Awake();
-        }
+		private float currentForwardSpeed;
 
-        /// <summary>
-        /// Subscribe
-        /// </summary>
-        private void OnEnable()
-        {
-            characterInput.jumpPressed += OnJumpPressed;
-            characterPhysics.landed += OnLanding;
-        }
+		private State state;
+		
+		/// <inheritdoc />
+		public override float normalizedLateralSpeed
+		{
+			get { return 0f; }
+		}
 
-        /// <summary>
-        /// Unsubscribe
-        /// </summary>
-        private void OnDisable()
-        {
-            if (characterInput != null)
-            {
-                characterInput.jumpPressed -= OnJumpPressed;
-            }
+		/// <inheritdoc />
+		public override float normalizedForwardSpeed
+		{
+			get { return currentForwardSpeed / maxForwardSpeed; }
+		}
 
-            if (characterPhysics != null)
-            {
-                characterPhysics.landed -= OnLanding;
-            }
-        }
+		public override float fallTime
+		{
+			get { return characterPhysics.fallTime; }
+		}
 
-        /// <summary>
-        /// Handles player landing
-        /// </summary>
-        private void OnLanding()
-        {
-            if (landed != null)
-            {
-                landed();
-            }
-        }
+		private float currentMaxForwardSpeed
+		{
+			get { return maxForwardSpeed * (isRunToggled ? physicsMotorProperties.runSpeedProportion : 
+							physicsMotorProperties.walkSpeedProporiton); }
+		}
+		
+		private float currentGroundAccelaration
+		{
+			get { return groundAcceleration * (isRunToggled ? physicsMotorProperties.runAccelerationProportion : 
+							physicsMotorProperties.walkAccelerationProporiton); }
+		}
 
-        /// <summary>
-        /// Subscribes to the Jump action on input
-        /// </summary>
-        private void OnJumpPressed()
-        {
-            if (!characterPhysics.isGrounded)
-            {
-                return;
-            }
+		/// <inheritdoc />
+		/// <summary>
+		/// Gets required components
+		/// </summary>
+		protected override void Awake()
+		{
+			characterInput = GetComponent<ICharacterInput>();
+			characterPhysics = GetComponent<ICharacterPhysics>();
+			
+			runInput.Init();
+			
+			base.Awake();
+		}
 
-            characterPhysics.SetJumpVelocity(jumpSpeed);
-            if (jumpStarted != null)
-            {
-                jumpStarted();
-            }
-        }
+		private void OnRunEnded()
+		{
+			isRunToggled = false;
+		}
 
-        /// <summary>
-        /// Movement Logic on physics update
-        /// </summary>
-        private void FixedUpdate()
-        {
-            SetForward();
-            CalculateForwardMovement();
-            if (animator == null)
-            {
-                Move();
-            }
-            CalculateYRotationSpeed(Time.fixedDeltaTime);
-        }
+		private void OnRunStarted()
+		{
+			isRunToggled = true;
+		}
 
-        /// <summary>
-        /// Handle movement if the animator is set
-        /// </summary>
-        private void OnAnimatorMove()
-        {
-            if (animator != null)
-            {
-                Move();
-            }
-        }
+		/// <summary>
+		/// Subscribe
+		/// </summary>
+		private void OnEnable()
+		{
+			characterInput.jumpPressed += OnJumpPressed;
+			characterPhysics.landed += OnLanding;
+			
+			runInput.started += OnRunStarted;
+			runInput.ended += OnRunEnded;
+		}
 
-        /// <summary>
-        /// Sets forward rotation
-        /// </summary>
-        private void SetForward()
-        {
-            if (!characterInput.hasMovementInput)
-            {
-                return;
-            }
+		/// <summary>
+		/// Unsubscribe
+		/// </summary>
+		private void OnDisable()
+		{
+			if (characterInput != null)
+			{
+				characterInput.jumpPressed -= OnJumpPressed;
+			}
 
-            Vector3 flatForward = cameraTransform.forward;
-            flatForward.y = 0f;
-            flatForward.Normalize();
+			if (characterPhysics != null)
+			{
+				characterPhysics.landed -= OnLanding;
+			}
 
-            Vector3 localMovementDirection =
-                new Vector3(characterInput.moveInput.x, 0f, characterInput.moveInput.y);
+			if (runInput != null)
+			{
+				runInput.started -= OnRunStarted;
+				runInput.ended -= OnRunEnded;
+			}
+		}
 
-            Quaternion cameraToInputOffset = Quaternion.FromToRotation(Vector3.forward, localMovementDirection);
-            cameraToInputOffset.eulerAngles = new Vector3(0f, cameraToInputOffset.eulerAngles.y, 0f);
+		/// <summary>
+		/// Handles player landing
+		/// </summary>
+		private void OnLanding()
+		{
+			if (landed != null)
+			{
+				landed();
+			}
+		}
 
-            Quaternion targetRotation = Quaternion.LookRotation(cameraToInputOffset * flatForward);
+		/// <summary>
+		/// Subscribes to the Jump action on input
+		/// </summary>
+		private void OnJumpPressed()
+		{
+			if (!characterPhysics.isGrounded)
+			{
+				return;
+			}
 
-            float angleDifference = Mathf.Abs((transform.eulerAngles - targetRotation.eulerAngles).y);
+			characterPhysics.SetJumpVelocity(jumpSpeed);
+			if (jumpStarted != null)
+			{
+				jumpStarted();
+			}
+		}
 
-            float calculatedTurnSpeed = 0;
-            if (angleDifference > angleSnapBehaviour)
-            {
-                calculatedTurnSpeed = turnSpeed + (maxTurnSpeed - turnSpeed) *
-                                      turnSpeedAsAFunctionOfForwardSpeed.Evaluate(
-                                          Mathf.Abs(normalizedForwardSpeed));
-            }
-            else
-            {
-                calculatedTurnSpeed = turnSpeed;
-            }
+		/// <summary>
+		/// Movement Logic on physics update
+		/// </summary>
+		private void FixedUpdate()
+		{
+			SetForward();
+			CalculateForwardMovement();
+			if (animator == null)
+			{
+				Move();
+			}
+			CalculateYRotationSpeed(Time.fixedDeltaTime);
+		}
 
-            float actualTurnSpeed =
-                characterPhysics.isGrounded ? calculatedTurnSpeed : calculatedTurnSpeed * airborneTurnSpeedProportion;
-            targetRotation =
-                Quaternion.RotateTowards(transform.rotation, targetRotation, actualTurnSpeed * Time.fixedDeltaTime);
+		/// <summary>
+		/// Handle movement if the animator is set
+		/// </summary>
+		private void OnAnimatorMove()
+		{
+			if (animator != null)
+			{
+				Move();
+			}
+		}
 
-            transform.rotation = targetRotation;
-        }
+		/// <summary>
+		/// Sets forward rotation
+		/// </summary>
+		private void SetForward()
+		{
+			// if no input or decelerating for a rapid turn, we early out
+			if (!characterInput.hasMovementInput || state == State.RapidTurnDecel) 
+			{
+				return;
+			}
 
-        /// <summary>
-        /// Calculates the forward movement
-        /// </summary>
-        private void CalculateForwardMovement()
-        {
-            Vector2 moveInput = characterInput.moveInput;
-            if (moveInput.sqrMagnitude > 1f)
-            {
-                moveInput.Normalize();
-            }
+			Vector3 flatForward = cameraTransform.forward;
+			flatForward.y = 0f;
+			flatForward.Normalize();
 
-            float desiredSpeed = moveInput.magnitude * maxForwardSpeed;
+			Vector3 localMovementDirection =
+				new Vector3(characterInput.moveInput.x, 0f, characterInput.moveInput.y);
 
-            if (useAcceleration)
-            {
-                float acceleration = characterPhysics.isGrounded
-                    ? (characterInput.hasMovementInput ? groundAcceleration : groundDeceleration)
-                    : (characterInput.hasMovementInput ? groundAcceleration : groundDeceleration) *
-                      airborneDecelProportion;
+			Quaternion cameraToInputOffset = Quaternion.FromToRotation(Vector3.forward, localMovementDirection);
+			cameraToInputOffset.eulerAngles = new Vector3(0f, cameraToInputOffset.eulerAngles.y, 0f);
 
-                currentForwardSpeed =
-                    Mathf.MoveTowards(currentForwardSpeed, desiredSpeed, acceleration * Time.fixedDeltaTime);
-            }
-            else
-            {
-                currentForwardSpeed = desiredSpeed;
-            }
-        }
+			Quaternion targetRotation = Quaternion.LookRotation(cameraToInputOffset * flatForward);
 
-        /// <summary>
-        /// Moves the character
-        /// </summary>
-        private void Move()
-        {
-            Vector3 movement;
+			float angleDifference = Mathf.Abs((transform.eulerAngles - targetRotation.eulerAngles).y);
 
-            if (animator != null && characterPhysics.isGrounded &&
-                animator.deltaPosition.z >= groundAcceleration * Time.deltaTime)
-            {
-                movement = animator.deltaPosition;
-            }
-            else
-            {
-                movement = currentForwardSpeed * transform.forward * Time.fixedDeltaTime;
-            }
+			float calculatedTurnSpeed = turnSpeed;
+			if (angleSnapBehaviour < angleDifference && angleDifference < 360 - angleSnapBehaviour)
+			{
+				// if we need a rapid turn, first decelerate
+				if (state == State.Moving)
+				{
+					state = State.RapidTurnDecel;
+					return;
+				}
+				// rapid turn deceleration complete, now we rotate appropriately.
+				calculatedTurnSpeed += (maxTurnSpeed - turnSpeed) *
+								turnSpeedAsAFunctionOfForwardSpeed.Evaluate(Mathf.Abs(normalizedForwardSpeed));
+			}
+			// once rapid turn rotation is complete, we return to the normal movement state
+			else if (state == State.RapidTurnRotation)
+			{
+				state = State.Moving;
+			}
+			float actualTurnSpeed = calculatedTurnSpeed;
+			if (!characterPhysics.isGrounded)
+			{
+				actualTurnSpeed *= airborneTurnSpeedProportion;
+			}
+			targetRotation =
+				Quaternion.RotateTowards(transform.rotation, targetRotation, actualTurnSpeed * Time.fixedDeltaTime);
 
-            characterPhysics.Move(movement);
-        }
-    }
+			transform.rotation = targetRotation;
+		}
+
+		/// <summary>
+		/// Calculates the forward movement
+		/// </summary>
+		private void CalculateForwardMovement()
+		{
+			Vector2 moveInput = characterInput.moveInput;
+			if (moveInput.sqrMagnitude > 1f)
+			{
+				moveInput.Normalize();
+			}
+
+			float desiredSpeed = moveInput.magnitude * currentMaxForwardSpeed;
+			if (useAcceleration)
+			{
+				float acceleration = characterInput.hasMovementInput ? currentGroundAccelaration : groundDeceleration;
+				if (!characterPhysics.isGrounded)
+				{
+					acceleration *= airborneDecelProportion;
+				}
+
+				if (state == State.RapidTurnDecel) // rapid turn
+				{
+					var target = snapSpeedTarget * currentMaxForwardSpeed;
+					currentForwardSpeed =
+						Mathf.MoveTowards(currentForwardSpeed, target, snappingDecelaration * Time.fixedDeltaTime);
+					if (currentForwardSpeed <= target)
+					{
+						state = State.RapidTurnRotation;
+					}
+				}
+				else
+				{
+					currentForwardSpeed =
+						Mathf.MoveTowards(currentForwardSpeed, desiredSpeed, acceleration * Time.fixedDeltaTime);
+				}
+			}
+			else
+			{
+				currentForwardSpeed = desiredSpeed;
+			}
+		}
+
+		/// <summary>
+		/// Moves the character
+		/// </summary>
+		private void Move()
+		{
+			Vector3 movement;
+
+			if (animator != null && characterPhysics.isGrounded &&
+				animator.deltaPosition.z >= currentGroundAccelaration * Time.deltaTime)
+			{
+				movement = animator.deltaPosition;
+			}
+			else
+			{
+				movement = currentForwardSpeed * transform.forward * Time.fixedDeltaTime;
+			}
+
+			characterPhysics.Move(movement);
+		}
+	}
 }
