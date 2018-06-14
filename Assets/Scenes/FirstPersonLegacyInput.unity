@@ -601,6 +601,12 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 1105289692}
   m_Script: {fileID: 11500000, guid: 0b47216618e54cb19f75a56e601bb515, type: 3}
+--- !u!114 &1038776956 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114501385933726858, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+    type: 2}
+  m_PrefabInternal: {fileID: 1105289692}
+  m_Script: {fileID: 11500000, guid: 1eec248ab0c3e4eeaafde0796225ff6f, type: 3}
 --- !u!114 &1101665458 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114713529341382392, guid: 1818690cc80044ecbadf3a53cc5f29e1,
@@ -832,6 +838,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 114095905987974152, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: fpsController
+      value: 
+      objectReference: {fileID: 1038776956}
     - target: {fileID: 114885225739208398, guid: ab3b32e38dca85b4180d5007c17a3505,
         type: 2}
       propertyPath: cameras.Array.data[0]
@@ -847,6 +858,10 @@ Prefab:
       propertyPath: cameras.Array.data[2]
       value: 
       objectReference: {fileID: 394818130}
+    - target: {fileID: 1671513374710674, guid: ab3b32e38dca85b4180d5007c17a3505, type: 2}
+      propertyPath: m_Name
+      value: Configuration UI
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab3b32e38dca85b4180d5007c17a3505, type: 2}
   m_IsPrefabAsset: 0
