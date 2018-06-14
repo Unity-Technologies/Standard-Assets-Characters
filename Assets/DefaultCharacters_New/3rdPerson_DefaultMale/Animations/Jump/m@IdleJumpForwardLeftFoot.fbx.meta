@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a73433fc7e8cdf3488c2cb43c5379140
+guid: 8223ff926f73bae49b7c334f45a9107a
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -143,12 +143,12 @@ ModelImporter:
     400134: Root
     400136: Spine
     400138: UpperChest
-    7400000: StrafeLeftJumpLeft
+    7400000: IdleJumpForwardLeftFoot
     9500000: //RootNode
     2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
-    importMaterials: 1
+    importMaterials: 0
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -161,7 +161,7 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Bone length in
       copied configuration does not match position in animation file:\n\t'Spine' :
-      position error = 1.505637 mm\n"
+      position error = 1.572323 mm\n"
     animationImportErrors: 
     animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
       might lower retargeting quality:\nNote: Activate translation DOF on avatar to
@@ -180,10 +180,10 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: StrafeLeftJumpLeft
+      name: IdleJumpForwardLeftFoot
       takeName: Take 001
       firstFrame: 1
-      lastFrame: 31
+      lastFrame: 64
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
