@@ -110,9 +110,6 @@ namespace StandardAssets.Characters.Physics
 			previousVelocity = playerVelocity;
 			playerVelocity = Vector3.zero;
 		}
-		
-		
-		
 
 		public void SetJumpVelocity(float initialJumpVelocity)
 		{
@@ -155,7 +152,7 @@ namespace StandardAssets.Characters.Physics
 		{
 			if (!isGrounded)
 			{
-				playerVelocity.y -= gravity;
+				playerVelocity.y -= gravity * Time.fixedDeltaTime;
 			}
 		}
 

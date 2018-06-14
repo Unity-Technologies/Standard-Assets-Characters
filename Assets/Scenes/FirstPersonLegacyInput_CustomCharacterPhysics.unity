@@ -919,7 +919,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1038776956}
-  - component: {fileID: 1038776964}
   - component: {fileID: 1038776963}
   - component: {fileID: 1038776962}
   - component: {fileID: 1038776961}
@@ -1003,7 +1002,7 @@ SphereCollider:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1038776953}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
@@ -1019,20 +1018,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0756faabb6de84d81b4297428e61d037, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerObject: {fileID: 0}
+  playerRootTransform: {fileID: 0}
   playerCentre: {x: 0, y: 0, z: 0}
   playerHeight: 1.56
   playerRadius: 0.45
-  gravity: 1.4
+  gravity: 6
   maxGroundingDist: 50
   groundCheckPoint: {x: 0, y: -0.85, z: 0}
+  enableInterpolation: 1
   groundCheckRadius: 0.35
   pushupDist: 0
-  movementSpeed: 40
-  enableInterpolation: 1
   interpolationSpeed: 10
-  useFixedDeltaTime: 1
-  enableTransformDirection: 0
   jumpHeight: 0
   jumpDecrease: 2
   jumpCeiling: 2
@@ -1040,12 +1036,12 @@ MonoBehaviour:
   maxSlope: 60
   maxModifiedSlope: 45
   minimumGroundingDist: 2
-  maxStepHeight: 1.5
+  maxStepHeight: 1
   liftSlopePoint: {x: 0, y: 1, z: 0}
   liftSlopeRadius: 0.2
   excludePlayer:
     serializedVersion: 2
-    m_Bits: 1335
+    m_Bits: 311
   playerSphereCollider: {fileID: 1038776958}
   enableDebug: 1
 --- !u!114 &1038776960
@@ -1105,24 +1101,6 @@ MonoBehaviour:
   horizontalAxisName: Horizontal
   verticalAxisName: Vertical
   jumpKey: 32
---- !u!143 &1038776964
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 143316123647404606, guid: 1818690cc80044ecbadf3a53cc5f29e1,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1038776953}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1038776966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1162,7 +1140,7 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
       maxValue: 1
-    jumpSpeed: 2.2
+    jumpSpeed: 0.3
     enterState:
       m_PersistentCalls:
         m_Calls: []
