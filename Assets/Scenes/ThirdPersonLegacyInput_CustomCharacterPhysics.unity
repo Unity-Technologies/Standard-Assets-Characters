@@ -1220,15 +1220,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4605808123394252, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0.03290501
+      value: 0.03290522
       objectReference: {fileID: 0}
     - target: {fileID: 4605808123394252, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.y
-      value: -0.090615146
+      value: -0.09061519
       objectReference: {fileID: 0}
     - target: {fileID: 4605808123394252, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.z
-      value: -0.0029869538
+      value: -0.002986938
       objectReference: {fileID: 0}
     - target: {fileID: 4605808123394252, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.w
@@ -1300,19 +1300,19 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4457660541983178, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0.03290555
+      value: 0.032904584
       objectReference: {fileID: 0}
     - target: {fileID: 4457660541983178, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.y
-      value: -0.09054425
+      value: -0.09067113
       objectReference: {fileID: 0}
     - target: {fileID: 4457660541983178, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.z
-      value: -0.0029845238
+      value: -0.0029886407
       objectReference: {fileID: 0}
     - target: {fileID: 4457660541983178, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.w
-      value: -0.9953442
+      value: -0.9953327
       objectReference: {fileID: 0}
     - target: {fileID: 4457660541983178, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalPosition.x
@@ -1480,7 +1480,7 @@ MonoBehaviour:
   forwardSpeedParameterName: ForwardSpeed
   lateralSpeedParameterName: LateralSpeed
   turningSpeedParameterName: TurningSpeed
-  groundedParameterName: Grounded
+  groundedParameterName: '!Grounded'
   hasInputParameterName: HasInput
   fallingTimeParameterName: FallingTime
   footednessParameterName: OnRightFoot
@@ -1508,7 +1508,7 @@ MonoBehaviour:
   groundDeceleration: 15
   airborneAccelProportion: 0.5
   airborneDecelProportion: 0.5
-  jumpSpeed: 2.1
+  jumpSpeed: 0.3
   airborneTurnSpeedProportion: 0.5
   angleSnapBehaviour: 120
   maxTurnSpeed: 10000
@@ -1552,20 +1552,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0756faabb6de84d81b4297428e61d037, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerObject: {fileID: 854867121}
-  playerCentre: {x: 0, y: 0.7, z: 0}
+  playerRootTransform: {fileID: 1878956106}
+  playerCentre: {x: 0, y: -0.78, z: 0}
   playerHeight: 1.56
   playerRadius: 0.45
-  gravity: 1
+  gravity: 0.1
   maxGroundingDist: 50
-  groundCheckPoint: {x: 0, y: -0.8, z: 0}
+  groundCheckPoint: {x: 0, y: -0.5, z: 0}
   enableInterpolation: 1
   groundCheckRadius: 0.35
   pushupDist: 0
-  movementSpeed: 25
   interpolationSpeed: 10
-  useFixedDeltaTime: 1
-  enableTransformDirection: 0
   jumpHeight: 0
   jumpDecrease: 3
   jumpCeiling: 2
@@ -1897,7 +1894,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh-188776
+  m_Name: pb_Mesh-639128
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
