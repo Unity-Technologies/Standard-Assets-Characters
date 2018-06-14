@@ -2185,8 +2185,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eb889feba9d41d4bfbbade70ee269c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravity: 0.3
-  terminalVelocity: 10
+  gravity: 19.62
+  terminalVelocity: 120
   groundCheckDistance: 0.51
   groundCheckMask:
     serializedVersion: 2
@@ -2224,7 +2224,7 @@ MonoBehaviour:
   groundDeceleration: 15
   airborneAccelProportion: 0.5
   airborneDecelProportion: 0.5
-  jumpSpeed: 0.1
+  jumpSpeed: 8
   airborneTurnSpeedProportion: 0.5
   angleSnapBehaviour: 60
   maxTurnSpeed: 5000
