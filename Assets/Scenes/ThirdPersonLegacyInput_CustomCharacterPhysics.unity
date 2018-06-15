@@ -1220,15 +1220,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4605808123394252, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0.032905117
+      value: 0.032905087
       objectReference: {fileID: 0}
     - target: {fileID: 4605808123394252, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.y
-      value: -0.090615205
+      value: -0.09061521
       objectReference: {fileID: 0}
     - target: {fileID: 4605808123394252, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.z
-      value: -0.0029869184
+      value: -0.0029869108
       objectReference: {fileID: 0}
     - target: {fileID: 4605808123394252, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.w
@@ -1300,19 +1300,19 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4457660541983178, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0.032905508
+      value: 0.032904815
       objectReference: {fileID: 0}
     - target: {fileID: 4457660541983178, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.y
-      value: -0.09049956
+      value: -0.09057086
       objectReference: {fileID: 0}
     - target: {fileID: 4457660541983178, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.z
-      value: -0.0029829983
+      value: -0.0029853117
       objectReference: {fileID: 0}
     - target: {fileID: 4457660541983178, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.w
-      value: -0.99534833
+      value: -0.9953418
       objectReference: {fileID: 0}
     - target: {fileID: 4457660541983178, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalPosition.x
@@ -1446,6 +1446,7 @@ GameObject:
   - component: {fileID: 459887160}
   - component: {fileID: 459887161}
   - component: {fileID: 459887162}
+  - component: {fileID: 459887167}
   - component: {fileID: 459887163}
   m_Layer: 11
   m_Name: MaleThirdPersonLegacyInput
@@ -1508,7 +1509,7 @@ MonoBehaviour:
   groundDeceleration: 15
   airborneAccelProportion: 0.5
   airborneDecelProportion: 0.5
-  jumpSpeed: 0.3
+  jumpSpeed: 8
   airborneTurnSpeedProportion: 0.5
   angleSnapBehaviour: 120
   maxTurnSpeed: 10000
@@ -1549,35 +1550,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 459887159}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0756faabb6de84d81b4297428e61d037, type: 3}
+  m_Script: {fileID: 11500000, guid: 7e163090ac99486aae32f05b5b641e9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerRootTransform: {fileID: 1878956106}
-  playerCentre: {x: 0, y: -0.85, z: 0}
-  playerHeight: 1.7
-  playerRadius: 0.45
-  gravity: 9.81
-  maxGroundingDist: 50
-  groundCheckPoint: {x: 0, y: -0.66, z: 0}
-  enableInterpolation: 1
-  groundCheckRadius: 0.2
-  pushupDist: 0
-  interpolationSpeed: 10
-  jumpHeight: 0
-  jumpDecrease: 3
-  jumpCeiling: 2
-  minSlope: 0
-  maxSlope: 60
-  maxModifiedSlope: 45
-  minimumGroundingDist: 2
-  maxStepHeight: 1.5
-  liftSlopePoint: {x: 0, y: 1, z: 0}
-  liftSlopeRadius: 0.2
-  excludePlayer:
-    serializedVersion: 2
-    m_Bits: 311
-  playerSphereCollider: {fileID: 459887160}
-  enableDebug: 1
+  gravity: 19.62
+  terminalVelocity: 10
 --- !u!114 &459887164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1621,6 +1598,37 @@ MonoBehaviour:
   horizontalAxisName: Horizontal
   verticalAxisName: Vertical
   jumpKey: 32
+--- !u!114 &459887167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 459887159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b5c6cf5f04e4e2b9c79ad2fda5ddbea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerRootTransform: {fileID: 1878956106}
+  playerCentre: {x: 0, y: -0.85, z: 0}
+  playerHeight: 1.7
+  playerRadius: 0.45
+  maxGroundingDist: 50
+  groundCheckPoint: {x: 0, y: -0.66, z: 0}
+  groundCheckRadius: 0.35
+  jumpCeiling: 2
+  minSlope: 0
+  maxSlope: 60
+  maxModifiedSlope: 45
+  minimumGroundingDist: 2
+  maxStepHeight: 1.5
+  liftSlopePoint: {x: 0, y: 1, z: 0}
+  liftSlopeRadius: 0.2
+  excludePlayer:
+    serializedVersion: 2
+    m_Bits: 311
+  playerSphereCollider: {fileID: 459887160}
+  enableDebug: 1
 --- !u!1 &485692753
 GameObject:
   m_ObjectHideFlags: 0

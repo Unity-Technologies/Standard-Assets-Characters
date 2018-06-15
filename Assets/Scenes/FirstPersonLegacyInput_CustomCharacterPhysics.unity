@@ -498,7 +498,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh-971010
+  m_Name: pb_Mesh-872488
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -653,7 +653,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh-971008
+  m_Name: pb_Mesh-872492
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -927,8 +927,9 @@ GameObject:
   - component: {fileID: 1038776955}
   - component: {fileID: 1038776958}
   - component: {fileID: 1038776954}
-  - component: {fileID: 1038776959}
   - component: {fileID: 1038776966}
+  - component: {fileID: 1038776964}
+  - component: {fileID: 1038776959}
   m_Layer: 11
   m_Name: FirstPersonLegacyInput
   m_TagString: Untagged
@@ -1015,35 +1016,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1038776953}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0756faabb6de84d81b4297428e61d037, type: 3}
+  m_Script: {fileID: 11500000, guid: 7e163090ac99486aae32f05b5b641e9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerRootTransform: {fileID: 0}
-  playerCentre: {x: 0, y: 0, z: 0}
-  playerHeight: 1.56
-  playerRadius: 0.45
-  gravity: 9.81
-  maxGroundingDist: 50
-  groundCheckPoint: {x: 0, y: -0.85, z: 0}
-  enableInterpolation: 1
-  groundCheckRadius: 0.35
-  pushupDist: 0
-  interpolationSpeed: 10
-  jumpHeight: 0
-  jumpDecrease: 2
-  jumpCeiling: 2
-  minSlope: 0
-  maxSlope: 60
-  maxModifiedSlope: 45
-  minimumGroundingDist: 2
-  maxStepHeight: 1
-  liftSlopePoint: {x: 0, y: 1, z: 0}
-  liftSlopeRadius: 0.2
-  excludePlayer:
-    serializedVersion: 2
-    m_Bits: 311
-  playerSphereCollider: {fileID: 1038776958}
-  enableDebug: 1
+  gravity: 19.62
+  terminalVelocity: 10
 --- !u!114 &1038776960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1101,6 +1078,37 @@ MonoBehaviour:
   horizontalAxisName: Horizontal
   verticalAxisName: Vertical
   jumpKey: 32
+--- !u!114 &1038776964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1038776953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b5c6cf5f04e4e2b9c79ad2fda5ddbea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerRootTransform: {fileID: 0}
+  playerCentre: {x: 0, y: 0, z: 0}
+  playerHeight: 1.56
+  playerRadius: 0.45
+  maxGroundingDist: 50
+  groundCheckPoint: {x: 0, y: -0.85, z: 0}
+  groundCheckRadius: 0.35
+  jumpCeiling: 2
+  minSlope: 0
+  maxSlope: 60
+  maxModifiedSlope: 45
+  minimumGroundingDist: 2
+  maxStepHeight: 1.5
+  liftSlopePoint: {x: 0, y: 1, z: 0}
+  liftSlopeRadius: 0.2
+  excludePlayer:
+    serializedVersion: 2
+    m_Bits: 311
+  playerSphereCollider: {fileID: 1038776958}
+  enableDebug: 0
 --- !u!114 &1038776966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1140,7 +1148,7 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
       maxValue: 1
-    jumpSpeed: 0.3
+    jumpSpeed: 9
     enterState:
       m_PersistentCalls:
         m_Calls: []
@@ -1413,7 +1421,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh-8310
+  m_Name: pb_Mesh-872490
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
