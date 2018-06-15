@@ -14,6 +14,7 @@ public class NewInputActions : UnityEngine.Experimental.Input.InputActionWrapper
         m_gameplay_jump = m_gameplay.GetAction("jump");
         m_gameplay_movement = m_gameplay.GetAction("movement");
         m_gameplay_sprint = m_gameplay.GetAction("sprint");
+        m_gameplay_gamePadLook = m_gameplay.GetAction("gamePadLook");
         m_Initialized = true;
     }
     // gameplay
@@ -24,6 +25,7 @@ public class NewInputActions : UnityEngine.Experimental.Input.InputActionWrapper
     private UnityEngine.Experimental.Input.InputAction m_gameplay_jump;
     private UnityEngine.Experimental.Input.InputAction m_gameplay_movement;
     private UnityEngine.Experimental.Input.InputAction m_gameplay_sprint;
+    private UnityEngine.Experimental.Input.InputAction m_gameplay_gamePadLook;
     public struct GameplayActions
     {
         private NewInputActions m_Wrapper;
@@ -34,6 +36,7 @@ public class NewInputActions : UnityEngine.Experimental.Input.InputActionWrapper
         public UnityEngine.Experimental.Input.InputAction @jump { get { return m_Wrapper.m_gameplay_jump; } }
         public UnityEngine.Experimental.Input.InputAction @movement { get { return m_Wrapper.m_gameplay_movement; } }
         public UnityEngine.Experimental.Input.InputAction @sprint { get { return m_Wrapper.m_gameplay_sprint; } }
+        public UnityEngine.Experimental.Input.InputAction @gamePadLook { get { return m_Wrapper.m_gameplay_gamePadLook; } }
         public UnityEngine.Experimental.Input.InputActionMap Get() { return m_Wrapper.m_gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
