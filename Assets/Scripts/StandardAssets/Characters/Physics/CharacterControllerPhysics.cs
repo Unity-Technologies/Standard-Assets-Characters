@@ -7,7 +7,7 @@ namespace StandardAssets.Characters.Physics
 	/// A physic implementation that uses the default Unity character controller
 	/// </summary>
 	[RequireComponent(typeof(CharacterController))]
-	public class CharacterControllerCharacterPhysics : BaseCharacterPhysics
+	public class CharacterControllerPhysics : BaseCharacterPhysics
 	{
 		/// <summary>
 		/// The distance used to check if grounded
