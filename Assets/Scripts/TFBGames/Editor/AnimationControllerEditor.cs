@@ -12,9 +12,9 @@ namespace TFBGames.Editor
 		public struct ReplacementRule
 		{
 			public string oldValue,
-			              newValue;
+						  newValue;
 		}
-	
+
 		private AnimatorController baseController;
 		private bool useBaseClipsIfNotFound;
 		private string newControllerName = "NewAnimationController";
@@ -42,7 +42,7 @@ namespace TFBGames.Editor
 				for (int i = 0; i < length; i++)
 				{
 					newChildren[i] = blendtree.children[i];
-					newChildren[i].motion = GetCorresponingClip((AnimationClip)blendtree.children[i].motion);
+					newChildren[i].motion = GetCorrespondingClip((AnimationClip)blendtree.children[i].motion);
 				}
 				blendtree.children = newChildren;
 			}
@@ -55,11 +55,11 @@ namespace TFBGames.Editor
 			}
 		}
 
-		AnimationClip GetCorresponingClip(AnimationClip clip)
+		AnimationClip GetCorrespondingClip(AnimationClip clip)
 		{
 			string path = AssetDatabase.GetAssetPath(clip);
 			var newPath = clipNameReplacementRules.Aggregate(path, (current, rule) => 
-				                                                       current.Replace(rule.oldValue, rule.newValue));
+																	   current.Replace(rule.oldValue, rule.newValue));
 
 			var newClip = AssetDatabase.LoadAssetAtPath<AnimationClip>(newPath);
 			if (newClip != null)
@@ -75,10 +75,10 @@ namespace TFBGames.Editor
 		void OnGUI()
 		{
 			baseController = EditorGUILayout.ObjectField("Base controller", baseController, 
-			                                             typeof(AnimatorController), false, null) as AnimatorController;
-
+														 typeof(AnimatorController), false, null) as AnimatorController;
+			
 			newControllerName = EditorGUILayout.TextField("New controller name", newControllerName);
-		
+			
 			// use property drawer to elegantly draw array
 			SerializedObject so = new SerializedObject(this);
 			SerializedProperty rulesProperty = so.FindProperty("clipNameReplacementRules");
@@ -92,33 +92,35 @@ namespace TFBGames.Editor
 				string pathToBase = AssetDatabase.GetAssetPath(baseController);
 				string newAssetPath = pathToBase.Replace(baseController.name, newControllerName);
 			
-			var femaleController = AssetDatabase.LoadAssetAtPath<AnimatorController>(newAssetPath);
-			if (femaleController != null)
-			{
-				if (!EditorUtility.DisplayDialog("Overwrite file?",
-				string.Format("A file with the name: {0} was found", newControllerName), "Overwrite", "Cancel"))
+				var newController = AssetDatabase.LoadAssetAtPath<AnimatorController>(newAssetPath);
+				if (newController != null)
 				{
-					return;
-				}
-			}
-			
-			AssetDatabase.CopyAsset(pathToBase, newAssetPath);
-			femaleController = AssetDatabase.LoadAssetAtPath<AnimatorController>(newAssetPath);
-
-			foreach (var stateMachine in femaleController.layers[0].stateMachine.stateMachines)
-			{
-				foreach (var states in stateMachine.stateMachine.states)
-				{
-					var clip = states.state.motion as AnimationClip;
-					if (clip != null)
+					if (!EditorUtility.DisplayDialog("Overwrite file?",
+					string.Format("A file with the name: {0} was found", newControllerName), "Overwrite", "Cancel"))
 					{
-						states.state.motion = GetCorresponingClip((AnimationClip)states.state.motion);
-						continue;
+						return;
 					}
-					ReplaceAnimationClips(states.state.motion as BlendTree);
 				}
-			}
-			EditorUtility.SetDirty(femaleController);
+				
+				AssetDatabase.CopyAsset(pathToBase, newAssetPath);
+				newController = AssetDatabase.LoadAssetAtPath<AnimatorController>(newAssetPath);
+				
+				foreach (var layer in newController.layers)
+				{
+					foreach (var stateMachine in layer.stateMachine.stateMachines)
+					{
+						foreach (var states in stateMachine.stateMachine.states)
+						{
+							var clip = states.state.motion as AnimationClip;
+							if (clip != null)
+							{
+								states.state.motion = GetCorrespondingClip((AnimationClip) states.state.motion);
+								continue;
+							}
+							ReplaceAnimationClips(states.state.motion as BlendTree);
+						}
+					}
+				}
 			}
 		}
 	}
