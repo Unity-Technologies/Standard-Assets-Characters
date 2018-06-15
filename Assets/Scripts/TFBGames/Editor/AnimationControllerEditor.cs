@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace TFBGames.Editor
 {
+	/// <summary>
+	/// Editor window to replace animations clips in an AnimationController
+	/// </summary>
 	public class AnimationControllerEditor : EditorWindow
 	{
 		[Serializable]
@@ -20,21 +23,19 @@ namespace TFBGames.Editor
 		private string newControllerName = "NewAnimationController";
 		public ReplacementRule[] clipNameReplacementRules;
 
-		// Add menu item named "My Window" to the Window menu
 		[MenuItem("24 Bit Games/Animation Controller Clip Replacer")]
 		public static void ShowWindow()
 		{
-			//Show existing window instance. If one doesn't exist, make one.
 			GetWindow(typeof(AnimationControllerEditor));
 		}
 
 		private void ReplaceAnimationClips(BlendTree blendtree)
 		{
-			if (blendtree == null)
+			if (blendtree == null || blendtree.children.Length == 0)
 			{
 				return;
 			}
-
+			
 			if (blendtree.children[0].motion is AnimationClip)
 			{
 				int length = blendtree.children.Length;
@@ -55,16 +56,16 @@ namespace TFBGames.Editor
 			}
 		}
 
-		AnimationClip GetCorrespondingClip(AnimationClip clip)
+		private AnimationClip GetCorrespondingClip(AnimationClip clip)
 		{
 			string path = AssetDatabase.GetAssetPath(clip);
 			var newPath = clipNameReplacementRules.Aggregate(path, (current, rule) => 
-																	   current.Replace(rule.oldValue, rule.newValue));
+																	current.Replace(rule.oldValue, rule.newValue));
 
 			var newClip = AssetDatabase.LoadAssetAtPath<AnimationClip>(newPath);
 			if (newClip != null)
 			{
-				Debug.LogFormat("Replaced clip {0}", newPath);
+				Debug.LogFormat("Found replacement clip, {0}, for {1}", newPath, path);
 				return newClip;
 			}
 			// clip not found
@@ -72,7 +73,7 @@ namespace TFBGames.Editor
 			return useBaseClipsIfNotFound ? clip : null;
 		}
 	
-		void OnGUI()
+		private void OnGUI()
 		{
 			baseController = EditorGUILayout.ObjectField("Base controller", baseController, 
 														 typeof(AnimatorController), false, null) as AnimatorController;
@@ -84,7 +85,7 @@ namespace TFBGames.Editor
 			SerializedProperty rulesProperty = so.FindProperty("clipNameReplacementRules");
 			EditorGUILayout.PropertyField(rulesProperty, true);
 			so.ApplyModifiedProperties();
-		
+			
 			useBaseClipsIfNotFound = EditorGUILayout.Toggle("Use base clip if clip not found", useBaseClipsIfNotFound);
 			
 			if (baseController != null && GUILayout.Button("Replace clips"))
@@ -107,20 +108,28 @@ namespace TFBGames.Editor
 				
 				foreach (var layer in newController.layers)
 				{
-					foreach (var stateMachine in layer.stateMachine.stateMachines)
-					{
-						foreach (var states in stateMachine.stateMachine.states)
-						{
-							var clip = states.state.motion as AnimationClip;
-							if (clip != null)
-							{
-								states.state.motion = GetCorrespondingClip((AnimationClip) states.state.motion);
-								continue;
-							}
-							ReplaceAnimationClips(states.state.motion as BlendTree);
-						}
-					}
+					TraverseStatemachineToReplaceClips(layer.stateMachine);
 				}
+			}
+		}
+
+		private void TraverseStatemachineToReplaceClips(AnimatorStateMachine stateMachine)
+		{
+			foreach (var childState in stateMachine.states)
+			{
+				var clip = childState.state.motion as AnimationClip;
+				if (clip != null)
+				{
+					childState.state.motion = GetCorrespondingClip(clip);
+					continue;
+				}
+				// not a clip, must be a blend tree
+				ReplaceAnimationClips(childState.state.motion as BlendTree);
+			}
+			
+			foreach (var childStateMachine in stateMachine.stateMachines)
+			{
+				TraverseStatemachineToReplaceClips(childStateMachine.stateMachine);
 			}
 		}
 	}
