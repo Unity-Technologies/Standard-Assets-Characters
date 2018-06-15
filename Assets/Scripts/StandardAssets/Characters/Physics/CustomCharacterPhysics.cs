@@ -95,9 +95,9 @@ namespace StandardAssets.Characters.Physics
 		}
 		
 
-		public void Move(Vector3 moveVector3)
+		public void Move(Vector3 moveVector)
 		{
-			playerVelocity += moveVector3;
+			playerVelocity += moveVector;
 			Vector3 playerMovementVector = (new Vector3(playerVelocity.x, playerVelocity.y, playerVelocity.z));// * movementSpeed) * deltaTime ;
 
 			transform.position += playerMovementVector;

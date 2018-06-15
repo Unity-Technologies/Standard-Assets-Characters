@@ -7,20 +7,8 @@ namespace StandardAssets.Characters.Physics
 	/// A physic implementation that uses the default Unity character controller
 	/// </summary>
 	[RequireComponent(typeof(CharacterController))]
-	public class CharacterControllerCharacterPhysics : MonoBehaviour, ICharacterPhysics
+	public class CharacterControllerCharacterPhysics : BaseCharacterPhysics
 	{
-		/// <summary>
-		/// The value of gravity
-		/// </summary>
-		[SerializeField]
-		private float gravity;
-
-		/// <summary>
-		/// The maximum speed that the character can move downwards
-		/// </summary>
-		[SerializeField]
-		private float terminalVelocity = 10f;
-
 		/// <summary>
 		/// The distance used to check if grounded
 		/// </summary>
@@ -38,135 +26,18 @@ namespace StandardAssets.Characters.Physics
 		/// Character controller
 		/// </summary>
 		private CharacterController characterController;
-		
-		/// <summary>
-		/// The initial jump velocity
-		/// </summary>
-		private float initialJumpVelocity;
 
-		/// <summary>
-		/// The current vertical velocity
-		/// </summary>
-		/// <returns></returns>
-		private float currentVerticalVelocity;
-		
-		/// <summary>
-		/// The current vertical vector
-		/// </summary>
-		private Vector3 verticalVector = Vector3.zero;
-
-		/// <summary>
-		/// Stores the grounded-ness of the physics object
-		/// </summary>
-		private bool grounded;
-		
-		public Action landed { get; set; }
-		public Action jumpVelocitySet { get; set; }
-		public Action startedFalling { get; set; }
-		public float airTime { get; private set; }
-		public float fallTime { get; private set; }
-
-		/// <inheritdoc />
-		public bool isGrounded
-		{
-			get { return grounded; }
-		}
-		
-		/// <inheritdoc />
-		public void Move(Vector3 moveVector3)
-		{
-			
-			characterController.Move(moveVector3 + verticalVector);
-		}
-
-		/// <summary>
-		/// Tries to jump
-		/// </summary>
-		/// <param name="initialVelocity"></param>
-		public void SetJumpVelocity(float initialVelocity)
-		{
-			initialJumpVelocity = initialVelocity;
-			if (jumpVelocitySet != null)
-			{
-				jumpVelocitySet();
-			}
-		}
-
-		private void Awake()
+		protected override void Awake()
 		{
 			//Gets the attached character controller
 			characterController = GetComponent<CharacterController>();
-			
-			//Ensures that the gravity acts downwards
-			if (gravity > 0)
-			{
-				gravity = -gravity;
-			}
-
-			if (terminalVelocity > 0)
-			{
-				terminalVelocity = -terminalVelocity;
-			}
+			base.Awake();
 		}
 
-		/// <summary>
-		/// Handle falling physics
-		/// </summary>
-		private void FixedUpdate()
-		{
-			AerialMovement();
-		}
-		
-		/// <summary>
-		/// Handles Jumping and Falling
-		/// </summary>
-		private void AerialMovement()
-		{
-			grounded = CheckGrounded();
-			
-			airTime += Time.fixedDeltaTime;
-			currentVerticalVelocity = Mathf.Clamp(initialJumpVelocity + gravity * airTime, terminalVelocity, Mathf.Infinity);
-			float previousFallTime = fallTime;
-
-			if (currentVerticalVelocity < 0)
-			{
-				fallTime += Time.fixedDeltaTime;
-			}
-			
-			if (currentVerticalVelocity < 0f && grounded)
-			{
-				initialJumpVelocity = 0f;
-				verticalVector = Vector3.zero;
-				
-				//Play the moment that the character lands and only at that moment
-				if (Math.Abs(airTime - Time.fixedDeltaTime) > Mathf.Epsilon)
-				{
-					if (landed != null)
-					{
-						landed();
-					}
-				}
-
-				fallTime = 0f;
-				airTime = 0f;
-				return;
-			}
-			
-			if (previousFallTime < Mathf.Epsilon && fallTime > Mathf.Epsilon)
-			{
-				if (startedFalling != null)
-				{
-					startedFalling();
-				}
-			}
-			
-			verticalVector = new Vector3(0, currentVerticalVelocity * Time.fixedDeltaTime, 0);
-		}
-		
 		/// <summary>
 		/// Checks character controller grounding
 		/// </summary>
-		private bool CheckGrounded()
+		protected override bool CheckGrounded()
 		{
 			Debug.DrawRay(transform.position + characterController.center, new Vector3(0,-groundCheckDistance * characterController.height,0), Color.red);
 			if (UnityEngine.Physics.Raycast(transform.position + characterController.center, 
@@ -176,6 +47,11 @@ namespace StandardAssets.Characters.Physics
 			}
 			return CheckEdgeGrounded();
 			
+		}
+
+		protected override void MoveCharacter(Vector3 movement)
+		{
+			characterController.Move(movement);
 		}
 
 		/// <summary>
