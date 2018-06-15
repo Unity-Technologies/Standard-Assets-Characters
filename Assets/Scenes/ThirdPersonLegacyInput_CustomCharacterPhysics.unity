@@ -1220,15 +1220,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4605808123394252, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0.03290522
+      value: 0.032905117
       objectReference: {fileID: 0}
     - target: {fileID: 4605808123394252, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.y
-      value: -0.09061519
+      value: -0.090615205
       objectReference: {fileID: 0}
     - target: {fileID: 4605808123394252, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.z
-      value: -0.002986938
+      value: -0.0029869184
       objectReference: {fileID: 0}
     - target: {fileID: 4605808123394252, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.w
@@ -1300,19 +1300,19 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4457660541983178, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0.032904584
+      value: 0.032905508
       objectReference: {fileID: 0}
     - target: {fileID: 4457660541983178, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.y
-      value: -0.09067113
+      value: -0.09049956
       objectReference: {fileID: 0}
     - target: {fileID: 4457660541983178, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.z
-      value: -0.0029886407
+      value: -0.0029829983
       objectReference: {fileID: 0}
     - target: {fileID: 4457660541983178, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.w
-      value: -0.9953327
+      value: -0.99534833
       objectReference: {fileID: 0}
     - target: {fileID: 4457660541983178, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalPosition.x
@@ -1553,14 +1553,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerRootTransform: {fileID: 1878956106}
-  playerCentre: {x: 0, y: -0.78, z: 0}
-  playerHeight: 1.56
+  playerCentre: {x: 0, y: -0.85, z: 0}
+  playerHeight: 1.7
   playerRadius: 0.45
-  gravity: 0.1
+  gravity: 9.81
   maxGroundingDist: 50
-  groundCheckPoint: {x: 0, y: -0.5, z: 0}
+  groundCheckPoint: {x: 0, y: -0.66, z: 0}
   enableInterpolation: 1
-  groundCheckRadius: 0.35
+  groundCheckRadius: 0.2
   pushupDist: 0
   interpolationSpeed: 10
   jumpHeight: 0
@@ -1894,7 +1894,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh-639128
+  m_Name: pb_Mesh-1854
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -2492,7 +2492,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh27410
+  m_Name: pb_Mesh16404
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -3828,7 +3828,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh21974
+  m_Name: pb_Mesh16522
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2

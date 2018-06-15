@@ -27,7 +27,6 @@ namespace StandardAssets.Characters.Physics
 		public float interpolationSpeed = 10f;
 
 		[Header("Jumping")]
-		public float jumpHeight;
 		public float jumpDecrease = 3f;
 		public float jumpCeiling = 2f;
 
@@ -70,13 +69,14 @@ namespace StandardAssets.Characters.Physics
 		private Vector3 groundClamp;
 		private float minGroundingDist = 2f;
 		private Vector3 playerVelocity;
-		Vector3 previousVelocity;
+		private Vector3 previousVelocity;
 		
 		//TODO: Clean up namings
 		private bool inputJump;
-		bool jumpingHappening;
-		bool jumping;
-		float jumpVelocity;
+		private bool jumpingHappening;
+		private bool jumping;
+		private float jumpVelocity;
+		private float jumpHeight;
 
 		private void FixedUpdate()
 		{
@@ -207,7 +207,7 @@ namespace StandardAssets.Characters.Physics
 				
 				isGrounded = true;
 				
-				if (groundHit.point.y <= transform.position.y + maxStepHeight && !inputJump)
+				if (groundHit.point.y <= transform.position.y + maxStepHeight)
 				{
 					SnapToGround(groundHit);
 				}
