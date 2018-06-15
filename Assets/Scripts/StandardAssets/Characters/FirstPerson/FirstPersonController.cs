@@ -18,12 +18,20 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		[SerializeField]
 		private FirstPersonMovementProperties startingMovementProperties;
-		
+
 		/// <summary>
 		/// List of possible state modifiers
 		/// </summary>
-		[SerializeField]
-		private FirstPersonMovementModification[] movementModifiers;
+		[SerializeField] private FirstPersonMovementModification[] movementModifiers;
+		
+		
+		/// <summary>
+		/// Exposes the movement properties array for use in UI 
+		/// </summary>
+		public FirstPersonMovementModification[] exposedMovementModifiers
+		{
+			get { return movementModifiers; }
+		}
 
 		/// <summary>
 		/// The Physic implementation used to do the movement
@@ -73,8 +81,9 @@ namespace StandardAssets.Characters.FirstPerson
 			{
 				modifier.Init(this);
 			}
-
+			
 			ChangeState(startingMovementProperties);
+			
 		}
 
 		/// <summary>
