@@ -2,7 +2,7 @@
 
 namespace StandardAssets.Characters.Physics
 {
-	public class AnalogousCharacterController : MonoBehaviour
+	public class OpenCharacterController : MonoBehaviour
 	{
 		[Header("Player")]
 		[Tooltip("The root bone in the avatar - used to compensate for the animator issues")]

@@ -2,15 +2,15 @@
 
 namespace StandardAssets.Characters.Physics
 {
-	[RequireComponent(typeof(AnalogousCharacterController))]
-	public class AnalogousCharacterControllerPhysics : BaseCharacterPhysics
+	[RequireComponent(typeof(OpenCharacterController))]
+	public class OpenCharacterControllerPhysics : BaseCharacterPhysics
 	{
-		private AnalogousCharacterController characterController;
+		private OpenCharacterController characterController;
 		
 		protected override void Awake()
 		{
 			base.Awake();
-			characterController = GetComponent<AnalogousCharacterController>();
+			characterController = GetComponent<OpenCharacterController>();
 		}
 
 		protected override bool CheckGrounded()
