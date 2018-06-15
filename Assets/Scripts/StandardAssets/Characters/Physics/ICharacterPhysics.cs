@@ -41,8 +41,8 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Handles movement
 		/// </summary>
-		/// <param name="moveVector3"></param>
-		void Move(Vector3 moveVector3);
+		/// <param name="moveVector"></param>
+		void Move(Vector3 moveVector);
 		
 
 		/// <summary>

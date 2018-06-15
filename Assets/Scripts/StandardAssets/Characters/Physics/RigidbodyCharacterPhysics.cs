@@ -35,9 +35,9 @@ namespace StandardAssets.Characters.Physics
 		}
 
 		/// <inheritdoc />
-		public void Move(Vector3 moveVector3)
+		public void Move(Vector3 moveVector)
 		{
-			rigidBody.MovePosition(transform.position + moveVector3);
+			rigidBody.MovePosition(transform.position + moveVector);
 		}
 
 		public bool isGrounded { get; set; }
