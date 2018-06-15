@@ -13329,6 +13329,58 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 1812529121}
   m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+--- !u!1001 &1603893218
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 114927363628031890, guid: afaa6cc63e2f55444a3854769dafd184,
+        type: 2}
+      propertyPath: m_ChildCameras.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4634841692384270, guid: afaa6cc63e2f55444a3854769dafd184, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -25.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4634841692384270, guid: afaa6cc63e2f55444a3854769dafd184, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 3.63
+      objectReference: {fileID: 0}
+    - target: {fileID: 4634841692384270, guid: afaa6cc63e2f55444a3854769dafd184, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4634841692384270, guid: afaa6cc63e2f55444a3854769dafd184, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4634841692384270, guid: afaa6cc63e2f55444a3854769dafd184, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4634841692384270, guid: afaa6cc63e2f55444a3854769dafd184, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4634841692384270, guid: afaa6cc63e2f55444a3854769dafd184, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4634841692384270, guid: afaa6cc63e2f55444a3854769dafd184, type: 2}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114459261165189240, guid: afaa6cc63e2f55444a3854769dafd184,
+        type: 2}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 1840918336}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: afaa6cc63e2f55444a3854769dafd184, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &1660699967
 GameObject:
   m_ObjectHideFlags: 0
@@ -13683,6 +13735,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114099553648463976, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: VCams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 114762821089246944, guid: f2706dd163cab644aa0f7aec413a3457,
         type: 2}
       propertyPath: m_ChildCameras.Array.size
@@ -13725,6 +13782,105 @@ Prefab:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 1840918336}
+    - target: {fileID: 1061151631119762, guid: f2706dd163cab644aa0f7aec413a3457, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114891128609857860, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: m_VerticalAxis.m_InputAxisName
+      value: Mouse Y
+      objectReference: {fileID: 0}
+    - target: {fileID: 114891128609857860, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: m_HorizontalAxis.m_InputAxisName
+      value: Mouse X
+      objectReference: {fileID: 0}
+    - target: {fileID: 114891128609857860, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: m_VerticalAxis.m_MaxSpeed
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 114891128609857860, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: m_HorizontalAxis.m_MaxSpeed
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 114099553648463976, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: lookScale
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114099553648463976, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: CinemachineVirtualCamera
+      value: 
+      objectReference: {fileID: 1287361745}
+    - target: {fileID: 114099553648463976, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: smooth
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114099553648463976, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: YSensitivity
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114302450818960272, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: m_VerticalAxis.m_MaxSpeed
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 114302450818960272, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: m_VerticalAxis.m_InputAxisName
+      value: Mouse Y
+      objectReference: {fileID: 0}
+    - target: {fileID: 114302450818960272, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: m_HorizontalAxis.m_MaxSpeed
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 114302450818960272, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: m_HorizontalAxis.m_InputAxisName
+      value: Mouse X
+      objectReference: {fileID: 0}
+    - target: {fileID: 114792954165457610, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: m_VerticalAxis.m_MaxSpeed
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 114792954165457610, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: m_VerticalAxis.m_InputAxisName
+      value: Mouse Y
+      objectReference: {fileID: 0}
+    - target: {fileID: 114792954165457610, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: m_HorizontalAxis.m_MaxSpeed
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 114792954165457610, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: m_HorizontalAxis.m_InputAxisName
+      value: Mouse X
+      objectReference: {fileID: 0}
+    - target: {fileID: 114099553648463976, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: VCams.Array.data[0]
+      value: 
+      objectReference: {fileID: 1287361745}
+    - target: {fileID: 114099553648463976, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: VCams.Array.data[1]
+      value: 
+      objectReference: {fileID: 1598383738}
+    - target: {fileID: 114099553648463976, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: VCams.Array.data[2]
+      value: 
+      objectReference: {fileID: 1289247122}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2706dd163cab644aa0f7aec413a3457, type: 2}
   m_IsPrefabAsset: 0
