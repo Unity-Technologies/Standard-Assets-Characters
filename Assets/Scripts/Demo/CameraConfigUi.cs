@@ -72,8 +72,8 @@ namespace Demo
 		/// </summary>
 		public void SetVerticalSliderValue(Slider slider)
 		{
-			m_YAxisMaxSpeed = ((slider.value * 400) + 101);
-			verticalSliderValueText.text = ((slider.value*100)+1).ToString("0");
+			m_YAxisMaxSpeed = ((slider.value * 400) + 100);
+			verticalSliderValueText.text = (slider.value*100).ToString("0");
 			foreach (var camera in cameras)
 			{
 				SetYAxisMaxSpeed(camera, m_YAxisMaxSpeed);
@@ -87,8 +87,8 @@ namespace Demo
 		/// </summary>
 		public void SetHorizontalSliderValue(Slider slider)
 		{
-			m_XAxisMaxSpeed = ((slider.value * 400) + 101);
-			horizontalSliderValueText.text = ((slider.value*100)+1).ToString("0");
+			m_XAxisMaxSpeed = ((slider.value * 400) + 100);
+			horizontalSliderValueText.text = (slider.value*100).ToString("0");
 			foreach (var camera in cameras)
 			{
 				SetXAxisMaxSpeed(camera, m_XAxisMaxSpeed);
@@ -126,31 +126,36 @@ namespace Demo
 
 		public void SetMouseXSpeed(Slider slider)
 		{
-			var newSensitivity = slider.value  * 10;
-			if (charaterInput.XSensitivity < 0)
-			{
-				newSensitivity*=-1;
-			}
-
+			var newSensitivity = GetMouseSensitivityValue(charaterInput.XSensitivity, slider);
 			charaterInput.XSensitivity = newSensitivity;
-			xAxisSliderValueTextMouse.text = Mathf.Abs(charaterInput.XSensitivity * 10).ToString("0");
+			SetMouseSensitivytSliderText(xAxisSliderValueTextMouse, newSensitivity);
 		}
 		
 		public void SetMouseYSpeed(Slider slider)
 		{
+			var newSensitivity = GetMouseSensitivityValue(charaterInput.YSensitivity, slider);
+			charaterInput.YSensitivity = newSensitivity;
+			SetMouseSensitivytSliderText(yAxisSliderValueTextMouse, newSensitivity);
+			
+			
+		}
+
+		float GetMouseSensitivityValue(float current, Slider slider)
+		{
 			var newSensitivity = slider.value  * 10;
 			
-			if (charaterInput.YSensitivity < 0)
+			if (current < 0)
 			{
 				newSensitivity *= -1;
 			}
 
-			charaterInput.YSensitivity = newSensitivity;
-			yAxisSliderValueTextMouse.text = Mathf.Abs(charaterInput.YSensitivity * 10).ToString("0");
-			
+			return newSensitivity;
 		}
 
-		
+		void SetMouseSensitivytSliderText(Text text, float value)
+		{
+			text.text = Mathf.Abs(value * 10).ToString("0");
+		}
 		
 		/// <summary>
 		/// Get the active input devices 

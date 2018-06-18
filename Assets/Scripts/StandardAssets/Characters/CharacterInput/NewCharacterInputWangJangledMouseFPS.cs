@@ -77,6 +77,8 @@ namespace StandardAssets.Characters.CharacterInput
 	    private void GamepadLook(InputAction.CallbackContext ctx)
 	    {
 		    gamePadLook = ctx.ReadValue<Vector2>();
+		    
+		   
 	    }
 	    
 	    private void Jump(InputAction.CallbackContext ctx)
@@ -95,8 +97,7 @@ namespace StandardAssets.Characters.CharacterInput
 			var cameraRotation = new Vector3(mPOV.m_VerticalAxis.Value, mPOV.m_HorizontalAxis.Value, 0);
 			var rotationDelta = new Vector3(mouseLook.y * YSensitivity, mouseLook.x* XSensitivity, 0);
 			
-			rotationDelta = Cinemachine.Utility.Damper.Damp(
-				(rotationDelta), smoothTime, Time.deltaTime);
+			rotationDelta = Cinemachine.Utility.Damper.Damp(rotationDelta, smoothTime, Time.deltaTime);
 			
 			cameraRotation += rotationDelta;
 			
@@ -109,18 +110,20 @@ namespace StandardAssets.Characters.CharacterInput
 			}
 			
 		}
+	    
+	   
 
 		/// <summary>
 		/// Sets the Cinemachine cam POV to mouse inputs.
 		/// </summary>
 		private float LookInputOverride(string axis)
 		{
-			if (axis == "Stick X")
+			if (axis == "Horizontal")
 			{
 				return gamePadLook.x;
 			}
 
-			if (axis == "Stick Y")
+			if (axis == "Vertical")
 			{
 				return gamePadLook.y;
 			}

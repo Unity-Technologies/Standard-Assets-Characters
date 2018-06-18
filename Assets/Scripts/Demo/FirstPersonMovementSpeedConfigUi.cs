@@ -13,8 +13,8 @@ namespace Demo
         public FirstPersonController fpsController;
         private FirstPersonMovementModification[] modifiers;
         
-        private float minSpeed = 1;
-        private float speedRange = 14;
+        private float minMovementSpeed = 1;
+        private float movementSpeedRange = 14;
         
         /// <summary>
         /// UI Elements 
@@ -55,7 +55,7 @@ namespace Demo
         void SetInitialSliderValues(Slider slider, Text valueLabel, float value)
         {
             valueLabel.text = value.ToString();
-            slider.value = (value - minSpeed) / speedRange;
+            slider.value = (value - minMovementSpeed) / movementSpeedRange;
            
         }
         
@@ -83,7 +83,7 @@ namespace Demo
 
         float scaleSpeed(float value)
         {
-         return (value*speedRange)+minSpeed;   
+         return (value*movementSpeedRange)+minMovementSpeed;   
         }
 
         void UpdateSlider(int index, Slider slider)
