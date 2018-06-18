@@ -424,6 +424,12 @@ Mesh:
   m_MeshMetrics[0]: 1
   m_MeshMetrics[1]: 1
   m_MeshOptimized: 0
+--- !u!114 &42451030 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114566578416639308, guid: ab3b32e38dca85b4180d5007c17a3505,
+    type: 2}
+  m_PrefabInternal: {fileID: 1081698501}
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!43 &245485018
 Mesh:
   m_ObjectHideFlags: 0
@@ -645,6 +651,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &433019493 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114039751284823256, guid: ab3b32e38dca85b4180d5007c17a3505,
+    type: 2}
+  m_PrefabInternal: {fileID: 1081698501}
+  m_Script: {fileID: -113659843, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!43 &477935783
 Mesh:
   m_ObjectHideFlags: 0
@@ -8921,6 +8933,21 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114553393534990446, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114039751284823256, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114567336133808100, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4847589930490144, guid: ab3b32e38dca85b4180d5007c17a3505, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -8953,11 +8980,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 114095905987974152, guid: ab3b32e38dca85b4180d5007c17a3505,
-        type: 2}
-      propertyPath: fpsController
-      value: 
-      objectReference: {fileID: 1466114713}
     - target: {fileID: 114885225739208398, guid: ab3b32e38dca85b4180d5007c17a3505,
         type: 2}
       propertyPath: cameras.Array.data[0]
@@ -8973,13 +8995,214 @@ Prefab:
       propertyPath: cameras.Array.data[2]
       value: 
       objectReference: {fileID: 1289247122}
+    - target: {fileID: 114095905987974152, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: fpsController
+      value: 
+      objectReference: {fileID: 1466114713}
     - target: {fileID: 1671513374710674, guid: ab3b32e38dca85b4180d5007c17a3505, type: 2}
       propertyPath: m_Name
       value: Config UI
       objectReference: {fileID: 0}
+    - target: {fileID: 114095905987974152, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: walkSpeedTextValue
+      value: 
+      objectReference: {fileID: 2107484096}
+    - target: {fileID: 114095905987974152, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: sprintSpeedTextValue
+      value: 
+      objectReference: {fileID: 1782176330}
+    - target: {fileID: 114095905987974152, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: crouchSpeedTextValue
+      value: 
+      objectReference: {fileID: 42451030}
+    - target: {fileID: 114095905987974152, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: proneSpeedTextValue
+      value: 
+      objectReference: {fileID: 1900077132}
+    - target: {fileID: 114095905987974152, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: walkSlider
+      value: 
+      objectReference: {fileID: 1211870447}
+    - target: {fileID: 114095905987974152, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: sprintSlider
+      value: 
+      objectReference: {fileID: 1307036461}
+    - target: {fileID: 114095905987974152, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: crouchSlider
+      value: 
+      objectReference: {fileID: 433019493}
+    - target: {fileID: 114095905987974152, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: proneSlider
+      value: 
+      objectReference: {fileID: 1407692867}
+    - target: {fileID: 114553393534990446, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2080729988}
+    - target: {fileID: 114553393534990446, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetWalkSpeed
+      objectReference: {fileID: 0}
+    - target: {fileID: 114553393534990446, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114553393534990446, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 1211870447}
+    - target: {fileID: 114553393534990446, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.UI.Slider, UnityEngine.UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 114553393534990446, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114650192322642150, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2080729988}
+    - target: {fileID: 114650192322642150, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetSprintSpeed
+      objectReference: {fileID: 0}
+    - target: {fileID: 114039751284823256, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2080729988}
+    - target: {fileID: 114039751284823256, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetCrouchSpeed
+      objectReference: {fileID: 0}
+    - target: {fileID: 114039751284823256, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114039751284823256, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 433019493}
+    - target: {fileID: 114039751284823256, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.UI.Slider, UnityEngine.UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 114039751284823256, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114567336133808100, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2080729988}
+    - target: {fileID: 114567336133808100, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetProneSpeed
+      objectReference: {fileID: 0}
+    - target: {fileID: 114567336133808100, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114567336133808100, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 1407692867}
+    - target: {fileID: 114567336133808100, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.UI.Slider, UnityEngine.UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 114567336133808100, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 224530109752286028, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 35.999954
+      objectReference: {fileID: 0}
+    - target: {fileID: 224218118025869648, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 224553159562426904, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 15.999954
+      objectReference: {fileID: 0}
+    - target: {fileID: 224999453539706066, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -95.99986
+      objectReference: {fileID: 0}
+    - target: {fileID: 224739285383122958, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -58
+      objectReference: {fileID: 0}
+    - target: {fileID: 224755727116798396, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -77.999954
+      objectReference: {fileID: 0}
+    - target: {fileID: 224327793540512342, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -61.000153
+      objectReference: {fileID: 0}
+    - target: {fileID: 224022684920049296, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -99
+      objectReference: {fileID: 0}
+    - target: {fileID: 224043611803798742, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -40.000206
+      objectReference: {fileID: 0}
+    - target: {fileID: 224184914661509556, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 194.67
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab3b32e38dca85b4180d5007c17a3505, type: 2}
   m_IsPrefabAsset: 0
+--- !u!114 &1211870447 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114553393534990446, guid: ab3b32e38dca85b4180d5007c17a3505,
+    type: 2}
+  m_PrefabInternal: {fileID: 1081698501}
+  m_Script: {fileID: -113659843, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1 &1279289490
 GameObject:
   m_ObjectHideFlags: 0
@@ -12194,6 +12417,12 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 1812529121}
   m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+--- !u!114 &1307036461 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114650192322642150, guid: ab3b32e38dca85b4180d5007c17a3505,
+    type: 2}
+  m_PrefabInternal: {fileID: 1081698501}
+  m_Script: {fileID: -113659843, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1 &1361906018
 GameObject:
   m_ObjectHideFlags: 0
@@ -12722,6 +12951,12 @@ Mesh:
   m_MeshMetrics[0]: 1
   m_MeshMetrics[1]: 1
   m_MeshOptimized: 0
+--- !u!114 &1407692867 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114567336133808100, guid: ab3b32e38dca85b4180d5007c17a3505,
+    type: 2}
+  m_PrefabInternal: {fileID: 1081698501}
+  m_Script: {fileID: -113659843, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1001 &1411838937
 Prefab:
   m_ObjectHideFlags: 0
@@ -13329,6 +13564,62 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 1812529121}
   m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+--- !u!1001 &1603893218
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 114927363628031890, guid: afaa6cc63e2f55444a3854769dafd184,
+        type: 2}
+      propertyPath: m_ChildCameras.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4634841692384270, guid: afaa6cc63e2f55444a3854769dafd184, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -25.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4634841692384270, guid: afaa6cc63e2f55444a3854769dafd184, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 3.63
+      objectReference: {fileID: 0}
+    - target: {fileID: 4634841692384270, guid: afaa6cc63e2f55444a3854769dafd184, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4634841692384270, guid: afaa6cc63e2f55444a3854769dafd184, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4634841692384270, guid: afaa6cc63e2f55444a3854769dafd184, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4634841692384270, guid: afaa6cc63e2f55444a3854769dafd184, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4634841692384270, guid: afaa6cc63e2f55444a3854769dafd184, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4634841692384270, guid: afaa6cc63e2f55444a3854769dafd184, type: 2}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114459261165189240, guid: afaa6cc63e2f55444a3854769dafd184,
+        type: 2}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 1840918336}
+    - target: {fileID: 1603677510028772, guid: afaa6cc63e2f55444a3854769dafd184, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: afaa6cc63e2f55444a3854769dafd184, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &1660699967
 GameObject:
   m_ObjectHideFlags: 0
@@ -13676,6 +13967,12 @@ Mesh:
   m_MeshMetrics[0]: 1
   m_MeshMetrics[1]: 1
   m_MeshOptimized: 0
+--- !u!114 &1782176330 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114320878258848570, guid: ab3b32e38dca85b4180d5007c17a3505,
+    type: 2}
+  m_PrefabInternal: {fileID: 1081698501}
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1001 &1812529121
 Prefab:
   m_ObjectHideFlags: 0
@@ -13687,6 +13984,41 @@ Prefab:
         type: 2}
       propertyPath: m_ChildCameras.Array.size
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[0].movementProperties.acceleration.curve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[2].movementProperties.acceleration.curve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[1].movementProperties.acceleration.curve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[0].movementProperties.enterState.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[1].movementProperties.enterState.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[2].movementProperties.enterState.m_PersistentCalls.m_Calls.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4965165783443064, guid: f2706dd163cab644aa0f7aec413a3457, type: 2}
       propertyPath: m_LocalPosition.x
@@ -13725,6 +14057,340 @@ Prefab:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 1840918336}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[0].movementProperties.enterState.m_TypeName
+      value: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[0].movementProperties.exitState.m_TypeName
+      value: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[1].movementProperties.enterState.m_TypeName
+      value: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[1].movementProperties.exitState.m_TypeName
+      value: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[2].movementProperties.enterState.m_TypeName
+      value: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[2].movementProperties.exitState.m_TypeName
+      value: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[0].input
+      value: 
+      objectReference: {fileID: 11400000, guid: a2c8a62ffed56164f98fdabb1e9bb298,
+        type: 2}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[0].movementProperties.maxSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[0].movementProperties.acceleration.maxValue
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[0].movementProperties.acceleration.curve.m_Curve.Array.data[0].inSlope
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[0].movementProperties.acceleration.curve.m_Curve.Array.data[0].outSlope
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[0].movementProperties.acceleration.curve.m_Curve.Array.data[0].tangentMode
+      value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[0].movementProperties.acceleration.curve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[0].movementProperties.acceleration.curve.m_Curve.Array.data[1].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[0].movementProperties.acceleration.curve.m_Curve.Array.data[1].inSlope
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[0].movementProperties.acceleration.curve.m_Curve.Array.data[1].outSlope
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[0].movementProperties.acceleration.curve.m_Curve.Array.data[1].tangentMode
+      value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[0].movementProperties.acceleration.curve.m_PreInfinity
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[0].movementProperties.acceleration.curve.m_PostInfinity
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[0].movementProperties.jumpSpeed
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[0].movementProperties.enterState.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[0].movementProperties.enterState.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[0].movementProperties.enterState.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2065317151}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[0].movementProperties.enterState.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetAnimation
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[0].movementProperties.enterState.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[0].movementProperties.enterState.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: Crouch
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[1].input
+      value: 
+      objectReference: {fileID: 11400000, guid: 219bb157b3ba8ed4683066229934f1ee,
+        type: 2}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[2].input
+      value: 
+      objectReference: {fileID: 11400000, guid: 58f7ecb769e3cc44f813ffbc272f0f00,
+        type: 2}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[2].movementProperties.maxSpeed
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[2].movementProperties.jumpSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[1].movementProperties.maxSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[2].movementProperties.acceleration.curve.m_Curve.Array.data[0].inSlope
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[2].movementProperties.acceleration.curve.m_Curve.Array.data[0].outSlope
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[2].movementProperties.acceleration.curve.m_Curve.Array.data[0].tangentMode
+      value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[2].movementProperties.acceleration.curve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[2].movementProperties.acceleration.curve.m_Curve.Array.data[1].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[2].movementProperties.acceleration.curve.m_Curve.Array.data[1].inSlope
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[2].movementProperties.acceleration.curve.m_Curve.Array.data[1].outSlope
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[2].movementProperties.acceleration.curve.m_Curve.Array.data[1].tangentMode
+      value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[2].movementProperties.acceleration.curve.m_PreInfinity
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[2].movementProperties.acceleration.curve.m_PostInfinity
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[2].movementProperties.acceleration.maxValue
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[1].movementProperties.acceleration.curve.m_Curve.Array.data[0].inSlope
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[1].movementProperties.acceleration.curve.m_Curve.Array.data[0].outSlope
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[1].movementProperties.acceleration.curve.m_Curve.Array.data[0].tangentMode
+      value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[1].movementProperties.acceleration.curve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[1].movementProperties.acceleration.curve.m_Curve.Array.data[1].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[1].movementProperties.acceleration.curve.m_Curve.Array.data[1].inSlope
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[1].movementProperties.acceleration.curve.m_Curve.Array.data[1].outSlope
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[1].movementProperties.acceleration.curve.m_Curve.Array.data[1].tangentMode
+      value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[1].movementProperties.acceleration.curve.m_PreInfinity
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[1].movementProperties.acceleration.curve.m_PostInfinity
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[1].movementProperties.acceleration.maxValue
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[1].movementProperties.enterState.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[1].movementProperties.enterState.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[1].movementProperties.enterState.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2065317151}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[1].movementProperties.enterState.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetAnimation
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[1].movementProperties.enterState.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[1].movementProperties.enterState.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: Prone
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[2].movementProperties.enterState.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[2].movementProperties.enterState.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[2].movementProperties.enterState.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2065317151}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[2].movementProperties.enterState.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetAnimation
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[2].movementProperties.enterState.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[2].movementProperties.enterState.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: Sprint
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2706dd163cab644aa0f7aec413a3457, type: 2}
   m_IsPrefabAsset: 0
@@ -13854,6 +14520,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baa5dc2c89154d7497722e8161512603, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1900077132 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114567362820485806, guid: ab3b32e38dca85b4180d5007c17a3505,
+    type: 2}
+  m_PrefabInternal: {fileID: 1081698501}
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1 &1902006002
 GameObject:
   m_ObjectHideFlags: 0
@@ -24710,3 +25382,21 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &2065317151 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114688313537942486, guid: f2706dd163cab644aa0f7aec413a3457,
+    type: 2}
+  m_PrefabInternal: {fileID: 1812529121}
+  m_Script: {fileID: 11500000, guid: 0b47216618e54cb19f75a56e601bb515, type: 3}
+--- !u!114 &2080729988 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114095905987974152, guid: ab3b32e38dca85b4180d5007c17a3505,
+    type: 2}
+  m_PrefabInternal: {fileID: 1081698501}
+  m_Script: {fileID: 11500000, guid: 3af65a5159684ddc9db95bcb6385c634, type: 3}
+--- !u!114 &2107484096 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114273978800485818, guid: ab3b32e38dca85b4180d5007c17a3505,
+    type: 2}
+  m_PrefabInternal: {fileID: 1081698501}
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}

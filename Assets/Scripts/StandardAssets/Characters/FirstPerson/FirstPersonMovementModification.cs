@@ -17,12 +17,11 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		[SerializeField]
 		private InputResponse input;
-		
+
 		/// <summary>
 		/// The state
 		/// </summary>
-		[SerializeField]
-		private FirstPersonMovementProperties movementProperties;
+		[SerializeField] private FirstPersonMovementProperties movementProperties;
 
 		/// <summary>
 		/// The controller
@@ -49,6 +48,17 @@ namespace StandardAssets.Characters.FirstPerson
 		private void OnStateReset()
 		{
 			controller.ResetState();
+		}
+		
+		
+		/// <summary>
+		/// Returns the movement properties for use in the UI
+		/// Setting and viewing speeds for movement properties
+		/// </summary>
+		/// <returns></returns>
+		public FirstPersonMovementProperties getMovementProperty()
+		{
+			return movementProperties;
 		}
 	}
 }
