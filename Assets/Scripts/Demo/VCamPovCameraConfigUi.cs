@@ -1,4 +1,5 @@
 ﻿using Cinemachine;
+using UnityEngine;
 
 namespace Demo
 {
@@ -8,6 +9,8 @@ namespace Demo
 		{
 			float minSpeed = 100;
 			float speedRange = 400;
+
+	
 			
 			//SetInitalValues for cameraInversion toggles
 			xAxisToggle.isOn = cameras[0].GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_InvertInput;
@@ -16,11 +19,19 @@ namespace Demo
 			m_XAxisMaxSpeed = (cameras[0].GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_MaxSpeed - minSpeed) / speedRange;
 			
 			SetMaxSpeedSliderInitialValues(horizontalSlider, m_XAxisMaxSpeed, horizontalSliderValueText,
-				((m_XAxisMaxSpeed * speedRange) + minSpeed));
+				((m_XAxisMaxSpeed * 100)));
 
 			m_YAxisMaxSpeed	= (cameras[0].GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_MaxSpeed - minSpeed) / speedRange;
 			SetMaxSpeedSliderInitialValues(verticalSlider, m_YAxisMaxSpeed, verticalSliderValueText,
-				((m_YAxisMaxSpeed * speedRange) + minSpeed));
+				((m_YAxisMaxSpeed * 100)));
+
+			xAxisMaxSpeedMouse = Mathf.Abs(charaterInput.XSensitivity * 0.1f);
+			yAxisMaxSpeedMouse = Mathf.Abs(charaterInput.YSensitivity * 0.1f);
+			
+			SetMaxSpeedSliderInitialValues(horizontalSliderMouse,xAxisMaxSpeedMouse,xAxisSliderValueTextMouse,xAxisMaxSpeedMouse*100);
+			SetMaxSpeedSliderInitialValues(verticalSliderMouse,yAxisMaxSpeedMouse,yAxisSliderValueTextMouse,yAxisMaxSpeedMouse*100);
+			
+
 		}
 
 		protected override void SetYAxisMaxSpeed(CinemachineVirtualCamera camera, float newMaxYAxisMaxSpeed)
