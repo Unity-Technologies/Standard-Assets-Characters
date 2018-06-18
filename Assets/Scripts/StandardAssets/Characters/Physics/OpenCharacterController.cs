@@ -7,14 +7,17 @@ namespace StandardAssets.Characters.Physics
 		[Header("Player")]
 		[Tooltip("The root bone in the avatar - used to compensate for the animator issues")]
 		public GameObject playerRootTransform;
-		public Vector3 playerCentre = new Vector3(0,0,0);
+
+		public Vector3 playerCentre = new Vector3(0, 0, 0);
 		public float playerHeight = 1.56f;
 		public float playerRadius = 0.45f;
 
 		[Header("Grounding")]
 		public float maxGroundingDist = 50;
+
 		[Tooltip("The point at which we check that the player is grounded")]
 		public Vector3 groundCheckPoint = new Vector3(0, -0.85f, 0);
+
 		public float groundCheckRadius = 0.35f;
 
 		[Header("Jumping")]
@@ -26,9 +29,10 @@ namespace StandardAssets.Characters.Physics
 
 		[Range(0, 90)]
 		public float maxSlope = 60;
-		
+
 		[Range(0, 90)]
 		public float maxModifiedSlope = 45f;
+
 		public float minimumGroundingDist = 2f;
 
 		[Header("Auto-Step")]
@@ -42,7 +46,7 @@ namespace StandardAssets.Characters.Physics
 		public LayerMask excludePlayer;
 
 		[Header("Collision")]
-		public SphereCollider playerSphereCollider;
+		public CapsuleCollider capsuleCollider;
 
 		[Header("Debug")]
 		[Tooltip("Enable additional debugging visuals in scene view")]
@@ -51,10 +55,9 @@ namespace StandardAssets.Characters.Physics
 		private Vector3 groundClamp;
 		private float minGroundingDist = 2f;
 		private Vector3 playerVelocity;
-		
 
 		public bool isGrounded { get; private set; }
-		
+
 		private void FixedUpdate()
 		{
 			CheckGrounding();
@@ -110,9 +113,11 @@ namespace StandardAssets.Characters.Physics
 				return;
 			}
 
-			groundClamp = new Vector3(transform.position.x, groundHit.point.y + groundCheckRadius / 2, transform.position.z);
+			groundClamp = new Vector3(transform.position.x, groundHit.point.y + groundCheckRadius / 2,
+			                          transform.position.z);
 			Collider[] collisions = new Collider[3];
-			int num = UnityEngine.Physics.OverlapSphereNonAlloc(transform.TransformPoint(groundCheckPoint), groundCheckRadius, collisions, excludePlayer);
+			int num = UnityEngine.Physics.OverlapSphereNonAlloc(transform.TransformPoint(groundCheckPoint),
+			                                                    groundCheckRadius, collisions, excludePlayer);
 
 			isGrounded = false;
 			for (int x = 0; x < num; x++)
@@ -121,7 +126,7 @@ namespace StandardAssets.Characters.Physics
 				{
 					continue;
 				}
-				
+
 				isGrounded = true;
 				break;
 			}
@@ -148,15 +153,21 @@ namespace StandardAssets.Characters.Physics
 
 			isGrounded = true;
 		}
-		
+
 		private void CheckCollision()
 		{
-		
 			Collider[] collisions = new Collider[4];
 
-			int numberOfCollisions = UnityEngine.Physics.OverlapSphereNonAlloc(transform.TransformPoint(playerSphereCollider.center),
-			                                        playerSphereCollider.radius, collisions, excludePlayer,
-			                                        QueryTriggerInteraction.UseGlobal);
+			Vector3 yOffset = Vector3.up * (capsuleCollider.height * 0.5f - capsuleCollider.radius);
+			Vector3 point0 = capsuleCollider.center + yOffset;
+			Vector3 point1 = capsuleCollider.center - yOffset;
+			                 
+
+			int numberOfCollisions = UnityEngine.Physics.OverlapCapsuleNonAlloc(
+				transform.TransformPoint(point0),
+				transform.TransformPoint(point1),
+				capsuleCollider.radius, collisions, excludePlayer,
+				QueryTriggerInteraction.UseGlobal);
 
 			for (int x = 0; x < numberOfCollisions; x++)
 			{
@@ -164,8 +175,8 @@ namespace StandardAssets.Characters.Physics
 				Vector3 direction;
 				float distance;
 
-				if (!UnityEngine.Physics.ComputePenetration(playerSphereCollider, transform.position, transform.rotation,
-				                                            collisions[x], t.position, t.rotation, 
+				if (!UnityEngine.Physics.ComputePenetration(capsuleCollider, transform.position, transform.rotation,
+				                                            collisions[x], t.position, t.rotation,
 				                                            out direction, out distance))
 				{
 					continue;
@@ -182,7 +193,6 @@ namespace StandardAssets.Characters.Physics
 		{
 			if (enableDebug)
 			{
-
 				Gizmos.color = Color.green;
 				Gizmos.DrawWireCube(transform.position, new Vector3(playerRadius, playerHeight, playerRadius));
 
