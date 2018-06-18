@@ -7,30 +7,27 @@ namespace StandardAssets.Characters.CharacterInput
 {
     public class NewCharacterInputWangJangledMouseFPS :MonoBehaviour, ICharacterInput
     {
-         //Cinemachine Look Test
-		public float XSensitivity = 2f;
-		public float YSensitivity = -2f;
-		public bool smooth;
+         //Cinemachine mouse look sensitivity
+		public float XSensitivity = 18f;
+		public float YSensitivity = -18f;
+		public bool smooth = true;
 		public float smoothTime = 5f;
  
-
-
-		public CinemachineVirtualCamera[] VCams;
-
-
+		private Vector2 responsiveMouseRotation;
+		public CinemachineVirtualCamera[] VCams;	//All VCams for the character	
+		private CinemachinePOV mPOV; //POV
 		
-		private CinemachinePOV mPOV;
-		
+	    
 		[SerializeField]
 		private NewInputActions controls;
 
-		private Vector2 look;
+		private Vector2 mouseLook;
 
-		private Vector2 sLook;
+		private Vector2 gamePadLook;
 
 		public Vector2 moveInput { get; private set; }
 
-		public float lookScale = 5f;
+		
 
 		public bool hasMovementInput 
 		{ 
@@ -52,7 +49,7 @@ namespace StandardAssets.Characters.CharacterInput
 			controls.gameplay.movement.performed += Move;
 			controls.gameplay.look.performed += Look;
 			controls.gameplay.jump.performed += Jump;
-			controls.gameplay.gamePadLook.performed += GLook;
+			controls.gameplay.gamePadLook.performed += GamePadLookVector;
 
 			CinemachineCore.GetInputAxis = LookInputOverride;
 		}
@@ -62,7 +59,7 @@ namespace StandardAssets.Characters.CharacterInput
 			controls.Disable();
 			controls.gameplay.movement.performed -= Move;
 			controls.gameplay.look.performed -= Look;
-			controls.gameplay.gamePadLook.performed -= GLook;
+			controls.gameplay.gamePadLook.performed -= GamePadLookVector;
 		}
 
 		private void Move(InputAction.CallbackContext ctx)
@@ -70,40 +67,53 @@ namespace StandardAssets.Characters.CharacterInput
 			moveInput = ctx.ReadValue<Vector2>();
 		}
 
+		/// <summary>
+		/// This look method is only for use with mouse look
+		/// </summary>
 		private void Look(InputAction.CallbackContext ctx)
 		{
-			look = ctx.ReadValue<Vector2>();
-
-			var rot = getScaledMouseRotation();
+			mouseLook = ctx.ReadValue<Vector2>();
+			responsiveMouseRotation = getResponsiveMouseLook();
 			
+			// Rotate each camera manually
+			// FIX 
 			foreach (var cam in VCams)
 			{
 				var vCam = cam.GetCinemachineComponent<CinemachinePOV>();
-				vCam.m_HorizontalAxis.Value = rot.y;
-				vCam.m_VerticalAxis.Value = rot.x;
+				vCam.m_HorizontalAxis.Value = responsiveMouseRotation.y;
+				vCam.m_VerticalAxis.Value = responsiveMouseRotation.x;
 			}
 		}
-
-		Vector3 getScaledMouseRotation()
+		
+	    /// <summary>
+	    /// Manually scales the mouse look vector to eliminate the unresponsive
+	    /// look when using mouse input
+	    /// </summary>
+	    /// <returns></returns>
+		Vector3 getResponsiveMouseLook()
 		{
-			Vector3 rot = new Vector3(mPOV.m_VerticalAxis.Value, mPOV.m_HorizontalAxis.Value, 0);
-			Vector3 delta = new Vector3(
+			//This method needs to happen FAST else there is noticable input lag.
+			Vector3 cameraRotation = new Vector3(mPOV.m_VerticalAxis.Value, mPOV.m_HorizontalAxis.Value, 0);
+			Vector3 rotationDelta = new Vector3(
 				CinemachineCore.GetInputAxis("Mouse Y") * YSensitivity,
 				CinemachineCore.GetInputAxis("Mouse X") * XSensitivity, 0);
-			Vector3 newRot = rot + delta;
-			newRot.x = Mathf.Clamp(
-				newRot.x, mPOV.m_VerticalAxis.m_MinValue, mPOV.m_VerticalAxis.m_MaxValue);
-			delta = newRot - rot;
+			Vector3 newCameraRotation = cameraRotation + rotationDelta;
+			
+			
+			rotationDelta = newCameraRotation - cameraRotation;
+			
 			if (smooth)
-				delta = Cinemachine.Utility.Damper.Damp(delta, smoothTime, Time.deltaTime);
-			rot += delta;
-
-			return rot;
+				rotationDelta = Cinemachine.Utility.Damper.Damp(rotationDelta, smoothTime, Time.deltaTime);
+			
+			
+			cameraRotation += rotationDelta;
+			
+			return cameraRotation;
 		}
 
-		private void GLook(InputAction.CallbackContext ctx)
+		private void GamePadLookVector(InputAction.CallbackContext ctx)
 		{
-			sLook = ctx.ReadValue<Vector2>();
+			gamePadLook = ctx.ReadValue<Vector2>();
 		}
 
 		/// <summary>
@@ -111,24 +121,27 @@ namespace StandardAssets.Characters.CharacterInput
 		/// </summary>
 		private float LookInputOverride(string axis)
 		{
+			//NOTE: The gamepad vector comes back normalised, and its magnitude is
+			// too small to work well with the updated mouse look calculations
+			// this is why it is split 
 			if (axis == "Mouse X")
 			{
-				return look.x;
+				return mouseLook.x;
 			}
 
 			if (axis == "Mouse Y")
 			{
-				return look.y;
+				return mouseLook.y;
 			}
 
 			if (axis == "Stick X")
 			{
-				return sLook.x;
+				return gamePadLook.x;
 			}
 
 			if (axis == "Stick Y")
 			{
-				return sLook.y;
+				return gamePadLook.y;
 			}
 			return 0;
 		}
