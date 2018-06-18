@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using Cinemachine;
+using StandardAssets.Characters.CharacterInput;
 using UnityEngine;
 using UnityEngine.Experimental.Input;
 using UnityEngine.UI;
@@ -8,6 +9,8 @@ namespace Demo
 {
 	public abstract class CameraConfigUi<T> : MonoBehaviour where T : CinemachineVirtualCameraBase
 	{
+
+		public NewCharacterInputWangJangledMouseFPS charaterInput;
 		/// <summary>
 		/// Camera parameters 
 		/// </summary>
@@ -32,6 +35,16 @@ namespace Demo
 		public Toggle xAxisToggle;
 
 		public Toggle yAxisToggle;
+
+		public Toggle xAxisToggleMouse;
+		public Toggle yAxisToggleMouse;
+
+		public Slider horizontalSliderMouse;
+		public Slider verticalSliderMouse;
+		protected float xAxisMaxSpeedMouse;
+		protected float yAxisMaxSpeedMouse;
+		public Text xAxisSliderValueTextMouse;
+		public Text yAxisSliderValueTextMouse;
 
 		public Slider horizontalSlider;
 		public Slider verticalSlider;
@@ -59,8 +72,8 @@ namespace Demo
 		/// </summary>
 		public void SetVerticalSliderValue(Slider slider)
 		{
-			m_YAxisMaxSpeed = ((slider.value * (maxYAxisSpeed-minYAxisSpeed)) + minYAxisSpeed);
-			verticalSliderValueText.text = m_YAxisMaxSpeed.ToString("0");
+			m_YAxisMaxSpeed = ((slider.value * 400) + 101);
+			verticalSliderValueText.text = ((slider.value*100)+1).ToString("0");
 			foreach (var camera in cameras)
 			{
 				SetYAxisMaxSpeed(camera, m_YAxisMaxSpeed);
@@ -74,8 +87,8 @@ namespace Demo
 		/// </summary>
 		public void SetHorizontalSliderValue(Slider slider)
 		{
-			m_XAxisMaxSpeed = ((slider.value * (maxXAxisSpeed-minXAxisSpeed)) + minXAxisSpeed);
-			horizontalSliderValueText.text = m_XAxisMaxSpeed.ToString("0");
+			m_XAxisMaxSpeed = ((slider.value * 400) + 101);
+			horizontalSliderValueText.text = ((slider.value*100)+1).ToString("0");
 			foreach (var camera in cameras)
 			{
 				SetXAxisMaxSpeed(camera, m_XAxisMaxSpeed);
@@ -99,6 +112,45 @@ namespace Demo
 				InvertYAxis(camera, invertYAxis);
 			}
 		}
+
+		public void ToggleXAxisMouse(Toggle toggle)
+		{
+			charaterInput.XSensitivity *= -1;
+			
+		}
+
+		public void ToggleYAxisMouse(Toggle toggle)
+		{
+			charaterInput.YSensitivity *= -1;
+		}
+
+		public void SetMouseXSpeed(Slider slider)
+		{
+			var newSensitivity = slider.value  * 10;
+			if (charaterInput.XSensitivity < 0)
+			{
+				newSensitivity*=-1;
+			}
+
+			charaterInput.XSensitivity = newSensitivity;
+			xAxisSliderValueTextMouse.text = Mathf.Abs(charaterInput.XSensitivity * 10).ToString("0");
+		}
+		
+		public void SetMouseYSpeed(Slider slider)
+		{
+			var newSensitivity = slider.value  * 10;
+			
+			if (charaterInput.YSensitivity < 0)
+			{
+				newSensitivity *= -1;
+			}
+
+			charaterInput.YSensitivity = newSensitivity;
+			yAxisSliderValueTextMouse.text = Mathf.Abs(charaterInput.YSensitivity * 10).ToString("0");
+			
+		}
+
+		
 		
 		/// <summary>
 		/// Get the active input devices 
