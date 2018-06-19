@@ -231,7 +231,7 @@ namespace TFBGames.Editor
 					string projFileName = match.Groups[2].Value;
 					string projId = match.Groups[3].Value;
 
-					if (projFileName.Contains("Editor"))
+					if (projFileName.Contains("Editor") || projFileName.Contains("Test"))
 					{
 						editorProjects.Add(projId);
 					}
