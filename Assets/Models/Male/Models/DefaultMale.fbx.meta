@@ -1,9 +1,7 @@
 fileFormatVersion: 2
 guid: 8837f192a88abd84da9f1907d0b6bdb4
-timeCreated: 1500891250
-licenseType: Pro
 ModelImporter:
-  serializedVersion: 21
+  serializedVersion: 23
   fileIDToRecycleName:
     100000: Body
     100002: Chest
@@ -159,8 +157,7 @@ ModelImporter:
       name: DefaultMale_Mat
     second: {fileID: 2100000, guid: d7f8b496adee38e4a9edc877d5939f5b, type: 2}
   materials:
-    importMaterials: 1
-    autoMapExternalMaterials: 1
+    importMaterials: 0
     materialName: 1
     materialSearch: 2
     materialLocation: 0
@@ -177,6 +174,7 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
@@ -201,11 +199,15 @@ ModelImporter:
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
