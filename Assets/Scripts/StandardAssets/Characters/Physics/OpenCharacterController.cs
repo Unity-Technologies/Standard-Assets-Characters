@@ -14,6 +14,7 @@ namespace StandardAssets.Characters.Physics
 
 		[Header("Grounding")]
 		public float maxGroundingDist = 50;
+		public float groundingEasing = 10f;
 
 		[Tooltip("The point at which we check that the player is grounded")]
 		public Vector3 groundCheckPoint = new Vector3(0, -0.85f, 0);
@@ -57,7 +58,9 @@ namespace StandardAssets.Characters.Physics
 		private Vector3 playerMovement;
 
 		public bool isGrounded { get; private set; }
-		
+
+		private float precalculatedGroundY;
+
 		public void Move(Vector3 moveVector)
 		{
 			playerMovement = moveVector;
@@ -81,6 +84,7 @@ namespace StandardAssets.Characters.Physics
 		{
 			CheckGrounding();
 			CheckCollision();
+			EaseGrounding();
 		}
 
 		private void LateUpdate()
@@ -90,7 +94,6 @@ namespace StandardAssets.Characters.Physics
 				playerRootTransform.transform.localPosition = playerCentre;
 			}
 		}
-
 
 		private void CheckGrounding()
 		{
@@ -135,9 +138,9 @@ namespace StandardAssets.Characters.Physics
 				isGrounded = true;
 				if (groundHit.point.y <= transform.position.y + maxStepHeight)
 				{
-					SnapToGround(groundHit);
+					PrecalculateGroundY(groundHit);
 				}
-				
+
 				break;
 			}
 
@@ -162,10 +165,10 @@ namespace StandardAssets.Characters.Physics
 			}
 
 			isGrounded = true;
-			
+
 			if (groundHit.point.y <= transform.position.y + maxStepHeight && playerMovement.y < 0)
 			{
-				SnapToGround(groundHit);
+				PrecalculateGroundY(groundHit);
 			}
 		}
 
@@ -176,7 +179,6 @@ namespace StandardAssets.Characters.Physics
 			Vector3 yOffset = Vector3.up * (capsuleCollider.height * 0.5f - capsuleCollider.radius);
 			Vector3 point0 = capsuleCollider.center + yOffset;
 			Vector3 point1 = capsuleCollider.center - yOffset;
-			                 
 
 			int numberOfCollisions = UnityEngine.Physics.OverlapCapsuleNonAlloc(
 				transform.TransformPoint(point0),
@@ -216,11 +218,23 @@ namespace StandardAssets.Characters.Physics
 				Gizmos.DrawWireSphere(transform.TransformPoint(groundCheckPoint), groundCheckRadius);
 			}
 		}
-		
-		private void SnapToGround(RaycastHit groundHit)
+
+		private void PrecalculateGroundY(RaycastHit groundHit)
 		{
-				transform.position = new Vector3(transform.position.x, (groundHit.point.y + playerHeight / 2),
-				                                 transform.position.z);
+			precalculatedGroundY = (groundHit.point.y + playerHeight / 2);
+		}
+
+		private void EaseGrounding()
+		{
+			if (!isGrounded)
+			{
+				return;
+			}
+
+			transform.position = Vector3.Lerp(transform.position,
+			                                  new Vector3(transform.position.x,
+			                                              precalculatedGroundY,
+			                                              transform.position.z), groundingEasing * Time.fixedDeltaTime);
 		}
 	}
 }
