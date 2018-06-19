@@ -26,7 +26,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private Transform cameraTransform;
 
 		[SerializeField]
-		private float maxForwardSpeed = 10f;
+		private float maxForwardSpeed = 10f, maxLateralSpeed = 10f;
 		
 		[SerializeField]
 		private bool useAcceleration = true;
@@ -75,6 +75,9 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[SerializeField] 
 		private InputResponse runInput;
+		
+		[SerializeField] 
+		private InputResponse strafeInput;
 
 		/// <summary>
 		/// The input implementation
@@ -86,9 +89,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private ICharacterPhysics characterPhysics;
 
-		private bool isRunToggled;
+		private bool isRunToggled, isStrafing;
 
 		private float currentForwardSpeed;
+		
+		private float currentLateralSpeed;
 
 		private State state;
 		
@@ -100,7 +105,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <inheritdoc />
 		public override float normalizedLateralSpeed
 		{
-			get { return 0f; }
+			get { return -currentLateralSpeed / maxLateralSpeed; }
 		}
 
 		/// <inheritdoc />
@@ -143,6 +148,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			characterPhysics = GetComponent<ICharacterPhysics>();
 			
 			runInput.Init();
+			strafeInput.Init();
 			
 			base.Awake();
 		}
@@ -156,6 +162,16 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			isRunToggled = true;
 		}
+		
+		private void OnStrafeEnd()
+		{
+			isStrafing = false;
+		}
+
+		private void OnStrafeStart()
+		{
+			isStrafing = true;
+		}
 
 		/// <summary>
 		/// Subscribe
@@ -168,6 +184,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			runInput.started += OnRunStarted;
 			runInput.ended += OnRunEnded;
+
+			if (strafeInput != null)
+			{
+				strafeInput.started += OnStrafeStart;
+				strafeInput.ended += OnStrafeEnd;
+			}
 		}
 
 		/// <summary>
@@ -200,6 +222,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				runInput.started -= OnRunStarted;
 				runInput.ended -= OnRunEnded;
+			}
+
+			if (strafeInput != null)
+			{
+				strafeInput.started -= OnStrafeStart;
+				strafeInput.ended -= OnStrafeEnd;
 			}
 		}
 
@@ -263,8 +291,16 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private void FixedUpdate()
 		{
-			SetForward();
-			CalculateForwardMovement();
+			if (isStrafing)
+			{
+				SetLookDirection();
+				CalculateMovement();
+			}
+			else
+			{
+				SetForward();
+				CalculateForwardMovement();
+			}
 			if (animator == null)
 			{
 				Move();
@@ -378,6 +414,55 @@ namespace StandardAssets.Characters.ThirdPerson
 				currentForwardSpeed = desiredSpeed;
 			}
 		}
+		
+		/// <summary>
+		/// Sets forward rotation
+		/// </summary>
+		private void SetLookDirection()
+		{
+			Vector3 lookForwardY = cameraTransform.rotation.eulerAngles;
+			lookForwardY.x = 0;
+			lookForwardY.z = 0;
+			Quaternion targetRotation = Quaternion.Euler(lookForwardY);
+
+			float angleDifference = Mathf.Abs((transform.eulerAngles - targetRotation.eulerAngles).y);
+
+			float actualTurnSpeed =
+				characterPhysics.isGrounded ? turnSpeed : turnSpeed * airborneTurnSpeedProportion;
+			targetRotation =
+				Quaternion.RotateTowards(transform.rotation, targetRotation, actualTurnSpeed * Time.fixedDeltaTime);
+
+			transform.rotation = targetRotation;
+		}
+
+		/// <summary>
+		/// Calculates the forward movement
+		/// </summary>
+		private void CalculateMovement()
+		{
+			Vector2 moveInput = characterInput.moveInput;
+
+			currentForwardSpeed = CalculateSpeed(moveInput.y * maxForwardSpeed, currentForwardSpeed);
+			currentLateralSpeed = CalculateSpeed(moveInput.x * maxLateralSpeed, currentLateralSpeed);
+		}
+		
+		private float CalculateSpeed(float desiredSpeed, float currentSpeed)
+		{
+			if (useAcceleration)
+			{
+				float acceleration = characterPhysics.isGrounded
+					? (characterInput.hasMovementInput ? groundAcceleration : groundDeceleration)
+					: (characterInput.hasMovementInput ? groundAcceleration : groundDeceleration) *
+					  airborneDecelProportion;
+
+				return 
+					Mathf.MoveTowards(currentSpeed, desiredSpeed, acceleration * Time.fixedDeltaTime);
+			}
+			else
+			{
+				return desiredSpeed;
+			}
+		}
 
 		/// <summary>
 		/// Moves the character
@@ -386,16 +471,34 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			Vector3 movement;
 
-			if (animator != null && characterPhysics.isGrounded &&
-				animator.deltaPosition.z >= currentGroundAccelaration * Time.deltaTime)
+			if (isStrafing)
 			{
-				movement = animator.deltaPosition;
+				if (animator != null && characterPhysics.isGrounded &&
+				    animator.deltaPosition.z >= groundAcceleration * Time.fixedDeltaTime)
+				{
+					movement = animator.deltaPosition;
+				}
+				else
+				{
+					Vector3 lateral = currentLateralSpeed * transform.right * Time.fixedDeltaTime;
+					Vector3 forward = currentForwardSpeed * transform.forward * Time.fixedDeltaTime;
+      
+					movement = forward + lateral;
+				}
 			}
 			else
 			{
-				movement = currentForwardSpeed * transform.forward * Time.fixedDeltaTime;
+				if (animator != null && characterPhysics.isGrounded &&
+				    animator.deltaPosition.z >= currentGroundAccelaration * Time.deltaTime)
+				{
+					movement = animator.deltaPosition;
+				}
+				else
+				{
+					movement = currentForwardSpeed * transform.forward * Time.fixedDeltaTime;
+				}
 			}
-
+			
 			characterPhysics.Move(movement);
 		}
 	}
