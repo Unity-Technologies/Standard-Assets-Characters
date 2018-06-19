@@ -6,60 +6,79 @@ namespace StandardAssets.Characters.Physics
 	{
 		[Header("Player")]
 		[Tooltip("The root bone in the avatar - used to compensate for the animator issues")]
-		public GameObject playerRootTransform;
+		[SerializeField]
+		private GameObject playerRootTransform;
 
-		public Vector3 playerCentre = new Vector3(0, 0, 0);
-		public float playerHeight = 1.56f;
-		public float playerRadius = 0.45f;
+		[SerializeField]
+		private Vector3 playerCentre = new Vector3(0, 0, 0);
+		[SerializeField]
+		private float playerHeight = 1.56f;
+		[SerializeField]
+		private float playerRadius = 0.45f;
 
 		[Header("Grounding")]
-		public float maxGroundingDist = 50;
-		public float groundingEasing = 10f;
+		[SerializeField]
+		private float maxGroundingDist = 50;
+		[SerializeField]
+		private float groundingEasing = 10f;
 
 		[Tooltip("The point at which we check that the player is grounded")]
-		public Vector3 groundCheckPoint = new Vector3(0, -0.85f, 0);
+		[SerializeField]
+		private Vector3 groundCheckPoint = new Vector3(0, -0.85f, 0);
 
-		public float groundCheckRadius = 0.35f;
+		[SerializeField]
+		private float groundCheckRadius = 0.35f;
 
 		[Header("Jumping")]
-		public float jumpCeiling = 2f;
+		[SerializeField]
+		private float jumpCeiling = 2f;
 
 		[Header("Sloping")]
 		[Range(0, 90)]
-		public float minSlope = 0;
+		[SerializeField]
+		private float minSlope = 0;
 
 		[Range(0, 90)]
-		public float maxSlope = 60;
+		[SerializeField]
+		private float maxSlope = 60;
 
 		[Range(0, 90)]
-		public float maxModifiedSlope = 45f;
+		[SerializeField]
+		private float maxModifiedSlope = 45f;
 
-		public float minimumGroundingDist = 2f;
+		[SerializeField]
+		private float minimumGroundingDist = 2f;
 
 		[Header("Auto-Step")]
-		public float maxStepHeight = 1.5f;
+		[SerializeField]
+		private float maxStepHeight = 1.5f;
 
-		public Vector3 liftSlopePoint = new Vector3(0, 1f, 0);
-		public float liftSlopeRadius = 0.2f;
+		[SerializeField]
+		private Vector3 liftSlopePoint = new Vector3(0, 1f, 0);
+		[SerializeField]
+		private float liftSlopeRadius = 0.2f;
 
 		[Header("Layer Options")]
 		[Tooltip("Select all layers except the Player layer")]
-		public LayerMask excludePlayer;
+		[SerializeField]
+		private LayerMask excludePlayer;
 
 		[Header("Collision")]
-		public CapsuleCollider capsuleCollider;
+		[SerializeField]
+		private CapsuleCollider capsuleCollider;
 
 		[Header("Debug")]
 		[Tooltip("Enable additional debugging visuals in scene view")]
-		public bool enableDebug;
+		[SerializeField]
+		private bool enableDebug;
 
 		private Vector3 groundClamp;
 		private float minGroundingDist = 2f;
 		private Vector3 playerMovement;
+		private float precalculatedGroundY;
 
 		public bool isGrounded { get; private set; }
 
-		private float precalculatedGroundY;
 
 		public void Move(Vector3 moveVector)
 		{
