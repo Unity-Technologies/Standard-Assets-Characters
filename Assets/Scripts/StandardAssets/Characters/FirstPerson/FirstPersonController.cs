@@ -22,8 +22,14 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// List of possible state modifiers
 		/// </summary>
-		[SerializeField] private FirstPersonMovementModification[] movementModifiers;
-		
+		[SerializeField] 
+		private FirstPersonMovementModification[] movementModifiers;
+
+		/// <summary>
+		/// Airborne modifier of the movement speed
+		/// </summary>
+		[SerializeField]
+		private float airborneSpeedModifier = 0.5f;
 		
 		/// <summary>
 		/// Exposes the movement properties array for use in UI 
@@ -175,7 +181,8 @@ namespace StandardAssets.Characters.FirstPerson
 		{
 			movementTime += Time.fixedDeltaTime;
 			movementTime = Mathf.Clamp(movementTime, 0f, currentMovementProperties.accelerationCurve.maxValue);
-			currentSpeed = currentMovementProperties.accelerationCurve.Evaluate(movementTime) * currentMovementProperties.maximumSpeed;
+			float speedModifier = characterPhysics.isGrounded ? 1f : airborneSpeedModifier;
+			currentSpeed = currentMovementProperties.accelerationCurve.Evaluate(movementTime) * currentMovementProperties.maximumSpeed * speedModifier;
 		}
 		
 		/// <summary>
