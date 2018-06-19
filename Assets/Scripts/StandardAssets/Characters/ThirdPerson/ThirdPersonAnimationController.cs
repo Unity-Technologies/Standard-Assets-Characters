@@ -59,6 +59,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		private int hashFallingTime;
 		private int hashFootedness;
 
+		private bool isGrounded;
+
 		/// <summary>
 		/// Gets the required components
 		/// </summary>
@@ -82,11 +84,19 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			motor.jumpStarted += OnJumpStarted;
 			motor.landed += OnLanding;
+			motor.fallStarted += OnFallStarted;
 			if (leftFoot != null && rightfoot != null)
 			{
 				leftFoot.detection += OnLeftFoot;
 				rightfoot.detection += OnRightFoot;
 			}
+		}
+
+		private void OnFallStarted()
+		{
+			isGrounded = false;
+			animator.SetFloat(hashFallingTime, 0);
+			animator.SetBool(hashGrounded, false);
 		}
 
 		private void OnRightFoot(MovementEvent obj)
@@ -129,6 +139,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private void OnLanding()
 		{
+			isGrounded = true;
 			animator.SetBool(hashGrounded, true);
 		}
 
@@ -137,6 +148,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private void OnJumpStarted()
 		{
+			isGrounded = false;
+			animator.SetFloat(hashFallingTime, 0);
 			animator.SetBool(hashGrounded, false);
 		}
 
@@ -149,7 +162,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			animator.SetFloat(hashLateralSpeed, motor.normalizedLateralSpeed);
 			animator.SetFloat(hashTurningSpeed, motor.normalizedTurningSpeed);
 			animator.SetBool(hashHasInput, CheckHasSpeed(motor.normalizedForwardSpeed) || CheckHasSpeed(motor.normalizedLateralSpeed));
-			animator.SetFloat(hashFallingTime, motor.fallTime);
+
+			if (!isGrounded)
+			{
+				animator.SetFloat(hashFallingTime, motor.fallTime);
+			}
 		}
 
 		private bool CheckHasSpeed(float speed)

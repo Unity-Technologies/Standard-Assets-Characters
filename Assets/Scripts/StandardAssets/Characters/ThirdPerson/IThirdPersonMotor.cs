@@ -37,5 +37,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// When the character lands
 		/// </summary>
 		Action landed { get; set; }
+		
+		/// <summary>
+		/// When the starts falling
+		/// </summary>
+		Action fallStarted { get; set; }
 	}
 }

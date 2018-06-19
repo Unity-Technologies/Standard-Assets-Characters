@@ -164,9 +164,21 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			characterInput.jumpPressed += OnJumpPressed;
 			characterPhysics.landed += OnLanding;
+			characterPhysics.startedFalling += OnStartedFalling;
 			
 			runInput.started += OnRunStarted;
 			runInput.ended += OnRunEnded;
+		}
+
+		/// <summary>
+		/// Handles player fall start
+		/// </summary>
+		private void OnStartedFalling()
+		{
+			if (fallStarted != null)
+			{
+				fallStarted();
+			}
 		}
 
 		/// <summary>
@@ -221,6 +233,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			isBracingForJump = true;
 		}
 
+		/// <summary>
+		/// Caleld when the brace to jump completes
+		/// </summary>
 		private void OnJumpBraceComplete()
 		{
 			characterPhysics.SetJumpVelocity(jumpSpeed);
@@ -228,6 +243,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			jumpBraceCount = 0;
 		}
 
+		/// <summary>
+		/// Handles the timing of the jump brace
+		/// </summary>
 		private void Update()
 		{
 			if (isBracingForJump)
