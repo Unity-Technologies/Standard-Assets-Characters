@@ -1796,7 +1796,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1964598378489596}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.606714, y: 2.154, z: 63.168888}
+  m_LocalPosition: {x: 11.606714, y: 15.3, z: 63.168888}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4151648849392010}
@@ -2153,7 +2153,7 @@ MonoBehaviour:
   forwardSpeedParameterName: ForwardSpeed
   lateralSpeedParameterName: LateralSpeed
   turningSpeedParameterName: TurningSpeed
-  groundedParameterName: '!Grounded'
+  groundedParameterName: Grounded
   hasInputParameterName: HasInput
   fallingTimeParameterName: FallDistance
   footednessParameterName: OnRightFoot
@@ -2224,7 +2224,41 @@ MonoBehaviour:
   groundDeceleration: 15
   airborneAccelProportion: 0.5
   airborneDecelProportion: 0.5
-  jumpSpeed: 8
+  jumpBraceAsAFunctionOfSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.75
+      inSlope: -2.0739
+      outSlope: -1.3184013
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.41433594
+    - serializedVersion: 3
+      time: 0.38493595
+      value: 0.24249995
+      inSlope: -0.65000004
+      outSlope: -0.65000004
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.1
+      inSlope: -0.01741073
+      outSlope: -1.9139397
+      tangentMode: 65
+      weightedMode: 0
+      inWeight: 0.3793643
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  jumpCooldown: 1.75
+  jumpSpeed: 6
   airborneTurnSpeedProportion: 0.5
   angleSnapBehaviour: 60
   maxTurnSpeed: 5000
