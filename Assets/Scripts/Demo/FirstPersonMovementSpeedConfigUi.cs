@@ -10,110 +10,88 @@ namespace Demo
     /// </summary>
     public class FirstPersonMovementSpeedConfigUi : MonoBehaviour
     {
-        public Text currentMovementSpeedText;
         public FirstPersonController fpsController;
-
-        
-
         private FirstPersonMovementModification[] modifiers;
-
-       // public Slider speedSlider;
-
-        private float currentSpeed;
         
-
-        private float minSpeed = 1;
-        private float maxSpeed = 15;
-        private float speedRange = 14;
-
-        public Slider walkSlider;
-        public Slider sprintSlider;
-        public Slider crouchSlider;
-        public Slider proneSlider;
-
-        public Text walkSpeedTextValue;
-        public Text sprintSpeedTextValue;
-        public Text crouchSpeedTextValue;
-        public Text proneSpeedTextValue;
-
-        private float maxWalkSpeedValue;
-        private float maxSprintSpeedValue;
-        private float maxCrouchSpeedValue;
-        private float maxProneSpeedValue;
+        private float minMovementSpeed = 1;
+        private float movementSpeedRange = 14;
         
+        /// <summary>
+        /// UI Elements 
+        /// </summary>
+        public Slider startingSpeedSlider,sprintSlider,
+                crouchSlider,proneSlider;
+    
+        public Text startingSpeedTextValue, sprintSpeedTextValue,
+            crouchSpeedTextValue,proneSpeedTextValue;
+   
+        private float startingMaxSpeedValue,maxSprintSpeedValue,
+            maxCrouchSpeedValue,maxProneSpeedValue;
+ 
+        private Text[] sliderTextValues;
+        private float[] sliderValues;
+        private Slider[] sliders;
 
         void Start()
         {
             modifiers = fpsController.exposedMovementModifiers;
-            
-            
-            maxWalkSpeedValue= fpsController.currentMovementProperties.maximumSpeed;
-            maxCrouchSpeedValue = modifiers[0].getMovementProperty().maximumSpeed;
-            maxProneSpeedValue= modifiers[1].getMovementProperty().maximumSpeed;
-            maxSprintSpeedValue = modifiers[2].getMovementProperty().maximumSpeed;
-            
-            SetInitialSliderValues(walkSlider,walkSpeedTextValue,maxWalkSpeedValue);
-            SetInitialSliderValues(crouchSlider,crouchSpeedTextValue,maxCrouchSpeedValue);
-            SetInitialSliderValues(proneSlider,proneSpeedTextValue,maxProneSpeedValue);
-            SetInitialSliderValues(sprintSlider,sprintSpeedTextValue,maxSprintSpeedValue);
 
+            sliderTextValues = new Text[] {sprintSpeedTextValue, crouchSpeedTextValue, proneSpeedTextValue};
+            sliderValues = new float[] {maxSprintSpeedValue, maxCrouchSpeedValue, maxProneSpeedValue};
+            sliders = new Slider[] {sprintSlider, crouchSlider, proneSlider};
+            
+            //Walk is sperate as it is the starting values
+            startingMaxSpeedValue= fpsController.currentMovementProperties.maximumSpeed;
+            SetInitialSliderValues(startingSpeedSlider,startingSpeedTextValue,startingMaxSpeedValue);
+
+            for (int i = 0; i < sliders.Length; i++)
+            {
+                sliderValues[i] = modifiers[i].getMovementProperty().maximumSpeed;
+                SetInitialSliderValues(sliders[i],sliderTextValues[i],sliderValues[i]);
+            }
+           
         }
 
         void SetInitialSliderValues(Slider slider, Text valueLabel, float value)
         {
             valueLabel.text = value.ToString();
-            SetSliderPosition(slider,value);
+            slider.value = (value - minMovementSpeed) / movementSpeedRange;
+           
         }
-
-        void SetSliderPosition(Slider slider, float value)
-        {
-            slider.value = (value - minSpeed) / speedRange;
-        }
-       
         
-        /// <summary>
-        /// Updates UI Label with current state max speed
-        /// </summary>
-        void UpdateSpeedSlider()
-        {
-            currentSpeed = fpsController.currentMovementProperties.maximumSpeed;
-            currentMovementSpeedText.text = currentSpeed.ToString("0.0");
-            //speedSlider.value = (currentSpeed - minSpeed) / speedRange;
-            
-        }
-
-        public void UpdateSpeedForCurrentState(Slider slider)
-        {
-            float speed = (slider.value*speedRange)+minSpeed;
-            fpsController.currentMovementProperties.maximumSpeed = speed;
-        }
-
         public void SetWalkSpeed(Slider slider)
         {
-            float speed = (slider.value*speedRange)+minSpeed;
+            float speed = scaleSpeed(slider.value);
             fpsController.currentMovementProperties.maximumSpeed = speed;
-            walkSpeedTextValue.text = speed.ToString("0");
+            startingSpeedTextValue.text = speed.ToString("0");
         }
 
         public void SetSprintSpeed(Slider slider)
-        {
-            float speed = (slider.value*speedRange)+minSpeed;
-            modifiers[2].getMovementProperty().maximumSpeed = speed;
-            sprintSpeedTextValue.text = speed.ToString("0");
+        {  
+            UpdateSlider(0, slider);
         }
 
         public void SetCrouchSpeed(Slider slider)
-        {
-            float speed = (slider.value*speedRange)+minSpeed;
-            modifiers[0].getMovementProperty().maximumSpeed = speed;
-            crouchSpeedTextValue.text = speed.ToString("0");
+        {   
+            UpdateSlider(1, slider);
         }
         
         public void SetProneSpeed(Slider slider)
         {
-            float speed = (slider.value*speedRange)+minSpeed;
-            modifiers[1].getMovementProperty().maximumSpeed = speed;
-            proneSpeedTextValue.text = speed.ToString("0");
+            UpdateSlider(2, slider);
         }
+
+        float scaleSpeed(float value)
+        {
+         return (value*movementSpeedRange)+minMovementSpeed;   
+        }
+
+        void UpdateSlider(int index, Slider slider)
+        {
+            float speed = scaleSpeed(slider.value);
+            modifiers[index].getMovementProperty().maximumSpeed = speed;
+            sliderTextValues[index].text = speed.ToString("0");
+        }
+        
     }
 }

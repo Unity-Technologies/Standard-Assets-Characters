@@ -55,7 +55,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1124660954098080
 GameObject:
   m_ObjectHideFlags: 1
@@ -507,6 +507,57 @@ MonoBehaviour:
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
   movementModifiers:
+  - input: {fileID: 11400000, guid: 58f7ecb769e3cc44f813ffbc272f0f00, type: 2}
+    movementProperties:
+      maxSpeed: 11
+      acceleration:
+        curve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 1
+            outSlope: 1
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 1
+            outSlope: 1
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        maxValue: 0.01
+      jumpSpeed: 10
+      enterState:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 114688313537942486}
+            m_MethodName: SetAnimation
+            m_Mode: 5
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: Sprint
+              m_BoolArgument: 0
+            m_CallState: 2
+        m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      exitState:
+        m_PersistentCalls:
+          m_Calls: []
+        m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
   - input: {fileID: 11400000, guid: a2c8a62ffed56164f98fdabb1e9bb298, type: 2}
     movementProperties:
       maxSpeed: 3
@@ -517,9 +568,9 @@ MonoBehaviour:
           - serializedVersion: 3
             time: 0
             value: 0
-            inSlope: 0
+            inSlope: 1
             outSlope: 1
-            tangentMode: 0
+            tangentMode: 34
             weightedMode: 0
             inWeight: 0
             outWeight: 0
@@ -527,8 +578,8 @@ MonoBehaviour:
             time: 1
             value: 1
             inSlope: 1
-            outSlope: 0
-            tangentMode: 0
+            outSlope: 1
+            tangentMode: 34
             weightedMode: 0
             inWeight: 0
             outWeight: 0
@@ -536,7 +587,7 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 4
         maxValue: 0.01
-      jumpSpeed: 4
+      jumpSpeed: 2
       enterState:
         m_PersistentCalls:
           m_Calls:
@@ -558,7 +609,7 @@ MonoBehaviour:
           m_Calls: []
         m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-  - input: {fileID: 11400000, guid: 219bb157b3ba8ed4683066229934f1ee, type: 2}
+  - input: {fileID: 11400000, guid: e2cc03e054ab3412e84c918085c0abe2, type: 2}
     movementProperties:
       maxSpeed: 1
       acceleration:
@@ -568,9 +619,9 @@ MonoBehaviour:
           - serializedVersion: 3
             time: 0
             value: 0
-            inSlope: 0
+            inSlope: 1
             outSlope: 1
-            tangentMode: 0
+            tangentMode: 34
             weightedMode: 0
             inWeight: 0
             outWeight: 0
@@ -578,8 +629,8 @@ MonoBehaviour:
             time: 1
             value: 1
             inSlope: 1
-            outSlope: 0
-            tangentMode: 0
+            outSlope: 1
+            tangentMode: 34
             weightedMode: 0
             inWeight: 0
             outWeight: 0
@@ -600,57 +651,6 @@ MonoBehaviour:
               m_IntArgument: 0
               m_FloatArgument: 0
               m_StringArgument: Prone
-              m_BoolArgument: 0
-            m_CallState: 2
-        m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-          Culture=neutral, PublicKeyToken=null
-      exitState:
-        m_PersistentCalls:
-          m_Calls: []
-        m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-          Culture=neutral, PublicKeyToken=null
-  - input: {fileID: 11400000, guid: 58f7ecb769e3cc44f813ffbc272f0f00, type: 2}
-    movementProperties:
-      maxSpeed: 11
-      acceleration:
-        curve:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 0
-            inSlope: 0
-            outSlope: 1
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          - serializedVersion: 3
-            time: 1
-            value: 1
-            inSlope: 1
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        maxValue: 0.01
-      jumpSpeed: 10
-      enterState:
-        m_PersistentCalls:
-          m_Calls:
-          - m_Target: {fileID: 114688313537942486}
-            m_MethodName: SetAnimation
-            m_Mode: 5
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 0
-              m_StringArgument: Walk
               m_BoolArgument: 0
             m_CallState: 2
         m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
@@ -776,10 +776,7 @@ MonoBehaviour:
   m_LayerIndex: 0
   m_ShowDebugText: 0
   m_EnableAllChildCameras: 1
-  m_ChildCameras:
-  - {fileID: 114324939709206310}
-  - {fileID: 114701727429014396}
-  - {fileID: 114962441330413634}
+  m_ChildCameras: []
   m_Instructions:
   - m_FullHash: 81563449
     m_VirtualCamera: {fileID: 114324939709206310}

@@ -1220,15 +1220,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4605808123394252, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0.032905087
+      value: 0.03290492
       objectReference: {fileID: 0}
     - target: {fileID: 4605808123394252, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.y
-      value: -0.09061521
+      value: -0.09061526
       objectReference: {fileID: 0}
     - target: {fileID: 4605808123394252, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.z
-      value: -0.0029869108
+      value: -0.002986872
       objectReference: {fileID: 0}
     - target: {fileID: 4605808123394252, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.w
@@ -1300,19 +1300,19 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4457660541983178, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0.032904815
+      value: 0.03290484
       objectReference: {fileID: 0}
     - target: {fileID: 4457660541983178, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.y
-      value: -0.09057086
+      value: -0.09067217
       objectReference: {fileID: 0}
     - target: {fileID: 4457660541983178, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.z
-      value: -0.0029853117
+      value: -0.002988683
       objectReference: {fileID: 0}
     - target: {fileID: 4457660541983178, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.w
-      value: -0.9953418
+      value: -0.9953326
       objectReference: {fileID: 0}
     - target: {fileID: 4457660541983178, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalPosition.x
@@ -1443,11 +1443,11 @@ GameObject:
   - component: {fileID: 459887166}
   - component: {fileID: 459887165}
   - component: {fileID: 459887164}
-  - component: {fileID: 459887160}
   - component: {fileID: 459887161}
   - component: {fileID: 459887162}
   - component: {fileID: 459887167}
   - component: {fileID: 459887163}
+  - component: {fileID: 459887160}
   m_Layer: 11
   m_Name: MaleThirdPersonLegacyInput
   m_TagString: Player
@@ -1455,8 +1455,8 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!135 &459887160
-SphereCollider:
+--- !u!136 &459887160
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -1464,8 +1464,9 @@ SphereCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 2
   m_Radius: 0.5
+  m_Height: 1.7
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &459887161
 MonoBehaviour:
@@ -1614,8 +1615,8 @@ MonoBehaviour:
   playerHeight: 1.7
   playerRadius: 0.45
   maxGroundingDist: 50
-  groundCheckPoint: {x: 0, y: -0.66, z: 0}
-  groundCheckRadius: 0.35
+  groundCheckPoint: {x: 0, y: -0.7, z: 0}
+  groundCheckRadius: 0.2
   jumpCeiling: 2
   minSlope: 0
   maxSlope: 60
@@ -1627,7 +1628,7 @@ MonoBehaviour:
   excludePlayer:
     serializedVersion: 2
     m_Bits: 311
-  playerSphereCollider: {fileID: 459887160}
+  capsuleCollider: {fileID: 459887160}
   enableDebug: 1
 --- !u!1 &485692753
 GameObject:
@@ -2500,7 +2501,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh16404
+  m_Name: pb_Mesh90288
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
