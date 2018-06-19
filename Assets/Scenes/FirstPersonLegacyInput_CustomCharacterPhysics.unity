@@ -925,11 +925,11 @@ GameObject:
   - component: {fileID: 1038776960}
   - component: {fileID: 1038776957}
   - component: {fileID: 1038776955}
-  - component: {fileID: 1038776958}
   - component: {fileID: 1038776954}
   - component: {fileID: 1038776966}
   - component: {fileID: 1038776964}
   - component: {fileID: 1038776959}
+  - component: {fileID: 1038776958}
   m_Layer: 11
   m_Name: FirstPersonLegacyInput
   m_TagString: Untagged
@@ -996,17 +996,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!135 &1038776958
-SphereCollider:
+--- !u!136 &1038776958
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1038776953}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.75
+  m_Height: 2
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1038776959
 MonoBehaviour:
@@ -1107,7 +1108,7 @@ MonoBehaviour:
   excludePlayer:
     serializedVersion: 2
     m_Bits: 311
-  playerSphereCollider: {fileID: 1038776958}
+  capsuleCollider: {fileID: 0}
   enableDebug: 0
 --- !u!114 &1038776966
 MonoBehaviour:

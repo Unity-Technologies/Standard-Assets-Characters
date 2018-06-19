@@ -54,9 +54,28 @@ namespace StandardAssets.Characters.Physics
 
 		private Vector3 groundClamp;
 		private float minGroundingDist = 2f;
-		private Vector3 playerVelocity;
+		private Vector3 playerMovement;
 
 		public bool isGrounded { get; private set; }
+		
+		public void Move(Vector3 moveVector)
+		{
+			playerMovement = moveVector;
+			transform.position += playerMovement;
+
+			if (enableDebug)
+			{
+				Debug.DrawRay(transform.position, playerMovement, Color.green, 1f);
+			}
+		}
+
+		private void Awake()
+		{
+			if (capsuleCollider == null)
+			{
+				capsuleCollider = GetComponent<CapsuleCollider>();
+			}
+		}
 
 		private void FixedUpdate()
 		{
@@ -72,20 +91,6 @@ namespace StandardAssets.Characters.Physics
 			}
 		}
 
-		public void Move(Vector3 moveVector)
-		{
-			playerVelocity += moveVector;
-			Vector3 playerMovementVector = (new Vector3(playerVelocity.x, playerVelocity.y, playerVelocity.z));
-
-			transform.position += playerMovementVector;
-
-			if (enableDebug)
-			{
-				Debug.DrawRay(transform.position, playerMovementVector, Color.green, 1f);
-			}
-
-			playerVelocity = Vector3.zero;
-		}
 
 		private void CheckGrounding()
 		{
@@ -128,6 +133,11 @@ namespace StandardAssets.Characters.Physics
 				}
 
 				isGrounded = true;
+				if (groundHit.point.y <= transform.position.y + maxStepHeight)
+				{
+					SnapToGround(groundHit);
+				}
+				
 				break;
 			}
 
@@ -152,6 +162,11 @@ namespace StandardAssets.Characters.Physics
 			}
 
 			isGrounded = true;
+			
+			if (groundHit.point.y <= transform.position.y + maxStepHeight && playerMovement.y < 0)
+			{
+				SnapToGround(groundHit);
+			}
 		}
 
 		private void CheckCollision()
@@ -183,9 +198,9 @@ namespace StandardAssets.Characters.Physics
 				}
 
 				Vector3 penetrationVector = direction * distance;
-				Vector3 velocityProjected = Vector3.Project(playerVelocity, -direction);
+				Vector3 velocityProjected = Vector3.Project(playerMovement, -direction);
 				transform.position = transform.position + penetrationVector;
-				playerVelocity -= velocityProjected;
+				playerMovement -= velocityProjected;
 			}
 		}
 
@@ -200,6 +215,12 @@ namespace StandardAssets.Characters.Physics
 
 				Gizmos.DrawWireSphere(transform.TransformPoint(groundCheckPoint), groundCheckRadius);
 			}
+		}
+		
+		private void SnapToGround(RaycastHit groundHit)
+		{
+				transform.position = new Vector3(transform.position.x, (groundHit.point.y + playerHeight / 2),
+				                                 transform.position.z);
 		}
 	}
 }

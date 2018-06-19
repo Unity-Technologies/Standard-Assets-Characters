@@ -1,3 +1,4 @@
+using System;
 using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
@@ -43,6 +44,12 @@ namespace StandardAssets.Characters.ThirdPerson
 		private float airborneDecelProportion = 0.5f;
 
 		[SerializeField]
+		private AnimationCurve jumpBraceAsAFunctionOfSpeed;
+
+		[SerializeField]
+		private float jumpCooldown = 2;
+
+		[SerializeField]
 		private float jumpSpeed = 15f;
 
 		[SerializeField, Range(0f, 1f)]
@@ -84,6 +91,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		private float currentForwardSpeed;
 
 		private State state;
+		
+		private DateTime nextAllowedJumpTime;
+		
+		private bool isBracingForJump;
+		private float jumpBraceTime, jumpBraceCount;
 		
 		/// <inheritdoc />
 		public override float normalizedLateralSpeed
@@ -195,15 +207,36 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private void OnJumpPressed()
 		{
-			if (!characterPhysics.isGrounded)
+			if (!characterPhysics.isGrounded || DateTime.Now < nextAllowedJumpTime)
 			{
 				return;
 			}
-
-			characterPhysics.SetJumpVelocity(jumpSpeed);
+			
 			if (jumpStarted != null)
 			{
 				jumpStarted();
+			}
+			jumpBraceTime = jumpBraceAsAFunctionOfSpeed.Evaluate(normalizedForwardSpeed);
+			nextAllowedJumpTime = DateTime.Now.AddSeconds(jumpCooldown);
+			isBracingForJump = true;
+		}
+
+		private void OnJumpBraceComplete()
+		{
+			characterPhysics.SetJumpVelocity(jumpSpeed);
+			isBracingForJump = false;
+			jumpBraceCount = 0;
+		}
+
+		private void Update()
+		{
+			if (isBracingForJump)
+			{
+				jumpBraceCount += Time.deltaTime;
+				if (jumpBraceCount >= jumpBraceTime)
+				{
+					OnJumpBraceComplete();
+				}
 			}
 		}
 
