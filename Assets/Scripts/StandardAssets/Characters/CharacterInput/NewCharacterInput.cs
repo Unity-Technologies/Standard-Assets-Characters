@@ -14,6 +14,9 @@ namespace StandardAssets.Characters.CharacterInput
 	{
 		[SerializeField]
 		private NewInputActions controls;
+		
+		[SerializeField]
+		private InputActionReference[] lookActionReferences;
 
 		private Vector2 look;
 
@@ -30,7 +33,11 @@ namespace StandardAssets.Characters.CharacterInput
 		{
 			controls.Enable();
 			controls.gameplay.movement.performed += Move;
-			controls.gameplay.look.performed += Look;
+			
+			foreach (InputActionReference inputActionReference in lookActionReferences)
+			{
+				inputActionReference.action.performed += Look;
+			}
 			controls.gameplay.jump.performed += Jump;
 
 			CinemachineCore.GetInputAxis = LookInputOverride;
@@ -40,7 +47,10 @@ namespace StandardAssets.Characters.CharacterInput
 		{
 			controls.Disable();
 			controls.gameplay.movement.performed -= Move;
-			controls.gameplay.look.performed -= Look;
+			foreach (InputActionReference inputActionReference in lookActionReferences)
+			{
+				inputActionReference.action.performed -= Look;
+			}
 		}
 
 		private void Move(InputAction.CallbackContext ctx)
