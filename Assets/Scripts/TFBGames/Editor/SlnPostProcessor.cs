@@ -429,6 +429,9 @@ namespace TFBGames.Editor
 
 			projectContentElement.AddFirst(new XElement(xmlns + "PropertyGroup",
 												 new XElement(xmlns + "LangVersion", langLevel)));
+			
+			projectContentElement.AddFirst(new XElement(xmlns + "PropertyGroup",
+			                                            new XElement(xmlns + "AllowUnsafeBlocks", true)));
 
 			doc.Save(projectFile);
 		}
