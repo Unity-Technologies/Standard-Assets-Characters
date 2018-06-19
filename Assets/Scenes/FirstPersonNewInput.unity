@@ -472,26 +472,31 @@ Prefab:
         type: 2}
       propertyPath: charaterInput
       value: 
-      objectReference: {fileID: 632258931}
+      objectReference: {fileID: 1737701231}
     - target: {fileID: 114885225739208398, guid: ab3b32e38dca85b4180d5007c17a3505,
         type: 2}
       propertyPath: cameras.Array.data[0]
       value: 
-      objectReference: {fileID: 385521628}
+      objectReference: {fileID: 1654095899}
     - target: {fileID: 114885225739208398, guid: ab3b32e38dca85b4180d5007c17a3505,
         type: 2}
       propertyPath: cameras.Array.data[1]
       value: 
-      objectReference: {fileID: 1100905977}
+      objectReference: {fileID: 1675467600}
     - target: {fileID: 114885225739208398, guid: ab3b32e38dca85b4180d5007c17a3505,
         type: 2}
       propertyPath: cameras.Array.data[2]
       value: 
-      objectReference: {fileID: 2144344145}
+      objectReference: {fileID: 738232616}
     - target: {fileID: 1671513374710674, guid: ab3b32e38dca85b4180d5007c17a3505, type: 2}
       propertyPath: m_Name
       value: Config UI
       objectReference: {fileID: 0}
+    - target: {fileID: 114885225739208398, guid: ab3b32e38dca85b4180d5007c17a3505,
+        type: 2}
+      propertyPath: povCamAdjustables
+      value: 
+      objectReference: {fileID: 1737701231}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab3b32e38dca85b4180d5007c17a3505, type: 2}
   m_IsPrefabAsset: 0
@@ -1228,13 +1233,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b4174b9238a4a13af53a6ff0edeb8ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  XSensitivity: 1
-  YSensitivity: -1
-  smoothTime: 1.1
-  VCams:
-  - {fileID: 385521628}
-  - {fileID: 1100905977}
-  - {fileID: 2144344145}
   controls:
     m_Asset: {fileID: 11400000, guid: 40952324d92091141ae7b75ba9420185, type: 3}
 --- !u!1 &640731009
@@ -1265,6 +1263,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &738232616 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114962441330413634, guid: f2706dd163cab644aa0f7aec413a3457,
+    type: 2}
+  m_PrefabInternal: {fileID: 1812529121}
+  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
 --- !u!43 &816413505
 Mesh:
   m_ObjectHideFlags: 0
@@ -13882,6 +13886,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1559960846}
   - component: {fileID: 1559960847}
+  - component: {fileID: 1559960848}
   m_Layer: 0
   m_Name: Cameras
   m_TagString: Untagged
@@ -13967,6 +13972,31 @@ MonoBehaviour:
     m_ParentHash: 756556552
   - m_Hash: 1063665824
     m_ParentHash: 756556552
+--- !u!114 &1559960848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1559960845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48973502197442979c49c5becb275492, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  XSensitivity: 1
+  YSensitivity: -1
+  smoothTime: 1.1
+  VCams:
+  - {fileID: 385521628}
+  - {fileID: 1100905977}
+  - {fileID: 2144344145}
+  characterInput: {fileID: 632258931}
+--- !u!114 &1654095899 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114324939709206310, guid: f2706dd163cab644aa0f7aec413a3457,
+    type: 2}
+  m_PrefabInternal: {fileID: 1812529121}
+  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
 --- !u!1 &1660699967
 GameObject:
   m_ObjectHideFlags: 0
@@ -14004,6 +14034,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1675467600 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114701727429014396, guid: f2706dd163cab644aa0f7aec413a3457,
+    type: 2}
+  m_PrefabInternal: {fileID: 1812529121}
+  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
 --- !u!43 &1719689380
 Mesh:
   m_ObjectHideFlags: 0
@@ -14159,6 +14195,30 @@ Mesh:
   m_MeshMetrics[0]: 1
   m_MeshMetrics[1]: 1
   m_MeshOptimized: 0
+--- !u!1 &1737701228 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1464020481916166, guid: f2706dd163cab644aa0f7aec413a3457,
+    type: 2}
+  m_PrefabInternal: {fileID: 1812529121}
+--- !u!114 &1737701231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1737701228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48973502197442979c49c5becb275492, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  XSensitivity: 1
+  YSensitivity: -1
+  smoothTime: 1.1
+  VCams:
+  - {fileID: 1654095899}
+  - {fileID: 1675467600}
+  - {fileID: 738232616}
+  characterInput: {fileID: 0}
 --- !u!43 &1744087834
 Mesh:
   m_ObjectHideFlags: 0
@@ -14448,6 +14508,10 @@ Prefab:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 1840918336}
+    - target: {fileID: 1061151631119762, guid: f2706dd163cab644aa0f7aec413a3457, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2706dd163cab644aa0f7aec413a3457, type: 2}
   m_IsPrefabAsset: 0

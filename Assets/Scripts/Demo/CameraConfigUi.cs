@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Cinemachine;
 using StandardAssets.Characters.CharacterInput;
+using StandardAssets.Characters.FirstPerson;
 using UnityEngine;
 using UnityEngine.Experimental.Input;
 using UnityEngine.UI;
@@ -10,7 +11,7 @@ namespace Demo
 	public abstract class CameraConfigUi<T> : MonoBehaviour where T : CinemachineVirtualCameraBase
 	{
 
-		public NewCharacterInputWangJangledMouseFPS charaterInput;
+		public FirstPersonMouseLookPOVCamera povCamAdjustables; //Mouse sensitivity(for POV cameras)
 		/// <summary>
 		/// Camera parameters 
 		/// </summary>
@@ -115,26 +116,26 @@ namespace Demo
 
 		public void ToggleXAxisMouse(Toggle toggle)
 		{
-			charaterInput.XSensitivity *= -1;
+			povCamAdjustables.XSensitivity *= -1;
 			
 		}
 
 		public void ToggleYAxisMouse(Toggle toggle)
 		{
-			charaterInput.YSensitivity *= -1;
+			povCamAdjustables.YSensitivity *= -1;
 		}
 
 		public void SetMouseXSpeed(Slider slider)
 		{
-			var newSensitivity = GetMouseSensitivityValue(charaterInput.XSensitivity, slider);
-			charaterInput.XSensitivity = newSensitivity;
+			var newSensitivity = GetMouseSensitivityValue(povCamAdjustables.XSensitivity, slider);
+			povCamAdjustables.XSensitivity = newSensitivity;
 			SetMouseSensitivytSliderText(xAxisSliderValueTextMouse, newSensitivity);
 		}
 		
 		public void SetMouseYSpeed(Slider slider)
 		{
-			var newSensitivity = GetMouseSensitivityValue(charaterInput.YSensitivity, slider);
-			charaterInput.YSensitivity = newSensitivity;
+			var newSensitivity = GetMouseSensitivityValue(povCamAdjustables.YSensitivity, slider);
+			povCamAdjustables.YSensitivity = newSensitivity;
 			SetMouseSensitivytSliderText(yAxisSliderValueTextMouse, newSensitivity);
 			
 			

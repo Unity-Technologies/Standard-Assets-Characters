@@ -26,8 +26,8 @@ namespace Demo
 			SetMaxSpeedSliderInitialValues(verticalSlider, m_YAxisMaxSpeed, verticalSliderValueText,
 				((m_YAxisMaxSpeed * 100)));
 
-			xAxisMaxSpeedMouse = Mathf.Abs(charaterInput.XSensitivity * 0.1f);
-			yAxisMaxSpeedMouse = Mathf.Abs(charaterInput.YSensitivity * 0.1f);
+			xAxisMaxSpeedMouse = Mathf.Abs(povCamAdjustables.XSensitivity * 0.1f);
+			yAxisMaxSpeedMouse = Mathf.Abs(povCamAdjustables.YSensitivity * 0.1f);
 			
 			SetMaxSpeedSliderInitialValues(horizontalSliderMouse,xAxisMaxSpeedMouse,xAxisSliderValueTextMouse,xAxisMaxSpeedMouse*100);
 			SetMaxSpeedSliderInitialValues(verticalSliderMouse,yAxisMaxSpeedMouse,yAxisSliderValueTextMouse,yAxisMaxSpeedMouse*100);
