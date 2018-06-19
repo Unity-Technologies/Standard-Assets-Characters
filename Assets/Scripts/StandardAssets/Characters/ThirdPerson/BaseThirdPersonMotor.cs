@@ -43,6 +43,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		/// <inheritdoc />
 		public Action landed { get; set; }
+				
+		/// <inheritdoc />
+		public Action fallStarted { get; set; }
 		
 		/// <summary>
 		/// Helper function for handling wrapping of angles
