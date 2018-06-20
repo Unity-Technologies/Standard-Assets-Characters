@@ -102,6 +102,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			isGrounded = false;
 			animator.SetFloat(hashFallingTime, 0);
 			animator.SetBool(hashGrounded, false);
+			animator.SetBool(hashJumped, false);
 		}
 
 		private void OnRightFoot(MovementEvent obj)
@@ -145,7 +146,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			isGrounded = true;
 			animator.SetBool(hashGrounded, true);
-			animator.SetBool(hashJumped, false);
 		}
 
 		/// <summary>
