@@ -33,6 +33,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		private string footednessParameterName = "OnRightFoot";
 		
 		[SerializeField]
+		private string jumpedParameterName = "Jumped";
+		
+		[SerializeField]
 		private bool invert;
 		
 		[SerializeField]
@@ -58,6 +61,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private int hashHasInput;
 		private int hashFallingTime;
 		private int hashFootedness;
+		private int hashJumped;
 
 		private bool isGrounded;
 
@@ -73,6 +77,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			hashHasInput = Animator.StringToHash(hasInputParameterName);
 			hashFallingTime = Animator.StringToHash(fallingTimeParameterName);
 			hashFootedness = Animator.StringToHash(footednessParameterName);
+			hashJumped = Animator.StringToHash(jumpedParameterName);
 			motor = GetComponent<IThirdPersonMotor>();
 			animator = GetComponent<Animator>();
 		}
@@ -140,6 +145,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			isGrounded = true;
 			animator.SetBool(hashGrounded, true);
+			animator.SetBool(hashJumped, false);
 		}
 
 		/// <summary>
@@ -148,6 +154,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void OnJumpStarted()
 		{
 			isGrounded = false;
+			animator.SetBool(hashJumped, true);
 			animator.SetFloat(hashFallingTime, 0);
 			animator.SetBool(hashGrounded, false);
 		}

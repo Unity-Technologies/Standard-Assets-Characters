@@ -119,6 +119,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return characterPhysics.fallTime; }
 		}
 
+		private float currentMaxLateralSpeed
+		{
+			get { return maxLateralSpeed * (isRunToggled ? physicsMotorProperties.runSpeedProportion : 
+				             physicsMotorProperties.walkSpeedProporiton); }
+		}
+		
 		private float currentMaxForwardSpeed
 		{
 			get { return maxForwardSpeed * (isRunToggled ? physicsMotorProperties.runSpeedProportion : 
@@ -443,27 +449,24 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			Vector2 moveInput = characterInput.moveInput;
 
-			currentForwardSpeed = CalculateSpeed(moveInput.y * maxForwardSpeed, currentForwardSpeed);
-			currentLateralSpeed = CalculateSpeed(moveInput.x * maxLateralSpeed, currentLateralSpeed);
+			currentForwardSpeed = CalculateSpeed(moveInput.y * currentMaxForwardSpeed, currentForwardSpeed);
+			currentLateralSpeed = CalculateSpeed(moveInput.x * currentMaxLateralSpeed, currentLateralSpeed);
 		}
 		
 		private float CalculateSpeed(float desiredSpeed, float currentSpeed)
 		{
-			if (useAcceleration)
-			{
-				float acceleration = characterPhysics.isGrounded
-					? (characterInput.hasMovementInput ? groundAcceleration : groundDeceleration)
-					: (characterInput.hasMovementInput ? groundAcceleration : groundDeceleration) *
-					  airborneDecelProportion;
-
-				return 
-					Mathf.MoveTowards(currentSpeed, desiredSpeed, acceleration * Time.fixedDeltaTime);
-			}
-			else
+			if (!useAcceleration)
 			{
 				return desiredSpeed;
 			}
-		}
+
+			float acceleration = characterInput.hasMovementInput ? currentGroundAccelaration : groundDeceleration;
+			if (!characterPhysics.isGrounded)
+			{
+				acceleration *= airborneDecelProportion;
+			}
+			return Mathf.MoveTowards(currentSpeed, desiredSpeed, acceleration * Time.fixedDeltaTime);
+		}	
 
 		/// <summary>
 		/// Moves the character
@@ -475,7 +478,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (isStrafing)
 			{
 				if (animator != null && characterPhysics.isGrounded &&
-				    animator.deltaPosition.z >= groundAcceleration * Time.fixedDeltaTime)
+				    animator.deltaPosition.z >= currentGroundAccelaration * Time.fixedDeltaTime)
 				{
 					movement = animator.deltaPosition;
 				}
