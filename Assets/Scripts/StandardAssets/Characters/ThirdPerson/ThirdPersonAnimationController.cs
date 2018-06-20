@@ -64,6 +64,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private int hashJumped;
 
 		private bool isGrounded;
+		private bool didJump;
 
 		/// <summary>
 		/// Gets the required components
@@ -102,7 +103,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			isGrounded = false;
 			animator.SetFloat(hashFallingTime, 0);
 			animator.SetBool(hashGrounded, false);
-			animator.SetBool(hashJumped, false);
+			animator.SetBool(hashJumped, didJump);
 		}
 
 		private void OnRightFoot(MovementEvent obj)
@@ -145,7 +146,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void OnLanding()
 		{
 			isGrounded = true;
+			didJump = false;
 			animator.SetBool(hashGrounded, true);
+			animator.SetBool(hashJumped, false);
 		}
 
 		/// <summary>
@@ -153,6 +156,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private void OnJumpStarted()
 		{
+			didJump = true;
 			isGrounded = false;
 			animator.SetBool(hashJumped, true);
 			animator.SetFloat(hashFallingTime, 0);
