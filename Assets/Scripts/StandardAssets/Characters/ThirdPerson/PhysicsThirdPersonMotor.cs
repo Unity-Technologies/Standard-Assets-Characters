@@ -216,6 +216,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (characterPhysics != null)
 			{
 				characterPhysics.landed -= OnLanding;
+				characterPhysics.startedFalling -= OnStartedFalling;
 			}
 
 			if (runInput != null)

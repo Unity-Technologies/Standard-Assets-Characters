@@ -119,13 +119,12 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private void OnDisable()
 		{
-			if (motor == null)
+			if (motor != null)
 			{
-				return;
+				motor.jumpStarted -= OnJumpStarted;
+				motor.landed -= OnLanding;
+				motor.fallStarted -= OnFallStarted;
 			}
-			
-			motor.jumpStarted -= OnJumpStarted;
-			motor.landed -= OnLanding;
 
 			if (leftFoot != null && rightfoot != null)
 			{
