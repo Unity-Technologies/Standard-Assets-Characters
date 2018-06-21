@@ -22,6 +22,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected Animator animator;
 		
+		protected float currentForwardSpeed;
+
+		protected float currentLateralSpeed;
+		
 		/// <summary>
 		/// Needed to calculate turning
 		/// </summary>

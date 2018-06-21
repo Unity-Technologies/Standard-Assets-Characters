@@ -39,7 +39,8 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		protected override bool CheckGrounded()
 		{
-			Debug.DrawRay(transform.position + characterController.center, new Vector3(0,-groundCheckDistance * characterController.height,0), Color.red);
+			Debug.DrawRay(transform.position + characterController.center, 
+			              new Vector3(0,-groundCheckDistance * characterController.height,0), Color.red);
 			if (UnityEngine.Physics.Raycast(transform.position + characterController.center, 
 				-transform.up, groundCheckDistance * characterController.height, groundCheckMask))
 			{
