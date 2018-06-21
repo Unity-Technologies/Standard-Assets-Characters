@@ -7,9 +7,11 @@ namespace StandardAssets.Characters.ThirdPerson
 	{
 		[SerializeField]
 		private float inputIncreaseTime = 2f, inputDecreaseTime = 0.5f;
-		
+
 		private float normalizedInputLateralSpeed;
 		private float normalizedInputForwardSpeed;
+
+		private Vector3 groundMovementVector;
 
 		public override float normalizedLateralSpeed
 		{
@@ -30,9 +32,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				return;
 			}
 
-			normalizedInputForwardSpeed += Time.deltaTime/inputIncreaseTime;
-			characterPhysics.Move(Vector3.zero);
-
+			normalizedInputForwardSpeed += Time.deltaTime / inputIncreaseTime;
 		}
 
 		protected override void CalculateStrafeMovement()
@@ -43,12 +43,12 @@ namespace StandardAssets.Characters.ThirdPerson
 				characterPhysics.Move(Vector3.zero);
 				return;
 			}
-			
+
 			Vector2 moveInput = characterInput.moveInput;
-			
-			normalizedInputLateralSpeed += Mathf.Sign(moveInput.x) * Time.fixedDeltaTime/inputIncreaseTime;
-			normalizedInputForwardSpeed += Mathf.Sign(moveInput.y) * Time.fixedDeltaTime/inputIncreaseTime;
-			characterPhysics.Move(Vector3.zero);
+
+			normalizedInputLateralSpeed += Mathf.Sign(moveInput.x) * Time.fixedDeltaTime / inputIncreaseTime;
+			normalizedInputForwardSpeed += Mathf.Sign(moveInput.y) * Time.fixedDeltaTime / inputIncreaseTime;
+
 		}
 
 		private void EaseOffInput()
@@ -58,6 +58,16 @@ namespace StandardAssets.Characters.ThirdPerson
 			normalizedInputLateralSpeed =
 				Mathf.Lerp(normalizedInputLateralSpeed, 0, Time.fixedDeltaTime / inputDecreaseTime);
 		}
-		
+
+		private void OnAnimatorMove()
+		{
+			if (characterPhysics.isGrounded)
+			{
+				groundMovementVector = new Vector3(animator.deltaPosition.x, 0, animator.deltaPosition.z);
+			}
+
+			characterPhysics.Move(groundMovementVector);
+		}
 	}
+
 }
