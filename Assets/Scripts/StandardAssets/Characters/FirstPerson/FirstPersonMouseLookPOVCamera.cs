@@ -2,6 +2,7 @@
 using Cinemachine;
 using StandardAssets.Characters.CharacterInput;
 using UnityEngine;
+using UnityEngine.Experimental.Input;
 
 namespace StandardAssets.Characters.FirstPerson
 {
@@ -24,21 +25,38 @@ namespace StandardAssets.Characters.FirstPerson
         private CinemachinePOV mPOV; 
 
        
-        public NewCharacterInputWangJangledMouseFPS characterInput;
-        private Vector2 mouseLook;
+        [SerializeField]
+        private InputActionReference[] lookActionReferences;
+        
+        private Vector2 look;
         
         void Start ()
         {
             mPOV = VCams[0].GetCinemachineComponent<CinemachinePOV>();
         }
 
-        void Update()
-        { 
-            mouseLook = characterInput.mouseLook;
-            if(mouseLook!=Vector2.zero)
-                ResponsiveMouseLook();   
+        void OnEnable()
+        {
+            foreach (InputActionReference inputActionReference in lookActionReferences)
+            {
+                inputActionReference.action.performed += Look;
+            }
         }
+
+        private void OnDisable()
+        {
+            foreach (InputActionReference inputActionReference in lookActionReferences)
+            {
+                inputActionReference.action.performed += Look;
+            }
+        }
+
         
+        void Look(InputAction.CallbackContext ctx)
+        {
+            look = ctx.ReadValue<Vector2>();
+            ResponsiveMouseLook();
+        }
         
         void ResponsiveMouseLook()
         {
@@ -67,7 +85,7 @@ namespace StandardAssets.Characters.FirstPerson
         Vector3 GetCameraRotationVector()
         {
             var cameraRotation = new Vector3(mPOV.m_VerticalAxis.Value, mPOV.m_HorizontalAxis.Value, 0);
-            var rotationDelta = new Vector3(mouseLook.y * YSensitivity, mouseLook.x* XSensitivity, 0);
+            var rotationDelta = new Vector3(look.y * YSensitivity, look.x* XSensitivity, 0);
 			
             rotationDelta = Cinemachine.Utility.Damper.Damp(rotationDelta, smoothTime, Time.deltaTime);
 			

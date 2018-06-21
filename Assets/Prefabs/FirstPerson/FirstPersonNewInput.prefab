@@ -46,8 +46,6 @@ GameObject:
   - component: {fileID: 114266891504341116}
   - component: {fileID: 114591283884522816}
   - component: {fileID: 114688313537942486}
-  - component: {fileID: 114181725713053120}
-  - component: {fileID: 114700985164586280}
   - component: {fileID: 114311363622015436}
   m_Layer: 0
   m_Name: FirstPersonNewInput
@@ -55,7 +53,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1124660954098080
 GameObject:
   m_ObjectHideFlags: 1
@@ -98,6 +96,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4027699208033500}
   - component: {fileID: 114762821089246944}
+  - component: {fileID: 114810632119137888}
   m_Layer: 0
   m_Name: Cameras
   m_TagString: Untagged
@@ -313,19 +312,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controls:
     m_Asset: {fileID: 11400000, guid: 40952324d92091141ae7b75ba9420185, type: 3}
---- !u!114 &114181725713053120
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1061151631119762}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79b8563e9117458bb97ca06f29b17116, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jumpId: jumping
-  landingId: landing
+  lookActionReferences:
+  - {fileID: 11400006, guid: 40952324d92091141ae7b75ba9420185, type: 3}
 --- !u!114 &114266891504341116
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -354,7 +342,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_VerticalAxis:
     Value: 0
-    m_MaxSpeed: 300
+    m_MaxSpeed: 220
     m_AccelTime: 0.1
     m_DecelTime: 0.1
     m_InputAxisName: Mouse Y
@@ -706,19 +694,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b47216618e54cb19f75a56e601bb515, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114700985164586280
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1061151631119762}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79b8563e9117458bb97ca06f29b17116, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jumpId: jumping
-  landingId: landing
 --- !u!114 &114701727429014396
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -776,7 +751,10 @@ MonoBehaviour:
   m_LayerIndex: 0
   m_ShowDebugText: 0
   m_EnableAllChildCameras: 1
-  m_ChildCameras: []
+  m_ChildCameras:
+  - {fileID: 114324939709206310}
+  - {fileID: 114701727429014396}
+  - {fileID: 114962441330413634}
   m_Instructions:
   - m_FullHash: 81563449
     m_VirtualCamera: {fileID: 114324939709206310}
@@ -811,8 +789,6 @@ MonoBehaviour:
     m_ParentHash: 756556552
   - m_Hash: 1063665824
     m_ParentHash: 756556552
-  - m_Hash: -1631381316
-    m_ParentHash: 756556552
 --- !u!114 &114792954165457610
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -826,7 +802,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_VerticalAxis:
     Value: 0
-    m_MaxSpeed: 300
+    m_MaxSpeed: 220
     m_AccelTime: 0.1
     m_DecelTime: 0.1
     m_InputAxisName: Mouse Y
@@ -858,6 +834,26 @@ MonoBehaviour:
     m_RecenteringTime: 2
     m_LegacyHeadingDefinition: -1
     m_LegacyVelocityFilterStrength: -1
+--- !u!114 &114810632119137888
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1464020481916166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48973502197442979c49c5becb275492, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  XSensitivity: 4.75377
+  YSensitivity: 1
+  smoothTime: 1.1
+  VCams:
+  - {fileID: 114324939709206310}
+  - {fileID: 114701727429014396}
+  - {fileID: 114962441330413634}
+  lookActionReferences:
+  - {fileID: 11400002, guid: 40952324d92091141ae7b75ba9420185, type: 3}
 --- !u!114 &114829970130825038
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -882,7 +878,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_VerticalAxis:
     Value: 0
-    m_MaxSpeed: 300
+    m_MaxSpeed: 220
     m_AccelTime: 0.1
     m_DecelTime: 0.1
     m_InputAxisName: Mouse Y
