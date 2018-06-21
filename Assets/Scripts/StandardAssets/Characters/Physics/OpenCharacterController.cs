@@ -183,8 +183,6 @@ namespace StandardAssets.Characters.Physics
 				}
 			}
 
-			isGrounded = true;
-
 			if (groundHit.point.y <= transform.position.y + maxStepHeight && playerMovement.y < 0)
 			{
 				PrecalculateGroundY(groundHit);

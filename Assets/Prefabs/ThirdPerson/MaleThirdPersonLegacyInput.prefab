@@ -1044,15 +1044,16 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4655281766580260}
+  - component: {fileID: 114271618762603082}
+  - component: {fileID: 114240240390363140}
   - component: {fileID: 95771403575124170}
-  - component: {fileID: 143301062501469002}
   - component: {fileID: 114062951762596594}
-  - component: {fileID: 114584666778802448}
   - component: {fileID: 114086197978366078}
-  - component: {fileID: 114279729304053836}
-  - component: {fileID: 114798069747516348}
+  - component: {fileID: 114584666778802448}
+  - component: {fileID: 136711839598038450}
   - component: {fileID: 114337826517927418}
-  m_Layer: 0
+  - component: {fileID: 114798069747516348}
+  m_Layer: 11
   m_Name: MaleThirdPersonLegacyInput
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -2175,7 +2176,7 @@ MonoBehaviour:
   horizontalAxisName: Horizontal
   verticalAxisName: Vertical
   jumpKey: 32
---- !u!114 &114279729304053836
+--- !u!114 &114240240390363140
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2183,15 +2184,42 @@ MonoBehaviour:
   m_GameObject: {fileID: 1964598378489596}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3eb889feba9d41d4bfbbade70ee269c8, type: 3}
+  m_Script: {fileID: 11500000, guid: 7e163090ac99486aae32f05b5b641e9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravity: 19.62
-  terminalVelocity: 120
-  groundCheckDistance: 0.51
-  groundCheckMask:
+  terminalVelocity: 10
+--- !u!114 &114271618762603082
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1964598378489596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b5c6cf5f04e4e2b9c79ad2fda5ddbea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerRootTransform: {fileID: 1296605580789908}
+  playerCentre: {x: 0, y: -0.85, z: 0}
+  playerHeight: 1.7
+  playerRadius: 0.45
+  maxGroundingDist: 50
+  groundingEasing: 10
+  groundCheckPoint: {x: 0, y: -0.7, z: 0}
+  groundCheckRadius: 0.2
+  jumpCeiling: 2
+  minSlope: 0
+  maxSlope: 60
+  maxModifiedSlope: 45
+  minimumGroundingDist: 2
+  maxStepHeight: 1.5
+  liftSlopePoint: {x: 0, y: 1, z: 0}
+  liftSlopeRadius: 0.2
+  excludePlayer:
     serializedVersion: 2
     m_Bits: 311
+  capsuleCollider: {fileID: 0}
+  enableDebug: 1
 --- !u!114 &114337826517927418
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2253,7 +2281,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   jumpCooldown: 0.5
-  jumpSpeed: 6
+  jumpSpeed: 3.5
   airborneTurnSpeedProportion: 0.5
   angleSnapBehaviour: 60
   maxTurnSpeed: 5000
@@ -2322,6 +2350,19 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 256
+--- !u!136 &136711839598038450
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1964598378489596}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1.7
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!137 &137486808104186404
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -2424,20 +2465,3 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.117299676, y: 0.015860312, z: -0.000000059604645}
     m_Extent: {x: 0.8884624, y: 0.16316557, z: 0.90526766}
   m_DirtyAABB: 0
---- !u!143 &143301062501469002
-CharacterController:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1964598378489596}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 1.8
-  m_Radius: 0.2
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.001
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.9, z: 0}

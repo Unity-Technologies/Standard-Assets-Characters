@@ -12,6 +12,13 @@ namespace StandardAssets.Characters.ThirdPerson
 	[RequireComponent(typeof(ICharacterInput))]
 	public class PhysicsThirdPersonMotor : InputThirdPersonMotor
 	{
+		protected enum State
+		{
+			Moving,
+			RapidTurnDecel,
+			RapidTurnRotation
+		}
+		
 		[SerializeField]
 		private float maxForwardSpeed = 10f, maxLateralSpeed = 10f;
 		
@@ -29,6 +36,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		[SerializeField] 
 		private PhysicsMotorProperties physicsMotorProperties;
+		
+		protected State state;
 		
 		/// <inheritdoc />
 		public override float normalizedLateralSpeed
@@ -146,6 +155,48 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			currentForwardSpeed = CalculateSpeed(moveInput.y * currentMaxForwardSpeed, currentForwardSpeed);
 			currentLateralSpeed = CalculateSpeed(moveInput.x * currentMaxLateralSpeed, currentLateralSpeed);
+		}
+
+		protected override bool CanSetForwardLookDirection()
+		{
+			// if no input or decelerating for a rapid turn, we early out
+			return characterInput.hasMovementInput && state != State.RapidTurnDecel;
+		}
+
+		protected override void HandleTargetRotation(Quaternion targetRotation)
+		{
+			float angleDifference = Mathf.Abs((transform.eulerAngles - targetRotation.eulerAngles).y);
+
+			float calculatedTurnSpeed = turnSpeed;
+			if (angleSnapBehaviour < angleDifference && angleDifference < 360 - angleSnapBehaviour)
+			{
+				// if we need a rapid turn, first decelerate
+				if (state == State.Moving)
+				{
+					state = State.RapidTurnDecel;
+					return;
+				}
+
+				// rapid turn deceleration complete, now we rotate appropriately.
+				calculatedTurnSpeed += (maxTurnSpeed - turnSpeed) *
+				                       turnSpeedAsAFunctionOfForwardSpeed.Evaluate(Mathf.Abs(normalizedForwardSpeed));
+			}
+			// once rapid turn rotation is complete, we return to the normal movement state
+			else if (state == State.RapidTurnRotation)
+			{
+				state = State.Moving;
+			}
+
+			float actualTurnSpeed = calculatedTurnSpeed;
+			if (!characterPhysics.isGrounded)
+			{
+				actualTurnSpeed *= airborneTurnSpeedProportion;
+			}
+
+			targetRotation =
+				Quaternion.RotateTowards(transform.rotation, targetRotation, actualTurnSpeed * Time.fixedDeltaTime);
+
+			transform.rotation = targetRotation;
 		}
 		
 		private float CalculateSpeed(float desiredSpeed, float currentSpeed)
