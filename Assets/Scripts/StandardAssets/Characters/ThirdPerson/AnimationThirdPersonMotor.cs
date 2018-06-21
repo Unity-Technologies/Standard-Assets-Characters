@@ -1,5 +1,4 @@
-﻿using System.Runtime.Serialization.Formatters;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
@@ -8,10 +7,13 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		private float inputIncreaseTime = 2f, inputDecreaseTime = 0.5f;
 
+		[SerializeField]
+		private bool inheritGroundVelocity;
+
 		private float normalizedInputLateralSpeed;
 		private float normalizedInputForwardSpeed;
 
-		private Vector3 groundMovementVector;
+		private Vector3 groundMovementVector, cacheGroundMovementVector;
 
 		public override float normalizedLateralSpeed
 		{
@@ -21,6 +23,20 @@ namespace StandardAssets.Characters.ThirdPerson
 		public override float normalizedForwardSpeed
 		{
 			get { return Mathf.Clamp(normalizedInputForwardSpeed, -1, 1); }
+		}
+
+		protected override void OnEnable()
+		{
+			base.OnEnable();
+			if (inheritGroundVelocity)
+			{
+				characterInput.jumpPressed += CacheCurrentMovement;
+			}
+		}
+
+		private void CacheCurrentMovement()
+		{
+			cacheGroundMovementVector = groundMovementVector;
 		}
 
 		protected override void CalculateForwardMovement()
@@ -48,7 +64,6 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			normalizedInputLateralSpeed += Mathf.Sign(moveInput.x) * Time.fixedDeltaTime / inputIncreaseTime;
 			normalizedInputForwardSpeed += Mathf.Sign(moveInput.y) * Time.fixedDeltaTime / inputIncreaseTime;
-
 		}
 
 		private void EaseOffInput()
@@ -61,13 +76,15 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private void OnAnimatorMove()
 		{
-			if (characterPhysics.isGrounded)
+			if (!inheritGroundVelocity || characterPhysics.isGrounded)
 			{
 				groundMovementVector = new Vector3(animator.deltaPosition.x, 0, animator.deltaPosition.z);
+				characterPhysics.Move(groundMovementVector);
 			}
-
-			characterPhysics.Move(groundMovementVector);
+			else
+			{
+				characterPhysics.Move(cacheGroundMovementVector);
+			}
 		}
 	}
-
 }

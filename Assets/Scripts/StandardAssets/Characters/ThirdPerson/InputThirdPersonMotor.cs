@@ -129,7 +129,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Subscribe
 		/// </summary>
-		private void OnEnable()
+		protected virtual void OnEnable()
 		{
 			characterInput.jumpPressed += OnJumpPressed;
 			characterPhysics.landed += OnLanding;
@@ -162,7 +162,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Unsubscribe
 		/// </summary>
-		private void OnDisable()
+		protected virtual void OnDisable()
 		{
 			if (characterInput != null)
 			{
