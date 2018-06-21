@@ -2157,6 +2157,7 @@ MonoBehaviour:
   hasInputParameterName: HasInput
   fallingTimeParameterName: FallDistance
   footednessParameterName: OnRightFoot
+  jumpedParameterName: Jumped
   invert: 0
   leftFoot: {fileID: 114824860443034366}
   rightfoot: {fileID: 114062553606472534}
@@ -2218,13 +2219,6 @@ MonoBehaviour:
   normalizedTurnLerpFactor: 5
   animator: {fileID: 95771403575124170}
   cameraTransform: {fileID: 0}
-  maxForwardSpeed: 10
-  maxLateralSpeed: 10
-  useAcceleration: 1
-  groundAcceleration: 10
-  groundDeceleration: 15
-  airborneAccelProportion: 0.5
-  airborneDecelProportion: 0.5
   jumpBraceAsAFunctionOfSpeed:
     serializedVersion: 2
     m_Curve:
@@ -2258,7 +2252,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  jumpCooldown: 1.75
+  jumpCooldown: 0.5
   jumpSpeed: 6
   airborneTurnSpeedProportion: 0.5
   angleSnapBehaviour: 60
@@ -2289,10 +2283,16 @@ MonoBehaviour:
     m_RotationOrder: 4
   snappingDecelaration: 30
   snapSpeedTarget: 0.2
-  physicsMotorProperties: {fileID: 11400000, guid: 2213674dfac7b4763bb6fcb7572876c9,
-    type: 2}
   runInput: {fileID: 11400000, guid: 8c1192daa77a944b393df7e0146d7a7f, type: 2}
   strafeInput: {fileID: 11400000, guid: afab5886de3d240fd8015366bf8ee806, type: 2}
+  maxForwardSpeed: 5
+  maxLateralSpeed: 5
+  useAcceleration: 1
+  groundAcceleration: 10
+  groundDeceleration: 15
+  airborneDecelProportion: 0.5
+  physicsMotorProperties: {fileID: 11400000, guid: 2213674dfac7b4763bb6fcb7572876c9,
+    type: 2}
 --- !u!114 &114798069747516348
 MonoBehaviour:
   m_ObjectHideFlags: 1
