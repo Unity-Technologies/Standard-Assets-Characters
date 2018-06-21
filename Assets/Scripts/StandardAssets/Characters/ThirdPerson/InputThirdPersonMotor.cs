@@ -9,39 +9,32 @@ namespace StandardAssets.Characters.ThirdPerson
 	[RequireComponent(typeof(ICharacterInput))]
 	public abstract class InputThirdPersonMotor : BaseThirdPersonMotor
 	{
-		protected enum State
-		{
-			Moving,
-			RapidTurnDecel,
-			RapidTurnRotation
-		}
-
 		/// <summary>
 		/// Movement values
 		/// </summary>
 		[SerializeField]
-		private Transform cameraTransform;
+		protected Transform cameraTransform;
 
 		[SerializeField]
-		private AnimationCurve jumpBraceAsAFunctionOfSpeed;
+		protected AnimationCurve jumpBraceAsAFunctionOfSpeed;
 
 		[SerializeField]
-		private float jumpCooldown = 0.5f;
+		protected float jumpCooldown = 0.5f;
 
 		[SerializeField]
-		private float jumpSpeed = 15f;
+		protected float jumpSpeed = 15f;
 		
 		[SerializeField, Range(0f, 1f)]
-		private float airborneTurnSpeedProportion = 0.5f;
+		protected float airborneTurnSpeedProportion = 0.5f;
 
 		[SerializeField]
-		private float angleSnapBehaviour = 120f;
+		protected float angleSnapBehaviour = 120f;
 
 		[SerializeField]
-		private float maxTurnSpeed = 10000f;
+		protected float maxTurnSpeed = 10000f;
 
 		[SerializeField]
-		private AnimationCurve turnSpeedAsAFunctionOfForwardSpeed = AnimationCurve.Linear(0, 0, 1, 1);
+		protected AnimationCurve turnSpeedAsAFunctionOfForwardSpeed = AnimationCurve.Linear(0, 0, 1, 1);
 
 		[SerializeField]
 		protected float snappingDecelaration = 30;
@@ -50,10 +43,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected float snapSpeedTarget = 0.2f;
 
 		[SerializeField]
-		private InputResponse runInput;
+		protected InputResponse runInput;
 
 		[SerializeField]
-		private InputResponse strafeInput;
+		protected InputResponse strafeInput;
 
 		/// <summary>
 		/// The input implementation
@@ -67,12 +60,10 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected bool isRunToggled, isStrafing;
 
-		protected State state;
+		protected DateTime nextAllowedJumpTime;
 
-		private DateTime nextAllowedJumpTime;
-
-		private bool isBracingForJump;
-		private float jumpBraceTime, jumpBraceCount;
+		protected bool isBracingForJump;
+		protected float jumpBraceTime, jumpBraceCount;
 
 
 		public override float fallTime
@@ -276,8 +267,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private void SetForwardLookDirection()
 		{
-			// if no input or decelerating for a rapid turn, we early out
-			if (!characterInput.hasMovementInput || state == State.RapidTurnDecel)
+			if (!CanSetForwardLookDirection())
 			{
 				return;
 			}
@@ -292,41 +282,13 @@ namespace StandardAssets.Characters.ThirdPerson
 			Quaternion cameraToInputOffset = Quaternion.FromToRotation(Vector3.forward, localMovementDirection);
 			cameraToInputOffset.eulerAngles = new Vector3(0f, cameraToInputOffset.eulerAngles.y, 0f);
 
-			Quaternion targetRotation = Quaternion.LookRotation(cameraToInputOffset * flatForward);
-
-			float angleDifference = Mathf.Abs((transform.eulerAngles - targetRotation.eulerAngles).y);
-
-			float calculatedTurnSpeed = turnSpeed;
-			if (angleSnapBehaviour < angleDifference && angleDifference < 360 - angleSnapBehaviour)
-			{
-				// if we need a rapid turn, first decelerate
-				if (state == State.Moving)
-				{
-					state = State.RapidTurnDecel;
-					return;
-				}
-
-				// rapid turn deceleration complete, now we rotate appropriately.
-				calculatedTurnSpeed += (maxTurnSpeed - turnSpeed) *
-				                       turnSpeedAsAFunctionOfForwardSpeed.Evaluate(Mathf.Abs(normalizedForwardSpeed));
-			}
-			// once rapid turn rotation is complete, we return to the normal movement state
-			else if (state == State.RapidTurnRotation)
-			{
-				state = State.Moving;
-			}
-
-			float actualTurnSpeed = calculatedTurnSpeed;
-			if (!characterPhysics.isGrounded)
-			{
-				actualTurnSpeed *= airborneTurnSpeedProportion;
-			}
-
-			targetRotation =
-				Quaternion.RotateTowards(transform.rotation, targetRotation, actualTurnSpeed * Time.fixedDeltaTime);
-
-			transform.rotation = targetRotation;
+			Quaternion targetRotation = Quaternion.LookRotation(cameraToInputOffset * flatForward);	
+			HandleTargetRotation(targetRotation);
 		}
+
+		protected abstract bool CanSetForwardLookDirection();
+		
+		protected abstract void HandleTargetRotation(Quaternion targetRotation);
 
 		/// <summary>
 		/// Sets forward rotation
