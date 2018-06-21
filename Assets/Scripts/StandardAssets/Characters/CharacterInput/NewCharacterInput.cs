@@ -13,7 +13,10 @@ namespace StandardAssets.Characters.CharacterInput
 	public class NewCharacterInput : MonoBehaviour, ICharacterInput
 	{
 		[SerializeField]
-		private NewInputActions controls;
+		private GameplayInputActions controls;
+		
+		//[SerializeField]
+		//private NewInputActions controls;
 		
 		[SerializeField]
 		private InputActionReference[] lookActionReferences;
@@ -21,6 +24,10 @@ namespace StandardAssets.Characters.CharacterInput
 		private Vector2 look;
 
 		public Vector2 moveInput { get; private set; }
+		
+		//StickDebug
+		public Text leftStickText;
+		public Text rightStickText;
 
 		public bool hasMovementInput 
 		{ 
@@ -29,16 +36,31 @@ namespace StandardAssets.Characters.CharacterInput
 
 		public Action jumpPressed { get; set; }
 
+		void Awake()
+		{
+			/*
+			 * controls.gameplay.movement.AppendCompositeBinding("Dpad")
+				.With("Left", "<Keyboard>/a")
+				.With("Right", "<Keyboard>/d")
+				.With("Up", "<Keyboard>/w")
+				.With("Down", "<Keyboard>/s");
+			 */
+		}
+		
+		
 		public void OnEnable()
 		{
 			controls.Enable();
+			//
+
 			controls.gameplay.movement.performed += Move;
-			
 			foreach (InputActionReference inputActionReference in lookActionReferences)
 			{
 				inputActionReference.action.performed += Look;
 			}
 			controls.gameplay.jump.performed += Jump;
+
+		
 
 			CinemachineCore.GetInputAxis = LookInputOverride;
 		}
@@ -51,16 +73,22 @@ namespace StandardAssets.Characters.CharacterInput
 			{
 				inputActionReference.action.performed -= Look;
 			}
+			controls.gameplay.jump.performed -= Jump;
+			
+
 		}
 
 		private void Move(InputAction.CallbackContext ctx)
 		{
 			moveInput = ctx.ReadValue<Vector2>();
+			float rawMoveX = moveInput.x;
+			leftStickText.text = rawMoveX.ToString();
 		}
 
 		private void Look(InputAction.CallbackContext ctx)
 		{
 			look = ctx.ReadValue<Vector2>();	
+			rightStickText.text = look.ToString();
 		}
 
 		/// <summary>
@@ -68,12 +96,12 @@ namespace StandardAssets.Characters.CharacterInput
 		/// </summary>
 		private float LookInputOverride(string axis)
 		{
-			if (axis == "Mouse X")
+			if (axis == "Horizontal")
 			{
 				return look.x;
 			}
 
-			if (axis == "Mouse Y")
+			if (axis == "Vertical")
 			{
 				return look.y;
 			}
@@ -88,6 +116,7 @@ namespace StandardAssets.Characters.CharacterInput
 				jumpPressed();
 			}	
 		}
+		
 	}
 	
 }
