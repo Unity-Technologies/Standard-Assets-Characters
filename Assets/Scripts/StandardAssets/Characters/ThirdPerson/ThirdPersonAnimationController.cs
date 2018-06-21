@@ -28,7 +28,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		private string fallingTimeParameterName = "FallingTime";
 		
-		[Header("Footedness")]
 		[SerializeField]
 		private string footednessParameterName = "OnRightFoot";
 		

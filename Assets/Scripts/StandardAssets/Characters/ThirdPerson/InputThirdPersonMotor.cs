@@ -26,7 +26,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private AnimationCurve jumpBraceAsAFunctionOfSpeed;
 
 		[SerializeField]
-		private float jumpCooldown = 2;
+		private float jumpCooldown = 0.5f;
 
 		[SerializeField]
 		private float jumpSpeed = 15f;
@@ -67,10 +67,6 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected bool isRunToggled, isStrafing;
 
-		private float currentForwardSpeed;
-
-		private float currentLateralSpeed;
-
 		protected State state;
 
 		private DateTime nextAllowedJumpTime;
@@ -83,6 +79,14 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			get { return characterPhysics.fallTime; }
 		}
+		
+		private float normalizedSpeed
+		{
+			get
+			{
+				return  Mathf.Max(Mathf.Abs(normalizedForwardSpeed), Mathf.Abs(normalizedLateralSpeed));
+			}
+		}
 
 		/// <inheritdoc />
 		/// <summary>
@@ -93,8 +97,15 @@ namespace StandardAssets.Characters.ThirdPerson
 			characterInput = GetComponent<ICharacterInput>();
 			characterPhysics = GetComponent<ICharacterPhysics>();
 
-			runInput.Init();
-			strafeInput.Init();
+			if (runInput != null)
+			{
+				runInput.Init();
+			}
+
+			if (strafeInput != null)
+			{
+				strafeInput.Init();
+			}
 
 			base.Awake();
 		}
@@ -122,14 +133,17 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Subscribe
 		/// </summary>
-		private void OnEnable()
+		protected virtual void OnEnable()
 		{
 			characterInput.jumpPressed += OnJumpPressed;
 			characterPhysics.landed += OnLanding;
 			characterPhysics.startedFalling += OnStartedFalling;
 
-			runInput.started += OnRunStarted;
-			runInput.ended += OnRunEnded;
+			if (runInput != null)
+			{
+				runInput.started += OnRunStarted;
+				runInput.ended += OnRunEnded;
+			}
 
 			if (strafeInput != null)
 			{
@@ -152,7 +166,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Unsubscribe
 		/// </summary>
-		private void OnDisable()
+		protected virtual void OnDisable()
 		{
 			if (characterInput != null)
 			{
@@ -187,6 +201,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				landed();
 			}
+			nextAllowedJumpTime = DateTime.Now.AddSeconds(jumpCooldown);
 		}
 
 		/// <summary>
@@ -204,8 +219,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				jumpStarted();
 			}
 
-			jumpBraceTime = jumpBraceAsAFunctionOfSpeed.Evaluate(normalizedForwardSpeed);
-			nextAllowedJumpTime = DateTime.Now.AddSeconds(jumpCooldown);
+			jumpBraceTime = jumpBraceAsAFunctionOfSpeed.Evaluate(normalizedSpeed);
 			isBracingForJump = true;
 		}
 
@@ -323,8 +337,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			lookForwardY.x = 0;
 			lookForwardY.z = 0;
 			Quaternion targetRotation = Quaternion.Euler(lookForwardY);
-
-			float angleDifference = Mathf.Abs((transform.eulerAngles - targetRotation.eulerAngles).y);
 
 			float actualTurnSpeed =
 				characterPhysics.isGrounded ? turnSpeed : turnSpeed * airborneTurnSpeedProportion;

@@ -5,10 +5,6 @@ namespace StandardAssets.Characters.Physics
 {
 	public abstract class BaseCharacterPhysics : MonoBehaviour, ICharacterPhysics
 	{
-		/// <summary>
-		/// The value of gravity
-		/// </summary>
-		[SerializeField]
 		private float gravity;
 
 		/// <summary>
@@ -64,7 +60,7 @@ namespace StandardAssets.Characters.Physics
 			//Ensures that the gravity acts downwards
 			if (gravity > 0)
 			{
-				gravity = -gravity;
+				gravity = UnityEngine.Physics.gravity.y;
 			}
 
 			if (terminalVelocity > 0)

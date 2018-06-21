@@ -25,17 +25,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		private float groundDeceleration = 15f;
 
 		[SerializeField, Range(0f, 1f)]
-		private float airborneAccelProportion = 0.5f;
-
-		[SerializeField, Range(0f, 1f)]
 		private float airborneDecelProportion = 0.5f;
 		
 		[SerializeField] 
 		private PhysicsMotorProperties physicsMotorProperties;
-
-		private float currentForwardSpeed;
-		
-		private float currentLateralSpeed;
 		
 		/// <inheritdoc />
 		public override float normalizedLateralSpeed
