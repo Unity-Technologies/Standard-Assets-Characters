@@ -93,8 +93,15 @@ namespace StandardAssets.Characters.ThirdPerson
 			characterInput = GetComponent<ICharacterInput>();
 			characterPhysics = GetComponent<ICharacterPhysics>();
 
-			runInput.Init();
-			strafeInput.Init();
+			if (runInput != null)
+			{
+				runInput.Init();
+			}
+
+			if (strafeInput != null)
+			{
+				strafeInput.Init();
+			}
 
 			base.Awake();
 		}
@@ -128,8 +135,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			characterPhysics.landed += OnLanding;
 			characterPhysics.startedFalling += OnStartedFalling;
 
-			runInput.started += OnRunStarted;
-			runInput.ended += OnRunEnded;
+			if (runInput != null)
+			{
+				runInput.started += OnRunStarted;
+				runInput.ended += OnRunEnded;
+			}
 
 			if (strafeInput != null)
 			{

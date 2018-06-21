@@ -6,7 +6,7 @@ namespace StandardAssets.Characters.ThirdPerson
 	public class AnimationThirdPersonMotor : InputThirdPersonMotor
 	{
 		[SerializeField]
-		private float movementTime = 2f;
+		private float inputIncreaseTime = 2f, inputDecreaseTime = 0.5f;
 		
 		private float normalizedInputLateralSpeed;
 		private float normalizedInputForwardSpeed;
@@ -23,14 +23,15 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected override void CalculateForwardMovement()
 		{
-			normalizedInputLateralSpeed = 0f;
 			if (!characterInput.hasMovementInput)
 			{
-				normalizedInputForwardSpeed = 0f;
+				EaseOffInput();
+				characterPhysics.Move(Vector3.zero);
 				return;
 			}
 
-			normalizedInputForwardSpeed += Time.deltaTime/movementTime;
+			normalizedInputForwardSpeed += Time.deltaTime/inputIncreaseTime;
+			characterPhysics.Move(Vector3.zero);
 
 		}
 
@@ -38,15 +39,25 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			if (!characterInput.hasMovementInput)
 			{
-				normalizedInputLateralSpeed = 0f;
-				normalizedInputForwardSpeed = 0f;
+				EaseOffInput();
+				characterPhysics.Move(Vector3.zero);
 				return;
 			}
 			
 			Vector2 moveInput = characterInput.moveInput;
 			
-			normalizedInputLateralSpeed += Mathf.Sign(moveInput.x) * Time.deltaTime/movementTime;
-			normalizedInputForwardSpeed += Mathf.Sign(moveInput.y) * Time.deltaTime/movementTime;
+			normalizedInputLateralSpeed += Mathf.Sign(moveInput.x) * Time.fixedDeltaTime/inputIncreaseTime;
+			normalizedInputForwardSpeed += Mathf.Sign(moveInput.y) * Time.fixedDeltaTime/inputIncreaseTime;
+			characterPhysics.Move(Vector3.zero);
 		}
+
+		private void EaseOffInput()
+		{
+			normalizedInputForwardSpeed =
+				Mathf.Lerp(normalizedInputForwardSpeed, 0, Time.fixedDeltaTime / inputDecreaseTime);
+			normalizedInputLateralSpeed =
+				Mathf.Lerp(normalizedInputLateralSpeed, 0, Time.fixedDeltaTime / inputDecreaseTime);
+		}
+		
 	}
 }
