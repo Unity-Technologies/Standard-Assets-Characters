@@ -13,14 +13,16 @@ namespace UnityEngine.Experimental.Input.Plugins.OnScreen
     /// </summary>
     public class OnScreenStick : OnScreenControl, IPointerDownHandler, IPointerUpHandler, IDragHandler
     {
+
         Vector3 m_StartPos;
         public int MovementRange = 50;
-        public Vector2 StickPosition;
+        public Vector3 deltaPos;
+        public float stickX = 0.0f;
+        public float stickY = 0.0f;
 
         void Start()
         {
             m_StartPos = transform.position;
-            StickPosition = Vector2.zero;
         }
 
         public void OnPointerDown(PointerEventData data)
@@ -30,29 +32,34 @@ namespace UnityEngine.Experimental.Input.Plugins.OnScreen
         public void OnDrag(PointerEventData data)
         {
             Vector3 newPos = Vector3.zero;
-            int delta = 0;
 
-            delta = (int)(data.position.x - m_StartPos.x);
-            delta = Mathf.Clamp(delta, -MovementRange, MovementRange);
-            newPos.x = delta;
+            {
+                int delta = (int)(data.position.x - m_StartPos.x);
+                delta = Mathf.Clamp(delta, -MovementRange, MovementRange);
+                newPos.x = delta;
+            }
 
-            delta = (int)(data.position.y - m_StartPos.y);
-            delta = Mathf.Clamp(delta, -MovementRange, MovementRange);
-            newPos.y = delta;
+            {
+                int delta = (int)(data.position.y - m_StartPos.y);
+                delta = Mathf.Clamp(delta, -MovementRange, MovementRange);
+                newPos.y = delta;
+            }
 
-            StickPosition.x = newPos.x / MovementRange;
-            StickPosition.y = newPos.y / MovementRange;
+            deltaPos = newPos;
 
-            SendValueToControl(StickPosition);
+            stickX = deltaPos.x / MovementRange;
+            stickY = deltaPos.y / MovementRange;
 
-            transform.position = new Vector3(m_StartPos.x + newPos.x, m_StartPos.y + newPos.y, m_StartPos.z + newPos.z);
+            SendValueToControl(new Vector2(stickX, stickY));
         }
 
         public void OnPointerUp(PointerEventData data)
         {
             transform.position = m_StartPos;
-            StickPosition = Vector2.zero;
-            SendValueToControl(StickPosition);
+            deltaPos = Vector3.zero;
+            SendValueToControl(Vector2.zero);
+            stickX = 0.0f;
+            stickY = 0.0f;
         }
     }
 }
