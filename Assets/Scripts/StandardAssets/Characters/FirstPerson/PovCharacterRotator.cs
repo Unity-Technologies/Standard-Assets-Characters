@@ -22,5 +22,7 @@ namespace StandardAssets.Characters.FirstPerson
 			currentRotation.y = mainCamera.transform.rotation.eulerAngles.y;
 			transform.rotation = Quaternion.Euler(currentRotation);
 		}
+		
+		
 	}
 }

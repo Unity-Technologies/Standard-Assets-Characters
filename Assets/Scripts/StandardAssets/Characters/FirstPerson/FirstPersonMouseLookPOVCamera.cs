@@ -55,9 +55,13 @@ namespace StandardAssets.Characters.FirstPerson
         void Look(InputAction.CallbackContext ctx)
         {
             look = ctx.ReadValue<Vector2>();
+            
+        }
+
+        void Update()
+        {
             ResponsiveMouseLook();
         }
-        
         void ResponsiveMouseLook()
         {
             var cameraRotation = GetCameraRotationVector();	

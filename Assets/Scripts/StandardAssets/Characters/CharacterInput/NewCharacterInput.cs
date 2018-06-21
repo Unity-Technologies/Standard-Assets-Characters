@@ -12,11 +12,15 @@ namespace StandardAssets.Characters.CharacterInput
 	/// </summary>
 	public class NewCharacterInput : MonoBehaviour, ICharacterInput
 	{
-		[SerializeField]
-		private GameplayInputActions controls;
-		
 		//[SerializeField]
-		//private NewInputActions controls;
+		public GameplayInputActions gamepadControls;
+		
+		//public MobileInputActions mobileControls;
+		
+		/*
+		 * [SerializeField]
+		private GameplayInputActions controls;
+		 */
 		
 		[SerializeField]
 		private InputActionReference[] lookActionReferences;
@@ -25,10 +29,6 @@ namespace StandardAssets.Characters.CharacterInput
 
 		public Vector2 moveInput { get; private set; }
 		
-		//StickDebug
-		public Text leftStickText;
-		public Text rightStickText;
-
 		public bool hasMovementInput 
 		{ 
 			get { return moveInput != Vector2.zero; }
@@ -38,28 +38,51 @@ namespace StandardAssets.Characters.CharacterInput
 
 		void Awake()
 		{
-			/*
-			 * controls.gameplay.movement.AppendCompositeBinding("Dpad")
-				.With("Left", "<Keyboard>/a")
-				.With("Right", "<Keyboard>/d")
-				.With("Up", "<Keyboard>/w")
-				.With("Down", "<Keyboard>/s");
-			 */
-		}
+			//controls.Enable();
 		
+		
+			
+		}
+	
 		
 		public void OnEnable()
 		{
-			controls.Enable();
-			//
-
-			controls.gameplay.movement.performed += Move;
+			gamepadControls.Enable();
+			
+			gamepadControls.gamepad.movement.performed += Move;
+			
+			//mobileControls.gamepad.look.performed += Look;
+			gamepadControls.gamepad.jump.performed += Jump;
+			
+			//Keyboard
+			
+			
+			
+			//controls.gameplay.dPad.performed += Move;
 			foreach (InputActionReference inputActionReference in lookActionReferences)
 			{
 				inputActionReference.action.performed += Look;
 			}
+			
+			/*
+			 * controls.Enable();
+			controls.gameplay.movement.performed += Move;
+			//controls.gameplay.look.performed += Look;
 			controls.gameplay.jump.performed += Jump;
+			 */
+			//
+			/*
+			//
+			
+			
+			
+			
+			mobileControls.Enable();
 
+			mobileControls.gamePlay.look.performed += Look;
+			mobileControls.gamePlay.movement.performed += Move;
+*/
+			
 		
 
 			CinemachineCore.GetInputAxis = LookInputOverride;
@@ -67,13 +90,40 @@ namespace StandardAssets.Characters.CharacterInput
 
 		public void OnDisable()
 		{
-			controls.Disable();
-			controls.gameplay.movement.performed -= Move;
+			
+			gamepadControls.Disable();
+			gamepadControls.gamepad.movement.performed -= Move;
+		//	mobileControls.keyboardMouse.dPadMovement.performed -= Move;
+		//	mobileControls.gamepad.look.performed -= Look;
+			gamepadControls.gamepad.jump.performed -= Jump;
+		//	controls.gameplay.dPad.performed -= Move;
+			
+			//Keyboard 
+			
+
+			
 			foreach (InputActionReference inputActionReference in lookActionReferences)
 			{
 				inputActionReference.action.performed -= Look;
 			}
+			
+			/*
+			 * controls.Enable();
+			controls.gameplay.movement.performed -= Move;
+			//controls.gameplay.look.performed -= Look;
 			controls.gameplay.jump.performed -= Jump;
+			//controls.gameplay.jump.performed -= Jump;
+			 */
+
+			/*
+			 * 
+			mobileControls.Disable();
+			mobileControls.gamePlay.look.performed -= Look;
+			mobileControls.gamePlay.movement.performed -= Move;
+			
+			
+			 */
+			
 			
 
 		}
@@ -82,13 +132,11 @@ namespace StandardAssets.Characters.CharacterInput
 		{
 			moveInput = ctx.ReadValue<Vector2>();
 			float rawMoveX = moveInput.x;
-			leftStickText.text = rawMoveX.ToString();
 		}
 
 		private void Look(InputAction.CallbackContext ctx)
 		{
 			look = ctx.ReadValue<Vector2>();	
-			rightStickText.text = look.ToString();
 		}
 
 		/// <summary>
