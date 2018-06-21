@@ -57,11 +57,7 @@ namespace StandardAssets.Characters.Physics
 		
 		protected virtual void Awake()
 		{
-			//Ensures that the gravity acts downwards
-			if (gravity > 0)
-			{
-				gravity = UnityEngine.Physics.gravity.y;
-			}
+			gravity = UnityEngine.Physics.gravity.y;
 
 			if (terminalVelocity > 0)
 			{

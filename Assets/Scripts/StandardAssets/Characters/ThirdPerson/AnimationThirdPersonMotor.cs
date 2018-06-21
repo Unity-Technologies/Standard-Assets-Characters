@@ -66,6 +66,35 @@ namespace StandardAssets.Characters.ThirdPerson
 			normalizedInputForwardSpeed += Mathf.Sign(moveInput.y) * Time.fixedDeltaTime / inputIncreaseTime;
 		}
 
+		protected override bool CanSetForwardLookDirection()
+		{
+			return characterInput.hasMovementInput;
+		}
+
+		protected override void HandleTargetRotation(Quaternion targetRotation)
+		{
+			float angleDifference = Mathf.Abs((transform.eulerAngles - targetRotation.eulerAngles).y);
+
+			float calculatedTurnSpeed = turnSpeed;
+			if (angleSnapBehaviour < angleDifference && angleDifference < 360 - angleSnapBehaviour)
+			{
+				// rapid turn deceleration complete, now we rotate appropriately.
+				calculatedTurnSpeed += (maxTurnSpeed - turnSpeed) *
+				                       turnSpeedAsAFunctionOfForwardSpeed.Evaluate(Mathf.Abs(normalizedForwardSpeed));
+			}
+
+			float actualTurnSpeed = calculatedTurnSpeed;
+			if (!characterPhysics.isGrounded)
+			{
+				actualTurnSpeed *= airborneTurnSpeedProportion;
+			}
+
+			targetRotation =
+				Quaternion.RotateTowards(transform.rotation, targetRotation, actualTurnSpeed * Time.fixedDeltaTime);
+
+			transform.rotation = targetRotation;
+		}
+
 		private void EaseOffInput()
 		{
 			normalizedInputForwardSpeed =
