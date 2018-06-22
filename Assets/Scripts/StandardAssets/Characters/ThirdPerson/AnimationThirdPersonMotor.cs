@@ -62,8 +62,26 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			Vector2 moveInput = characterInput.moveInput;
 
-			normalizedInputLateralSpeed += Mathf.Sign(moveInput.x) * Time.fixedDeltaTime / inputIncreaseTime;
-			normalizedInputForwardSpeed += Mathf.Sign(moveInput.y) * Time.fixedDeltaTime / inputIncreaseTime;
+			// we need to ease each axis
+			if (Mathf.Abs(moveInput.y) > Mathf.Epsilon)
+			{
+				normalizedInputForwardSpeed += Mathf.Sign(moveInput.y) * Time.fixedDeltaTime / inputIncreaseTime;
+			}
+			else
+			{
+				normalizedInputForwardSpeed =
+					Mathf.Lerp(normalizedInputForwardSpeed, 0, Time.fixedDeltaTime / inputDecreaseTime);
+			}
+			
+			if (Mathf.Abs(moveInput.x) > Mathf.Epsilon)
+			{
+				normalizedInputLateralSpeed += Mathf.Sign(-moveInput.x) * Time.fixedDeltaTime / inputIncreaseTime;
+			}
+			else
+			{
+				normalizedInputLateralSpeed =
+					Mathf.Lerp(normalizedInputLateralSpeed, 0, Time.fixedDeltaTime / inputDecreaseTime);
+			}
 		}
 
 		protected override bool CanSetForwardLookDirection()
