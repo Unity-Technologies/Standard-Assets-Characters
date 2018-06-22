@@ -7,12 +7,7 @@ namespace StandardAssets.Characters.ThirdPerson
 	public class AnimationThirdPersonMotor : InputThirdPersonMotor
 	{
 		[SerializeField]
-		private float forwardInputVelocity = 0.5f,
-		              forwardInputDecay = 10f,
-		              forwardInputChangeVelocity = 5f,
-		              lateralInputVelocity = 0.5f,
-		              lateralInputDecay = 10f,
-		              lateralInputChangeVelocity = 5f;
+		private AnimationMotorProperties animationMotorProperties;
 
 		[SerializeField]
 		private bool inheritGroundVelocity;
@@ -41,7 +36,7 @@ namespace StandardAssets.Characters.ThirdPerson
 					return 1f;
 				}
 
-				return physicsMotorProperties.walkSpeedProporiton;
+				return animationMotorProperties.walkSpeedProportion;
 			}
 		}
 
@@ -136,10 +131,10 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private void ApplyForwardInput(float input)
 		{
-			float forwardVelocity = forwardInputVelocity;
+			float forwardVelocity = animationMotorProperties.forwardInputVelocity;
 			if (Mathf.Abs(Mathf.Sign(input) - Mathf.Sign(normalizedInputForwardSpeed)) > 0)
 			{
-				forwardVelocity = forwardInputChangeVelocity;
+				forwardVelocity = animationMotorProperties.forwardInputChangeVelocity;
 			}
 
 			normalizedInputForwardSpeed =
@@ -150,15 +145,15 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void EaseOffForwardInput()
 		{
 			normalizedInputForwardSpeed =
-				Mathf.Lerp(normalizedInputForwardSpeed, 0, forwardInputDecay * Time.fixedDeltaTime);
+				Mathf.Lerp(normalizedInputForwardSpeed, 0, animationMotorProperties.forwardInputDecay * Time.fixedDeltaTime);
 		}
 
 		private void ApplyLateralInput(float input)
 		{
-			float lateralVelocity = lateralInputVelocity;
+			float lateralVelocity = animationMotorProperties.lateralInputVelocity;
 			if (Mathf.Abs(Mathf.Sign(input) - Mathf.Sign(normalizedInputLateralSpeed)) > 0)
 			{
-				lateralVelocity = lateralInputChangeVelocity;
+				lateralVelocity = animationMotorProperties.lateralInputChangeVelocity;
 			}
 
 			normalizedInputLateralSpeed =
@@ -169,7 +164,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void EaseOffLateralInput()
 		{
 			normalizedInputLateralSpeed =
-				Mathf.Lerp(normalizedInputLateralSpeed, 0, lateralInputDecay * Time.fixedDeltaTime);
+				Mathf.Lerp(normalizedInputLateralSpeed, 0, animationMotorProperties.lateralInputDecay * Time.fixedDeltaTime);
 		}
 
 		private void OnAnimatorMove()
