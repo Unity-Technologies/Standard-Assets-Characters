@@ -34,8 +34,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField, Range(0f, 1f)]
 		private float airborneDecelProportion = 0.5f;
 		
-		[SerializeField] 
-		private PhysicsMotorProperties physicsMotorProperties;
 		
 		protected State state;
 		

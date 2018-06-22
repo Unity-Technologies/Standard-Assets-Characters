@@ -47,6 +47,9 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[SerializeField]
 		protected InputResponse strafeInput;
+		
+		[SerializeField] 
+		protected PhysicsMotorProperties physicsMotorProperties;
 
 		/// <summary>
 		/// The input implementation
