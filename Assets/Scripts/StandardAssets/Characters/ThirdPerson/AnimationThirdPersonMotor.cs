@@ -9,8 +9,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		private float forwardInputVelocity = 0.5f,
 		              forwardInputDecay = 10f,
+		              forwardInputChangeVelocity = 5f,
 		              lateralInputVelocity = 0.5f,
-		              lateralInputDecay = 10f;
+		              lateralInputDecay = 10f,
+		              lateralInputChangeVelocity = 5f;
 
 		[SerializeField]
 		private bool inheritGroundVelocity;
@@ -38,6 +40,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				{
 					return 1f;
 				}
+
 				return physicsMotorProperties.walkSpeedProporiton;
 			}
 		}
@@ -62,7 +65,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				return;
 			}
-			
+
 			if (!characterInput.hasMovementInput)
 			{
 				EaseOffForwardInput();
@@ -79,7 +82,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				return;
 			}
-			
+
 			Vector2 moveInput = characterInput.moveInput;
 
 			// we need to ease each axis
@@ -91,7 +94,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				EaseOffForwardInput();
 			}
-			
+
 			if (Mathf.Abs(moveInput.x) > Mathf.Epsilon)
 			{
 				ApplyLateralInput(Mathf.Sign(moveInput.x));
@@ -100,7 +103,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				EaseOffLateralInput();
 			}
-			
 		}
 
 		protected override bool CanSetForwardLookDirection()
@@ -137,14 +139,18 @@ namespace StandardAssets.Characters.ThirdPerson
 			float forwardVelocity = forwardInputVelocity;
 			if (Mathf.Abs(Mathf.Sign(input) - Mathf.Sign(normalizedInputForwardSpeed)) > 0)
 			{
-				forwardVelocity = forwardInputDecay;
+				forwardVelocity = forwardInputChangeVelocity;
 			}
-			normalizedInputForwardSpeed = Mathf.Clamp(normalizedInputForwardSpeed + input * forwardVelocity * Time.fixedDeltaTime, -clampSpeed, clampSpeed);
+
+			normalizedInputForwardSpeed =
+				Mathf.Clamp(normalizedInputForwardSpeed + input * forwardVelocity * Time.fixedDeltaTime, -clampSpeed,
+				            clampSpeed);
 		}
 
 		private void EaseOffForwardInput()
 		{
-			normalizedInputForwardSpeed = Mathf.Lerp(normalizedInputForwardSpeed, 0, forwardInputDecay * Time.fixedDeltaTime);
+			normalizedInputForwardSpeed =
+				Mathf.Lerp(normalizedInputForwardSpeed, 0, forwardInputDecay * Time.fixedDeltaTime);
 		}
 
 		private void ApplyLateralInput(float input)
@@ -152,14 +158,18 @@ namespace StandardAssets.Characters.ThirdPerson
 			float lateralVelocity = lateralInputVelocity;
 			if (Mathf.Abs(Mathf.Sign(input) - Mathf.Sign(normalizedInputLateralSpeed)) > 0)
 			{
-				lateralVelocity = lateralInputDecay;
+				lateralVelocity = lateralInputChangeVelocity;
 			}
-			normalizedInputLateralSpeed = Mathf.Clamp(normalizedInputLateralSpeed + input * lateralVelocity * Time.fixedDeltaTime, -clampSpeed, clampSpeed);
+
+			normalizedInputLateralSpeed =
+				Mathf.Clamp(normalizedInputLateralSpeed + input * lateralVelocity * Time.fixedDeltaTime, -clampSpeed,
+				            clampSpeed);
 		}
-		
+
 		private void EaseOffLateralInput()
 		{
-			normalizedInputLateralSpeed = Mathf.Lerp(normalizedInputLateralSpeed, 0, lateralInputDecay * Time.fixedDeltaTime);
+			normalizedInputLateralSpeed =
+				Mathf.Lerp(normalizedInputLateralSpeed, 0, lateralInputDecay * Time.fixedDeltaTime);
 		}
 
 		private void OnAnimatorMove()
