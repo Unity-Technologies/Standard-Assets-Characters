@@ -47,6 +47,11 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected override void CalculateForwardMovement()
 		{
+			if (!characterPhysics.isGrounded)
+			{
+				return;
+			}
+			
 			if (!characterInput.hasMovementInput)
 			{
 				EaseOffForwardInput();
@@ -59,29 +64,38 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected override void CalculateStrafeMovement()
 		{
+			if (!characterPhysics.isGrounded)
+			{
+				return;
+			}
+			
 			Vector2 moveInput = characterInput.moveInput;
 
 			// we need to ease each axis
 			if (Mathf.Abs(moveInput.y) > Mathf.Epsilon)
 			{
 				ApplyForwardInput();
+				normalizedInputForwardSpeed = normalizedForwardSpeed * Mathf.Sign(moveInput.y);
 			}
 			else
 			{
+				float sign = Mathf.Sign(normalizedInputForwardSpeed);
 				EaseOffForwardInput();
+				normalizedInputForwardSpeed = normalizedInputForwardSpeed * sign;
 			}
 			
 			if (Mathf.Abs(moveInput.x) > Mathf.Epsilon)
 			{
 				ApplyLateralInput();
+				normalizedInputLateralSpeed = normalizedLateralSpeed * -Mathf.Sign(moveInput.x);
 			}
 			else
 			{
+				float sign = Mathf.Sign(normalizedInputLateralSpeed);
 				EaseOffLateralInput();
+				normalizedInputLateralSpeed = normalizedInputLateralSpeed * sign;
 			}
 			
-			normalizedInputForwardSpeed = normalizedForwardSpeed * Mathf.Sign(moveInput.y);
-			normalizedInputLateralSpeed = normalizedLateralSpeed * Mathf.Sign(moveInput.x);
 		}
 
 		protected override bool CanSetForwardLookDirection()
