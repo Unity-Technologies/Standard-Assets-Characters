@@ -16,7 +16,7 @@ namespace StandardAssets.Characters.Physics
 		public bool isGrounded { get; private set; }
 		public Action landed { get; set; }
 		public Action jumpVelocitySet { get; set; }
-		public Action startedFalling { get; set; }
+		public Action<float> startedFalling { get; set; }
 		public float airTime { get; private set; }
 		public float fallTime { get; private set; }
 		
@@ -112,13 +112,15 @@ namespace StandardAssets.Characters.Physics
 			{
 				if (startedFalling != null)
 				{
-					startedFalling();
+					startedFalling(GetPredicitedFallDistance());
 				}
 			}
 			
 			verticalVector = new Vector3(0, currentVerticalVelocity * Time.fixedDeltaTime, 0);
 		}
 
+		protected abstract float GetPredicitedFallDistance();
+		
 		protected abstract bool CheckGrounded();
 
 		protected abstract void MoveCharacter(Vector3 movement);

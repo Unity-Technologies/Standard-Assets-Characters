@@ -41,6 +41,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// When the starts falling
 		/// </summary>
-		Action fallStarted { get; set; }
+		Action<float> fallStarted { get; set; }
 	}
 }

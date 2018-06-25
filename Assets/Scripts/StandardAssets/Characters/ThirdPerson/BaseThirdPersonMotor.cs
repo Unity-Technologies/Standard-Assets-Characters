@@ -41,7 +41,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		public abstract float normalizedForwardSpeed { get; }
 		
 		public abstract float fallTime { get; }
-		
+
 		/// <inheritdoc />
 		public Action jumpStarted { get; set; }
 		
@@ -49,7 +49,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		public Action landed { get; set; }
 				
 		/// <inheritdoc />
-		public Action fallStarted { get; set; }
+		public Action<float> fallStarted { get; set; }
 		
 		/// <summary>
 		/// Helper function for handling wrapping of angles

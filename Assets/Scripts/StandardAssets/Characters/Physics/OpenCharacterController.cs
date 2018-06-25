@@ -79,6 +79,13 @@ namespace StandardAssets.Characters.Physics
 
 		public bool isGrounded { get; private set; }
 
+		public float GetPredicitedFallDistance()
+		{
+			RaycastHit groundHit;
+			return UnityEngine.Physics.Raycast(transform.TransformPoint(groundCheckPoint), Vector3.down, 
+											   out groundHit, float.MaxValue, excludePlayer)
+				? groundHit.distance : float.MaxValue;
+		}
 
 		public void Move(Vector3 moveVector)
 		{
@@ -141,10 +148,10 @@ namespace StandardAssets.Characters.Physics
 			}
 
 			groundClamp = new Vector3(transform.position.x, groundHit.point.y + groundCheckRadius / 2,
-			                          transform.position.z);
+									  transform.position.z);
 			Collider[] collisions = new Collider[3];
 			int num = UnityEngine.Physics.OverlapSphereNonAlloc(transform.TransformPoint(groundCheckPoint),
-			                                                    groundCheckRadius, collisions, excludePlayer);
+																groundCheckRadius, collisions, excludePlayer);
 
 			isGrounded = false;
 			for (int x = 0; x < num; x++)
@@ -210,8 +217,8 @@ namespace StandardAssets.Characters.Physics
 				float distance;
 
 				if (!UnityEngine.Physics.ComputePenetration(capsuleCollider, transform.position, transform.rotation,
-				                                            collisions[x], t.position, t.rotation,
-				                                            out direction, out distance))
+															collisions[x], t.position, t.rotation,
+															out direction, out distance))
 				{
 					continue;
 				}
@@ -249,9 +256,9 @@ namespace StandardAssets.Characters.Physics
 			}
 
 			transform.position = Vector3.Lerp(transform.position,
-			                                  new Vector3(transform.position.x,
-			                                              precalculatedGroundY,
-			                                              transform.position.z), groundingEasing * Time.fixedDeltaTime);
+											  new Vector3(transform.position.x,
+														  precalculatedGroundY,
+														  transform.position.z), groundingEasing * Time.fixedDeltaTime);
 		}
 	}
 }
