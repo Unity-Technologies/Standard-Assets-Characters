@@ -12,15 +12,8 @@ namespace StandardAssets.Characters.CharacterInput
 	/// </summary>
 	public class NewCharacterInput : MonoBehaviour, ICharacterInput
 	{
-		//[SerializeField]
-		public GameplayInputActions gamepadControls;
-		
-		//public MobileInputActions mobileControls;
-		
-		/*
-		 * [SerializeField]
-		private GameplayInputActions controls;
-		 */
+		[SerializeField]
+		private GameplayInputActions gameplay;
 		
 		[SerializeField]
 		private InputActionReference[] lookActionReferences;
@@ -34,104 +27,37 @@ namespace StandardAssets.Characters.CharacterInput
 			get { return moveInput != Vector2.zero; }
 		}
 
-		public Action jumpPressed { get; set; }
-
-		void Awake()
-		{
-			//controls.Enable();
-		
-		
-			
-		}
-	
+		public Action jumpPressed { get; set; }	
 		
 		public void OnEnable()
 		{
-			gamepadControls.Enable();
+			gameplay.Enable();
+			gameplay.controls.movement.performed += Move;
+			gameplay.controls.jump.performed += Jump;
 			
-			gamepadControls.gamepad.movement.performed += Move;
-			
-			//mobileControls.gamepad.look.performed += Look;
-			gamepadControls.gamepad.jump.performed += Jump;
-			
-			//Keyboard
-			
-			
-			
-			//controls.gameplay.dPad.performed += Move;
 			foreach (InputActionReference inputActionReference in lookActionReferences)
 			{
 				inputActionReference.action.performed += Look;
 			}
-			
-			/*
-			 * controls.Enable();
-			controls.gameplay.movement.performed += Move;
-			//controls.gameplay.look.performed += Look;
-			controls.gameplay.jump.performed += Jump;
-			 */
-			//
-			/*
-			//
-			
-			
-			
-			
-			mobileControls.Enable();
-
-			mobileControls.gamePlay.look.performed += Look;
-			mobileControls.gamePlay.movement.performed += Move;
-*/
-			
-		
-
 			CinemachineCore.GetInputAxis = LookInputOverride;
 		}
 
 		public void OnDisable()
 		{
-			
-			gamepadControls.Disable();
-			gamepadControls.gamepad.movement.performed -= Move;
-		//	mobileControls.keyboardMouse.dPadMovement.performed -= Move;
-		//	mobileControls.gamepad.look.performed -= Look;
-			gamepadControls.gamepad.jump.performed -= Jump;
-		//	controls.gameplay.dPad.performed -= Move;
-			
-			//Keyboard 
-			
-
-			
+			gameplay.Disable();
+			gameplay.controls.movement.performed -= Move;
+			gameplay.controls.jump.performed -= Jump;
+		
 			foreach (InputActionReference inputActionReference in lookActionReferences)
 			{
 				inputActionReference.action.performed -= Look;
 			}
-			
-			/*
-			 * controls.Enable();
-			controls.gameplay.movement.performed -= Move;
-			//controls.gameplay.look.performed -= Look;
-			controls.gameplay.jump.performed -= Jump;
-			//controls.gameplay.jump.performed -= Jump;
-			 */
-
-			/*
-			 * 
-			mobileControls.Disable();
-			mobileControls.gamePlay.look.performed -= Look;
-			mobileControls.gamePlay.movement.performed -= Move;
-			
-			
-			 */
-			
-			
-
 		}
 
 		private void Move(InputAction.CallbackContext ctx)
 		{
 			moveInput = ctx.ReadValue<Vector2>();
-			float rawMoveX = moveInput.x;
+			
 		}
 
 		private void Look(InputAction.CallbackContext ctx)
@@ -144,12 +70,12 @@ namespace StandardAssets.Characters.CharacterInput
 		/// </summary>
 		private float LookInputOverride(string axis)
 		{
-			if (axis == "Horizontal")
+			if (axis == "Mouse X")
 			{
 				return look.x;
 			}
 
-			if (axis == "Vertical")
+			if (axis == "Mouse Y")
 			{
 				return look.y;
 			}

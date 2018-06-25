@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17389536, g: 0.21743223, b: 0.2995917, a: 1}
+  m_IndirectSpecularColor: {r: 0.45398587, g: 0.50364685, b: 0.58346903, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -577,12 +577,6 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &1038776956 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114501385933726858, guid: 1818690cc80044ecbadf3a53cc5f29e1,
-    type: 2}
-  m_PrefabInternal: {fileID: 1105289692}
-  m_Script: {fileID: 11500000, guid: 1eec248ab0c3e4eeaafde0796225ff6f, type: 3}
 --- !u!114 &1101665458 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114713529341382392, guid: 1818690cc80044ecbadf3a53cc5f29e1,
@@ -607,7 +601,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4664608565436408, guid: 1818690cc80044ecbadf3a53cc5f29e1, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 2
+      value: 3.12
       objectReference: {fileID: 0}
     - target: {fileID: 4664608565436408, guid: 1818690cc80044ecbadf3a53cc5f29e1, type: 2}
       propertyPath: m_LocalPosition.z
@@ -633,23 +627,30 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114736923435200732, guid: 1818690cc80044ecbadf3a53cc5f29e1,
-        type: 2}
-      propertyPath: mainCamera
-      value: 
-      objectReference: {fileID: 1840918336}
     - target: {fileID: 114570266145897858, guid: 1818690cc80044ecbadf3a53cc5f29e1,
         type: 2}
       propertyPath: startingMovementEventLibrary
       value: 
       objectReference: {fileID: 758799089}
-    - target: {fileID: 1627797537853366, guid: 1818690cc80044ecbadf3a53cc5f29e1, type: 2}
-      propertyPath: m_IsActive
-      value: 1
+    - target: {fileID: 114736923435200732, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 1840918336}
+    - target: {fileID: 114501385933726858, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[0].movementProperties.enterState.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: Walk
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1818690cc80044ecbadf3a53cc5f29e1, type: 2}
   m_IsPrefabAsset: 0
+--- !u!114 &1105289705 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114501385933726858, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+    type: 2}
+  m_PrefabInternal: {fileID: 1105289692}
+  m_Script: {fileID: 11500000, guid: 1eec248ab0c3e4eeaafde0796225ff6f, type: 3}
 --- !u!114 &1509480958 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114606634733582770, guid: 1818690cc80044ecbadf3a53cc5f29e1,
@@ -699,7 +700,7 @@ Prefab:
         type: 2}
       propertyPath: fpsController
       value: 
-      objectReference: {fileID: 1038776956}
+      objectReference: {fileID: 1105289705}
     - target: {fileID: 114885225739208398, guid: ab3b32e38dca85b4180d5007c17a3505,
         type: 2}
       propertyPath: cameras.Array.data[0]
@@ -720,6 +721,22 @@ Prefab:
       value: Configuration UI
       objectReference: {fileID: 0}
     - target: {fileID: 1136483752402342, guid: ab3b32e38dca85b4180d5007c17a3505, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1416152543347628, guid: ab3b32e38dca85b4180d5007c17a3505, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581017003048370, guid: ab3b32e38dca85b4180d5007c17a3505, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1935713703587368, guid: ab3b32e38dca85b4180d5007c17a3505, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1204776299249688, guid: ab3b32e38dca85b4180d5007c17a3505, type: 2}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -907,7 +924,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1840918332}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16, y: 3, z: 33}
+  m_LocalPosition: {x: 16, y: 4.12, z: 33}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

@@ -2135,8 +2135,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68a4a4aa15b8e3f43953fb8b1c70072e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controls:
-    m_Asset: {fileID: 11400000, guid: 40952324d92091141ae7b75ba9420185, type: 3}
+  gameplay:
+    m_Asset: {fileID: 11400000, guid: 758010db119ceb14fbb84dd0622c7338, type: 3}
+  lookActionReferences:
+  - {fileID: 11400016, guid: 758010db119ceb14fbb84dd0622c7338, type: 3}
+  - {fileID: 11400002, guid: 758010db119ceb14fbb84dd0622c7338, type: 3}
 --- !u!114 &114134438239603522
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2150,14 +2153,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turnSpeed: 450
   normalizedTurnLerpFactor: 5
+  animator: {fileID: 95030191870033380}
   cameraTransform: {fileID: 0}
-  maxForwardSpeed: 10
-  useAcceleration: 1
-  groundAcceleration: 5
-  groundDeceleration: 15
-  airborneAccelProportion: 0.5
-  airborneDecelProportion: 0.5
-  jumpSpeed: 0.1
+  jumpBraceAsAFunctionOfSpeed:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  jumpCooldown: 0.5
+  jumpSpeed: 8
   airborneTurnSpeedProportion: 0.5
   angleSnapBehaviour: 60
   maxTurnSpeed: 5000
@@ -2203,6 +2208,18 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  snappingDecelaration: 30
+  snapSpeedTarget: 0.2
+  runInput: {fileID: 11400000, guid: 58f7ecb769e3cc44f813ffbc272f0f00, type: 2}
+  strafeInput: {fileID: 0}
+  maxForwardSpeed: 10
+  maxLateralSpeed: 10
+  useAcceleration: 1
+  groundAcceleration: 9
+  groundDeceleration: 15
+  airborneDecelProportion: 0.5
+  physicsMotorProperties: {fileID: 11400000, guid: 2213674dfac7b4763bb6fcb7572876c9,
+    type: 2}
 --- !u!114 &114202347810247664
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2231,10 +2248,11 @@ MonoBehaviour:
   forwardSpeedParameterName: ForwardSpeed
   lateralSpeedParameterName: LateralSpeed
   turningSpeedParameterName: TurningSpeed
-  groundedParameterName: '!Grounded'
+  groundedParameterName: Grounded
   hasInputParameterName: HasInput
   fallingTimeParameterName: FallDistance
   footednessParameterName: OnRightFoot
+  jumpedParameterName: Jumped
   invert: 0
   leftFoot: {fileID: 114538545241953986}
   rightfoot: {fileID: 114999578524971094}
@@ -2264,8 +2282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eb889feba9d41d4bfbbade70ee269c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravity: 0.3
-  terminalVelocity: 10
+  terminalVelocity: 120
   groundCheckDistance: 0.51
   groundCheckMask:
     serializedVersion: 2

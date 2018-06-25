@@ -1797,7 +1797,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1964598378489596}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.606714, y: 15.3, z: 63.168888}
+  m_LocalPosition: {x: 47.75, y: 26, z: 63.168888}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4151648849392010}
@@ -2161,8 +2161,8 @@ MonoBehaviour:
   jumpedParameterName: Jumped
   predictedFallDistanceParameterName: PredictedFallDistance
   invert: 0
-  leftFoot: {fileID: 0}
-  rightfoot: {fileID: 0}
+  leftFoot: {fileID: 114824860443034366}
+  rightfoot: {fileID: 114062553606472534}
 --- !u!114 &114086197978366078
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2305,8 +2305,8 @@ MonoBehaviour:
   snapSpeedTarget: 0.2
   runInput: {fileID: 11400000, guid: 8c1192daa77a944b393df7e0146d7a7f, type: 2}
   strafeInput: {fileID: 11400000, guid: afab5886de3d240fd8015366bf8ee806, type: 2}
-  inputIncreaseTime: 2
-  inputDecreaseTime: 0.1
+  animationMotorProperties: {fileID: 11400000, guid: ddebd4a643d394c179ea063744c34ead,
+    type: 2}
   inheritGroundVelocity: 0
 --- !u!114 &114798069747516348
 MonoBehaviour:

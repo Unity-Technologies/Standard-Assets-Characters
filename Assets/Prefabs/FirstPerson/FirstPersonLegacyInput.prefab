@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4322620779819696}
   - component: {fileID: 114074389995230264}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: ProneCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,7 +36,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4836512542051212}
   - component: {fileID: 114606634733582770}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: CrouchCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,7 +53,7 @@ GameObject:
   - component: {fileID: 4467537354003894}
   - component: {fileID: 114621557451821460}
   - component: {fileID: 114957854057706032}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -69,7 +69,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4251489411879530}
   - component: {fileID: 114713529341382392}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: WalkCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,8 +84,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4664608565436408}
-  - component: {fileID: 143316123647404606}
-  - component: {fileID: 114447820645956238}
   - component: {fileID: 114501385933726858}
   - component: {fileID: 114961145437418454}
   - component: {fileID: 114736923435200732}
@@ -95,7 +93,9 @@ GameObject:
   - component: {fileID: 95678976135669546}
   - component: {fileID: 114074065261041036}
   - component: {fileID: 114651346732965486}
-  m_Layer: 0
+  - component: {fileID: 114035350532953534}
+  - component: {fileID: 114561844803457874}
+  m_Layer: 11
   m_Name: FirstPersonLegacyInput
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112,7 +112,7 @@ GameObject:
   - component: {fileID: 4774026149090618}
   - component: {fileID: 114326218859441808}
   - component: {fileID: 114345959759107116}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -129,7 +129,7 @@ GameObject:
   - component: {fileID: 4472433186970248}
   - component: {fileID: 114324813546737938}
   - component: {fileID: 114693605703773754}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -145,7 +145,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4617565824343848}
   - component: {fileID: 114473157933188712}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cameras
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -229,7 +229,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1627797537853366}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16, y: 2, z: 33}
+  m_LocalPosition: {x: 16, y: 3.12, z: 33}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4617565824343848}
@@ -281,6 +281,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114035350532953534
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1627797537853366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e163090ac99486aae32f05b5b641e9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terminalVelocity: 10
 --- !u!114 &114074065261041036
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -394,23 +406,6 @@ MonoBehaviour:
     m_RecenteringTime: 2
     m_LegacyHeadingDefinition: -1
     m_LegacyVelocityFilterStrength: -1
---- !u!114 &114447820645956238
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1627797537853366}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3eb889feba9d41d4bfbbade70ee269c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gravity: 19.62
-  terminalVelocity: 120
-  groundCheckDistance: 0.55
-  groundCheckMask:
-    serializedVersion: 2
-    m_Bits: 823
 --- !u!114 &114473157933188712
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -506,7 +501,7 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
       maxValue: 0.01
-    jumpSpeed: 9
+    jumpSpeed: 7
     enterState:
       m_PersistentCalls:
         m_Calls:
@@ -558,7 +553,7 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 4
         maxValue: 0.01
-      jumpSpeed: 10
+      jumpSpeed: 8
       enterState:
         m_PersistentCalls:
           m_Calls:
@@ -609,7 +604,7 @@ MonoBehaviour:
           m_PostInfinity: 2
           m_RotationOrder: 4
         maxValue: 0.01
-      jumpSpeed: 3
+      jumpSpeed: 5
       enterState:
         m_PersistentCalls:
           m_Calls:
@@ -682,6 +677,39 @@ MonoBehaviour:
           m_Calls: []
         m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
+  airborneSpeedModifier: 0.5
+--- !u!114 &114561844803457874
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1627797537853366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b5c6cf5f04e4e2b9c79ad2fda5ddbea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerRootTransform: {fileID: 0}
+  playerCentre: {x: 0, y: 0, z: 0}
+  playerHeight: 1.56
+  playerRadius: 0.45
+  maxGroundingDist: 50
+  groundingEasing: 10
+  groundCheckPoint: {x: 0, y: -0.85, z: 0}
+  groundCheckRadius: 0.35
+  jumpCeiling: 2
+  minSlope: 0
+  maxSlope: 60
+  maxModifiedSlope: 45
+  minimumGroundingDist: 2
+  maxStepHeight: 1.5
+  liftSlopePoint: {x: 0, y: 1, z: 0}
+  liftSlopeRadius: 0.2
+  excludePlayer:
+    serializedVersion: 2
+    m_Bits: 311
+  capsuleCollider: {fileID: 0}
+  enableDebug: 0
 --- !u!114 &114570266145897858
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -928,24 +956,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!143 &143316123647404606
-CharacterController:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1627797537853366}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
+  m_Radius: 0.75
   m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
