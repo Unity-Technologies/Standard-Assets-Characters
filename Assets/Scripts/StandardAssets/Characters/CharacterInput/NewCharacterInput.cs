@@ -57,7 +57,7 @@ namespace StandardAssets.Characters.CharacterInput
 		private void Move(InputAction.CallbackContext ctx)
 		{
 			moveInput = ctx.ReadValue<Vector2>();
-			float rawMoveX = moveInput.x;
+			
 		}
 
 		private void Look(InputAction.CallbackContext ctx)
