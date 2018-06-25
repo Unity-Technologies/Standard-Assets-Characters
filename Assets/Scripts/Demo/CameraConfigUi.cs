@@ -116,17 +116,30 @@ namespace Demo
 
 		public void ToggleXAxisMouse(Toggle toggle)
 		{
-			povCamAdjustables.XSensitivity *= -1;
+			if (povCamAdjustables == null)
+			{
+				return;
+			}
 			
+			povCamAdjustables.XSensitivity *= -1;	
 		}
 
 		public void ToggleYAxisMouse(Toggle toggle)
 		{
+			if (povCamAdjustables == null)
+			{
+				return;
+			}
+
 			povCamAdjustables.YSensitivity *= -1;
 		}
 
 		public void SetMouseXSpeed(Slider slider)
 		{
+			if (povCamAdjustables == null)
+			{
+				return;
+			}
 			var newSensitivity = GetMouseSensitivityValue(povCamAdjustables.XSensitivity, slider);
 			povCamAdjustables.XSensitivity = newSensitivity;
 			SetMouseSensitivytSliderText(xAxisSliderValueTextMouse, newSensitivity);
@@ -134,11 +147,14 @@ namespace Demo
 		
 		public void SetMouseYSpeed(Slider slider)
 		{
+			if (povCamAdjustables == null)
+			{
+				return;
+			}
+
 			var newSensitivity = GetMouseSensitivityValue(povCamAdjustables.YSensitivity, slider);
 			povCamAdjustables.YSensitivity = newSensitivity;
 			SetMouseSensitivytSliderText(yAxisSliderValueTextMouse, newSensitivity);
-			
-			
 		}
 
 		float GetMouseSensitivityValue(float current, Slider slider)
