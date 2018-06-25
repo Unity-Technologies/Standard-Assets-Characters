@@ -26,13 +26,16 @@ namespace StandardAssets.Characters.ThirdPerson
 		private string hasInputParameterName = "HasInput";
 		
 		[SerializeField]
-		private string fallingTimeParameterName = "FallingTime";
+		private string fallingTimeParameterName = "FallTime";
 		
 		[SerializeField]
 		private string footednessParameterName = "OnRightFoot";
 		
 		[SerializeField]
 		private string jumpedParameterName = "Jumped";
+
+		[SerializeField]
+		private string predictedFallDistanceParameterName = "PredictedFallDistance";
 		
 		[SerializeField]
 		private bool invert;
@@ -61,6 +64,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private int hashFallingTime;
 		private int hashFootedness;
 		private int hashJumped;
+		private int hashPredictedFallDistance;
 
 		private bool isGrounded;
 		private bool didJump;
@@ -78,6 +82,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			hashFallingTime = Animator.StringToHash(fallingTimeParameterName);
 			hashFootedness = Animator.StringToHash(footednessParameterName);
 			hashJumped = Animator.StringToHash(jumpedParameterName);
+			hashPredictedFallDistance = Animator.StringToHash(predictedFallDistanceParameterName);
 			motor = GetComponent<IThirdPersonMotor>();
 			animator = GetComponent<Animator>();
 		}
@@ -97,12 +102,13 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
-		private void OnFallStarted()
+		private void OnFallStarted(float predictedFallDistance)
 		{
 			isGrounded = false;
 			animator.SetFloat(hashFallingTime, 0);
 			animator.SetBool(hashGrounded, false);
 			animator.SetBool(hashJumped, didJump);
+			animator.SetFloat(hashPredictedFallDistance, predictedFallDistance);
 		}
 
 		private void OnRightFoot(MovementEvent obj)

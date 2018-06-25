@@ -34,13 +34,21 @@ namespace StandardAssets.Characters.Physics
 			base.Awake();
 		}
 
+		protected override float GetPredicitedFallDistance()
+		{
+			RaycastHit rayCaseHit;
+			return UnityEngine.Physics.Raycast( transform.position + characterController.center, -transform.up, 
+												out rayCaseHit, float.MaxValue, groundCheckMask) 
+				? rayCaseHit.distance : float.MaxValue;
+		}
+
 		/// <summary>
 		/// Checks character controller grounding
 		/// </summary>
 		protected override bool CheckGrounded()
 		{
 			Debug.DrawRay(transform.position + characterController.center, 
-			              new Vector3(0,-groundCheckDistance * characterController.height,0), Color.red);
+						  new Vector3(0,-groundCheckDistance * characterController.height,0), Color.red);
 			if (UnityEngine.Physics.Raycast(transform.position + characterController.center, 
 				-transform.up, groundCheckDistance * characterController.height, groundCheckMask))
 			{
