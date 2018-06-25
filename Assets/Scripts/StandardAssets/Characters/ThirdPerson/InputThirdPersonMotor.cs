@@ -146,11 +146,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Handles player fall start
 		/// </summary>
-		private void OnStartedFalling()
+		private void OnStartedFalling(float predictedFallDistance)
 		{
 			if (fallStarted != null)
 			{
-				fallStarted();
+				fallStarted(predictedFallDistance);
 			}
 		}
 

@@ -62,7 +62,7 @@ namespace StandardAssets.Characters.Physics
 		
 		public Action landed { get; set; }
 		public Action jumpVelocitySet { get; set; }
-		public Action startedFalling { get; set; }
+		public Action<float> startedFalling { get; set; }
 		public float airTime { get; private set; }
 		public float fallTime { get; private set; }
 

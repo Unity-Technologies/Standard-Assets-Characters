@@ -26,7 +26,7 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Invoked when the character started falling
 		/// </summary>
-		Action startedFalling { get; set; }
+		Action<float> startedFalling { get; set; }
 		
 		/// <summary>
 		/// The time that the character in is not grounded for

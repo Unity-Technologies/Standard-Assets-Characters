@@ -1797,7 +1797,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1964598378489596}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.606714, y: 15.3, z: 63.168888}
+  m_LocalPosition: {x: 47.75, y: 26, z: 63.168888}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4151648849392010}
@@ -2156,9 +2156,10 @@ MonoBehaviour:
   turningSpeedParameterName: TurningSpeed
   groundedParameterName: Grounded
   hasInputParameterName: HasInput
-  fallingTimeParameterName: FallDistance
+  fallingTimeParameterName: FallTime
   footednessParameterName: OnRightFoot
   jumpedParameterName: Jumped
+  predictedFallDistanceParameterName: PredictedFallDistance
   invert: 0
   leftFoot: {fileID: 114824860443034366}
   rightfoot: {fileID: 114062553606472534}
@@ -2252,25 +2253,16 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.75
+      value: 0.85
       inSlope: -2.0739
-      outSlope: -1.3184013
+      outSlope: -0.55
       tangentMode: 69
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.41433594
     - serializedVersion: 3
-      time: 0.38493595
-      value: 0.24249995
-      inSlope: -0.65000004
-      outSlope: -0.65000004
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
       time: 1
-      value: 0.1
+      value: 0.3
       inSlope: -0.01741073
       outSlope: -1.9139397
       tangentMode: 65
