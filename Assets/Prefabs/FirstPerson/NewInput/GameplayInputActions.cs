@@ -14,6 +14,7 @@ public class GameplayInputActions : UnityEngine.Experimental.Input.InputActionWr
         m_controls_crouch = m_controls.GetAction("crouch");
         m_controls_sprint = m_controls.GetAction("sprint");
         m_controls_prone = m_controls.GetAction("prone");
+        m_controls_mouseLook = m_controls.GetAction("mouseLook");
         m_Initialized = true;
     }
     // controls
@@ -24,6 +25,7 @@ public class GameplayInputActions : UnityEngine.Experimental.Input.InputActionWr
     private UnityEngine.Experimental.Input.InputAction m_controls_crouch;
     private UnityEngine.Experimental.Input.InputAction m_controls_sprint;
     private UnityEngine.Experimental.Input.InputAction m_controls_prone;
+    private UnityEngine.Experimental.Input.InputAction m_controls_mouseLook;
     public struct ControlsActions
     {
         private GameplayInputActions m_Wrapper;
@@ -34,6 +36,7 @@ public class GameplayInputActions : UnityEngine.Experimental.Input.InputActionWr
         public UnityEngine.Experimental.Input.InputAction @crouch { get { return m_Wrapper.m_controls_crouch; } }
         public UnityEngine.Experimental.Input.InputAction @sprint { get { return m_Wrapper.m_controls_sprint; } }
         public UnityEngine.Experimental.Input.InputAction @prone { get { return m_Wrapper.m_controls_prone; } }
+        public UnityEngine.Experimental.Input.InputAction @mouseLook { get { return m_Wrapper.m_controls_mouseLook; } }
         public UnityEngine.Experimental.Input.InputActionMap Get() { return m_Wrapper.m_controls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
