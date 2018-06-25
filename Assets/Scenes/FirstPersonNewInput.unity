@@ -879,6 +879,21 @@ Prefab:
       propertyPath: movementModifiers.Array.data[2].movementProperties.enterState.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetAnimation
       objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: startingMovementProperties.jumpSpeed
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[0].movementProperties.jumpSpeed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468311170067366, guid: f2706dd163cab644aa0f7aec413a3457,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[1].movementProperties.jumpSpeed
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2706dd163cab644aa0f7aec413a3457, type: 2}
   m_IsPrefabAsset: 0
