@@ -1,11 +1,13 @@
-﻿using UnityEngine;
+﻿using StandardAssets.Characters.Physics;
+using UnityEngine;
+using Util;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
 	public class AnimationThirdPersonMotor : InputThirdPersonMotor
 	{
 		[SerializeField]
-		private float inputIncreaseTime = 2f, inputDecreaseTime = 0.5f;
+		private AnimationMotorProperties animationMotorProperties;
 
 		[SerializeField]
 		private bool inheritGroundVelocity;
@@ -17,12 +19,25 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public override float normalizedLateralSpeed
 		{
-			get { return Mathf.Clamp(normalizedInputLateralSpeed, -1, 1); }
+			get { return -Mathf.Clamp(normalizedInputLateralSpeed, -1, 1); }
 		}
 
 		public override float normalizedForwardSpeed
 		{
 			get { return Mathf.Clamp(normalizedInputForwardSpeed, -1, 1); }
+		}
+
+		private float clampSpeed
+		{
+			get
+			{
+				if (isRunToggled)
+				{
+					return 1f;
+				}
+
+				return animationMotorProperties.walkSpeedProportion;
+			}
 		}
 
 		protected override void OnEnable()
@@ -41,29 +56,48 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected override void CalculateForwardMovement()
 		{
+			if (!characterPhysics.isGrounded)
+			{
+				return;
+			}
+
 			if (!characterInput.hasMovementInput)
 			{
-				EaseOffInput();
+				EaseOffForwardInput();
 				characterPhysics.Move(Vector3.zero);
 				return;
 			}
 
-			normalizedInputForwardSpeed += Time.deltaTime / inputIncreaseTime;
+			ApplyForwardInput(1f);
 		}
 
 		protected override void CalculateStrafeMovement()
 		{
-			if (!characterInput.hasMovementInput)
+			if (!characterPhysics.isGrounded)
 			{
-				EaseOffInput();
-				characterPhysics.Move(Vector3.zero);
 				return;
 			}
 
 			Vector2 moveInput = characterInput.moveInput;
 
-			normalizedInputLateralSpeed += Mathf.Sign(moveInput.x) * Time.fixedDeltaTime / inputIncreaseTime;
-			normalizedInputForwardSpeed += Mathf.Sign(moveInput.y) * Time.fixedDeltaTime / inputIncreaseTime;
+			// we need to ease each axis
+			if (Mathf.Abs(moveInput.y) > Mathf.Epsilon)
+			{
+				ApplyForwardInput(Mathf.Sign(moveInput.y));
+			}
+			else
+			{
+				EaseOffForwardInput();
+			}
+
+			if (Mathf.Abs(moveInput.x) > Mathf.Epsilon)
+			{
+				ApplyLateralInput(Mathf.Sign(moveInput.x));
+			}
+			else
+			{
+				EaseOffLateralInput();
+			}
 		}
 
 		protected override bool CanSetForwardLookDirection()
@@ -95,12 +129,42 @@ namespace StandardAssets.Characters.ThirdPerson
 			transform.rotation = targetRotation;
 		}
 
-		private void EaseOffInput()
+		private void ApplyForwardInput(float input)
+		{
+			float forwardVelocity = animationMotorProperties.forwardInputVelocity;
+			if (Mathf.Abs(Mathf.Sign(input) - Mathf.Sign(normalizedInputForwardSpeed)) > 0)
+			{
+				forwardVelocity = animationMotorProperties.forwardInputChangeVelocity;
+			}
+
+			normalizedInputForwardSpeed =
+				Mathf.Clamp(normalizedInputForwardSpeed + input * forwardVelocity * Time.fixedDeltaTime, -clampSpeed,
+				            clampSpeed);
+		}
+
+		private void EaseOffForwardInput()
 		{
 			normalizedInputForwardSpeed =
-				Mathf.Lerp(normalizedInputForwardSpeed, 0, Time.fixedDeltaTime / inputDecreaseTime);
+				Mathf.Lerp(normalizedInputForwardSpeed, 0, animationMotorProperties.forwardInputDecay * Time.fixedDeltaTime);
+		}
+
+		private void ApplyLateralInput(float input)
+		{
+			float lateralVelocity = animationMotorProperties.lateralInputVelocity;
+			if (Mathf.Abs(Mathf.Sign(input) - Mathf.Sign(normalizedInputLateralSpeed)) > 0)
+			{
+				lateralVelocity = animationMotorProperties.lateralInputChangeVelocity;
+			}
+
 			normalizedInputLateralSpeed =
-				Mathf.Lerp(normalizedInputLateralSpeed, 0, Time.fixedDeltaTime / inputDecreaseTime);
+				Mathf.Clamp(normalizedInputLateralSpeed + input * lateralVelocity * Time.fixedDeltaTime, -clampSpeed,
+				            clampSpeed);
+		}
+
+		private void EaseOffLateralInput()
+		{
+			normalizedInputLateralSpeed =
+				Mathf.Lerp(normalizedInputLateralSpeed, 0, animationMotorProperties.lateralInputDecay * Time.fixedDeltaTime);
 		}
 
 		private void OnAnimatorMove()

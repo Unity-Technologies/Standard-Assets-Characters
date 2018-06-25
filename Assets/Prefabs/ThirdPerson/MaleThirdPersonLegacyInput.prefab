@@ -2240,7 +2240,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1964598378489596}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa9e7d81288849478ba8661fffb1643c, type: 3}
+  m_Script: {fileID: 11500000, guid: 3534ffaa03484017ae3cc4c4ff2dd23d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   turnSpeed: 450
@@ -2281,7 +2281,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   jumpCooldown: 0.5
-  jumpSpeed: 3.5
+  jumpSpeed: 4.75
   airborneTurnSpeedProportion: 0.5
   angleSnapBehaviour: 60
   maxTurnSpeed: 5000
@@ -2313,14 +2313,9 @@ MonoBehaviour:
   snapSpeedTarget: 0.2
   runInput: {fileID: 11400000, guid: 8c1192daa77a944b393df7e0146d7a7f, type: 2}
   strafeInput: {fileID: 11400000, guid: afab5886de3d240fd8015366bf8ee806, type: 2}
-  maxForwardSpeed: 5
-  maxLateralSpeed: 5
-  useAcceleration: 1
-  groundAcceleration: 10
-  groundDeceleration: 15
-  airborneDecelProportion: 0.5
-  physicsMotorProperties: {fileID: 11400000, guid: 2213674dfac7b4763bb6fcb7572876c9,
+  animationMotorProperties: {fileID: 11400000, guid: ddebd4a643d394c179ea063744c34ead,
     type: 2}
+  inheritGroundVelocity: 0
 --- !u!114 &114798069747516348
 MonoBehaviour:
   m_ObjectHideFlags: 1

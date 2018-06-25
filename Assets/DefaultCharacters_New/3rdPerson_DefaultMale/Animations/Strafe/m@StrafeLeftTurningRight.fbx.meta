@@ -73,6 +73,9 @@ ModelImporter:
     100134: Root
     100136: Spine
     100138: UpperChest
+    100140: Male:MASTER_NODE
+    100142: Male:skeleton
+    100144: Male_Rig
     400000: Chest
     400002: Head
     400004: Hips
@@ -143,6 +146,9 @@ ModelImporter:
     400134: Root
     400136: Spine
     400138: UpperChest
+    400140: Male:MASTER_NODE
+    400142: Male:skeleton
+    400144: Male_Rig
     7400000: StrafeLeftTurningRight
     9500000: //RootNode
     2186277476908879412: ImportLogs
@@ -158,15 +164,11 @@ ModelImporter:
     resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
-    rigImportErrors: 
-    rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Bone length in
-      copied configuration does not match position in animation file:\n\t'Spine' :
-      position error = 1.505637 mm\n"
+    rigImportErrors: "Copied Avatar Rig Configuration mis-match. Transform hierarchy
+      does not match:\n\tTransform 'Male_Rig' not found in HumanDescription.\n"
+    rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
-      might lower retargeting quality:\nNote: Activate translation DOF on avatar to
-      improve retargeting quality.\n\t'Spine' has translation animation that will
-      be discarded.\n"
+    animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
