@@ -27,16 +27,7 @@ namespace StandardAssets.Characters.CharacterInput
 			get { return moveInput != Vector2.zero; }
 		}
 
-		public Action jumpPressed { get; set; }
-
-		void Awake()
-		{
-			//controls.Enable();
-		
-		
-			
-		}
-	
+		public Action jumpPressed { get; set; }	
 		
 		public void OnEnable()
 		{
