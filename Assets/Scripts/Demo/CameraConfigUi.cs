@@ -121,7 +121,7 @@ namespace Demo
 				return;
 			}
 			
-			povCamAdjustables.XSensitivity *= -1;	
+			//povCamAdjustables.XSensitivity *= -1;	
 		}
 
 		public void ToggleYAxisMouse(Toggle toggle)
@@ -131,7 +131,7 @@ namespace Demo
 				return;
 			}
 
-			povCamAdjustables.YSensitivity *= -1;
+			//povCamAdjustables.YSensitivity *= -1;
 		}
 
 		public void SetMouseXSpeed(Slider slider)
@@ -140,9 +140,9 @@ namespace Demo
 			{
 				return;
 			}
-			var newSensitivity = GetMouseSensitivityValue(povCamAdjustables.XSensitivity, slider);
-			povCamAdjustables.XSensitivity = newSensitivity;
-			SetMouseSensitivytSliderText(xAxisSliderValueTextMouse, newSensitivity);
+			//var newSensitivity = GetMouseSensitivityValue(povCamAdjustables.XSensitivity, slider);
+			//povCamAdjustables.XSensitivity = newSensitivity;
+			//SetMouseSensitivytSliderText(xAxisSliderValueTextMouse, newSensitivity);
 		}
 		
 		public void SetMouseYSpeed(Slider slider)
@@ -152,9 +152,9 @@ namespace Demo
 				return;
 			}
 
-			var newSensitivity = GetMouseSensitivityValue(povCamAdjustables.YSensitivity, slider);
-			povCamAdjustables.YSensitivity = newSensitivity;
-			SetMouseSensitivytSliderText(yAxisSliderValueTextMouse, newSensitivity);
+			//var newSensitivity = GetMouseSensitivityValue(povCamAdjustables.YSensitivity, slider);
+			//povCamAdjustables.YSensitivity = newSensitivity;
+			//SetMouseSensitivytSliderText(yAxisSliderValueTextMouse, newSensitivity);
 		}
 
 		float GetMouseSensitivityValue(float current, Slider slider)

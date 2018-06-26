@@ -9,14 +9,30 @@ namespace StandardAssets.Characters.CharacterInput
 	/// </summary>
 	public class LegacyUnityCharacterInput : MonoBehaviour, ICharacterInput
 	{
+		[Header("Cinemachine Axes")]
+		[SerializeField]
+		private string cinemachineLookXAxisName = "Horizontal";
+		[SerializeField]
+		private string cinemachineLookYAxisName = "Vertical";
+		
+		[Header("Input Axes")]
 		[SerializeField]
 		private string horizontalAxisName = "Horizontal";
 		
 		[SerializeField]
 		private string verticalAxisName = "Vertical";
+
+		[SerializeField]
+		private bool useLookInput = true;
+
+		[SerializeField]
+		private string lookXAxisName = "LookX";
 		
 		[SerializeField]
-		private KeyCode jumpKey = KeyCode.Space;
+		private string lookYAxisName = "LookY";
+
+		[SerializeField]
+		private string jumpButtonName = "Jump";
 
 		private Vector2 moveInputVector;
 		private Action jumped;
@@ -48,39 +64,33 @@ namespace StandardAssets.Characters.CharacterInput
 		{
 			//Cache the inputs
 			moveInputVector.Set(Input.GetAxis(horizontalAxisName), Input.GetAxis(verticalAxisName));
-			if (Input.GetKeyDown(jumpKey))
-			{
-				
-				if (jumpPressed != null)
-				{
-					jumpPressed();
-				}
-			}
 
-			if (Input.GetButtonDown("Jump"))
+			if (Input.GetButtonDown(jumpButtonName))
 			{
 				if (jumpPressed != null)
 				{
 					jumpPressed();
 				}
 			}
-			
-			
-			
 		}
 
 		/// <summary>
 		/// Sets the Cinemachine cam POV to mouse inputs.
 		/// </summary>
-		private float LookInputOverride(string axis)
+		private float LookInputOverride(string cinemachineAxisName)
 		{
-			if (axis == "Horizontal")
+			if (!useLookInput)
 			{
-				return Input.GetAxis("RightStickHorizontal");
+				return 0;
 			}
-			if (axis == "Vertical")
+			
+			if (cinemachineAxisName == cinemachineLookXAxisName)
 			{
-				return Input.GetAxis("RightStickVertical");
+				return Input.GetAxis(lookXAxisName);
+			}
+			if (cinemachineAxisName == cinemachineLookYAxisName)
+			{
+				return Input.GetAxis(lookYAxisName);
 			}
 
 			return 0;
