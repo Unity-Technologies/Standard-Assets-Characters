@@ -229,6 +229,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private void Update()
 		{
+		
 			if (isBracingForJump)
 			{
 				jumpBraceCount += Time.deltaTime;

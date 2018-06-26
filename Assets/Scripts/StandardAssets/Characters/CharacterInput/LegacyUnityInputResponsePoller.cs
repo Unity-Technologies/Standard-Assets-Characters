@@ -18,12 +18,7 @@ namespace StandardAssets.Characters.CharacterInput
 		/// Behaviour - hold/toggle
 		/// </summary>
 		private DefaultInputResponseBehaviour behaviour;
-		
-		/// <summary>
-		/// The key
-		/// </summary>
-		private KeyCode key;
-		
+	
 		/// <summary>
 		/// Multi-purpose bool. For Toggles in represents the on state. For Holds it represents the previous button state
 		/// </summary>
@@ -34,28 +29,19 @@ namespace StandardAssets.Characters.CharacterInput
 		
 		private bool axisRawPressed;
 
-		private bool isAxis;
+	
 
 		/// <summary>
 		/// Called by the LegacyInputResponse
 		/// </summary>
 		/// <param name="newResponse"></param>
 		/// <param name="newBehaviour"></param>
-		/// <param name="newKey"></param>
-		public void Init(LegacyUnityInputResponse newResponse, DefaultInputResponseBehaviour newBehaviour, KeyCode newKey)
+		/// <param name="axisRaw"></param>
+		public void Init(LegacyUnityInputResponse newResponse, DefaultInputResponseBehaviour newBehaviour, String axisString)
 		{
 			response = newResponse;
 			behaviour = newBehaviour;
-			key = newKey;
-			axisRaw = "";
-		}
-		
-		public void Init(LegacyUnityInputResponse newResponse, DefaultInputResponseBehaviour newBehaviour, KeyCode newKey, String axisRaw)
-		{
-			response = newResponse;
-			behaviour = newBehaviour;
-			key = newKey;
-			this.axisRaw = axisRaw;
+			axisRaw = axisString;
 		}
 		
 		/// <summary>
@@ -82,34 +68,20 @@ namespace StandardAssets.Characters.CharacterInput
 		/// </summary>
 		private void Hold()
 		{
-			bool keyPressed = Input.GetKey(key);
-			isAxis = Input.GetAxisRaw(axisRaw) !=0;
-			Debug.Log("isAxis: "+isAxis);
+			bool isAxis = Input.GetAxisRaw(axisRaw) !=0;
+			
 			if (!check && isAxis)
 			{
-				Debug.Log("Broadcast Start");
 				response.BroadcastStart();
 			}
 
 			if (check && !isAxis)
 			{
-				Debug.Log("Broadcast End");
 				response.BroadcastEnd();
 			}
-			/*
-			 * if (!check && keyPressed)
-			{
-				response.BroadcastStart();
-			}
-
-			if (check && !keyPressed)
-			{
-				response.BroadcastEnd();
-			}
-			 */
-
+		
 			check = isAxis;
-			Debug.Log("Check: "+check);
+			
 		}
 
 		/// <summary>
@@ -117,51 +89,29 @@ namespace StandardAssets.Characters.CharacterInput
 		/// </summary>
 		private void Toggle()
 		{
-			// This if statement stops the input from getting stuck 
-			if (axisRaw == "")
-				return;
 			
 			if (Input.GetAxisRaw(axisRaw) == 0)
 			{
 				axisRawPressed = false;
 			}
-			if (!axisRawPressed)
-			{
-				if ( Input.GetAxisRaw(axisRaw) != 0)
-				{
-					axisRawPressed = true;
-					if (!check)
-					{
-						response.BroadcastStart();
-					}
-					else
-					{
-						response.BroadcastEnd();
-						
-					}
-
-					check = !check;
-				}
-			}
+			if (axisRawPressed) return;
 			
-			
-			/*
-			 * if (Input.GetKeyDown(key))
+			if ( Input.GetAxisRaw(axisRaw) != 0)
 			{
+				axisRawPressed = true;
 				if (!check)
 				{
 					response.BroadcastStart();
 				}
 				else
 				{
-					response.BroadcastEnd();
+					response.BroadcastEnd();		
 				}
 
 				check = !check;
 			}
-			 */
 
-			
+
 		}
 	}
 }
