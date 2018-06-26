@@ -145,6 +145,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4617565824343848}
   - component: {fileID: 114473157933188712}
+  - component: {fileID: 114128930939556762}
   m_Layer: 11
   m_Name: Cameras
   m_TagString: Untagged
@@ -339,6 +340,25 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 4774026149090618}
+--- !u!114 &114128930939556762
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1922616701639256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48973502197442979c49c5becb275492, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  XSensitivity: -10
+  YSensitivity: 10
+  smoothTime: 1
+  VCams:
+  - {fileID: 114713529341382392}
+  - {fileID: 114606634733582770}
+  - {fileID: 114074389995230264}
+  lookActionReferences: []
 --- !u!114 &114324813546737938
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -374,10 +394,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_VerticalAxis:
     Value: 0
-    m_MaxSpeed: 300
+    m_MaxSpeed: 220
     m_AccelTime: 0.1
     m_DecelTime: 0.1
-    m_InputAxisName: Mouse Y
+    m_InputAxisName: Vertical
     m_InputAxisValue: 0
     m_InvertInput: 0
     m_MinValue: -90
@@ -394,7 +414,7 @@ MonoBehaviour:
     m_MaxSpeed: 300
     m_AccelTime: 0.1
     m_DecelTime: 0.1
-    m_InputAxisName: Mouse X
+    m_InputAxisName: Horizontal
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
@@ -524,7 +544,9 @@ MonoBehaviour:
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
   movementModifiers:
-  - input: {fileID: 11400000, guid: 8c1192daa77a944b393df7e0146d7a7f, type: 2}
+  - inputs:
+    - {fileID: 11400000, guid: 8c1192daa77a944b393df7e0146d7a7f, type: 2}
+    - {fileID: 11400000, guid: 3dc32cf58a70f444d807a65fb84c4852, type: 2}
     movementProperties:
       maxSpeed: 11
       acceleration:
@@ -565,7 +587,7 @@ MonoBehaviour:
               m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
               m_IntArgument: 0
               m_FloatArgument: 0
-              m_StringArgument: Sprint
+              m_StringArgument: Walk
               m_BoolArgument: 0
             m_CallState: 2
         m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
@@ -575,7 +597,9 @@ MonoBehaviour:
           m_Calls: []
         m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-  - input: {fileID: 11400000, guid: 7d60fd307346c4da688e568bfd0b9d43, type: 2}
+  - inputs:
+    - {fileID: 11400000, guid: 7d60fd307346c4da688e568bfd0b9d43, type: 2}
+    - {fileID: 11400000, guid: 792f413f42ab38c408411c84b20128d0, type: 2}
     movementProperties:
       maxSpeed: 3
       acceleration:
@@ -626,7 +650,9 @@ MonoBehaviour:
           m_Calls: []
         m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-  - input: {fileID: 11400000, guid: e2cc03e054ab3412e84c918085c0abe2, type: 2}
+  - inputs:
+    - {fileID: 11400000, guid: e2cc03e054ab3412e84c918085c0abe2, type: 2}
+    - {fileID: 11400000, guid: 636a853ec0dc0e34ba2f77312e3e526a, type: 2}
     movementProperties:
       maxSpeed: 1
       acceleration:
@@ -794,10 +820,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_VerticalAxis:
     Value: 0
-    m_MaxSpeed: 300
+    m_MaxSpeed: 220
     m_AccelTime: 0.1
     m_DecelTime: 0.1
-    m_InputAxisName: Mouse Y
+    m_InputAxisName: Vertical
     m_InputAxisValue: 0
     m_InvertInput: 0
     m_MinValue: -90
@@ -814,7 +840,7 @@ MonoBehaviour:
     m_MaxSpeed: 300
     m_AccelTime: 0.1
     m_DecelTime: 0.1
-    m_InputAxisName: Mouse X
+    m_InputAxisName: Horizontal
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
@@ -901,10 +927,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_VerticalAxis:
     Value: 0
-    m_MaxSpeed: 300
+    m_MaxSpeed: 220
     m_AccelTime: 0.1
     m_DecelTime: 0.1
-    m_InputAxisName: Mouse Y
+    m_InputAxisName: Vertical
     m_InputAxisValue: 0
     m_InvertInput: 0
     m_MinValue: -90
@@ -921,7 +947,7 @@ MonoBehaviour:
     m_MaxSpeed: 300
     m_AccelTime: 0.1
     m_DecelTime: 0.1
-    m_InputAxisName: Mouse X
+    m_InputAxisName: Horizontal
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180

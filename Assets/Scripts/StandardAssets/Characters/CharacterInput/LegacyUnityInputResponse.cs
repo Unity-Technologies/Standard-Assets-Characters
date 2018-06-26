@@ -22,6 +22,8 @@ namespace StandardAssets.Characters.CharacterInput
 		[SerializeField]
 		private KeyCode key;
 
+		[SerializeField] private String axisRaw;
+
 		/// <summary>
 		/// Initializes the polling behaviour for the legacy input system
 		/// </summary>
@@ -30,7 +32,7 @@ namespace StandardAssets.Characters.CharacterInput
 			GameObject gameObject = new GameObject();
 			gameObject.name = string.Format("LegacyInput_{0}_Poller", name);
 			LegacyUnityInputResponsePoller poller = gameObject.AddComponent<LegacyUnityInputResponsePoller>();
-			poller.Init(this, behaviour, key);
+			poller.Init(this, behaviour, key, axisRaw);
 		}
 
 		/// <summary>

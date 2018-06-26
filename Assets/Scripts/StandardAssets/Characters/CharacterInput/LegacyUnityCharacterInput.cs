@@ -21,6 +21,8 @@ namespace StandardAssets.Characters.CharacterInput
 		private Vector2 moveInputVector;
 		private Action jumped;
 
+		private Vector2 look;
+
 		public Vector2 moveInput
 		{
 			get { return moveInputVector; }
@@ -54,6 +56,17 @@ namespace StandardAssets.Characters.CharacterInput
 					jumpPressed();
 				}
 			}
+
+			if (Input.GetButtonDown("Jump"))
+			{
+				if (jumpPressed != null)
+				{
+					jumpPressed();
+				}
+			}
+			
+			
+			
 		}
 
 		/// <summary>
@@ -61,7 +74,16 @@ namespace StandardAssets.Characters.CharacterInput
 		/// </summary>
 		private float LookInputOverride(string axis)
 		{
-			return Input.GetAxis(axis);
+			if (axis == "Horizontal")
+			{
+				return Input.GetAxis("RightStickHorizontal");
+			}
+			if (axis == "Vertical")
+			{
+				return Input.GetAxis("RightStickVertical");
+			}
+
+			return 0;
 		}
 	}
 }
