@@ -76,25 +76,11 @@ namespace StandardAssets.Characters.CharacterInput
 		{
 			if (axis == "Horizontal")
 			{
-				if (Input.GetAxis("Mouse X") != 0)
-				{
-					return Input.GetAxis("Mouse X");
-				}
-				else if (Input.GetAxis("RightStickHorizontal") != 0)
-				{
-					return Input.GetAxis("RightStickHorizontal");
-				}
+				return Input.GetAxis("RightStickHorizontal");
 			}
 			if (axis == "Vertical")
 			{
-				if (Input.GetAxis("Mouse Y") != 0)
-				{
-					return Input.GetAxis("Mouse Y");
-				}
-				else if (Input.GetAxis("RightStickVertical") != 0)
-				{
-					return Input.GetAxis("RightStickVertical");
-				}
+				return Input.GetAxis("RightStickVertical");
 			}
 
 			return 0;

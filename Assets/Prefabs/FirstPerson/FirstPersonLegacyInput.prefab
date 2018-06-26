@@ -145,6 +145,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4617565824343848}
   - component: {fileID: 114473157933188712}
+  - component: {fileID: 114128930939556762}
   m_Layer: 11
   m_Name: Cameras
   m_TagString: Untagged
@@ -339,6 +340,25 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 4774026149090618}
+--- !u!114 &114128930939556762
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1922616701639256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48973502197442979c49c5becb275492, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  XSensitivity: -10
+  YSensitivity: 10
+  smoothTime: 1
+  VCams:
+  - {fileID: 114713529341382392}
+  - {fileID: 114606634733582770}
+  - {fileID: 114074389995230264}
+  lookActionReferences: []
 --- !u!114 &114324813546737938
 MonoBehaviour:
   m_ObjectHideFlags: 1

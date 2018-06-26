@@ -60,6 +60,8 @@ namespace StandardAssets.Characters.FirstPerson
 
         void Update()
         {
+            look.x = Input.GetAxis("Mouse X");
+            look.y = Input.GetAxis("Mouse Y");
             ResponsiveMouseLook();
         }
         void ResponsiveMouseLook()
