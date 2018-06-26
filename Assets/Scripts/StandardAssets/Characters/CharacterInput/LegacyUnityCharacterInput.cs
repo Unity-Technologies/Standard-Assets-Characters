@@ -12,6 +12,7 @@ namespace StandardAssets.Characters.CharacterInput
 		[Header("Cinemachine Axes")]
 		[SerializeField]
 		private string cinemachineLookXAxisName = "Horizontal";
+		[SerializeField]
 		private string cinemachineLookYAxisName = "Vertical";
 		
 		[Header("Input Axes")]
@@ -56,10 +57,7 @@ namespace StandardAssets.Characters.CharacterInput
 
 		private void OnEnable()
 		{
-			if (useLookInput)
-			{
-				CinemachineCore.GetInputAxis = LookInputOverride;
-			}
+			CinemachineCore.GetInputAxis = LookInputOverride;
 		}
 
 		private void Update()

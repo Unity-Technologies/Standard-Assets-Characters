@@ -399,11 +399,6 @@ Prefab:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 1840918336}
-    - target: {fileID: 114961145437418454, guid: 1818690cc80044ecbadf3a53cc5f29e1,
-        type: 2}
-      propertyPath: useLookInput
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1818690cc80044ecbadf3a53cc5f29e1, type: 2}
   m_IsPrefabAsset: 0
@@ -413,33 +408,6 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 1105289692}
   m_Script: {fileID: 11500000, guid: 1eec248ab0c3e4eeaafde0796225ff6f, type: 3}
---- !u!1 &1505441382 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1922616701639256, guid: 1818690cc80044ecbadf3a53cc5f29e1,
-    type: 2}
-  m_PrefabInternal: {fileID: 1105289692}
---- !u!114 &1505441385
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1505441382}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48973502197442979c49c5becb275492, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lookXAxisName: LookX
-  lookYAxisName: LookY
-  XSensitivity: -10
-  YSensitivity: 10
-  smoothTime: 1
-  VCams:
-  - {fileID: 1101665458}
-  - {fileID: 1509480958}
-  - {fileID: 394818130}
-  mPOV: {fileID: 0}
-  lookActionReferences: []
 --- !u!114 &1509480958 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114606634733582770, guid: 1818690cc80044ecbadf3a53cc5f29e1,

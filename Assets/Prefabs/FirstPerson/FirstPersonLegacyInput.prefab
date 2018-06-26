@@ -146,6 +146,7 @@ GameObject:
   - component: {fileID: 4617565824343848}
   - component: {fileID: 114473157933188712}
   - component: {fileID: 114128930939556762}
+  - component: {fileID: 114911662244107798}
   m_Layer: 11
   m_Name: Cameras
   m_TagString: Untagged
@@ -351,6 +352,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48973502197442979c49c5becb275492, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lookXAxisName: LookX
+  lookYAxisName: LookY
   XSensitivity: -10
   YSensitivity: 10
   smoothTime: 1
@@ -358,6 +361,7 @@ MonoBehaviour:
   - {fileID: 114713529341382392}
   - {fileID: 114606634733582770}
   - {fileID: 114074389995230264}
+  mPOV: {fileID: 0}
   lookActionReferences: []
 --- !u!114 &114324813546737938
 MonoBehaviour:
@@ -397,7 +401,7 @@ MonoBehaviour:
     m_MaxSpeed: 220
     m_AccelTime: 0.1
     m_DecelTime: 0.1
-    m_InputAxisName: Vertical
+    m_InputAxisName: LookY
     m_InputAxisValue: 0
     m_InvertInput: 0
     m_MinValue: -90
@@ -414,7 +418,7 @@ MonoBehaviour:
     m_MaxSpeed: 300
     m_AccelTime: 0.1
     m_DecelTime: 0.1
-    m_InputAxisName: Horizontal
+    m_InputAxisName: LookX
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
@@ -823,7 +827,7 @@ MonoBehaviour:
     m_MaxSpeed: 220
     m_AccelTime: 0.1
     m_DecelTime: 0.1
-    m_InputAxisName: Vertical
+    m_InputAxisName: LookY
     m_InputAxisValue: 0
     m_InvertInput: 0
     m_MinValue: -90
@@ -840,7 +844,7 @@ MonoBehaviour:
     m_MaxSpeed: 300
     m_AccelTime: 0.1
     m_DecelTime: 0.1
-    m_InputAxisName: Horizontal
+    m_InputAxisName: LookX
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
@@ -914,6 +918,28 @@ MonoBehaviour:
   ids:
   - leftfoot
   - rightfoot
+--- !u!114 &114911662244107798
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1922616701639256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48973502197442979c49c5becb275492, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lookXAxisName: LookX
+  lookYAxisName: LookY
+  XSensitivity: -10
+  YSensitivity: 10
+  smoothTime: 1
+  VCams:
+  - {fileID: 114713529341382392}
+  - {fileID: 114606634733582770}
+  - {fileID: 114074389995230264}
+  mPOV: {fileID: 0}
+  lookActionReferences: []
 --- !u!114 &114957854057706032
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -930,7 +956,7 @@ MonoBehaviour:
     m_MaxSpeed: 220
     m_AccelTime: 0.1
     m_DecelTime: 0.1
-    m_InputAxisName: Vertical
+    m_InputAxisName: LookY
     m_InputAxisValue: 0
     m_InvertInput: 0
     m_MinValue: -90
@@ -947,7 +973,7 @@ MonoBehaviour:
     m_MaxSpeed: 300
     m_AccelTime: 0.1
     m_DecelTime: 0.1
-    m_InputAxisName: Horizontal
+    m_InputAxisName: LookX
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
@@ -970,9 +996,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1052986cb0c4fe4b8cfbdfeba746ea0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cinemachineLookXAxisName: LookX
+  cinemachineLookYAxisName: LookY
   horizontalAxisName: Horizontal
   verticalAxisName: Vertical
-  jumpKey: 32
+  useLookInput: 0
+  lookXAxisName: LookX
+  lookYAxisName: LookY
+  jumpButtonName: Jump
 --- !u!136 &136131221980381340
 CapsuleCollider:
   m_ObjectHideFlags: 1
