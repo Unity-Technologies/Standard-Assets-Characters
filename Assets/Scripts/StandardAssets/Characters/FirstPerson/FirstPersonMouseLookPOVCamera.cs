@@ -8,20 +8,31 @@ namespace StandardAssets.Characters.FirstPerson
 {
     public class FirstPersonMouseLookPOVCamera: MonoBehaviour
     {
+        [SerializeField]
+        private string lookXAxisName = "LookX";
+		
+        [SerializeField]
+        private string lookYAxisName = "LookY";
+        
         /// <summary>
         /// These variables control the speed/sensitivity of the mouse look
         /// They are adjustable in play mode using the UI
         /// If camera starts to jitter, make sure inspector values match these defaults. 
         /// </summary>
-        public float XSensitivity = 1; 
-        public float YSensitivity = -1;
-        public float smoothTime = 1.1f;
+        [SerializeField]
+        private float XSensitivity = 1; 
+        [SerializeField]
+        private float YSensitivity = -1;
+        [SerializeField]
+        private float smoothTime = 1.1f;
         
         /// <summary>
         /// Reference to all the cinemachine vcams on the character
         /// All the VCams must have the 'aim' set to POV 
         /// </summary>
-        public CinemachineVirtualCamera[] VCams;	
+        [SerializeField]
+        private CinemachineVirtualCamera[] VCams;	
+        [SerializeField]
         private CinemachinePOV mPOV; 
 
        
@@ -60,8 +71,8 @@ namespace StandardAssets.Characters.FirstPerson
 
         void Update()
         {
-            look.x = Input.GetAxis("Mouse X");
-            look.y = Input.GetAxis("Mouse Y");
+            look.x = Input.GetAxis(lookXAxisName);
+            look.y = Input.GetAxis(lookYAxisName);
             ResponsiveMouseLook();
         }
         void ResponsiveMouseLook()

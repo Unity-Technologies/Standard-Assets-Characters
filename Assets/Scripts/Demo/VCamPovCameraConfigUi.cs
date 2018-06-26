@@ -28,8 +28,8 @@ namespace Demo
 
 			if (povCamAdjustables != null)
 			{
-				xAxisMaxSpeedMouse = Mathf.Abs(povCamAdjustables.XSensitivity * 0.1f);
-				yAxisMaxSpeedMouse = Mathf.Abs(povCamAdjustables.YSensitivity * 0.1f);
+				//xAxisMaxSpeedMouse = Mathf.Abs(povCamAdjustables.XSensitivity * 0.1f);
+				//yAxisMaxSpeedMouse = Mathf.Abs(povCamAdjustables.YSensitivity * 0.1f);
 			}
 
 			

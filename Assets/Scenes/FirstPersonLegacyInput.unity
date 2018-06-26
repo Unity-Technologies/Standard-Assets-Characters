@@ -399,6 +399,11 @@ Prefab:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 1840918336}
+    - target: {fileID: 114961145437418454, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: useLookInput
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1818690cc80044ecbadf3a53cc5f29e1, type: 2}
   m_IsPrefabAsset: 0
@@ -424,6 +429,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48973502197442979c49c5becb275492, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lookXAxisName: LookX
+  lookYAxisName: LookY
   XSensitivity: -10
   YSensitivity: 10
   smoothTime: 1
@@ -431,6 +438,7 @@ MonoBehaviour:
   - {fileID: 1101665458}
   - {fileID: 1509480958}
   - {fileID: 394818130}
+  mPOV: {fileID: 0}
   lookActionReferences: []
 --- !u!114 &1509480958 stripped
 MonoBehaviour:
