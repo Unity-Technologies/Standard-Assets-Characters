@@ -229,7 +229,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private void Update()
 		{
-			Debug.Log("Strafing: "+isStrafing);
+		
 			if (isBracingForJump)
 			{
 				jumpBraceCount += Time.deltaTime;
