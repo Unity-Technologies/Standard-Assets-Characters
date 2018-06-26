@@ -13,6 +13,7 @@ namespace StandardAssets.Characters.CharacterInput
 		/// The Input Response needed
 		/// </summary>
 		private LegacyUnityInputResponse response;
+		private LegacyUnityInputResponseMACvsPC responseSwitch;
 		
 		/// <summary>
 		/// Behaviour - hold/toggle
@@ -44,6 +45,15 @@ namespace StandardAssets.Characters.CharacterInput
 			axisRaw = axisString;
 		}
 		
+		public void Init(LegacyUnityInputResponseMACvsPC newResponse, DefaultInputResponseBehaviour newBehaviour, String axisString)
+		{
+			
+			responseSwitch = newResponse;
+			behaviour = newBehaviour;
+			axisRaw = axisString;
+		}
+		
+		
 		/// <summary>
 		/// Does polling of inputs
 		/// </summary>
@@ -72,12 +82,14 @@ namespace StandardAssets.Characters.CharacterInput
 			
 			if (!check && isAxis)
 			{
-				response.BroadcastStart();
+				//response.BroadcastStart();
+				responseSwitch.BroadcastStart();
 			}
 
 			if (check && !isAxis)
 			{
-				response.BroadcastEnd();
+				//response.BroadcastEnd();
+				responseSwitch.BroadcastEnd();
 			}
 		
 			check = isAxis;
@@ -101,11 +113,13 @@ namespace StandardAssets.Characters.CharacterInput
 				axisRawPressed = true;
 				if (!check)
 				{
-					response.BroadcastStart();
+					//response.BroadcastStart();
+					responseSwitch.BroadcastStart();
 				}
 				else
 				{
-					response.BroadcastEnd();		
+					//response.BroadcastEnd();	
+					responseSwitch.BroadcastEnd();
 				}
 
 				check = !check;

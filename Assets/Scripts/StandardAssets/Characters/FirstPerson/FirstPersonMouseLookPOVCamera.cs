@@ -46,7 +46,8 @@ namespace StandardAssets.Characters.FirstPerson
             mPOV = VCams[0].GetCinemachineComponent<CinemachinePOV>();
         }
 
-        void OnEnable()
+       /*
+        *  void OnEnable()
         {
             foreach (InputActionReference inputActionReference in lookActionReferences)
             {
@@ -68,6 +69,7 @@ namespace StandardAssets.Characters.FirstPerson
             look = ctx.ReadValue<Vector2>();
             
         }
+        */
 
         void Update()
         {

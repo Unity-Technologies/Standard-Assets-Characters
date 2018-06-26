@@ -55,6 +55,24 @@ namespace StandardAssets.Characters.CharacterInput
 			set { jumped = value; }
 		}
 
+		private void Awake()
+		{
+			
+			//Only works with with XBox One for now
+			#if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
+			lookXAxisName = "XBoneRightStickXMac";
+			lookYAxisName = "XBoneRightStickYMac";
+			jumpButtonName = "XBone Button South MAC";
+			#endif
+			#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+			lookXAxisName = "LookX";
+			lookYAxisName = "LookY";
+			jumpButtonName = "Jump";
+#endif
+
+
+		}
+
 		private void OnEnable()
 		{
 			CinemachineCore.GetInputAxis = LookInputOverride;
@@ -72,6 +90,9 @@ namespace StandardAssets.Characters.CharacterInput
 					jumpPressed();
 				}
 			}
+		
+			Debug.Log(Input.GetAxisRaw("XBone rightStick Press Mac"));
+			
 		}
 
 		/// <summary>
@@ -86,10 +107,12 @@ namespace StandardAssets.Characters.CharacterInput
 			
 			if (cinemachineAxisName == cinemachineLookXAxisName)
 			{
+				
 				return Input.GetAxis(lookXAxisName);
 			}
 			if (cinemachineAxisName == cinemachineLookYAxisName)
 			{
+				
 				return Input.GetAxis(lookYAxisName);
 			}
 

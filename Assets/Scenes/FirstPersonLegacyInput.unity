@@ -4207,6 +4207,69 @@ Prefab:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 1840918336}
+    - target: {fileID: 114957854057706032, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: m_HorizontalAxis.m_InputAxisName
+      value: Horizontal
+      objectReference: {fileID: 0}
+    - target: {fileID: 114957854057706032, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: m_VerticalAxis.m_InputAxisName
+      value: Vertical
+      objectReference: {fileID: 0}
+    - target: {fileID: 114693605703773754, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: m_VerticalAxis.m_InputAxisName
+      value: Vertical
+      objectReference: {fileID: 0}
+    - target: {fileID: 114345959759107116, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: m_HorizontalAxis.m_InputAxisName
+      value: Horizontal
+      objectReference: {fileID: 0}
+    - target: {fileID: 114693605703773754, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: m_HorizontalAxis.m_InputAxisName
+      value: Horizontal
+      objectReference: {fileID: 0}
+    - target: {fileID: 114345959759107116, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: m_VerticalAxis.m_InputAxisName
+      value: Vertical
+      objectReference: {fileID: 0}
+    - target: {fileID: 114961145437418454, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: useLookInput
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114961145437418454, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: cinemachineLookXAxisName
+      value: Horizontal
+      objectReference: {fileID: 0}
+    - target: {fileID: 114961145437418454, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: cinemachineLookYAxisName
+      value: Vertical
+      objectReference: {fileID: 0}
+    - target: {fileID: 114501385933726858, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[1].inputs.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: a9228ff241b9f4e8dba119f00a3e9757,
+        type: 2}
+    - target: {fileID: 114501385933726858, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[0].inputs.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6ecbf5128c5d14388a63fffe506fd95b,
+        type: 2}
+    - target: {fileID: 114501385933726858, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[2].inputs.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7e5105434a46e479c8cd2b34bf04726c,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1818690cc80044ecbadf3a53cc5f29e1, type: 2}
   m_IsPrefabAsset: 0
@@ -5456,7 +5519,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1433785279
 MonoBehaviour:
   m_ObjectHideFlags: 0

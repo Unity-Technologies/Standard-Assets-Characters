@@ -180,11 +180,11 @@ namespace Demo
 		protected virtual void UpdateActiveInputDevices()
 		{
 			var devices = new StringBuilder();
-			foreach (var device in InputSystem.devices)
-			{
-				devices.AppendFormat(">{0}\n", device);
+			//foreach (var device in InputSystem.devices)
+			//{
+				//devices.AppendFormat(">{0}\n", device);
 				
-			}
+			//}
 			activeInputDevices.text = devices.ToString();
 		}
 
