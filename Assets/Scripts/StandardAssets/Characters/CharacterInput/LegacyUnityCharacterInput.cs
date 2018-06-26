@@ -62,12 +62,12 @@ namespace StandardAssets.Characters.CharacterInput
 			#if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
 			lookXAxisName = "XBoneRightStickXMac";
 			lookYAxisName = "XBoneRightStickYMac";
-			jumpButtonName = "XBone Button South MAC";
+			//jumpButtonName = "XBone Button South MAC";
 			#endif
 			#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 			lookXAxisName = "LookX";
 			lookYAxisName = "LookY";
-			jumpButtonName = "Jump";
+			//jumpButtonName = "Jump";
 #endif
 
 

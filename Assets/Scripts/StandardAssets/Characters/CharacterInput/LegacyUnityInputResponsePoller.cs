@@ -82,14 +82,28 @@ namespace StandardAssets.Characters.CharacterInput
 			
 			if (!check && isAxis)
 			{
-				//response.BroadcastStart();
-				responseSwitch.BroadcastStart();
+				if (response != null)
+				{
+					response.BroadcastStart();
+				}
+
+				if (responseSwitch != null)
+				{
+					responseSwitch.BroadcastStart();
+				}
 			}
 
 			if (check && !isAxis)
 			{
-				//response.BroadcastEnd();
-				responseSwitch.BroadcastEnd();
+				if (response != null)
+				{
+					response.BroadcastEnd();
+				}
+
+				if (responseSwitch != null)
+				{
+					responseSwitch.BroadcastEnd();
+				}
 			}
 		
 			check = isAxis;
@@ -113,13 +127,27 @@ namespace StandardAssets.Characters.CharacterInput
 				axisRawPressed = true;
 				if (!check)
 				{
-					//response.BroadcastStart();
-					responseSwitch.BroadcastStart();
+					if (response != null)
+					{
+						response.BroadcastStart();
+					}
+
+					if (responseSwitch != null)
+					{
+						responseSwitch.BroadcastStart();
+					}
 				}
 				else
 				{
-					//response.BroadcastEnd();	
-					responseSwitch.BroadcastEnd();
+					if (response != null)
+					{
+						response.BroadcastEnd();
+					}
+
+					if (responseSwitch != null)
+					{
+						responseSwitch.BroadcastEnd();
+					}
 				}
 
 				check = !check;
