@@ -231,7 +231,7 @@ InputManager:
     joyNum: 0
   - serializedVersion: 3
     m_Name: Jump
-    descriptiveName: 
+    descriptiveName: 'XBone button south '
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick button 0
@@ -295,7 +295,7 @@ InputManager:
     joyNum: 0
   - serializedVersion: 3
     m_Name: LookX
-    descriptiveName: 
+    descriptiveName: XBone rightStick horizontal WIN
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: 
@@ -311,7 +311,7 @@ InputManager:
     joyNum: 0
   - serializedVersion: 3
     m_Name: LookY
-    descriptiveName: 
+    descriptiveName: XBone rightStick vertical WIN
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: 
@@ -326,29 +326,13 @@ InputManager:
     axis: 4
     joyNum: 0
   - serializedVersion: 3
-    m_Name: GamepadButtonSouth
-    descriptiveName: 
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: 
-    altNegativeButton: 
-    altPositiveButton: 
-    gravity: 0
-    dead: 0.2
-    sensitivity: 1
-    snap: 0
-    invert: 0
-    type: 0
-    axis: 27
-    joyNum: 16
-  - serializedVersion: 3
-    m_Name: Run
-    descriptiveName: Press left stick to toggle run
+    m_Name: XBone leftStick Press
+    descriptiveName: XBone left stick press WIN
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick button 8
     altNegativeButton: 
-    altPositiveButton: left shift
+    altPositiveButton: 
     gravity: 0
     dead: 0.2
     sensitivity: 1
@@ -359,7 +343,7 @@ InputManager:
     joyNum: 0
   - serializedVersion: 3
     m_Name: left shift
-    descriptiveName: keyboard left shift
+    descriptiveName: Keyboard left shift
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: left shift
@@ -375,7 +359,7 @@ InputManager:
     joyNum: 0
   - serializedVersion: 3
     m_Name: left ctrl
-    descriptiveName: left control button keyboard
+    descriptiveName: 'keyboard left control  '
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: left ctrl
@@ -390,8 +374,8 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: rightStickPress
-    descriptiveName: Gamepad rightstick press
+    m_Name: XBone rightStick Press
+    descriptiveName: XBone right stick press WIN
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick button 9
@@ -422,11 +406,27 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: GamepadButtonNorth
-    descriptiveName: Gamepad button north
+    m_Name: XBone Button North
+    descriptiveName: XBone Button North WIN
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick button 3
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 0
+    dead: 0.2
+    sensitivity: 1
+    snap: 0
+    invert: 0
+    type: 0
+    axis: 0
+    joyNum: 0
+  - serializedVersion: 3
+    m_Name: f
+    descriptiveName: Keyboard f
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: f
     altNegativeButton: 
     altPositiveButton: 
     gravity: 0

@@ -2174,9 +2174,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1052986cb0c4fe4b8cfbdfeba746ea0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cinemachineLookXAxisName: Horizontal
+  cinemachineLookYAxisName: Vertical
   horizontalAxisName: Horizontal
   verticalAxisName: Vertical
-  jumpKey: 32
+  useLookInput: 1
+  lookXAxisName: LookX
+  lookYAxisName: LookY
+  jumpButtonName: Jump
 --- !u!114 &114240240390363140
 MonoBehaviour:
   m_ObjectHideFlags: 1
