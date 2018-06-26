@@ -32,7 +32,9 @@ namespace StandardAssets.Characters.CharacterInput
 		private string axisRaw;
 		
 		
-		private bool axisRawPressed; 
+		private bool axisRawPressed;
+
+		private bool isAxis;
 
 		/// <summary>
 		/// Called by the LegacyInputResponse
@@ -81,15 +83,17 @@ namespace StandardAssets.Characters.CharacterInput
 		private void Hold()
 		{
 			bool keyPressed = Input.GetKey(key);
-			bool isAxis = Input.GetAxisRaw(axisRaw) == 1;
-			
+			isAxis = Input.GetAxisRaw(axisRaw) !=0;
+			Debug.Log("isAxis: "+isAxis);
 			if (!check && isAxis)
 			{
+				Debug.Log("Broadcast Start");
 				response.BroadcastStart();
 			}
 
 			if (check && !isAxis)
 			{
+				Debug.Log("Broadcast End");
 				response.BroadcastEnd();
 			}
 			/*
@@ -105,6 +109,7 @@ namespace StandardAssets.Characters.CharacterInput
 			 */
 
 			check = isAxis;
+			Debug.Log("Check: "+check);
 		}
 
 		/// <summary>
