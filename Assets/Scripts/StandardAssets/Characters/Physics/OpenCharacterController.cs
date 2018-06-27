@@ -120,8 +120,7 @@ namespace StandardAssets.Characters.Physics
 		{
 			var ray = new Ray(transform.TransformPoint(liftSlopePoint), Vector3.down);
 
-			var groundHit = new RaycastHit();
-
+			RaycastHit groundHit;
 			if (UnityEngine.Physics.SphereCast(ray, liftSlopeRadius, out groundHit, maxGroundingDist, excludePlayer))
 			{
 				ConfirmGround(groundHit);

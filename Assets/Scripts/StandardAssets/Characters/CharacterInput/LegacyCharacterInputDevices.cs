@@ -6,16 +6,16 @@ namespace StandardAssets.Characters.CharacterInput
 {
 	[CreateAssetMenu(fileName = "LegacyCharacterInputDevices", menuName = "LegacyInput/Create Input Device Mapping",
 		order = 1)]
-	public class LegacyCharacterInputDevices : ScriptableObject
+	public class LegacyCharacterInputDevices : ScriptableObject, ISerializationCallbackReceiver
 	{
 		[SerializeField]
-		private string macPlatformId = "Mac", windowsPlatformId = "Windows";
+		private string macPlatformId = "OSX", windowsPlatformId = "Windows";
 
 		[SerializeField]
 		private string xboxOneControllerId = "XBone", xbox360ControllerId = "XBox360", ps4ControllerId = "PS4";
 
 		[SerializeField]
-		private string controlConvention = "{controller}{control}{platform}";
+		private string controlConvention = "{control}{controller}{platform}";
 
 		private string convention;
 
@@ -47,17 +47,24 @@ namespace StandardAssets.Characters.CharacterInput
 			}
 
 			if (string.IsNullOrEmpty(convention))
-			{
+			{   
 				convention = controlConvention.Replace("{platform}", "{0}").Replace("{controller}", "{1}")
 				                              .Replace("{control}", "{2}");	
 			}
-
-			return string.Format(convention, platformId, controllerId, axisString);
+			string axis = string.Format(convention,platformId,controllerId,axisString);
+			return axis;
 		}
 
 		private bool IsXboxOne()
 		{
-			//TODO: dave
+			foreach (var joystick in Input.GetJoystickNames())
+			{
+				if (joystick.ToLower().Contains("xbox"))
+				{
+					return true;
+				}
+					
+			}
 			return false;
 		}
 		
@@ -69,8 +76,25 @@ namespace StandardAssets.Characters.CharacterInput
 		
 		private bool IsPS4()
 		{
-			//TODO: dave
+			foreach (var joystick in Input.GetJoystickNames())
+			{
+				if (!joystick.ToLower().Contains("xbox"))
+				{
+					return true;
+				}
+					
+			}
 			return false;
+		}
+
+		public void OnBeforeSerialize()
+		{
+			//convention = string.Empty;
+		}
+
+		public void OnAfterDeserialize()
+		{
+			convention = string.Empty;
 		}
 	}
 }
