@@ -12,30 +12,30 @@ namespace StandardAssets.Characters.FirstPerson
 	[Serializable]
 	public class FirstPersonMovementProperties
 	{
-	
-		
 		/// <summary>
 		/// The maximum movement speed
 		/// </summary>
 		[SerializeField]
-		private float maxSpeed = 5f;
+		protected float maxSpeed = 5f;
 
 		/// <summary>
 		/// The curve evaluator for acceleration
 		/// </summary>
 		[Tooltip("Value is the time is takes accelerate to max speed")]
 		[SerializeField]
-		private CurveEvaluator acceleration;
+		protected CurveEvaluator acceleration;
 		
 		/// <summary>
 		/// Jump speed 
 		/// </summary>
-		public float jumpSpeed = 0.3f;
+		[SerializeField]
+		protected float jumpSpeed = 0.3f;
 
 		/// <summary>
 		/// Unity events for entering/exiting state
 		/// </summary>
-		public UnityEvent enterState, exitState;
+		[SerializeField]
+		protected UnityEvent enterState, exitState;
 
 		/// <summary>
 		/// Gets the maximum speed
@@ -53,6 +53,14 @@ namespace StandardAssets.Characters.FirstPerson
 		public CurveEvaluator accelerationCurve
 		{
 			get { return acceleration; }
+		}
+		
+		/// <summary>
+		/// Gets the jump speed
+		/// </summary>
+		public float jumpingSpeed
+		{
+			get { return jumpSpeed; }
 		}
 
 		/// <summary>

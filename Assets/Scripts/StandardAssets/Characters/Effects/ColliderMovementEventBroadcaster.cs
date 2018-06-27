@@ -11,7 +11,7 @@ namespace StandardAssets.Characters.Effects
 		/// The movement detections
 		/// </summary>
 		[SerializeField]
-		private ColliderMovementDetection[] movementDetections;
+		protected ColliderMovementDetection[] movementDetections;
 
 		/// <summary>
 		/// Subscribe to the movement detection events

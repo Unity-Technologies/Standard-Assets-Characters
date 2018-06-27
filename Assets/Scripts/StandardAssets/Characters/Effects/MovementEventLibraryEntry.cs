@@ -14,13 +14,13 @@ namespace StandardAssets.Characters.Effects
 		/// The Movement unique ID - e.g. footstep
 		/// </summary>
 		[SerializeField]
-		private string id;
+		protected string id;
 
 		/// <summary>
 		/// The list of behaviours for visualize movement events
 		/// </summary>
 		[SerializeField]
-		private MovementEventPlayer[] movementEventPlayers;
+		protected MovementEventPlayer[] movementEventPlayers;
 
 		public string identifier
 		{

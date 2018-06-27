@@ -20,22 +20,22 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 		
 		[SerializeField]
-		private float maxForwardSpeed = 10f, maxLateralSpeed = 10f;
+		protected float maxForwardSpeed = 10f, maxLateralSpeed = 10f;
 		
 		[SerializeField]
-		private bool useAcceleration = true;
+		protected bool useAcceleration = true;
 		
 		[SerializeField]    
-		private float groundAcceleration = 20f;
+		protected float groundAcceleration = 20f;
 		
 		[SerializeField]
-		private float groundDeceleration = 15f;
+		protected float groundDeceleration = 15f;
 
 		[SerializeField, Range(0f, 1f)]
-		private float airborneDecelProportion = 0.5f;
+		protected float airborneDecelProportion = 0.5f;
 		
 		[SerializeField] 
-		private PhysicsMotorProperties physicsMotorProperties;
+		protected PhysicsMotorProperties physicsMotorProperties;
 		
 		protected State state;
 		

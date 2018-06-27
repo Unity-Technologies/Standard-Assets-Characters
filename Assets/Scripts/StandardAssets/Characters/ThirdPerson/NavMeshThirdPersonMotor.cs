@@ -29,6 +29,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return GetVelocityOnAxis(agent.transform.forward, agent.velocity) / agent.speed; }
 		}
 
+		/// <inheritdoc />
 		public override float fallTime
 		{
 			get { return fallingTime; }
@@ -38,6 +39,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected override void Awake()
 		{
 			agent = GetComponent<NavMeshAgent>();
+			fallingTime = 0f;
 			base.Awake();
 		}
 

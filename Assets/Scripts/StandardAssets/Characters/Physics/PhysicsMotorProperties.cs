@@ -9,11 +9,11 @@ namespace StandardAssets.Characters.Physics
 	public class PhysicsMotorProperties : ScriptableObject
 	{
 		[SerializeField, Range(0, 1f)] 
-		private float	walkSpeedProporitonOfMaxSpeed = 0.5f,
+		protected float	walkSpeedProporitonOfMaxSpeed = 0.5f,
 						runSpeedProportionOfMaxSpeed = 1.0f;
 		
 		[SerializeField, Range(0, 1f)] 
-		private float	walkAccelerationProporitonOfMaxSpeed = 0.5f,
+		protected float	walkAccelerationProporitonOfMaxSpeed = 0.5f,
 						runAccelerationProportionOfMaxSpeed = 1.0f;
 
 		public float walkSpeedProporiton

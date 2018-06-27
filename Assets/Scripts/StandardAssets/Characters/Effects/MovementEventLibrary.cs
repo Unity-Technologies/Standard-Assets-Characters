@@ -14,7 +14,7 @@ namespace StandardAssets.Characters.Effects
 		/// The definable list of movement effects
 		/// </summary>
 		[SerializeField]
-		private List<MovementEventLibraryEntry> movementEvents;
+		protected List<MovementEventLibraryEntry> movementEvents;
 
 		/// <summary>
 		/// A dictionary of movement effects for optimized lookup

@@ -10,7 +10,9 @@ namespace Demo
     /// </summary>
     public class FirstPersonMovementSpeedConfigUi : MonoBehaviour
     {
-        public FirstPersonController fpsController;
+        [SerializeField]
+        protected FirstPersonController fpsController;
+        
         private FirstPersonMovementModification[] modifiers;
         
         private float minMovementSpeed = 1;
@@ -25,8 +27,8 @@ namespace Demo
         public Text startingSpeedTextValue, sprintSpeedTextValue,
             crouchSpeedTextValue,proneSpeedTextValue;
    
-        private float startingMaxSpeedValue,maxSprintSpeedValue,
-            maxCrouchSpeedValue,maxProneSpeedValue;
+        private float startingMaxSpeedValue = 0, maxSprintSpeedValue = 0,
+            maxCrouchSpeedValue = 0, maxProneSpeedValue = 0;
  
         private Text[] sliderTextValues;
         private float[] sliderValues;
@@ -46,7 +48,7 @@ namespace Demo
 
             for (int i = 0; i < sliders.Length; i++)
             {
-                sliderValues[i] = modifiers[i].getMovementProperty().maximumSpeed;
+                sliderValues[i] = modifiers[i].GetMovementProperty().maximumSpeed;
                 SetInitialSliderValues(sliders[i],sliderTextValues[i],sliderValues[i]);
             }
            
@@ -61,7 +63,7 @@ namespace Demo
         
         public void SetWalkSpeed(Slider slider)
         {
-            float speed = scaleSpeed(slider.value);
+            float speed = ScaleSpeed(slider.value);
             fpsController.currentMovementProperties.maximumSpeed = speed;
             startingSpeedTextValue.text = speed.ToString("0");
         }
@@ -81,15 +83,15 @@ namespace Demo
             UpdateSlider(2, slider);
         }
 
-        float scaleSpeed(float value)
+        float ScaleSpeed(float value)
         {
          return (value*movementSpeedRange)+minMovementSpeed;   
         }
 
         void UpdateSlider(int index, Slider slider)
         {
-            float speed = scaleSpeed(slider.value);
-            modifiers[index].getMovementProperty().maximumSpeed = speed;
+            float speed = ScaleSpeed(slider.value);
+            modifiers[index].GetMovementProperty().maximumSpeed = speed;
             sliderTextValues[index].text = speed.ToString("0");
         }
         

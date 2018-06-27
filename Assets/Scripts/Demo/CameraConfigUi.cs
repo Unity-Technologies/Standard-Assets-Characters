@@ -10,57 +10,75 @@ namespace Demo
 {
 	public abstract class CameraConfigUi<T> : MonoBehaviour where T : CinemachineVirtualCameraBase
 	{
-
-		public FirstPersonMouseLookPOVCamera povCamAdjustables; //Mouse sensitivity(for POV cameras)
 		/// <summary>
 		/// Camera parameters 
 		/// </summary>
 		public bool invertXAxis { get; set; }
 		public bool invertYAxis { get; set; }
 
+		[SerializeField]
+		protected FirstPersonMouseLookPOVCamera povCamAdjustables; //Mouse sensitivity(for POV cameras)
+
 		/// <summary>
 		/// Cinemachine FreeLook Cameras
 		/// </summary>
-		public T[] cameras;
+		[SerializeField]
+		protected T[] cameras;
 
 		/// <summary>
 		/// UI Label Elements 
 		/// </summary>
-		public Text verticalSliderValueText;
+		[SerializeField]
+		protected Text verticalSliderValueText;
 
-		public Text horizontalSliderValueText;
+		[SerializeField]
+		protected Text horizontalSliderValueText;
 
 		/// <summary>
 		/// UI Interactive elements 
 		/// </summary>
-		public Toggle xAxisToggle;
+		[SerializeField]
+		protected Toggle xAxisToggle;
 
-		public Toggle yAxisToggle;
+		[SerializeField]
+		protected Toggle yAxisToggle;
 
-		public Toggle xAxisToggleMouse;
-		public Toggle yAxisToggleMouse;
+		[SerializeField]
+		protected Toggle xAxisToggleMouse;
+		[SerializeField]
+		protected Toggle yAxisToggleMouse;
 
-		public Slider horizontalSliderMouse;
-		public Slider verticalSliderMouse;
-		protected float xAxisMaxSpeedMouse;
-		protected float yAxisMaxSpeedMouse;
-		public Text xAxisSliderValueTextMouse;
-		public Text yAxisSliderValueTextMouse;
+		[SerializeField]
+		protected Slider horizontalSliderMouse;
+		[SerializeField]
+		protected Slider verticalSliderMouse;
+		[SerializeField]
+		protected Text xAxisSliderValueTextMouse;
+		[SerializeField]
+		protected Text yAxisSliderValueTextMouse;
 
-		public Slider horizontalSlider;
-		public Slider verticalSlider;
+		[SerializeField]
+		protected Slider horizontalSlider;
+		[SerializeField]
+		protected Slider verticalSlider;
+
+
+		[SerializeField]
+		protected float minXAxisSpeed;
+		[SerializeField]
+		protected float maxXAxisSpeed;
+		[SerializeField]
+		protected float minYAxisSpeed;
+		[SerializeField]
+		protected float maxYAxisSpeed;
+
+		[SerializeField]
+		protected Text activeInputDevices;
 
 		protected float m_XAxisMaxSpeed;
 		protected float m_YAxisMaxSpeed;
-
-		public float minXAxisSpeed;
-		public float maxXAxisSpeed;
-		public float minYAxisSpeed;
-		public float maxYAxisSpeed;
-
-
-		public Text activeInputDevices;
-
+		protected float xAxisMaxSpeedMouse;
+		protected float yAxisMaxSpeedMouse;
 
 		protected virtual void SetMaxSpeedSliderInitialValues(Slider slider, float value, Text sliderText, float scaledValue)
 		{

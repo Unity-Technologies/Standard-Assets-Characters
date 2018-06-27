@@ -7,10 +7,10 @@ namespace StandardAssets.Characters.ThirdPerson
 	public class AnimationThirdPersonMotor : InputThirdPersonMotor
 	{
 		[SerializeField]
-		private AnimationMotorProperties animationMotorProperties;
+		protected AnimationMotorProperties animationMotorProperties;
 
 		[SerializeField]
-		private bool inheritGroundVelocity;
+		protected bool inheritGroundVelocity;
 
 		private float normalizedInputLateralSpeed;
 		private float normalizedInputForwardSpeed;

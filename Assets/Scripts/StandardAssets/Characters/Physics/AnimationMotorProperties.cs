@@ -6,7 +6,7 @@ namespace StandardAssets.Characters.Physics
 	public class AnimationMotorProperties : ScriptableObject
 	{
 		[SerializeField]
-		private float inputForwardVelocity = 0.5f,
+		protected float inputForwardVelocity = 0.5f,
 		              inputForwardDecay = 10f,
 		              inputForwardChangeVelocity = 5f,
 		              inputLateralVelocity = 0.5f,

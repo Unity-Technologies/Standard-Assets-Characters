@@ -17,19 +17,19 @@ namespace StandardAssets.Characters.FirstPerson
 		/// The state that first person motor starts in
 		/// </summary>
 		[SerializeField]
-		private FirstPersonMovementProperties startingMovementProperties;
+		protected FirstPersonMovementProperties startingMovementProperties;
 
 		/// <summary>
 		/// List of possible state modifiers
 		/// </summary>
 		[SerializeField] 
-		private FirstPersonMovementModification[] movementModifiers;
+		protected FirstPersonMovementModification[] movementModifiers;
 
 		/// <summary>
 		/// Airborne modifier of the movement speed
 		/// </summary>
 		[SerializeField]
-		private float airborneSpeedModifier = 0.5f;
+		protected float airborneSpeedModifier = 0.5f;
 		
 		/// <summary>
 		/// Exposes the movement properties array for use in UI 
@@ -120,7 +120,7 @@ namespace StandardAssets.Characters.FirstPerson
 		{
 			if (characterPhysics.isGrounded && currentMovementProperties.canJump)
 			{
-				characterPhysics.SetJumpVelocity(currentMovementProperties.jumpSpeed);
+				characterPhysics.SetJumpVelocity(currentMovementProperties.jumpingSpeed);
 			}	
 		}
 

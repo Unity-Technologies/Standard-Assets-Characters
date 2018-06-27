@@ -11,28 +11,29 @@ namespace StandardAssets.Characters.CharacterInput
 	{
 		[Header("Cinemachine Axes")]
 		[SerializeField]
-		private string cinemachineLookXAxisName = "Horizontal";
+		protected string cinemachineLookXAxisName = "Horizontal";
+		
 		[SerializeField]
-		private string cinemachineLookYAxisName = "Vertical";
+		protected string cinemachineLookYAxisName = "Vertical";
 		
 		[Header("Input Axes")]
 		[SerializeField]
-		private string horizontalAxisName = "Horizontal";
+		protected string horizontalAxisName = "Horizontal";
 		
 		[SerializeField]
-		private string verticalAxisName = "Vertical";
+		protected string verticalAxisName = "Vertical";
 
 		[SerializeField]
-		private bool useLookInput = true;
+		protected bool useLookInput = true;
 
 		[SerializeField]
-		private string lookXAxisName = "LookX";
+		protected string lookXAxisName = "LookX";
 		
 		[SerializeField]
-		private string lookYAxisName = "LookY";
+		protected string lookYAxisName = "LookY";
 
 		[SerializeField]
-		private string jumpButtonName = "Jump";
+		protected string jumpButtonName = "Jump";
 
 		private Vector2 moveInputVector;
 		private Action jumped;

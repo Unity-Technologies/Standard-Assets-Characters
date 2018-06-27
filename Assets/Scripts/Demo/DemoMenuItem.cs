@@ -7,7 +7,8 @@ namespace Demo
 {
 	public class DemoMenuItem : MonoBehaviour
 	{
-		public string sceneName;
+		[SerializeField]
+		protected string sceneName;
 
 		public void Clicked()
 		{

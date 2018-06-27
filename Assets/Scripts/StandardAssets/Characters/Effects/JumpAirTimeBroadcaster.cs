@@ -13,13 +13,13 @@ namespace StandardAssets.Characters.Effects
         /// Id of Jumping event
         /// </summary>
         [SerializeField]
-        private string jumpId = "jumping";
+        protected string jumpId = "jumping";
 
         /// <summary>
         /// Id of Landing event
         /// </summary>
         [SerializeField]
-        private string landingId = "landing";
+        protected string landingId = "landing";
         
         /// <summary>
         /// CharacterPhysics

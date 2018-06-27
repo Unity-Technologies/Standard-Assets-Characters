@@ -7,7 +7,8 @@ namespace Demo
 		/// <summary>
 		/// Gets required components
 		/// </summary>
-		public Rigidbody clayBullet;
+		[SerializeField]
+		protected Rigidbody clayBullet;
 
 		//public int direction;
 		public Transform spawnLocation;

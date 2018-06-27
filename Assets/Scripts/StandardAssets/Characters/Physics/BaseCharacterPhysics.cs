@@ -11,7 +11,7 @@ namespace StandardAssets.Characters.Physics
 		/// The maximum speed that the character can move downwards
 		/// </summary>
 		[SerializeField]
-		private float terminalVelocity = 10f;
+		protected float terminalVelocity = 10f;
 		
 		public bool isGrounded { get; private set; }
 		public Action landed { get; set; }

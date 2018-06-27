@@ -11,37 +11,37 @@ namespace StandardAssets.Characters.ThirdPerson
 	public class ThirdPersonAnimationController : MonoBehaviour
 	{
 		[SerializeField]
-		private string forwardSpeedParameterName = "ForwardSpeed";
+		protected string forwardSpeedParameterName = "ForwardSpeed";
 		
 		[SerializeField]
-		private string lateralSpeedParameterName = "LateralSpeed";
+		protected string lateralSpeedParameterName = "LateralSpeed";
 		
 		[SerializeField]
-		private string turningSpeedParameterName = "TurningSpeed";
+		protected string turningSpeedParameterName = "TurningSpeed";
 		
 		[SerializeField]
-		private string groundedParameterName = "Grounded";
+		protected string groundedParameterName = "Grounded";
 		
 		[SerializeField]
-		private string hasInputParameterName = "HasInput";
+		protected string hasInputParameterName = "HasInput";
 		
 		[SerializeField]
-		private string fallingTimeParameterName = "FallTime";
+		protected string fallingTimeParameterName = "FallTime";
 		
 		[SerializeField]
-		private string footednessParameterName = "OnRightFoot";
+		protected string footednessParameterName = "OnRightFoot";
 		
 		[SerializeField]
-		private string jumpedParameterName = "Jumped";
+		protected string jumpedParameterName = "Jumped";
 
 		[SerializeField]
-		private string predictedFallDistanceParameterName = "PredictedFallDistance";
+		protected string predictedFallDistanceParameterName = "PredictedFallDistance";
 		
 		[SerializeField]
-		private bool invert;
+		protected bool invert;
 		
 		[SerializeField]
-		private ColliderMovementDetection leftFoot, rightfoot;
+		protected ColliderMovementDetection leftFoot, rightfoot;
 		
 		/// <summary>
 		/// Required motor

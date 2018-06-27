@@ -9,7 +9,7 @@ namespace StandardAssets.Characters.CharacterInput
 	public class NavMeshClick : MonoBehaviour
 	{
 		[SerializeField]
-		private NavMeshAgent agent;
+		protected NavMeshAgent agent;
 
 		private void Update()
 		{

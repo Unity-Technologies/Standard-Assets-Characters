@@ -11,7 +11,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// Main Camera that is using the POV camera
 		/// </summary>
 		[SerializeField]
-		private Camera mainCamera;
+		protected Camera mainCamera;
 
 		/// <summary>
 		/// Adjust rotation

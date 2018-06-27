@@ -15,16 +15,16 @@ namespace StandardAssets.Characters.CharacterInput
 		/// Classification of the type of response
 		/// </summary>
 		[SerializeField]
-		private DefaultInputResponseBehaviour behaviour;
+		protected DefaultInputResponseBehaviour behaviour;
 
+		[SerializeField] 
+		protected string axisRaw;
+
+		[SerializeField]
+		protected string XBoxAxisMAC;
 		
-
-		[SerializeField] private String axisRaw;
-
 		[SerializeField]
-		private String XBoxAxisMAC;
-		[SerializeField]
-		private String XBoxAxisWIN;
+		protected string XBoxAxisWIN;
 
 		/// <summary>
 		/// Initializes the polling behaviour for the legacy input system

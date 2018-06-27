@@ -15,13 +15,13 @@ namespace StandardAssets.Characters.Effects
 		/// Distance travelled between movement events
 		/// </summary>
 		[SerializeField]
-		private float distanceThreshold = 1f;
+		protected float distanceThreshold = 1f;
 
 		/// <summary>
 		/// List of IDs for movement events
 		/// </summary>
 		[SerializeField]
-		private string[] ids;
+		protected string[] ids;
 
 		/// <summary>
 		/// The current index of the 

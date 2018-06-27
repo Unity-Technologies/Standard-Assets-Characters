@@ -13,14 +13,14 @@ namespace StandardAssets.Characters.Physics
 		/// The distance used to check if grounded
 		/// </summary>
 		[SerializeField]
-		private float groundCheckDistance = 0.51f;
+		protected float groundCheckDistance = 0.51f;
 
 		/// <summary>
 		/// Layers to use in the ground check
 		/// </summary>
 		[Tooltip("Layers to use in the ground check")]
 		[SerializeField]
-		private LayerMask groundCheckMask;
+		protected LayerMask groundCheckMask;
 
 		/// <summary>
 		/// Character controller

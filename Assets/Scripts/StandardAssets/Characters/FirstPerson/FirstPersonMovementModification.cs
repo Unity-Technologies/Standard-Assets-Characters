@@ -16,12 +16,13 @@ namespace StandardAssets.Characters.FirstPerson
 		/// The input
 		/// </summary>
 		[SerializeField]
-		private InputResponse[] inputs;
+		protected InputResponse[] inputs;
 
 		/// <summary>
 		/// The state
 		/// </summary>
-		[SerializeField] private FirstPersonMovementProperties movementProperties;
+		[SerializeField] 
+		protected FirstPersonMovementProperties movementProperties;
 
 		/// <summary>
 		/// The controller
@@ -59,7 +60,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// Setting and viewing speeds for movement properties
 		/// </summary>
 		/// <returns></returns>
-		public FirstPersonMovementProperties getMovementProperty()
+		public FirstPersonMovementProperties GetMovementProperty()
 		{
 			return movementProperties;
 		}
