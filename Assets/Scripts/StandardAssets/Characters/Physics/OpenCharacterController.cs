@@ -29,10 +29,6 @@ namespace StandardAssets.Characters.Physics
 		[SerializeField]
 		private float groundCheckRadius = 0.35f;
 
-		[Header("Jumping")]
-		[SerializeField]
-		private float jumpCeiling = 2f;
-
 		[Header("Sloping")]
 		[Range(0, 90)]
 		[SerializeField]
@@ -72,7 +68,6 @@ namespace StandardAssets.Characters.Physics
 		[SerializeField]
 		private bool enableDebug;
 
-		private Vector3 groundClamp;
 		private float minGroundingDist = 2f;
 		private Vector3 playerMovement;
 		private float precalculatedGroundY;
@@ -147,8 +142,6 @@ namespace StandardAssets.Characters.Physics
 				return;
 			}
 
-			groundClamp = new Vector3(transform.position.x, groundHit.point.y + groundCheckRadius / 2,
-									  transform.position.z);
 			Collider[] collisions = new Collider[3];
 			int num = UnityEngine.Physics.OverlapSphereNonAlloc(transform.TransformPoint(groundCheckPoint),
 																groundCheckRadius, collisions, excludePlayer);
