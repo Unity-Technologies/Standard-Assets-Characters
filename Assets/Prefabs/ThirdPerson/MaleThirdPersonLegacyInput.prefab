@@ -1797,7 +1797,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1964598378489596}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 47.75, y: 26, z: 63.168888}
+  m_LocalPosition: {x: 35.600002, y: 0.4, z: 35.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4151648849392010}
@@ -2182,6 +2182,7 @@ MonoBehaviour:
   lookXAxisName: LookX
   lookYAxisName: LookY
   jumpButtonName: Jump
+  devices: {fileID: 11400000, guid: 44238fc1dd7ea44af8ed855dc15f4238, type: 2}
 --- !u!114 &114240240390363140
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2213,7 +2214,6 @@ MonoBehaviour:
   groundingEasing: 10
   groundCheckPoint: {x: 0, y: -0.7, z: 0}
   groundCheckRadius: 0.2
-  jumpCeiling: 2
   minSlope: 0
   maxSlope: 60
   maxModifiedSlope: 45
@@ -2351,8 +2351,8 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 1.7
+  m_Radius: 0.2
+  m_Height: 1.2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!137 &137486808104186404
