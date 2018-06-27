@@ -47,6 +47,7 @@ namespace StandardAssets.Characters.CharacterInput
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 			return XBoxAxisWIN;
 #endif
+			return axisRaw;
 		}
 
 		/// <summary>
