@@ -35,6 +35,9 @@ namespace StandardAssets.Characters.CharacterInput
 		[SerializeField]
 		protected string jumpButtonName = "Jump";
 
+		[SerializeField]
+		protected LegacyCharacterInputDevices devices;
+
 		private Vector2 moveInputVector;
 		private Action jumped;
 
@@ -54,24 +57,6 @@ namespace StandardAssets.Characters.CharacterInput
 		{
 			get { return jumped; }
 			set { jumped = value; }
-		}
-
-		private void Awake()
-		{
-			
-			//Only works with with XBox One for now
-			#if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-			lookXAxisName = "XBoneRightStickXMac";
-			lookYAxisName = "XBoneRightStickYMac";
-			//jumpButtonName = "XBone Button South MAC";
-			#endif
-			#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-			lookXAxisName = "LookX";
-			lookYAxisName = "LookY";
-			//jumpButtonName = "Jump";
-#endif
-
-
 		}
 
 		private void OnEnable()
@@ -109,12 +94,12 @@ namespace StandardAssets.Characters.CharacterInput
 			if (cinemachineAxisName == cinemachineLookXAxisName)
 			{
 				
-				return Input.GetAxis(lookXAxisName);
+				return Input.GetAxis(devices.GetAxisName(lookXAxisName));
 			}
 			if (cinemachineAxisName == cinemachineLookYAxisName)
 			{
 				
-				return Input.GetAxis(lookYAxisName);
+				return Input.GetAxis(devices.GetAxisName(lookYAxisName));
 			}
 
 			return 0;

@@ -4270,6 +4270,37 @@ Prefab:
       value: 
       objectReference: {fileID: 11400000, guid: 7e5105434a46e479c8cd2b34bf04726c,
         type: 2}
+    - target: {fileID: 114961145437418454, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: platforms.Array.data[0]
+      value: Mac
+      objectReference: {fileID: 0}
+    - target: {fileID: 114961145437418454, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: controllers.Array.data[0]
+      value: XBone
+      objectReference: {fileID: 0}
+    - target: {fileID: 114961145437418454, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: lookXAxisName
+      value: RightStickX
+      objectReference: {fileID: 0}
+    - target: {fileID: 114961145437418454, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: lookYAxisName
+      value: RightStickY
+      objectReference: {fileID: 0}
+    - target: {fileID: 114961145437418454, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: controlConvention
+      value: '{controller}{control}{platform}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 114961145437418454, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: devices
+      value: 
+      objectReference: {fileID: 11400000, guid: 44238fc1dd7ea44af8ed855dc15f4238,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1818690cc80044ecbadf3a53cc5f29e1, type: 2}
   m_IsPrefabAsset: 0
