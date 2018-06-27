@@ -56,7 +56,8 @@ namespace StandardAssets.Characters.CharacterInput
 					isXBone = true;
 					break;
 				}
-				
+				isXBone = false;
+					
 			}
 			//Only works with with XBox One for now
 #if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
