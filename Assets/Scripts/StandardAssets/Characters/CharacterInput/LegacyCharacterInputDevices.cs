@@ -9,7 +9,7 @@ namespace StandardAssets.Characters.CharacterInput
 	public class LegacyCharacterInputDevices : ScriptableObject, ISerializationCallbackReceiver
 	{
 		[SerializeField]
-		private string macPlatformId = "OSX", windowsPlatformId = "Windows";
+		protected string macPlatformId = "OSX", windowsPlatformId = "Windows";
 
 		[SerializeField]
 		private string xboxOneControllerId = "XBone", xbox360ControllerId = "XBox360", ps4ControllerId = "PS4";
@@ -44,6 +44,12 @@ namespace StandardAssets.Characters.CharacterInput
 			else
 			{
 				return axisString;
+			}
+
+			if (controllerId.Length <= 0)
+			{
+				return axisString;
+				
 			}
 
 			if (string.IsNullOrEmpty(convention))

@@ -18,16 +18,30 @@ namespace StandardAssets.Characters.CharacterInput
 
 		[SerializeField] 
 		protected string axisRaw;
+		
+		
 
+		[SerializeField]
+		protected bool isGamepad;
+
+		
 		/// <summary>
 		/// Initializes the polling behaviour for the legacy input system
 		/// </summary>
 		public override void Init()
 		{
+			
+			
+			string axis = axisRaw;
+			if (isGamepad)
+				axis = ScriptableObject.CreateInstance<LegacyCharacterInputDevices>().GetAxisName(axisRaw);
+			
+				
+			
 			GameObject gameObject = new GameObject();
 			gameObject.name = string.Format("LegacyInput_{0}_Poller", name);
 			LegacyUnityInputResponsePoller poller = gameObject.AddComponent<LegacyUnityInputResponsePoller>();
-			poller.Init(this, behaviour, axisRaw);
+			poller.Init(this, behaviour, axis);
 		}
 
 		/// <summary>

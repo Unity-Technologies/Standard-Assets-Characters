@@ -401,7 +401,7 @@ MonoBehaviour:
     m_MaxSpeed: 220
     m_AccelTime: 0.1
     m_DecelTime: 0.1
-    m_InputAxisName: LookY
+    m_InputAxisName: Vertical
     m_InputAxisValue: 0
     m_InvertInput: 0
     m_MinValue: -90
@@ -418,7 +418,7 @@ MonoBehaviour:
     m_MaxSpeed: 300
     m_AccelTime: 0.1
     m_DecelTime: 0.1
-    m_InputAxisName: LookX
+    m_InputAxisName: Horizontal
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
@@ -550,7 +550,7 @@ MonoBehaviour:
   movementModifiers:
   - inputs:
     - {fileID: 11400000, guid: 8c1192daa77a944b393df7e0146d7a7f, type: 2}
-    - {fileID: 11400000, guid: 3dc32cf58a70f444d807a65fb84c4852, type: 2}
+    - {fileID: 11400000, guid: c871b07d60224c9419048e8902a4408e, type: 2}
     movementProperties:
       maxSpeed: 11
       acceleration:
@@ -602,8 +602,8 @@ MonoBehaviour:
         m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
   - inputs:
-    - {fileID: 11400000, guid: 7d60fd307346c4da688e568bfd0b9d43, type: 2}
     - {fileID: 11400000, guid: 792f413f42ab38c408411c84b20128d0, type: 2}
+    - {fileID: 11400000, guid: 1f0ff2d9a05ab0342b275be9850ffb82, type: 2}
     movementProperties:
       maxSpeed: 3
       acceleration:
@@ -656,7 +656,7 @@ MonoBehaviour:
           Culture=neutral, PublicKeyToken=null
   - inputs:
     - {fileID: 11400000, guid: e2cc03e054ab3412e84c918085c0abe2, type: 2}
-    - {fileID: 11400000, guid: 636a853ec0dc0e34ba2f77312e3e526a, type: 2}
+    - {fileID: 11400000, guid: 3897e54e77188b84f88dd0adc35a4615, type: 2}
     movementProperties:
       maxSpeed: 1
       acceleration:
@@ -727,7 +727,6 @@ MonoBehaviour:
   groundingEasing: 10
   groundCheckPoint: {x: 0, y: -0.85, z: 0}
   groundCheckRadius: 0.35
-  jumpCeiling: 2
   minSlope: 0
   maxSlope: 60
   maxModifiedSlope: 45
@@ -827,7 +826,7 @@ MonoBehaviour:
     m_MaxSpeed: 220
     m_AccelTime: 0.1
     m_DecelTime: 0.1
-    m_InputAxisName: LookY
+    m_InputAxisName: Vertical
     m_InputAxisValue: 0
     m_InvertInput: 0
     m_MinValue: -90
@@ -844,7 +843,7 @@ MonoBehaviour:
     m_MaxSpeed: 300
     m_AccelTime: 0.1
     m_DecelTime: 0.1
-    m_InputAxisName: LookX
+    m_InputAxisName: Horizontal
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
@@ -956,7 +955,7 @@ MonoBehaviour:
     m_MaxSpeed: 220
     m_AccelTime: 0.1
     m_DecelTime: 0.1
-    m_InputAxisName: LookY
+    m_InputAxisName: Vertical
     m_InputAxisValue: 0
     m_InvertInput: 0
     m_MinValue: -90
@@ -973,7 +972,7 @@ MonoBehaviour:
     m_MaxSpeed: 300
     m_AccelTime: 0.1
     m_DecelTime: 0.1
-    m_InputAxisName: LookX
+    m_InputAxisName: Horizontal
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
@@ -996,14 +995,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1052986cb0c4fe4b8cfbdfeba746ea0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cinemachineLookXAxisName: LookX
-  cinemachineLookYAxisName: LookY
+  cinemachineLookXAxisName: Horizontal
+  cinemachineLookYAxisName: Vertical
   horizontalAxisName: Horizontal
   verticalAxisName: Vertical
-  useLookInput: 0
+  useLookInput: 1
   lookXAxisName: LookX
   lookYAxisName: LookY
-  jumpButtonName: Jump
+  keyboardJumpName: Jump
+  ps4JumpName: JumpPS4
+  xBoneJumpName: JumpXBone
+  devices: {fileID: 11400000, guid: 44238fc1dd7ea44af8ed855dc15f4238, type: 2}
 --- !u!136 &136131221980381340
 CapsuleCollider:
   m_ObjectHideFlags: 1

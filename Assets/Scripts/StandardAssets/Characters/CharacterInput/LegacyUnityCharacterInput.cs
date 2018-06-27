@@ -42,9 +42,11 @@ namespace StandardAssets.Characters.CharacterInput
 		[SerializeField]
 		protected string xBoneJumpName = "JumpXBone";
 
-		private string gamepadJumpName;
+		[SerializeField]
+		protected string gamepadJumpName;
 
-		private bool hasGamepad;
+		[SerializeField]
+		protected bool hasGamepad;
 
 		[SerializeField]
 		protected LegacyCharacterInputDevices devices;
