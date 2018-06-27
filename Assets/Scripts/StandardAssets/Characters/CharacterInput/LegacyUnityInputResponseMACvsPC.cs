@@ -21,31 +21,58 @@ namespace StandardAssets.Characters.CharacterInput
 		protected string axisRaw;
 
 		[SerializeField]
-		protected string XBoxAxisMAC;
+		protected string XBoxOneButtonAxisOSX;
 		
 		[SerializeField]
-		protected string XBoxAxisWIN;
+		protected string XBoxOneButtonAxisWindows;
+
+		[SerializeField] 
+		protected string PS4ButtonAxisOSX;
+
+		[SerializeField] 
+		protected string PS4ButtonAxisWIndows;
+		
+		bool isXBone;
 
 		/// <summary>
 		/// Initializes the polling behaviour for the legacy input system
 		/// </summary>
 		public override void Init()
 		{
-			axisRaw = GetAxisXBonePlatform();
+			axisRaw = GetButtonAxisControllerOS();
 			GameObject gameObject = new GameObject();
 			gameObject.name = string.Format("LegacyInput_{0}_Poller", name);
 			LegacyUnityInputResponsePoller poller = gameObject.AddComponent<LegacyUnityInputResponsePoller>();
 			poller.Init(this, behaviour, axisRaw);
 		}
 
-		private string GetAxisXBonePlatform()
+		private string GetButtonAxisControllerOS()
 		{
+			
+			foreach (var joystick in Input.GetJoystickNames())
+			{
+				if (joystick.ToLower().Contains("xbox"))
+				{
+					isXBone = true;
+					break;
+				}
+				
+			}
 			//Only works with with XBox One for now
 #if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-			return XBoxAxisMAC;
+			if(isXBone)
+			{
+				return XBoxOneButtonAxisOSX;	
+			}
+			return PS4ButtonAxisOSX;
+			
 #endif
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-			return XBoxAxisWIN;
+			if(isXBone)
+			{
+				return XBoxOneButtonAxisWindows;	
+			}
+			return PS4ButtonAxisWIndows;
 #endif
 			return axisRaw;
 		}

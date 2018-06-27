@@ -33,7 +33,17 @@ namespace StandardAssets.Characters.CharacterInput
 		protected string lookYAxisName = "LookY";
 
 		[SerializeField]
-		protected string jumpButtonName = "Jump";
+		protected string keyboardJumpName = "Jump";
+		
+		[SerializeField]
+		protected string ps4JumpName = "JumpPS4";
+		
+		[SerializeField]
+		protected string xBoneJumpName = "JumpXBone";
+
+		private string gamepadJumpName;
+
+		private bool hasGamepad;
 
 		[SerializeField]
 		protected LegacyCharacterInputDevices devices;
@@ -61,13 +71,23 @@ namespace StandardAssets.Characters.CharacterInput
 
 		private void Awake()
 		{
-			//Debug active controllers
-			foreach (var joystick in Input.GetJoystickNames())
+			if (Input.GetJoystickNames().Length > 0)
 			{
-				Debug.Log(joystick);
-				if(joystick.ToLower().Contains("xbox"))
-					Debug.Log("Xbox is connected");
+				hasGamepad = true;
+				//Debug active controllers
+				foreach (var joystick in Input.GetJoystickNames())
+				{
+					if (joystick.ToLower().Contains("xbox"))
+					{
+						gamepadJumpName = xBoneJumpName;
+						break;
+					}
+					gamepadJumpName = ps4JumpName;
+				}
+				
 			}
+				
+			
 		}
 
 		private void OnEnable()
@@ -80,14 +100,13 @@ namespace StandardAssets.Characters.CharacterInput
 			//Cache the inputs
 			moveInputVector.Set(Input.GetAxis(horizontalAxisName), Input.GetAxis(verticalAxisName));
 
-			if (Input.GetButtonDown(jumpButtonName))
+			if (Input.GetButtonDown(keyboardJumpName)||hasGamepad & Input.GetButtonDown(gamepadJumpName))
 			{
 				if (jumpPressed != null)
 				{
 					jumpPressed();
 				}
 			}
-		
 			
 		}
 
