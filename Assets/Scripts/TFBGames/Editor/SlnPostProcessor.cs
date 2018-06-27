@@ -7,8 +7,6 @@ using System.Xml.Linq;
 using UnityEditor;
 using UnityEngine;
 
-//THIS WILL NOT BE INCLUDED IN THE FINAL BUILD - IT IS FOR THE BUILD SERVER
-
 namespace TFBGames.Editor
 {
 	/// <summary>
@@ -34,31 +32,27 @@ namespace TFBGames.Editor
 			public bool Editor;
 		}
 
-		private static readonly string[] AndroidSymbols =
+		private static readonly string[] DebugSymbols =
 		{
-			"UNITY_ANDROID",
-			"UNITY_ANDROID_API"
+			"ENABLE_PROFILER",
+			"DEBUG",
+			"DEVELOPMENT_BUILD",
+			"TRACE",
+			"UNITY_ASSERTIONS"
 		};
 
-		private static readonly string[] SwitchSymbols =
+		private static readonly string[] EditorSymbols =
 		{
-			"UNITY_SWITCH",
-			"UNITY_SWITCH_API"
-		};
-
-		private static readonly string[] PS4Symbols =
-		{
-			"UNITY_PS4",
-			"UNITY_PS4_API"
-		};
-
-		private static readonly string[] IosSymbols =
-		{
-			"UNITY_IOS",
-			"UNITY_IPHONE",
-			"UNITY_IPHONE_API",
-			"ENABLE_IOS_ON_DEMAND_RESOURCES",
-			"ENABLE_IOS_APP_SLICING"
+			"UNITY_EDITOR",
+			"UNITY_EDITOR_64",
+			"UNITY_EDITOR_OSX",
+			"UNITY_EDITOR_WIN",
+			"UNITY_TEAM_LICENSE",
+			"ENABLE_PROFILER",
+			"DEBUG",
+			"DEVELOPMENT_BUILD",
+			"TRACE",
+			"UNITY_ASSERTIONS"
 		};
 
 		private static readonly string[] WindowsSymbols =
@@ -79,26 +73,48 @@ namespace TFBGames.Editor
 			"UNITY_STANDALONE"
 		};
 
-		private static readonly string[] EditorSymbols =
+		private static readonly string[] AndroidSymbols =
 		{
-			"UNITY_EDITOR",
-			"UNITY_EDITOR_64",
-			"UNITY_EDITOR_OSX",
-			"UNITY_EDITOR_WIN",
-			"UNITY_TEAM_LICENSE",
-			"ENABLE_PROFILER",
-			"DEBUG",
-			"TRACE",
-			"UNITY_ASSERTIONS"
+			"UNITY_ANDROID",
+			"UNITY_ANDROID_API"
 		};
 
-		private static readonly string[] DebugSymbols =
+		private static readonly string[] IosSymbols =
 		{
-			"ENABLE_PROFILER",
-			"DEBUG",
-			"TRACE",
-			"UNITY_ASSERTIONS"
+			"UNITY_IOS",
+			"UNITY_IPHONE",
+			"UNITY_IPHONE_API",
+			"ENABLE_IOS_ON_DEMAND_RESOURCES",
+			"ENABLE_IOS_APP_SLICING"
 		};
+
+		private static readonly string[] SwitchSymbols =
+		{
+			"UNITY_SWITCH",
+			"UNITY_SWITCH_API"
+		};
+
+		private static readonly string[] Ps4Symbols =
+		{
+			"UNITY_PS4",
+			"UNITY_PS4_API"
+		};
+
+		private static readonly string[] PreviousDefines =
+		{
+			"$(DefineConstants)"
+		};
+
+		private static IEnumerable<string> _allDynamicSymbols =
+			DebugSymbols
+				.Concat(EditorSymbols)
+				.Concat(WindowsSymbols)
+				.Concat(OsxSymbols)
+				.Concat(LinuxSymbols)
+				.Concat(AndroidSymbols)
+				.Concat(IosSymbols)
+				.Concat(SwitchSymbols)
+				.Concat(Ps4Symbols);
 
 		private static readonly Configuration[] Configurations =
 		{
@@ -111,32 +127,45 @@ namespace TFBGames.Editor
 		{
 			new Platform()
 			{
-				Name = "Android", Symbols = AndroidSymbols, AssociatedGroup = BuildTargetGroup.Android,
-				UnityEngineRootPath =  "PlaybackEngines/AndroidPlayer/variations/mono/Managed/"
+				Name = "Android",
+				Symbols = AndroidSymbols,
+				AssociatedGroup = BuildTargetGroup.Android,
+				UnityEngineRootPath = "PlaybackEngines/AndroidPlayer/variations/mono/Managed/"
 			},
 			new Platform()
 			{
-				Name = "IOs", Symbols = IosSymbols, AssociatedGroup = BuildTargetGroup.iOS,
-				UnityEngineRootPath =  "PlaybackEngines/iOSSupport/Managed/"
-			},
-			new Platform() {
-				Name = "Windows", Symbols = WindowsSymbols, AssociatedGroup = BuildTargetGroup.Standalone,
-				UnityEngineRootPath =  "PlaybackEngines/WindowsStandaloneSupport/Managed/"
+				Name = "IOs",
+				Symbols = IosSymbols,
+				AssociatedGroup = BuildTargetGroup.iOS,
+				UnityEngineRootPath = "PlaybackEngines/iOSSupport/Managed/"
 			},
 			new Platform()
 			{
-				Name = "OSX", Symbols = OsxSymbols, AssociatedGroup = BuildTargetGroup.Standalone,
-				UnityEngineRootPath =  "PlaybackEngines/macstandalonesupport/Managed/"
+				Name = "Windows",
+				Symbols = WindowsSymbols,
+				AssociatedGroup = BuildTargetGroup.Standalone,
+				UnityEngineRootPath = "PlaybackEngines/WindowsStandaloneSupport/Managed/"
 			},
 			new Platform()
 			{
-				Name = "Switch", Symbols = SwitchSymbols, AssociatedGroup = BuildTargetGroup.Switch,
-				UnityEngineRootPath =  "PlaybackEngines/Switch/Managed/"
+				Name = "OSX",
+				Symbols = OsxSymbols,
+				AssociatedGroup = BuildTargetGroup.Standalone,
+				UnityEngineRootPath = "PlaybackEngines/macstandalonesupport/Managed/"
 			},
 			new Platform()
 			{
-				Name = "PS4", Symbols = PS4Symbols, AssociatedGroup = BuildTargetGroup.PS4,
-				UnityEngineRootPath =  "PlaybackEngines/PS4/Managed/"
+				Name = "Switch",
+				Symbols = SwitchSymbols,
+				AssociatedGroup = BuildTargetGroup.Switch,
+				UnityEngineRootPath = "PlaybackEngines/Switch/Managed/"
+			},
+			new Platform()
+			{
+				Name = "PS4",
+				Symbols = Ps4Symbols,
+				AssociatedGroup = BuildTargetGroup.PS4,
+				UnityEngineRootPath = "PlaybackEngines/PS4/Managed/"
 			}
 		};
 
@@ -151,24 +180,27 @@ namespace TFBGames.Editor
 		{
 			string currentDirectory = Directory.GetCurrentDirectory();
 			string[] projectFiles = Directory.GetFiles(currentDirectory, "*.csproj");
-			
+
 			// Create platform list
-			List<Platform> installedPlatforms = Platforms.Where(platform =>
-			{
-				var platformLibPath = GetLibPath(platform.UnityEngineRootPath);
+			List<Platform> installedPlatforms =
+				Platforms.Where(platform =>
+				         {
+					         var platformLibPath =
+						         GetLibPath(platform.UnityEngineRootPath);
 
-				if (!Directory.Exists(platformLibPath))
-				{
-					Debug.LogFormat("Skipping platform {0}, not installed", platform.Name);
-					return false;
-				}
+					         if (!Directory.Exists(platformLibPath))
+					         {
+						         return false;
+					         }
 
-				return true;
-			}).ToList();
+					         return true;
+				         })
+				         .ToList();
 
 			// Place current platform first
 			Platform defaultPlatform =
-				installedPlatforms.FirstOrDefault(p => p.AssociatedGroup == EditorUserBuildSettings.selectedBuildTargetGroup);
+				installedPlatforms.FirstOrDefault(p => p.AssociatedGroup ==
+				                                       EditorUserBuildSettings.selectedBuildTargetGroup);
 
 			if (installedPlatforms[0] != defaultPlatform && defaultPlatform != null)
 			{
@@ -222,6 +254,7 @@ namespace TFBGames.Editor
 						inGroup = false;
 						newFile.Add(line);
 					}
+
 					continue;
 				}
 
@@ -231,7 +264,7 @@ namespace TFBGames.Editor
 					string projFileName = match.Groups[2].Value;
 					string projId = match.Groups[3].Value;
 
-					if (projFileName.Contains("Editor") || projFileName.Contains("Test"))
+					if (projFileName.Contains("Editor"))
 					{
 						editorProjects.Add(projId);
 					}
@@ -243,8 +276,10 @@ namespace TFBGames.Editor
 					// To make sure each project has a unique name, rewrite these lines (fixes problem on Windows where all
 					// projects are called Project)
 					newFile.Add(string.Format(@"Project(""{{{0}}}"") = ""{1}"", ""{2}"", ""{3}""",
-											  match.Groups[1].Value, projFileName.Substring(0, projFileName.IndexOf(".csproj")),
-											  projFileName, projId));
+					                          match.Groups[1].Value,
+					                          projFileName.Substring(0, projFileName.IndexOf(".csproj")),
+					                          projFileName,
+					                          projId));
 
 					continue;
 				}
@@ -262,6 +297,7 @@ namespace TFBGames.Editor
 					{
 						newFile.Add(string.Format("\t\t{0} = {0}", combination));
 					}
+
 					continue;
 				}
 
@@ -277,12 +313,12 @@ namespace TFBGames.Editor
 							foreach (Platform platform in platforms)
 							{
 								newFile.Add(string.Format("\t\t{0}.{1}|{2}.ActiveCfg = {1}|{2}",
-														  project, configuration.Name, platform.Name));
+								                          project, configuration.Name, platform.Name));
 
 								if ((configuration.Name == "Editor") || !editorProjects.Contains(project))
 								{
 									newFile.Add(string.Format("\t\t{0}.{1}|{2}.Build.0 = {1}|{2}",
-															  project, configuration.Name, platform.Name));
+									                          project, configuration.Name, platform.Name));
 								}
 							}
 						}
@@ -300,18 +336,13 @@ namespace TFBGames.Editor
 			XNamespace xmlns = projectContentElement.Name.NamespaceName;
 
 			string[] defines = EditorUserBuildSettings.activeScriptCompilationDefines;
-			string[] currentPlatformDefines = PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup).Split(';');
+			string[] currentPlatformDefines = PlayerSettings
+			                                  .GetScriptingDefineSymbolsForGroup(
+				                                  EditorUserBuildSettings.selectedBuildTargetGroup)
+			                                  .Split(';');
 
-			string[] baseDefines = defines.Except(AndroidSymbols)
-			                              .Except(IosSymbols)
-			                              .Except(EditorSymbols)
-			                              .Except(DebugSymbols)
-			                              .Except(WindowsSymbols)
-			                              .Except(OsxSymbols)
-			                              .Except(SwitchSymbols)
-			                              .Except(PS4Symbols)
+			string[] baseDefines = defines.Except(_allDynamicSymbols)
 			                              .Except(currentPlatformDefines)
-			                              .Except(LinuxSymbols)
 			                              .ToArray();
 
 			// Remove unity conditional propertyGroups with bad platforms
@@ -323,115 +354,122 @@ namespace TFBGames.Editor
 				RemoveUnityDlls(xmlns, projectContentElement);
 			}
 
-			XElement defaultPropertyGroup = projectContentElement.Elements().First(
-				e => e.Elements().Any(ce => ce.Name == xmlns + "Configuration") &&
-					 e.Elements().Any(ce => ce.Name == xmlns + "Platform"));
+			XElement defaultPropertyGroup =
+				projectContentElement.Elements()
+				                     .First(e => e.Elements().Any(ce => ce.Name == xmlns + "Configuration") &&
+					                             e.Elements().Any(ce => ce.Name == xmlns + "Platform"));
 
 			Platform defaultPlatform =
 				platforms.FirstOrDefault(p => p.AssociatedGroup == EditorUserBuildSettings.selectedBuildTargetGroup);
+			
+			// Remove property group with 'default' condition - we cover it with all our specialised ones
+#if UNITY_2018_OR_NEWER
+			XElement defaultConditionalPropertyGroup =
+				projectContentElement.Elements()
+				                     .First(e => e.Attributes().Any(a => a.Name == "Condition"));
+			defaultConditionalPropertyGroup.Remove();
+#endif
 
 			if (defaultPlatform == null)
 			{
 				defaultPlatform = platforms[0];
 			}
 
+			// Set default config
 			defaultPropertyGroup.Elements().First(e => e.Name == xmlns + "Configuration").Value = "Editor";
 			defaultPropertyGroup.Elements().First(e => e.Name == xmlns + "Platform").Value = defaultPlatform.Name;
+
+			// Set global options that are not platform specific
+			SetCommon(xmlns, defaultPropertyGroup, baseDefines);
+			
+			// Add defines and settings per configuration
+			foreach (Configuration configuration in Configurations)
+			{
+				string[] configurationSymbols = PreviousDefines.Concat(configuration.Symbols).ToArray();
+				XElement element = CreateConfigurationWithDefineConstants(xmlns, configurationSymbols,
+				                                                          "Configuration", configuration.Name);
+
+				if (configuration.Debug)
+				{
+					SetDebug(xmlns, element);
+				}
+				else
+				{
+					SetRelease(xmlns, element);
+				}
+
+				// Add refs for editor configs
+				if (!UsingMonodev && configuration.Editor)
+				{
+					AddReference(xmlns, projectContentElement,
+					             "PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll",
+					             "Configuration", configuration.Name);
+					AddReference(xmlns, projectContentElement,
+					             "PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Common.dll",
+					             "Configuration", configuration.Name);
+
+					// UnityEditor
+					AddReference(xmlns, projectContentElement,
+					             "Managed/UnityEditor.dll",
+					             "Configuration", configuration.Name);
+				}
+
+				defaultPropertyGroup.AddAfterSelf(element);
+			}
+
+			// Add defines and settings per platform
 			foreach (Platform platform in platforms)
 			{
 				var platformLibPath = GetLibPath(platform.UnityEngineRootPath);
+				string[] unityDefines = PlayerSettings
+				                        .GetScriptingDefineSymbolsForGroup(platform.AssociatedGroup)
+				                        .Split(';');
+				string[] platformSymbols = PreviousDefines
+				                           .Concat(platform.Symbols)
+				                           .Concat(unityDefines)
+				                           .ToArray();
 
-				foreach (Configuration configuration in Configurations)
+				XElement element = CreateConfigurationWithDefineConstants(xmlns, platformSymbols,
+				                                                          "Platform", platform.Name);
+				
+				defaultPropertyGroup.AddAfterSelf(element);
+				
+				// Find all Engine DLLs in root folder and add them all
+				if (!UsingMonodev)
 				{
-					string[] platformDefines = PlayerSettings
-					                           .GetScriptingDefineSymbolsForGroup(platform.AssociatedGroup).Split(';');
-
-					// Add platform configurations
-					string[] groupDefines = baseDefines.Concat(configuration.Symbols)
-					                                   .Concat(platform.Symbols)
-					                                   .Concat(platformDefines)
-					                                   .ToArray();
-					string configurationName = string.Format("{0}|{1}", configuration.Name, platform.Name);
-					XElement element = CreateConfigurationWithDefineConstants(xmlns, groupDefines,
-					                                                          configurationName);
-
-					if (configuration.Debug)
+					if (platformLibPath != null)
 					{
-						SetDebug(xmlns, element);
+						string[] engineLibs = Directory.GetFiles(platformLibPath, "UnityEngine*.dll");
+
+						foreach (string engineDlL in engineLibs)
+						{
+							// Non editor platforms use game specific UnityEngine dll
+							AddReference(xmlns, projectContentElement, engineDlL,
+							             "Platform", platform.Name);
+						}
 					}
 					else
 					{
-						SetRelease(xmlns, element);
-					}
-
-					defaultPropertyGroup.AddAfterSelf(element);
-
-					// Add references
-					// Xcode extensions for editor only
-					if (!UsingMonodev)
-					{
-						if (configuration.Editor)
-						{
-							AddReference(xmlns, projectContentElement,
-							             "PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll",
-							             configurationName);
-							AddReference(xmlns, projectContentElement,
-							             "PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Common.dll",
-							             configurationName);
-
-							// UnityEditor
-							AddReference(xmlns, projectContentElement,
-							             "Managed/UnityEditor.dll", configurationName);
-						}
-
-						// Find all Engine DLLs in root folder and add them all
-
-						if (platformLibPath != null)
-						{
-							string[] engineLibs = Directory.GetFiles(platformLibPath, "UnityEngine*.dll");
-
-							foreach (string engineDlL in engineLibs)
-							{
-								// Non editor platforms use game specific UnityEngine dll
-								AddReference(xmlns, projectContentElement, engineDlL, configurationName);
-							}
-						}
-						else
-						{
-							Debug.LogWarningFormat(
-								"Couldn't find platform libraries for platform {0}. Probably it is not installed.",
-								platform.Name);
-						}
+						Debug.LogWarningFormat(
+							"Couldn't find platform libraries for platform {0}. Probably it is not installed.",
+							platform.Name);
 					}
 				}
 			}
 
 			// Fix target framework version
-			var targetFrameworkVersion = projectContentElement.Elements(xmlns + "PropertyGroup").Elements(xmlns + "TargetFrameworkVersion").FirstOrDefault(); // Processing csproj files, which are not Unity-generated #56
+			var targetFrameworkVersion = projectContentElement
+			                             .Elements(xmlns + "PropertyGroup")
+			                             .Elements(xmlns + "TargetFrameworkVersion")
+			                             .FirstOrDefault();
 			if (targetFrameworkVersion != null)
 			{
 				var version = new Version(targetFrameworkVersion.Value.Substring(1));
 				if (version < new Version(4, 5))
+				{
 					targetFrameworkVersion.SetValue("v4.5");
+				}
 			}
-
-			// Add LangVersion to the .csproj. Unity doesn't generate it (although VSTU does).
-			// Unity 5.5 supports C# 6, but only when targeting .NET 4.6. The enum doesn't exist pre Unity 5.5
-			string langLevel = "4";
-#if UNITY_5_0 || UNITY_5_1 || UNITY_5_2 || UNITY_5_3|| UNITY_5_4 || UNITY_5_5
-			if ((int)PlayerSettings.apiCompatibilityLevel >= 3)
-#else
-			if ((int) PlayerSettings.GetApiCompatibilityLevel(EditorUserBuildSettings.selectedBuildTargetGroup) >= 3)
-#endif
-			{
-				langLevel = "6";
-			}
-
-			projectContentElement.AddFirst(new XElement(xmlns + "PropertyGroup",
-												 new XElement(xmlns + "LangVersion", langLevel)));
-			
-			projectContentElement.AddFirst(new XElement(xmlns + "PropertyGroup",
-			                                            new XElement(xmlns + "AllowUnsafeBlocks", true)));
 
 			doc.Save(projectFile);
 		}
@@ -445,14 +483,14 @@ namespace TFBGames.Editor
 			{
 				var element = node as XElement;
 
-				if ((element != null) && (element.Name == xmlns + "PropertyGroup") &&
-					element.Attributes().Any(a => a.Name == "Condition"))
+				if ((element != null) &&
+				    (element.Name == xmlns + "PropertyGroup") &&
+				    element.Attributes().Any(a => a.Name == "Condition"))
 				{
 					node.Remove();
 				}
 			}
 		}
-
 
 
 		/// <summary>
@@ -463,46 +501,74 @@ namespace TFBGames.Editor
 			foreach (XNode itemGroupNode in rootElement.Nodes())
 			{
 				var itemGroup = itemGroupNode as XElement;
-
 				if ((itemGroup != null) && (itemGroup.Name == xmlns + "ItemGroup"))
 				{
+					var refsToRemove = new List<XNode>();
 					// Find references
 					foreach (XNode referenceNode in itemGroup.Nodes())
 					{
 						var reference = referenceNode as XElement;
-
-						if ((reference != null) && (reference.Name == xmlns + "Reference") &&
-							reference.Attributes()
-									 .Any(
-										 a => a.Name == "Include" &&
-											  (a.Value == "UnityEngine" ||
-											   a.Value == "UnityEditor")
-									 ))
+						if ((reference != null) &&
+						    (reference.Name == xmlns + "Reference") &&
+						    reference.Attributes()
+						             .Any(
+							             a => a.Name == "Include" &&
+							                  (a.Value.Contains("UnityEngine") ||
+							                   a.Value.Contains("UnityEditor"))) &&
+							!reference.Elements().Any(e =>
+								e.Name == xmlns + "HintPath" &&
+								e.Value.Contains("UnityExtensions"))) // Leave unity extensions that are not platform specific
 						{
-							reference.Remove();
+							refsToRemove.Add(reference);
 						}
+					}
+
+					foreach (XNode xNode in refsToRemove)
+					{
+						xNode.Remove();
+					}
+
+					if (itemGroup.IsEmpty)
+					{
+						itemGroup.Remove();
 					}
 				}
 			}
 		}
 
-		private static XElement CreateConfigurationWithDefineConstants(XNamespace xmlns, string[] defines, string configuration)
+		private static void SetCommon(XNamespace xmlns, XElement propertyGroup, string[] defines)
 		{
-			return new XElement
-			(
-				xmlns + "PropertyGroup",
-				new XAttribute("Condition", string.Format(" '$(Configuration)|$(Platform)' == '{0}'", configuration)),
-				new XElement(xmlns + "DefineConstants", defines.Aggregate((a, r) => a + ";" + r)),
+			propertyGroup.Add(
+				new XElement(xmlns + "DebugType", "full"),
+				new XElement(xmlns + "Optimize", false),
+				new XElement(xmlns + "DebugSymbols", true),
+				new XElement(xmlns + "OutputPath", @"Temp\bin\Debug"),
 				new XElement(xmlns + "ErrorReport", "prompt"),
 				new XElement(xmlns + "WarningLevel", 4),
-				new XElement(xmlns + "NoWarn", 0169)
+				new XElement(xmlns + "NoWarn", 0169),
+				new XElement(xmlns + "DefineConstants", defines.Aggregate((a, r) => a + ";" + r))
 			);
+		}
+
+		private static XElement CreateConfigurationWithDefineConstants(XNamespace xmlns, string[] defines,
+		                                                               string testParameter, string testValue)
+		{
+			var element = new XElement(
+				xmlns + "PropertyGroup",
+				new XAttribute("Condition", string.Format("'$({0})' == '{1}'", testParameter, testValue))
+			);
+			if (defines.Length > 0)
+			{
+				element.Add(
+					new XElement(xmlns + "DefineConstants", defines.Aggregate((a, r) => a + ";" + r)));
+			}
+
+			return element;
 		}
 
 		private static void SetDebug(XNamespace xmlns, XElement propertyGroup)
 		{
-			propertyGroup.AddFirst
-			(
+			propertyGroup.AddFirst(
 				new XElement(xmlns + "DebugType", "full"),
 				new XElement(xmlns + "Optimize", false),
 				new XElement(xmlns + "DebugSymbols", true),
@@ -512,8 +578,7 @@ namespace TFBGames.Editor
 
 		private static void SetRelease(XNamespace xmlns, XElement propertyGroup)
 		{
-			propertyGroup.AddFirst
-			(
+			propertyGroup.AddFirst(
 				new XElement(xmlns + "DebugType", "pdbonly"),
 				new XElement(xmlns + "Optimize", false),
 				new XElement(xmlns + "OutputPath", @"Temp\bin\Release")
@@ -549,14 +614,16 @@ namespace TFBGames.Editor
 			return !Directory.Exists(dllPath) ? null : dllPath;
 		}
 
-		private static void AddReference(XNamespace xmlns, XElement parentElement, string dll, string configurationName)
+		private static void AddReference(XNamespace xmlns, XElement parentElement, string dll, 
+		                                 string testParameter,
+		                                 string testValue)
 		{
 			string unityAppBaseFolder = Path.GetDirectoryName(EditorApplication.applicationPath);
 
 			// Try find dll path based on three different formats
 			// for absolute
 			string dllPath = dll;
-			
+
 			// For windows
 			if (!File.Exists(dllPath))
 			{
@@ -577,18 +644,19 @@ namespace TFBGames.Editor
 
 			if (File.Exists(dllPath))
 			{
-				string condition = string.Format(" '$(Configuration)|$(Platform)' == '{0}'", configurationName);
+				string condition = string.Format("'$({0})' == '{1}'", testParameter, testValue);
 
 				// Try find item group with condition, else create
-				XElement itemGroup = parentElement.Nodes().FirstOrDefault(
-					n =>
-					{
-						var element = n as XElement;
-						return element != null &&
-							   element.Name == xmlns + "ItemGroup" &&
-							   element.Attributes().Any(a => a.Name == "Condition" &&
-															 a.Value == condition);
-					}) as XElement;
+				XElement itemGroup = parentElement.Nodes()
+				                                  .FirstOrDefault(n =>
+					                                  {
+						                                  XElement element = n as XElement;
+						                                  return element != null &&
+						                                         element.Name == xmlns + "ItemGroup" &&
+						                                         element.Attributes()
+						                                                .Any(a => a.Name == "Condition" &&
+						                                                          a.Value == condition);
+					                                  }) as XElement;
 
 				if (itemGroup == null)
 				{
