@@ -294,8 +294,8 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: LookX
-    descriptiveName: XBone rightStick horizontal WIN
+    m_Name: LookXXBoneWindows
+    descriptiveName: Right stick look X Xbox One Windows
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: 
@@ -310,8 +310,8 @@ InputManager:
     axis: 3
     joyNum: 0
   - serializedVersion: 3
-    m_Name: LookY
-    descriptiveName: XBone rightStick vertical WIN
+    m_Name: LookYXBoneWindows
+    descriptiveName: Right stick look Y Xbox One Windows
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: 
@@ -538,7 +538,7 @@ InputManager:
     descriptiveName: Right stick X axis for PS4 wireless controller
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: joystick button 1
+    positiveButton: 
     altNegativeButton: 
     altPositiveButton: 
     gravity: 0
@@ -554,7 +554,7 @@ InputManager:
     descriptiveName: Right stick Y axis for PS4 wireless controller
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: joystick button 1
+    positiveButton: 
     altNegativeButton: 
     altPositiveButton: 
     gravity: 0
@@ -564,4 +564,36 @@ InputManager:
     invert: 0
     type: 2
     axis: 3
+    joyNum: 0
+  - serializedVersion: 3
+    m_Name: LookXPS4Windows
+    descriptiveName: Right stick Y axis for PS4 wireless controller
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: 
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 0
+    dead: 0.2
+    sensitivity: 1
+    snap: 0
+    invert: 1
+    type: 2
+    axis: 2
+    joyNum: 0
+  - serializedVersion: 3
+    m_Name: LookYPS4Windows
+    descriptiveName: Right stick Y axis for PS4 wireless controller
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: 
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 0
+    dead: 0.2
+    sensitivity: 1
+    snap: 0
+    invert: 0
+    type: 2
+    axis: 5
     joyNum: 0

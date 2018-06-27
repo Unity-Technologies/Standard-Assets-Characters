@@ -6,7 +6,7 @@ namespace StandardAssets.Characters.CharacterInput
 {
 	[CreateAssetMenu(fileName = "LegacyCharacterInputDevices", menuName = "LegacyInput/Create Input Device Mapping",
 		order = 1)]
-	public class LegacyCharacterInputDevices : ScriptableObject
+	public class LegacyCharacterInputDevices : ScriptableObject, ISerializationCallbackReceiver
 	{
 		[SerializeField]
 		private string macPlatformId = "OSX", windowsPlatformId = "Windows";
@@ -47,12 +47,12 @@ namespace StandardAssets.Characters.CharacterInput
 			}
 
 			if (string.IsNullOrEmpty(convention))
-			{
-				convention = controlConvention.Replace("{platform}", "{2}").Replace("{controller}", "{1}")
-				                              .Replace("{control}", "{0}");	
+			{   
+				convention = controlConvention.Replace("{platform}", "{0}").Replace("{controller}", "{1}")
+				                              .Replace("{control}", "{2}");	
 			}
-
-			return string.Format(convention,platformId,axisString,controllerId);
+			string axis = string.Format(convention,platformId,controllerId,axisString);
+			return axis;
 		}
 
 		private bool IsXboxOne()
@@ -85,6 +85,16 @@ namespace StandardAssets.Characters.CharacterInput
 					
 			}
 			return false;
+		}
+
+		public void OnBeforeSerialize()
+		{
+			//convention = string.Empty;
+		}
+
+		public void OnAfterDeserialize()
+		{
+			convention = string.Empty;
 		}
 	}
 }
