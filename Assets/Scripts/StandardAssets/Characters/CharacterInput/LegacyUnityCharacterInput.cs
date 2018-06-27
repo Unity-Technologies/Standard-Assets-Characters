@@ -59,6 +59,17 @@ namespace StandardAssets.Characters.CharacterInput
 			set { jumped = value; }
 		}
 
+		private void Awake()
+		{
+			//Debug active controllers
+			foreach (var joystick in Input.GetJoystickNames())
+			{
+				Debug.Log(joystick);
+				if(joystick.ToLower().Contains("xbox"))
+					Debug.Log("Xbox is connected");
+			}
+		}
+
 		private void OnEnable()
 		{
 			CinemachineCore.GetInputAxis = LookInputOverride;
@@ -77,7 +88,6 @@ namespace StandardAssets.Characters.CharacterInput
 				}
 			}
 		
-			Debug.Log(Input.GetAxisRaw("XBone rightStick Press Mac"));
 			
 		}
 

@@ -9,13 +9,13 @@ namespace StandardAssets.Characters.CharacterInput
 	public class LegacyCharacterInputDevices : ScriptableObject
 	{
 		[SerializeField]
-		private string macPlatformId = "Mac", windowsPlatformId = "Windows";
+		private string macPlatformId = "OSX", windowsPlatformId = "Windows";
 
 		[SerializeField]
 		private string xboxOneControllerId = "XBone", xbox360ControllerId = "XBox360", ps4ControllerId = "PS4";
 
 		[SerializeField]
-		private string controlConvention = "{controller}{control}{platform}";
+		private string controlConvention = "{control}{controller}{platform}";
 
 		private string convention;
 
@@ -48,16 +48,23 @@ namespace StandardAssets.Characters.CharacterInput
 
 			if (string.IsNullOrEmpty(convention))
 			{
-				convention = controlConvention.Replace("{platform}", "{0}").Replace("{controller}", "{1}")
-				                              .Replace("{control}", "{2}");	
+				convention = controlConvention.Replace("{platform}", "{2}").Replace("{controller}", "{1}")
+				                              .Replace("{control}", "{0}");	
 			}
 
-			return string.Format(convention, platformId, controllerId, axisString);
+			return string.Format(convention,platformId,axisString,controllerId);
 		}
 
 		private bool IsXboxOne()
 		{
-			//TODO: dave
+			foreach (var joystick in Input.GetJoystickNames())
+			{
+				if (joystick.ToLower().Contains("xbox"))
+				{
+					return true;
+				}
+					
+			}
 			return false;
 		}
 		
@@ -69,7 +76,14 @@ namespace StandardAssets.Characters.CharacterInput
 		
 		private bool IsPS4()
 		{
-			//TODO: dave
+			foreach (var joystick in Input.GetJoystickNames())
+			{
+				if (!joystick.ToLower().Contains("xbox"))
+				{
+					return true;
+				}
+					
+			}
 			return false;
 		}
 	}
