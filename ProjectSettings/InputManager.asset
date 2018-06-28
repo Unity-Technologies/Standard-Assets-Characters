@@ -70,22 +70,6 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: Fire3
-    descriptiveName: 
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: left shift
-    altNegativeButton: 
-    altPositiveButton: mouse 2
-    gravity: 1000
-    dead: 0.001
-    sensitivity: 1000
-    snap: 0
-    invert: 0
-    type: 0
-    axis: 0
-    joyNum: 0
-  - serializedVersion: 3
     m_Name: Jump
     descriptiveName: 
     descriptiveNegativeName: 
@@ -182,70 +166,6 @@ InputManager:
     axis: 1
     joyNum: 0
   - serializedVersion: 3
-    m_Name: Fire1
-    descriptiveName: 
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: 
-    altNegativeButton: 
-    altPositiveButton: 
-    gravity: 1000
-    dead: 0.001
-    sensitivity: 1000
-    snap: 0
-    invert: 0
-    type: 2
-    axis: 9
-    joyNum: 0
-  - serializedVersion: 3
-    m_Name: Fire2
-    descriptiveName: 
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: joystick button 1
-    altNegativeButton: 
-    altPositiveButton: 
-    gravity: 1000
-    dead: 0.001
-    sensitivity: 1000
-    snap: 0
-    invert: 0
-    type: 0
-    axis: 0
-    joyNum: 0
-  - serializedVersion: 3
-    m_Name: Fire3
-    descriptiveName: 
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: joystick button 2
-    altNegativeButton: 
-    altPositiveButton: 
-    gravity: 1000
-    dead: 0.001
-    sensitivity: 1000
-    snap: 0
-    invert: 0
-    type: 0
-    axis: 0
-    joyNum: 0
-  - serializedVersion: 3
-    m_Name: Jump
-    descriptiveName: 'XBone button south '
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: joystick button 0
-    altNegativeButton: 
-    altPositiveButton: 
-    gravity: 1000
-    dead: 0.001
-    sensitivity: 1000
-    snap: 0
-    invert: 0
-    type: 0
-    axis: 0
-    joyNum: 0
-  - serializedVersion: 3
     m_Name: Submit
     descriptiveName: 
     descriptiveNegativeName: 
@@ -326,8 +246,8 @@ InputManager:
     axis: 4
     joyNum: 0
   - serializedVersion: 3
-    m_Name: XBone leftStick Press
-    descriptiveName: XBone left stick press WIN
+    m_Name: SprintXBoneWindows
+    descriptiveName: XBone left stick press Windows
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick button 8
@@ -342,7 +262,7 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: left shift
+    m_Name: Sprint
     descriptiveName: Keyboard left shift
     descriptiveNegativeName: 
     negativeButton: 
@@ -358,7 +278,7 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: left ctrl
+    m_Name: Crouch
     descriptiveName: 'keyboard left control  '
     descriptiveNegativeName: 
     negativeButton: 
@@ -374,8 +294,8 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: XBone rightStick Press
-    descriptiveName: XBone right stick press WIN
+    m_Name: CrouchXBoneWindows
+    descriptiveName: XBone right stick press Windows
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick button 9
@@ -390,7 +310,7 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: p
+    m_Name: Prone
     descriptiveName: 'keyboard P '
     descriptiveNegativeName: 
     negativeButton: 
@@ -406,8 +326,8 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: XBone Button North
-    descriptiveName: XBone Button North WIN
+    m_Name: ProneXBoneWindows
+    descriptiveName: XBone Y Button Windows
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick button 3
@@ -439,7 +359,7 @@ InputManager:
     joyNum: 0
   - serializedVersion: 3
     m_Name: LookXXBoneOSX
-    descriptiveName: XBox One right stick X IOS
+    descriptiveName: XBox One right stick X OSX
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: 
@@ -455,7 +375,7 @@ InputManager:
     joyNum: 0
   - serializedVersion: 3
     m_Name: LookYXBoneOSX
-    descriptiveName: XBox One right stick Y IOS
+    descriptiveName: XBox One right stick Y OSX
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: 
@@ -470,8 +390,8 @@ InputManager:
     axis: 3
     joyNum: 0
   - serializedVersion: 3
-    m_Name: XBone rightStick Press Mac
-    descriptiveName: 
+    m_Name: CrouchXBoneOSX
+    descriptiveName: Right Stick Press XBone OSX
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick button 15
@@ -486,8 +406,8 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: XBone LeftStick Press Mac
-    descriptiveName: 
+    m_Name: SprintXBoneOSX
+    descriptiveName: Left Stick Press XBone OSX
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick button 14
@@ -502,8 +422,8 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: XBone Button North MAC
-    descriptiveName: 
+    m_Name: ProneXBoneOSX
+    descriptiveName: XBone Y Button OSX
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick button 5
@@ -518,8 +438,56 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: Jump
-    descriptiveName: 
+    m_Name: JumpPS4OSX
+    descriptiveName: ' PS4 X button '
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: joystick button 1
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 0
+    dead: 0.2
+    sensitivity: 1
+    snap: 0
+    invert: 0
+    type: 0
+    axis: 0
+    joyNum: 0
+  - serializedVersion: 3
+    m_Name: JumpPS4Windows
+    descriptiveName: ' PS4 X button '
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: joystick button 1
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 0
+    dead: 0.2
+    sensitivity: 1
+    snap: 0
+    invert: 0
+    type: 0
+    axis: 0
+    joyNum: 0
+  - serializedVersion: 3
+    m_Name: JumpXBoneWindows
+    descriptiveName: 'XBOne A Button '
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: joystick button 0
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 0
+    dead: 0.2
+    sensitivity: 1
+    snap: 0
+    invert: 0
+    type: 0
+    axis: 0
+    joyNum: 0
+  - serializedVersion: 3
+    m_Name: JumpXBoneOSX
+    descriptiveName: 'XBOne A Button '
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick button 1
@@ -535,7 +503,7 @@ InputManager:
     joyNum: 0
   - serializedVersion: 3
     m_Name: LookXPS4OSX
-    descriptiveName: Right stick X axis for PS4 wireless controller
+    descriptiveName: Right stick X axis for PS4 controller OSX
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: 
@@ -551,7 +519,7 @@ InputManager:
     joyNum: 0
   - serializedVersion: 3
     m_Name: LookYPS4OSX
-    descriptiveName: Right stick Y axis for PS4 wireless controller
+    descriptiveName: Right stick Y axis for PS4 controller OSX
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: 
@@ -567,7 +535,7 @@ InputManager:
     joyNum: 0
   - serializedVersion: 3
     m_Name: LookXPS4Windows
-    descriptiveName: Right stick Y axis for PS4 wireless controller
+    descriptiveName: Right stick X axis for PS4 controller Windows
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: 
@@ -583,7 +551,7 @@ InputManager:
     joyNum: 0
   - serializedVersion: 3
     m_Name: LookYPS4Windows
-    descriptiveName: Right stick Y axis for PS4 wireless controller
+    descriptiveName: Right stick Y axis for PS4 controller Windows
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: 
@@ -596,4 +564,100 @@ InputManager:
     invert: 0
     type: 2
     axis: 5
+    joyNum: 0
+  - serializedVersion: 3
+    m_Name: CrouchPS4Windows
+    descriptiveName: Right Stick Press PS4 controller Windows
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: joystick button 11
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 0
+    dead: 0.2
+    sensitivity: 1
+    snap: 0
+    invert: 0
+    type: 0
+    axis: 0
+    joyNum: 0
+  - serializedVersion: 3
+    m_Name: PronePS4Windows
+    descriptiveName: Triangle Press PS4 controller Windows
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: joystick button 3
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 0
+    dead: 0.2
+    sensitivity: 1
+    snap: 0
+    invert: 0
+    type: 0
+    axis: 0
+    joyNum: 0
+  - serializedVersion: 3
+    m_Name: PronePS4OSX
+    descriptiveName: Triangle Press PS4 controller OSX
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: joystick button 3
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 0
+    dead: 0.2
+    sensitivity: 1
+    snap: 0
+    invert: 0
+    type: 0
+    axis: 0
+    joyNum: 0
+  - serializedVersion: 3
+    m_Name: CrouchPS4OSX
+    descriptiveName: Right Stick Press PS4 Controller OSX
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: joystick button 11
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 0
+    dead: 0.2
+    sensitivity: 1
+    snap: 0
+    invert: 0
+    type: 0
+    axis: 0
+    joyNum: 0
+  - serializedVersion: 3
+    m_Name: SprintPS4OSX
+    descriptiveName: Left Stick Press PS4 controller OSX
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: joystick button 10
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 0
+    dead: 0.2
+    sensitivity: 1
+    snap: 0
+    invert: 0
+    type: 0
+    axis: 0
+    joyNum: 0
+  - serializedVersion: 3
+    m_Name: SprintPS4Windows
+    descriptiveName: Left Stick Press PS4 controller Windows
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: joystick button 10
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 0
+    dead: 0.2
+    sensitivity: 1
+    snap: 0
+    invert: 0
+    type: 0
+    axis: 0
     joyNum: 0
