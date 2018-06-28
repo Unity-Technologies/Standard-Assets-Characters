@@ -9,13 +9,13 @@ namespace StandardAssets.Characters.CharacterInput
 	public class LegacyCharacterInputDevices : ScriptableObject
 	{
 		[SerializeField]
-		private string macPlatformId = "OSX", windowsPlatformId = "Windows";
+		protected string macPlatformId = "OSX", windowsPlatformId = "Windows";
 
 		[SerializeField]
-		private string xboxOneControllerId = "XBone", xbox360ControllerId = "XBox360", ps4ControllerId = "PS4";
+		protected string xboxOneControllerId = "XBone", xbox360ControllerId = "XBox360", ps4ControllerId = "PS4";
 
 		[SerializeField]
-		private string controlConvention = "{control}{controller}{platform}";
+		protected string controlConvention = "{control}{controller}{platform}";
 
 		public string GetAxisName(string axisString)
 		{
