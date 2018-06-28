@@ -71,7 +71,7 @@ namespace StandardAssets.Characters.CharacterInput
 		{
 			foreach (var joystick in Input.GetJoystickNames())
 			{
-				if (joystick.ToLower().Contains("xbox"))
+				if (joystick.ToLower().Contains("xbox") & !joystick.ToLower().Contains("360"))
 				{
 					return true;
 				}
@@ -82,7 +82,14 @@ namespace StandardAssets.Characters.CharacterInput
 
 		private static bool IsXbox360()
 		{
-			//TODO: dave
+			foreach (var joystick in Input.GetJoystickNames())
+			{
+				if (joystick.ToLower().Contains("360"))
+				{
+					return true;
+				}
+			}
+
 			return false;
 		}
 

@@ -41,6 +41,9 @@ namespace StandardAssets.Characters.CharacterInput
 		
 		[SerializeField]
 		protected string xBoneJumpName = "JumpXBone";
+		
+		[SerializeField]
+		protected string xBox360JumpName = "JumpXBox360";
 
 		[SerializeField]
 		protected string gamepadJumpName;
@@ -74,7 +77,6 @@ namespace StandardAssets.Characters.CharacterInput
 			if (Input.GetJoystickNames().Length > 0)
 			{
 				
-				//Debug active controllers
 				foreach (var joystick in Input.GetJoystickNames())
 				{
 					if (joystick.Length > 0)
@@ -83,6 +85,11 @@ namespace StandardAssets.Characters.CharacterInput
 						if (joystick.ToLower().Contains("xbox"))
 						{
 							gamepadJumpName = xBoneJumpName;
+							break;
+						}
+						if (joystick.ToLower().Contains("360"))
+						{
+							gamepadJumpName = xBox360JumpName;
 							break;
 						}
 						gamepadJumpName = ps4JumpName;
@@ -101,8 +108,7 @@ namespace StandardAssets.Characters.CharacterInput
 		}
 
 		private void Update()
-		{	
-			
+		{
 			//Cache the inputs
 			moveInputVector.Set(Input.GetAxis(horizontalAxisName), Input.GetAxis(verticalAxisName));
 			if(Input.GetButtonDown(LegacyCharacterInputDevicesCache.ResolveControl(keyboardJumpName))||Input.GetButtonDown("Jump"))
