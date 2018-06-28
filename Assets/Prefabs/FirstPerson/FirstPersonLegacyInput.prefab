@@ -731,7 +731,7 @@ MonoBehaviour:
   maxSlope: 60
   maxModifiedSlope: 45
   minimumGroundingDist: 2
-  maxStepHeight: 1.5
+  maxStepHeight: 0.2
   liftSlopePoint: {x: 0, y: 1, z: 0}
   liftSlopeRadius: 0.2
   excludePlayer:
@@ -1005,7 +1005,8 @@ MonoBehaviour:
   keyboardJumpName: Jump
   ps4JumpName: JumpPS4
   xBoneJumpName: JumpXBone
-  devices: {fileID: 11400000, guid: 44238fc1dd7ea44af8ed855dc15f4238, type: 2}
+  gamepadJumpName: 
+  hasGamepad: 0
 --- !u!136 &136131221980381340
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -1015,7 +1016,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.75
-  m_Height: 2
+  m_Radius: 0.2
+  m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
