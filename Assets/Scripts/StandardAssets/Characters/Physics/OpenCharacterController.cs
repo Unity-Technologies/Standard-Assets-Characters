@@ -193,8 +193,8 @@ namespace StandardAssets.Characters.Physics
 			Collider[] collisions = new Collider[4];
 
 			Vector3 yOffset = Vector3.up * (capsuleCollider.height * 0.5f - capsuleCollider.radius);
-			Vector3 point0 = capsuleCollider.center + yOffset;
-			Vector3 point1 = capsuleCollider.center - yOffset;
+			Vector3 point0 = capsuleCollider.center + yOffset + playerMovement;
+			Vector3 point1 = capsuleCollider.center - yOffset + playerMovement;
 
 			int numberOfCollisions = UnityEngine.Physics.OverlapCapsuleNonAlloc(
 				transform.TransformPoint(point0),

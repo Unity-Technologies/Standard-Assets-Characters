@@ -119,7 +119,7 @@ namespace StandardAssets.Characters.Physics
 			verticalVector = new Vector3(0, currentVerticalVelocity * Time.fixedDeltaTime, 0);
 		}
 
-		protected abstract float GetPredicitedFallDistance();
+		public abstract float GetPredicitedFallDistance();
 		
 		protected abstract bool CheckGrounded();
 

@@ -69,6 +69,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		private bool isGrounded;
 		private bool didJump;
 
+		public void UpdatePredictedFallDistance(float distance)
+		{
+			animator.SetFloat(hashPredictedFallDistance, distance);
+		}
+
 		/// <summary>
 		/// Gets the required components
 		/// </summary>
