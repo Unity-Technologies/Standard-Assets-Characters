@@ -23,6 +23,7 @@ MonoBehaviour:
   - pb_GIWorkflowMode
   - pbDragSelectMode
   - pbExtrudeMethod
+  - pbVertexColorTool
   m_Float_keys:
   - pbEditorScroll.x
   - pbEditorScroll.y
@@ -36,14 +37,15 @@ MonoBehaviour:
   - pbVertexColorPrefs6
   - pbCurrentMaterialPalette
   - pbVertexColorPrefs4
+  - pb_VertexColorPalette::lastAssignedColorPalette
   m_Color_keys: []
   m_Material_keys: []
   m_Bool_values: 01010100
-  m_Int_values: 000000000000000001000000010000000000000001000000
+  m_Int_values: 00000000000000000200000001000000000000000100000000000000
   m_Float_values:
   - 0
   - 0
-  - 0.5
+  - 0.15
   - 0.5
   m_String_values:
   - RGBA(0.491, 0.491, 0.491, 1.000)
@@ -53,5 +55,6 @@ MonoBehaviour:
   - RGBA(0.201, 0.223, 0.255, 1.000)
   - Assets/ProBuilder Data/Default Material Palette.asset
   - RGBA(0.868, 0.592, 0.053, 1.000)
+  - Assets/ProBuilder Data/Default Color Palette.asset
   m_Color_values: []
   m_Material_values: []
