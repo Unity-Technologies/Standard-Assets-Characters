@@ -97,7 +97,7 @@ namespace StandardAssets.Characters.CharacterInput
 		{
 			foreach (var joystick in Input.GetJoystickNames())
 			{
-				if (!joystick.ToLower().Contains("xbox"))
+				if (!joystick.ToLower().Contains("xbox") & joystick.Length>1)
 				{
 					return true;
 				}
