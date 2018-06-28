@@ -34,7 +34,7 @@ namespace StandardAssets.Characters.Physics
 			base.Awake();
 		}
 
-		protected override float GetPredicitedFallDistance()
+		public override float GetPredicitedFallDistance()
 		{
 			RaycastHit rayCaseHit;
 			return UnityEngine.Physics.Raycast( transform.position + characterController.center, -transform.up, 

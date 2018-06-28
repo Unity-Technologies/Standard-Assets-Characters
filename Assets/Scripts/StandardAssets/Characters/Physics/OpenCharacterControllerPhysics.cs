@@ -7,15 +7,15 @@ namespace StandardAssets.Characters.Physics
 	{
 		private OpenCharacterController characterController;
 		
+		public override float GetPredicitedFallDistance()
+		{
+			return characterController.GetPredicitedFallDistance();
+		}
+
 		protected override void Awake()
 		{
 			base.Awake();
 			characterController = GetComponent<OpenCharacterController>();
-		}
-
-		protected override float GetPredicitedFallDistance()
-		{
-			return characterController.GetPredicitedFallDistance();
 		}
 
 		protected override bool CheckGrounded()
