@@ -6,101 +6,45 @@ namespace StandardAssets.Characters.CharacterInput
 {
 	[CreateAssetMenu(fileName = "LegacyCharacterInputDevices", menuName = "LegacyInput/Create Input Device Mapping",
 		order = 1)]
-	public class LegacyCharacterInputDevices : ScriptableObject, ISerializationCallbackReceiver
+	public class LegacyCharacterInputDevices : ScriptableObject
 	{
 		[SerializeField]
 		protected string macPlatformId = "OSX", windowsPlatformId = "Windows";
 
 		[SerializeField]
-		private string xboxOneControllerId = "XBone", xbox360ControllerId = "XBox360", ps4ControllerId = "PS4";
+		protected string xboxOneControllerId = "XBone", xbox360ControllerId = "XBox360", ps4ControllerId = "PS4";
 
 		[SerializeField]
-		private string controlConvention = "{control}{controller}{platform}";
+		protected string controlConvention = "{control}{controller}{platform}";
 
-		private string convention;
-
-		public string GetAxisName(string axisString)
+		public string macPlatformIdentifier
 		{
-			string platformId = string.Empty;
-
-#if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-			platformId = macPlatformId;
-#elif UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-			platformId = windowsPlatformId;
-#endif
-			string controllerId = string.Empty;
-			if (IsXboxOne())
-			{
-				controllerId = xboxOneControllerId;
-			}
-			else if (IsXbox360())
-			{
-				controllerId = xbox360ControllerId;
-			}
-			else if (IsPS4())
-			{
-				controllerId = ps4ControllerId;
-			}
-			else
-			{
-				return axisString;
-			}
-
-			if (controllerId.Length <= 0)
-			{
-				return axisString;
-				
-			}
-
-			if (string.IsNullOrEmpty(convention))
-			{   
-				convention = controlConvention.Replace("{platform}", "{0}").Replace("{controller}", "{1}")
-				                              .Replace("{control}", "{2}");	
-			}
-			string axis = string.Format(convention,platformId,controllerId,axisString);
-			return axis;
+			get { return macPlatformId; }
 		}
 
-		private bool IsXboxOne()
+		public string windowsPlatformIdentifier
 		{
-			foreach (var joystick in Input.GetJoystickNames())
-			{
-				if (joystick.ToLower().Contains("xbox"))
-				{
-					return true;
-				}
-					
-			}
-			return false;
-		}
-		
-		private bool IsXbox360()
-		{
-			//TODO: dave
-			return false;
-		}
-		
-		private bool IsPS4()
-		{
-			foreach (var joystick in Input.GetJoystickNames())
-			{
-				if (!joystick.ToLower().Contains("xbox"))
-				{
-					return true;
-				}
-					
-			}
-			return false;
+			get { return windowsPlatformId; }
 		}
 
-		public void OnBeforeSerialize()
+		public string xboxOneControllerIdentifier
 		{
-			//convention = string.Empty;
+			get { return xboxOneControllerId; }
 		}
 
-		public void OnAfterDeserialize()
+		public string xbox360ControllerIdentifier
 		{
-			convention = string.Empty;
+			get { return xbox360ControllerId; }
+		}
+
+		public string ps4ControllerIdentifier
+		{
+			get { return ps4ControllerId; }
+		}
+
+		public string controlConventions
+		{
+			get { return controlConvention; }
 		}
 	}
 }
