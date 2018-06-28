@@ -157,18 +157,28 @@ ModelImporter:
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
-    motionNodeName: 
+    motionNodeName: Root
     rigImportErrors: 
     rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Bone length in
       copied configuration does not match position in animation file:\n\t'Spine' :
-      position error = 6.544613 mm\n"
+      position error = 5.653337 mm\n"
     animationImportErrors: 
     animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
       might lower retargeting quality:\nNote: Activate translation DOF on avatar to
       improve retargeting quality.\n\t'Spine' has translation animation that will
       be discarded.\n"
-    animationRetargetingWarnings: 
-    animationDoRetargetingWarnings: 0
+    animationRetargetingWarnings: "\nRetargeting quality report for clip 'Take 001':\n\tLeftUpperArm
+      average position error 7.9 mm and maximum position error 10.4 mm at time 0:14
+      (81.2%) Frame 14\n\tLeftLowerArm average position error 7.9 mm and maximum position
+      error 10.4 mm at time 0:14 (81.2%) Frame 14\n\tLeftHand average position error
+      7.9 mm and maximum position error 10.4 mm at time 0:14 (81.2%) Frame 14\n\tRightUpperArm
+      average position error 7.9 mm and maximum position error 10.4 mm at time 0:14
+      (81.2%) Frame 14\n\tRightLowerArm average position error 7.8 mm and maximum
+      position error 10.4 mm at time 0:14 (81.2%) Frame 14\n\tRightHand average position
+      error 7.9 mm and maximum position error 10.4 mm at time 0:14 (81.2%) Frame 14\n\tHead
+      average position error 7.9 mm and maximum position error 10.4 mm at time 0:14
+      (81.2%) Frame 14\n"
+    animationDoRetargetingWarnings: 1
     importAnimatedCustomProperties: 0
     importConstraints: 0
     animationCompression: 3
