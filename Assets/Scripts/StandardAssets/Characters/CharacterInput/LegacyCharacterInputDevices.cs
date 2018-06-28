@@ -17,66 +17,34 @@ namespace StandardAssets.Characters.CharacterInput
 		[SerializeField]
 		protected string controlConvention = "{control}{controller}{platform}";
 
-		public string GetAxisName(string axisString)
+		public string macPlatformIdentifier
 		{
-			string platformId = string.Empty;
-
-#if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-			platformId = macPlatformId;
-#elif UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-			platformId = windowsPlatformId;
-#endif
-			string controllerId = string.Empty;
-			if (IsXboxOne())
-			{
-				controllerId = xboxOneControllerId;
-			}
-			else if (IsXbox360())
-			{
-				controllerId = xbox360ControllerId;
-			}
-			else if (IsPS4())
-			{
-				controllerId = ps4ControllerId;
-			}
-			else
-			{
-				return axisString;
-			}
-
-			return string.Format(LegacyCharacterInputDevicesCache.GetConvention(controlConvention) ,platformId,controllerId,axisString);
+			get { return macPlatformId; }
 		}
 
-		private bool IsXboxOne()
+		public string windowsPlatformIdentifier
 		{
-			foreach (var joystick in Input.GetJoystickNames())
-			{
-				if (joystick.ToLower().Contains("xbox"))
-				{
-					return true;
-				}
-					
-			}
-			return false;
+			get { return windowsPlatformId; }
 		}
-		
-		private bool IsXbox360()
+
+		public string xboxOneControllerIdentifier
 		{
-			//TODO: dave
-			return false;
+			get { return xboxOneControllerId; }
 		}
-		
-		private bool IsPS4()
+
+		public string xbox360ControllerIdentifier
 		{
-			foreach (var joystick in Input.GetJoystickNames())
-			{
-				if (!joystick.ToLower().Contains("xbox"))
-				{
-					return true;
-				}
-					
-			}
-			return false;
+			get { return xbox360ControllerId; }
+		}
+
+		public string ps4ControllerIdentifier
+		{
+			get { return ps4ControllerId; }
+		}
+
+		public string controlConventions
+		{
+			get { return controlConvention; }
 		}
 	}
 }
