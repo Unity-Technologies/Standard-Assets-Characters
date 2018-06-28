@@ -26,6 +26,12 @@ namespace StandardAssets.Characters.CharacterInput
 
 		[SerializeField]
 		protected bool useLookInput = true;
+		
+		[SerializeField]
+		protected string mouseLookXAxisName = "LookX";
+		
+		[SerializeField]
+		protected string mouseLookYAxisName = "LookY";
 
 		[SerializeField]
 		protected string lookXAxisName = "LookX";
@@ -74,12 +80,19 @@ namespace StandardAssets.Characters.CharacterInput
 
 		private void Awake()
 		{
+			SetGamepadJumpAxis();
+		}
+		
+		/// <summary>
+		/// Sets the jump axis name for gamepads that are plugged in.
+		/// </summary>
+		void SetGamepadJumpAxis()
+		{
 			if (Input.GetJoystickNames().Length > 0)
 			{
-				
 				foreach (var joystick in Input.GetJoystickNames())
 				{
-					if (joystick.Length > 0)
+					if (joystick.Length > 1)
 					{
 						hasGamepad = true;
 						if (joystick.ToLower().Contains("xbox"))
@@ -94,14 +107,10 @@ namespace StandardAssets.Characters.CharacterInput
 						}
 						gamepadJumpName = ps4JumpName;
 					}
-					
 				}
-				
 			}
-				
-			
 		}
-
+		
 		private void OnEnable()
 		{
 			CinemachineCore.GetInputAxis = LookInputOverride;
@@ -118,18 +127,9 @@ namespace StandardAssets.Characters.CharacterInput
 					jumpPressed();
 				}
 			}
-			/*
-			 * if (Input.GetButtonDown(keyboardJumpName)||hasGamepad & Input.GetButtonDown(gamepadJumpName))
-			{
-				if (jumpPressed != null)
-				{
-					jumpPressed();
-				}
-			}
-			 */
 			
 		}
-
+		
 		/// <summary>
 		/// Sets the Cinemachine cam POV to mouse inputs.
 		/// </summary>
@@ -139,19 +139,45 @@ namespace StandardAssets.Characters.CharacterInput
 			{
 				return 0;
 			}
+
+			UpdateLookVector();
 			
 			if (cinemachineAxisName == cinemachineLookXAxisName)
 			{
-				
-				return Input.GetAxis(LegacyCharacterInputDevicesCache.ResolveControl(lookXAxisName));
+				return look.x;
 			}
 			if (cinemachineAxisName == cinemachineLookYAxisName)
 			{
-				
-				return Input.GetAxis(LegacyCharacterInputDevicesCache.ResolveControl(lookYAxisName));
+				return look.y;
 			}
 
 			return 0;
+		}
+		
+		/// <summary>
+		/// Update the look vector2, this is used in 3rd person
+		/// and allows mouse and controller to both work at the same time.
+		/// mouse look will take preference. 
+		/// </summary>
+		void UpdateLookVector()
+		{
+			if (Input.GetAxis(mouseLookXAxisName) != 0)
+			{
+				look.x = Input.GetAxis(mouseLookXAxisName);
+			}
+			else
+			{
+				look.x = Input.GetAxis(LegacyCharacterInputDevicesCache.ResolveControl(lookXAxisName));
+			}
+
+			if (Input.GetAxis(mouseLookYAxisName) != 0)
+			{
+				look.y = Input.GetAxis(mouseLookYAxisName);
+			}
+			else
+			{
+				look.y = Input.GetAxis(LegacyCharacterInputDevicesCache.ResolveControl(lookYAxisName));
+			}
 		}
 	}
 }
