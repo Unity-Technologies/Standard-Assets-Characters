@@ -1,25 +1,38 @@
-﻿using Parabox.STL;
+﻿using System;
+using Parabox.STL;
 using UnityEngine;
 
 namespace StandardAssets.Characters.CharacterInput
 {
 	public static class LegacyCharacterInputDevicesCache
 	{
-		private const string k_Filename = "LegacyCharacterInputDevices";
-
 		private static string s_ConventionCache;
 
 		private static LegacyCharacterInputDevices s_CharacterInputDevices;
 
 		static LegacyCharacterInputDevicesCache()
 		{
-			s_CharacterInputDevices = Resources.Load<LegacyCharacterInputDevices>(k_Filename);
-			SetupConvention(s_CharacterInputDevices.controlConventions);
+			LegacyCharacterInputDevices[] resources = Resources.LoadAll<LegacyCharacterInputDevices>(string.Empty);
+			int length = resources.Length;
+			if (length == 0)
+			{
+				Debug.LogError("Could not find LegacyCharacterInputDevices in Resources folder");
+				return;
+			}
+
+			if (length > 1)
+			{
+				Debug.LogError("Found multiple instances of LegacyCharacterInputDevices in Resources folder. There can be only one!!!");
+				return;
+			}
+			
+			s_CharacterInputDevices = resources[0];
+			SetupConvention();
 		}
 
-		private static void SetupConvention(string controlConvention)
+		private static void SetupConvention()
 		{
-			s_ConventionCache = controlConvention.Replace("{platform}", "{0}").Replace("{controller}", "{1}")
+			s_ConventionCache = s_CharacterInputDevices.controlConventions.Replace("{platform}", "{0}").Replace("{controller}", "{1}")
 			                                     .Replace("{control}", "{2}");
 		}
 
