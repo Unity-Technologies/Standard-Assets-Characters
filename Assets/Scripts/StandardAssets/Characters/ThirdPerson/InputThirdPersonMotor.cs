@@ -310,17 +310,17 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private void SetStrafeLookDirection()
 		{
-			Vector3 lookForwardY = cameraTransform.rotation.eulerAngles;
-			lookForwardY.x = 0;
-			lookForwardY.z = 0;
-			Quaternion targetRotation = Quaternion.Euler(lookForwardY);
-
-			float actualTurnSpeed =
-				characterPhysics.isGrounded ? turnSpeed : turnSpeed * airborneTurnSpeedProportion;
-			targetRotation =
-				Quaternion.RotateTowards(transform.rotation, targetRotation, actualTurnSpeed * Time.fixedDeltaTime);
-
-			transform.rotation = targetRotation;
+//			Vector3 lookForwardY = cameraTransform.rotation.eulerAngles;
+//			lookForwardY.x = 0;
+//			lookForwardY.z = 0;
+//			Quaternion targetRotation = Quaternion.Euler(lookForwardY);
+//
+//			float actualTurnSpeed =
+//				characterPhysics.isGrounded ? turnSpeed : turnSpeed * airborneTurnSpeedProportion;
+//			targetRotation =
+//				Quaternion.RotateTowards(transform.rotation, targetRotation, actualTurnSpeed * Time.fixedDeltaTime);
+//
+//			transform.rotation = targetRotation;
 		}
 	}
 }

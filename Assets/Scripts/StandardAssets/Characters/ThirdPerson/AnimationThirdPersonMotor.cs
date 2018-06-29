@@ -83,6 +83,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected override void CalculateForwardMovement()
 		{
+			normalizedInputLateralSpeed = 0;
+			
 			if (!characterPhysics.isGrounded)
 			{
 				return;
