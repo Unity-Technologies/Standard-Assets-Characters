@@ -139,7 +139,7 @@ GameObject:
   - component: {fileID: 4623938780008152}
   - component: {fileID: 114732836240478164}
   m_Layer: 0
-  m_Name: Simple Third Person State Cameras
+  m_Name: Action Cameras
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -632,6 +632,7 @@ MonoBehaviour:
   m_LockStageInInspector: 00000000
   m_StreamingVersion: 20170927
   m_Priority: 10
+  m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
@@ -647,7 +648,7 @@ MonoBehaviour:
     m_OnCameraLive:
       m_PersistentCalls:
         m_Calls: []
-      m_TypeName: Cinemachine.CinemachineBrain+VcamEvent, Cinemachine, Version=0.0.0.0,
+      m_TypeName: Cinemachine.CinemachineBrain+VcamActivatedEvent, Cinemachine, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 4003643447555592}
@@ -717,6 +718,7 @@ MonoBehaviour:
   m_LockStageInInspector: 00000000
   m_StreamingVersion: 20170927
   m_Priority: 10
+  m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
@@ -732,7 +734,7 @@ MonoBehaviour:
     m_OnCameraLive:
       m_PersistentCalls:
         m_Calls: []
-      m_TypeName: Cinemachine.CinemachineBrain+VcamEvent, Cinemachine, Version=0.0.0.0,
+      m_TypeName: Cinemachine.CinemachineBrain+VcamActivatedEvent, Cinemachine, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 4137827927345122}
@@ -769,6 +771,7 @@ MonoBehaviour:
   m_LockStageInInspector: 00000000
   m_StreamingVersion: 20170927
   m_Priority: 10
+  m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
@@ -784,7 +787,7 @@ MonoBehaviour:
     m_OnCameraLive:
       m_PersistentCalls:
         m_Calls: []
-      m_TypeName: Cinemachine.CinemachineBrain+VcamEvent, Cinemachine, Version=0.0.0.0,
+      m_TypeName: Cinemachine.CinemachineBrain+VcamActivatedEvent, Cinemachine, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 4137125834590080}
@@ -829,6 +832,7 @@ MonoBehaviour:
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
   m_Priority: 10
+  m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_CommonLens: 1
@@ -845,7 +849,7 @@ MonoBehaviour:
     m_OnCameraLive:
       m_PersistentCalls:
         m_Calls: []
-      m_TypeName: Cinemachine.CinemachineBrain+VcamEvent, Cinemachine, Version=0.0.0.0,
+      m_TypeName: Cinemachine.CinemachineBrain+VcamActivatedEvent, Cinemachine, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
   m_LegacyBlendHint: 0
   m_YAxis:
@@ -933,6 +937,7 @@ MonoBehaviour:
   m_LockStageInInspector: 00000000
   m_StreamingVersion: 20170927
   m_Priority: 10
+  m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
@@ -948,7 +953,7 @@ MonoBehaviour:
     m_OnCameraLive:
       m_PersistentCalls:
         m_Calls: []
-      m_TypeName: Cinemachine.CinemachineBrain+VcamEvent, Cinemachine, Version=0.0.0.0,
+      m_TypeName: Cinemachine.CinemachineBrain+VcamActivatedEvent, Cinemachine, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 4312708186366368}
@@ -974,6 +979,7 @@ MonoBehaviour:
   m_LockStageInInspector: 00000000
   m_StreamingVersion: 20170927
   m_Priority: 10
+  m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
@@ -989,7 +995,7 @@ MonoBehaviour:
     m_OnCameraLive:
       m_PersistentCalls:
         m_Calls: []
-      m_TypeName: Cinemachine.CinemachineBrain+VcamEvent, Cinemachine, Version=0.0.0.0,
+      m_TypeName: Cinemachine.CinemachineBrain+VcamActivatedEvent, Cinemachine, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 4333757991717308}
@@ -1100,6 +1106,7 @@ MonoBehaviour:
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
   m_Priority: 10
+  m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_CommonLens: 1
@@ -1116,7 +1123,7 @@ MonoBehaviour:
     m_OnCameraLive:
       m_PersistentCalls:
         m_Calls: []
-      m_TypeName: Cinemachine.CinemachineBrain+VcamEvent, Cinemachine, Version=0.0.0.0,
+      m_TypeName: Cinemachine.CinemachineBrain+VcamActivatedEvent, Cinemachine, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
   m_LegacyBlendHint: 0
   m_YAxis:
@@ -1187,12 +1194,12 @@ MonoBehaviour:
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
   m_Priority: 10
+  m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_AnimatedTarget: {fileID: 0}
   m_LayerIndex: 0
   m_ShowDebugText: 0
-  m_EnableAllChildCameras: 1
   m_ChildCameras:
   - {fileID: 114681285300283318}
   - {fileID: 114320055996082016}
@@ -1215,209 +1222,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   m_CustomBlends: {fileID: 0}
-  m_ParentHash:
-  - m_Hash: -832181705
-    m_ParentHash: -1729304434
-  - m_Hash: 320451265
-    m_ParentHash: -832181705
-  - m_Hash: -683487597
-    m_ParentHash: 320451265
-  - m_Hash: -1197712662
-    m_ParentHash: 320451265
-  - m_Hash: -337124837
-    m_ParentHash: 320451265
-  - m_Hash: -300428033
-    m_ParentHash: 320451265
-  - m_Hash: -410505533
-    m_ParentHash: 320451265
-  - m_Hash: 155415394
-    m_ParentHash: 320451265
-  - m_Hash: 1318292888
-    m_ParentHash: 320451265
-  - m_Hash: 1439590299
-    m_ParentHash: 320451265
-  - m_Hash: -249377427
-    m_ParentHash: 320451265
-  - m_Hash: 1314967040
-    m_ParentHash: 320451265
-  - m_Hash: 1455388774
-    m_ParentHash: 320451265
-  - m_Hash: -1587269274
-    m_ParentHash: 320451265
-  - m_Hash: -226379532
-    m_ParentHash: 320451265
-  - m_Hash: -561158760
-    m_ParentHash: 320451265
-  - m_Hash: -1459908933
-    m_ParentHash: 320451265
-  - m_Hash: -204326807
-    m_ParentHash: 320451265
-  - m_Hash: 1651250028
-    m_ParentHash: 320451265
-  - m_Hash: -1739922809
-    m_ParentHash: 320451265
-  - m_Hash: 632636617
-    m_ParentHash: 320451265
-  - m_Hash: 1575706310
-    m_ParentHash: 320451265
-  - m_Hash: 615224435
-    m_ParentHash: 320451265
-  - m_Hash: 570559032
-    m_ParentHash: 320451265
-  - m_Hash: 2127667772
-    m_ParentHash: 320451265
-  - m_Hash: -986323918
-    m_ParentHash: 320451265
-  - m_Hash: -1629258548
-    m_ParentHash: 320451265
-  - m_Hash: -1346339211
-    m_ParentHash: 320451265
-  - m_Hash: -242376937
-    m_ParentHash: 320451265
-  - m_Hash: 1426683423
-    m_ParentHash: 320451265
-  - m_Hash: -1542769631
-    m_ParentHash: 320451265
-  - m_Hash: 617460135
-    m_ParentHash: 320451265
-  - m_Hash: -1105731645
-    m_ParentHash: 320451265
-  - m_Hash: -1486678042
-    m_ParentHash: 320451265
-  - m_Hash: 687527156
-    m_ParentHash: 320451265
-  - m_Hash: -538859776
-    m_ParentHash: 320451265
-  - m_Hash: -894528098
-    m_ParentHash: 320451265
-  - m_Hash: 1099696254
-    m_ParentHash: 320451265
-  - m_Hash: -780242571
-    m_ParentHash: 320451265
-  - m_Hash: 1984947050
-    m_ParentHash: 320451265
-  - m_Hash: -1365826165
-    m_ParentHash: 320451265
-  - m_Hash: 741725477
-    m_ParentHash: 320451265
-  - m_Hash: -2090425236
-    m_ParentHash: 320451265
-  - m_Hash: 309744511
-    m_ParentHash: 320451265
-  - m_Hash: 2049943004
-    m_ParentHash: 320451265
-  - m_Hash: -638670350
-    m_ParentHash: 320451265
-  - m_Hash: -2133454577
-    m_ParentHash: 320451265
-  - m_Hash: -959524056
-    m_ParentHash: 320451265
-  - m_Hash: -12630543
-    m_ParentHash: 320451265
-  - m_Hash: -1665866393
-    m_ParentHash: 320451265
-  - m_Hash: -184097699
-    m_ParentHash: 320451265
-  - m_Hash: 1138635525
-    m_ParentHash: 320451265
-  - m_Hash: 1302077877
-    m_ParentHash: 320451265
-  - m_Hash: 1364637054
-    m_ParentHash: 320451265
-  - m_Hash: -438428448
-    m_ParentHash: 320451265
-  - m_Hash: -518188506
-    m_ParentHash: 320451265
-  - m_Hash: -306723958
-    m_ParentHash: 320451265
-  - m_Hash: 510184233
-    m_ParentHash: 320451265
-  - m_Hash: -1782213209
-    m_ParentHash: 320451265
-  - m_Hash: 517401462
-    m_ParentHash: 320451265
-  - m_Hash: -1074380724
-    m_ParentHash: 320451265
-  - m_Hash: 690283347
-    m_ParentHash: 320451265
-  - m_Hash: -68362405
-    m_ParentHash: 320451265
-  - m_Hash: -590065574
-    m_ParentHash: 320451265
-  - m_Hash: -577539054
-    m_ParentHash: 320451265
-  - m_Hash: -948637526
-    m_ParentHash: 320451265
-  - m_Hash: 1614096046
-    m_ParentHash: 320451265
-  - m_Hash: 1931957523
-    m_ParentHash: -1729304434
-  - m_Hash: 794864249
-    m_ParentHash: 1931957523
-  - m_Hash: 486345207
-    m_ParentHash: 1931957523
-  - m_Hash: -156454175
-    m_ParentHash: 1931957523
-  - m_Hash: 1873142619
-    m_ParentHash: 1931957523
-  - m_Hash: -1138345225
-    m_ParentHash: 1931957523
-  - m_Hash: -130304280
-    m_ParentHash: 1931957523
-  - m_Hash: 2090170590
-    m_ParentHash: 1931957523
-  - m_Hash: 1659023412
-    m_ParentHash: 2090170590
-  - m_Hash: 91306896
-    m_ParentHash: 2090170590
-  - m_Hash: -1887454175
-    m_ParentHash: 91306896
-  - m_Hash: 1464025903
-    m_ParentHash: 91306896
-  - m_Hash: 2092490426
-    m_ParentHash: 91306896
-  - m_Hash: -1189108206
-    m_ParentHash: 91306896
-  - m_Hash: -1216545967
-    m_ParentHash: 91306896
-  - m_Hash: 1678931082
-    m_ParentHash: 91306896
-  - m_Hash: -678203723
-    m_ParentHash: 91306896
-  - m_Hash: -1569972903
-    m_ParentHash: 91306896
-  - m_Hash: -1048036144
-    m_ParentHash: 91306896
-  - m_Hash: 1365072527
-    m_ParentHash: 91306896
-  - m_Hash: -1120988215
-    m_ParentHash: 2090170590
-  - m_Hash: -2083904025
-    m_ParentHash: -1120988215
-  - m_Hash: 625512755
-    m_ParentHash: -1120988215
-  - m_Hash: 246615206
-    m_ParentHash: -1120988215
-  - m_Hash: 151760080
-    m_ParentHash: -1120988215
-  - m_Hash: 970352639
-    m_ParentHash: -1120988215
-  - m_Hash: -356980700
-    m_ParentHash: -1120988215
-  - m_Hash: -1008715480
-    m_ParentHash: -1120988215
-  - m_Hash: -1578179694
-    m_ParentHash: -1120988215
-  - m_Hash: -661532650
-    m_ParentHash: -1120988215
-  - m_Hash: 592873619
-    m_ParentHash: -1120988215
-  - m_Hash: 387774481
-    m_ParentHash: -1120988215
-  - m_Hash: -927103129
-    m_ParentHash: -1729304434
-  - m_Hash: -1295397390
-    m_ParentHash: -927103129
+  m_ParentHash: []
 --- !u!114 &114777554955325138
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1440,6 +1245,7 @@ MonoBehaviour:
   m_LockStageInInspector: 00000000
   m_StreamingVersion: 20170927
   m_Priority: 10
+  m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
@@ -1455,7 +1261,7 @@ MonoBehaviour:
     m_OnCameraLive:
       m_PersistentCalls:
         m_Calls: []
-      m_TypeName: Cinemachine.CinemachineBrain+VcamEvent, Cinemachine, Version=0.0.0.0,
+      m_TypeName: Cinemachine.CinemachineBrain+VcamActivatedEvent, Cinemachine, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 4556879235415254}
