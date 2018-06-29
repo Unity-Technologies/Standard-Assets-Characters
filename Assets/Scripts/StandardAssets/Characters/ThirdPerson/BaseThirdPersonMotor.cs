@@ -56,7 +56,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		/// <param name="toWrap"></param>
 		/// <returns></returns>
-		private float Wrap180(float toWrap)
+		protected float Wrap180(float toWrap)
 		{
 			while (toWrap < -180)
 			{
