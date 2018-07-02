@@ -17,7 +17,7 @@ namespace StandardAssets.Characters.CharacterInput
 		[SerializeField]
 		protected string cinemachineLookYAxisName = "Vertical";
 		
-		[Header("Input Axes")]
+		[Header("Movement Input Axes")]
 		[SerializeField]
 		protected string horizontalAxisName = "Horizontal";
 		
@@ -119,12 +119,14 @@ namespace StandardAssets.Characters.CharacterInput
 		private void OnEnable()
 		{
 			CinemachineCore.GetInputAxis = LookInputOverride;
+		
 		}
 
 		private void Update()
 		{
 			UpdateLookVector();
-			//Cache the inputs
+			
+			//Update Move Vector
 			moveInputVector.Set(Input.GetAxis(horizontalAxisName), Input.GetAxis(verticalAxisName));
 			
 			if(Input.GetButtonDown(LegacyCharacterInputDevicesCache.ResolveControl(keyboardJumpName))||Input.GetButtonDown("Jump"))
@@ -147,29 +149,15 @@ namespace StandardAssets.Characters.CharacterInput
 				return 0;
 			}
 			
-			if (cinemachineAxisName == cinemachineLookXAxisName)
+			 if (cinemachineAxisName == cinemachineLookXAxisName)
 			{
-				return look.x;
+				return lookInput.x;
 			}
 			if (cinemachineAxisName == cinemachineLookYAxisName)
 			{
-				return look.y;
+				return lookInput.y;
 			}
-
-			//TODO
-			//UpdateLookVector();
 			
-			/*
-			 * if (cinemachineAxisName == cinemachineLookXAxisName)
-			{
-				return Input.GetAxis(LegacyCharacterInputDevicesCache.ResolveControl(lookXAxisName));
-			}
-			if (cinemachineAxisName == cinemachineLookYAxisName)
-			{
-				return Input.GetAxis(LegacyCharacterInputDevicesCache.ResolveControl(lookYAxisName));
-			}
-			 */
-
 			return 0;
 		}
 		
@@ -181,25 +169,31 @@ namespace StandardAssets.Characters.CharacterInput
 		/// </summary>
 		void UpdateLookVector()
 		{
-			
-			if (Input.GetAxis(mouseLookXAxisName) != 0)
-			{
-				look.x = Input.GetAxis(mouseLookXAxisName);
-			}
-			else
+			if (mouseLookXAxisName == "" || mouseLookYAxisName == "") //Use gamepad look if no mouse look set
 			{
 				look.x = Input.GetAxis(LegacyCharacterInputDevicesCache.ResolveControl(lookXAxisName));
-			}
-
-			if (Input.GetAxis(mouseLookYAxisName) != 0)
-			{
-				look.y = Input.GetAxis(mouseLookYAxisName);
+				look.y = Input.GetAxis(LegacyCharacterInputDevicesCache.ResolveControl(lookYAxisName));
 			}
 			else
 			{
-				look.y = Input.GetAxis(LegacyCharacterInputDevicesCache.ResolveControl(lookYAxisName));
+				if (Input.GetAxis(mouseLookXAxisName) != 0)
+				{
+					look.x = Input.GetAxis(mouseLookXAxisName);
+				}
+				else
+				{
+					look.x = Input.GetAxis(LegacyCharacterInputDevicesCache.ResolveControl(lookXAxisName));
+				}
+				if (Input.GetAxis(mouseLookYAxisName) != 0)
+				{
+					look.y = Input.GetAxis(mouseLookYAxisName);
+				}
+				else
+				{
+					look.y = Input.GetAxis(LegacyCharacterInputDevicesCache.ResolveControl(lookYAxisName));
+				}
 			}
-			
+
 		}
 	}
 }
