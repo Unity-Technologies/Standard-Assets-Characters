@@ -1,5 +1,4 @@
 ﻿using StandardAssets.Characters.Physics;
-using StandardAssets.Characters.ThirdPerson;
 using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson
@@ -18,6 +17,15 @@ namespace StandardAssets.Characters.ThirdPerson
 				return;
 			}
 			animationController.UpdatePredictedFallDistance(baseCharacterPhysics.GetPredicitedFallDistance());
+		}
+
+		public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		{
+			var motor = animator.GetComponent<AnimationThirdPersonMotor>();
+			if (motor != null)
+			{
+				motor.OnJumpAnimationComplete();
+			}
 		}
 	}
 }

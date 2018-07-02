@@ -2,6 +2,7 @@
 using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
@@ -47,6 +48,9 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[SerializeField]
 		protected InputResponse strafeInput;
+
+		[SerializeField]
+		protected UnityEvent startActionMode, startStrafeMode;
 
 		/// <summary>
 		/// The input implementation
@@ -97,6 +101,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				strafeInput.Init();
 			}
+			
+			OnStrafeEnd();
 
 			base.Awake();
 		}
@@ -113,11 +119,19 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private void OnStrafeEnd()
 		{
+			if (startActionMode != null)
+			{
+				startActionMode.Invoke();
+			}
 			isStrafing = false;
 		}
 
 		private void OnStrafeStart()
 		{
+			if (startStrafeMode != null)
+			{
+				startStrafeMode.Invoke();
+			}
 			isStrafing = true;
 		}
 
@@ -296,9 +310,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private void SetStrafeLookDirection()
 		{
-			Vector3 lookForwardY = cameraTransform.rotation.eulerAngles;
+			Vector3 lookForwardY = transform.rotation.eulerAngles;
 			lookForwardY.x = 0;
 			lookForwardY.z = 0;
+			//TODO: DAVE
+			lookForwardY.y = lookForwardY.y + characterInput.lookInput.x * Time.fixedDeltaTime;
 			Quaternion targetRotation = Quaternion.Euler(lookForwardY);
 
 			float actualTurnSpeed =
