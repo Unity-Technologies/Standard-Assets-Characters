@@ -12,6 +12,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected bool inheritGroundVelocity;
 
+		[SerializeField, Tooltip("A fall distance higher than this will trigger a fall animation")]
+		protected float maxFallDistanceToLand = 1;
+
 		private float normalizedInputLateralSpeed;
 		private float normalizedInputForwardSpeed;
 
@@ -40,6 +43,30 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
+		public void OnJumpAnimationComplete()
+		{
+			var baseCharacterPhysics = GetComponent<BaseCharacterPhysics>();
+			if (baseCharacterPhysics == null)
+			{
+				return;
+			}
+			var distance = baseCharacterPhysics.GetPredicitedFallDistance();
+			if (distance <= maxFallDistanceToLand)
+			{
+				if (landed != null)
+				{
+					landed();
+				}
+			}
+			else
+			{
+				if (fallStarted != null)
+				{
+					fallStarted(distance);
+				}
+			}
+		}
+
 		protected override void OnEnable()
 		{
 			base.OnEnable();
@@ -56,6 +83,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected override void CalculateForwardMovement()
 		{
+			normalizedInputLateralSpeed = 0;
+			
 			if (!characterPhysics.isGrounded)
 			{
 				return;
