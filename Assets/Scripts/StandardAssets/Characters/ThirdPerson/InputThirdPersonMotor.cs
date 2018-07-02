@@ -314,7 +314,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			lookForwardY.x = 0;
 			lookForwardY.z = 0;
 			//TODO: DAVE
-			lookForwardY.y = lookForwardY.y + characterInput.lookInput.x * Time.fixedDeltaTime;
+			float turnAmount = characterInput.lookInput.x * Time.fixedDeltaTime * 300f;
+			//Debug.Log(turnAmount);
+			lookForwardY.y = lookForwardY.y + turnAmount;
 			Quaternion targetRotation = Quaternion.Euler(lookForwardY);
 
 			float actualTurnSpeed =
