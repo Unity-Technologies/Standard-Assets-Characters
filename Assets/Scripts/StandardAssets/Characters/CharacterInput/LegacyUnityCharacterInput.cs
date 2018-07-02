@@ -123,7 +123,7 @@ namespace StandardAssets.Characters.CharacterInput
 
 		private void Update()
 		{
-			
+			UpdateLookVector();
 			//Cache the inputs
 			moveInputVector.Set(Input.GetAxis(horizontalAxisName), Input.GetAxis(verticalAxisName));
 			
@@ -146,10 +146,21 @@ namespace StandardAssets.Characters.CharacterInput
 			{
 				return 0;
 			}
-
-		//	UpdateLookVector();
 			
 			if (cinemachineAxisName == cinemachineLookXAxisName)
+			{
+				return look.x;
+			}
+			if (cinemachineAxisName == cinemachineLookYAxisName)
+			{
+				return look.y;
+			}
+
+			//TODO
+			//UpdateLookVector();
+			
+			/*
+			 * if (cinemachineAxisName == cinemachineLookXAxisName)
 			{
 				return Input.GetAxis(LegacyCharacterInputDevicesCache.ResolveControl(lookXAxisName));
 			}
@@ -157,6 +168,7 @@ namespace StandardAssets.Characters.CharacterInput
 			{
 				return Input.GetAxis(LegacyCharacterInputDevicesCache.ResolveControl(lookYAxisName));
 			}
+			 */
 
 			return 0;
 		}
@@ -164,10 +176,12 @@ namespace StandardAssets.Characters.CharacterInput
 		/// <summary>
 		/// Update the look vector2, this is used in 3rd person
 		/// and allows mouse and controller to both work at the same time.
-		/// mouse look will take preference. 
+		/// mouse look will take preference.
+		/// IF there is no mouse inputs, it will get gamepad axis.  
 		/// </summary>
 		void UpdateLookVector()
 		{
+			
 			if (Input.GetAxis(mouseLookXAxisName) != 0)
 			{
 				look.x = Input.GetAxis(mouseLookXAxisName);
@@ -185,6 +199,7 @@ namespace StandardAssets.Characters.CharacterInput
 			{
 				look.y = Input.GetAxis(LegacyCharacterInputDevicesCache.ResolveControl(lookYAxisName));
 			}
+			
 		}
 	}
 }
