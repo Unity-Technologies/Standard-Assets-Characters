@@ -123,8 +123,10 @@ namespace StandardAssets.Characters.CharacterInput
 
 		private void Update()
 		{
+			
 			//Cache the inputs
 			moveInputVector.Set(Input.GetAxis(horizontalAxisName), Input.GetAxis(verticalAxisName));
+			
 			if(Input.GetButtonDown(LegacyCharacterInputDevicesCache.ResolveControl(keyboardJumpName))||Input.GetButtonDown("Jump"))
 			{
 				if (jumpPressed != null)
@@ -145,15 +147,15 @@ namespace StandardAssets.Characters.CharacterInput
 				return 0;
 			}
 
-			UpdateLookVector();
+		//	UpdateLookVector();
 			
 			if (cinemachineAxisName == cinemachineLookXAxisName)
 			{
-				return look.x;
+				return Input.GetAxis(LegacyCharacterInputDevicesCache.ResolveControl(lookXAxisName));
 			}
 			if (cinemachineAxisName == cinemachineLookYAxisName)
 			{
-				return look.y;
+				return Input.GetAxis(LegacyCharacterInputDevicesCache.ResolveControl(lookYAxisName));
 			}
 
 			return 0;
