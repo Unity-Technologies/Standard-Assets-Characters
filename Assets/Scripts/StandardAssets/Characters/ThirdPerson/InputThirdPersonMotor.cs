@@ -44,7 +44,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected float snapSpeedTarget = 0.2f;
 
 		[SerializeField]
-		protected InputResponse runInput;
+		protected InputResponse[] runInput;
+		
+		//[SerializeField]
+		//protected InputResponse[] runInput;
 
 		[SerializeField]
 		protected InputResponse strafeInput;
@@ -92,9 +95,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			characterInput = GetComponent<ICharacterInput>();
 			characterPhysics = GetComponent<ICharacterPhysics>();
 
-			if (runInput != null)
+			foreach (var runResponse in runInput)
 			{
-				runInput.Init();
+				if (runResponse != null)
+				{
+					runResponse.Init();
+				}
 			}
 
 			if (strafeInput != null)
@@ -143,12 +149,22 @@ namespace StandardAssets.Characters.ThirdPerson
 			characterInput.jumpPressed += OnJumpPressed;
 			characterPhysics.landed += OnLanding;
 			characterPhysics.startedFalling += OnStartedFalling;
-
-			if (runInput != null)
+			
+			foreach (var runResponse in runInput)
+			{
+				if (runResponse != null)
+				{
+					runResponse.started += OnRunStarted;
+					runResponse.ended += OnRunEnded;
+				}
+			}
+			/*
+			 * if (runInput != null)
 			{
 				runInput.started += OnRunStarted;
 				runInput.ended += OnRunEnded;
 			}
+			 */
 
 			if (strafeInput != null)
 			{
@@ -183,12 +199,22 @@ namespace StandardAssets.Characters.ThirdPerson
 				characterPhysics.landed -= OnLanding;
 				characterPhysics.startedFalling -= OnStartedFalling;
 			}
-
-			if (runInput != null)
+			foreach (var runResponse in runInput)
+			{
+				if (runResponse != null)
+				{
+					runResponse.started += OnRunStarted;
+					runResponse.ended += OnRunEnded;
+				}
+			}
+			
+			/*
+			 * if (runInput != null)
 			{
 				runInput.started -= OnRunStarted;
 				runInput.ended -= OnRunEnded;
 			}
+			 */
 
 			if (strafeInput != null)
 			{
@@ -252,6 +278,8 @@ namespace StandardAssets.Characters.ThirdPerson
 					OnJumpBraceComplete();
 				}
 			}
+			
+			
 		}
 
 		/// <summary>
@@ -282,11 +310,12 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private void SetForwardLookDirection()
 		{
+			
 			if (!CanSetForwardLookDirection())
 			{
 				return;
 			}
-
+			
 			Vector3 flatForward = cameraTransform.forward;
 			flatForward.y = 0f;
 			flatForward.Normalize();
@@ -309,12 +338,16 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// Sets forward rotation
 		/// </summary>
 		private void SetStrafeLookDirection()
-		{
+		{	
+			
 			Vector3 lookForwardY = transform.rotation.eulerAngles;
+			
 			lookForwardY.x = 0;
 			lookForwardY.z = 0;
 			//TODO: DAVE
-			lookForwardY.y = lookForwardY.y + characterInput.lookInput.x * Time.fixedDeltaTime;
+			//lookForwardY.y = lookForwardY.y + characterInput.lookInput.x * Time.fixedDeltaTime;
+			lookForwardY.y -= characterInput.lookInput.x;
+			
 			Quaternion targetRotation = Quaternion.Euler(lookForwardY);
 
 			float actualTurnSpeed =
