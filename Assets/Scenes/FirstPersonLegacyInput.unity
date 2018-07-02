@@ -4179,11 +4179,6 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 765448513}
   m_CullTransparentMesh: 0
---- !u!136 &771943997 stripped
-CapsuleCollider:
-  m_CorrespondingSourceObject: {fileID: 136131221980381340, guid: 1818690cc80044ecbadf3a53cc5f29e1,
-    type: 2}
-  m_PrefabInternal: {fileID: 1105289692}
 --- !u!1 &831136162
 GameObject:
   m_ObjectHideFlags: 0
@@ -4946,51 +4941,6 @@ Prefab:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 1840918336}
-    - target: {fileID: 114961145437418454, guid: 1818690cc80044ecbadf3a53cc5f29e1,
-        type: 2}
-      propertyPath: useLookInput
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114961145437418454, guid: 1818690cc80044ecbadf3a53cc5f29e1,
-        type: 2}
-      propertyPath: mouseLookYAxisName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114961145437418454, guid: 1818690cc80044ecbadf3a53cc5f29e1,
-        type: 2}
-      propertyPath: mouseLookXAxisName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114561844803457874, guid: 1818690cc80044ecbadf3a53cc5f29e1,
-        type: 2}
-      propertyPath: playerRadius
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114561844803457874, guid: 1818690cc80044ecbadf3a53cc5f29e1,
-        type: 2}
-      propertyPath: groundCheckRadius
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 114561844803457874, guid: 1818690cc80044ecbadf3a53cc5f29e1,
-        type: 2}
-      propertyPath: enableDebug
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114561844803457874, guid: 1818690cc80044ecbadf3a53cc5f29e1,
-        type: 2}
-      propertyPath: groundCheckPoint.y
-      value: -0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 114561844803457874, guid: 1818690cc80044ecbadf3a53cc5f29e1,
-        type: 2}
-      propertyPath: playerHeight
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114561844803457874, guid: 1818690cc80044ecbadf3a53cc5f29e1,
-        type: 2}
-      propertyPath: capsuleCollider
-      value: 
-      objectReference: {fileID: 771943997}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1818690cc80044ecbadf3a53cc5f29e1, type: 2}
   m_IsPrefabAsset: 0
@@ -5589,7 +5539,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh-582764
+  m_Name: pb_Mesh66064
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -8328,9 +8278,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ShowDebugText: 0
   m_ShowCameraFrustum: 1
-  m_IgnoreTimeScale: 0
+  m_IgnoreTimeScale: 1
   m_WorldUpOverride: {fileID: 0}
-  m_UpdateMethod: 2
+  m_UpdateMethod: 1
   m_DefaultBlend:
     m_Style: 1
     m_Time: 0.5
