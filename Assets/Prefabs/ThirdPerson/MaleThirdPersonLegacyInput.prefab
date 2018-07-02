@@ -1797,7 +1797,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1964598378489596}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 47.75, y: 26, z: 63.168888}
+  m_LocalPosition: {x: 47.75, y: 26.205, z: 63.168888}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4151648849392010}
@@ -2076,7 +2076,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1296605580789908}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.5577125e-16, y: -8.507635e-10, z: 0.0000000042381267}
+  m_LocalPosition: {x: -5.5577125e-16, y: 0, z: 0.0000000042381267}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4273623530589908}
@@ -2314,9 +2314,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   snappingDecelaration: 30
   snapSpeedTarget: 0.2
-  runInput:
-  - {fileID: 11400000, guid: 8c1192daa77a944b393df7e0146d7a7f, type: 2}
-  - {fileID: 11400000, guid: c871b07d60224c9419048e8902a4408e, type: 2}
+  runInput: {fileID: 11400000, guid: 8c1192daa77a944b393df7e0146d7a7f, type: 2}
   strafeInput: {fileID: 11400000, guid: afab5886de3d240fd8015366bf8ee806, type: 2}
   startActionMode:
     m_PersistentCalls:
