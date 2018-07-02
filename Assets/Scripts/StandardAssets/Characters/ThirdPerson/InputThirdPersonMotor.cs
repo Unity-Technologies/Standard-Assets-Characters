@@ -44,7 +44,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected float snapSpeedTarget = 0.2f;
 
 		[SerializeField]
-		protected InputResponse[] runInput;
+		protected InputResponse runInput;
 		
 		//[SerializeField]
 		//protected InputResponse[] runInput;
@@ -95,14 +95,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			characterInput = GetComponent<ICharacterInput>();
 			characterPhysics = GetComponent<ICharacterPhysics>();
 
-			foreach (var runResponse in runInput)
+			if (runInput != null)
 			{
-				if (runResponse != null)
-				{
-					runResponse.Init();
-				}
+				runInput.Init();
 			}
-
+			
 			if (strafeInput != null)
 			{
 				strafeInput.Init();
@@ -140,21 +137,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			characterPhysics.landed += OnLanding;
 			characterPhysics.startedFalling += OnStartedFalling;
 			
-			foreach (var runResponse in runInput)
-			{
-				if (runResponse != null)
-				{
-					runResponse.started += OnRunStarted;
-					runResponse.ended += OnRunEnded;
-				}
-			}
-			/*
-			 * if (runInput != null)
+			 if (runInput != null)
 			{
 				runInput.started += OnRunStarted;
 				runInput.ended += OnRunEnded;
 			}
-			 */
+			 
 
 			if (strafeInput != null)
 			{
@@ -189,22 +177,12 @@ namespace StandardAssets.Characters.ThirdPerson
 				characterPhysics.landed -= OnLanding;
 				characterPhysics.startedFalling -= OnStartedFalling;
 			}
-			foreach (var runResponse in runInput)
-			{
-				if (runResponse != null)
-				{
-					runResponse.started += OnRunStarted;
-					runResponse.ended += OnRunEnded;
-				}
-			}
-			
-			/*
-			 * if (runInput != null)
+			 if (runInput != null)
 			{
 				runInput.started -= OnRunStarted;
 				runInput.ended -= OnRunEnded;
 			}
-			 */
+			 
 
 			if (strafeInput != null)
 			{
@@ -353,6 +331,8 @@ namespace StandardAssets.Characters.ThirdPerson
 				Quaternion.RotateTowards(transform.rotation, targetRotation, actualTurnSpeed * Time.fixedDeltaTime);
 
 			transform.rotation = targetRotation;
+			
+			Debug.Log(transform.position);
 		}
 	}
 }
