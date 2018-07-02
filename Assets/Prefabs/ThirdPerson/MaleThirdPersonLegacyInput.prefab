@@ -2314,7 +2314,9 @@ MonoBehaviour:
     m_RotationOrder: 4
   snappingDecelaration: 30
   snapSpeedTarget: 0.2
-  runInput: {fileID: 11400000, guid: 8c1192daa77a944b393df7e0146d7a7f, type: 2}
+  runInput:
+  - {fileID: 11400000, guid: 8c1192daa77a944b393df7e0146d7a7f, type: 2}
+  - {fileID: 11400000, guid: c871b07d60224c9419048e8902a4408e, type: 2}
   strafeInput: {fileID: 11400000, guid: afab5886de3d240fd8015366bf8ee806, type: 2}
   startActionMode:
     m_PersistentCalls:
