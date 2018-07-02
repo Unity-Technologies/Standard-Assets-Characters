@@ -62,6 +62,11 @@ namespace StandardAssets.Characters.CharacterInput
 
 		private Vector2 look;
 
+		public Vector2 lookInput
+		{
+			get { return look; }
+		}
+		
 		public Vector2 moveInput
 		{
 			get { return moveInputVector; }
