@@ -21,6 +21,8 @@ namespace StandardAssets.Characters.CharacterInput
 		
 		[SerializeField]
 		protected bool isGamepad;
+
+		protected bool touchToggle;
 		
 		/// <summary>
 		/// Initializes the polling behaviour for the legacy input system
@@ -53,6 +55,20 @@ namespace StandardAssets.Characters.CharacterInput
 		public void BroadcastEnd()
 		{
 			OnInputEnded();
+		}
+
+		public void TouchToggle()
+		{
+			if (!touchToggle)
+			{
+				OnInputStarted();
+				touchToggle = true;
+			}
+			else
+			{
+				OnInputEnded();
+				touchToggle = false;
+			}
 		}
 	}
 

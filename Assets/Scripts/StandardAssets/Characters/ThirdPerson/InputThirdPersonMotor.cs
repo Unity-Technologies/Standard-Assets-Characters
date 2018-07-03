@@ -50,10 +50,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected float rapidTurnAngle = 180f;
 		
 		[SerializeField]
-		protected float normalizedRapidTurn = 0.5f;
-		
-		//[SerializeField]
-		//protected InputResponse[] runInput;
+		protected float rapidTurnForwardSpeedThreshold = 0.1f;
+
+		[SerializeField]
+		protected float postRapidTurnRotationEasingSpeed = 1f, postRapidTurnEasingTime = 1f; 
 
 		[SerializeField]
 		protected InputResponse strafeInput;
@@ -78,10 +78,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected bool isBracingForJump;
 		protected float jumpBraceTime, jumpBraceCount;
 
-		protected bool isRapidTurning = false;
+		protected float currentEasingTime;
 
-		protected Quaternion rapidTurnTargetRotation;
-
+		protected RapidTurningState rapidTurningState = RapidTurningState.None;
 
 		public override float fallTime
 		{
@@ -99,12 +98,13 @@ namespace StandardAssets.Characters.ThirdPerson
 		public override void FinishedTurn()
 		{
 			ResetRotation();
-			isRapidTurning = false;
+			currentEasingTime = 0;
+			rapidTurningState = RapidTurningState.Easing;
 		}
 
 		protected virtual void ResetRotation()
 		{
-			transform.rotation = rapidTurnTargetRotation;
+			transform.rotation = CalculateTargetRotation();
 		}
 
 		/// <inheritdoc />
@@ -306,7 +306,13 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private void SetForwardLookDirection()
 		{
-			if (isRapidTurning)
+			if (rapidTurningState == RapidTurningState.Easing)
+			{
+				RapidTurningEasing();
+				return;
+			}
+			
+			if (rapidTurningState == RapidTurningState.Turning)
 			{
 				return;
 			}
@@ -320,15 +326,30 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			float angleDifference = Mathf.Abs((transform.eulerAngles - targetRotation.eulerAngles).y);
 
-			if (angleSnapBehaviour < angleDifference && angleDifference < 360 - angleSnapBehaviour)
+			if (normalizedForwardSpeed > rapidTurnForwardSpeedThreshold && rapidTurnAngle < angleDifference && angleDifference < 360 - rapidTurnAngle)
 			{
-				rapidlyTurned(0.1f);
-				rapidTurnTargetRotation = targetRotation;
-				isRapidTurning = true;
+				rapidlyTurned(0.2f);
+				rapidTurningState = RapidTurningState.Turning;
 				return;
 			}
 
 			HandleTargetRotation(targetRotation);
+		}
+
+		private void RapidTurningEasing()
+		{
+			Quaternion targetRotation = CalculateTargetRotation();
+			
+			transform.rotation =
+				Quaternion.RotateTowards(transform.rotation, targetRotation, postRapidTurnRotationEasingSpeed * Time.fixedDeltaTime);
+
+			currentEasingTime += Time.fixedDeltaTime;
+
+			if (currentEasingTime >= postRapidTurnEasingTime)
+			{
+				rapidTurningState = RapidTurningState.None;
+				currentEasingTime = 0;
+			}
 		}
 
 		private Quaternion CalculateTargetRotation()

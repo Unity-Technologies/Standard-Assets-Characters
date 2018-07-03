@@ -89,12 +89,12 @@ GameObject:
   - component: {fileID: 114736923435200732}
   - component: {fileID: 114750215591757036}
   - component: {fileID: 114570266145897858}
-  - component: {fileID: 136131221980381340}
   - component: {fileID: 95678976135669546}
   - component: {fileID: 114074065261041036}
   - component: {fileID: 114651346732965486}
   - component: {fileID: 114035350532953534}
   - component: {fileID: 114561844803457874}
+  - component: {fileID: 114233431554465932}
   m_Layer: 11
   m_Name: FirstPersonLegacyInput
   m_TagString: Untagged
@@ -362,6 +362,22 @@ MonoBehaviour:
   - {fileID: 114606634733582770}
   - {fileID: 114074389995230264}
   mPOV: {fileID: 0}
+  onScreenTouch: {fileID: 0}
+--- !u!114 &114233431554465932
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1627797537853366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fee6c3ba6b914ab2b7caea31ccec1945, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  center: {x: 0, y: 0, z: 0}
+  radius: 0.2
+  height: 1
+  skinWidth: 0.08
 --- !u!114 &114324813546737938
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -547,9 +563,7 @@ MonoBehaviour:
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
   movementModifiers:
-  - inputs:
-    - {fileID: 11400000, guid: 8c1192daa77a944b393df7e0146d7a7f, type: 2}
-    - {fileID: 11400000, guid: c871b07d60224c9419048e8902a4408e, type: 2}
+  - inputs: {fileID: 11400000, guid: 4536a47671291463386c18678dd23194, type: 2}
     movementProperties:
       maxSpeed: 11
       acceleration:
@@ -559,9 +573,9 @@ MonoBehaviour:
           - serializedVersion: 3
             time: 0
             value: 0
-            inSlope: 0
+            inSlope: 1
             outSlope: 1
-            tangentMode: 0
+            tangentMode: 34
             weightedMode: 0
             inWeight: 0
             outWeight: 0
@@ -569,16 +583,16 @@ MonoBehaviour:
             time: 1
             value: 1
             inSlope: 1
-            outSlope: 0
-            tangentMode: 0
+            outSlope: 1
+            tangentMode: 34
             weightedMode: 0
             inWeight: 0
             outWeight: 0
           m_PreInfinity: 2
           m_PostInfinity: 2
-          m_RotationOrder: 4
-        maxValue: 0.01
-      jumpSpeed: 8
+          m_RotationOrder: 0
+        maxValue: 0.1
+      jumpSpeed: 9
       enterState:
         m_PersistentCalls:
           m_Calls:
@@ -600,11 +614,9 @@ MonoBehaviour:
           m_Calls: []
         m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-  - inputs:
-    - {fileID: 11400000, guid: 792f413f42ab38c408411c84b20128d0, type: 2}
-    - {fileID: 11400000, guid: 1f0ff2d9a05ab0342b275be9850ffb82, type: 2}
+  - inputs: {fileID: 11400000, guid: efd28e54320836844815e53240c38fe4, type: 2}
     movementProperties:
-      maxSpeed: 3
+      maxSpeed: 4
       acceleration:
         curve:
           serializedVersion: 2
@@ -612,9 +624,9 @@ MonoBehaviour:
           - serializedVersion: 3
             time: 0
             value: 0
-            inSlope: 0
+            inSlope: 1
             outSlope: 1
-            tangentMode: 0
+            tangentMode: 34
             weightedMode: 0
             inWeight: 0
             outWeight: 0
@@ -622,16 +634,16 @@ MonoBehaviour:
             time: 1
             value: 1
             inSlope: 1
-            outSlope: 0
-            tangentMode: 0
+            outSlope: 1
+            tangentMode: 34
             weightedMode: 0
             inWeight: 0
             outWeight: 0
           m_PreInfinity: 2
           m_PostInfinity: 2
-          m_RotationOrder: 4
-        maxValue: 0.01
-      jumpSpeed: 5
+          m_RotationOrder: 0
+        maxValue: 0.1
+      jumpSpeed: 2
       enterState:
         m_PersistentCalls:
           m_Calls:
@@ -653,11 +665,9 @@ MonoBehaviour:
           m_Calls: []
         m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-  - inputs:
-    - {fileID: 11400000, guid: e2cc03e054ab3412e84c918085c0abe2, type: 2}
-    - {fileID: 11400000, guid: 3897e54e77188b84f88dd0adc35a4615, type: 2}
+  - inputs: {fileID: 11400000, guid: 2692a7f21a6ff044792d5134fd85691a, type: 2}
     movementProperties:
-      maxSpeed: 1
+      maxSpeed: 2
       acceleration:
         curve:
           serializedVersion: 2
@@ -665,9 +675,9 @@ MonoBehaviour:
           - serializedVersion: 3
             time: 0
             value: 0
-            inSlope: 0
+            inSlope: 1
             outSlope: 1
-            tangentMode: 0
+            tangentMode: 34
             weightedMode: 0
             inWeight: 0
             outWeight: 0
@@ -675,15 +685,15 @@ MonoBehaviour:
             time: 1
             value: 1
             inSlope: 1
-            outSlope: 0
-            tangentMode: 0
+            outSlope: 1
+            tangentMode: 34
             weightedMode: 0
             inWeight: 0
             outWeight: 0
           m_PreInfinity: 2
           m_PostInfinity: 2
-          m_RotationOrder: 4
-        maxValue: 0.01
+          m_RotationOrder: 0
+        maxValue: 0.1
       jumpSpeed: 0
       enterState:
         m_PersistentCalls:
@@ -735,8 +745,9 @@ MonoBehaviour:
   liftSlopeRadius: 0.2
   excludePlayer:
     serializedVersion: 2
-    m_Bits: 311
-  capsuleCollider: {fileID: 136131221980381340}
+    m_Bits: 2355
+  characterCapsule: {fileID: 0}
+  maxPenetrationTests: 4
   enableDebug: 1
 --- !u!114 &114570266145897858
 MonoBehaviour:
@@ -978,7 +989,7 @@ MonoBehaviour:
   cinemachineLookYAxisName: Vertical
   horizontalAxisName: Horizontal
   verticalAxisName: Vertical
-  useLookInput: 1
+  useLookInput: 0
   mouseLookXAxisName: 
   mouseLookYAxisName: 
   lookXAxisName: LookX
@@ -989,16 +1000,6 @@ MonoBehaviour:
   xBox360JumpName: JumpXBox360
   gamepadJumpName: 
   hasGamepad: 0
---- !u!136 &136131221980381340
-CapsuleCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1627797537853366}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.2
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  enableOnScreenJoystickControls: 0
+  leftOnScreenJoystick: {fileID: 0}
+  rightOnScreenJoystick: {fileID: 0}

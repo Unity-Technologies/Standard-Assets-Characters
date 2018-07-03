@@ -36,17 +36,39 @@ namespace StandardAssets.Characters.FirstPerson
         protected CinemachinePOV mPOV; 
 
         private Vector2 look;
+
+        private bool usingTouchControls;
+
+        [SerializeField] 
+        protected GameObject onScreenTouch;
         
         void Awake ()
         {
             mPOV = VCams[0].GetCinemachineComponent<CinemachinePOV>();
+            
+            // If onScreen touch controls are avtive, then switch off mouse look 
+            if (onScreenTouch != null)
+            {
+                if (onScreenTouch.active)
+                {
+                    usingTouchControls = true;
+                }
+            }
+            else
+            {
+                usingTouchControls = false;
+            }
+           
         }
 
         void Update()
         {
             ResponsiveMouseLook();
-            look.x = Input.GetAxis(lookXAxisName);
-            look.y = Input.GetAxis(lookYAxisName);
+            if (!usingTouchControls)
+            {
+                look.x = Input.GetAxis(lookXAxisName);
+                look.y = Input.GetAxis(lookYAxisName);
+            }
         }
         void ResponsiveMouseLook()
         {

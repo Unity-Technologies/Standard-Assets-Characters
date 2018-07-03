@@ -86,10 +86,10 @@ namespace StandardAssets.Characters.ThirdPerson
 			isDecelerating = false;
 		}
 		
-//		protected override void ResetRotation()
-//		{
-//			transform.eulerAngles = new Vector3(transform.eulerAngles.x, animator.bodyRotation.eulerAngles.y, transform.eulerAngles.z);
-//		}
+		protected override void ResetRotation()
+		{
+			transform.eulerAngles = new Vector3(transform.eulerAngles.x, animator.bodyRotation.eulerAngles.y, transform.eulerAngles.z);
+		}
 
 		private void CacheCurrentMovement()
 		{
@@ -176,7 +176,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private void ApplyForwardInput(float input)
 		{
-			if (isRapidTurning)
+			if (rapidTurningState != RapidTurningState.None)
 			{
 				return;
 			}
