@@ -50,10 +50,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected float rapidTurnAngle = 180f;
 		
 		[SerializeField]
-		protected float normalizedRapidTurn = 0.5f;
-		
-		//[SerializeField]
-		//protected InputResponse[] runInput;
+		protected float rapidTurnForwardSpeedThreshold = 0.1f;
 
 		[SerializeField]
 		protected InputResponse strafeInput;
@@ -79,8 +76,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected float jumpBraceTime, jumpBraceCount;
 
 		protected bool isRapidTurning = false;
-
-		protected Quaternion rapidTurnTargetRotation;
 
 
 		public override float fallTime
@@ -320,10 +315,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			float angleDifference = Mathf.Abs((transform.eulerAngles - targetRotation.eulerAngles).y);
 
-			if (angleSnapBehaviour < angleDifference && angleDifference < 360 - angleSnapBehaviour)
+			if (normalizedForwardSpeed > rapidTurnForwardSpeedThreshold && angleSnapBehaviour < angleDifference && angleDifference < 360 - angleSnapBehaviour)
 			{
-				rapidlyTurned(0.1f);
-				rapidTurnTargetRotation = targetRotation;
+				rapidlyTurned(0.2f);
 				isRapidTurning = true;
 				return;
 			}
