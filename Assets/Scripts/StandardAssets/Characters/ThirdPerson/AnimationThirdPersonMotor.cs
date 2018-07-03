@@ -85,11 +85,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			targetClampSpeed = clampSpeed = 1f;
 			isDecelerating = false;
 		}
-
-		protected override void ResetRotation()
-		{
-			transform.rotation = animator.bodyRotation;
-		}
+		
+//		protected override void ResetRotation()
+//		{
+//			transform.eulerAngles = new Vector3(transform.eulerAngles.x, animator.bodyRotation.eulerAngles.y, transform.eulerAngles.z);
+//		}
 
 		private void CacheCurrentMovement()
 		{
