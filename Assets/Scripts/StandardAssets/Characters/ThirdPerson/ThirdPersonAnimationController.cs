@@ -1,4 +1,5 @@
-﻿using StandardAssets.Characters.Effects;
+﻿using System;
+using StandardAssets.Characters.Effects;
 using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson
@@ -10,6 +11,8 @@ namespace StandardAssets.Characters.ThirdPerson
 	[RequireComponent(typeof(Animator))]
 	public class ThirdPersonAnimationController : MonoBehaviour
 	{
+		public Action RapidTurnComplete;
+		
 		[SerializeField]
 		protected string forwardSpeedParameterName = "ForwardSpeed";
 		
@@ -44,6 +47,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected string predictedFallDistanceParameterName = "PredictedFallDistance";
 		
 		[SerializeField]
+		protected string rapidTurnParameterName = "RapidTurn";
+		
+		[SerializeField]
 		protected bool invert;
 		
 		[SerializeField]
@@ -73,9 +79,18 @@ namespace StandardAssets.Characters.ThirdPerson
 		private int hashJumpedForwardSpeed;
 		private int hashJumpedLateralSpeed;
 		private int hashPredictedFallDistance;
+		private int hashRapidTurn;
 
 		private bool isGrounded;
 		private bool didJump;
+		
+		public void OnRapidTurnComplete()
+		{
+			if (RapidTurnComplete != null)
+			{
+				RapidTurnComplete();
+			}
+		}
 
 		public void UpdatePredictedFallDistance(float distance)
 		{
@@ -98,6 +113,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			hashJumpedForwardSpeed = Animator.StringToHash(jumpedForwardSpeedParameterName);
 			hashJumpedLateralSpeed = Animator.StringToHash(jumpedLateralSpeedParameterName);
 			hashPredictedFallDistance = Animator.StringToHash(predictedFallDistanceParameterName);
+			hashRapidTurn = Animator.StringToHash(rapidTurnParameterName);
 			motor = GetComponent<IThirdPersonMotor>();
 			animator = GetComponent<Animator>();
 		}
@@ -144,7 +160,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				animator.SetBool(hashFootedness, value);
 				return;
 			}
-			animator.SetBool(hashFootedness, motor.normalizedLateralSpeed > 0);
+			animator.SetBool(hashFootedness, false);
 		}
 
 		/// <summary>
@@ -169,7 +185,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private void OnRapidlyTurned(float normalizedTurn)
 		{
-			Debug.LogError("RAPID TURN");
+			animator.SetTrigger(hashRapidTurn);
 		}
 
 		/// <summary>
