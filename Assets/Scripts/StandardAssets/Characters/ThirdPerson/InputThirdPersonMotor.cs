@@ -306,6 +306,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private void SetForwardLookDirection()
 		{
+			if (!characterPhysics.isGrounded)
+			{
+				return;
+			}
+			
 			if (rapidTurningState == RapidTurningState.Easing)
 			{
 				RapidTurningEasing();
@@ -375,7 +380,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// Sets forward rotation
 		/// </summary>
 		private void SetStrafeLookDirection()
-		{	
+		{
+			if (!characterPhysics.isGrounded)
+			{
+				return;
+			}
 			
 			Vector3 lookForwardY = transform.rotation.eulerAngles;
 			

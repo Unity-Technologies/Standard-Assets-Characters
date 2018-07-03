@@ -2503,9 +2503,6 @@ AnimatorStateTransition:
   - m_ConditionMode: 4
     m_ConditionEvent: ForwardSpeed
     m_EventTreshold: 0.55
-  - m_ConditionMode: 3
-    m_ConditionEvent: ForwardSpeed
-    m_EventTreshold: 0.1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102320910874311802}
   m_Solo: 0
@@ -3633,16 +3630,16 @@ AnimatorStateMachine:
   m_EntryTransitions:
   - {fileID: 1109838764005392862}
   m_StateMachineTransitions:
-  - first: {fileID: 1107563799764602758}
-    second:
-    - {fileID: 1109656484536368816}
-    - {fileID: 1109727769762428416}
   - first: {fileID: 1107877841531004928}
     second:
     - {fileID: 1109240623723878112}
     - {fileID: 1109350801840224632}
     - {fileID: 1109072331430154632}
     - {fileID: 1109543865960985224}
+  - first: {fileID: 1107563799764602758}
+    second:
+    - {fileID: 1109656484536368816}
+    - {fileID: 1109727769762428416}
   - first: {fileID: 1107920703856779502}
     second:
     - {fileID: 1109091859386678670}
