@@ -57,10 +57,17 @@ namespace StandardAssets.Characters.CharacterInput
 		[SerializeField]
 		protected bool hasGamepad;
 
+		[SerializeField] protected bool enableOnScreenJoystickControls;
+		
+
 		private Vector2 moveInputVector;
 		private Action jumped;
 
 		private Vector2 look;
+
+		public StaticOnScreenJoystick leftOnScreenJoystick;
+		public StaticOnScreenJoystick rightOnScreenJoystick;
+
 
 		public Vector2 lookInput
 		{
@@ -86,6 +93,8 @@ namespace StandardAssets.Characters.CharacterInput
 		private void Awake()
 		{
 			SetGamepadJumpAxis();
+			
+			
 		}
 		
 		/// <summary>
@@ -136,9 +145,35 @@ namespace StandardAssets.Characters.CharacterInput
 					jumpPressed();
 				}
 			}
+
+			if (enableOnScreenJoystickControls)
+			{
+				GetOnScreenJoystickVectors();
+			}
+			
 			
 		}
-		
+
+		public void OnScreenTouchJump()
+		{
+			if (jumpPressed != null)
+			{
+				jumpPressed();
+			}
+		}
+
+		void GetOnScreenJoystickVectors()
+		{
+
+			Vector2 leftStickVector = leftOnScreenJoystick.GetStickVector();
+			moveInputVector.Set(leftStickVector.x,leftStickVector.y);
+
+			Vector2 rightStickVector = rightOnScreenJoystick.GetStickVector();
+			look.x = -rightStickVector.x;
+			look.y = -rightStickVector.y;
+
+		}
+
 		/// <summary>
 		/// Sets the Cinemachine cam POV to mouse inputs.
 		/// </summary>
@@ -169,30 +204,35 @@ namespace StandardAssets.Characters.CharacterInput
 		/// </summary>
 		void UpdateLookVector()
 		{
-			if (mouseLookXAxisName == "" || mouseLookYAxisName == "") //Use gamepad look if no mouse look set
+			if (!enableOnScreenJoystickControls)
 			{
-				look.x = Input.GetAxis(LegacyCharacterInputDevicesCache.ResolveControl(lookXAxisName));
-				look.y = Input.GetAxis(LegacyCharacterInputDevicesCache.ResolveControl(lookYAxisName));
-			}
-			else
-			{
-				if (Input.GetAxis(mouseLookXAxisName) != 0)
-				{
-					look.x = Input.GetAxis(mouseLookXAxisName);
-				}
-				else
+				if (mouseLookXAxisName == "" || mouseLookYAxisName == "") //Use gamepad look if no mouse look set
 				{
 					look.x = Input.GetAxis(LegacyCharacterInputDevicesCache.ResolveControl(lookXAxisName));
-				}
-				if (Input.GetAxis(mouseLookYAxisName) != 0)
-				{
-					look.y = Input.GetAxis(mouseLookYAxisName);
+					look.y = Input.GetAxis(LegacyCharacterInputDevicesCache.ResolveControl(lookYAxisName));
 				}
 				else
 				{
-					look.y = Input.GetAxis(LegacyCharacterInputDevicesCache.ResolveControl(lookYAxisName));
+					if (Input.GetAxis(mouseLookXAxisName) != 0)
+					{
+						look.x = Input.GetAxis(mouseLookXAxisName);
+					}
+					else
+					{
+						look.x = Input.GetAxis(LegacyCharacterInputDevicesCache.ResolveControl(lookXAxisName));
+					}
+					if (Input.GetAxis(mouseLookYAxisName) != 0)
+					{
+						look.y = Input.GetAxis(mouseLookYAxisName);
+					}
+					else
+					{
+						look.y = Input.GetAxis(LegacyCharacterInputDevicesCache.ResolveControl(lookYAxisName));
+					}
 				}
 			}
+			
+			
 
 		}
 	}

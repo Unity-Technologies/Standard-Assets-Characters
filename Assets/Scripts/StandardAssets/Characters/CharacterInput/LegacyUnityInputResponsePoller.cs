@@ -73,6 +73,7 @@ namespace StandardAssets.Characters.CharacterInput
 			
 			if (!check && isAxis)
 			{
+				
 				response.BroadcastStart();
 			}
 
@@ -111,8 +112,19 @@ namespace StandardAssets.Characters.CharacterInput
 
 				check = !check;
 			}
+		}
 
-
+		public void TouchScreenButtonToggle()
+		{
+			if (!check)
+			{
+				response.BroadcastStart();
+			}
+			else
+			{
+				response.BroadcastEnd();
+			}
+			check = !check;
 		}
 	}
 }
