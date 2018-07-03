@@ -26,12 +26,6 @@ namespace StandardAssets.Characters.Physics
 		public float height = 2.0f;
 
 		/// <summary>
-		/// The character's collision skin width. Use it to avoid numerical precision issues.
-		/// </summary>
-		[Tooltip("The character's collision skin width. Use it to avoid numerical precision issues.")]
-		public float skinWidth = 0.08f;
-
-		/// <summary>
 		/// The capsule collider.
 		/// </summary>
 		private CapsuleCollider capsuleCollider;

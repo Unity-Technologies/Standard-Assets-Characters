@@ -9,16 +9,20 @@ namespace StandardAssets.Characters.Physics
 		[SerializeField]
 		private GameObject playerRootTransform;
 
+		/// <summary>
+		/// The root transform will be positioned at this centre.
+		/// </summary>
+		[Tooltip("The root transform will be positioned at this centre.")]
 		[SerializeField]
 		private Vector3 playerCentre = new Vector3(0, 0, 0);
+		
 		[SerializeField]
 		private float playerHeight = 1.56f;
-		[SerializeField]
-		private float playerRadius = 0.45f;
 
 		[Header("Grounding")]
 		[SerializeField]
 		private float maxGroundingDist = 50;
+		
 		[SerializeField]
 		private float groundingEasing = 10f;
 
@@ -51,6 +55,7 @@ namespace StandardAssets.Characters.Physics
 
 		[SerializeField]
 		private Vector3 liftSlopePoint = new Vector3(0, 1f, 0);
+		
 		[SerializeField]
 		private float liftSlopeRadius = 0.2f;
 
@@ -105,7 +110,7 @@ namespace StandardAssets.Characters.Physics
 
 			if (enableDebug)
 			{
-				Debug.DrawRay(transform.position, playerMovement, Color.green, 1f);
+				Debug.DrawRay(transform.position + playerCentre, playerMovement, Color.green, 1f);
 			}
 		}
 
@@ -210,9 +215,9 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		private void CheckCollisionPenetrations()
 		{
-			// TODO: Need a better way to determine excludeStepHeight (here we exclude it when moving down, i.e. gravity)
-			bool excludeStepHeight = playerMovement.y < 0.0f;
-			Vector3? safeVector = GetCollisionFreeVector(Vector3.zero, -playerMovement, excludeStepHeight);
+			// TODO: Need a better way to determine excludeGroundCheckHeight (here we exclude it when moving down, i.e. gravity)
+			bool excludeGroundCheckHeight = playerMovement.y < 0.0f;
+			Vector3? safeVector = GetCollisionFreeVector(Vector3.zero, -playerMovement, excludeGroundCheckHeight);
 			if (safeVector == null)
 			{
 				return;
@@ -235,17 +240,17 @@ namespace StandardAssets.Characters.Physics
 		{
 			getMoveVector = moveVector;
 
-			bool finalResult = false;
+			bool foundPossibleCollision = false;
 			Vector3 movedPosition = Vector3.zero;
 			Vector3 previousPosition = movedPosition;
-			// TODO: Expose maxSteps in the inspector
-			int maxSteps = 10;
-			for (int i = 0; i < maxSteps; i++)
+			// TODO: Expose possibleCollisionMaxSteps in the inspector
+			int possibleCollisionMaxSteps = 10;
+			for (int i = 0; i < possibleCollisionMaxSteps; i++)
 			{
 				if (CheckPossibleCollisionStep(getMoveVector, out getMoveVector, 
-				                               movedPosition, previousPosition))
+				                               movedPosition))
 				{
-					finalResult = true;
+					foundPossibleCollision = true;
 
 					Vector3? safeVector = GetCollisionFreeVector(movedPosition + getMoveVector, -getMoveVector, true);
 					if (safeVector != null)
@@ -268,7 +273,7 @@ namespace StandardAssets.Characters.Physics
 				}
 			}
 			
-			return finalResult;
+			return foundPossibleCollision;
 		}
 		
 		/// <summary>
@@ -277,20 +282,18 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="moveVector">The movement vector.</param>
 		/// <param name="getMoveVector">Get the adjusted movement vector.</param>
 		/// <param name="movedPosition">The local position moved by the previous steps.</param>
-		/// <param name="previousPosition">The previous local position.</param>
 		/// <returns></returns>
 		private bool CheckPossibleCollisionStep(Vector3 moveVector, out Vector3 getMoveVector,
-		                                        Vector3 movedPosition, Vector3 previousPosition)
+		                                        Vector3 movedPosition)
 		{
 			getMoveVector = moveVector;
 			
 			Vector3 direction = moveVector.normalized;
 			float distance = moveVector.magnitude;
-			float testDistance = distance;// + characterCapsule.skinWidth;
-			Vector3 sphereOffsetY = Vector3.up * (characterCapsule.height * 0.5f - characterCapsule.radius);
-			Vector3 topSphereCenter = characterCapsule.center + sphereOffsetY;
-			// Move the bottom sphere slightly up by maxStepHeight to ignore low obstacles (e.g. stairs)
-			Vector3 bottomSphereCenter = characterCapsule.center - sphereOffsetY + (Vector3.up * maxStepHeight);
+			float testDistance = distance;
+			Vector3 topSphereCenter;
+			Vector3 bottomSphereCenter;
+			GetCapsuleTopAndBottomCenters(out topSphereCenter, out bottomSphereCenter, true);
 
 			RaycastHit hitInfo;
 			if (!UnityEngine.Physics.CapsuleCast(transform.TransformPoint(topSphereCenter) + movedPosition,
@@ -311,22 +314,19 @@ namespace StandardAssets.Characters.Physics
 			getMoveVector = (direction * hitInfo.distance) + (reflect.normalized * (testDistance - hitInfo.distance));
 			return true;
 		}
-		
+
 		/// <summary>
 		/// Get a movement vector, which will move the character to a position where there are no collisions.
 		/// </summary>
 		/// <param name="position">Offset position.</param>
 		/// <param name="preferredDirection">The preferred direction to be pushed to.</param>
-		/// <param name="excludeStepHeight">Exclude step height in the test? (i.e. do not test for collision at the character's feet)</param>
+		/// <param name="excludeGroundCheckHeight">Exclude ground check height in the test? (i.e. do not test for collision at the character's feet)</param>
 		/// <returns>The movement vector. Null if current position is safe, or no safe position could be found.</returns>
-		private Vector3? GetCollisionFreeVector(Vector3 position, Vector3 preferredDirection, bool excludeStepHeight)
+		private Vector3? GetCollisionFreeVector(Vector3 position, Vector3 preferredDirection, bool excludeGroundCheckHeight)
 		{
-			Vector3 sphereOffsetY = Vector3.up * (characterCapsule.height * 0.5f - characterCapsule.radius);
-			Vector3 topSphereCenter = characterCapsule.center + sphereOffsetY;
-			Vector3 stepHeight = excludeStepHeight
-				? Vector3.up * maxStepHeight
-				: Vector3.zero;
-			Vector3 bottomSphereCenter = characterCapsule.center - sphereOffsetY + stepHeight;
+			Vector3 topSphereCenter;
+			Vector3 bottomSphereCenter;
+			GetCapsuleTopAndBottomCenters(out topSphereCenter, out bottomSphereCenter, excludeGroundCheckHeight);
 
 			int collisionCount = UnityEngine.Physics.OverlapCapsuleNonAlloc(transform.TransformPoint(topSphereCenter) + position,
 			                                                                transform.TransformPoint(bottomSphereCenter) + position,
@@ -414,13 +414,40 @@ namespace StandardAssets.Characters.Physics
 
 			return safeDirection * safeDistance;
 		}
+		
+		/// <summary>
+		/// Get the capsule's top and bottom center local positions.
+		/// </summary>
+		/// <param name="getTop">Get top position.</param>
+		/// <param name="getBottom">Get bottom position.</param>
+		/// <param name="excludeGroundCheckHeight">Move the bottom position up to exclude the ground check height?</param>
+		private void GetCapsuleTopAndBottomCenters(out Vector3 getTop, out Vector3 getBottom, bool excludeGroundCheckHeight)
+		{
+			Vector3 sphereOffsetY = Vector3.up * (characterCapsule.height * 0.5f - characterCapsule.radius);
+			float capsuleBottom = characterCapsule.center.y - sphereOffsetY.y - characterCapsule.radius;
+			// TODO: Should be using "groundCheckTop = groundCheckPoint.y + groundCheckRadius", but there's a bug
+			//float groundCheckTop = groundCheckPoint.y + groundCheckRadius;
+			float groundCheckTop = -(playerHeight / 2.0f) + (maxStepHeight / 2.0f);
+			Vector3 bottomOffset = excludeGroundCheckHeight
+				? Vector3.up * (groundCheckTop - capsuleBottom)
+				: Vector3.zero;
+			getTop = characterCapsule.center + sphereOffsetY;
+			getBottom = characterCapsule.center - sphereOffsetY + bottomOffset;
+		}
 
 		private void OnDrawGizmos()
 		{
 			if (enableDebug)
 			{
-				Gizmos.color = Color.green;
-				Gizmos.DrawWireCube(transform.position, new Vector3(playerRadius, playerHeight, playerRadius));
+				if (characterCapsule == null)
+				{
+					characterCapsule = (CharacterCapsule)gameObject.GetComponent(typeof(CharacterCapsule));
+				}
+				float tempDiameter = characterCapsule != null
+					? characterCapsule.radius * 2.0f
+					: 1.0f;
+				Gizmos.color = Color.cyan;
+				Gizmos.DrawWireCube(transform.position, new Vector3(tempDiameter, playerHeight, tempDiameter));
 
 				Gizmos.color = !isGrounded ? Color.red : Color.blue;
 
