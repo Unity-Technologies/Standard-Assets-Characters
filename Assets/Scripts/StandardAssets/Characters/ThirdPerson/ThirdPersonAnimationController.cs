@@ -33,6 +33,12 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		[SerializeField]
 		protected string jumpedParameterName = "Jumped";
+		
+		[SerializeField]
+		protected string jumpedLateralSpeedParameterName = "JumpedLateralSpeed";
+		
+		[SerializeField]
+		protected string jumpedForwardSpeedParameterName = "JumpedForwardSpeed";
 
 		[SerializeField]
 		protected string predictedFallDistanceParameterName = "PredictedFallDistance";
@@ -64,6 +70,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		private int hashFallingTime;
 		private int hashFootedness;
 		private int hashJumped;
+		private int hashJumpedForwardSpeed;
+		private int hashJumpedLateralSpeed;
 		private int hashPredictedFallDistance;
 
 		private bool isGrounded;
@@ -87,6 +95,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			hashFallingTime = Animator.StringToHash(fallingTimeParameterName);
 			hashFootedness = Animator.StringToHash(footednessParameterName);
 			hashJumped = Animator.StringToHash(jumpedParameterName);
+			hashJumpedForwardSpeed = Animator.StringToHash(jumpedForwardSpeedParameterName);
+			hashJumpedLateralSpeed = Animator.StringToHash(jumpedLateralSpeedParameterName);
 			hashPredictedFallDistance = Animator.StringToHash(predictedFallDistanceParameterName);
 			motor = GetComponent<IThirdPersonMotor>();
 			animator = GetComponent<Animator>();
@@ -171,6 +181,17 @@ namespace StandardAssets.Characters.ThirdPerson
 			animator.SetBool(hashJumped, true);
 			animator.SetFloat(hashFallingTime, 0);
 			animator.SetBool(hashGrounded, false);
+			
+			if (Mathf.Abs(motor.normalizedLateralSpeed) > Mathf.Abs(motor.normalizedForwardSpeed))
+			{
+				animator.SetFloat(hashJumpedForwardSpeed, 0);
+				animator.SetFloat(hashJumpedLateralSpeed, motor.normalizedLateralSpeed);
+			}
+			else
+			{
+				animator.SetFloat(hashJumpedLateralSpeed, 0);
+				animator.SetFloat(hashJumpedForwardSpeed, motor.normalizedForwardSpeed);
+			}
 		}
 
 		/// <summary>
@@ -181,6 +202,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			animator.SetFloat(hashForwardSpeed, motor.normalizedForwardSpeed);
 			animator.SetFloat(hashLateralSpeed, motor.normalizedLateralSpeed);
 			animator.SetFloat(hashTurningSpeed, motor.normalizedTurningSpeed);
+
+			
+			
 			animator.SetBool(hashHasInput, CheckHasSpeed(motor.normalizedForwardSpeed) || CheckHasSpeed(motor.normalizedLateralSpeed));
 
 			if (!isGrounded)
