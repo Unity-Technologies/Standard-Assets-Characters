@@ -104,7 +104,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected virtual void ResetRotation()
 		{
-			transform.rotation = rapidTurnTargetRotation;
+			transform.rotation = CalculateTargetRotation();
 		}
 
 		/// <inheritdoc />
