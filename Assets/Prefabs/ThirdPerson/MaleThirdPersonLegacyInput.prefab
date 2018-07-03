@@ -2319,9 +2319,11 @@ MonoBehaviour:
   snappingDecelaration: 30
   snapSpeedTarget: 0.2
   runInput: {fileID: 11400000, guid: 4536a47671291463386c18678dd23194, type: 2}
-  rapidTurnAngle: 180
-  normalizedRapidTurn: 0.5
-  strafeInput: {fileID: 11400000, guid: afab5886de3d240fd8015366bf8ee806, type: 2}
+  rapidTurnAngle: 70
+  rapidTurnForwardSpeedThreshold: 0.2
+  postRapidTurnRotationEasingSpeed: 180
+  postRapidTurnEasingTime: 0.5
+  strafeInput: {fileID: 11400000, guid: f7e824638922944d5b76347cc85e8952, type: 2}
   startActionMode:
     m_PersistentCalls:
       m_Calls:

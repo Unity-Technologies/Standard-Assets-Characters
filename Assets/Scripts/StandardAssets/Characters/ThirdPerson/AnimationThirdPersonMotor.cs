@@ -176,7 +176,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private void ApplyForwardInput(float input)
 		{
-			if (isRapidTurning)
+			if (rapidTurningState != RapidTurningState.None)
 			{
 				return;
 			}
