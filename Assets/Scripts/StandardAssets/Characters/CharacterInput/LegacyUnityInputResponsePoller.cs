@@ -73,6 +73,7 @@ namespace StandardAssets.Characters.CharacterInput
 			
 			if (!check && isAxis)
 			{
+				
 				response.BroadcastStart();
 			}
 
