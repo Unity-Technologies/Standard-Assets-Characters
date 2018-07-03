@@ -86,6 +86,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			isDecelerating = false;
 		}
 
+		protected override void ResetRotation()
+		{
+			transform.rotation = animator.bodyRotation;
+		}
+
 		private void CacheCurrentMovement()
 		{
 			cacheGroundMovementVector = groundMovementVector;

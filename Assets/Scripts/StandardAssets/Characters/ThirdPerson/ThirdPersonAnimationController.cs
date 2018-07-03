@@ -11,8 +11,6 @@ namespace StandardAssets.Characters.ThirdPerson
 	[RequireComponent(typeof(Animator))]
 	public class ThirdPersonAnimationController : MonoBehaviour
 	{
-		public Action RapidTurnComplete;
-		
 		[SerializeField]
 		protected string forwardSpeedParameterName = "ForwardSpeed";
 		
@@ -86,10 +84,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		public void OnRapidTurnComplete()
 		{
-			if (RapidTurnComplete != null)
-			{
-				RapidTurnComplete();
-			}
+			motor.FinishedTurn();
 		}
 
 		public void UpdatePredictedFallDistance(float distance)
