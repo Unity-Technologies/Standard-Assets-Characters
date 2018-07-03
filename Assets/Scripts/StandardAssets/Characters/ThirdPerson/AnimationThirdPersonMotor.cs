@@ -17,6 +17,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private float normalizedInputLateralSpeed;
 		private float normalizedInputForwardSpeed;
+		private float clampSpeed, targetClampSpeed;
+		private bool isDecelerating = false;
 
 		private Vector3 groundMovementVector, cacheGroundMovementVector;
 
@@ -30,19 +32,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return Mathf.Clamp(normalizedInputForwardSpeed, -1, 1); }
 		}
 
-		private float clampSpeed
-		{
-			get
-			{
-				if (isRunToggled)
-				{
-					return 1f;
-				}
-
-				return animationMotorProperties.walkSpeedProportion;
-			}
-		}
-
+	
 		public void OnJumpAnimationComplete()
 		{
 			var baseCharacterPhysics = GetComponent<BaseCharacterPhysics>();
@@ -67,6 +57,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
+		protected override void Awake()
+		{
+			base.Awake();
+			targetClampSpeed = clampSpeed = animationMotorProperties.walkSpeedProportion;
+		}
+
 		protected override void OnEnable()
 		{
 			base.OnEnable();
@@ -74,6 +70,20 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				characterInput.jumpPressed += CacheCurrentMovement;
 			}
+		}
+		
+		protected override void OnRunEnded()
+		{
+			base.OnRunEnded();
+			isDecelerating = true;
+			targetClampSpeed = animationMotorProperties.walkSpeedProportion;
+		}
+
+		protected override void OnRunStarted()
+		{
+			base.OnRunStarted();
+			targetClampSpeed = clampSpeed = 1f;
+			isDecelerating = false;
 		}
 
 		private void CacheCurrentMovement()
@@ -207,6 +217,14 @@ namespace StandardAssets.Characters.ThirdPerson
 			else
 			{
 				characterPhysics.Move(cacheGroundMovementVector);
+			}
+		}
+
+		private void Update()
+		{
+			if (isDecelerating)
+			{
+				clampSpeed = Mathf.Lerp(clampSpeed, targetClampSpeed, Time.deltaTime * animationMotorProperties.sprintToWalkDeceleration);
 			}
 		}
 	}

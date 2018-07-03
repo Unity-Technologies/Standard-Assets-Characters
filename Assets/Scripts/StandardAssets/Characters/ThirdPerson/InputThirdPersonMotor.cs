@@ -110,16 +110,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			base.Awake();
 		}
 
-		private void OnRunEnded()
-		{
-			isRunToggled = false;
-		}
-
-		private void OnRunStarted()
-		{
-			isRunToggled = true;
-		}
-
 		private void OnStrafeEnd()
 		{
 			if (startActionMode != null)
@@ -247,7 +237,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private void Update()
 		{
-		
 			if (isBracingForJump)
 			{
 				jumpBraceCount += Time.deltaTime;
@@ -256,8 +245,16 @@ namespace StandardAssets.Characters.ThirdPerson
 					OnJumpBraceComplete();
 				}
 			}
-			
-			
+		}
+		
+		protected virtual void OnRunEnded()
+		{
+			isRunToggled = false;
+		}
+
+		protected virtual void OnRunStarted()
+		{
+			isRunToggled = true;
 		}
 
 		/// <summary>
