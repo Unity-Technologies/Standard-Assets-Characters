@@ -59,9 +59,20 @@ namespace StandardAssets.Characters.Physics
 		[SerializeField]
 		private LayerMask excludePlayer;
 
+		/// <summary>
+		/// The character capsule.
+		/// </summary>
 		[Header("Collision")]
 		[SerializeField]
-		private CapsuleCollider capsuleCollider;
+		[Tooltip("The character capsule.")]
+		private CharacterCapsule characterCapsule;
+
+		/// <summary>
+		/// Max colliders to test for during the penetration tests. Must be at least 1.
+		/// </summary>
+		[SerializeField]
+		[Tooltip("Max colliders to test for during the penetration tests. Must be at least 1.")]
+		private int maxPenetrationTests = 4;
 
 		[Header("Debug")]
 		[Tooltip("Enable additional debugging visuals in scene view")]
@@ -71,6 +82,11 @@ namespace StandardAssets.Characters.Physics
 		private float minGroundingDist = 2f;
 		private Vector3 playerMovement;
 		private float precalculatedGroundY;
+
+		/// <summary>
+		/// Colliders to use during the penetration tests.
+		/// </summary>
+		private Collider[] penetrationColliders;
 
 		public bool isGrounded { get; private set; }
 
@@ -84,7 +100,7 @@ namespace StandardAssets.Characters.Physics
 
 		public void Move(Vector3 moveVector)
 		{
-			playerMovement = moveVector;
+			CheckPossibleCollision(moveVector, out playerMovement);
 			transform.position += playerMovement;
 
 			if (enableDebug)
@@ -95,16 +111,17 @@ namespace StandardAssets.Characters.Physics
 
 		private void Awake()
 		{
-			if (capsuleCollider == null)
+			if (characterCapsule == null)
 			{
-				capsuleCollider = GetComponent<CapsuleCollider>();
+				characterCapsule = (CharacterCapsule)GetComponent(typeof(CharacterCapsule));
 			}
+			penetrationColliders = new Collider[maxPenetrationTests];
 		}
 
 		private void FixedUpdate()
-		{
+		{	
 			CheckGrounding();
-			CheckCollision();
+			CheckCollisionPenetrations();
 			EaseGrounding();
 		}
 
@@ -188,38 +205,214 @@ namespace StandardAssets.Characters.Physics
 			}
 		}
 
-		private void CheckCollision()
+		/// <summary>
+		/// Check if the character penetrates other colliders, and push the character out of them.
+		/// </summary>
+		private void CheckCollisionPenetrations()
 		{
-			Collider[] collisions = new Collider[4];
-
-			Vector3 yOffset = Vector3.up * (capsuleCollider.height * 0.5f - capsuleCollider.radius);
-			Vector3 point0 = capsuleCollider.center + yOffset + playerMovement;
-			Vector3 point1 = capsuleCollider.center - yOffset + playerMovement;
-
-			int numberOfCollisions = UnityEngine.Physics.OverlapCapsuleNonAlloc(
-				transform.TransformPoint(point0),
-				transform.TransformPoint(point1),
-				capsuleCollider.radius, collisions, excludePlayer,
-				QueryTriggerInteraction.UseGlobal);
-
-			for (int x = 0; x < numberOfCollisions; x++)
+			// TODO: Need a better way to determine excludeStepHeight (here we exclude it when moving down, i.e. gravity)
+			bool excludeStepHeight = playerMovement.y < 0.0f;
+			Vector3? safeVector = GetCollisionFreeVector(Vector3.zero, -playerMovement, excludeStepHeight);
+			if (safeVector == null)
 			{
-				Transform t = collisions[x].transform;
+				return;
+			}
+
+			transform.position += safeVector.Value;
+			
+			// TODO: Why using projection?
+			Vector3 velocityProjected = Vector3.Project(playerMovement, -safeVector.Value.normalized);
+			playerMovement -= velocityProjected;
+		}
+
+		/// <summary>
+		/// Check for possible collisions along the movement vector.
+		/// </summary>
+		/// <param name="moveVector">The movement vector.</param>
+		/// <param name="getMoveVector">Get the adjusted movement vector. It will be the same as moveVector if there are no possible collisions.</param>
+		/// <returns>True if possible collisions.</returns>
+		private bool CheckPossibleCollision(Vector3 moveVector, out Vector3 getMoveVector)
+		{
+			getMoveVector = moveVector;
+
+			bool finalResult = false;
+			Vector3 movedPosition = Vector3.zero;
+			Vector3 previousPosition = movedPosition;
+			// TODO: Expose maxSteps in the inspector
+			int maxSteps = 10;
+			for (int i = 0; i < maxSteps; i++)
+			{
+				if (CheckPossibleCollisionStep(getMoveVector, out getMoveVector, 
+				                               movedPosition, previousPosition))
+				{
+					finalResult = true;
+
+					Vector3? safeVector = GetCollisionFreeVector(movedPosition + getMoveVector, -getMoveVector, true);
+					if (safeVector != null)
+					{
+						// Move to a safe position
+						previousPosition = movedPosition;
+						movedPosition = movedPosition + getMoveVector;
+						movedPosition = movedPosition + safeVector.Value;
+						getMoveVector = movedPosition - previousPosition;
+					}
+					else
+					{
+						previousPosition = movedPosition;
+						movedPosition += getMoveVector;
+					}
+				}
+				else
+				{					
+					break;
+				}
+			}
+			
+			return finalResult;
+		}
+		
+		/// <summary>
+		/// A single step for checking possible collisions along the movement vector.
+		/// </summary>
+		/// <param name="moveVector">The movement vector.</param>
+		/// <param name="getMoveVector">Get the adjusted movement vector.</param>
+		/// <param name="movedPosition">The local position moved by the previous steps.</param>
+		/// <param name="previousPosition">The previous local position.</param>
+		/// <returns></returns>
+		private bool CheckPossibleCollisionStep(Vector3 moveVector, out Vector3 getMoveVector,
+		                                        Vector3 movedPosition, Vector3 previousPosition)
+		{
+			getMoveVector = moveVector;
+			
+			Vector3 direction = moveVector.normalized;
+			float distance = moveVector.magnitude;
+			float testDistance = distance;// + characterCapsule.skinWidth;
+			Vector3 sphereOffsetY = Vector3.up * (characterCapsule.height * 0.5f - characterCapsule.radius);
+			Vector3 topSphereCenter = characterCapsule.center + sphereOffsetY;
+			// Move the bottom sphere slightly up by maxStepHeight to ignore low obstacles (e.g. stairs)
+			Vector3 bottomSphereCenter = characterCapsule.center - sphereOffsetY + (Vector3.up * maxStepHeight);
+
+			RaycastHit hitInfo;
+			if (!UnityEngine.Physics.CapsuleCast(transform.TransformPoint(topSphereCenter) + movedPosition,
+			                                     transform.TransformPoint(bottomSphereCenter) + movedPosition,
+			                                     characterCapsule.worldRadius,
+			                                     direction,
+			                                     out hitInfo,
+			                                     testDistance,
+			                                     excludePlayer,
+			                                     QueryTriggerInteraction.UseGlobal))
+			{
+				return false;
+			}
+
+			// Bounce (reflect) off the obstacle
+			Vector3 reflect = Vector3.Reflect(direction * testDistance, hitInfo.normal);
+
+			getMoveVector = (direction * hitInfo.distance) + (reflect.normalized * (testDistance - hitInfo.distance));
+			return true;
+		}
+		
+		/// <summary>
+		/// Get a movement vector, which will move the character to a position where there are no collisions.
+		/// </summary>
+		/// <param name="position">Offset position.</param>
+		/// <param name="preferredDirection">The preferred direction to be pushed to.</param>
+		/// <param name="excludeStepHeight">Exclude step height in the test? (i.e. do not test for collision at the character's feet)</param>
+		/// <returns>The movement vector. Null if current position is safe, or no safe position could be found.</returns>
+		private Vector3? GetCollisionFreeVector(Vector3 position, Vector3 preferredDirection, bool excludeStepHeight)
+		{
+			Vector3 sphereOffsetY = Vector3.up * (characterCapsule.height * 0.5f - characterCapsule.radius);
+			Vector3 topSphereCenter = characterCapsule.center + sphereOffsetY;
+			Vector3 stepHeight = excludeStepHeight
+				? Vector3.up * maxStepHeight
+				: Vector3.zero;
+			Vector3 bottomSphereCenter = characterCapsule.center - sphereOffsetY + stepHeight;
+
+			int collisionCount = UnityEngine.Physics.OverlapCapsuleNonAlloc(transform.TransformPoint(topSphereCenter) + position,
+			                                                                transform.TransformPoint(bottomSphereCenter) + position,
+			                                                                characterCapsule.worldRadius,
+			                                                                penetrationColliders,
+			                                                                excludePlayer,
+			                                                                QueryTriggerInteraction.UseGlobal);
+
+			if (collisionCount <= 0)
+			{
+				return null;
+			}
+
+			Vector3 preferredDirectionNormalized = preferredDirection.normalized;
+			Vector3? safeDirection = null;
+			float safeDistance = 0.0f;
+			float safeAngle = 0.0f;
+			Vector3? possibleSafeDirection = null;
+			float possibleDistance = 0.0f;
+			float possibleAngle = 0.0f;
+			
+			for (int i = 0; i < collisionCount; i++)
+			{
+				Collider collider = penetrationColliders[i];
+				Transform t = collider.transform;
 				Vector3 direction;
 				float distance;
 
-				if (!UnityEngine.Physics.ComputePenetration(capsuleCollider, transform.position, transform.rotation,
-															collisions[x], t.position, t.rotation,
-															out direction, out distance))
+				if (!characterCapsule.ComputePenetration(position,
+				                                         collider, t.position, t.rotation,
+				                                         out direction, out distance))
 				{
 					continue;
 				}
 
-				Vector3 penetrationVector = direction * distance;
-				Vector3 velocityProjected = Vector3.Project(playerMovement, -direction);
-				transform.position = transform.position + penetrationVector;
-				playerMovement -= velocityProjected;
+				float angle = Vector3.Angle(direction, preferredDirectionNormalized);
+				
+				if (possibleSafeDirection == null ||
+				    possibleAngle > angle)
+				{
+					possibleSafeDirection = direction;
+					possibleDistance = distance;
+					possibleAngle = angle;
+				}
+				
+				// We try to get the preferred direction, so ignore large angles
+				if (angle > 90)
+				{
+					continue;
+				}
+
+				if (safeDirection == null ||
+				    safeAngle > angle)
+				{
+					safeDirection = direction;
+					safeDistance = distance;
+					safeAngle = angle;
+				}
 			}
+
+			if (safeDirection == null &&
+			    possibleSafeDirection != null &&
+			    possibleAngle < 91)
+			{
+				// Test if the possible direction has no collision, for cases where angle is just more
+				// than 90 degrees (e.g. gravity pushing a character down and back away from an obstacle)
+				Vector3 testPosition = position + possibleSafeDirection.Value * possibleDistance;
+				int count = UnityEngine.Physics.OverlapCapsuleNonAlloc(transform.TransformPoint(topSphereCenter) + testPosition,
+				                                                       transform.TransformPoint(bottomSphereCenter) + testPosition,
+				                                                       characterCapsule.worldRadius,
+				                                                       penetrationColliders,
+				                                                       excludePlayer,
+				                                                       QueryTriggerInteraction.UseGlobal);
+				if (count <= 0)
+				{
+					safeDirection = possibleSafeDirection;
+					safeDistance = possibleDistance;
+				}
+			}
+
+			if (safeDirection == null)
+			{				
+				return null;
+			}
+
+			return safeDirection * safeDistance;
 		}
 
 		private void OnDrawGizmos()

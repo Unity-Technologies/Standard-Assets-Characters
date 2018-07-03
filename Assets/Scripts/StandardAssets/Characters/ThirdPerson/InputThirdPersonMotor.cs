@@ -46,8 +46,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected InputResponse runInput;
 		
-		//[SerializeField]
-		//protected InputResponse[] runInput;
+		[SerializeField]
+		protected float rapidTurnAngle = 180f;
+		
+		[SerializeField]
+		protected float rapidTurnForwardSpeedThreshold = 0.1f;
 
 		[SerializeField]
 		protected InputResponse strafeInput;
@@ -72,6 +75,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected bool isBracingForJump;
 		protected float jumpBraceTime, jumpBraceCount;
 
+		protected bool isRapidTurning = false;
+
 
 		public override float fallTime
 		{
@@ -84,6 +89,17 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				return  Mathf.Max(Mathf.Abs(normalizedForwardSpeed), Mathf.Abs(normalizedLateralSpeed));
 			}
+		}
+		
+		public override void FinishedTurn()
+		{
+			ResetRotation();
+			isRapidTurning = false;
+		}
+
+		protected virtual void ResetRotation()
+		{
+			transform.rotation = CalculateTargetRotation();
 		}
 
 		/// <inheritdoc />
@@ -285,12 +301,32 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private void SetForwardLookDirection()
 		{
-			
+			if (isRapidTurning)
+			{
+				return;
+			}
+
 			if (!CanSetForwardLookDirection())
 			{
 				return;
 			}
+
+			Quaternion targetRotation = CalculateTargetRotation();
 			
+			float angleDifference = Mathf.Abs((transform.eulerAngles - targetRotation.eulerAngles).y);
+
+			if (normalizedForwardSpeed > rapidTurnForwardSpeedThreshold && angleSnapBehaviour < angleDifference && angleDifference < 360 - angleSnapBehaviour)
+			{
+				rapidlyTurned(0.2f);
+				isRapidTurning = true;
+				return;
+			}
+
+			HandleTargetRotation(targetRotation);
+		}
+
+		private Quaternion CalculateTargetRotation()
+		{
 			Vector3 flatForward = cameraTransform.forward;
 			flatForward.y = 0f;
 			flatForward.Normalize();
@@ -301,8 +337,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			Quaternion cameraToInputOffset = Quaternion.FromToRotation(Vector3.forward, localMovementDirection);
 			cameraToInputOffset.eulerAngles = new Vector3(0f, cameraToInputOffset.eulerAngles.y, 0f);
 
-			Quaternion targetRotation = Quaternion.LookRotation(cameraToInputOffset * flatForward);	
-			HandleTargetRotation(targetRotation);
+			return Quaternion.LookRotation(cameraToInputOffset * flatForward);
 		}
 
 		protected abstract bool CanSetForwardLookDirection();
