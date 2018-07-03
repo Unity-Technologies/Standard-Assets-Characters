@@ -35,6 +35,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return fallingTime; }
 		}
 
+		public override void FinishedTurn()
+		{
+			throw new NotImplementedException();
+		}
+
 		/// <inheritdoc />
 		protected override void Awake()
 		{

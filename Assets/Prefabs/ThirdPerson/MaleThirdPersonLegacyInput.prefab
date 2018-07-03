@@ -1050,9 +1050,9 @@ GameObject:
   - component: {fileID: 114062951762596594}
   - component: {fileID: 114086197978366078}
   - component: {fileID: 114584666778802448}
-  - component: {fileID: 136711839598038450}
   - component: {fileID: 114337826517927418}
   - component: {fileID: 114798069747516348}
+  - component: {fileID: 114636360318092058}
   m_Layer: 11
   m_Name: MaleThirdPersonLegacyInput
   m_TagString: Player
@@ -2159,7 +2159,10 @@ MonoBehaviour:
   fallingTimeParameterName: FallTime
   footednessParameterName: OnRightFoot
   jumpedParameterName: Jumped
+  jumpedLateralSpeedParameterName: JumpedLateralSpeed
+  jumpedForwardSpeedParameterName: JumpedForwardSpeed
   predictedFallDistanceParameterName: PredictedFallDistance
+  rapidTurnParameterName: RapidTurn
   invert: 0
   leftFoot: {fileID: 114824860443034366}
   rightfoot: {fileID: 114062553606472534}
@@ -2229,8 +2232,9 @@ MonoBehaviour:
   liftSlopeRadius: 0.2
   excludePlayer:
     serializedVersion: 2
-    m_Bits: 311
-  capsuleCollider: {fileID: 0}
+    m_Bits: 307
+  characterCapsule: {fileID: 0}
+  maxPenetrationTests: 4
   enableDebug: 1
 --- !u!114 &114337826517927418
 MonoBehaviour:
@@ -2314,8 +2318,12 @@ MonoBehaviour:
     m_RotationOrder: 4
   snappingDecelaration: 30
   snapSpeedTarget: 0.2
-  runInput: {fileID: 11400000, guid: 8c1192daa77a944b393df7e0146d7a7f, type: 2}
-  strafeInput: {fileID: 11400000, guid: afab5886de3d240fd8015366bf8ee806, type: 2}
+  runInput: {fileID: 11400000, guid: 4536a47671291463386c18678dd23194, type: 2}
+  rapidTurnAngle: 70
+  rapidTurnForwardSpeedThreshold: 0.2
+  postRapidTurnRotationEasingSpeed: 180
+  postRapidTurnEasingTime: 0.5
+  strafeInput: {fileID: 11400000, guid: f7e824638922944d5b76347cc85e8952, type: 2}
   startActionMode:
     m_PersistentCalls:
       m_Calls:
@@ -2374,6 +2382,21 @@ MonoBehaviour:
     type: 2}
   inheritGroundVelocity: 0
   maxFallDistanceToLand: 1
+--- !u!114 &114636360318092058
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1964598378489596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fee6c3ba6b914ab2b7caea31ccec1945, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  center: {x: 0, y: 0, z: 0}
+  radius: 0.4
+  height: 1.2
+  skinWidth: 0.08
 --- !u!114 &114798069747516348
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2403,19 +2426,6 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 256
---- !u!136 &136711839598038450
-CapsuleCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1964598378489596}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.2
-  m_Height: 1.2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!137 &137486808104186404
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

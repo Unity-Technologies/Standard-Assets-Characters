@@ -85,6 +85,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			targetClampSpeed = clampSpeed = 1f;
 			isDecelerating = false;
 		}
+		
+		protected override void ResetRotation()
+		{
+			transform.eulerAngles = new Vector3(transform.eulerAngles.x, animator.bodyRotation.eulerAngles.y, transform.eulerAngles.z);
+		}
 
 		private void CacheCurrentMovement()
 		{
@@ -171,6 +176,11 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private void ApplyForwardInput(float input)
 		{
+			if (rapidTurningState != RapidTurningState.None)
+			{
+				return;
+			}
+			
 			float forwardVelocity = animationMotorProperties.forwardInputVelocity;
 			if (Mathf.Abs(Mathf.Sign(input) - Mathf.Sign(normalizedInputForwardSpeed)) > 0)
 			{
