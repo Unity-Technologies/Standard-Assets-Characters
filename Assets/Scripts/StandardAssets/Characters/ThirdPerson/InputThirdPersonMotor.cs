@@ -78,7 +78,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected bool isBracingForJump;
 		protected float jumpBraceTime, jumpBraceCount;
 
-		protected bool canCalculateRotation = true;
+		protected bool isRapidTurning = false;
 
 		protected Quaternion rapidTurnTargetRotation;
 
@@ -99,7 +99,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		public override void FinishedTurn()
 		{
 			ResetRotation();
-			canCalculateRotation = true;
+			isRapidTurning = false;
 		}
 
 		protected virtual void ResetRotation()
@@ -306,7 +306,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private void SetForwardLookDirection()
 		{
-			if (!canCalculateRotation)
+			if (isRapidTurning)
 			{
 				return;
 			}
@@ -324,7 +324,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				rapidlyTurned(0.1f);
 				rapidTurnTargetRotation = targetRotation;
-				canCalculateRotation = false;
+				isRapidTurning = true;
 				return;
 			}
 

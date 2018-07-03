@@ -176,6 +176,11 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private void ApplyForwardInput(float input)
 		{
+			if (isRapidTurning)
+			{
+				return;
+			}
+			
 			float forwardVelocity = animationMotorProperties.forwardInputVelocity;
 			if (Mathf.Abs(Mathf.Sign(input) - Mathf.Sign(normalizedInputForwardSpeed)) > 0)
 			{
