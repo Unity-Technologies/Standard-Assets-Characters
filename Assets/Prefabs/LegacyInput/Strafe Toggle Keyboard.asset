@@ -8,9 +8,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0ed0d9e4f7c4de1848beb3845a7b88f, type: 3}
-  m_Name: Strafe
+  m_Script: {fileID: 11500000, guid: 626d85b128ed43dc9c270cc52a11c1a6, type: 3}
+  m_Name: Strafe Toggle Keyboard
   m_EditorClassIdentifier: 
-  inputs:
-  - {fileID: 11400000, guid: afab5886de3d240fd8015366bf8ee806, type: 2}
-  - {fileID: 11400000, guid: a6cee44989a7a40e1bfb0587dd335b6b, type: 2}
+  behaviour: 0
+  axisRaw: f
+  isGamepad: 0
