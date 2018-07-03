@@ -7,12 +7,13 @@ namespace StandardAssets.Characters.Physics
 	{
 		[SerializeField]
 		protected float inputForwardVelocity = 0.5f,
-		              inputForwardDecay = 10f,
-		              inputForwardChangeVelocity = 5f,
-		              inputLateralVelocity = 0.5f,
-		              inputLateralDecay = 10f,
-		              inputLateralChangeVelocity = 5f,
-					  walkProportionOfSpeed = 0.5f;
+		                inputForwardDecay = 10f,
+		                inputForwardChangeVelocity = 5f,
+		                inputLateralVelocity = 0.5f,
+		                inputLateralDecay = 10f,
+		                inputLateralChangeVelocity = 5f,
+		                walkProportionOfSpeed = 0.5f,
+		                sprintToWalkDecelerationLerp = 1f;
 
 		public float forwardInputVelocity
 		{
@@ -47,6 +48,11 @@ namespace StandardAssets.Characters.Physics
 		public float walkSpeedProportion
 		{
 			get { return walkProportionOfSpeed; }
+		}
+
+		public float sprintToWalkDeceleration
+		{
+			get { return sprintToWalkDecelerationLerp; }
 		}
 	}
 }

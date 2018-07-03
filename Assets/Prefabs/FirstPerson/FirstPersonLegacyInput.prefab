@@ -146,7 +146,6 @@ GameObject:
   - component: {fileID: 4617565824343848}
   - component: {fileID: 114473157933188712}
   - component: {fileID: 114128930939556762}
-  - component: {fileID: 114911662244107798}
   m_Layer: 11
   m_Name: Cameras
   m_TagString: Untagged
@@ -322,6 +321,7 @@ MonoBehaviour:
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
   m_Priority: 0
+  m_StandbyUpdate: 1
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
@@ -362,7 +362,6 @@ MonoBehaviour:
   - {fileID: 114606634733582770}
   - {fileID: 114074389995230264}
   mPOV: {fileID: 0}
-  lookActionReferences: []
 --- !u!114 &114324813546737938
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -446,12 +445,12 @@ MonoBehaviour:
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
   m_Priority: 10
+  m_StandbyUpdate: 1
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_AnimatedTarget: {fileID: 95678976135669546}
   m_LayerIndex: 0
-  m_ShowDebugText: 0
-  m_EnableAllChildCameras: 1
+  m_ShowDebugText: 1
   m_ChildCameras:
   - {fileID: 114713529341382392}
   - {fileID: 114606634733582770}
@@ -721,12 +720,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerRootTransform: {fileID: 0}
   playerCentre: {x: 0, y: 0, z: 0}
-  playerHeight: 1.56
-  playerRadius: 0.45
+  playerHeight: 1
+  playerRadius: 1
   maxGroundingDist: 50
   groundingEasing: 10
-  groundCheckPoint: {x: 0, y: -0.85, z: 0}
-  groundCheckRadius: 0.35
+  groundCheckPoint: {x: 0, y: -0.3, z: 0}
+  groundCheckRadius: 0.3
   minSlope: 0
   maxSlope: 60
   maxModifiedSlope: 45
@@ -737,8 +736,8 @@ MonoBehaviour:
   excludePlayer:
     serializedVersion: 2
     m_Bits: 311
-  capsuleCollider: {fileID: 0}
-  enableDebug: 0
+  capsuleCollider: {fileID: 136131221980381340}
+  enableDebug: 1
 --- !u!114 &114570266145897858
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -767,6 +766,7 @@ MonoBehaviour:
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
   m_Priority: 0
+  m_StandbyUpdate: 1
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
@@ -871,6 +871,7 @@ MonoBehaviour:
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
   m_Priority: 10
+  m_StandbyUpdate: 1
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
@@ -917,28 +918,6 @@ MonoBehaviour:
   ids:
   - leftfoot
   - rightfoot
---- !u!114 &114911662244107798
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1922616701639256}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48973502197442979c49c5becb275492, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lookXAxisName: LookX
-  lookYAxisName: LookY
-  XSensitivity: -10
-  YSensitivity: 10
-  smoothTime: 1
-  VCams:
-  - {fileID: 114713529341382392}
-  - {fileID: 114606634733582770}
-  - {fileID: 114074389995230264}
-  mPOV: {fileID: 0}
-  lookActionReferences: []
 --- !u!114 &114957854057706032
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1000,6 +979,8 @@ MonoBehaviour:
   horizontalAxisName: Horizontal
   verticalAxisName: Vertical
   useLookInput: 1
+  mouseLookXAxisName: 
+  mouseLookYAxisName: 
   lookXAxisName: LookX
   lookYAxisName: LookY
   keyboardJumpName: Jump

@@ -35,47 +35,18 @@ namespace StandardAssets.Characters.FirstPerson
         [SerializeField]
         protected CinemachinePOV mPOV; 
 
-       
-        [SerializeField]
-        private InputActionReference[] lookActionReferences;
-        
         private Vector2 look;
         
-        void Start ()
+        void Awake ()
         {
             mPOV = VCams[0].GetCinemachineComponent<CinemachinePOV>();
         }
 
-       /*
-        *  void OnEnable()
-        {
-            foreach (InputActionReference inputActionReference in lookActionReferences)
-            {
-                inputActionReference.action.performed += Look;
-            }
-        }
-
-        private void OnDisable()
-        {
-            foreach (InputActionReference inputActionReference in lookActionReferences)
-            {
-                inputActionReference.action.performed += Look;
-            }
-        }
-
-        
-        void Look(InputAction.CallbackContext ctx)
-        {
-            look = ctx.ReadValue<Vector2>();
-            
-        }
-        */
-
         void Update()
         {
+            ResponsiveMouseLook();
             look.x = Input.GetAxis(lookXAxisName);
             look.y = Input.GetAxis(lookYAxisName);
-            ResponsiveMouseLook();
         }
         void ResponsiveMouseLook()
         {
@@ -112,6 +83,6 @@ namespace StandardAssets.Characters.FirstPerson
 
             return cameraRotation;
         }
-
+        
     }
 }
