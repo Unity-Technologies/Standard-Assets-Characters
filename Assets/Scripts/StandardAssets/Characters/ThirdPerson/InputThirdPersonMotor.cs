@@ -335,7 +335,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			transform.rotation = targetRotation;
 			
-			Debug.Log(transform.position);
+		
 		}
 	}
 }

@@ -104,6 +104,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			if (!characterPhysics.isGrounded)
 			{
+				
 				return;
 			}
 
