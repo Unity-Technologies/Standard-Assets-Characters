@@ -110,6 +110,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			motor.jumpStarted += OnJumpStarted;
 			motor.landed += OnLanding;
 			motor.fallStarted += OnFallStarted;
+			motor.rapidlyTurned += OnRapidlyTurned;
 			if (leftFoot != null && rightfoot != null)
 			{
 				leftFoot.detection += OnLeftFoot;
@@ -156,6 +157,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				motor.jumpStarted -= OnJumpStarted;
 				motor.landed -= OnLanding;
 				motor.fallStarted -= OnFallStarted;
+				motor.rapidlyTurned -= OnRapidlyTurned;
 			}
 
 			if (leftFoot != null && rightfoot != null)
@@ -164,7 +166,12 @@ namespace StandardAssets.Characters.ThirdPerson
 				rightfoot.detection -= OnRightFoot;
 			}
 		}
-		
+
+		private void OnRapidlyTurned(float normalizedTurn)
+		{
+			Debug.LogError("RAPID TURN");
+		}
+
 		/// <summary>
 		/// Logic for dealing with animation on landing
 		/// </summary>

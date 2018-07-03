@@ -21,6 +21,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		[SerializeField]
 		protected Animator animator;
+
+		[SerializeField]
+		protected float normalizedRapidTurn = 0.5f;
 		
 		protected float currentForwardSpeed;
 
@@ -50,7 +53,9 @@ namespace StandardAssets.Characters.ThirdPerson
 				
 		/// <inheritdoc />
 		public Action<float> fallStarted { get; set; }
-		
+
+		public Action<float> rapidlyTurned { get; set; }
+
 		/// <summary>
 		/// Helper function for handling wrapping of angles
 		/// </summary>
@@ -79,8 +84,16 @@ namespace StandardAssets.Characters.ThirdPerson
 			float currentYRotation = Wrap180(transform.rotation.eulerAngles.y);
 			float yRotationSpeed = Wrap180(currentYRotation - previousYRotation) / deltaTime;
 			float targetNormalizedTurningSpeed = Mathf.Clamp(yRotationSpeed / turnSpeed, -1, 1);
+			
+			if (rapidlyTurned != null && Mathf.Abs(targetNormalizedTurningSpeed) > normalizedRapidTurn)
+			{
+				rapidlyTurned(targetNormalizedTurningSpeed);
+			}
+			
 			normalizedTurningSpeed = 
 				Mathf.Lerp(normalizedTurningSpeed, targetNormalizedTurningSpeed, deltaTime * normalizedTurnLerpFactor);
+			
+			
 			previousYRotation = currentYRotation;
 		}
 
