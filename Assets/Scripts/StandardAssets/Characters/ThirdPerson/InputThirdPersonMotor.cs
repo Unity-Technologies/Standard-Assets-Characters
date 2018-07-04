@@ -131,7 +131,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			base.Awake();
 		}
 
-		private void OnStrafeEnd()
+		protected virtual  void OnStrafeEnd()
 		{
 			if (startActionMode != null)
 			{
@@ -140,7 +140,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			isStrafing = false;
 		}
 
-		private void OnStrafeStart()
+		protected virtual void OnStrafeStart()
 		{
 			if (startStrafeMode != null)
 			{
@@ -343,6 +343,11 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private void RapidTurningEasing()
 		{
+			if (!characterInput.hasMovementInput)
+			{
+				return;
+			}
+			
 			Quaternion targetRotation = CalculateTargetRotation();
 			
 			transform.rotation =

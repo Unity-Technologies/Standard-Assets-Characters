@@ -85,6 +85,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			targetClampSpeed = clampSpeed = 1f;
 			isDecelerating = false;
 		}
+
+		protected override void OnStrafeStart()
+		{
+			base.OnStrafeStart();
+			rapidTurningState = RapidTurningState.None;
+		}
 		
 		protected override void ResetRotation()
 		{
