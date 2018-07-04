@@ -98,9 +98,10 @@ namespace StandardAssets.Characters.Physics
 		public float GetPredicitedFallDistance()
 		{
 			RaycastHit groundHit;
-			return UnityEngine.Physics.Raycast(transform.TransformPoint(groundCheckPoint), Vector3.down, 
-											   out groundHit, float.MaxValue, excludePlayer)
-				? groundHit.distance : float.MaxValue;
+			bool hit = UnityEngine.Physics.Raycast(transform.TransformPoint(groundCheckPoint), Vector3.down, 
+											   out groundHit, float.MaxValue, excludePlayer);
+			float landAngle = Vector3.Angle(Vector3.up, groundHit.normal);
+			return hit && landAngle <= maxSlope ? groundHit.distance : float.MaxValue;
 		}
 
 		public void Move(Vector3 moveVector)
@@ -158,6 +159,7 @@ namespace StandardAssets.Characters.Physics
 			float currentSlope = Vector3.Angle(groundHit.normal, Vector3.up);
 			minGroundingDist = currentSlope >= maxModifiedSlope ? minimumGroundingDist * 2 : minimumGroundingDist;
 
+			isGrounded = false;
 			if (!(currentSlope >= minSlope) || !(currentSlope <= maxSlope))
 			{
 				return;
@@ -167,7 +169,6 @@ namespace StandardAssets.Characters.Physics
 			int num = UnityEngine.Physics.OverlapSphereNonAlloc(transform.TransformPoint(groundCheckPoint),
 																groundCheckRadius, collisions, excludePlayer);
 
-			isGrounded = false;
 			for (int x = 0; x < num; x++)
 			{
 				if (collisions[x].transform != groundHit.transform)
