@@ -12,6 +12,17 @@ namespace StandardAssets.Characters.FirstPerson
 	[Serializable]
 	public class FirstPersonMovementProperties
 	{
+
+		/// <summary>
+		/// The state name
+		/// </summary>
+		[SerializeField] protected string stateName;
+		
+		public string name
+		{
+			get { return stateName; }
+		}
+		
 		/// <summary>
 		/// The maximum movement speed
 		/// </summary>
