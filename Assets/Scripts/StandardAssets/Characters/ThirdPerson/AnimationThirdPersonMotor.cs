@@ -17,8 +17,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private float normalizedInputLateralSpeed;
 		private float normalizedInputForwardSpeed;
-		private float forwardClampSpeed, targetForwardClampSpeed;
-		private bool isDecelerating = false;
+		private float forwardClampSpeed, targetForwardClampSpeed, lateralClampSpeed, targetLateralClampSpeed;
 
 		private AnimationInputProperties currentForwardInputProperties, currentLateralInputProperties;
 
@@ -34,7 +33,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return Mathf.Clamp(normalizedInputForwardSpeed, -1, 1); }
 		}
 
-	
 		public void OnJumpAnimationComplete()
 		{
 			var baseCharacterPhysics = GetComponent<BaseCharacterPhysics>();
@@ -42,6 +40,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				return;
 			}
+
 			var distance = baseCharacterPhysics.GetPredicitedFallDistance();
 			if (distance <= maxFallDistanceToLand)
 			{
@@ -62,7 +61,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected override void Awake()
 		{
 			base.Awake();
-			currentForwardInputProperties = animationMotorProperties.forwardMovementProperties;	
+			currentForwardInputProperties = animationMotorProperties.forwardMovementProperties;
 			targetForwardClampSpeed = forwardClampSpeed = currentForwardInputProperties.inputClamped;
 		}
 
@@ -74,19 +73,25 @@ namespace StandardAssets.Characters.ThirdPerson
 				characterInput.jumpPressed += CacheCurrentMovement;
 			}
 		}
-		
+
 		protected override void OnRunEnded()
 		{
 			base.OnRunEnded();
-			isDecelerating = true;
-			targetForwardClampSpeed = forwardClampSpeed = currentForwardInputProperties.inputClamped;
+			targetForwardClampSpeed = currentForwardInputProperties.inputClamped;
+			if (isStrafing)
+			{
+				targetLateralClampSpeed = currentLateralInputProperties.inputClamped;
+			}
 		}
 
 		protected override void OnRunStarted()
 		{
 			base.OnRunStarted();
-			targetForwardClampSpeed = forwardClampSpeed = 1f;
-			isDecelerating = false;
+			targetForwardClampSpeed = currentForwardInputProperties.inputUnclamped;
+			if (isStrafing)
+			{
+				targetLateralClampSpeed = currentLateralInputProperties.inputUnclamped;
+			}
 		}
 
 		protected override void OnStrafeStart()
@@ -96,17 +101,18 @@ namespace StandardAssets.Characters.ThirdPerson
 			currentForwardInputProperties = animationMotorProperties.strafeForwardMovementProperties;
 			currentLateralInputProperties = animationMotorProperties.strafeLateralMovementProperties;
 		}
-		
+
 		protected override void OnStrafeEnd()
 		{
 			base.OnStrafeEnd();
 			currentForwardInputProperties = animationMotorProperties.forwardMovementProperties;
 			currentLateralInputProperties = null;
 		}
-		
+
 		protected override void ResetRotation()
 		{
-			transform.eulerAngles = new Vector3(transform.eulerAngles.x, animator.bodyRotation.eulerAngles.y, transform.eulerAngles.z);
+			transform.eulerAngles = new Vector3(transform.eulerAngles.x, animator.bodyRotation.eulerAngles.y,
+			                                    transform.eulerAngles.z);
 		}
 
 		private void CacheCurrentMovement()
@@ -117,7 +123,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected override void CalculateForwardMovement(float deltaTime)
 		{
 			normalizedInputLateralSpeed = 0;
-			
+
 			if (!characterPhysics.isGrounded)
 			{
 				return;
@@ -126,7 +132,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (!characterInput.hasMovementInput)
 			{
 				EaseOffForwardInput(deltaTime);
-				//characterPhysics.Move(Vector3.zero);
 				return;
 			}
 
@@ -137,7 +142,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			if (!characterPhysics.isGrounded)
 			{
-				
 				return;
 			}
 
@@ -198,7 +202,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				return;
 			}
-			
+
 			float forwardVelocity = currentForwardInputProperties.inputGain;
 			if (Mathf.Abs(Mathf.Sign(input) - Mathf.Sign(normalizedInputForwardSpeed)) > 0)
 			{
@@ -248,15 +252,33 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
+		private float DecelerateClampSpeed(float currentValue, float targetValue, float gain)
+		{
+			if (currentValue <= targetValue)
+			{
+				return targetValue;
+			}
+
+			return Mathf.Lerp(currentValue, targetValue, Time.deltaTime * gain);
+		}
+
+		private void HandleClampSpeedDeceleration()
+		{
+			forwardClampSpeed = DecelerateClampSpeed(forwardClampSpeed, targetForwardClampSpeed,
+			                                         currentForwardInputProperties.inputDecay);
+
+			if (isStrafing)
+			{
+				lateralClampSpeed = DecelerateClampSpeed(lateralClampSpeed, targetLateralClampSpeed,
+				                                         currentLateralInputProperties.inputDecay);
+			}
+		}
+
 		protected override void Update()
 		{
 			base.Update();
-			if (isDecelerating)
-			{
-				forwardClampSpeed = Mathf.Lerp(forwardClampSpeed, targetForwardClampSpeed, Time.deltaTime * animationMotorProperties.sprintToWalkDeceleration);
-			}
-			
 			HandleMovementLogic(Time.deltaTime);
+			HandleClampSpeedDeceleration();
 		}
 	}
 }
