@@ -256,7 +256,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Handles the timing of the jump brace
 		/// </summary>
-		private void Update()
+		protected virtual void Update()
 		{
 			if (isBracingForJump)
 			{
@@ -278,33 +278,30 @@ namespace StandardAssets.Characters.ThirdPerson
 			isRunToggled = true;
 		}
 
-		/// <summary>
-		/// Movement Logic on physics update
-		/// </summary>
-		protected virtual void FixedUpdate()
+		protected virtual void HandleMovementLogic(float deltaTime)
 		{
 			if (isStrafing)
 			{
-				SetStrafeLookDirection();
-				CalculateStrafeMovement();
+				SetStrafeLookDirection(deltaTime);
+				CalculateStrafeMovement(deltaTime);
 			}
 			else
 			{
-				SetForwardLookDirection();
-				CalculateForwardMovement();
+				SetForwardLookDirection(deltaTime);
+				CalculateForwardMovement(deltaTime);
 			}
 
-			CalculateYRotationSpeed(Time.fixedDeltaTime);
+			CalculateYRotationSpeed(deltaTime);
 		}
 
-		protected abstract void CalculateForwardMovement();
+		protected abstract void CalculateForwardMovement(float deltaTime);
 
-		protected abstract void CalculateStrafeMovement();
+		protected abstract void CalculateStrafeMovement(float deltaTime);
 
 		/// <summary>
 		/// Sets forward rotation
 		/// </summary>
-		private void SetForwardLookDirection()
+		private void SetForwardLookDirection(float deltaTime)
 		{
 			if (!characterPhysics.isGrounded)
 			{
@@ -313,7 +310,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			if (rapidTurningState == RapidTurningState.Easing)
 			{
-				RapidTurningEasing();
+				RapidTurningEasing(deltaTime);
 				return;
 			}
 			
@@ -338,10 +335,10 @@ namespace StandardAssets.Characters.ThirdPerson
 				return;
 			}
 
-			HandleTargetRotation(targetRotation);
+			HandleTargetRotation(targetRotation, deltaTime);
 		}
 
-		private void RapidTurningEasing()
+		private void RapidTurningEasing(float deltaTime)
 		{
 			if (!characterInput.hasMovementInput)
 			{
@@ -379,12 +376,12 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected abstract bool CanSetForwardLookDirection();
 		
-		protected abstract void HandleTargetRotation(Quaternion targetRotation);
+		protected abstract void HandleTargetRotation(Quaternion targetRotation, float deltaTime);
 
 		/// <summary>
 		/// Sets forward rotation
 		/// </summary>
-		private void SetStrafeLookDirection()
+		private void SetStrafeLookDirection(float deltaTime)
 		{
 			if (!characterPhysics.isGrounded)
 			{

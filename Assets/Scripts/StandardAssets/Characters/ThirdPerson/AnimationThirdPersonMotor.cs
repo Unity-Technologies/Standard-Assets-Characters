@@ -114,7 +114,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			cacheGroundMovementVector = groundMovementVector;
 		}
 
-		protected override void CalculateForwardMovement()
+		protected override void CalculateForwardMovement(float deltaTime)
 		{
 			normalizedInputLateralSpeed = 0;
 			
@@ -125,15 +125,15 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			if (!characterInput.hasMovementInput)
 			{
-				EaseOffForwardInput();
-				characterPhysics.Move(Vector3.zero);
+				EaseOffForwardInput(deltaTime);
+				//characterPhysics.Move(Vector3.zero);
 				return;
 			}
 
-			ApplyForwardInput(1f);
+			ApplyForwardInput(1f, deltaTime);
 		}
 
-		protected override void CalculateStrafeMovement()
+		protected override void CalculateStrafeMovement(float deltaTime)
 		{
 			if (!characterPhysics.isGrounded)
 			{
@@ -146,20 +146,20 @@ namespace StandardAssets.Characters.ThirdPerson
 			// we need to ease each axis
 			if (Mathf.Abs(moveInput.y) > Mathf.Epsilon)
 			{
-				ApplyForwardInput(Mathf.Sign(moveInput.y));
+				ApplyForwardInput(Mathf.Sign(moveInput.y), deltaTime);
 			}
 			else
 			{
-				EaseOffForwardInput();
+				EaseOffForwardInput(deltaTime);
 			}
 
 			if (Mathf.Abs(moveInput.x) > Mathf.Epsilon)
 			{
-				ApplyLateralInput(Mathf.Sign(moveInput.x));
+				ApplyLateralInput(Mathf.Sign(moveInput.x), deltaTime);
 			}
 			else
 			{
-				EaseOffLateralInput();
+				EaseOffLateralInput(deltaTime);
 			}
 		}
 
@@ -168,7 +168,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			return characterInput.hasMovementInput;
 		}
 
-		protected override void HandleTargetRotation(Quaternion targetRotation)
+		protected override void HandleTargetRotation(Quaternion targetRotation, float deltaTime)
 		{
 			float angleDifference = Mathf.Abs((transform.eulerAngles - targetRotation.eulerAngles).y);
 
@@ -187,12 +187,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 			targetRotation =
-				Quaternion.RotateTowards(transform.rotation, targetRotation, actualTurnSpeed * Time.fixedDeltaTime);
+				Quaternion.RotateTowards(transform.rotation, targetRotation, actualTurnSpeed * deltaTime);
 
 			transform.rotation = targetRotation;
 		}
 
-		private void ApplyForwardInput(float input)
+		private void ApplyForwardInput(float input, float deltaTime)
 		{
 			if (rapidTurningState != RapidTurningState.None)
 			{
@@ -206,17 +206,17 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 			normalizedInputForwardSpeed =
-				Mathf.Clamp(normalizedInputForwardSpeed + input * forwardVelocity * Time.fixedDeltaTime, -forwardClampSpeed,
+				Mathf.Clamp(normalizedInputForwardSpeed + input * forwardVelocity * deltaTime, -forwardClampSpeed,
 				            forwardClampSpeed);
 		}
 
-		private void EaseOffForwardInput()
+		private void EaseOffForwardInput(float deltaTime)
 		{
 			normalizedInputForwardSpeed =
-				Mathf.Lerp(normalizedInputForwardSpeed, 0, currentForwardInputProperties.inputDecay * Time.fixedDeltaTime);
+				Mathf.Lerp(normalizedInputForwardSpeed, 0, currentForwardInputProperties.inputDecay * deltaTime);
 		}
 
-		private void ApplyLateralInput(float input)
+		private void ApplyLateralInput(float input, float deltaTime)
 		{
 			float lateralVelocity = currentLateralInputProperties.inputGain;
 			if (Mathf.Abs(Mathf.Sign(input) - Mathf.Sign(normalizedInputLateralSpeed)) > 0)
@@ -225,14 +225,14 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 			normalizedInputLateralSpeed =
-				Mathf.Clamp(normalizedInputLateralSpeed + input * lateralVelocity * Time.fixedDeltaTime, -forwardClampSpeed,
+				Mathf.Clamp(normalizedInputLateralSpeed + input * lateralVelocity * deltaTime, -forwardClampSpeed,
 				            forwardClampSpeed);
 		}
 
-		private void EaseOffLateralInput()
+		private void EaseOffLateralInput(float deltaTime)
 		{
 			normalizedInputLateralSpeed =
-				Mathf.Lerp(normalizedInputLateralSpeed, 0, currentLateralInputProperties.inputDecay * Time.fixedDeltaTime);
+				Mathf.Lerp(normalizedInputLateralSpeed, 0, currentLateralInputProperties.inputDecay * deltaTime);
 		}
 
 		private void OnAnimatorMove()
@@ -248,12 +248,15 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
-		private void Update()
+		protected override void Update()
 		{
+			base.Update();
 			if (isDecelerating)
 			{
 				forwardClampSpeed = Mathf.Lerp(forwardClampSpeed, targetForwardClampSpeed, Time.deltaTime * animationMotorProperties.sprintToWalkDeceleration);
 			}
+			
+			HandleMovementLogic(Time.deltaTime);
 		}
 	}
 }
