@@ -32,7 +32,13 @@ namespace StandardAssets.Characters.CharacterInput
 			string axis = axisRaw;
 			if (isGamepad)
 			{
-				axis = LegacyCharacterInputDevicesCache.ResolveControl(axis);
+				string gamePadAxisName = LegacyCharacterInputDevicesCache.ResolveControl(axis);
+				if (axis == gamePadAxisName)
+				{
+					return;
+				}
+
+				axis = gamePadAxisName;
 			}
 			
 			GameObject gameObject = new GameObject();
@@ -46,6 +52,7 @@ namespace StandardAssets.Characters.CharacterInput
 		/// </summary>
 		public void BroadcastStart()
 		{
+			Debug.Log(name);
 			OnInputStarted();
 		}
 

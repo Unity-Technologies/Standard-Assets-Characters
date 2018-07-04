@@ -41,23 +41,9 @@ namespace StandardAssets.Characters.CharacterInput
 
 		[SerializeField]
 		protected string keyboardJumpName = "Jump";
-		
-		[SerializeField]
-		protected string ps4JumpName = "JumpPS4";
-		
-		[SerializeField]
-		protected string xBoneJumpName = "JumpXBone";
-		
-		[SerializeField]
-		protected string xBox360JumpName = "JumpXBox360";
 
-		[SerializeField]
-		protected string gamepadJumpName;
-
-		[SerializeField]
-		protected bool hasGamepad;
-
-		[SerializeField] protected bool enableOnScreenJoystickControls;
+		[SerializeField] 
+		protected bool enableOnScreenJoystickControls;
 		
 
 		private Vector2 moveInputVector;
@@ -88,41 +74,6 @@ namespace StandardAssets.Characters.CharacterInput
 		{
 			get { return jumped; }
 			set { jumped = value; }
-		}
-
-		private void Awake()
-		{
-			SetGamepadJumpAxis();
-			
-			
-		}
-		
-		/// <summary>
-		/// Sets the jump axis name for gamepads that are plugged in.
-		/// </summary>
-		void SetGamepadJumpAxis()
-		{
-			if (Input.GetJoystickNames().Length > 0)
-			{
-				foreach (var joystick in Input.GetJoystickNames())
-				{
-					if (joystick.Length > 1)
-					{
-						hasGamepad = true;
-						if (joystick.ToLower().Contains("xbox"))
-						{
-							gamepadJumpName = xBoneJumpName;
-							break;
-						}
-						if (joystick.ToLower().Contains("360"))
-						{
-							gamepadJumpName = xBox360JumpName;
-							break;
-						}
-						gamepadJumpName = ps4JumpName;
-					}
-				}
-			}
 		}
 		
 		private void OnEnable()
