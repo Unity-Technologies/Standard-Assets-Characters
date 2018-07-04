@@ -4901,8 +4901,18 @@ Prefab:
     m_Modifications:
     - target: {fileID: 114473157933188712, guid: 1818690cc80044ecbadf3a53cc5f29e1,
         type: 2}
+      propertyPath: m_ParentHash.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114473157933188712, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
       propertyPath: m_ChildCameras.Array.size
-      value: 0
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114473157933188712, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: m_Instructions.Array.size
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4664608565436408, guid: 1818690cc80044ecbadf3a53cc5f29e1, type: 2}
       propertyPath: m_LocalPosition.x
@@ -4941,6 +4951,56 @@ Prefab:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 1840918336}
+    - target: {fileID: 114961145437418454, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: useLookInput
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114501385933726858, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[0].movementProperties.enterState.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: Sprint
+      objectReference: {fileID: 0}
+    - target: {fileID: 114473157933188712, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: m_Instructions.Array.data[3].m_FullHash
+      value: -350224702
+      objectReference: {fileID: 0}
+    - target: {fileID: 114473157933188712, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: m_Instructions.Array.data[3].m_VirtualCamera
+      value: 
+      objectReference: {fileID: 1101665458}
+    - target: {fileID: 114473157933188712, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: m_ParentHash.Array.data[3].m_Hash
+      value: -350224702
+      objectReference: {fileID: 0}
+    - target: {fileID: 114473157933188712, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: m_ParentHash.Array.data[3].m_ParentHash
+      value: 756556552
+      objectReference: {fileID: 0}
+    - target: {fileID: 114501385933726858, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: startingMovementProperties.stateName
+      value: Walk
+      objectReference: {fileID: 0}
+    - target: {fileID: 114501385933726858, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[0].movementProperties.stateName
+      value: Sprint
+      objectReference: {fileID: 0}
+    - target: {fileID: 114501385933726858, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[1].movementProperties.stateName
+      value: Crouch
+      objectReference: {fileID: 0}
+    - target: {fileID: 114501385933726858, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: movementModifiers.Array.data[2].movementProperties.stateName
+      value: Prone
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1818690cc80044ecbadf3a53cc5f29e1, type: 2}
   m_IsPrefabAsset: 0

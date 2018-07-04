@@ -79,8 +79,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// Calculates the rotations
 		/// </summary>
 		protected void CalculateYRotationSpeed(float deltaTime)
-		{
-		
+		{			
 			float currentYRotation = Wrap180(transform.rotation.eulerAngles.y);
 			float yRotationSpeed = Wrap180(currentYRotation - previousYRotation) / deltaTime;
 			float targetNormalizedTurningSpeed = Mathf.Clamp(yRotationSpeed / turnSpeed, -1, 1);

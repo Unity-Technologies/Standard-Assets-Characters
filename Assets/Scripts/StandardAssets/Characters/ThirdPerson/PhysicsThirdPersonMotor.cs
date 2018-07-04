@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
+	//TODO refactor
 	/// <summary>
 	/// The main third person controller
 	/// </summary>
@@ -84,9 +85,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Movement Logic on physics update
 		/// </summary>
-		protected override void FixedUpdate()
+		private void FixedUpdate()
 		{
-			base.FixedUpdate();
+			HandleMovementLogic(Time.fixedDeltaTime);
 			if (animator == null)
 			{
 				Move();
@@ -107,7 +108,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Calculates the forward movement
 		/// </summary>
-		protected override void CalculateForwardMovement()
+		protected override void CalculateForwardMovement(float deltaTime)
 		{
 			Vector2 moveInput = characterInput.moveInput;
 			if (moveInput.sqrMagnitude > 1f)
@@ -149,7 +150,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Calculates the forward movement
 		/// </summary>
-		protected override void CalculateStrafeMovement()
+		protected override void CalculateStrafeMovement(float deltaTime)
 		{
 			Vector2 moveInput = characterInput.moveInput;
 
@@ -163,7 +164,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			return characterInput.hasMovementInput && state != State.RapidTurnDecel;
 		}
 
-		protected override void HandleTargetRotation(Quaternion targetRotation)
+		protected override void HandleTargetRotation(Quaternion targetRotation, float deltaTime)
 		{
 			float angleDifference = Mathf.Abs((transform.eulerAngles - targetRotation.eulerAngles).y);
 

@@ -11,11 +11,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a741af526df40cea6d1d103077f6e8c, type: 3}
   m_Name: AnimationMotorProperties
   m_EditorClassIdentifier: 
-  inputForwardVelocity: 0.5
-  inputForwardDecay: 10
-  inputForwardChangeVelocity: 1
-  inputLateralVelocity: 0.5
-  inputLateralDecay: 10
-  inputLateralChangeVelocity: 5
-  walkProportionOfSpeed: 0.5
-  sprintToWalkDecelerationLerp: 1
+  forwardMovement:
+    directionInputGain: 1
+    directionInputDecay: 5
+    directionInputChangeGain: 10
+    directionInputClamped: 0.5
+    directionInputUnclamped: 1
+  strafeForwardMovement:
+    directionInputGain: 1
+    directionInputDecay: 5
+    directionInputChangeGain: 10
+    directionInputClamped: 0.5
+    directionInputUnclamped: 1
+  strafeLateralMovement:
+    directionInputGain: 3
+    directionInputDecay: 5
+    directionInputChangeGain: 10
+    directionInputClamped: 0.65
+    directionInputUnclamped: 1
