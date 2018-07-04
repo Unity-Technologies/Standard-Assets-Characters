@@ -6,9 +6,6 @@ namespace StandardAssets.Characters.ThirdPerson
 	public class AnimationMotorProperties : ScriptableObject
 	{
 		[SerializeField]
-		protected float sprintToWalkDecelerationLerp = 1f;
-
-		[SerializeField]
 		protected AnimationInputProperties forwardMovement;
 
 		[SerializeField]
@@ -30,11 +27,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		public AnimationInputProperties strafeLateralMovementProperties
 		{
 			get { return strafeLateralMovement; }
-		}
-
-		public float sprintToWalkDeceleration
-		{
-			get { return sprintToWalkDecelerationLerp; }
 		}
 	}
 }

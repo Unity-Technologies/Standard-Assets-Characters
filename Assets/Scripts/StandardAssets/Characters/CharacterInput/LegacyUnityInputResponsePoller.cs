@@ -14,7 +14,6 @@ namespace StandardAssets.Characters.CharacterInput
 		/// </summary>
 		private LegacyUnityInputResponse response;
 		
-		
 		/// <summary>
 		/// Behaviour - hold/toggle
 		/// </summary>
@@ -26,11 +25,6 @@ namespace StandardAssets.Characters.CharacterInput
 		private bool check;
 
 		private string axisRaw;
-		
-		
-		private bool axisRawPressed;
-
-	
 
 		/// <summary>
 		/// Called by the LegacyInputResponse
@@ -69,11 +63,10 @@ namespace StandardAssets.Characters.CharacterInput
 		/// </summary>
 		private void Hold()
 		{
-			bool isAxis = Input.GetAxisRaw(axisRaw) !=0;
+			bool isAxis = Input.GetButton(axisRaw);
 			
 			if (!check && isAxis)
-			{
-				
+			{		
 				response.BroadcastStart();
 			}
 
@@ -83,7 +76,6 @@ namespace StandardAssets.Characters.CharacterInput
 			}
 		
 			check = isAxis;
-			
 		}
 
 		/// <summary>
@@ -91,16 +83,8 @@ namespace StandardAssets.Characters.CharacterInput
 		/// </summary>
 		private void Toggle()
 		{
-			
-			if (Input.GetAxisRaw(axisRaw) == 0)
+			if (Input.GetButtonDown(axisRaw))
 			{
-				axisRawPressed = false;
-			}
-			if (axisRawPressed) return;
-			
-			if ( Input.GetAxisRaw(axisRaw) != 0)
-			{
-				axisRawPressed = true;
 				if (!check)
 				{
 					response.BroadcastStart();
