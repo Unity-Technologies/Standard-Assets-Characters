@@ -28,7 +28,7 @@ namespace StandardAssets.Characters.CharacterInput
 		private string axisRaw;
 		
 		
-		private bool axisRawPressed;
+		private bool axisRawPressed, prevAxisRawPressed;
 
 	
 
@@ -69,11 +69,10 @@ namespace StandardAssets.Characters.CharacterInput
 		/// </summary>
 		private void Hold()
 		{
-			bool isAxis = Input.GetAxisRaw(axisRaw) !=0;
+			bool isAxis = Mathf.Abs(Input.GetAxisRaw(axisRaw)) > 0;
 			
 			if (!check && isAxis)
-			{
-				
+			{		
 				response.BroadcastStart();
 			}
 
@@ -83,7 +82,6 @@ namespace StandardAssets.Characters.CharacterInput
 			}
 		
 			check = isAxis;
-			
 		}
 
 		/// <summary>
@@ -91,16 +89,10 @@ namespace StandardAssets.Characters.CharacterInput
 		/// </summary>
 		private void Toggle()
 		{
+			axisRawPressed = Mathf.Abs(Input.GetAxisRaw(axisRaw)) > 0;
 			
-			if (Input.GetAxisRaw(axisRaw) == 0)
+			if (axisRawPressed && !prevAxisRawPressed)
 			{
-				axisRawPressed = false;
-			}
-			if (axisRawPressed) return;
-			
-			if ( Input.GetAxisRaw(axisRaw) != 0)
-			{
-				axisRawPressed = true;
 				if (!check)
 				{
 					response.BroadcastStart();
@@ -112,6 +104,8 @@ namespace StandardAssets.Characters.CharacterInput
 
 				check = !check;
 			}
+
+			prevAxisRawPressed = axisRawPressed;
 		}
 
 		public void TouchScreenButtonToggle()
