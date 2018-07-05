@@ -52,7 +52,6 @@ namespace StandardAssets.Characters.CharacterInput
 		/// </summary>
 		public void BroadcastStart()
 		{
-			Debug.Log(name);
 			OnInputStarted();
 		}
 

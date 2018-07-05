@@ -12,7 +12,6 @@ namespace StandardAssets.Characters.FirstPerson
 	[Serializable]
 	public class FirstPersonMovementProperties
 	{
-
 		/// <summary>
 		/// The state name
 		/// </summary>

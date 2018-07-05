@@ -19,17 +19,17 @@ namespace Demo
 			m_XAxisMaxSpeed = (cameras[0].GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_MaxSpeed - minSpeed) / speedRange;
 			
 			SetMaxSpeedSliderInitialValues(horizontalSlider, m_XAxisMaxSpeed, horizontalSliderValueText,
-				((m_XAxisMaxSpeed * 100)));
+				((m_XAxisMaxSpeed * speedRange)+minSpeed));
 
 			m_YAxisMaxSpeed = 0.3f;
 			//m_YAxisMaxSpeed	= (cameras[0].GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_MaxSpeed - minSpeed) / speedRange;
 			SetMaxSpeedSliderInitialValues(verticalSlider, m_YAxisMaxSpeed, verticalSliderValueText,
-				((m_YAxisMaxSpeed * 100)));
+				((m_YAxisMaxSpeed * speedRange)+minSpeed));
 
 			if (povCamAdjustables != null)
 			{
-				//xAxisMaxSpeedMouse = Mathf.Abs(povCamAdjustables.XSensitivity * 0.1f);
-				//yAxisMaxSpeedMouse = Mathf.Abs(povCamAdjustables.YSensitivity * 0.1f);
+				xAxisMaxSpeedMouse = Mathf.Abs(povCamAdjustables.GetSensitivity().x * 0.1f);
+				yAxisMaxSpeedMouse = Mathf.Abs(povCamAdjustables.GetSensitivity().y* 0.1f);
 			}
 
 			
