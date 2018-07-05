@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 114035350532953534}
   - component: {fileID: 114561844803457874}
   - component: {fileID: 114233431554465932}
+  - component: {fileID: 135661079851010840}
   m_Layer: 11
   m_Name: FirstPersonLegacyInput
   m_TagString: Untagged
@@ -337,7 +338,7 @@ MonoBehaviour:
     m_OnCameraLive:
       m_PersistentCalls:
         m_Calls: []
-      m_TypeName: Cinemachine.CinemachineBrain+VcamEvent, Cinemachine, Version=0.0.0.0,
+      m_TypeName: Cinemachine.CinemachineBrain+VcamActivatedEvent, Cinemachine, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 4774026149090618}
@@ -377,7 +378,6 @@ MonoBehaviour:
   center: {x: 0, y: 0, z: 0}
   radius: 0.2
   height: 1
-  skinWidth: 0.08
 --- !u!114 &114324813546737938
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -484,6 +484,10 @@ MonoBehaviour:
     m_VirtualCamera: {fileID: 114074389995230264}
     m_ActivateAfter: 0
     m_MinDuration: 0
+  - m_FullHash: -350224702
+    m_VirtualCamera: {fileID: 114713529341382392}
+    m_ActivateAfter: 0
+    m_MinDuration: 0
   m_DefaultBlend:
     m_Style: 1
     m_Time: 0.5
@@ -501,6 +505,8 @@ MonoBehaviour:
     m_ParentHash: 756556552
   - m_Hash: 1063665824
     m_ParentHash: 756556552
+  - m_Hash: -350224702
+    m_ParentHash: 756556552
 --- !u!114 &114501385933726858
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -513,6 +519,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingMovementProperties:
+    stateName: Walk
     maxSpeed: 7
     acceleration:
       curve:
@@ -565,6 +572,7 @@ MonoBehaviour:
   movementModifiers:
   - inputs: {fileID: 11400000, guid: 4536a47671291463386c18678dd23194, type: 2}
     movementProperties:
+      stateName: Sprint
       maxSpeed: 11
       acceleration:
         curve:
@@ -604,7 +612,7 @@ MonoBehaviour:
               m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
               m_IntArgument: 0
               m_FloatArgument: 0
-              m_StringArgument: Walk
+              m_StringArgument: Sprint
               m_BoolArgument: 0
             m_CallState: 2
         m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
@@ -616,6 +624,7 @@ MonoBehaviour:
           Culture=neutral, PublicKeyToken=null
   - inputs: {fileID: 11400000, guid: efd28e54320836844815e53240c38fe4, type: 2}
     movementProperties:
+      stateName: Crouch
       maxSpeed: 4
       acceleration:
         curve:
@@ -667,6 +676,7 @@ MonoBehaviour:
           Culture=neutral, PublicKeyToken=null
   - inputs: {fileID: 11400000, guid: 2692a7f21a6ff044792d5134fd85691a, type: 2}
     movementProperties:
+      stateName: Prone
       maxSpeed: 2
       acceleration:
         curve:
@@ -731,7 +741,6 @@ MonoBehaviour:
   playerRootTransform: {fileID: 0}
   playerCentre: {x: 0, y: 0, z: 0}
   playerHeight: 1
-  playerRadius: 1
   maxGroundingDist: 50
   groundingEasing: 10
   groundCheckPoint: {x: 0, y: -0.3, z: 0}
@@ -745,8 +754,8 @@ MonoBehaviour:
   liftSlopeRadius: 0.2
   excludePlayer:
     serializedVersion: 2
-    m_Bits: 2355
-  characterCapsule: {fileID: 0}
+    m_Bits: 307
+  characterCapsule: {fileID: 114233431554465932}
   maxPenetrationTests: 4
   enableDebug: 1
 --- !u!114 &114570266145897858
@@ -793,7 +802,7 @@ MonoBehaviour:
     m_OnCameraLive:
       m_PersistentCalls:
         m_Calls: []
-      m_TypeName: Cinemachine.CinemachineBrain+VcamEvent, Cinemachine, Version=0.0.0.0,
+      m_TypeName: Cinemachine.CinemachineBrain+VcamActivatedEvent, Cinemachine, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 4472433186970248}
@@ -898,7 +907,7 @@ MonoBehaviour:
     m_OnCameraLive:
       m_PersistentCalls:
         m_Calls: []
-      m_TypeName: Cinemachine.CinemachineBrain+VcamEvent, Cinemachine, Version=0.0.0.0,
+      m_TypeName: Cinemachine.CinemachineBrain+VcamActivatedEvent, Cinemachine, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 4467537354003894}
@@ -989,17 +998,24 @@ MonoBehaviour:
   cinemachineLookYAxisName: Vertical
   horizontalAxisName: Horizontal
   verticalAxisName: Vertical
-  useLookInput: 0
+  useLookInput: 1
   mouseLookXAxisName: 
   mouseLookYAxisName: 
   lookXAxisName: LookX
   lookYAxisName: LookY
   keyboardJumpName: Jump
-  ps4JumpName: JumpPS4
-  xBoneJumpName: JumpXBone
-  xBox360JumpName: JumpXBox360
-  gamepadJumpName: 
-  hasGamepad: 0
   enableOnScreenJoystickControls: 0
   leftOnScreenJoystick: {fileID: 0}
   rightOnScreenJoystick: {fileID: 0}
+--- !u!135 &135661079851010840
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1627797537853366}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
