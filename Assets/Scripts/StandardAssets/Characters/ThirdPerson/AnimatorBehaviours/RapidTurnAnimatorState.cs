@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace StandardAssets.Characters.ThirdPerson
+namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 {
 	public class RapidTurnAnimatorState : StateMachineBehaviour 
 	{

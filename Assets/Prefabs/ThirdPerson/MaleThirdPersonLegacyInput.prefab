@@ -358,6 +358,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1360268573333648
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 224941751341838690}
+  - component: {fileID: 114492864795388240}
+  - component: {fileID: 114581968605160300}
+  m_Layer: 5
+  m_Name: TurnSpeedOptionsUiController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1363630109860102
 GameObject:
   m_ObjectHideFlags: 1
@@ -458,6 +475,24 @@ GameObject:
   - component: {fileID: 4938395769916610}
   m_Layer: 0
   m_Name: LeftRingDistal
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1461660626082926
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 224101227599635104}
+  - component: {fileID: 223955955430221874}
+  - component: {fileID: 114401977057850860}
+  - component: {fileID: 114777397737754040}
+  m_Layer: 5
+  m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1053,6 +1088,7 @@ GameObject:
   - component: {fileID: 114337826517927418}
   - component: {fileID: 114798069747516348}
   - component: {fileID: 114636360318092058}
+  - component: {fileID: 114636307679204524}
   m_Layer: 11
   m_Name: MaleThirdPersonLegacyInput
   m_TagString: Player
@@ -1802,6 +1838,7 @@ Transform:
   m_Children:
   - {fileID: 4151648849392010}
   - {fileID: 4989078755873360}
+  - {fileID: 224101227599635104}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2187,11 +2224,9 @@ MonoBehaviour:
   lookXAxisName: LookX
   lookYAxisName: LookY
   keyboardJumpName: Jump
-  ps4JumpName: JumpPS4
-  xBoneJumpName: JumpXBone
-  xBox360JumpName: JumpXBox360
-  gamepadJumpName: 
-  hasGamepad: 0
+  enableOnScreenJoystickControls: 0
+  leftOnScreenJoystick: {fileID: 0}
+  rightOnScreenJoystick: {fileID: 0}
 --- !u!114 &114240240390363140
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2218,7 +2253,6 @@ MonoBehaviour:
   playerRootTransform: {fileID: 1296605580789908}
   playerCentre: {x: 0, y: -0.85, z: 0}
   playerHeight: 1.7
-  playerRadius: 0.45
   maxGroundingDist: 50
   groundingEasing: 10
   groundCheckPoint: {x: 0, y: -0.7, z: 0}
@@ -2248,6 +2282,61 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingMovementEventLibrary: {fileID: 0}
+--- !u!114 &114401977057850860
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1461660626082926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UiScaleMode: 1
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 1920, y: 1080}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+--- !u!114 &114492864795388240
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1360268573333648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -405508275, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 4
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+--- !u!114 &114581968605160300
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1360268573333648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc459f4ad8a54f5eaf668a9e0a1a1cc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiPrefab: {fileID: 114733365040907980, guid: 30b14dcddfcda472c95af5c48ebe8724, type: 2}
 --- !u!114 &114584666778802448
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2382,6 +2471,70 @@ MonoBehaviour:
     type: 2}
   inheritGroundVelocity: 0
   maxFallDistanceToLand: 1
+--- !u!114 &114636307679204524
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1964598378489596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf32b75d337eb42f6a76d25b9d6d5e93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 95771403575124170}
+  controller: {fileID: 114581968605160300}
+  properties:
+  - name: Original
+    walkRapidTurnOffset: 0
+    runRapidTurnOffset: 0
+    walkRapidTurnSpeed: 1
+    runRapidTurnSpeed: 1
+  - name: 50% extra
+    walkRapidTurnOffset: 0
+    runRapidTurnOffset: 0
+    walkRapidTurnSpeed: 1.5
+    runRapidTurnSpeed: 1.5
+  - name: Double
+    walkRapidTurnOffset: 0
+    runRapidTurnOffset: 0
+    walkRapidTurnSpeed: 2
+    runRapidTurnSpeed: 2
+  - name: Triple
+    walkRapidTurnOffset: 0
+    runRapidTurnOffset: 0
+    walkRapidTurnSpeed: 3
+    runRapidTurnSpeed: 3
+  - name: Quadruple
+    walkRapidTurnOffset: 0
+    runRapidTurnOffset: 0
+    walkRapidTurnSpeed: 4
+    runRapidTurnSpeed: 4
+  - name: Original Offset
+    walkRapidTurnOffset: 0.7
+    runRapidTurnOffset: 0.7
+    walkRapidTurnSpeed: 1
+    runRapidTurnSpeed: 1
+  - name: 50% extra offset
+    walkRapidTurnOffset: 0
+    runRapidTurnOffset: 0
+    walkRapidTurnSpeed: 1.5
+    runRapidTurnSpeed: 1.5
+  - name: Double offset
+    walkRapidTurnOffset: 0
+    runRapidTurnOffset: 0
+    walkRapidTurnSpeed: 2
+    runRapidTurnSpeed: 2
+  - name: Triple offset
+    walkRapidTurnOffset: 0
+    runRapidTurnOffset: 0
+    walkRapidTurnSpeed: 3
+    runRapidTurnSpeed: 3
+  - name: Quadruple offset
+    walkRapidTurnOffset: 0
+    runRapidTurnOffset: 0
+    walkRapidTurnSpeed: 4
+    runRapidTurnSpeed: 4
 --- !u!114 &114636360318092058
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2396,7 +2549,22 @@ MonoBehaviour:
   center: {x: 0, y: 0, z: 0}
   radius: 0.4
   height: 1.2
-  skinWidth: 0.08
+--- !u!114 &114777397737754040
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1461660626082926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!114 &114798069747516348
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2528,3 +2696,60 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.117299676, y: 0.015860312, z: -0.000000059604645}
     m_Extent: {x: 0.8884624, y: 0.16316557, z: 0.90526766}
   m_DirtyAABB: 0
+--- !u!223 &223955955430221874
+Canvas:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1461660626082926}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 0
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
+--- !u!224 &224101227599635104
+RectTransform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1461660626082926}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_Children:
+  - {fileID: 224941751341838690}
+  m_Father: {fileID: 4655281766580260}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: 0}
+--- !u!224 &224941751341838690
+RectTransform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1360268573333648}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 224101227599635104}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: -0.000030518, y: -134.95001}
+  m_SizeDelta: {x: 1920, y: 269.5}
+  m_Pivot: {x: 0.5, y: 0.5}
