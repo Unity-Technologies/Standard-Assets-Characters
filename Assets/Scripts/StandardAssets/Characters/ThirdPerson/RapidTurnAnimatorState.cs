@@ -21,7 +21,6 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private void OnStateUpdate(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
 		{
-			Debug.Log(1f - animator.GetFloat(clipOffsetParameter));
 			if (animatorStateInfo.normalizedTime >= 1 - Time.deltaTime * animator.GetFloat(clipSpeedParameter) - animator.GetFloat(clipOffsetParameter))
 			{
 				animator.SetTrigger("EXIT");
