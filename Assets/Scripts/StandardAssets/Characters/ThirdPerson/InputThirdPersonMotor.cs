@@ -303,11 +303,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private void SetForwardLookDirection(float deltaTime)
 		{
-			if (!characterPhysics.isGrounded)
-			{
-				return;
-			}
-			
 			if (rapidTurningState == RapidTurningState.Easing)
 			{
 				RapidTurningEasing(deltaTime);
@@ -383,11 +378,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private void SetStrafeLookDirection(float deltaTime)
 		{
-			if (!characterPhysics.isGrounded)
-			{
-				return;
-			}
-			
 			Vector3 lookForwardY = transform.rotation.eulerAngles;
 			
 			lookForwardY.x = 0;

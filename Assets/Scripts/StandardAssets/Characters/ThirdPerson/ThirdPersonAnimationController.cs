@@ -82,6 +82,17 @@ namespace StandardAssets.Characters.ThirdPerson
 		private bool isGrounded;
 		private bool didJump;
 		
+		public void AirborneStateExit()
+		{
+			animator.SetFloat(predictedFallDistanceParameterName, 0);
+			animator.SetBool(jumpedParameterName, false);
+		}
+
+		public void LocomotionStateUpdate()
+		{
+			//TODO update locomotion pre run
+		}
+		
 		public void OnRapidTurnComplete()
 		{
 			motor.FinishedTurn();
