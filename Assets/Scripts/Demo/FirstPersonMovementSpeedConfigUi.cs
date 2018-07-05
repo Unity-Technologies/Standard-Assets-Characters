@@ -36,7 +36,7 @@ namespace Demo
 
         void Start()
         {
-           // modifiers = fpsController.exposedMovementModifiers;
+            modifiers = fpsController.exposedMovementModifiers;
 
             sliderTextValues = new Text[] {sprintSpeedTextValue, crouchSpeedTextValue, proneSpeedTextValue};
             sliderValues = new float[] {maxSprintSpeedValue, maxCrouchSpeedValue, maxProneSpeedValue};

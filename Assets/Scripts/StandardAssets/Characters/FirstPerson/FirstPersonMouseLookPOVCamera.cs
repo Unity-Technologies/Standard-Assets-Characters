@@ -25,6 +25,9 @@ namespace StandardAssets.Characters.FirstPerson
         protected float YSensitivity = -1;
         [SerializeField]
         protected float smoothTime = 1.1f;
+
+        private bool invertX = true;
+        private bool invertY = true;
         
         /// <summary>
         /// Reference to all the cinemachine vcams on the character
@@ -106,5 +109,43 @@ namespace StandardAssets.Characters.FirstPerson
             return cameraRotation;
         }
         
+        //Add missing methods 
+        public void InvertXAxis()
+        {
+            invertX = !invertX;
+            XSensitivity *= -1;
+        }
+        
+        public void InvertYAxis()
+        {
+            invertY = !invertY;
+            YSensitivity *= -1;
+        }
+
+        public void SetSensitivity(float x, float y)
+        {
+            if (x != 0)
+            {
+                if (invertX)
+                {
+                    x *= -1;
+                }
+                XSensitivity = x;
+            }
+
+            if (y != 0)
+            {
+                if (invertY)
+                {
+                    y *= -1;
+                }
+                YSensitivity = y;
+            }
+        }
+
+        public Vector2 GetSensitivity()
+        {
+            return new Vector2(XSensitivity,YSensitivity);
+        }
     }
 }
