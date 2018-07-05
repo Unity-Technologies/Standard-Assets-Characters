@@ -1833,7 +1833,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1964598378489596}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 47.75, y: 26.205, z: 63.168888}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4151648849392010}
@@ -2376,7 +2376,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  jumpCooldown: 0.5
+  jumpCooldown: 0
   jumpSpeed: 0
   airborneTurnSpeedProportion: 0.5
   angleSnapBehaviour: 60
@@ -2469,7 +2469,7 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   animationMotorProperties: {fileID: 11400000, guid: ddebd4a643d394c179ea063744c34ead,
     type: 2}
-  inheritGroundVelocity: 0
+  inheritGroundVelocity: 1
   maxFallDistanceToLand: 1
 --- !u!114 &114636307679204524
 MonoBehaviour:
