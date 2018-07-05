@@ -124,11 +124,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			normalizedInputLateralSpeed = 0;
 
-			if (!characterPhysics.isGrounded)
-			{
-				return;
-			}
-
 			if (!characterInput.hasMovementInput)
 			{
 				EaseOffForwardInput(deltaTime);
@@ -140,10 +135,6 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected override void CalculateStrafeMovement(float deltaTime)
 		{
-			if (!characterPhysics.isGrounded)
-			{
-				return;
-			}
 
 			Vector2 moveInput = characterInput.moveInput;
 
@@ -248,7 +239,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			else
 			{
-				characterPhysics.Move(cacheGroundMovementVector);
+				characterPhysics.Move(transform.forward *  cacheGroundMovementVector.magnitude);
 			}
 		}
 
