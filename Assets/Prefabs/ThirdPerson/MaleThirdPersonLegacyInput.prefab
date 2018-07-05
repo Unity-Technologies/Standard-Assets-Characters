@@ -1053,6 +1053,7 @@ GameObject:
   - component: {fileID: 114337826517927418}
   - component: {fileID: 114798069747516348}
   - component: {fileID: 114636360318092058}
+  - component: {fileID: 114636307679204524}
   m_Layer: 11
   m_Name: MaleThirdPersonLegacyInput
   m_TagString: Player
@@ -2187,11 +2188,9 @@ MonoBehaviour:
   lookXAxisName: LookX
   lookYAxisName: LookY
   keyboardJumpName: Jump
-  ps4JumpName: JumpPS4
-  xBoneJumpName: JumpXBone
-  xBox360JumpName: JumpXBox360
-  gamepadJumpName: 
-  hasGamepad: 0
+  enableOnScreenJoystickControls: 0
+  leftOnScreenJoystick: {fileID: 0}
+  rightOnScreenJoystick: {fileID: 0}
 --- !u!114 &114240240390363140
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2218,7 +2217,6 @@ MonoBehaviour:
   playerRootTransform: {fileID: 1296605580789908}
   playerCentre: {x: 0, y: -0.85, z: 0}
   playerHeight: 1.7
-  playerRadius: 0.45
   maxGroundingDist: 50
   groundingEasing: 10
   groundCheckPoint: {x: 0, y: -0.7, z: 0}
@@ -2382,6 +2380,69 @@ MonoBehaviour:
     type: 2}
   inheritGroundVelocity: 0
   maxFallDistanceToLand: 1
+--- !u!114 &114636307679204524
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1964598378489596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf32b75d337eb42f6a76d25b9d6d5e93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 95771403575124170}
+  properties:
+  - name: 
+    walkRapidTurnOffset: 0
+    runRapidTurnOffset: 0
+    walkRapidTurnSpeed: 1
+    runRapidTurnSpeed: 1
+  - name: 
+    walkRapidTurnOffset: 0
+    runRapidTurnOffset: 0
+    walkRapidTurnSpeed: 1
+    runRapidTurnSpeed: 1
+  - name: 
+    walkRapidTurnOffset: 0
+    runRapidTurnOffset: 0
+    walkRapidTurnSpeed: 1
+    runRapidTurnSpeed: 1
+  - name: 
+    walkRapidTurnOffset: 0
+    runRapidTurnOffset: 0
+    walkRapidTurnSpeed: 1
+    runRapidTurnSpeed: 1
+  - name: 
+    walkRapidTurnOffset: 0
+    runRapidTurnOffset: 0
+    walkRapidTurnSpeed: 1
+    runRapidTurnSpeed: 1
+  - name: 
+    walkRapidTurnOffset: 0
+    runRapidTurnOffset: 0
+    walkRapidTurnSpeed: 1
+    runRapidTurnSpeed: 1
+  - name: 
+    walkRapidTurnOffset: 0
+    runRapidTurnOffset: 0
+    walkRapidTurnSpeed: 1
+    runRapidTurnSpeed: 1
+  - name: 
+    walkRapidTurnOffset: 0
+    runRapidTurnOffset: 0
+    walkRapidTurnSpeed: 1
+    runRapidTurnSpeed: 1
+  - name: 
+    walkRapidTurnOffset: 0
+    runRapidTurnOffset: 0
+    walkRapidTurnSpeed: 1
+    runRapidTurnSpeed: 1
+  - name: 
+    walkRapidTurnOffset: 0
+    runRapidTurnOffset: 0
+    walkRapidTurnSpeed: 1
+    runRapidTurnSpeed: 1
 --- !u!114 &114636360318092058
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2396,7 +2457,6 @@ MonoBehaviour:
   center: {x: 0, y: 0, z: 0}
   radius: 0.4
   height: 1.2
-  skinWidth: 0.08
 --- !u!114 &114798069747516348
 MonoBehaviour:
   m_ObjectHideFlags: 1
