@@ -92,7 +92,7 @@ namespace Demo
 		public void SetVerticalSliderValue(Slider slider)
 		{
 			m_YAxisMaxSpeed = ((slider.value * 400) + 100);
-			verticalSliderValueText.text = (slider.value*100).ToString("0");
+			verticalSliderValueText.text = (m_YAxisMaxSpeed).ToString("0");
 			foreach (var camera in cameras)
 			{
 				SetYAxisMaxSpeed(camera, m_YAxisMaxSpeed);
@@ -107,7 +107,7 @@ namespace Demo
 		public void SetHorizontalSliderValue(Slider slider)
 		{
 			m_XAxisMaxSpeed = ((slider.value * 400) + 100);
-			horizontalSliderValueText.text = (slider.value*100).ToString("0");
+			horizontalSliderValueText.text = (m_XAxisMaxSpeed).ToString("0");
 			foreach (var camera in cameras)
 			{
 				SetXAxisMaxSpeed(camera, m_XAxisMaxSpeed);
@@ -138,8 +138,8 @@ namespace Demo
 			{
 				return;
 			}
-			
-			//povCamAdjustables.XSensitivity *= -1;	
+		
+			povCamAdjustables.InvertXAxis();
 		}
 
 		public void ToggleYAxisMouse(Toggle toggle)
@@ -148,8 +148,7 @@ namespace Demo
 			{
 				return;
 			}
-
-			//povCamAdjustables.YSensitivity *= -1;
+			povCamAdjustables.InvertYAxis();
 		}
 
 		public void SetMouseXSpeed(Slider slider)
@@ -158,9 +157,9 @@ namespace Demo
 			{
 				return;
 			}
-			//var newSensitivity = GetMouseSensitivityValue(povCamAdjustables.XSensitivity, slider);
-			//povCamAdjustables.XSensitivity = newSensitivity;
-			//SetMouseSensitivytSliderText(xAxisSliderValueTextMouse, newSensitivity);
+			var newSensitivity = GetMouseSensitivityValue(povCamAdjustables.GetSensitivity().x, slider);
+			povCamAdjustables.SetSensitivity(newSensitivity,0);
+			SetMouseSensitivytSliderText(xAxisSliderValueTextMouse, newSensitivity);
 		}
 		
 		public void SetMouseYSpeed(Slider slider)
@@ -170,9 +169,9 @@ namespace Demo
 				return;
 			}
 
-			//var newSensitivity = GetMouseSensitivityValue(povCamAdjustables.YSensitivity, slider);
-			//povCamAdjustables.YSensitivity = newSensitivity;
-			//SetMouseSensitivytSliderText(yAxisSliderValueTextMouse, newSensitivity);
+			var newSensitivity = GetMouseSensitivityValue(povCamAdjustables.GetSensitivity().y, slider);
+			povCamAdjustables.SetSensitivity(0,newSensitivity);
+			SetMouseSensitivytSliderText(yAxisSliderValueTextMouse, newSensitivity);
 		}
 
 		float GetMouseSensitivityValue(float current, Slider slider)
@@ -209,7 +208,7 @@ namespace Demo
 
 		void Update()
 		{
-			UpdateActiveInputDevices();
+			//UpdateActiveInputDevices();
 			
 		}
 
