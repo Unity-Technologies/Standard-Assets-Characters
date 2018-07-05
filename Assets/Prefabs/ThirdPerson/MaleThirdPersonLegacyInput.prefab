@@ -2490,50 +2490,50 @@ MonoBehaviour:
     runRapidTurnOffset: 0
     walkRapidTurnSpeed: 1
     runRapidTurnSpeed: 1
-  - name: 50% extra
+  - name: Quicker
+    walkRapidTurnOffset: 0
+    runRapidTurnOffset: 0
+    walkRapidTurnSpeed: 1.25
+    runRapidTurnSpeed: 1.5
+  - name: Fast
     walkRapidTurnOffset: 0
     runRapidTurnOffset: 0
     walkRapidTurnSpeed: 1.5
-    runRapidTurnSpeed: 1.5
-  - name: Double
+    runRapidTurnSpeed: 2
+  - name: Faster
     walkRapidTurnOffset: 0
     runRapidTurnOffset: 0
     walkRapidTurnSpeed: 2
-    runRapidTurnSpeed: 2
-  - name: Triple
-    walkRapidTurnOffset: 0
-    runRapidTurnOffset: 0
-    walkRapidTurnSpeed: 3
     runRapidTurnSpeed: 3
-  - name: Quadruple
+  - name: Fastest
     walkRapidTurnOffset: 0
     runRapidTurnOffset: 0
-    walkRapidTurnSpeed: 4
+    walkRapidTurnSpeed: 2.5
     runRapidTurnSpeed: 4
-  - name: Original Offset
-    walkRapidTurnOffset: 0.7
-    runRapidTurnOffset: 0.7
+  - name: Original (offset)
+    walkRapidTurnOffset: 0.125
+    runRapidTurnOffset: 0.5
     walkRapidTurnSpeed: 1
     runRapidTurnSpeed: 1
-  - name: 50% extra offset
-    walkRapidTurnOffset: 0
-    runRapidTurnOffset: 0
-    walkRapidTurnSpeed: 1.5
+  - name: Quicker (offset)
+    walkRapidTurnOffset: 0.125
+    runRapidTurnOffset: 0.5
+    walkRapidTurnSpeed: 1.25
     runRapidTurnSpeed: 1.5
-  - name: Double offset
-    walkRapidTurnOffset: 0
-    runRapidTurnOffset: 0
-    walkRapidTurnSpeed: 2
+  - name: Fast (offset)
+    walkRapidTurnOffset: 0.125
+    runRapidTurnOffset: 0.5
+    walkRapidTurnSpeed: 1.5
     runRapidTurnSpeed: 2
-  - name: Triple offset
-    walkRapidTurnOffset: 0
-    runRapidTurnOffset: 0
-    walkRapidTurnSpeed: 3
+  - name: Faster (offset)
+    walkRapidTurnOffset: 0.125
+    runRapidTurnOffset: 0.5
+    walkRapidTurnSpeed: 2
     runRapidTurnSpeed: 3
-  - name: Quadruple offset
-    walkRapidTurnOffset: 0
-    runRapidTurnOffset: 0
-    walkRapidTurnSpeed: 4
+  - name: Fastest (offset)
+    walkRapidTurnOffset: 0.125
+    runRapidTurnOffset: 0.25
+    walkRapidTurnSpeed: 2.5
     runRapidTurnSpeed: 4
 --- !u!114 &114636360318092058
 MonoBehaviour:
