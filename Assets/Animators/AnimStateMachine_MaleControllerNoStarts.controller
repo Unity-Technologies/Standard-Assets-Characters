@@ -2494,30 +2494,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!1101 &1101064990314376416
-AnimatorStateTransition:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: Grounded
-    m_EventTreshold: 0
-  m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: 1102470753244027562}
-  m_Solo: 0
-  m_Mute: 0
-  m_IsExit: 0
-  serializedVersion: 3
-  m_TransitionDuration: 0.27902365
-  m_TransitionOffset: 0
-  m_ExitTime: 0.56457686
-  m_HasExitTime: 0
-  m_HasFixedDuration: 1
-  m_InterruptionSource: 0
-  m_OrderedInterruption: 1
-  m_CanTransitionToSelf: 1
 --- !u!1101 &1101104548059792314
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -2941,19 +2917,22 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 3
     m_ConditionEvent: FallTime
-    m_EventTreshold: 1
+    m_EventTreshold: 0.75
   - m_ConditionMode: 1
     m_ConditionEvent: Grounded
     m_EventTreshold: 0
+  - m_ConditionMode: 3
+    m_ConditionEvent: ForwardSpeed
+    m_EventTreshold: 0.2
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102066673124970266}
   m_Solo: 0
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.3
-  m_TransitionOffset: 0.1
-  m_ExitTime: 0.91075957
+  m_TransitionDuration: 0.15
+  m_TransitionOffset: 0.2
+  m_ExitTime: 0.7472922
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -3036,8 +3015,8 @@ AnimatorStateTransition:
     m_ConditionEvent: FallTime
     m_EventTreshold: 0.75
   - m_ConditionMode: 4
-    m_ConditionEvent: FallTime
-    m_EventTreshold: 1
+    m_ConditionEvent: ForwardSpeed
+    m_EventTreshold: 0.2
   - m_ConditionMode: 1
     m_ConditionEvent: Grounded
     m_EventTreshold: 0
@@ -3447,32 +3426,6 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: WalkRapidTurnOffset
   m_TimeParameter: 
---- !u!1102 &1102349472999644704
-AnimatorState:
-  serializedVersion: 5
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: JumpHurdle
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions:
-  - {fileID: 1101064990314376416}
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 2a2257217aef14b4bae99ca9676df16b, type: 3}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
 --- !u!1102 &1102370743233595900
 AnimatorState:
   serializedVersion: 5
@@ -3713,9 +3666,6 @@ AnimatorStateMachine:
   m_Name: Airborne_StateMachine
   m_ChildStates:
   - serializedVersion: 1
-    m_State: {fileID: 1102349472999644704}
-    m_Position: {x: 612, y: -144, z: 0}
-  - serializedVersion: 1
     m_State: {fileID: 1102647195463982988}
     m_Position: {x: 324, y: 24, z: 0}
   - serializedVersion: 1
@@ -3726,7 +3676,7 @@ AnimatorStateMachine:
     m_Position: {x: 672, y: 348, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102470753244027562}
-    m_Position: {x: 684, y: 12, z: 0}
+    m_Position: {x: 660, y: -36, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102370743233595900}
     m_Position: {x: 672, y: 192, z: 0}
@@ -3741,7 +3691,6 @@ AnimatorStateMachine:
   - first: {fileID: 1107485051808353962}
     second:
     - {fileID: 1109140358605120518}
-    - {fileID: 1109816884294195042}
   m_StateMachineBehaviours:
   - {fileID: 114091132044892706}
   m_AnyStatePosition: {x: 48, y: -324, z: 0}
@@ -3981,25 +3930,6 @@ AnimatorTransition:
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 1107920703856779502}
   m_DstState: {fileID: 0}
-  m_Solo: 0
-  m_Mute: 0
-  m_IsExit: 0
-  serializedVersion: 1
---- !u!1109 &1109816884294195042
-AnimatorTransition:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_Conditions:
-  - m_ConditionMode: 2
-    m_ConditionEvent: Grounded
-    m_EventTreshold: 0
-  - m_ConditionMode: 3
-    m_ConditionEvent: JumpHeight
-    m_EventTreshold: 0.5
-  m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: 1102349472999644704}
   m_Solo: 0
   m_Mute: 0
   m_IsExit: 0
