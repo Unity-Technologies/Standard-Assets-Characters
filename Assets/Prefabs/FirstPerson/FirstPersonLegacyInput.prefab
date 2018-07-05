@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 114561844803457874}
   - component: {fileID: 114233431554465932}
   - component: {fileID: 135661079851010840}
+  - component: {fileID: 135344942864544930}
   m_Layer: 11
   m_Name: FirstPersonLegacyInput
   m_TagString: Untagged
@@ -338,7 +339,7 @@ MonoBehaviour:
     m_OnCameraLive:
       m_PersistentCalls:
         m_Calls: []
-      m_TypeName: Cinemachine.CinemachineBrain+VcamActivatedEvent, Cinemachine, Version=0.0.0.0,
+      m_TypeName: Cinemachine.CinemachineBrain+VcamEvent, Cinemachine, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 4774026149090618}
@@ -519,6 +520,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingMovementProperties:
+    isAvtive: 0
     stateName: Walk
     maxSpeed: 7
     acceleration:
@@ -572,6 +574,7 @@ MonoBehaviour:
   movementModifiers:
   - inputs: {fileID: 11400000, guid: 4536a47671291463386c18678dd23194, type: 2}
     movementProperties:
+      isAvtive: 0
       stateName: Sprint
       maxSpeed: 11
       acceleration:
@@ -624,6 +627,7 @@ MonoBehaviour:
           Culture=neutral, PublicKeyToken=null
   - inputs: {fileID: 11400000, guid: efd28e54320836844815e53240c38fe4, type: 2}
     movementProperties:
+      isAvtive: 0
       stateName: Crouch
       maxSpeed: 4
       acceleration:
@@ -676,6 +680,7 @@ MonoBehaviour:
           Culture=neutral, PublicKeyToken=null
   - inputs: {fileID: 11400000, guid: 2692a7f21a6ff044792d5134fd85691a, type: 2}
     movementProperties:
+      isAvtive: 0
       stateName: Prone
       maxSpeed: 2
       acceleration:
@@ -802,7 +807,7 @@ MonoBehaviour:
     m_OnCameraLive:
       m_PersistentCalls:
         m_Calls: []
-      m_TypeName: Cinemachine.CinemachineBrain+VcamActivatedEvent, Cinemachine, Version=0.0.0.0,
+      m_TypeName: Cinemachine.CinemachineBrain+VcamEvent, Cinemachine, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 4472433186970248}
@@ -907,7 +912,7 @@ MonoBehaviour:
     m_OnCameraLive:
       m_PersistentCalls:
         m_Calls: []
-      m_TypeName: Cinemachine.CinemachineBrain+VcamActivatedEvent, Cinemachine, Version=0.0.0.0,
+      m_TypeName: Cinemachine.CinemachineBrain+VcamEvent, Cinemachine, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 4467537354003894}
@@ -1007,6 +1012,18 @@ MonoBehaviour:
   enableOnScreenJoystickControls: 0
   leftOnScreenJoystick: {fileID: 0}
   rightOnScreenJoystick: {fileID: 0}
+--- !u!135 &135344942864544930
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1627797537853366}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!135 &135661079851010840
 SphereCollider:
   m_ObjectHideFlags: 1

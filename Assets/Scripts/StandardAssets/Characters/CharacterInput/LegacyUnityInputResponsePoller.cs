@@ -106,7 +106,11 @@ namespace StandardAssets.Characters.CharacterInput
 				check = !check;
 			}
 		}
-
+		/// <summary>
+		/// Checks the list of all active Pollers and turns off all active toggles except its own.
+		/// This is to prevent a state change while check==true, which leads having to re-toggle before
+		/// the response broadcast is started again.
+		/// </summary>
 		private void OnStart()
 		{
 			if(s_Pollers!=null)
