@@ -236,10 +236,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				groundMovementVector = new Vector3(animator.deltaPosition.x, 0, animator.deltaPosition.z);
 				characterPhysics.Move(groundMovementVector);
+				cacheGroundMovementVector = groundMovementVector;
 			}
 			else
 			{
-				characterPhysics.Move(transform.forward *  cacheGroundMovementVector.magnitude);
+				characterPhysics.Move(cacheGroundMovementVector);
 			}
 		}
 
