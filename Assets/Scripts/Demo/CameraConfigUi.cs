@@ -79,7 +79,8 @@ namespace Demo
 		protected float m_YAxisMaxSpeed;
 		protected float xAxisMaxSpeedMouse;
 		protected float yAxisMaxSpeedMouse;
-
+		
+	
 		protected virtual void SetMaxSpeedSliderInitialValues(Slider slider, float value, Text sliderText, float scaledValue)
 		{
 			slider.value = value;
