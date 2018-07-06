@@ -113,6 +113,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			
 			OnStrafeEnded();
+			
+			currentForwardInputProperties = configuration.forwardMovementProperties;
+			targetForwardClampSpeed = forwardClampSpeed = currentForwardInputProperties.inputClamped;
 		}
 		
 		/// <summary>
@@ -221,10 +224,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected virtual void OnRunEnded()
 		{
 			movementState = ThirdPersonGroundMovementState.Walking;
-			targetForwardClampSpeed = currentForwardInputProperties.inputUnclamped;
+			targetForwardClampSpeed = currentForwardInputProperties.inputClamped;
 			if (isStrafing)
 			{
-				targetLateralClampSpeed = currentLateralInputProperties.inputUnclamped;
+				targetLateralClampSpeed = currentLateralInputProperties.inputClamped;
 			}
 		}
 
@@ -234,10 +237,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected virtual void OnRunStarted()
 		{
 			movementState = ThirdPersonGroundMovementState.Running;
-			targetForwardClampSpeed = currentForwardInputProperties.inputClamped;
+			targetForwardClampSpeed = currentForwardInputProperties.inputUnclamped;
 			if (isStrafing)
 			{
-				targetLateralClampSpeed = currentLateralInputProperties.inputClamped;
+				targetLateralClampSpeed = currentLateralInputProperties.inputUnclamped;
 			}
 		}
 	
