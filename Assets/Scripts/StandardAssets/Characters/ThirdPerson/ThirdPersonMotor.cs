@@ -17,6 +17,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected ThirdPersonMotorProperties motorProperties;
 		
 		[SerializeField]
+		protected Transform cameraTransform;
+		
+		[SerializeField]
 		protected InputResponse runInput;
 		
 		[SerializeField]
@@ -93,6 +96,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			characterInput = GetComponent<ICharacterInput>();
 			characterPhysics = GetComponent<ICharacterPhysics>();
 			animator = GetComponent<Animator>();
+			
+			if (cameraTransform == null)
+			{
+				cameraTransform = Camera.main.transform;
+			}
 
 			if (runInput != null)
 			{
@@ -299,12 +307,28 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected virtual void SetStrafeLookDirection()
 		{
-			throw new NotImplementedException();
+			Vector3 lookForwardY = transform.rotation.eulerAngles;
+			
+			lookForwardY.x = 0;
+			lookForwardY.z = 0;
+			lookForwardY.y -= characterInput.lookInput.x * Time.deltaTime * motorProperties.scaleStrafeLook;
+			
+			Quaternion targetRotation = Quaternion.Euler(lookForwardY);
+
+			targetRotation =
+				Quaternion.RotateTowards(transform.rotation, targetRotation, motorProperties.turningLerp * Time.deltaTime);
+
+			transform.rotation = targetRotation;
 		}
 
 		protected virtual void SetLookDirection()
 		{
-			throw new NotImplementedException();
+			Quaternion targetRotation = CalculateTargetRotation();
+			
+			targetRotation =
+				Quaternion.RotateTowards(transform.rotation, targetRotation, motorProperties.turningLerp * Time.deltaTime);
+
+			transform.rotation = targetRotation;
 		}
 
 		protected virtual void CalculateForwardMovement()
@@ -403,5 +427,21 @@ namespace StandardAssets.Characters.ThirdPerson
 				                                         currentLateralInputProperties.inputDecay);
 			}
 		}
+		
+		protected virtual Quaternion CalculateTargetRotation()
+		{
+			Vector3 flatForward = cameraTransform.forward;
+			flatForward.y = 0f;
+			flatForward.Normalize();
+
+			Vector3 localMovementDirection =
+				new Vector3(characterInput.moveInput.x, 0f, characterInput.moveInput.y);
+
+			Quaternion cameraToInputOffset = Quaternion.FromToRotation(Vector3.forward, localMovementDirection);
+			cameraToInputOffset.eulerAngles = new Vector3(0f, cameraToInputOffset.eulerAngles.y, 0f);
+
+			return Quaternion.LookRotation(cameraToInputOffset * flatForward);
+		}
+		
 	}
 }

@@ -2,10 +2,17 @@
 
 namespace StandardAssets.Characters.ThirdPerson
 {
-	public class ThirdPersonMotorProperties
+	[CreateAssetMenu(fileName = "Third Person Movement Profile", menuName = "Standard Assets/Characters/Create Third Person Movement Profile", order = 1)]
+	public class ThirdPersonMotorProperties : ScriptableObject
 	{
 		[SerializeField]
-		protected float jumpSpeed;
+		protected float jumpSpeed = 10f;
+		
+		[SerializeField]
+		protected float turningSpeed = 500f;
+		
+		[SerializeField]
+		protected float strafeLookInputScale = 20f;
 
 		[SerializeField]
 		protected float rootMotionMovementFactor = 1f;
@@ -39,9 +46,19 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return jumpSpeed; }
 		}
 
+		public float turningLerp
+		{
+			get { return turningSpeed; }
+		}
+
 		public float scaleRootMovement
 		{
 			get { return rootMotionMovementFactor; }
+		}
+
+		public float scaleStrafeLook
+		{
+			get { return strafeLookInputScale; }
 		}
 	}
 }
