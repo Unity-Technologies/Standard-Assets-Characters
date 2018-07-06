@@ -89,12 +89,14 @@ GameObject:
   - component: {fileID: 114736923435200732}
   - component: {fileID: 114750215591757036}
   - component: {fileID: 114570266145897858}
-  - component: {fileID: 136131221980381340}
   - component: {fileID: 95678976135669546}
   - component: {fileID: 114074065261041036}
   - component: {fileID: 114651346732965486}
   - component: {fileID: 114035350532953534}
   - component: {fileID: 114561844803457874}
+  - component: {fileID: 114233431554465932}
+  - component: {fileID: 135661079851010840}
+  - component: {fileID: 135344942864544930}
   m_Layer: 11
   m_Name: FirstPersonLegacyInput
   m_TagString: Untagged
@@ -146,7 +148,6 @@ GameObject:
   - component: {fileID: 4617565824343848}
   - component: {fileID: 114473157933188712}
   - component: {fileID: 114128930939556762}
-  - component: {fileID: 114911662244107798}
   m_Layer: 11
   m_Name: Cameras
   m_TagString: Untagged
@@ -322,6 +323,7 @@ MonoBehaviour:
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
   m_Priority: 0
+  m_StandbyUpdate: 1
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
@@ -362,7 +364,21 @@ MonoBehaviour:
   - {fileID: 114606634733582770}
   - {fileID: 114074389995230264}
   mPOV: {fileID: 0}
-  lookActionReferences: []
+  onScreenTouch: {fileID: 0}
+--- !u!114 &114233431554465932
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1627797537853366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fee6c3ba6b914ab2b7caea31ccec1945, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  center: {x: 0, y: 0, z: 0}
+  radius: 0.2
+  height: 1
 --- !u!114 &114324813546737938
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -446,12 +462,12 @@ MonoBehaviour:
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
   m_Priority: 10
+  m_StandbyUpdate: 1
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_AnimatedTarget: {fileID: 95678976135669546}
   m_LayerIndex: 0
-  m_ShowDebugText: 0
-  m_EnableAllChildCameras: 1
+  m_ShowDebugText: 1
   m_ChildCameras:
   - {fileID: 114713529341382392}
   - {fileID: 114606634733582770}
@@ -467,6 +483,10 @@ MonoBehaviour:
     m_MinDuration: 0
   - m_FullHash: 1063665824
     m_VirtualCamera: {fileID: 114074389995230264}
+    m_ActivateAfter: 0
+    m_MinDuration: 0
+  - m_FullHash: -350224702
+    m_VirtualCamera: {fileID: 114713529341382392}
     m_ActivateAfter: 0
     m_MinDuration: 0
   m_DefaultBlend:
@@ -486,6 +506,8 @@ MonoBehaviour:
     m_ParentHash: 756556552
   - m_Hash: 1063665824
     m_ParentHash: 756556552
+  - m_Hash: -350224702
+    m_ParentHash: 756556552
 --- !u!114 &114501385933726858
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -498,6 +520,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingMovementProperties:
+    isAvtive: 0
+    stateName: Walk
     maxSpeed: 7
     acceleration:
       curve:
@@ -548,10 +572,10 @@ MonoBehaviour:
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
   movementModifiers:
-  - inputs:
-    - {fileID: 11400000, guid: 8c1192daa77a944b393df7e0146d7a7f, type: 2}
-    - {fileID: 11400000, guid: c871b07d60224c9419048e8902a4408e, type: 2}
+  - inputs: {fileID: 11400000, guid: 4536a47671291463386c18678dd23194, type: 2}
     movementProperties:
+      isAvtive: 0
+      stateName: Sprint
       maxSpeed: 11
       acceleration:
         curve:
@@ -560,9 +584,9 @@ MonoBehaviour:
           - serializedVersion: 3
             time: 0
             value: 0
-            inSlope: 0
+            inSlope: 1
             outSlope: 1
-            tangentMode: 0
+            tangentMode: 34
             weightedMode: 0
             inWeight: 0
             outWeight: 0
@@ -570,16 +594,16 @@ MonoBehaviour:
             time: 1
             value: 1
             inSlope: 1
-            outSlope: 0
-            tangentMode: 0
+            outSlope: 1
+            tangentMode: 34
             weightedMode: 0
             inWeight: 0
             outWeight: 0
           m_PreInfinity: 2
           m_PostInfinity: 2
-          m_RotationOrder: 4
-        maxValue: 0.01
-      jumpSpeed: 8
+          m_RotationOrder: 0
+        maxValue: 0.1
+      jumpSpeed: 9
       enterState:
         m_PersistentCalls:
           m_Calls:
@@ -591,7 +615,7 @@ MonoBehaviour:
               m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
               m_IntArgument: 0
               m_FloatArgument: 0
-              m_StringArgument: Walk
+              m_StringArgument: Sprint
               m_BoolArgument: 0
             m_CallState: 2
         m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
@@ -601,11 +625,11 @@ MonoBehaviour:
           m_Calls: []
         m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-  - inputs:
-    - {fileID: 11400000, guid: 792f413f42ab38c408411c84b20128d0, type: 2}
-    - {fileID: 11400000, guid: 1f0ff2d9a05ab0342b275be9850ffb82, type: 2}
+  - inputs: {fileID: 11400000, guid: efd28e54320836844815e53240c38fe4, type: 2}
     movementProperties:
-      maxSpeed: 3
+      isAvtive: 0
+      stateName: Crouch
+      maxSpeed: 4
       acceleration:
         curve:
           serializedVersion: 2
@@ -613,9 +637,9 @@ MonoBehaviour:
           - serializedVersion: 3
             time: 0
             value: 0
-            inSlope: 0
+            inSlope: 1
             outSlope: 1
-            tangentMode: 0
+            tangentMode: 34
             weightedMode: 0
             inWeight: 0
             outWeight: 0
@@ -623,16 +647,16 @@ MonoBehaviour:
             time: 1
             value: 1
             inSlope: 1
-            outSlope: 0
-            tangentMode: 0
+            outSlope: 1
+            tangentMode: 34
             weightedMode: 0
             inWeight: 0
             outWeight: 0
           m_PreInfinity: 2
           m_PostInfinity: 2
-          m_RotationOrder: 4
-        maxValue: 0.01
-      jumpSpeed: 5
+          m_RotationOrder: 0
+        maxValue: 0.1
+      jumpSpeed: 2
       enterState:
         m_PersistentCalls:
           m_Calls:
@@ -654,11 +678,11 @@ MonoBehaviour:
           m_Calls: []
         m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-  - inputs:
-    - {fileID: 11400000, guid: e2cc03e054ab3412e84c918085c0abe2, type: 2}
-    - {fileID: 11400000, guid: 3897e54e77188b84f88dd0adc35a4615, type: 2}
+  - inputs: {fileID: 11400000, guid: 2692a7f21a6ff044792d5134fd85691a, type: 2}
     movementProperties:
-      maxSpeed: 1
+      isAvtive: 0
+      stateName: Prone
+      maxSpeed: 2
       acceleration:
         curve:
           serializedVersion: 2
@@ -666,9 +690,9 @@ MonoBehaviour:
           - serializedVersion: 3
             time: 0
             value: 0
-            inSlope: 0
+            inSlope: 1
             outSlope: 1
-            tangentMode: 0
+            tangentMode: 34
             weightedMode: 0
             inWeight: 0
             outWeight: 0
@@ -676,15 +700,15 @@ MonoBehaviour:
             time: 1
             value: 1
             inSlope: 1
-            outSlope: 0
-            tangentMode: 0
+            outSlope: 1
+            tangentMode: 34
             weightedMode: 0
             inWeight: 0
             outWeight: 0
           m_PreInfinity: 2
           m_PostInfinity: 2
-          m_RotationOrder: 4
-        maxValue: 0.01
+          m_RotationOrder: 0
+        maxValue: 0.1
       jumpSpeed: 0
       enterState:
         m_PersistentCalls:
@@ -721,12 +745,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerRootTransform: {fileID: 0}
   playerCentre: {x: 0, y: 0, z: 0}
-  playerHeight: 1.56
-  playerRadius: 0.45
+  playerHeight: 1
   maxGroundingDist: 50
   groundingEasing: 10
-  groundCheckPoint: {x: 0, y: -0.85, z: 0}
-  groundCheckRadius: 0.35
+  groundCheckPoint: {x: 0, y: -0.3, z: 0}
+  groundCheckRadius: 0.3
   minSlope: 0
   maxSlope: 60
   maxModifiedSlope: 45
@@ -736,9 +759,10 @@ MonoBehaviour:
   liftSlopeRadius: 0.2
   excludePlayer:
     serializedVersion: 2
-    m_Bits: 311
-  capsuleCollider: {fileID: 0}
-  enableDebug: 0
+    m_Bits: 307
+  characterCapsule: {fileID: 114233431554465932}
+  maxPenetrationTests: 4
+  enableDebug: 1
 --- !u!114 &114570266145897858
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -767,6 +791,7 @@ MonoBehaviour:
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
   m_Priority: 0
+  m_StandbyUpdate: 1
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
@@ -871,6 +896,7 @@ MonoBehaviour:
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
   m_Priority: 10
+  m_StandbyUpdate: 1
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
@@ -917,28 +943,6 @@ MonoBehaviour:
   ids:
   - leftfoot
   - rightfoot
---- !u!114 &114911662244107798
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1922616701639256}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48973502197442979c49c5becb275492, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lookXAxisName: LookX
-  lookYAxisName: LookY
-  XSensitivity: -10
-  YSensitivity: 10
-  smoothTime: 1
-  VCams:
-  - {fileID: 114713529341382392}
-  - {fileID: 114606634733582770}
-  - {fileID: 114074389995230264}
-  mPOV: {fileID: 0}
-  lookActionReferences: []
 --- !u!114 &114957854057706032
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1000,24 +1004,35 @@ MonoBehaviour:
   horizontalAxisName: Horizontal
   verticalAxisName: Vertical
   useLookInput: 1
+  mouseLookXAxisName: 
+  mouseLookYAxisName: 
   lookXAxisName: LookX
   lookYAxisName: LookY
   keyboardJumpName: Jump
-  ps4JumpName: JumpPS4
-  xBoneJumpName: JumpXBone
-  xBox360JumpName: JumpXBox360
-  gamepadJumpName: 
-  hasGamepad: 0
---- !u!136 &136131221980381340
-CapsuleCollider:
+  enableOnScreenJoystickControls: 0
+  leftOnScreenJoystick: {fileID: 0}
+  rightOnScreenJoystick: {fileID: 0}
+--- !u!135 &135344942864544930
+SphereCollider:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1627797537853366}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.2
-  m_Height: 1
-  m_Direction: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!135 &135661079851010840
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1627797537853366}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}

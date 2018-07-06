@@ -45,6 +45,15 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[SerializeField]
 		protected InputResponse runInput;
+		
+		[SerializeField]
+		protected float rapidTurnAngle = 180f;
+		
+		[SerializeField]
+		protected float rapidTurnForwardSpeedThreshold = 0.1f;
+
+		[SerializeField]
+		protected float postRapidTurnRotationEasingSpeed = 1f, postRapidTurnEasingTime = 1f; 
 
 		[SerializeField]
 		protected InputResponse strafeInput;
@@ -69,6 +78,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected bool isBracingForJump;
 		protected float jumpBraceTime, jumpBraceCount;
 
+		protected float currentEasingTime;
+
+		protected RapidTurningState rapidTurningState = RapidTurningState.None;
 
 		public override float fallTime
 		{
@@ -81,6 +93,18 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				return  Mathf.Max(Mathf.Abs(normalizedForwardSpeed), Mathf.Abs(normalizedLateralSpeed));
 			}
+		}
+		
+		public override void FinishedTurn()
+		{
+			ResetRotation();
+			currentEasingTime = 0;
+			rapidTurningState = RapidTurningState.Easing;
+		}
+
+		protected virtual void ResetRotation()
+		{
+			transform.rotation = CalculateTargetRotation();
 		}
 
 		/// <inheritdoc />
@@ -96,7 +120,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				runInput.Init();
 			}
-
+			
 			if (strafeInput != null)
 			{
 				strafeInput.Init();
@@ -107,17 +131,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			base.Awake();
 		}
 
-		private void OnRunEnded()
-		{
-			isRunToggled = false;
-		}
-
-		private void OnRunStarted()
-		{
-			isRunToggled = true;
-		}
-
-		private void OnStrafeEnd()
+		protected virtual  void OnStrafeEnd()
 		{
 			if (startActionMode != null)
 			{
@@ -126,7 +140,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			isStrafing = false;
 		}
 
-		private void OnStrafeStart()
+		protected virtual void OnStrafeStart()
 		{
 			if (startStrafeMode != null)
 			{
@@ -143,12 +157,13 @@ namespace StandardAssets.Characters.ThirdPerson
 			characterInput.jumpPressed += OnJumpPressed;
 			characterPhysics.landed += OnLanding;
 			characterPhysics.startedFalling += OnStartedFalling;
-
-			if (runInput != null)
+			
+			 if (runInput != null)
 			{
 				runInput.started += OnRunStarted;
 				runInput.ended += OnRunEnded;
 			}
+			 
 
 			if (strafeInput != null)
 			{
@@ -183,12 +198,12 @@ namespace StandardAssets.Characters.ThirdPerson
 				characterPhysics.landed -= OnLanding;
 				characterPhysics.startedFalling -= OnStartedFalling;
 			}
-
-			if (runInput != null)
+			 if (runInput != null)
 			{
 				runInput.started -= OnRunStarted;
 				runInput.ended -= OnRunEnded;
 			}
+			 
 
 			if (strafeInput != null)
 			{
@@ -241,9 +256,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Handles the timing of the jump brace
 		/// </summary>
-		private void Update()
+		protected virtual void Update()
 		{
-		
 			if (isBracingForJump)
 			{
 				jumpBraceCount += Time.deltaTime;
@@ -253,40 +267,95 @@ namespace StandardAssets.Characters.ThirdPerson
 				}
 			}
 		}
+		
+		protected virtual void OnRunEnded()
+		{
+			isRunToggled = false;
+		}
 
-		/// <summary>
-		/// Movement Logic on physics update
-		/// </summary>
-		protected virtual void FixedUpdate()
+		protected virtual void OnRunStarted()
+		{
+			isRunToggled = true;
+		}
+
+		protected virtual void HandleMovementLogic(float deltaTime)
 		{
 			if (isStrafing)
 			{
-				SetStrafeLookDirection();
-				CalculateStrafeMovement();
+				SetStrafeLookDirection(deltaTime);
+				CalculateStrafeMovement(deltaTime);
 			}
 			else
 			{
-				SetForwardLookDirection();
-				CalculateForwardMovement();
+				SetForwardLookDirection(deltaTime);
+				CalculateForwardMovement(deltaTime);
 			}
 
-			CalculateYRotationSpeed(Time.fixedDeltaTime);
+			CalculateYRotationSpeed(deltaTime);
 		}
 
-		protected abstract void CalculateForwardMovement();
+		protected abstract void CalculateForwardMovement(float deltaTime);
 
-		protected abstract void CalculateStrafeMovement();
+		protected abstract void CalculateStrafeMovement(float deltaTime);
 
 		/// <summary>
 		/// Sets forward rotation
 		/// </summary>
-		private void SetForwardLookDirection()
+		private void SetForwardLookDirection(float deltaTime)
 		{
+			if (rapidTurningState == RapidTurningState.Easing)
+			{
+				RapidTurningEasing(deltaTime);
+				return;
+			}
+			
+			if (rapidTurningState == RapidTurningState.Turning)
+			{
+				return;
+			}
+
 			if (!CanSetForwardLookDirection())
 			{
 				return;
 			}
 
+			Quaternion targetRotation = CalculateTargetRotation();
+			
+			float angleDifference = Mathf.Abs((transform.eulerAngles - targetRotation.eulerAngles).y);
+
+			if (normalizedForwardSpeed > rapidTurnForwardSpeedThreshold && rapidTurnAngle < angleDifference && angleDifference < 360 - rapidTurnAngle)
+			{
+				rapidlyTurned(0.2f);
+				rapidTurningState = RapidTurningState.Turning;
+				return;
+			}
+
+			HandleTargetRotation(targetRotation, deltaTime);
+		}
+
+		private void RapidTurningEasing(float deltaTime)
+		{
+			if (!characterInput.hasMovementInput)
+			{
+				return;
+			}
+			
+			Quaternion targetRotation = CalculateTargetRotation();
+			
+			transform.rotation =
+				Quaternion.RotateTowards(transform.rotation, targetRotation, postRapidTurnRotationEasingSpeed * Time.fixedDeltaTime);
+
+			currentEasingTime += Time.fixedDeltaTime;
+
+			if (currentEasingTime >= postRapidTurnEasingTime)
+			{
+				rapidTurningState = RapidTurningState.None;
+				currentEasingTime = 0;
+			}
+		}
+
+		private Quaternion CalculateTargetRotation()
+		{
 			Vector3 flatForward = cameraTransform.forward;
 			flatForward.y = 0f;
 			flatForward.Normalize();
@@ -297,30 +366,36 @@ namespace StandardAssets.Characters.ThirdPerson
 			Quaternion cameraToInputOffset = Quaternion.FromToRotation(Vector3.forward, localMovementDirection);
 			cameraToInputOffset.eulerAngles = new Vector3(0f, cameraToInputOffset.eulerAngles.y, 0f);
 
-			Quaternion targetRotation = Quaternion.LookRotation(cameraToInputOffset * flatForward);	
-			HandleTargetRotation(targetRotation);
+			return Quaternion.LookRotation(cameraToInputOffset * flatForward);
 		}
 
 		protected abstract bool CanSetForwardLookDirection();
 		
-		protected abstract void HandleTargetRotation(Quaternion targetRotation);
+		protected abstract void HandleTargetRotation(Quaternion targetRotation, float deltaTime);
 
 		/// <summary>
 		/// Sets forward rotation
 		/// </summary>
-		private void SetStrafeLookDirection()
+		private void SetStrafeLookDirection(float deltaTime)
 		{
-//			Vector3 lookForwardY = cameraTransform.rotation.eulerAngles;
-//			lookForwardY.x = 0;
-//			lookForwardY.z = 0;
-//			Quaternion targetRotation = Quaternion.Euler(lookForwardY);
-//
-//			float actualTurnSpeed =
-//				characterPhysics.isGrounded ? turnSpeed : turnSpeed * airborneTurnSpeedProportion;
-//			targetRotation =
-//				Quaternion.RotateTowards(transform.rotation, targetRotation, actualTurnSpeed * Time.fixedDeltaTime);
-//
-//			transform.rotation = targetRotation;
+			Vector3 lookForwardY = transform.rotation.eulerAngles;
+			
+			lookForwardY.x = 0;
+			lookForwardY.z = 0;
+			//TODO: DAVE
+			//lookForwardY.y = lookForwardY.y + characterInput.lookInput.x * Time.fixedDeltaTime;
+			lookForwardY.y -= characterInput.lookInput.x;
+			
+			Quaternion targetRotation = Quaternion.Euler(lookForwardY);
+
+			float actualTurnSpeed =
+				characterPhysics.isGrounded ? turnSpeed : turnSpeed * airborneTurnSpeedProportion;
+			targetRotation =
+				Quaternion.RotateTowards(transform.rotation, targetRotation, actualTurnSpeed * Time.fixedDeltaTime);
+
+			transform.rotation = targetRotation;
+			
+		
 		}
 	}
 }

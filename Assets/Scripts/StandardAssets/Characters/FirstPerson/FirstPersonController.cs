@@ -67,11 +67,6 @@ namespace StandardAssets.Characters.FirstPerson
 		private bool previouslyHasInput;
 		
 		/// <summary>
-		/// A stack of states which allows us to revert through previous states
-		/// </summary>
-		private readonly Stack<FirstPersonMovementProperties> prevStates = new Stack<FirstPersonMovementProperties>();
-		
-		/// <summary>
 		/// The current motor state - controls how the character moves in different states
 		/// </summary>
 		public FirstPersonMovementProperties currentMovementProperties { get; protected set; }
@@ -227,7 +222,6 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <param name="newState"></param>
 		public void EnterNewState(FirstPersonMovementProperties newState)
 		{
-			prevStates.Push(currentMovementProperties);
 			ChangeState(newState);
 		}
 
@@ -236,10 +230,8 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		public void ResetState()
 		{
-			if (prevStates.Count > 0)
-			{
-				ChangeState(prevStates.Pop());
-			}
+			ChangeState(startingMovementProperties);
+			
 		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
@@ -9,11 +10,12 @@ namespace StandardAssets.Characters.CharacterInput
 	/// </summary>
 	public class LegacyUnityInputResponsePoller : MonoBehaviour
 	{
+		private static List<LegacyUnityInputResponsePoller> s_Pollers;
+		
 		/// <summary>
 		/// The Input Response needed
 		/// </summary>
 		private LegacyUnityInputResponse response;
-		
 		
 		/// <summary>
 		/// Behaviour - hold/toggle
@@ -26,11 +28,6 @@ namespace StandardAssets.Characters.CharacterInput
 		private bool check;
 
 		private string axisRaw;
-		
-		
-		private bool axisRawPressed;
-
-	
 
 		/// <summary>
 		/// Called by the LegacyInputResponse
@@ -43,6 +40,13 @@ namespace StandardAssets.Characters.CharacterInput
 			response = newResponse;
 			behaviour = newBehaviour;
 			axisRaw = axisString;
+
+			if (s_Pollers == null)
+			{
+				s_Pollers = new List<LegacyUnityInputResponsePoller>();
+			}
+			
+			s_Pollers.Add(this);
 		}
 			
 		/// <summary>
@@ -69,20 +73,19 @@ namespace StandardAssets.Characters.CharacterInput
 		/// </summary>
 		private void Hold()
 		{
-			bool isAxis = Input.GetAxisRaw(axisRaw) !=0;
+			bool isAxis = Input.GetButton(axisRaw);
 			
 			if (!check && isAxis)
-			{
-				response.BroadcastStart();
+			{		
+				OnStart();
 			}
 
 			if (check && !isAxis)
 			{
-				response.BroadcastEnd();
+				OnEnd();
 			}
 		
 			check = isAxis;
-			
 		}
 
 		/// <summary>
@@ -90,29 +93,55 @@ namespace StandardAssets.Characters.CharacterInput
 		/// </summary>
 		private void Toggle()
 		{
-			
-			if (Input.GetAxisRaw(axisRaw) == 0)
+			if (Input.GetButtonDown(axisRaw))
 			{
-				axisRawPressed = false;
-			}
-			if (axisRawPressed) return;
-			
-			if ( Input.GetAxisRaw(axisRaw) != 0)
-			{
-				axisRawPressed = true;
 				if (!check)
 				{
-					response.BroadcastStart();
+					OnStart();
 				}
 				else
 				{
-					response.BroadcastEnd();
+					OnEnd();
 				}
-
 				check = !check;
 			}
+		}
+		/// <summary>
+		/// Checks the list of all active Pollers and turns off all active toggles except its own.
+		/// This is to prevent a state change while check==true, which leads having to re-toggle before
+		/// the response broadcast is started again.
+		/// </summary>
+		private void OnStart()
+		{
+			if(s_Pollers!=null)
+			{
+				foreach (var poller in s_Pollers)
+				{
+					if (poller != this)
+					{
+						poller.check = false;
+					}
+				}
+			}
+			response.BroadcastStart();
+		}
 
+		private void OnEnd()
+		{
+			response.BroadcastEnd();
+		}
 
+		public void TouchScreenButtonToggle()
+		{
+			if (!check)
+			{
+				OnStart();
+			}
+			else
+			{
+				OnEnd();
+			}
+			check = !check;
 		}
 	}
 }

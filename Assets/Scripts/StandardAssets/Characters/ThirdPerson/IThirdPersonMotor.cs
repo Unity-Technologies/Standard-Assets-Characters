@@ -42,5 +42,12 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// When the starts falling
 		/// </summary>
 		Action<float> fallStarted { get; set; }
+		
+		/// <summary>
+		/// Fired for a rapid turn
+		/// </summary>
+		Action<float> rapidlyTurned { get; set; }
+
+		void FinishedTurn();
 	}
 }

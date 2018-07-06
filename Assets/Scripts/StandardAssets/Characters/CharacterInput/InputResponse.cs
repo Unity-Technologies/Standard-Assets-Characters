@@ -28,7 +28,6 @@ namespace StandardAssets.Characters.CharacterInput
 			{
 				return;
 			}
-
 			started();
 		}
 
@@ -41,7 +40,6 @@ namespace StandardAssets.Characters.CharacterInput
 			{
 				return;
 			}
-
 			ended();
 		}
 	}

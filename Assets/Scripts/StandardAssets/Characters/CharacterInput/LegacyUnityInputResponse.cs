@@ -21,6 +21,8 @@ namespace StandardAssets.Characters.CharacterInput
 		
 		[SerializeField]
 		protected bool isGamepad;
+
+		protected bool touchToggle;
 		
 		/// <summary>
 		/// Initializes the polling behaviour for the legacy input system
@@ -30,7 +32,13 @@ namespace StandardAssets.Characters.CharacterInput
 			string axis = axisRaw;
 			if (isGamepad)
 			{
-				axis = LegacyCharacterInputDevicesCache.ResolveControl(axis);
+				string gamePadAxisName = LegacyCharacterInputDevicesCache.ResolveControl(axis);
+				if (axis == gamePadAxisName)
+				{
+					return;
+				}
+
+				axis = gamePadAxisName;
 			}
 			
 			GameObject gameObject = new GameObject();
@@ -53,6 +61,20 @@ namespace StandardAssets.Characters.CharacterInput
 		public void BroadcastEnd()
 		{
 			OnInputEnded();
+		}
+
+		public void TouchToggle()
+		{
+			if (!touchToggle)
+			{
+				OnInputStarted();
+				touchToggle = true;
+			}
+			else
+			{
+				OnInputEnded();
+				touchToggle = false;
+			}
 		}
 	}
 

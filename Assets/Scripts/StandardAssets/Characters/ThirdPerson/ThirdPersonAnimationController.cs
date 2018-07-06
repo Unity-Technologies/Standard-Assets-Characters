@@ -1,4 +1,5 @@
-﻿using StandardAssets.Characters.Effects;
+﻿using System;
+using StandardAssets.Characters.Effects;
 using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson
@@ -33,9 +34,18 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		[SerializeField]
 		protected string jumpedParameterName = "Jumped";
+		
+		[SerializeField]
+		protected string jumpedLateralSpeedParameterName = "JumpedLateralSpeed";
+		
+		[SerializeField]
+		protected string jumpedForwardSpeedParameterName = "JumpedForwardSpeed";
 
 		[SerializeField]
 		protected string predictedFallDistanceParameterName = "PredictedFallDistance";
+		
+		[SerializeField]
+		protected string rapidTurnParameterName = "RapidTurn";
 		
 		[SerializeField]
 		protected bool invert;
@@ -64,10 +74,29 @@ namespace StandardAssets.Characters.ThirdPerson
 		private int hashFallingTime;
 		private int hashFootedness;
 		private int hashJumped;
+		private int hashJumpedForwardSpeed;
+		private int hashJumpedLateralSpeed;
 		private int hashPredictedFallDistance;
+		private int hashRapidTurn;
 
 		private bool isGrounded;
 		private bool didJump;
+		
+		public void AirborneStateExit()
+		{
+			animator.SetFloat(predictedFallDistanceParameterName, 0);
+			animator.SetBool(jumpedParameterName, false);
+		}
+
+		public void LocomotionStateUpdate()
+		{
+			//TODO update locomotion pre run
+		}
+		
+		public void OnRapidTurnComplete()
+		{
+			motor.FinishedTurn();
+		}
 
 		public void UpdatePredictedFallDistance(float distance)
 		{
@@ -87,7 +116,10 @@ namespace StandardAssets.Characters.ThirdPerson
 			hashFallingTime = Animator.StringToHash(fallingTimeParameterName);
 			hashFootedness = Animator.StringToHash(footednessParameterName);
 			hashJumped = Animator.StringToHash(jumpedParameterName);
+			hashJumpedForwardSpeed = Animator.StringToHash(jumpedForwardSpeedParameterName);
+			hashJumpedLateralSpeed = Animator.StringToHash(jumpedLateralSpeedParameterName);
 			hashPredictedFallDistance = Animator.StringToHash(predictedFallDistanceParameterName);
+			hashRapidTurn = Animator.StringToHash(rapidTurnParameterName);
 			motor = GetComponent<IThirdPersonMotor>();
 			animator = GetComponent<Animator>();
 		}
@@ -100,6 +132,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			motor.jumpStarted += OnJumpStarted;
 			motor.landed += OnLanding;
 			motor.fallStarted += OnFallStarted;
+			motor.rapidlyTurned += OnRapidlyTurned;
 			if (leftFoot != null && rightfoot != null)
 			{
 				leftFoot.detection += OnLeftFoot;
@@ -128,7 +161,12 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private void SetFootednessBool(bool value)
 		{
-			animator.SetBool(hashFootedness, value);
+			if (Mathf.Abs(motor.normalizedLateralSpeed) < Mathf.Epsilon)
+			{
+				animator.SetBool(hashFootedness, value);
+				return;
+			}
+			animator.SetBool(hashFootedness, false);
 		}
 
 		/// <summary>
@@ -141,6 +179,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				motor.jumpStarted -= OnJumpStarted;
 				motor.landed -= OnLanding;
 				motor.fallStarted -= OnFallStarted;
+				motor.rapidlyTurned -= OnRapidlyTurned;
 			}
 
 			if (leftFoot != null && rightfoot != null)
@@ -149,7 +188,12 @@ namespace StandardAssets.Characters.ThirdPerson
 				rightfoot.detection -= OnRightFoot;
 			}
 		}
-		
+
+		private void OnRapidlyTurned(float normalizedTurn)
+		{
+			animator.SetTrigger(hashRapidTurn);
+		}
+
 		/// <summary>
 		/// Logic for dealing with animation on landing
 		/// </summary>
@@ -171,6 +215,17 @@ namespace StandardAssets.Characters.ThirdPerson
 			animator.SetBool(hashJumped, true);
 			animator.SetFloat(hashFallingTime, 0);
 			animator.SetBool(hashGrounded, false);
+			
+			if (Mathf.Abs(motor.normalizedLateralSpeed) > Mathf.Abs(motor.normalizedForwardSpeed))
+			{
+				animator.SetFloat(hashJumpedForwardSpeed, 0);
+				animator.SetFloat(hashJumpedLateralSpeed, motor.normalizedLateralSpeed);
+			}
+			else
+			{
+				animator.SetFloat(hashJumpedLateralSpeed, 0);
+				animator.SetFloat(hashJumpedForwardSpeed, motor.normalizedForwardSpeed);
+			}
 		}
 
 		/// <summary>
@@ -181,6 +236,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			animator.SetFloat(hashForwardSpeed, motor.normalizedForwardSpeed);
 			animator.SetFloat(hashLateralSpeed, motor.normalizedLateralSpeed);
 			animator.SetFloat(hashTurningSpeed, motor.normalizedTurningSpeed);
+
+			
+			
 			animator.SetBool(hashHasInput, CheckHasSpeed(motor.normalizedForwardSpeed) || CheckHasSpeed(motor.normalizedLateralSpeed));
 
 			if (!isGrounded)

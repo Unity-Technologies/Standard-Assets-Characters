@@ -50,7 +50,11 @@ namespace StandardAssets.Characters.ThirdPerson
 				
 		/// <inheritdoc />
 		public Action<float> fallStarted { get; set; }
-		
+
+		public Action<float> rapidlyTurned { get; set; }
+
+		public abstract void FinishedTurn();
+
 		/// <summary>
 		/// Helper function for handling wrapping of angles
 		/// </summary>
@@ -75,12 +79,13 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// Calculates the rotations
 		/// </summary>
 		protected void CalculateYRotationSpeed(float deltaTime)
-		{
+		{			
 			float currentYRotation = Wrap180(transform.rotation.eulerAngles.y);
 			float yRotationSpeed = Wrap180(currentYRotation - previousYRotation) / deltaTime;
 			float targetNormalizedTurningSpeed = Mathf.Clamp(yRotationSpeed / turnSpeed, -1, 1);
 			normalizedTurningSpeed = 
 				Mathf.Lerp(normalizedTurningSpeed, targetNormalizedTurningSpeed, deltaTime * normalizedTurnLerpFactor);
+			
 			previousYRotation = currentYRotation;
 		}
 

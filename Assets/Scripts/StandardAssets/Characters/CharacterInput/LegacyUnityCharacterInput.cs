@@ -17,7 +17,7 @@ namespace StandardAssets.Characters.CharacterInput
 		[SerializeField]
 		protected string cinemachineLookYAxisName = "Vertical";
 		
-		[Header("Input Axes")]
+		[Header("Movement Input Axes")]
 		[SerializeField]
 		protected string horizontalAxisName = "Horizontal";
 		
@@ -41,27 +41,25 @@ namespace StandardAssets.Characters.CharacterInput
 
 		[SerializeField]
 		protected string keyboardJumpName = "Jump";
-		
-		[SerializeField]
-		protected string ps4JumpName = "JumpPS4";
-		
-		[SerializeField]
-		protected string xBoneJumpName = "JumpXBone";
-		
-		[SerializeField]
-		protected string xBox360JumpName = "JumpXBox360";
 
-		[SerializeField]
-		protected string gamepadJumpName;
-
-		[SerializeField]
-		protected bool hasGamepad;
+		[SerializeField] 
+		protected bool enableOnScreenJoystickControls;
+		
 
 		private Vector2 moveInputVector;
 		private Action jumped;
 
 		private Vector2 look;
 
+		public StaticOnScreenJoystick leftOnScreenJoystick;
+		public StaticOnScreenJoystick rightOnScreenJoystick;
+
+
+		public Vector2 lookInput
+		{
+			get { return look; }
+		}
+		
 		public Vector2 moveInput
 		{
 			get { return moveInputVector; }
@@ -77,49 +75,20 @@ namespace StandardAssets.Characters.CharacterInput
 			get { return jumped; }
 			set { jumped = value; }
 		}
-
-		private void Awake()
-		{
-			SetGamepadJumpAxis();
-		}
-		
-		/// <summary>
-		/// Sets the jump axis name for gamepads that are plugged in.
-		/// </summary>
-		void SetGamepadJumpAxis()
-		{
-			if (Input.GetJoystickNames().Length > 0)
-			{
-				foreach (var joystick in Input.GetJoystickNames())
-				{
-					if (joystick.Length > 1)
-					{
-						hasGamepad = true;
-						if (joystick.ToLower().Contains("xbox"))
-						{
-							gamepadJumpName = xBoneJumpName;
-							break;
-						}
-						if (joystick.ToLower().Contains("360"))
-						{
-							gamepadJumpName = xBox360JumpName;
-							break;
-						}
-						gamepadJumpName = ps4JumpName;
-					}
-				}
-			}
-		}
 		
 		private void OnEnable()
 		{
 			CinemachineCore.GetInputAxis = LookInputOverride;
+		
 		}
 
 		private void Update()
 		{
-			//Cache the inputs
+			UpdateLookVector();
+			
+			//Update Move Vector
 			moveInputVector.Set(Input.GetAxis(horizontalAxisName), Input.GetAxis(verticalAxisName));
+			
 			if(Input.GetButtonDown(LegacyCharacterInputDevicesCache.ResolveControl(keyboardJumpName))||Input.GetButtonDown("Jump"))
 			{
 				if (jumpPressed != null)
@@ -127,9 +96,35 @@ namespace StandardAssets.Characters.CharacterInput
 					jumpPressed();
 				}
 			}
+
+			if (enableOnScreenJoystickControls)
+			{
+				GetOnScreenJoystickVectors();
+			}
+			
 			
 		}
-		
+
+		public void OnScreenTouchJump()
+		{
+			if (jumpPressed != null)
+			{
+				jumpPressed();
+			}
+		}
+
+		void GetOnScreenJoystickVectors()
+		{
+
+			Vector2 leftStickVector = leftOnScreenJoystick.GetStickVector();
+			moveInputVector.Set(leftStickVector.x,leftStickVector.y);
+
+			Vector2 rightStickVector = rightOnScreenJoystick.GetStickVector();
+			look.x = -rightStickVector.x;
+			look.y = -rightStickVector.y;
+
+		}
+
 		/// <summary>
 		/// Sets the Cinemachine cam POV to mouse inputs.
 		/// </summary>
@@ -139,45 +134,57 @@ namespace StandardAssets.Characters.CharacterInput
 			{
 				return 0;
 			}
-
-			UpdateLookVector();
 			
-			if (cinemachineAxisName == cinemachineLookXAxisName)
+			 if (cinemachineAxisName == cinemachineLookXAxisName)
 			{
-				return look.x;
+				return lookInput.x;
 			}
 			if (cinemachineAxisName == cinemachineLookYAxisName)
 			{
-				return look.y;
+				return lookInput.y;
 			}
-
+			
 			return 0;
 		}
 		
 		/// <summary>
 		/// Update the look vector2, this is used in 3rd person
 		/// and allows mouse and controller to both work at the same time.
-		/// mouse look will take preference. 
+		/// mouse look will take preference.
+		/// IF there is no mouse inputs, it will get gamepad axis.  
 		/// </summary>
 		void UpdateLookVector()
 		{
-			if (Input.GetAxis(mouseLookXAxisName) != 0)
+			if (!enableOnScreenJoystickControls)
 			{
-				look.x = Input.GetAxis(mouseLookXAxisName);
+				if (mouseLookXAxisName == "" || mouseLookYAxisName == "") //Use gamepad look if no mouse look set
+				{
+					look.x = Input.GetAxis(LegacyCharacterInputDevicesCache.ResolveControl(lookXAxisName));
+					look.y = Input.GetAxis(LegacyCharacterInputDevicesCache.ResolveControl(lookYAxisName));
+				}
+				else
+				{
+					if (Input.GetAxis(mouseLookXAxisName) != 0)
+					{
+						look.x = Input.GetAxis(mouseLookXAxisName);
+					}
+					else
+					{
+						look.x = Input.GetAxis(LegacyCharacterInputDevicesCache.ResolveControl(lookXAxisName));
+					}
+					if (Input.GetAxis(mouseLookYAxisName) != 0)
+					{
+						look.y = Input.GetAxis(mouseLookYAxisName);
+					}
+					else
+					{
+						look.y = Input.GetAxis(LegacyCharacterInputDevicesCache.ResolveControl(lookYAxisName));
+					}
+				}
 			}
-			else
-			{
-				look.x = Input.GetAxis(LegacyCharacterInputDevicesCache.ResolveControl(lookXAxisName));
-			}
+			
+			
 
-			if (Input.GetAxis(mouseLookYAxisName) != 0)
-			{
-				look.y = Input.GetAxis(mouseLookYAxisName);
-			}
-			else
-			{
-				look.y = Input.GetAxis(LegacyCharacterInputDevicesCache.ResolveControl(lookYAxisName));
-			}
 		}
 	}
 }

@@ -16,7 +16,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// The input
 		/// </summary>
 		[SerializeField]
-		protected InputResponse[] inputs;
+		protected CompoundLegacyUnityInputResponse inputs;
 
 		/// <summary>
 		/// The state
@@ -36,12 +36,9 @@ namespace StandardAssets.Characters.FirstPerson
 		public void Init(FirstPersonController controllerToUse)
 		{
 			controller = controllerToUse;
-			foreach (var input in inputs)
-			{
-				input.Init();
-                input.started += OnStateChange;
-       			input.ended += OnStateReset;
-			}
+			inputs.Init();
+			inputs.started += OnStateChange;
+			inputs.ended += OnStateReset;
 		}
 
 		private void OnStateChange()
