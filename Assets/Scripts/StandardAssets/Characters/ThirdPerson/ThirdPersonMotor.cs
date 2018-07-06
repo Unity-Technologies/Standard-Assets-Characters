@@ -14,7 +14,7 @@ namespace StandardAssets.Characters.ThirdPerson
 	{
 		//Serialized Fields
 		[SerializeField]
-		protected ThirdPersonMotorProperties motorProperties;
+		protected ThirdPersonConfiguration configuration;
 		
 		[SerializeField]
 		protected Transform cameraTransform;
@@ -80,7 +80,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			if (characterPhysics.isGrounded)
 			{
-				Vector3 groundMovementVector = animator.deltaPosition * motorProperties.scaleRootMovement;
+				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
 				groundMovementVector.y = 0;
 				characterPhysics.Move(groundMovementVector);
 				cachedGroundMovementVector = groundMovementVector;
@@ -212,7 +212,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				jumpStarted();
 			}
 
-			characterPhysics.SetJumpVelocity(motorProperties.initialJumpVelocity);
+			characterPhysics.SetJumpVelocity(configuration.initialJumpVelocity);
 		}
 		
 		/// <summary>
@@ -311,12 +311,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			lookForwardY.x = 0;
 			lookForwardY.z = 0;
-			lookForwardY.y -= characterInput.lookInput.x * Time.deltaTime * motorProperties.scaleStrafeLook;
+			lookForwardY.y -= characterInput.lookInput.x * Time.deltaTime * configuration.scaleStrafeLook;
 			
 			Quaternion targetRotation = Quaternion.Euler(lookForwardY);
 
 			targetRotation =
-				Quaternion.RotateTowards(transform.rotation, targetRotation, motorProperties.turningLerp * Time.deltaTime);
+				Quaternion.RotateTowards(transform.rotation, targetRotation, configuration.turningLerp * Time.deltaTime);
 
 			transform.rotation = targetRotation;
 		}
@@ -326,7 +326,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			Quaternion targetRotation = CalculateTargetRotation();
 			
 			targetRotation =
-				Quaternion.RotateTowards(transform.rotation, targetRotation, motorProperties.turningLerp * Time.deltaTime);
+				Quaternion.RotateTowards(transform.rotation, targetRotation, configuration.turningLerp * Time.deltaTime);
 
 			transform.rotation = targetRotation;
 		}

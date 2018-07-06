@@ -2,8 +2,8 @@
 
 namespace StandardAssets.Characters.ThirdPerson
 {
-	[CreateAssetMenu(fileName = "Third Person Movement Profile", menuName = "Standard Assets/Characters/Create Third Person Movement Profile", order = 1)]
-	public class ThirdPersonMotorProperties : ScriptableObject
+	[CreateAssetMenu(fileName = "Third Person Configuration", menuName = "Standard Assets/Characters/Create Third Person Configuration", order = 1)]
+	public class ThirdPersonConfiguration : ScriptableObject
 	{
 		[SerializeField]
 		protected float jumpSpeed = 10f;
