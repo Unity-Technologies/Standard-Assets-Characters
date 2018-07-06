@@ -6,6 +6,9 @@ namespace StandardAssets.Characters.ThirdPerson
 	{
 		[SerializeField]
 		protected float jumpSpeed;
+
+		[SerializeField]
+		protected float rootMotionMovementFactor = 1f;
 		
 		[SerializeField]
 		protected AnimationInputProperties forwardMovement;
@@ -34,6 +37,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		public float initialJumpVelocity
 		{
 			get { return jumpSpeed; }
+		}
+
+		public float scaleRootMovement
+		{
+			get { return rootMotionMovementFactor; }
 		}
 	}
 }

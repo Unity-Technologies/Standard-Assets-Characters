@@ -9,6 +9,7 @@ namespace StandardAssets.Characters.ThirdPerson
 {
 	[RequireComponent(typeof(ICharacterPhysics))]
 	[RequireComponent(typeof(ICharacterInput))]
+	[RequireComponent(typeof(Animator))]
 	public class ThirdPersonMotor : MonoBehaviour, IThirdPersonMotor
 	{
 		//Serialized Fields
@@ -47,6 +48,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		protected ICharacterPhysics characterPhysics;
 
+		protected Animator animator;
+
 		protected ThirdPersonMotorMovementMode movementMode = ThirdPersonMotorMovementMode.Action;
 
 		protected ThirdPersonGroundMovementState movementState = ThirdPersonGroundMovementState.Walking;
@@ -54,6 +57,13 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected AnimationInputProperties currentForwardInputProperties, currentLateralInputProperties;
 		
 		protected float forwardClampSpeed, targetForwardClampSpeed, lateralClampSpeed, targetLateralClampSpeed;
+
+		protected Vector3 cachedGroundMovementVector;
+
+		protected bool isStrafing
+		{
+			get { return movementMode == ThirdPersonMotorMovementMode.Strafe; }
+		}
 		
 		//Public Methods
 		
@@ -63,11 +73,26 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 		
 		//Unity Messages
+		private void OnAnimatorMove()
+		{
+			if (characterPhysics.isGrounded)
+			{
+				Vector3 groundMovementVector = animator.deltaPosition * motorProperties.scaleRootMovement;
+				groundMovementVector.y = 0;
+				characterPhysics.Move(groundMovementVector);
+				cachedGroundMovementVector = groundMovementVector;
+			}
+			else
+			{
+				characterPhysics.Move(cachedGroundMovementVector);
+			}
+		}
 		
 		protected virtual void Awake()
 		{
 			characterInput = GetComponent<ICharacterInput>();
 			characterPhysics = GetComponent<ICharacterPhysics>();
+			animator = GetComponent<Animator>();
 
 			if (runInput != null)
 			{
@@ -188,6 +213,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected virtual void OnRunEnded()
 		{
 			movementState = ThirdPersonGroundMovementState.Walking;
+			targetForwardClampSpeed = currentForwardInputProperties.inputUnclamped;
+			if (isStrafing)
+			{
+				targetLateralClampSpeed = currentLateralInputProperties.inputUnclamped;
+			}
 		}
 
 		/// <summary>
@@ -196,6 +226,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected virtual void OnRunStarted()
 		{
 			movementState = ThirdPersonGroundMovementState.Running;
+			targetForwardClampSpeed = currentForwardInputProperties.inputClamped;
+			if (isStrafing)
+			{
+				targetLateralClampSpeed = currentLateralInputProperties.inputClamped;
+			}
 		}
 	
 		/// <summary>
@@ -362,7 +397,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			forwardClampSpeed = DecelerateClampSpeed(forwardClampSpeed, targetForwardClampSpeed,
 			                                         currentForwardInputProperties.inputDecay);
 
-			if (movementMode == ThirdPersonMotorMovementMode.Strafe)
+			if (isStrafing)
 			{
 				lateralClampSpeed = DecelerateClampSpeed(lateralClampSpeed, targetLateralClampSpeed,
 				                                         currentLateralInputProperties.inputDecay);
