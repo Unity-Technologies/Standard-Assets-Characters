@@ -166,7 +166,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				animator.SetBool(hashFootedness, value);
 				return;
 			}
-			animator.SetBool(hashFootedness, false);
+			animator.SetBool(hashFootedness, motor.normalizedLateralSpeed > 0);
 		}
 
 		/// <summary>
