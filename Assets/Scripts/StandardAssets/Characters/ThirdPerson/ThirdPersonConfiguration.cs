@@ -10,6 +10,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		[SerializeField]
 		protected float turningSpeed = 500f;
+
+		[SerializeField]
+		protected float turningLerp = 1f;
 		
 		[SerializeField]
 		protected float strafeLookInputScale = 20f;
@@ -46,7 +49,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return jumpSpeed; }
 		}
 
-		public float turningLerp
+		public float turningYSpeed
 		{
 			get { return turningSpeed; }
 		}
@@ -59,6 +62,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		public float scaleStrafeLook
 		{
 			get { return strafeLookInputScale; }
+		}
+
+		public float turningLerpFactor
+		{
+			get { return turningLerp; }
 		}
 	}
 }

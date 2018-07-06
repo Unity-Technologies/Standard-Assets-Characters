@@ -4,6 +4,7 @@ using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
 using UnityEngine.Events;
+using Util;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
@@ -320,7 +321,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			Quaternion targetRotation = Quaternion.Euler(lookForwardY);
 
 			targetRotation =
-				Quaternion.RotateTowards(transform.rotation, targetRotation, configuration.turningLerp * Time.deltaTime);
+				Quaternion.RotateTowards(transform.rotation, targetRotation, configuration.turningYSpeed * Time.deltaTime);
+			
+			SetTurningSpeed(transform.rotation, targetRotation);
 
 			transform.rotation = targetRotation;
 		}
@@ -330,7 +333,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			Quaternion targetRotation = CalculateTargetRotation();
 			
 			targetRotation =
-				Quaternion.RotateTowards(transform.rotation, targetRotation, configuration.turningLerp * Time.deltaTime);
+				Quaternion.RotateTowards(transform.rotation, targetRotation, configuration.turningYSpeed * Time.deltaTime);
+			
+			SetTurningSpeed(transform.rotation, targetRotation);
 
 			transform.rotation = targetRotation;
 		}
@@ -445,6 +450,14 @@ namespace StandardAssets.Characters.ThirdPerson
 			cameraToInputOffset.eulerAngles = new Vector3(0f, cameraToInputOffset.eulerAngles.y, 0f);
 
 			return Quaternion.LookRotation(cameraToInputOffset * flatForward);
+		}
+
+		protected virtual void SetTurningSpeed(Quaternion currentRotation, Quaternion newRotation)
+		{
+			float currentY = currentRotation.eulerAngles.y;
+			float newY = newRotation.eulerAngles.y;
+			float difference = (MathUtilities.Wrap180(newY) - MathUtilities.Wrap180(currentY)) / Time.deltaTime;
+			normalizedTurningSpeed = Mathf.Lerp(normalizedTurningSpeed, Mathf.Clamp(difference / configuration.turningYSpeed, -1, 1), Time.deltaTime * configuration.turningLerpFactor);
 		}
 		
 	}
