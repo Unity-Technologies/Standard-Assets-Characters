@@ -12,6 +12,9 @@ namespace StandardAssets.Characters.ThirdPerson
 	[RequireComponent(typeof(Animator))]
 	public class ThirdPersonMotor : MonoBehaviour, IThirdPersonMotor
 	{
+		//Events
+		public event Action startActionMode, startStrafeMode;
+		
 		//Serialized Fields
 		[SerializeField]
 		protected ThirdPersonConfiguration configuration;
@@ -25,8 +28,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected InputResponse strafeInput;
 		
-		[SerializeField]
-		protected UnityEvent startActionMode, startStrafeMode;
 		
 		//Properties
 		
@@ -251,7 +252,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			if (startStrafeMode != null)
 			{
-				startStrafeMode.Invoke();
+				startStrafeMode();
 			}
 
 			movementMode = ThirdPersonMotorMovementMode.Strafe;
@@ -264,7 +265,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			if (startActionMode != null)
 			{
-				startActionMode.Invoke();
+				startActionMode();
 			}
 
 			movementMode = ThirdPersonMotorMovementMode.Action;
