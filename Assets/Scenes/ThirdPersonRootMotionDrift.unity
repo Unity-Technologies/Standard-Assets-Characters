@@ -2550,7 +2550,7 @@ Prefab:
       objectReference: {fileID: 1142889453}
     - target: {fileID: 4181487689278928, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 8.026629e-10
+      value: 8.0266277e-10
       objectReference: {fileID: 0}
     - target: {fileID: 4181487689278928, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.y
@@ -2558,7 +2558,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4181487689278928, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.z
-      value: 1.4368164e-10
+      value: 1.4368214e-10
       objectReference: {fileID: 0}
     - target: {fileID: 4181487689278928, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.w
@@ -2630,7 +2630,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4457660541983178, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0.0058305943
+      value: 0.005830595
       objectReference: {fileID: 0}
     - target: {fileID: 4457660541983178, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.y
@@ -3103,7 +3103,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1142889453}
   - component: {fileID: 1142889451}
-  - component: {fileID: 1436951928}
+  - component: {fileID: 1436951929}
   m_Layer: 11
   m_Name: MaleTurnAround
   m_TagString: Player
@@ -3111,7 +3111,7 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1436951928
+--- !u!114 &1436951929
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3119,12 +3119,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1436951927}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97208d6beeb8419092ee0ce51f73f992, type: 3}
+  m_Script: {fileID: 11500000, guid: 75c30f5f657547d7b0479680982c985b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rotation: 180
   timeToTurn: 0.3
-  turnSpeed: 0.5
+  turnSpeed: 1
   forwardSpeed:
     serializedVersion: 2
     m_Curve:

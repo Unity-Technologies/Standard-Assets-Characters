@@ -236,8 +236,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			animator.SetFloat(hashForwardSpeed, motor.normalizedForwardSpeed);
 			animator.SetFloat(hashLateralSpeed, motor.normalizedLateralSpeed);
 			animator.SetFloat(hashTurningSpeed, motor.normalizedTurningSpeed);
-
-			
 			
 			animator.SetBool(hashHasInput, CheckHasSpeed(motor.normalizedForwardSpeed) || CheckHasSpeed(motor.normalizedLateralSpeed));
 
