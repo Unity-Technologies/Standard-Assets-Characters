@@ -18,7 +18,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected float strafeLookInputScale = 20f;
 
 		[SerializeField]
-		protected float rootMotionMovementFactor = 1f;
+		protected float rootMotionMovementScale = 1f;
+
+		[SerializeField]
+		protected float rapidTurnAngle = 140f;
 		
 		[SerializeField]
 		protected AnimationInputProperties forwardMovement;
@@ -56,7 +59,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public float scaleRootMovement
 		{
-			get { return rootMotionMovementFactor; }
+			get { return rootMotionMovementScale; }
 		}
 
 		public float scaleStrafeLook
@@ -67,6 +70,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		public float turningLerpFactor
 		{
 			get { return turningLerp; }
+		}
+
+		public float angleRapidTurn
+		{
+			get { return rapidTurnAngle; }
 		}
 	}
 }

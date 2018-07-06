@@ -28,10 +28,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		[SerializeField]
 		protected InputResponse strafeInput;
-		
+
+		[SerializeField]
+		protected TurnaroundBehaviour turnaroundBehaviour;
 		
 		//Properties
-		
 		public float normalizedTurningSpeed { get; private set; }
 		public float normalizedLateralSpeed { get; private set; }
 		public float normalizedForwardSpeed { get; private set; }
@@ -57,6 +58,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected ThirdPersonMotorMovementMode movementMode = ThirdPersonMotorMovementMode.Action;
 
+		protected ThirdPersonGroundMovementState preTurnMovementState;
 		protected ThirdPersonGroundMovementState movementState = ThirdPersonGroundMovementState.Walking;
 		
 		protected AnimationInputProperties currentForwardInputProperties, currentLateralInputProperties;
@@ -69,16 +71,14 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			get { return movementMode == ThirdPersonMotorMovementMode.Strafe; }
 		}
-		
-		//Public Methods
-		
+
 		public void FinishedTurn()
 		{
-			throw new NotImplementedException();
+			//TODO REMOVE THIS
 		}
 		
 		//Unity Messages
-		private void OnAnimatorMove()
+		protected virtual void OnAnimatorMove()
 		{
 			if (characterPhysics.isGrounded)
 			{
@@ -141,6 +141,12 @@ namespace StandardAssets.Characters.ThirdPerson
 				strafeInput.started += OnStrafeStarted;
 				strafeInput.ended += OnStrafeEnded;
 			}
+			
+			//Turnaround Subscription
+			if (turnaroundBehaviour != null)
+			{
+				turnaroundBehaviour.turnaroundComplete += TurnaroundComplete;
+			}
 		}
 		
 		/// <summary>
@@ -169,6 +175,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				strafeInput.started -= OnStrafeStarted;
 				strafeInput.ended -= OnStrafeEnded;
+			}
+			
+			//Turnaround Subscription
+			if (turnaroundBehaviour != null)
+			{
+				turnaroundBehaviour.turnaroundComplete += TurnaroundComplete;
 			}
 		}
 
@@ -256,6 +268,8 @@ namespace StandardAssets.Characters.ThirdPerson
 				startStrafeMode();
 			}
 
+			currentForwardInputProperties = configuration.strafeForwardMovementProperties;
+			currentLateralInputProperties = configuration.strafeLateralMovementProperties;
 			movementMode = ThirdPersonMotorMovementMode.Strafe;
 		}
 		
@@ -269,6 +283,8 @@ namespace StandardAssets.Characters.ThirdPerson
 				startActionMode();
 			}
 
+			currentForwardInputProperties = configuration.forwardMovementProperties;
+			currentLateralInputProperties = null;
 			movementMode = ThirdPersonMotorMovementMode.Action;
 		}
 
@@ -279,7 +295,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			if (movementState == ThirdPersonGroundMovementState.TurningAround)
 			{
-				TurningAround();
+				return;
 			}
 			
 			switch (movementMode)
@@ -295,7 +311,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected virtual void TurningAround()
 		{
-			throw new NotImplementedException();
+			//throw new NotImplementedException();
 		}
 		
 		protected virtual void ActionMovement()
@@ -330,7 +346,17 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected virtual void SetLookDirection()
 		{
+			if (!characterInput.hasMovementInput)
+			{
+				return; 
+			}
+			
 			Quaternion targetRotation = CalculateTargetRotation();
+
+			if (CheckForAndHandleRapidTurn(targetRotation))
+			{
+				return;
+			}
 			
 			targetRotation =
 				Quaternion.RotateTowards(transform.rotation, targetRotation, configuration.turningYSpeed * Time.deltaTime);
@@ -458,6 +484,38 @@ namespace StandardAssets.Characters.ThirdPerson
 			float newY = newRotation.eulerAngles.y;
 			float difference = (MathUtilities.Wrap180(newY) - MathUtilities.Wrap180(currentY)) / Time.deltaTime;
 			normalizedTurningSpeed = Mathf.Lerp(normalizedTurningSpeed, Mathf.Clamp(difference / configuration.turningYSpeed, -1, 1), Time.deltaTime * configuration.turningLerpFactor);
+		}
+		
+		protected virtual void TurnaroundComplete()
+		{
+			movementState = preTurnMovementState;
+		}
+		
+		protected virtual bool CheckForAndHandleRapidTurn(Quaternion targetRotation)
+		{
+			if (movementState == ThirdPersonGroundMovementState.TurningAround)
+			{
+				Debug.LogError("DAFUQ");
+			}
+			
+			if (turnaroundBehaviour == null)
+			{
+				return false;
+			}
+			
+			float currentY = transform.eulerAngles.y;
+			float newY = targetRotation.eulerAngles.y;
+			float angle = MathUtilities.Wrap180(newY) - MathUtilities.Wrap180(currentY);
+
+			if (Mathf.Abs(angle) > configuration.angleRapidTurn)
+			{
+				preTurnMovementState = movementState;
+				movementState = ThirdPersonGroundMovementState.TurningAround;
+				turnaroundBehaviour.TurnAround(angle);
+				return true;
+			}
+
+			return false;
 		}
 		
 	}

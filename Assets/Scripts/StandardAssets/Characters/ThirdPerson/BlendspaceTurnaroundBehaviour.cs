@@ -26,7 +26,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		void Update()
 		{
-			if (Input.GetKeyDown(KeyCode.Space))
+			if (Input.GetKeyDown(KeyCode.T))
 			{
 				TurnAround(180f);
 			}

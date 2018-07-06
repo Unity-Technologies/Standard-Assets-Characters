@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Name: Third Person Configuration
   m_EditorClassIdentifier: 
   jumpSpeed: 10
-  turningSpeed: 500
+  turningSpeed: 2000
   turningLerp: 5
   strafeLookInputScale: 20
-  rootMotionMovementFactor: 1
+  rootMotionMovementScale: 1
+  rapidTurnAngle: 140
   forwardMovement:
     directionInputGain: 0.5
     directionInputDecay: 10
