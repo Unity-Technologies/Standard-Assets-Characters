@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Util;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
@@ -6,18 +7,15 @@ namespace StandardAssets.Characters.ThirdPerson
 	{
 		[SerializeField]
 		protected float rotation = 180f;
-		
+
 		[SerializeField]
 		protected float timeToTurn = 0.3f;
 
 		[SerializeField]
-		protected float forwardDampTimeScale = 0.1f;
-		
+		protected float turnSpeed = 1f;
+
 		[SerializeField]
-		protected AnimationCurve forwardSpeed = AnimationCurve.Linear(0,0,1,1);
-		
-		[SerializeField]
-		protected AnimationCurve turningSpeed = AnimationCurve.Linear(0,0,1,1);
+		protected AnimationCurve forwardSpeed = AnimationCurve.Linear(0, 0, 1, 1);
 
 		[SerializeField]
 		protected Animator animator;
@@ -27,6 +25,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private bool isTurningAround = false;
 		private float turningTime = 0f;
 		float currentForwardSpeed;
+		float currentTurningSpeed;
 
 		public void TurnAround()
 		{
@@ -38,6 +37,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			isTurningAround = true;
 			turningTime = 0f;
 			currentForwardSpeed = animator.GetFloat("ForwardSpeed");
+			currentTurningSpeed = animator.GetFloat("TurningSpeed");
 			targetRotationEuler = transform.eulerAngles;
 			targetRotationEuler.y += rotation;
 			targetRotation = Quaternion.Euler(targetRotationEuler);
@@ -49,7 +49,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				TurnAround();
 			}
-			
+
 			if (isTurningAround)
 			{
 				EvaluateTurn();
@@ -59,6 +59,8 @@ namespace StandardAssets.Characters.ThirdPerson
 					turningTime = timeToTurn;
 					isTurningAround = false;
 					EvaluateTurn();
+					animator.SetFloat("TurningSpeed", currentTurningSpeed);
+					animator.SetFloat("ForwardSpeed", currentForwardSpeed);
 				}
 			}
 		}
@@ -67,13 +69,19 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			float normalizedTime = turningTime / timeToTurn;
 
-			float turningSpeedValue = turningSpeed.Evaluate(normalizedTime);
 			float forwardSpeedValue = forwardSpeed.Evaluate(normalizedTime);
-			
-			animator.SetFloat("TurningSpeed", turningSpeedValue);
-			animator.SetFloat("ForwardSpeed", forwardSpeedValue + currentForwardSpeed);
-			
-			transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotation/timeToTurn * Time.deltaTime);
+
+			animator.SetFloat("ForwardSpeed", Mathf.Clamp(forwardSpeedValue + currentForwardSpeed, -1, 1));
+
+			float oldYRotation = transform.eulerAngles.y;
+			transform.rotation =
+				Quaternion.RotateTowards(transform.rotation, targetRotation, rotation / timeToTurn * Time.deltaTime);
+			float newYRotation = transform.eulerAngles.y;
+
+			float actualTurnSpeed =
+				turnSpeed * Mathf.Sign(MathUtilities.Wrap180(newYRotation) - MathUtilities.Wrap180(oldYRotation));
+
+			animator.SetFloat("TurningSpeed", actualTurnSpeed);
 		}
 	}
 }

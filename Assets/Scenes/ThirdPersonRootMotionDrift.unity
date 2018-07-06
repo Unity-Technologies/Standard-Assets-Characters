@@ -944,7 +944,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 538104809}
-  m_LocalRotation: {x: -0.011587025, y: 0.9822228, z: 0.06472958, w: 0.17582442}
+  m_LocalRotation: {x: -0.011587021, y: 0.9822228, z: 0.06472958, w: 0.17582436}
   m_LocalPosition: {x: 12.755079, y: 1.515, z: -34.485775}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -2614,7 +2614,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4237231573535954, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0.011587153
+      value: 0.011587151
       objectReference: {fileID: 0}
     - target: {fileID: 4237231573535954, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.y
@@ -2626,11 +2626,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4237231573535954, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.w
-      value: -0.17582443
+      value: -0.1758244
       objectReference: {fileID: 0}
     - target: {fileID: 4457660541983178, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0.0058305883
+      value: 0.0058305943
       objectReference: {fileID: 0}
     - target: {fileID: 4457660541983178, guid: 0e4dfdb14b16043eb9395c461a8c9cf1, type: 2}
       propertyPath: m_LocalRotation.y
@@ -3123,8 +3123,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotation: 180
-  timeToTurn: 1
-  forwardDampTimeScale: 0.1
+  timeToTurn: 0.3
+  turnSpeed: 0.5
   forwardSpeed:
     serializedVersion: 2
     m_Curve:
@@ -3163,39 +3163,6 @@ MonoBehaviour:
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  turningSpeed:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.94250405
-      value: 0.761838
-      inSlope: -0.9618156
-      outSlope: -0.9618156
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.9958191
-      value: 0.012500763
-      inSlope: -3.0343807
-      outSlope: -3.0343807
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.14166665
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
