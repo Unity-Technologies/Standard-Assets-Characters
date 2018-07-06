@@ -26,11 +26,6 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		void Update()
 		{
-			if (Input.GetKeyDown(KeyCode.T))
-			{
-				TurnAround(180f);
-			}
-
 			if (isTurningAround)
 			{
 				EvaluateTurn();

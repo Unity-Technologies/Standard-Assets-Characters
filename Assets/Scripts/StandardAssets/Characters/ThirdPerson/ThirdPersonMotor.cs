@@ -492,12 +492,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 		
 		protected virtual bool CheckForAndHandleRapidTurn(Quaternion targetRotation)
-		{
-			if (movementState == ThirdPersonGroundMovementState.TurningAround)
-			{
-				Debug.LogError("DAFUQ");
-			}
-			
+		{		
 			if (turnaroundBehaviour == null)
 			{
 				return false;
@@ -505,13 +500,13 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			float currentY = transform.eulerAngles.y;
 			float newY = targetRotation.eulerAngles.y;
-			float angle = MathUtilities.Wrap180(newY) - MathUtilities.Wrap180(currentY);
+			float angle = Mathf.Abs(MathUtilities.Wrap180(newY) - MathUtilities.Wrap180(currentY));
 
-			if (Mathf.Abs(angle) > configuration.angleRapidTurn)
+			if (angle > configuration.angleRapidTurn)
 			{
 				preTurnMovementState = movementState;
 				movementState = ThirdPersonGroundMovementState.TurningAround;
-				turnaroundBehaviour.TurnAround(angle);
+				turnaroundBehaviour.TurnAround(180);
 				return true;
 			}
 
