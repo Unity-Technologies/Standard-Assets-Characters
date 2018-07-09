@@ -2141,7 +2141,7 @@ MonoBehaviour:
   cameraTransform: {fileID: 0}
   runInput: {fileID: 11400000, guid: 4536a47671291463386c18678dd23194, type: 2}
   strafeInput: {fileID: 11400000, guid: f7e824638922944d5b76347cc85e8952, type: 2}
-  turnaroundBehaviour: {fileID: 114677118940575552}
+  turnaroundBehaviour: {fileID: 0}
 --- !u!114 &114348692547226352
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2214,6 +2214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50675fc63f6845a9b80e1db1c59a5d83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  floatInterpolationTime: 0.05
   forwardSpeedParameterName: ForwardSpeed
   lateralSpeedParameterName: LateralSpeed
   turningSpeedParameterName: TurningSpeed
