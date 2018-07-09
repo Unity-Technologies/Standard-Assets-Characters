@@ -441,7 +441,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 			normalizedLateralSpeed =
-				Mathf.Clamp(normalizedLateralSpeed + input * lateralVelocity * Time.deltaTime, -forwardClampSpeed,
+				Mathf.Clamp(normalizedLateralSpeed + -input * lateralVelocity * Time.deltaTime, -forwardClampSpeed,
 				            forwardClampSpeed);
 		}
 
