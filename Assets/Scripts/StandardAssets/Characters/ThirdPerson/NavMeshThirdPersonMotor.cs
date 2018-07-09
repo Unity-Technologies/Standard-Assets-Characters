@@ -8,7 +8,7 @@ namespace StandardAssets.Characters.ThirdPerson
 	/// Maps a NavMeshAgent movement to values that the animator understands
 	/// </summary>
 	[RequireComponent(typeof(NavMeshAgent))]
-	public class NavMeshThirdPersonMotor : BaseThirdPersonMotor
+	public class NavMeshThirdPersonMotor : MonoBehaviour, IThirdPersonMotor
 	{
 		/// <summary>
 		/// The attached NavMeshAgent
@@ -17,35 +17,41 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private float fallingTime;
 
+		public float normalizedTurningSpeed { get; private set; }
+
 		/// <inheritdoc />
-		public override float normalizedLateralSpeed
+		public float normalizedLateralSpeed
 		{
 			get { return GetVelocityOnAxis(agent.transform.right, agent.velocity) / agent.speed; }
 		}
 
 		/// <inheritdoc />
-		public override float normalizedForwardSpeed
+		public float normalizedForwardSpeed
 		{
 			get { return GetVelocityOnAxis(agent.transform.forward, agent.velocity) / agent.speed; }
 		}
 
 		/// <inheritdoc />
-		public override float fallTime
+		public float fallTime
 		{
 			get { return fallingTime; }
 		}
+		
+		public Action jumpStarted { get; set; }
+		public Action landed { get; set; }
+		public Action<float> fallStarted { get; set; }
+		public Action<float> rapidlyTurned { get; set; }
 
-		public override void FinishedTurn()
+		public void FinishedTurn()
 		{
 			throw new NotImplementedException();
 		}
 
 		/// <inheritdoc />
-		protected override void Awake()
+		protected void Awake()
 		{
 			agent = GetComponent<NavMeshAgent>();
 			fallingTime = 0f;
-			base.Awake();
 		}
 
 		/// <summary>
@@ -61,14 +67,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			Debug.Log(val);
 			return val;
-		}
-
-		/// <summary>
-		/// Calculates the rotation about Y
-		/// </summary>
-		private void Update()
-		{
-			CalculateYRotationSpeed(Time.deltaTime);
 		}
 	}
 }
