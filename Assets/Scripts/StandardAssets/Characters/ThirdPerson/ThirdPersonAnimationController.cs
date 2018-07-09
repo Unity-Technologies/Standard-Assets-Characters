@@ -12,6 +12,9 @@ namespace StandardAssets.Characters.ThirdPerson
 	public class ThirdPersonAnimationController : MonoBehaviour
 	{
 		[SerializeField]
+		protected float floatInterpolationTime = 0.05f;
+		
+		[SerializeField]
 		protected string forwardSpeedParameterName = "ForwardSpeed";
 		
 		[SerializeField]
@@ -233,11 +236,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private void Update()
 		{
-			animator.SetFloat(hashForwardSpeed, motor.normalizedForwardSpeed);
-			animator.SetFloat(hashLateralSpeed, motor.normalizedLateralSpeed);
-			animator.SetFloat(hashTurningSpeed, motor.normalizedTurningSpeed);
-
-			
+			animator.SetFloat(hashForwardSpeed, motor.normalizedForwardSpeed, floatInterpolationTime, Time.deltaTime);
+			animator.SetFloat(hashLateralSpeed, motor.normalizedLateralSpeed, floatInterpolationTime, Time.deltaTime);
+			animator.SetFloat(hashTurningSpeed, motor.normalizedTurningSpeed, floatInterpolationTime, Time.deltaTime);
 			
 			animator.SetBool(hashHasInput, CheckHasSpeed(motor.normalizedForwardSpeed) || CheckHasSpeed(motor.normalizedLateralSpeed));
 
