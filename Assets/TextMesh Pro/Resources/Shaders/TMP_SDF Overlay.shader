@@ -128,7 +128,7 @@ SubShader {
 		#include "TMPro.cginc"
 
 		struct vertex_t {
-			float4	position		: POSITION;
+			float4	colliderPosition		: POSITION;
 			float3	normal			: NORMAL;
 			fixed4	color			: COLOR;
 			float2	texcoord0		: TEXCOORD0;
@@ -137,7 +137,7 @@ SubShader {
 
 
 		struct pixel_t {
-			float4	position		: SV_POSITION;
+			float4	colliderPosition		: SV_POSITION;
 			fixed4	color			: COLOR;
 			float2	atlas			: TEXCOORD0;		// Atlas
 			float4	param			: TEXCOORD1;		// alphaClip, scale, bias, weight
@@ -159,7 +159,7 @@ SubShader {
 		{
 			float bold = step(input.texcoord1.y, 0);
 
-			float4 vert = input.position;
+			float4 vert = input.colliderPosition;
 			vert.x += _VertexOffsetX;
 			vert.y += _VertexOffsetY;
 			float4 vPosition = UnityObjectToClipPos(vert);
