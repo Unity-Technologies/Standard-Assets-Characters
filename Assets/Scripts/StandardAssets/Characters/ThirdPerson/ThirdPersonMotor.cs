@@ -534,7 +534,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			float currentY = transform.eulerAngles.y;
 			float newY = targetRotation.eulerAngles.y;
-			float angle = MathUtilities.Wrap180(newY) - MathUtilities.Wrap180(currentY);
+			float angle = MathUtilities.Wrap180(MathUtilities.Wrap180(newY) - MathUtilities.Wrap180(currentY));
 
 			if (Mathf.Abs(angle) > configuration.angleRapidTurn)
 			{

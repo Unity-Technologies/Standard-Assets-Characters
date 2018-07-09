@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Timers;
+using UnityEngine;
 using Util;
 
 namespace StandardAssets.Characters.ThirdPerson
@@ -15,7 +16,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected AnimationCurve forwardSpeed = AnimationCurve.Linear(0, 0, 1, 1);
 
 		[SerializeField]
-		protected Animator animator;
+		protected ThirdPersonAnimationController animationController;
 
 		Vector3 targetRotationEuler;
 		Quaternion targetRotation;
@@ -43,8 +44,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			float forwardSpeedValue = forwardSpeed.Evaluate(normalizedTime);
 
-			animator.SetFloat("ForwardSpeed", Mathf.Clamp(forwardSpeedValue + currentForwardSpeed, -1, 1));
-
+			animationController.UpdateForwardSpeed(Mathf.Clamp(forwardSpeedValue + currentForwardSpeed, -1, 1), Time.deltaTime);
+			
 			float oldYRotation = transform.eulerAngles.y;
 			transform.rotation =
 				Quaternion.RotateTowards(transform.rotation, targetRotation, rotation / timeToTurn * Time.deltaTime);
@@ -53,23 +54,23 @@ namespace StandardAssets.Characters.ThirdPerson
 			float actualTurnSpeed =
 				turnSpeed * Mathf.Sign(MathUtilities.Wrap180(newYRotation) - MathUtilities.Wrap180(oldYRotation));
 
-			animator.SetFloat("TurningSpeed", actualTurnSpeed);
+			animationController.UpdateLateralSpeed(actualTurnSpeed, Time.deltaTime);
 		}
 
 		protected override void FinishedTurning()
 		{
 			turningTime = timeToTurn;
 			EvaluateTurn();
-			animator.SetFloat("TurningSpeed", currentTurningSpeed);
-			animator.SetFloat("ForwardSpeed", currentForwardSpeed);
+			animationController.UpdateForwardSpeed(currentForwardSpeed, Time.deltaTime);
+			animationController.UpdateTurningSpeed(currentTurningSpeed, Time.deltaTime);
 		}
 
 		protected override void StartTurningAround(float angle)
 		{
-			rotation = angle;
+			rotation = Mathf.Abs(angle);
 			turningTime = 0f;
-			currentForwardSpeed = animator.GetFloat("ForwardSpeed");
-			currentTurningSpeed = animator.GetFloat("TurningSpeed");
+			currentForwardSpeed = animationController.animatorForwardSpeed;
+			currentTurningSpeed = animationController.animatorTurningSpeed;
 			targetRotationEuler = transform.eulerAngles;
 			targetRotationEuler.y += rotation;
 			targetRotation = Quaternion.Euler(targetRotationEuler);

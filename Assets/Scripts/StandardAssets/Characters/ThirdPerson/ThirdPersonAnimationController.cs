@@ -84,6 +84,21 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private bool isGrounded;
 		private bool didJump;
+
+		public float animatorForwardSpeed
+		{
+			get { return animator.GetFloat(hashForwardSpeed); }
+		}
+		
+		public float animatorLateralSpeed
+		{
+			get { return animator.GetFloat(hashLateralSpeed); }
+		}
+		
+		public float animatorTurningSpeed
+		{
+			get { return animator.GetFloat(hashTurningSpeed); }
+		}
 		
 		public void AirborneStateExit()
 		{
@@ -104,6 +119,21 @@ namespace StandardAssets.Characters.ThirdPerson
 		public void UpdatePredictedFallDistance(float distance)
 		{
 			animator.SetFloat(hashPredictedFallDistance, distance);
+		}
+
+		public void UpdateForwardSpeed(float newSpeed, float deltaTime)
+		{
+			animator.SetFloat(hashForwardSpeed, newSpeed, floatInterpolationTime, deltaTime);
+		}
+		
+		public void UpdateLateralSpeed(float newSpeed, float deltaTime)
+		{
+			animator.SetFloat(hashLateralSpeed, newSpeed, floatInterpolationTime, deltaTime);
+		}
+		
+		public void UpdateTurningSpeed(float newSpeed, float deltaTime)
+		{
+			animator.SetFloat(hashTurningSpeed, newSpeed, floatInterpolationTime, deltaTime);
 		}
 
 		/// <summary>
@@ -236,9 +266,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private void Update()
 		{
-			animator.SetFloat(hashForwardSpeed, motor.normalizedForwardSpeed, floatInterpolationTime, Time.deltaTime);
-			animator.SetFloat(hashLateralSpeed, motor.normalizedLateralSpeed, floatInterpolationTime, Time.deltaTime);
-			animator.SetFloat(hashTurningSpeed, motor.normalizedTurningSpeed, floatInterpolationTime, Time.deltaTime);
+			UpdateForwardSpeed(motor.normalizedForwardSpeed, Time.deltaTime);
+			UpdateLateralSpeed(motor.normalizedLateralSpeed, Time.deltaTime);
+			UpdateTurningSpeed(motor.normalizedTurningSpeed, Time.deltaTime);
 			
 			animator.SetBool(hashHasInput, CheckHasSpeed(motor.normalizedForwardSpeed) || CheckHasSpeed(motor.normalizedLateralSpeed));
 
