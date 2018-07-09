@@ -8,15 +8,15 @@ namespace Demo
 		protected void Start()
 		{
 			//SetInitalValues for cameraInversion toggles
-			xAxisToggle.isOn = cameras[0].m_XAxis.m_InvertInput;
-			yAxisToggle.isOn = cameras[0].m_YAxis.m_InvertInput;
+			xAxisToggleGamepad.isOn = cameras[0].m_XAxis.m_InvertInput;
+			yAxisToggleGamepad.isOn = cameras[0].m_YAxis.m_InvertInput;
 
 			m_XAxisMaxSpeed = (cameras[0].m_XAxis.m_MaxSpeed - 100) / 300;
-			SetMaxSpeedSliderInitialValues(horizontalSlider, m_XAxisMaxSpeed, horizontalSliderValueText,
+			SetMaxSpeedSliderInitialValues(horizontalSliderGamepad, m_XAxisMaxSpeed, horizontalSliderGamepadValueText,
 			                               ((m_XAxisMaxSpeed * 300) + 100));
 
 			m_YAxisMaxSpeed = (cameras[0].m_YAxis.m_MaxSpeed - 1) / 5;
-			SetMaxSpeedSliderInitialValues(verticalSlider, m_YAxisMaxSpeed, verticalSliderValueText,
+			SetMaxSpeedSliderInitialValues(verticalSliderGamepad, m_YAxisMaxSpeed, verticalSliderGamepadValueText,
 			                               ((m_YAxisMaxSpeed * 5) + 1));
 		}
 		

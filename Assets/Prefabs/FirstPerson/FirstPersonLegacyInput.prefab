@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 114561844803457874}
   - component: {fileID: 114233431554465932}
   - component: {fileID: 135661079851010840}
-  - component: {fileID: 135344942864544930}
+  - component: {fileID: 114334457643941040}
   m_Layer: 11
   m_Name: FirstPersonLegacyInput
   m_TagString: Untagged
@@ -376,9 +376,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fee6c3ba6b914ab2b7caea31ccec1945, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slopeLimit: 45
+  stepOffset: 0.3
+  skinWidth: 0.08
+  minMoveDistance: 0
   center: {x: 0, y: 0, z: 0}
   radius: 0.2
   height: 1
+  colliderLayer: 
+  collisionLayerMask:
+    serializedVersion: 2
+    m_Bits: 257
+  addKinematicRigidbody: 1
 --- !u!114 &114324813546737938
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -399,6 +408,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114334457643941040
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1627797537853366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf1af807006f4a03b851eae6d2f48a94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114345959759107116
@@ -520,7 +540,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingMovementProperties:
-    isAvtive: 0
     stateName: Walk
     maxSpeed: 7
     acceleration:
@@ -574,7 +593,6 @@ MonoBehaviour:
   movementModifiers:
   - inputs: {fileID: 11400000, guid: 4536a47671291463386c18678dd23194, type: 2}
     movementProperties:
-      isAvtive: 0
       stateName: Sprint
       maxSpeed: 11
       acceleration:
@@ -627,7 +645,6 @@ MonoBehaviour:
           Culture=neutral, PublicKeyToken=null
   - inputs: {fileID: 11400000, guid: efd28e54320836844815e53240c38fe4, type: 2}
     movementProperties:
-      isAvtive: 0
       stateName: Crouch
       maxSpeed: 4
       acceleration:
@@ -680,7 +697,6 @@ MonoBehaviour:
           Culture=neutral, PublicKeyToken=null
   - inputs: {fileID: 11400000, guid: 2692a7f21a6ff044792d5134fd85691a, type: 2}
     movementProperties:
-      isAvtive: 0
       stateName: Prone
       maxSpeed: 2
       acceleration:
@@ -744,24 +760,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerRootTransform: {fileID: 0}
-  playerCentre: {x: 0, y: 0, z: 0}
-  playerHeight: 1
-  maxGroundingDist: 50
-  groundingEasing: 10
-  groundCheckPoint: {x: 0, y: -0.3, z: 0}
-  groundCheckRadius: 0.3
-  minSlope: 0
-  maxSlope: 60
-  maxModifiedSlope: 45
-  minimumGroundingDist: 2
-  maxStepHeight: 0.2
-  liftSlopePoint: {x: 0, y: 1, z: 0}
-  liftSlopeRadius: 0.2
-  excludePlayer:
-    serializedVersion: 2
-    m_Bits: 307
+  rootTransformOffset: {x: 0, y: -0.85, z: 0}
   characterCapsule: {fileID: 114233431554465932}
-  maxPenetrationTests: 4
   enableDebug: 1
 --- !u!114 &114570266145897858
 MonoBehaviour:
@@ -1012,18 +1012,6 @@ MonoBehaviour:
   enableOnScreenJoystickControls: 0
   leftOnScreenJoystick: {fileID: 0}
   rightOnScreenJoystick: {fileID: 0}
---- !u!135 &135344942864544930
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1627797537853366}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!135 &135661079851010840
 SphereCollider:
   m_ObjectHideFlags: 1

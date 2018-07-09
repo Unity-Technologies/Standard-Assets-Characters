@@ -20,14 +20,14 @@ namespace StandardAssets.Characters.FirstPerson
         /// If camera starts to jitter, make sure inspector values match these defaults. 
         /// </summary>
         [SerializeField]
-        protected float XSensitivity = 1; 
+        protected float XSensitivity = 10; 
         [SerializeField]
-        protected float YSensitivity = -1;
+        protected float YSensitivity = -10;
         [SerializeField]
         protected float smoothTime = 1.1f;
 
-        private bool invertX = true;
-        private bool invertY = true;
+        private bool invertX = false;
+        private bool invertY = false;
         
         /// <summary>
         /// Reference to all the cinemachine vcams on the character

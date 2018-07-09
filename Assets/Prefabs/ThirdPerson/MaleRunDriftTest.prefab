@@ -215,6 +215,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4906060494912000}
   - component: {fileID: 95106184414572110}
+  - component: {fileID: 114318016556597086}
   m_Layer: 11
   m_Name: MaleRunDriftTest
   m_TagString: Player
@@ -1980,7 +1981,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1161819688738720}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.1, y: 1.981, z: -38.5}
+  m_LocalPosition: {x: 14.2398, y: 0.015, z: -38.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4722028861522804}
@@ -2080,15 +2081,71 @@ Animator:
   m_GameObject: {fileID: 1161819688738720}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 20d97ea0953936148b25caa82b5e14f9, type: 3}
-  m_Controller: {fileID: 9100000, guid: 2eaca098878a5446cae2c68cf2c4a336, type: 2}
+  m_Controller: {fileID: 9100000, guid: 9250483fadc19a444bcc66715ab615e9, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114318016556597086
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1161819688738720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75c30f5f657547d7b0479680982c985b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeToTurn: 0.3
+  turnSpeed: 1
+  forwardSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.0041656494
+      value: -0.011727907
+      inSlope: -3.069767
+      outSlope: -3.069767
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.17916666
+    - serializedVersion: 3
+      time: 0.2935938
+      value: -0.11537063
+      inSlope: 0.280108
+      outSlope: 0.280108
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.60981685
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.50811255
+      value: 0.32325512
+      inSlope: 2.998844
+      outSlope: 2.998844
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.9916687
+      value: 0.011360168
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  animator: {fileID: 95106184414572110}
 --- !u!137 &137542137651082018
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
