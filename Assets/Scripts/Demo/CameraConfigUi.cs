@@ -26,22 +26,35 @@ namespace Demo
 		protected T[] cameras;
 
 		/// <summary>
-		/// UI Label Elements 
+		/// Gamepad camera config UI elements
 		/// </summary>
 		[SerializeField]
-		protected Text verticalSliderValueText;
-
+		protected Text verticalSliderGamepadValueText;
 		[SerializeField]
-		protected Text horizontalSliderValueText;
-
+		protected Text horizontalSliderGamepadValueText;
+		
+		[SerializeField]
+		protected Toggle xAxisToggleGamepad;
+		[SerializeField]
+		protected Toggle yAxisToggleGamepad;
+		
+		[SerializeField]
+		protected Slider horizontalSliderGamepad;
+		[SerializeField]
+		protected Slider verticalSliderGamepad;
+		
+		[SerializeField]
+		protected float m_XAxisMaxSpeed;
+		[SerializeField]
+		protected float m_YAxisMaxSpeed;
+		
 		/// <summary>
-		/// UI Interactive elements 
+		/// Mouse look camera config UI elements
 		/// </summary>
 		[SerializeField]
-		protected Toggle xAxisToggle;
-
+		protected Text xAxisSliderValueTextMouse;
 		[SerializeField]
-		protected Toggle yAxisToggle;
+		protected Text yAxisSliderValueTextMouse;
 
 		[SerializeField]
 		protected Toggle xAxisToggleMouse;
@@ -52,32 +65,10 @@ namespace Demo
 		protected Slider horizontalSliderMouse;
 		[SerializeField]
 		protected Slider verticalSliderMouse;
-		[SerializeField]
-		protected Text xAxisSliderValueTextMouse;
-		[SerializeField]
-		protected Text yAxisSliderValueTextMouse;
 
 		[SerializeField]
-		protected Slider horizontalSlider;
-		[SerializeField]
-		protected Slider verticalSlider;
-
-
-		[SerializeField]
-		protected float minXAxisSpeed;
-		[SerializeField]
-		protected float maxXAxisSpeed;
-		[SerializeField]
-		protected float minYAxisSpeed;
-		[SerializeField]
-		protected float maxYAxisSpeed;
-
-		[SerializeField]
-		protected Text activeInputDevices;
-
-		protected float m_XAxisMaxSpeed;
-		protected float m_YAxisMaxSpeed;
 		protected float xAxisMaxSpeedMouse;
+		[SerializeField]
 		protected float yAxisMaxSpeedMouse;
 		
 	
@@ -88,33 +79,34 @@ namespace Demo
 		}
 
 		/// <summary>
-		/// Sets the vertical sensitivity
+		/// Sets the vertical sensitivity for gamepad look 
 		/// </summary>
 		public void SetVerticalSliderValue(Slider slider)
 		{
 			m_YAxisMaxSpeed = ((slider.value * 400) + 100);
-			verticalSliderValueText.text = (m_YAxisMaxSpeed).ToString("0");
+			verticalSliderGamepadValueText.text = (m_YAxisMaxSpeed).ToString("0");
 			foreach (var camera in cameras)
 			{
 				SetYAxisMaxSpeed(camera, m_YAxisMaxSpeed);
 			}
 		}
 
-		
-
 		/// <summary>
-		/// Sets the horizontal sensisitivity
+		/// Sets the horizontal sensisitivity for gamepad look
 		/// </summary>
 		public void SetHorizontalSliderValue(Slider slider)
 		{
 			m_XAxisMaxSpeed = ((slider.value * 400) + 100);
-			horizontalSliderValueText.text = (m_XAxisMaxSpeed).ToString("0");
+			horizontalSliderGamepadValueText.text = (m_XAxisMaxSpeed).ToString("0");
 			foreach (var camera in cameras)
 			{
 				SetXAxisMaxSpeed(camera, m_XAxisMaxSpeed);
 			}
 		}
 
+		/// <summary>
+		/// Toggle XAxis on right stick gamepad look
+		/// </summary>
 		public void ToggleXAxis(Toggle toggle)
 		{
 			invertXAxis = toggle.isOn;
@@ -124,6 +116,9 @@ namespace Demo
 			}
 		}
 
+		/// <summary>
+		/// Toggle YAxis on right stick gamepad look
+		/// </summary>
 		public void ToggleYAxis(Toggle toggle)
 		{
 			invertYAxis = toggle.isOn;
@@ -177,7 +172,7 @@ namespace Demo
 
 		float GetMouseSensitivityValue(float current, Slider slider)
 		{
-			var newSensitivity = slider.value  * 10;
+			var newSensitivity = slider.value  * 20;
 			
 			if (current < 0)
 			{
@@ -189,29 +184,9 @@ namespace Demo
 
 		void SetMouseSensitivytSliderText(Text text, float value)
 		{
-			text.text = Mathf.Abs(value * 10).ToString("0");
+			text.text = Mathf.Abs(value).ToString("0");
 		}
 		
-		/// <summary>
-		/// Get the active input devices 
-		/// </summary>
-		protected virtual void UpdateActiveInputDevices()
-		{
-			var devices = new StringBuilder();
-			//foreach (var device in InputSystem.devices)
-			//{
-				//devices.AppendFormat(">{0}\n", device);
-				
-			//}
-			activeInputDevices.text = devices.ToString();
-		}
-
-
-		void Update()
-		{
-			//UpdateActiveInputDevices();
-			
-		}
 
 		protected abstract void SetYAxisMaxSpeed(T camera, float newMaxYAxisMaxSpeed);
 		protected abstract void SetXAxisMaxSpeed(T camera, float newMaxXAxisMaxSpeed);

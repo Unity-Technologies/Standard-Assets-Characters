@@ -5022,23 +5022,22 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  verticalSliderValueText: {fileID: 114701084224951088}
-  horizontalSliderValueText: {fileID: 114620666474372572}
-  xAxisToggle: {fileID: 114010880449215196}
-  yAxisToggle: {fileID: 114551188793322128}
+  verticalSliderGamepadValueText: {fileID: 114701084224951088}
+  horizontalSliderGamepadValueText: {fileID: 114620666474372572}
+  xAxisToggleGamepad: {fileID: 114010880449215196}
+  yAxisToggleGamepad: {fileID: 114551188793322128}
+  horizontalSliderGamepad: {fileID: 114818311443159804}
+  verticalSliderGamepad: {fileID: 114149042682904494}
+  m_XAxisMaxSpeed: 0
+  m_YAxisMaxSpeed: 0
+  xAxisSliderValueTextMouse: {fileID: 114006033221553594}
+  yAxisSliderValueTextMouse: {fileID: 114672777205230402}
   xAxisToggleMouse: {fileID: 114667162304248292}
   yAxisToggleMouse: {fileID: 114817615820266184}
   horizontalSliderMouse: {fileID: 114375324636042870}
   verticalSliderMouse: {fileID: 114727063835744950}
-  xAxisSliderValueTextMouse: {fileID: 114006033221553594}
-  yAxisSliderValueTextMouse: {fileID: 114672777205230402}
-  horizontalSlider: {fileID: 114818311443159804}
-  verticalSlider: {fileID: 114149042682904494}
-  minXAxisSpeed: 100
-  maxXAxisSpeed: 500
-  minYAxisSpeed: 100
-  maxYAxisSpeed: 500
-  activeInputDevices: {fileID: 0}
+  xAxisMaxSpeedMouse: 0
+  yAxisMaxSpeedMouse: 0
 --- !u!114 &114889326541267234
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5114,7 +5113,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 16
+    m_FontSize: 1
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 1
@@ -5126,7 +5125,8 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: "Adjust the vertical (Y) and horizontal (X)  \nmaximum speed for Cinemachine
-    \nVirtual Cameras (POV) This will only change\nthe look speed for Gamepad"
+    \nVirtual Cameras (POV) This will only change\nthe look speed for Gamepad. <color=red>All
+    changes \nwill be saved during play mode.</color> "
 --- !u!114 &114941135959411898
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6145,7 +6145,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -26, y: -248}
+  m_AnchoredPosition: {x: -26, y: -250.6}
   m_SizeDelta: {x: 104, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224095478562209252
@@ -7430,7 +7430,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -97, y: -162}
+  m_AnchoredPosition: {x: -97, y: -150.7}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224665601350619412
@@ -7790,7 +7790,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -97, y: -133}
+  m_AnchoredPosition: {x: -97, y: -127}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224809227719427146
