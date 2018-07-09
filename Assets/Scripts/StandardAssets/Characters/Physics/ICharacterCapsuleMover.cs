@@ -17,11 +17,17 @@ namespace StandardAssets.Characters.Physics
 		/// Fired when the velocity changed.
 		/// </summary>
 		event Action<Vector3> onVelocityChanged;
+
+		/// <summary>
+		/// Fired when the collision flags changed.
+		/// </summary>
+		event Action<CollisionFlags> onCollisionFlagsChanged;
 		
 		/// <summary>
-		/// Move the character capsule.
+		/// Move the character capsule. This function does not apply any gravity.
 		/// </summary>
 		/// <param name="moveVector">Move along this vector.</param>
-		void Move(Vector3 moveVector);
+		/// <returns>CollisionFlags is the summary of collisions that occurred during the Move.</returns>
+		CollisionFlags Move(Vector3 moveVector);
 	}
 }

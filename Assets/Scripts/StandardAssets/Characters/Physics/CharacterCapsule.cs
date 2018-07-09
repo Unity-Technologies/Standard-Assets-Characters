@@ -92,9 +92,9 @@ namespace StandardAssets.Characters.Physics
 		private LayerMask collisionLayerMask;
 
 		/// <summary>
-		/// Add a kinematic rigidbody?
+		/// Add a kinematic Rigidbody? Physics works better when moving Colliders have a kinematic Rigidbody.
 		/// </summary>
-		[Tooltip("Add a kinematic rigidbody?")]
+		[Tooltip("Add a kinematic Rigidbody? Physics works better when moving Colliders have a kinematic Rigidbody.")]
 		[SerializeField]
 		private bool addKinematicRigidbody = true;
 
@@ -174,6 +174,7 @@ namespace StandardAssets.Characters.Physics
 				capsuleCollider.height = height + (skinWidth * 2.0f);
 			}
 
+			// TODO: Physics.ComputePenetration does not always return values when the colliders overlap. Need a better method.
 			bool result = UnityEngine.Physics.ComputePenetration(capsuleCollider,
 			                                              		 cachedTransform.position + positionOffset,
 			                                              		 cachedTransform.rotation,

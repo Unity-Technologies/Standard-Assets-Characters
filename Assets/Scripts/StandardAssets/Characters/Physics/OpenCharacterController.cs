@@ -62,15 +62,21 @@ namespace StandardAssets.Characters.Physics
 				: float.MaxValue;
 		}
 
-		/// <inheritdoc />
-		public void Move(Vector3 moveVector)
+		/// <summary>
+		/// Move the character. This function does not apply any gravity.
+		/// </summary>
+		/// <param name="moveVector">Move along this vector.</param>
+		/// <returns>CollisionFlags is the summary of collisions that occurred during the Move.</returns>
+		public CollisionFlags Move(Vector3 moveVector)
 		{
-			capsuleMover.Move(moveVector);
+			CollisionFlags collisionFlags = capsuleMover.Move(moveVector);
 
 			if (enableDebug)
 			{
 				Debug.DrawRay(transform.position + rootTransformOffset, moveVector, Color.green, 1f);
 			}
+
+			return collisionFlags;
 		}
 
 		/// <inheritdoc />

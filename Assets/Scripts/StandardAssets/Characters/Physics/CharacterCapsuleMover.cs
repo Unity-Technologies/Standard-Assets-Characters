@@ -1,7 +1,11 @@
-﻿using System;
+﻿//#define DEBUG_CHARACTER_CAPSULE_MOVER
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+
+#if DEBUG_CHARACTER_CAPSULE_MOVER
 using StandardAssets.GizmosHelpers;
+#endif
 
 namespace StandardAssets.Characters.Physics
 {
@@ -39,12 +43,21 @@ namespace StandardAssets.Characters.Physics
 		/// If character's position does not change by more than this amount then we assume the character is stuck.
 		/// </summary>
 		private const float k_StuckDistance = 0.001f;
+		
+		// Start testing if character is stuck if character collided this number of times during the movement loop
+		private const int k_HitCountForStuck = 6;
+		
+		// Assume character is stuck if the position is the same for longer than this number of loop itterations
+		private const int k_MaxStuckCount = 1;
 
 		/// <inheritdoc />
 		public event Action<bool> onGroundedChanged;
 
 		/// <inheritdoc />
 		public event Action<Vector3> onVelocityChanged;
+
+		/// <inheritdoc />
+		public event Action<CollisionFlags> onCollisionFlagsChanged;
 
 		/// <summary>
 		/// Was the touching the ground during the last move?
@@ -77,34 +90,46 @@ namespace StandardAssets.Characters.Physics
 		private Vector3 velocity;
 
 		/// <summary>
-		/// Count the number of collisions during movement.
+		/// Count the number of collisions during movement, to determine when the character gets stuck.
 		/// </summary>
 		private int hitCount;
 
+		/// <summary>
+		/// For keeping track of the character's position, to determine when the character gets stuck.
+		/// </summary>
+		private Vector3? stuckPosition;
+
+		/// <summary>
+		/// Count how long the character is in the same position.
+		/// </summary>
+		private int stuckCount;
+
 		#region DEBUG FIELDS REMOVE WHEN DONE TESTING
 		#if DEBUG_CHARACTER_CAPSULE_MOVER
-		Vector3? debugTopSphereWorldPosition = null;
-		Vector3? debugBottomSphereWorldPosition = null;
+		private Vector3? debugTopSphereWorldPosition = null;
+		private Vector3? debugBottomSphereWorldPosition = null;
 		private static int debugItteration;
 		private static int debugTestCollisionCount;
 		private static int debugMaxMoveItterationsCount;
-		Vector3? debugCurrentPosition;
+		private Vector3? debugCurrentPosition;
+		private bool debugToggle;	// Toggle special debug output via the F1 key
 		#endif
 		#endregion
 		
 		/// <inheritdoc />
-		public void Move(Vector3 moveVector)
+		public CollisionFlags Move(Vector3 moveVector)
 		{
 			float distance = moveVector.sqrMagnitude;
 			if (distance <= Mathf.Epsilon ||
 			    distance < characterCapsule.GetMinMoveDistance())
 			{
-				return;
+				return CollisionFlags.None;
 			}
 
 			bool wasGrounded = isGrounded;
 			Vector3 oldPosition = capsuleTransform.position;
 			Vector3 oldVelocity = velocity;
+			CollisionFlags oldCollisionFlags = collisionFlags;
 			Vector3 moveVectorNoY = new Vector3(moveVector.x, 0.0f, moveVector.z);
 			bool tryToStickToGround = (wasGrounded &&
 			                           moveVector.y <= 0.0f &&
@@ -124,6 +149,12 @@ namespace StandardAssets.Characters.Physics
 				onVelocityChanged(velocity);
 			}
 			
+			if (onCollisionFlagsChanged != null &&
+			    oldCollisionFlags != collisionFlags)
+			{
+				onCollisionFlagsChanged(collisionFlags);
+			}
+			
 			if (onGroundedChanged != null &&
 			    wasGrounded != isGrounded)
 			{
@@ -132,7 +163,15 @@ namespace StandardAssets.Characters.Physics
 
 			#if DEBUG_CHARACTER_CAPSULE_MOVER
 			DebugTestCollision(null, "END OF MOVE");
+			if (debugToggle)
+			{
+				Debug.Log(string.Format("moveVector: {0}     y: {1}",
+				                        DebugVectorToString(moveVector),
+				                        moveVector.y));
+			}
 			#endif
+
+			return collisionFlags;
 		}
 
 		/// <inheritdoc />
@@ -180,12 +219,14 @@ namespace StandardAssets.Characters.Physics
 				// Move up then horizontal
 				remainingMoveVector = vertical;
 				moveVectors.Add(horizontal);
+				// TODO: Handle cases where the vector is large
 			}
 			else if (vertical.y < 0.0f)
 			{
 				// Move horizontal then down
 				remainingMoveVector = horizontal;
 				moveVectors.Add(vertical);
+				// TODO: Handle cases where the vector is large
 			}
 			else
 			{
@@ -195,9 +236,8 @@ namespace StandardAssets.Characters.Physics
 
 			int moveVectorIndex = 0;
 			bool didTryToStickToGround = false;
-			int stuckCount = 0;
-			Vector3? stuckPosition = null;
-			bool isStuck = false;
+			stuckCount = 0;
+			stuckPosition = null;
 
 			for (int i = 0; i < k_MaxMoveItterations; i++)
 			{
@@ -207,32 +247,13 @@ namespace StandardAssets.Characters.Physics
 				
 				bool collided = MoveMajorStep(ref remainingMoveVector, i == 0, didTryToStickToGround);
 
-				if (hitCount > 5)
+				if (IsStuck())
 				{
-					// Test if character is stuck (e.g. bouncing between 2 or more colliders)
-					if (stuckPosition == null)
-					{
-						stuckPosition = capsuleTransform.position;
-					}
-					else if (VectorSqrMagnitude(stuckPosition.Value, capsuleTransform.position) <= k_StuckDistance * k_StuckDistance)
-					{
-						stuckCount ++;
-						if (stuckCount > 1)
-						{
-							isStuck = true;
-							moveVectors.Clear();
-						}
-					}
-					else
-					{
-						stuckCount = 0;
-						stuckPosition = null;
-					}
+					remainingMoveVector = Vector3.zero;
 				}
 				
-				// Collided, stuck or vector used up (i.e. vector is zero)?
+				// Collided or vector used up (i.e. vector is zero)?
 				if (!collided || 
-					isStuck || 
 				    remainingMoveVector.sqrMagnitude <= Mathf.Epsilon)
 				{
 					// Are there remaining movement vectors?
@@ -257,8 +278,6 @@ namespace StandardAssets.Characters.Physics
 						}
 					}
 				}
-
-
 				
 				#if UNITY_EDITOR
 				if (i == k_MaxMoveItterations - 1)
@@ -279,6 +298,41 @@ namespace StandardAssets.Characters.Physics
 				}
 				#endif
 			}
+		}
+
+		/// <summary>
+		/// Is the character stuck during the movement loop (e.g. bouncing between 2 or more colliders)?
+		/// </summary>
+		/// <returns></returns>
+		private bool IsStuck()
+		{
+			if (hitCount < k_HitCountForStuck)
+			{
+				return false;
+			}
+
+			if (stuckPosition == null)
+			{
+				stuckPosition = capsuleTransform.position;
+			}
+			else if (VectorSqrMagnitude(stuckPosition.Value, capsuleTransform.position) <= k_StuckDistance * k_StuckDistance)
+			{
+				stuckCount ++;
+				if (stuckCount > k_MaxStuckCount)
+				{
+					hitCount = 0;
+					stuckCount = 0;
+					stuckPosition = null;
+					return true;
+				}
+			}
+			else
+			{
+				stuckCount = 0;
+				stuckPosition = null;
+			}
+
+			return false;
 		}
 
 		/// <summary>
@@ -388,7 +442,7 @@ namespace StandardAssets.Characters.Physics
 				moveVector = Vector3.zero;
 
 				#if DEBUG_CHARACTER_CAPSULE_MOVER
-				DebugTestCollision(null, "move minor 1");
+				DebugTestCollision(null, "move minor 1 (should never happen!)");
 				#endif
 
 				return false;
@@ -505,17 +559,35 @@ namespace StandardAssets.Characters.Physics
 			bool debugShow = DebugTestCollision(hitInfo.collider, "move away 2");
 			#endif
 
+			bool slide = true;
+			bool slopeIsSteep = false;
 			if (tryGrounding)
 			{
 				// No further movement when grounding the character
 				moveVector = Vector3.zero;
+				slide = false;
 			}
-			else
+			else if (Math.Abs(moveVector.x) > Mathf.Epsilon ||
+			         Math.Abs(moveVector.z) > Mathf.Epsilon)
+			{
+				// Test if character is trying to walk up a steep slope
+				float angle = Vector3.Angle(Vector3.up, hitInfo.normal);
+				slopeIsSteep = angle > characterCapsule.GetSlopeLimit();
+			}
+
+			if (slide)
 			{
 				// Vector to slide along the obstacle
 				Vector3 project = Vector3.ProjectOnPlane(direction, hitInfo.normal);
 				project.Normalize();
 
+				if (slopeIsSteep &&
+				    project.y > 0.0f)
+				{
+					// Do not move up the slope
+					project.y = 0.0f;
+				}
+			
 				// Slide along the obstacle
 				moveVector = project * remainingDistance;
 			}
@@ -551,12 +623,13 @@ namespace StandardAssets.Characters.Physics
 			getDistance = 0.0f;
 			getDirection = Vector3.zero;
 
-			Collider[] colliders = UnityEngine.Physics.OverlapCapsule(characterCapsule.GetTopSphereWorldPosition(),
-																	  characterCapsule.GetBottomSphereWorldPosition(),
-																	  characterCapsule.scaledRadius + characterCapsule.GetSkinWidth(),
-																	  characterCapsule.GetCollisionLayerMask());
-			if (colliders == null || 
-				colliders.Length <= 0)
+			Collider[] colliders = new Collider[k_MaxOverlapColliders];
+			UnityEngine.Physics.OverlapCapsuleNonAlloc(characterCapsule.GetTopSphereWorldPosition(),
+			                                           characterCapsule.GetBottomSphereWorldPosition(),
+			                                           characterCapsule.scaledRadius + characterCapsule.GetSkinWidth(),
+			                                           colliders,
+			                                           characterCapsule.GetCollisionLayerMask());
+			if (colliders.Length <= 0)
 			{
 				return false;
 			}
@@ -564,6 +637,10 @@ namespace StandardAssets.Characters.Physics
 			bool result = false;
 			foreach(var collider in colliders)
 			{
+				if (collider == null)
+				{
+					break;
+				}
 				Vector3 direction;
 				float distance;
 				Transform colliderTransform = collider.transform;
@@ -595,21 +672,25 @@ namespace StandardAssets.Characters.Physics
 			}
 			#endif
 
-			if (moveVector.sqrMagnitude != 0.0f)
+			if (Math.Abs(moveVector.sqrMagnitude) > Mathf.Epsilon)
 			{
 				capsuleTransform.position += moveVector;
 			}
 
 			#if DEBUG_CHARACTER_CAPSULE_MOVER
-			if (moveVector.sqrMagnitude != 0.0f)
+			if (Math.Abs(moveVector.sqrMagnitude) > Mathf.Epsilon)
 			{
 				debugCurrentPosition += moveVector;
 			}
-			if (debugCurrentPosition.Value != capsuleTransform.position)
+			if (debugCurrentPosition != null &&
+			    (Math.Abs(debugCurrentPosition.Value.x - capsuleTransform.position.x) > Mathf.Epsilon ||
+			     Math.Abs(debugCurrentPosition.Value.y - capsuleTransform.position.y) > Mathf.Epsilon ||
+			     Math.Abs(debugCurrentPosition.Value.z - capsuleTransform.position.z) > Mathf.Epsilon))
 			{
-				Debug.Log(string.Format("positions are different: {0}     {1}",
-					DebugVectorToString(capsuleTransform.position),
-					DebugVectorToString(debugCurrentPosition.Value)));
+				Debug.LogError(string.Format(
+					               "Positions are different! Something else changed the capsule's transform position! {0}     {1}",
+					               DebugVectorToString(capsuleTransform.position),
+					               DebugVectorToString(debugCurrentPosition.Value)));
 			}
 			DebugTestCollision(hitInfo != null ? hitInfo.Value.collider : null, 
 							   string.Format("MOVE POSITION: {0}",
@@ -649,6 +730,15 @@ namespace StandardAssets.Characters.Physics
 
 		#region DEBUG METHODS REMOVE WHEN DONE TESTING
 		#if DEBUG_CHARACTER_CAPSULE_MOVER
+		/// <inheritdoc />
+		private void Update()
+		{
+			if (Input.GetKeyDown(KeyCode.F1))
+			{
+				debugToggle = !debugToggle;
+			}
+		}
+
 		/// <summary>
 		/// Debugs the test collision.
 		/// </summary>
@@ -678,7 +768,8 @@ namespace StandardAssets.Characters.Physics
 				if (foundColliders.Count > 0)
 				{
 					debugTestCollisionCount ++;
-					if (debugTestCollisionCount <= 10)
+					if (debugTestCollisionCount <= 10 ||
+					    debugToggle)
 					{
 						sb.Append(string.Format("inside colliders: {0}     itt: {1}     hCount: {2}     (x{3})     ", 
 							debugInfo != null ? debugInfo : "",
