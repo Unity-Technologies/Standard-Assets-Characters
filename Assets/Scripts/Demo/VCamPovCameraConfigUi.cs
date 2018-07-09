@@ -7,34 +7,32 @@ namespace Demo
 	{
 		protected void Start()
 		{
-			float minSpeed = 100;
+			float minSpeedCinemachineGamepad = 100;
 			float speedRange = 400;
-
-	
 			
 			//SetInitalValues for cameraInversion toggles
-			xAxisToggle.isOn = cameras[0].GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_InvertInput;
-			yAxisToggle.isOn = cameras[0].GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.m_InvertInput;
+			xAxisToggleGamepad.isOn = cameras[0].GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_InvertInput;
+			yAxisToggleGamepad.isOn = cameras[0].GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.m_InvertInput;
 
-			m_XAxisMaxSpeed = (cameras[0].GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_MaxSpeed - minSpeed) / speedRange;
+			m_XAxisMaxSpeed = (cameras[0].GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_MaxSpeed - minSpeedCinemachineGamepad) / speedRange;
 			
-			SetMaxSpeedSliderInitialValues(horizontalSlider, m_XAxisMaxSpeed, horizontalSliderValueText,
-				((m_XAxisMaxSpeed * speedRange)+minSpeed));
+			SetMaxSpeedSliderInitialValues(horizontalSliderGamepad, m_XAxisMaxSpeed, horizontalSliderGamepadValueText,
+				((m_XAxisMaxSpeed * speedRange)+minSpeedCinemachineGamepad));
 
 			m_YAxisMaxSpeed = 0.3f;
 			//m_YAxisMaxSpeed	= (cameras[0].GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_MaxSpeed - minSpeed) / speedRange;
-			SetMaxSpeedSliderInitialValues(verticalSlider, m_YAxisMaxSpeed, verticalSliderValueText,
-				((m_YAxisMaxSpeed * speedRange)+minSpeed));
+			SetMaxSpeedSliderInitialValues(verticalSliderGamepad, m_YAxisMaxSpeed, verticalSliderGamepadValueText,
+				((m_YAxisMaxSpeed * speedRange)+minSpeedCinemachineGamepad));
 
 			if (povCamAdjustables != null)
 			{
-				xAxisMaxSpeedMouse = Mathf.Abs(povCamAdjustables.GetSensitivity().x * 0.1f);
-				yAxisMaxSpeedMouse = Mathf.Abs(povCamAdjustables.GetSensitivity().y* 0.1f);
+				xAxisMaxSpeedMouse = Mathf.Abs(povCamAdjustables.GetSensitivity().x );
+				yAxisMaxSpeedMouse = Mathf.Abs(povCamAdjustables.GetSensitivity().y );
 			}
 
 			
-			SetMaxSpeedSliderInitialValues(horizontalSliderMouse,xAxisMaxSpeedMouse,xAxisSliderValueTextMouse,xAxisMaxSpeedMouse*100);
-			SetMaxSpeedSliderInitialValues(verticalSliderMouse,yAxisMaxSpeedMouse,yAxisSliderValueTextMouse,yAxisMaxSpeedMouse*100);
+			SetMaxSpeedSliderInitialValues(horizontalSliderMouse,xAxisMaxSpeedMouse/20,xAxisSliderValueTextMouse,xAxisMaxSpeedMouse);
+			SetMaxSpeedSliderInitialValues(verticalSliderMouse,yAxisMaxSpeedMouse/20,yAxisSliderValueTextMouse,yAxisMaxSpeedMouse);
 			
 
 		}
