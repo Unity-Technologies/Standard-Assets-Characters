@@ -29,9 +29,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected InputResponse strafeInput;
 
-		[SerializeField]
-		protected TurnaroundBehaviour turnaroundBehaviour;
-
 		//Properties
 		public float normalizedTurningSpeed { get; private set; }
 		public float normalizedLateralSpeed { get; private set; }
@@ -71,6 +68,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected float forwardClampSpeed, targetForwardClampSpeed, lateralClampSpeed, targetLateralClampSpeed;
 
 		protected Vector3 cachedGroundMovementVector;
+		
+		protected TurnaroundBehaviour turnaroundBehaviour;
 
 		protected bool isStrafing
 		{
@@ -122,6 +121,13 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected virtual void Awake()
 		{
+			TurnaroundBehaviour turn = GetComponent<TurnaroundBehaviour>();
+
+			if (turn != null && turn.enabled)
+			{
+				turnaroundBehaviour = turn;
+			}
+			
 			characterInput = GetComponent<ICharacterInput>();
 			characterPhysics = GetComponent<ICharacterPhysics>();
 			animator = GetComponent<Animator>();
