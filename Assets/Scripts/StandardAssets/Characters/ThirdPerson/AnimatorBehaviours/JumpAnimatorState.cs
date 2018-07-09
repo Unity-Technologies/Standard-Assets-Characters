@@ -21,7 +21,7 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 
 		public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			var motor = animator.GetComponent<AnimationThirdPersonMotor>();
+			var motor = animator.GetComponent<ThirdPersonMotor>();
 			if (motor != null)
 			{
 				motor.OnJumpAnimationComplete();

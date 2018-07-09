@@ -32,6 +32,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected AnimationInputProperties strafeLateralMovement;
 		
+		[SerializeField, Tooltip("A fall distance higher than this will trigger a fall animation")]
+		protected float maxFallDistance = 1;
+		
 		public AnimationInputProperties forwardMovementProperties
 		{
 			get { return forwardMovement; }
@@ -75,6 +78,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		public float angleRapidTurn
 		{
 			get { return rapidTurnAngle; }
+		}
+
+		public float maxFallDistanceToLand
+		{
+			get { return maxFallDistance; }
 		}
 	}
 }

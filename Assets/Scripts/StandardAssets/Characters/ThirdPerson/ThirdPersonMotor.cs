@@ -81,6 +81,28 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			//TODO REMOVE THIS
 		}
+		
+		public void OnJumpAnimationComplete()
+		{
+			var baseCharacterPhysics = GetComponent<BaseCharacterPhysics>();
+			if (baseCharacterPhysics == null)
+			{
+				return;
+			}
+
+			var distance = baseCharacterPhysics.GetPredicitedFallDistance();
+			if (distance <= configuration.maxFallDistanceToLand)
+			{
+				OnLanding();
+			}
+			else
+			{
+				if (fallStarted != null)
+				{
+					fallStarted(distance);
+				}
+			}
+		}
 
 		//Unity Messages
 		protected virtual void OnAnimatorMove()
@@ -518,7 +540,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				preTurnMovementState = movementState;
 				movementState = ThirdPersonGroundMovementState.TurningAround;
-				turnaroundBehaviour.TurnAround(180);
+				turnaroundBehaviour.TurnAround(angle);
 				return true;
 			}
 
