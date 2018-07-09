@@ -408,6 +408,7 @@ GameObject:
   - component: {fileID: 114806330699989004}
   - component: {fileID: 114346304956769404}
   - component: {fileID: 114677118940575552}
+  - component: {fileID: 114089309699034070}
   m_Layer: 11
   m_Name: MaleThirdPerson
   m_TagString: Player
@@ -2126,6 +2127,17 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114089309699034070
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1294013925418394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf1af807006f4a03b851eae6d2f48a94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114346304956769404
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2153,25 +2165,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b5c6cf5f04e4e2b9c79ad2fda5ddbea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerRootTransform: {fileID: 1143746075392832}
-  playerCentre: {x: 0, y: -0.85, z: 0}
-  playerHeight: 1.7
-  maxGroundingDist: 50
-  groundingEasing: 10
-  groundCheckPoint: {x: 0, y: -0.7, z: 0}
-  groundCheckRadius: 0.2
-  minSlope: 0
-  maxSlope: 60
-  maxModifiedSlope: 45
-  minimumGroundingDist: 2
-  maxStepHeight: 1.5
-  liftSlopePoint: {x: 0, y: 1, z: 0}
-  liftSlopeRadius: 0.2
-  excludePlayer:
-    serializedVersion: 2
-    m_Bits: 307
-  characterCapsule: {fileID: 0}
-  maxPenetrationTests: 4
+  playerRootTransform: {fileID: 4040340540093194}
+  rootTransformOffset: {x: 0, y: -0.85, z: 0}
+  characterCapsule: {fileID: 114806330699989004}
   enableDebug: 1
 --- !u!114 &114447118663720106
 MonoBehaviour:
@@ -2323,9 +2319,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fee6c3ba6b914ab2b7caea31ccec1945, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slopeLimit: 45
+  stepOffset: 0.3
+  skinWidth: 0.08
+  minMoveDistance: 0
   center: {x: 0, y: 0, z: 0}
   radius: 0.4
-  height: 1.2
+  height: 1.6
+  colliderLayer: 
+  collisionLayerMask:
+    serializedVersion: 2
+    m_Bits: 311
+  addKinematicRigidbody: 1
 --- !u!114 &114830054038821640
 MonoBehaviour:
   m_ObjectHideFlags: 1
