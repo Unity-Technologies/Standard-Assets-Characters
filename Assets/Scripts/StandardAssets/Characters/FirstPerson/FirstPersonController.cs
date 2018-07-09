@@ -160,9 +160,9 @@ namespace StandardAssets.Characters.FirstPerson
 			{
 				input.Normalize();
 			}
-
-			Vector3 forward = transform.forward * characterInput.moveInput.y;
-			Vector3 sideways = transform.right * characterInput.moveInput.x;
+		
+			Vector3 forward = transform.forward * input.y;
+			Vector3 sideways = transform.right * input.x;
 			
 			characterPhysics.Move((forward + sideways) * currentSpeed * Time.deltaTime);
 

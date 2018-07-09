@@ -1797,7 +1797,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1964598378489596}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 47.75, y: 26.205, z: 63.168888}
+  m_LocalPosition: {x: 46.09171, y: 26.205, z: 52.873}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4151648849392010}
@@ -2139,7 +2139,7 @@ MonoBehaviour:
   id: rightfoot
   layerMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 257
 --- !u!114 &114062951762596594
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2230,7 +2230,7 @@ MonoBehaviour:
   excludePlayer:
     serializedVersion: 2
     m_Bits: 307
-  characterCapsule: {fileID: 0}
+  characterCapsule: {fileID: 114636360318092058}
   maxPenetrationTests: 4
   enableDebug: 1
 --- !u!114 &114337826517927418
@@ -2421,7 +2421,7 @@ MonoBehaviour:
   id: leftfoot
   layerMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 257
 --- !u!137 &137486808104186404
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
