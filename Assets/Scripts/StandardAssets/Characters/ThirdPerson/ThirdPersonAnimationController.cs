@@ -49,6 +49,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		[SerializeField]
 		protected string rapidTurnParameterName = "RapidTurn";
+
+		[SerializeField]
+		protected string isStrafingParameterName = "IsStrafing";
 		
 		[SerializeField]
 		protected bool invert;
@@ -81,6 +84,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private int hashJumpedLateralSpeed;
 		private int hashPredictedFallDistance;
 		private int hashRapidTurn;
+		private int hashIsStrafing;
 
 		private bool isGrounded;
 		private bool didJump;
@@ -153,6 +157,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			hashJumpedLateralSpeed = Animator.StringToHash(jumpedLateralSpeedParameterName);
 			hashPredictedFallDistance = Animator.StringToHash(predictedFallDistanceParameterName);
 			hashRapidTurn = Animator.StringToHash(rapidTurnParameterName);
+			hashIsStrafing = Animator.StringToHash(isStrafingParameterName);
 			motor = GetComponent<IThirdPersonMotor>();
 			animator = GetComponent<Animator>();
 		}
@@ -271,6 +276,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			UpdateTurningSpeed(motor.normalizedTurningSpeed, Time.deltaTime);
 			
 			animator.SetBool(hashHasInput, CheckHasSpeed(motor.normalizedForwardSpeed) || CheckHasSpeed(motor.normalizedLateralSpeed));
+			
+			animator.SetBool(hashIsStrafing, Mathf.Abs(motor.normalizedLateralSpeed) > 0);
 
 			if (!isGrounded)
 			{
