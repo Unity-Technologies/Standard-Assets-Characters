@@ -411,9 +411,13 @@ namespace StandardAssets.Characters.ThirdPerson
 				return;
 			}
 
+			float turnSpeed = characterPhysics.isGrounded
+				? configuration.turningYSpeed
+				: configuration.jumpTurningYSpeed; 
+			
 			targetRotation =
 				Quaternion.RotateTowards(transform.rotation, targetRotation,
-				                         configuration.turningYSpeed * Time.deltaTime);
+				                         turnSpeed * Time.deltaTime);
 
 			SetTurningSpeed(transform.rotation, targetRotation);
 
