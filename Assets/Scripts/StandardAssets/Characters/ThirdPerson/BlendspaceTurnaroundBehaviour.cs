@@ -29,19 +29,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			animationController = GetComponent<ThirdPersonAnimationController>();
 		}
 
-		private void Update()
-		{
-			if (isTurningAround)
-			{
-				EvaluateTurn();
-				turningTime += Time.deltaTime;
-				if (turningTime >= timeToTurn)
-				{
-					EndTurnAround();
-				}
-			}
-		}
-
 		private void EvaluateTurn()
 		{
 			float normalizedTime = turningTime / timeToTurn;
@@ -59,6 +46,19 @@ namespace StandardAssets.Characters.ThirdPerson
 				turnSpeed * Mathf.Sign(MathUtilities.Wrap180(newYRotation) - MathUtilities.Wrap180(oldYRotation));
 
 			animationController.UpdateLateralSpeed(actualTurnSpeed, Time.deltaTime);
+		}
+		
+		protected virtual void Update()
+		{
+			if (isTurningAround)
+			{
+				EvaluateTurn();
+				turningTime += Time.deltaTime;
+				if (turningTime >= timeToTurn)
+				{
+					EndTurnAround();
+				}
+			}
 		}
 
 		protected override void FinishedTurning()

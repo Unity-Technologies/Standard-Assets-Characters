@@ -407,8 +407,8 @@ GameObject:
   - component: {fileID: 114701851465361092}
   - component: {fileID: 114806330699989004}
   - component: {fileID: 114346304956769404}
-  - component: {fileID: 114677118940575552}
   - component: {fileID: 114089309699034070}
+  - component: {fileID: 114907068646424796}
   m_Layer: 11
   m_Name: MaleThirdPerson
   m_TagString: Player
@@ -2239,62 +2239,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terminalVelocity: 10
---- !u!114 &114677118940575552
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1294013925418394}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75c30f5f657547d7b0479680982c985b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeToTurn: 0.3
-  turnSpeed: 0.5
-  forwardSpeed:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: -0.0041656494
-      value: -0.011727907
-      inSlope: -3.069767
-      outSlope: -3.069767
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.17916666
-    - serializedVersion: 3
-      time: 0.3121027
-      value: -1
-      inSlope: 0.280108
-      outSlope: 0.280108
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.60981685
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.50811255
-      value: 0.1
-      inSlope: 2.998844
-      outSlope: 2.998844
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.9916687
-      value: 0.011360168
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  animationController: {fileID: 114453032354610446}
 --- !u!114 &114701851465361092
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2344,6 +2288,67 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingMovementEventLibrary: {fileID: 0}
+--- !u!114 &114907068646424796
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1294013925418394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01f7e0eda92f4bf5a5401d8684c6065b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeToTurn: 0.3
+  turnSpeed: 0.5
+  forwardSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.0041656494
+      value: -0.011727907
+      inSlope: -3.069767
+      outSlope: -3.069767
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.17916666
+    - serializedVersion: 3
+      time: 0.3121027
+      value: -1
+      inSlope: 0.280108
+      outSlope: 0.280108
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.60981685
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.50811255
+      value: 0.1
+      inSlope: 2.998844
+      outSlope: 2.998844
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.9916687
+      value: 0.011360168
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  times:
+  - 0.1
+  - 0.2
+  - 0.3
+  - 0.4
+  - 0.5
 --- !u!114 &114940951280970576
 MonoBehaviour:
   m_ObjectHideFlags: 1
