@@ -2153,7 +2153,6 @@ MonoBehaviour:
   cameraTransform: {fileID: 0}
   runInput: {fileID: 11400000, guid: 4536a47671291463386c18678dd23194, type: 2}
   strafeInput: {fileID: 11400000, guid: f7e824638922944d5b76347cc85e8952, type: 2}
-  turnaroundBehaviour: {fileID: 114677118940575552}
 --- !u!114 &114348692547226352
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2214,6 +2213,7 @@ MonoBehaviour:
   forwardSpeedParameterName: ForwardSpeed
   lateralSpeedParameterName: LateralSpeed
   turningSpeedParameterName: TurningSpeed
+  verticalSpeedParameterName: VerticalSpeed
   groundedParameterName: Grounded
   hasInputParameterName: HasInput
   fallingTimeParameterName: FallTime
@@ -2223,6 +2223,7 @@ MonoBehaviour:
   jumpedForwardSpeedParameterName: JumpedForwardSpeed
   predictedFallDistanceParameterName: PredictedFallDistance
   rapidTurnParameterName: RapidTurn
+  isStrafingParameterName: IsStrafing
   invert: 0
   leftFoot: {fileID: 114447118663720106}
   rightfoot: {fileID: 114449538320415148}
@@ -2249,8 +2250,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75c30f5f657547d7b0479680982c985b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToTurn: 0.2
-  turnSpeed: 0
+  timeToTurn: 0.3
+  turnSpeed: 0.5
   forwardSpeed:
     serializedVersion: 2
     m_Curve:
@@ -2264,8 +2265,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.17916666
     - serializedVersion: 3
-      time: 0.2935938
-      value: -0.11537063
+      time: 0.3121027
+      value: -1
       inSlope: 0.280108
       outSlope: 0.280108
       tangentMode: 0
@@ -2274,7 +2275,7 @@ MonoBehaviour:
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 0.50811255
-      value: 0.32325512
+      value: 0.1
       inSlope: 2.998844
       outSlope: 2.998844
       tangentMode: 0

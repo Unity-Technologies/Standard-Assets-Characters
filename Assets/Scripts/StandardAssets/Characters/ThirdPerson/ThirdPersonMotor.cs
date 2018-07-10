@@ -111,6 +111,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		//Unity Messages
 		protected virtual void OnAnimatorMove()
 		{
+			if (movementState == ThirdPersonGroundMovementState.TurningAround)
+			{
+				return;
+			}
+			
 			if (characterPhysics.isGrounded)
 			{
 				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
