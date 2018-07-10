@@ -395,6 +395,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			if (!characterInput.hasMovementInput)
 			{
+				normalizedTurningSpeed = 0;
 				return;
 			}
 
