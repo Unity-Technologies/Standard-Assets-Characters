@@ -22,7 +22,15 @@ namespace StandardAssets.Characters.Physics
 
 		public float normalizedVerticalSpeed
 		{
-			get { return verticalVector.y * 5; }
+			get
+			{
+				if (initialJumpVelocity < Mathf.Epsilon)
+				{
+					return 0f;
+				}
+				
+				return currentVerticalVelocity / initialJumpVelocity;
+			}
 		}
 		
 		/// <summary>

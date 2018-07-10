@@ -22,6 +22,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		[SerializeField]
 		protected string turningSpeedParameterName = "TurningSpeed";
+
+		[SerializeField]
+		protected string verticalSpeedParameterName = "VerticalSpeed";
 		
 		[SerializeField]
 		protected string groundedParameterName = "Grounded";
@@ -75,6 +78,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private int hashForwardSpeed;
 		private int hashLateralSpeed;
 		private int hashTurningSpeed;
+		private int hashVerticalSpeed;
 		private int hashGrounded;
 		private int hashHasInput;
 		private int hashFallingTime;
@@ -148,6 +152,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			hashForwardSpeed = Animator.StringToHash(forwardSpeedParameterName);
 			hashLateralSpeed = Animator.StringToHash(lateralSpeedParameterName);
 			hashTurningSpeed = Animator.StringToHash(turningSpeedParameterName);
+			hashVerticalSpeed = Animator.StringToHash(verticalSpeedParameterName);
 			hashGrounded = Animator.StringToHash(groundedParameterName);
 			hashHasInput = Animator.StringToHash(hasInputParameterName);
 			hashFallingTime = Animator.StringToHash(fallingTimeParameterName);
@@ -274,7 +279,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			UpdateForwardSpeed(motor.normalizedForwardSpeed, Time.deltaTime);
 			UpdateLateralSpeed(motor.normalizedLateralSpeed, Time.deltaTime);
 			UpdateTurningSpeed(motor.normalizedTurningSpeed, Time.deltaTime);
-			animator.SetFloat("VerticalSpeed", motor.normalizedVerticalSpeed, floatInterpolationTime, Time.deltaTime);
+			animator.SetFloat(hashVerticalSpeed, motor.normalizedVerticalSpeed, floatInterpolationTime, Time.deltaTime);
 			
 			animator.SetBool(hashHasInput, CheckHasSpeed(motor.normalizedForwardSpeed) || CheckHasSpeed(motor.normalizedLateralSpeed));
 			
