@@ -76,6 +76,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return movementMode == ThirdPersonMotorMovementMode.Strafe; }
 		}
 
+		public float normalizedVerticalSpeed
+		{
+			get { return (characterPhysics as BaseCharacterPhysics).normalizedVerticalSpeed; }
+		}
+
 		public void FinishedTurn()
 		{
 			//TODO REMOVE THIS
@@ -111,7 +116,6 @@ namespace StandardAssets.Characters.ThirdPerson
 				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
 				groundMovementVector.y = 0;
 				characterPhysics.Move(groundMovementVector);
-				cachedGroundMovementVector = groundMovementVector;
 			}
 			else
 			{
@@ -266,6 +270,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 			characterPhysics.SetJumpVelocity(configuration.initialJumpVelocity);
+			Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
+			groundMovementVector.y = 0;
+			cachedGroundMovementVector = groundMovementVector;
 		}
 
 		/// <summary>
