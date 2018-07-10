@@ -48,6 +48,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		Action<float> rapidlyTurned { get; set; }
 
+		float normalizedVerticalSpeed { get; }
+
 		void FinishedTurn();
 	}
 }

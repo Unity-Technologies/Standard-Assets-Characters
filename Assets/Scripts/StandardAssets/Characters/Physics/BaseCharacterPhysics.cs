@@ -19,6 +19,11 @@ namespace StandardAssets.Characters.Physics
 		public Action<float> startedFalling { get; set; }
 		public float airTime { get; private set; }
 		public float fallTime { get; private set; }
+
+		public float normalizedVerticalSpeed
+		{
+			get { return verticalVector.y * 5; }
+		}
 		
 		/// <summary>
 		/// The initial jump velocity

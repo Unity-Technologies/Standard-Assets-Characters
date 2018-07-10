@@ -269,6 +269,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			UpdateForwardSpeed(motor.normalizedForwardSpeed, Time.deltaTime);
 			UpdateLateralSpeed(motor.normalizedLateralSpeed, Time.deltaTime);
 			UpdateTurningSpeed(motor.normalizedTurningSpeed, Time.deltaTime);
+			animator.SetFloat("VerticalSpeed", motor.normalizedVerticalSpeed, floatInterpolationTime, Time.deltaTime);
 			
 			animator.SetBool(hashHasInput, CheckHasSpeed(motor.normalizedForwardSpeed) || CheckHasSpeed(motor.normalizedLateralSpeed));
 
