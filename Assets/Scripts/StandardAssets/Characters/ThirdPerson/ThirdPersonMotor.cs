@@ -67,7 +67,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected float forwardClampSpeed, targetForwardClampSpeed, lateralClampSpeed, targetLateralClampSpeed;
 
-		protected Vector3 cachedGroundMovementVector;
+		protected float cachedForwardMovement;
 		
 		protected TurnaroundBehaviour turnaroundBehaviour;
 
@@ -119,7 +119,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			else
 			{
-				characterPhysics.Move(cachedGroundMovementVector);
+				characterPhysics.Move(cachedForwardMovement * transform.forward);
 			}
 		}
 
@@ -269,10 +269,13 @@ namespace StandardAssets.Characters.ThirdPerson
 				jumpStarted();
 			}
 
-			characterPhysics.SetJumpVelocity(configuration.initialJumpVelocity);
-			Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
-			groundMovementVector.y = 0;
-			cachedGroundMovementVector = groundMovementVector;
+			if (Mathf.Abs(normalizedLateralSpeed) < normalizedForwardSpeed)
+			{
+				characterPhysics.SetJumpVelocity(configuration.initialJumpVelocity);
+				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
+				groundMovementVector.y = 0;
+				cachedForwardMovement = groundMovementVector.GetMagnitudeOnAxis(transform.forward);
+			}
 		}
 
 		/// <summary>
