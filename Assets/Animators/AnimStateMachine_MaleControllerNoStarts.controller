@@ -283,7 +283,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 972da5f7436d4404c90f0d46b68beca8, type: 3}
     m_Threshold: 0.6666667
-    m_Position: {x: 1.3, y: -0.33}
+    m_Position: {x: 1.3, y: -0.5}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: ForwardSpeed
@@ -291,7 +291,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: a8d0368c85cdf4224bdf212166685217, type: 3}
     m_Threshold: 0.8333333
-    m_Position: {x: 0.5, y: -0.66}
+    m_Position: {x: 0.5, y: -0.65}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: ForwardSpeed
@@ -299,7 +299,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: df0c204def7f84767a5ed938ca71bd1e, type: 3}
     m_Threshold: 1
-    m_Position: {x: 0, y: -1}
+    m_Position: {x: 0, y: -0.8}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: ForwardSpeed
@@ -1455,7 +1455,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 972da5f7436d4404c90f0d46b68beca8, type: 3}
     m_Threshold: 0.6666667
-    m_Position: {x: 1.3, y: -0.33}
+    m_Position: {x: 1.3, y: -0.5}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: ForwardSpeed
@@ -1463,7 +1463,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: a8d0368c85cdf4224bdf212166685217, type: 3}
     m_Threshold: 0.8333333
-    m_Position: {x: 0.5, y: -0.66}
+    m_Position: {x: 0.5, y: -0.65}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: ForwardSpeed
@@ -1471,7 +1471,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: df0c204def7f84767a5ed938ca71bd1e, type: 3}
     m_Threshold: 1
-    m_Position: {x: 0, y: -1}
+    m_Position: {x: 0, y: -0.8}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: ForwardSpeed
@@ -2590,7 +2590,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 3
     m_ConditionEvent: FallTime
-    m_EventTreshold: 0.5
+    m_EventTreshold: 0.35
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
@@ -2716,7 +2716,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 3
     m_ConditionEvent: FallTime
-    m_EventTreshold: 0.5
+    m_EventTreshold: 0.35
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
@@ -3516,7 +3516,7 @@ AnimatorState:
   m_Motion: {fileID: 206604621134581382}
   m_Tag: 
   m_SpeedParameter: 
-  m_MirrorParameter: 
+  m_MirrorParameter: OnRightFoot
   m_CycleOffsetParameter: 
   m_TimeParameter: 
 --- !u!1102 &1102320910874311802
@@ -3695,7 +3695,7 @@ AnimatorState:
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
-  m_Mirror: 1
+  m_Mirror: 0
   m_SpeedParameterActive: 0
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
