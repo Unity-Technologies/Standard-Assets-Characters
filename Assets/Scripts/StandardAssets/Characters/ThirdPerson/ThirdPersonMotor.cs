@@ -124,7 +124,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			else
 			{
-				characterPhysics.Move(cachedForwardMovement * transform.forward);
+				characterPhysics.Move(cachedForwardMovement * transform.forward * configuration.scaledGroundVelocity);
 			}
 		}
 
