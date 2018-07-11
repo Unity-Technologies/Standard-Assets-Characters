@@ -8,15 +8,8 @@ namespace StandardAssets.Characters.CharacterInput
 	/// <summary>
 	/// Unity original input implementation
 	/// </summary>
-	public class LegacyUnityCharacterInput : MonoBehaviour, ICharacterInput
+	public class LegacyCharacterInput : LegacyCharacterInputBase
 	{
-		[Header("Cinemachine Axes")]
-		[SerializeField]
-		protected string cinemachineLookXAxisName = "Horizontal";
-
-		[SerializeField]
-		protected string cinemachineLookYAxisName = "Vertical";
-
 		[Header("Movement Input Axes")]
 		[SerializeField]
 		protected string horizontalAxisName = "Horizontal";
@@ -39,61 +32,8 @@ namespace StandardAssets.Characters.CharacterInput
 		[SerializeField]
 		protected bool enableOnScreenJoystickControls;
 
-		private Vector2 moveInputVector;
-		private Action jumped;
-
-		private Vector2 look;
-
 		public StaticOnScreenJoystick leftOnScreenJoystick;
 		public StaticOnScreenJoystick rightOnScreenJoystick;
-
-		public Vector2 lookInput
-		{
-			get { return look; }
-		}
-
-		public Vector2 moveInput
-		{
-			get { return moveInputVector; }
-		}
-
-		public bool hasMovementInput
-		{
-			get { return moveInput != Vector2.zero; }
-		}
-
-		public Action jumpPressed
-		{
-			get { return jumped; }
-			set { jumped = value; }
-		}
-
-		private void OnEnable()
-		{
-			CinemachineCore.GetInputAxis = LookInputOverride;
-		}
-
-		private void Update()
-		{
-			UpdateLookVector();
-
-			//Update Move Vector
-			moveInputVector.Set(Input.GetAxis(horizontalAxisName), Input.GetAxis(verticalAxisName));
-
-			if (Input.GetButtonDown(LegacyCharacterInputDevicesCache.ResolveControl(keyboardJumpName)) ||
-			    Input.GetButtonDown("Jump"))
-			{
-				if (jumpPressed != null)
-				{
-					jumpPressed();
-				}
-			}
-
-			if (enableOnScreenJoystickControls)
-			{
-				GetOnScreenJoystickVectors();
-			}
-		}
 
 		public void OnScreenTouchJump()
 		{
@@ -113,22 +53,10 @@ namespace StandardAssets.Characters.CharacterInput
 			look.y = -rightStickVector.y;
 		}
 
-		/// <summary>
-		/// Sets the Cinemachine cam POV to mouse inputs.
-		/// </summary>
-		private float LookInputOverride(string cinemachineAxisName)
+		protected override void Update()
 		{
-			if (cinemachineAxisName == cinemachineLookXAxisName)
-			{
-				return lookInput.x;
-			}
-
-			if (cinemachineAxisName == cinemachineLookYAxisName)
-			{
-				return lookInput.y;
-			}
-
-			return 0;
+			base.Update();
+			UpdateJump();
 		}
 
 		/// <summary>
@@ -137,7 +65,7 @@ namespace StandardAssets.Characters.CharacterInput
 		/// mouse look will take preference.
 		/// IF there is no mouse inputs, it will get gamepad axis.  
 		/// </summary>
-		void UpdateLookVector()
+		protected override void UpdateLookVector()
 		{
 			if (!enableOnScreenJoystickControls)
 			{
@@ -151,6 +79,29 @@ namespace StandardAssets.Characters.CharacterInput
 
 				look.x = Input.GetAxis(lookX);
 				look.y = Input.GetAxis(lookY);
+			}
+		}
+
+		protected override void UpdateMoveVector()
+		{
+			//Update Move Vector
+			moveInputVector.Set(Input.GetAxis(horizontalAxisName), Input.GetAxis(verticalAxisName));
+			
+			if (enableOnScreenJoystickControls)
+			{
+				GetOnScreenJoystickVectors();
+			}
+		}
+
+		private void UpdateJump()
+		{
+			if (Input.GetButtonDown(LegacyCharacterInputDevicesCache.ResolveControl(keyboardJumpName)) ||
+			    Input.GetButtonDown("Jump"))
+			{
+				if (jumpPressed != null)
+				{
+					jumpPressed();
+				}
 			}
 		}
 	}
