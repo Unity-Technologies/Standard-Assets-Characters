@@ -65,11 +65,34 @@ namespace StandardAssets.Characters.FirstPerson
 		/// A check to see if input was previous being applied
 		/// </summary>
 		private bool previouslyHasInput;
+
+		protected FirstPersonMovementProperties[] allMovement;
 		
 		/// <summary>
 		/// The current motor state - controls how the character moves in different states
 		/// </summary>
 		public FirstPersonMovementProperties currentMovementProperties { get; protected set; }
+
+		public FirstPersonMovementProperties[] allMovementProperties
+		{
+			get
+			{
+				if (allMovement == null)
+				{
+					allMovement = new FirstPersonMovementProperties[movementModifiers.Length + 1];
+					allMovement[0] = startingMovementProperties;
+					int i = 0;
+					foreach (FirstPersonMovementModification modifier in movementModifiers)
+					{
+						i++;
+						modifier.Init(this);
+						allMovementProperties[i] = modifier.GetMovementProperty();
+					}
+				}
+				
+				return allMovement;
+			}
+		}
 
 		/// <summary>
 		/// Get the attached implementations on wake
@@ -78,13 +101,7 @@ namespace StandardAssets.Characters.FirstPerson
 		{
 			characterPhysics = GetComponent<ICharacterPhysics>();
 			characterInput = GetComponent<ICharacterInput>();
-			foreach (FirstPersonMovementModification modifier in movementModifiers)
-			{
-				modifier.Init(this);
-			}
-			
 			ChangeState(startingMovementProperties);
-			
 		}
 
 		/// <summary>

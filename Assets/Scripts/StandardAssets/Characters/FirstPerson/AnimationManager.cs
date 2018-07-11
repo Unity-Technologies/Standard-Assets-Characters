@@ -6,6 +6,7 @@ namespace StandardAssets.Characters.FirstPerson
 	/// Needed to play dummy animations so that the SDC can respond
 	/// </summary>
 	[RequireComponent(typeof(Animator))]
+	[RequireComponent(typeof(FirstPersonController))]
 	public class AnimationManager : MonoBehaviour
 	{
 		/// <summary>
@@ -13,18 +14,44 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		private Animator animator;
 
+		private FirstPersonController controller;
+
 		/// <summary>
 		/// Cache the animator
 		/// </summary>
 		private void Awake()
 		{
-			LazyLoad();
+			LazyLoadAnimator();
+			LazyLoadController();
+		}
+
+		/// <summary>
+		/// Subscribe
+		/// </summary>
+		private void OnEnable()
+		{
+			LazyLoadController();
+			foreach (FirstPersonMovementProperties firstPersonMovementProperties in controller.allMovementProperties)
+			{
+				firstPersonMovementProperties.enterState += SetAnimation;
+			}
+		}
+		
+		/// <summary>
+		/// Unsubscribe
+		/// </summary>
+		private void OnDisable()
+		{
+			foreach (FirstPersonMovementProperties firstPersonMovementProperties in controller.allMovementProperties)
+			{
+				firstPersonMovementProperties.enterState -= SetAnimation;
+			}
 		}
 
 		/// <summary>
 		/// Lazy load protected against out of order operations
 		/// </summary>
-		private void LazyLoad()
+		private void LazyLoadAnimator()
 		{
 			if (animator != null)
 			{
@@ -35,22 +62,25 @@ namespace StandardAssets.Characters.FirstPerson
 		}
 
 		/// <summary>
-		/// Ideally you would be able to drag in the state but this does not seem available in the inspector
+		/// Lazy load of controller
 		/// </summary>
-		/// <param name="state"></param>
-		public void SetAnimation(AnimationState state)
+		private void LazyLoadController()
 		{
-			LazyLoad();
-			animator.Play(state.GetHashCode());
+			if (controller != null)
+			{
+				return;
+			}
+
+			controller = GetComponent<FirstPersonController>();
 		}
 		
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="state"></param>
-		public void SetAnimation(string state)
+		protected void SetAnimation(string state)
 		{
-			LazyLoad();
+			LazyLoadAnimator();
 			animator.Play(state);
 		}
 	}

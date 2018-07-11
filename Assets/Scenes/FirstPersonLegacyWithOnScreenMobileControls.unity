@@ -5096,16 +5096,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114128930939556762, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+        type: 2}
+      propertyPath: onScreenTouch
+      value: 
+      objectReference: {fileID: 235305990}
     - target: {fileID: 114736923435200732, guid: 1818690cc80044ecbadf3a53cc5f29e1,
         type: 2}
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 1840918336}
-    - target: {fileID: 114961145437418454, guid: 1818690cc80044ecbadf3a53cc5f29e1,
-        type: 2}
-      propertyPath: joystick
-      value: 
-      objectReference: {fileID: 519839250}
     - target: {fileID: 114961145437418454, guid: 1818690cc80044ecbadf3a53cc5f29e1,
         type: 2}
       propertyPath: leftOnScreenJoystick
@@ -5116,26 +5116,6 @@ Prefab:
       propertyPath: rightOnScreenJoystick
       value: 
       objectReference: {fileID: 1459568251}
-    - target: {fileID: 114961145437418454, guid: 1818690cc80044ecbadf3a53cc5f29e1,
-        type: 2}
-      propertyPath: enableOnScreenJoystickControls
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114961145437418454, guid: 1818690cc80044ecbadf3a53cc5f29e1,
-        type: 2}
-      propertyPath: useLookInput
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114128930939556762, guid: 1818690cc80044ecbadf3a53cc5f29e1,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114128930939556762, guid: 1818690cc80044ecbadf3a53cc5f29e1,
-        type: 2}
-      propertyPath: onScreenTouch
-      value: 
-      objectReference: {fileID: 235305990}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1818690cc80044ecbadf3a53cc5f29e1, type: 2}
   m_IsPrefabAsset: 0
@@ -6734,23 +6714,22 @@ MonoBehaviour:
   - {fileID: 1101665458}
   - {fileID: 1509480958}
   - {fileID: 394818130}
-  verticalSliderValueText: {fileID: 2079447414}
-  horizontalSliderValueText: {fileID: 765448515}
-  xAxisToggle: {fileID: 682041852}
-  yAxisToggle: {fileID: 1789592099}
+  verticalSliderGamepadValueText: {fileID: 0}
+  horizontalSliderGamepadValueText: {fileID: 0}
+  xAxisToggleGamepad: {fileID: 0}
+  yAxisToggleGamepad: {fileID: 0}
+  horizontalSliderGamepad: {fileID: 0}
+  verticalSliderGamepad: {fileID: 0}
+  m_XAxisMaxSpeed: 0
+  m_YAxisMaxSpeed: 0
+  xAxisSliderValueTextMouse: {fileID: 455064591}
+  yAxisSliderValueTextMouse: {fileID: 733781168}
   xAxisToggleMouse: {fileID: 317400921}
   yAxisToggleMouse: {fileID: 214625131}
   horizontalSliderMouse: {fileID: 1144262656}
   verticalSliderMouse: {fileID: 614020601}
-  xAxisSliderValueTextMouse: {fileID: 455064591}
-  yAxisSliderValueTextMouse: {fileID: 733781168}
-  horizontalSlider: {fileID: 1461543130}
-  verticalSlider: {fileID: 185380739}
-  minXAxisSpeed: 100
-  maxXAxisSpeed: 500
-  minYAxisSpeed: 100
-  maxYAxisSpeed: 500
-  activeInputDevices: {fileID: 0}
+  xAxisMaxSpeedMouse: 0
+  yAxisMaxSpeedMouse: 0
 --- !u!4 &1433785281
 Transform:
   m_ObjectHideFlags: 0
@@ -8500,7 +8479,7 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Cinemachine.CinemachineBrain+VcamEvent, Cinemachine, Version=0.0.0.0,
+    m_TypeName: Cinemachine.CinemachineBrain+VcamActivatedEvent, Cinemachine, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!81 &1840918335
 AudioListener:

@@ -9,19 +9,21 @@ namespace StandardAssets.Characters.FirstPerson
 	/// The state that modifies the behaviour of the first person motor
 	/// e.g. the difference between standing and crouching
 	/// </summary>
-	[Serializable]
-	public class FirstPersonMovementProperties
+	[CreateAssetMenu(fileName = "First Person Movement Properties",
+		menuName = "Standard Assets/Characters/Create First Person Movement", order = 1)]
+	public class FirstPersonMovementProperties : ScriptableObject
 	{
 		/// <summary>
 		/// The state name
 		/// </summary>
-		[SerializeField] protected string stateName;
-		
-		public string name
+		[SerializeField]
+		protected string id;
+
+		public string stateId
 		{
-			get { return stateName; }
+			get { return id; }
 		}
-		
+
 		/// <summary>
 		/// The maximum movement speed
 		/// </summary>
@@ -34,25 +36,20 @@ namespace StandardAssets.Characters.FirstPerson
 		[Tooltip("Value is the time is takes accelerate to max speed")]
 		[SerializeField]
 		protected CurveEvaluator acceleration;
-		
+
 		/// <summary>
 		/// Jump speed 
 		/// </summary>
 		[SerializeField]
 		protected float jumpSpeed = 0.3f;
 
-		/// <summary>
-		/// Unity events for entering/exiting state
-		/// </summary>
-		[SerializeField]
-		protected UnityEvent enterState, exitState;
+		public Action<string> enterState, exitState;
 
 		/// <summary>
 		/// Gets the maximum speed
 		/// </summary>
 		public float maximumSpeed
 		{
-			
 			get { return maxSpeed; }
 			set { maxSpeed = value; }
 		}
@@ -64,7 +61,7 @@ namespace StandardAssets.Characters.FirstPerson
 		{
 			get { return acceleration; }
 		}
-		
+
 		/// <summary>
 		/// Gets the jump speed
 		/// </summary>
@@ -86,26 +83,25 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		public void ExitState()
 		{
-			SafelyPlayUnityEvent(exitState);
+			SafelyBroadcastEvent(exitState);
 		}
-		
+
 		/// <summary>
 		/// Plays the enter state
 		/// </summary>
 		public void EnterState()
 		{
-			SafelyPlayUnityEvent(enterState);
+			SafelyBroadcastEvent(enterState);
 		}
 
 		/// <summary>
-		/// Helper to safely play the unity event
+		/// Helper to safely broadcast the action
 		/// </summary>
-		/// <param name="unityEvent"></param>
-		void SafelyPlayUnityEvent(UnityEvent unityEvent)
+		void SafelyBroadcastEvent(Action<string> action)
 		{
-			if (unityEvent != null)
+			if (action != null)
 			{
-				unityEvent.Invoke();
+				action(id);
 			}
 		}
 	}
