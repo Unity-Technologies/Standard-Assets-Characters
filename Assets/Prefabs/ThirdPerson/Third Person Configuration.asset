@@ -16,7 +16,7 @@ MonoBehaviour:
   turningSpeed: 500
   jumpTurningSpeedScale: 0.25
   turningLerp: 5
-  strafeLookInputScale: 20
+  strafeLookInputScale: 50
   rootMotionMovementScale: 1
   rapidTurnAngle: 120
   forwardMovement:
@@ -26,15 +26,15 @@ MonoBehaviour:
     directionInputClamped: 0.5
     directionInputUnclamped: 1
   strafeForwardMovement:
-    directionInputGain: 0.5
-    directionInputDecay: 10
-    directionInputChangeGain: 5
-    directionInputClamped: 0.5
+    directionInputGain: 2
+    directionInputDecay: 5
+    directionInputChangeGain: 7
+    directionInputClamped: 0.6
     directionInputUnclamped: 1
   strafeLateralMovement:
-    directionInputGain: 10
-    directionInputDecay: 30
-    directionInputChangeGain: 30
-    directionInputClamped: 0.5
+    directionInputGain: 2
+    directionInputDecay: 5
+    directionInputChangeGain: 7
+    directionInputClamped: 0.6
     directionInputUnclamped: 1
   maxFallDistance: 1
