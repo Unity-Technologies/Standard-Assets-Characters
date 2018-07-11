@@ -13,38 +13,31 @@ namespace StandardAssets.Characters.CharacterInput
 		[Header("Cinemachine Axes")]
 		[SerializeField]
 		protected string cinemachineLookXAxisName = "Horizontal";
-		
+
 		[SerializeField]
 		protected string cinemachineLookYAxisName = "Vertical";
-		
+
 		[Header("Movement Input Axes")]
 		[SerializeField]
 		protected string horizontalAxisName = "Horizontal";
-		
+
 		[SerializeField]
 		protected string verticalAxisName = "Vertical";
 
 		[SerializeField]
 		protected bool useLookInput = true;
-		
-		[SerializeField]
-		protected string mouseLookXAxisName = "LookX";
-		
-		[SerializeField]
-		protected string mouseLookYAxisName = "LookY";
 
 		[SerializeField]
 		protected string lookXAxisName = "LookX";
-		
+
 		[SerializeField]
 		protected string lookYAxisName = "LookY";
 
 		[SerializeField]
 		protected string keyboardJumpName = "Jump";
 
-		[SerializeField] 
+		[SerializeField]
 		protected bool enableOnScreenJoystickControls;
-		
 
 		private Vector2 moveInputVector;
 		private Action jumped;
@@ -54,42 +47,41 @@ namespace StandardAssets.Characters.CharacterInput
 		public StaticOnScreenJoystick leftOnScreenJoystick;
 		public StaticOnScreenJoystick rightOnScreenJoystick;
 
-
 		public Vector2 lookInput
 		{
 			get { return look; }
 		}
-		
+
 		public Vector2 moveInput
 		{
 			get { return moveInputVector; }
 		}
-		
-		public bool hasMovementInput 
-		{ 
+
+		public bool hasMovementInput
+		{
 			get { return moveInput != Vector2.zero; }
 		}
-		
+
 		public Action jumpPressed
 		{
 			get { return jumped; }
 			set { jumped = value; }
 		}
-		
+
 		private void OnEnable()
 		{
 			CinemachineCore.GetInputAxis = LookInputOverride;
-		
 		}
 
 		private void Update()
 		{
 			UpdateLookVector();
-			
+
 			//Update Move Vector
 			moveInputVector.Set(Input.GetAxis(horizontalAxisName), Input.GetAxis(verticalAxisName));
-			
-			if(Input.GetButtonDown(LegacyCharacterInputDevicesCache.ResolveControl(keyboardJumpName))||Input.GetButtonDown("Jump"))
+
+			if (Input.GetButtonDown(LegacyCharacterInputDevicesCache.ResolveControl(keyboardJumpName)) ||
+			    Input.GetButtonDown("Jump"))
 			{
 				if (jumpPressed != null)
 				{
@@ -101,8 +93,6 @@ namespace StandardAssets.Characters.CharacterInput
 			{
 				GetOnScreenJoystickVectors();
 			}
-			
-			
 		}
 
 		public void OnScreenTouchJump()
@@ -115,14 +105,12 @@ namespace StandardAssets.Characters.CharacterInput
 
 		void GetOnScreenJoystickVectors()
 		{
-
 			Vector2 leftStickVector = leftOnScreenJoystick.GetStickVector();
-			moveInputVector.Set(leftStickVector.x,leftStickVector.y);
+			moveInputVector.Set(leftStickVector.x, leftStickVector.y);
 
 			Vector2 rightStickVector = rightOnScreenJoystick.GetStickVector();
 			look.x = -rightStickVector.x;
 			look.y = -rightStickVector.y;
-
 		}
 
 		/// <summary>
@@ -130,23 +118,19 @@ namespace StandardAssets.Characters.CharacterInput
 		/// </summary>
 		private float LookInputOverride(string cinemachineAxisName)
 		{
-			if (!useLookInput)
-			{
-				return 0;
-			}
-			
-			 if (cinemachineAxisName == cinemachineLookXAxisName)
+			if (cinemachineAxisName == cinemachineLookXAxisName)
 			{
 				return lookInput.x;
 			}
+
 			if (cinemachineAxisName == cinemachineLookYAxisName)
 			{
 				return lookInput.y;
 			}
-			
+
 			return 0;
 		}
-		
+
 		/// <summary>
 		/// Update the look vector2, this is used in 3rd person
 		/// and allows mouse and controller to both work at the same time.
@@ -157,34 +141,17 @@ namespace StandardAssets.Characters.CharacterInput
 		{
 			if (!enableOnScreenJoystickControls)
 			{
-				if (mouseLookXAxisName == "" || mouseLookYAxisName == "") //Use gamepad look if no mouse look set
-				{
-					look.x = Input.GetAxis(LegacyCharacterInputDevicesCache.ResolveControl(lookXAxisName));
-					look.y = Input.GetAxis(LegacyCharacterInputDevicesCache.ResolveControl(lookYAxisName));
-				}
-				else
-				{
-					if (Input.GetAxis(mouseLookXAxisName) != 0)
-					{
-						look.x = Input.GetAxis(mouseLookXAxisName);
-					}
-					else
-					{
-						look.x = Input.GetAxis(LegacyCharacterInputDevicesCache.ResolveControl(lookXAxisName));
-					}
-					if (Input.GetAxis(mouseLookYAxisName) != 0)
-					{
-						look.y = Input.GetAxis(mouseLookYAxisName);
-					}
-					else
-					{
-						look.y = Input.GetAxis(LegacyCharacterInputDevicesCache.ResolveControl(lookYAxisName));
-					}
-				}
-			}
-			
-			
+				string lookX = LegacyCharacterInputDevicesCache.ResolveControl(lookXAxisName);
+				string lookY = LegacyCharacterInputDevicesCache.ResolveControl(lookYAxisName);
 
+				if (lookX == lookXAxisName && lookY == lookYAxisName && !useLookInput)
+				{
+					return;
+				}
+
+				look.x = Input.GetAxis(lookX);
+				look.y = Input.GetAxis(lookY);
+			}
 		}
 	}
 }
