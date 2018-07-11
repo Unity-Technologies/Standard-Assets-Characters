@@ -8,14 +8,14 @@ namespace StandardAssets.Characters.CharacterInput
 	/// <summary>
 	/// Simply polls on behalf of the LegacyUnityInputResponse
 	/// </summary>
-	public class LegacyUnityInputResponsePoller : MonoBehaviour
+	public class LegacyInputResponsePoller : MonoBehaviour
 	{
-		private static List<LegacyUnityInputResponsePoller> s_Pollers;
+		private static List<LegacyInputResponsePoller> s_Pollers;
 		
 		/// <summary>
 		/// The Input Response needed
 		/// </summary>
-		private LegacyUnityInputResponse response;
+		private LegacyInputResponse response;
 		
 		/// <summary>
 		/// Behaviour - hold/toggle
@@ -35,7 +35,7 @@ namespace StandardAssets.Characters.CharacterInput
 		/// <param name="newResponse"></param>
 		/// <param name="newBehaviour"></param>
 		/// <param name="axisRaw"></param>
-		public void Init(LegacyUnityInputResponse newResponse, DefaultInputResponseBehaviour newBehaviour, String axisString)
+		public void Init(LegacyInputResponse newResponse, DefaultInputResponseBehaviour newBehaviour, String axisString)
 		{
 			response = newResponse;
 			behaviour = newBehaviour;
@@ -43,7 +43,7 @@ namespace StandardAssets.Characters.CharacterInput
 
 			if (s_Pollers == null)
 			{
-				s_Pollers = new List<LegacyUnityInputResponsePoller>();
+				s_Pollers = new List<LegacyInputResponsePoller>();
 			}
 			
 			s_Pollers.Add(this);

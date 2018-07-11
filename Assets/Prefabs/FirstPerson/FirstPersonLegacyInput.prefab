@@ -768,26 +768,15 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114074065261041036}
-        m_MethodName: SetAnimation
-        m_Mode: 5
+      - m_Target: {fileID: 11400000, guid: fb41e05a014834d88a9863978b921d80, type: 2}
+        m_MethodName: TouchToggle
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Crouch
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 114074065261041036}
-        m_MethodName: SetAnimation
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Walk
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
@@ -1035,9 +1024,9 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11400000, guid: c871b07d60224c9419048e8902a4408e, type: 2}
+      - m_Target: {fileID: 11400000, guid: 0fef3a694f462443fa490c815ba24d9c, type: 2}
         m_MethodName: TouchToggle
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1048,7 +1037,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 0
+  m_IsOn: 1
 --- !u!114 &114473157933188712
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1246,26 +1235,15 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114074065261041036}
-        m_MethodName: SetAnimation
-        m_Mode: 5
+      - m_Target: {fileID: 11400000, guid: 6740d2c5b35ac42abb7e521a73619435, type: 2}
+        m_MethodName: TouchToggle
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Prone
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 114074065261041036}
-        m_MethodName: SetAnimation
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Walk
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
@@ -1654,7 +1632,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 114048688547853064}
         m_MethodName: OnScreenTouchJump
         m_Mode: 1
         m_Arguments:
@@ -1743,7 +1721,7 @@ MonoBehaviour:
     m_AccelTime: 0.1
     m_DecelTime: 0.1
     m_InputAxisName: Vertical
-    m_InputAxisValue: 0
+    m_InputAxisValue: -0
     m_InvertInput: 0
     m_MinValue: -90
     m_MaxValue: 90
@@ -1760,7 +1738,7 @@ MonoBehaviour:
     m_AccelTime: 0.1
     m_DecelTime: 0.1
     m_InputAxisName: Horizontal
-    m_InputAxisValue: 0
+    m_InputAxisValue: -0
     m_InvertInput: 1
     m_MinValue: -180
     m_MaxValue: 180
