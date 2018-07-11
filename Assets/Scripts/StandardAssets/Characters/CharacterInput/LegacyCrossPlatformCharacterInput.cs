@@ -1,4 +1,5 @@
 ﻿using System;
+using StandardAssets.Characters.FirstPerson;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -11,6 +12,9 @@ namespace StandardAssets.Characters.CharacterInput
 
 		[SerializeField]
 		protected LegacyOnScreenCharacterInput mobileInput;
+
+		[SerializeField]
+		protected FirstPersonMouseLookPOVCamera mousePov; 
 
 		private LegacyCharacterInputBase currentInputSystem;
 
@@ -60,12 +64,18 @@ namespace StandardAssets.Characters.CharacterInput
 		private void SetMobileControls()
 		{
 			currentInputSystem = mobileInput;
+			mobileInput.gameObject.SetActive(true);
 			standaloneInput.gameObject.SetActive(false);
+			if (mousePov != null)
+			{
+				mousePov.enabled = false;
+			}
 		}
 
 		private void SetStandaloneControls()
 		{
 			currentInputSystem = standaloneInput;
+			standaloneInput.gameObject.SetActive(true);
 			mobileInput.gameObject.SetActive(false);
 		}
 	}
