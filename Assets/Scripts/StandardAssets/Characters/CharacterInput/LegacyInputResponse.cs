@@ -8,7 +8,7 @@ namespace StandardAssets.Characters.CharacterInput
 	/// </summary>
 	[CreateAssetMenu(fileName = "InputResponse", menuName = "Input Response/Create Default Unity Input Response",
 		order = 1)]
-	public class LegacyUnityInputResponse : InputResponse
+	public class LegacyInputResponse : InputResponse
 	{
 		/// <summary>
 		/// Classification of the type of response
@@ -21,8 +21,6 @@ namespace StandardAssets.Characters.CharacterInput
 		
 		[SerializeField]
 		protected bool isGamepad;
-
-		protected bool touchToggle;
 		
 		/// <summary>
 		/// Initializes the polling behaviour for the legacy input system
@@ -43,7 +41,7 @@ namespace StandardAssets.Characters.CharacterInput
 			
 			GameObject gameObject = new GameObject();
 			gameObject.name = string.Format("LegacyInput_{0}_Poller", name);
-			LegacyUnityInputResponsePoller poller = gameObject.AddComponent<LegacyUnityInputResponsePoller>();
+			LegacyInputResponsePoller poller = gameObject.AddComponent<LegacyInputResponsePoller>();
 			poller.Init(this, behaviour, axis);
 		}
 
@@ -61,20 +59,6 @@ namespace StandardAssets.Characters.CharacterInput
 		public void BroadcastEnd()
 		{
 			OnInputEnded();
-		}
-
-		public void TouchToggle()
-		{
-			if (!touchToggle)
-			{
-				OnInputStarted();
-				touchToggle = true;
-			}
-			else
-			{
-				OnInputEnded();
-				touchToggle = false;
-			}
 		}
 	}
 
