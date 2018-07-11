@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace StandardAssets.Characters.CharacterInput
 {
@@ -13,28 +14,41 @@ namespace StandardAssets.Characters.CharacterInput
 
 		private LegacyCharacterInputBase currentInputSystem;
 
+		private LegacyCharacterInputBase currentInput
+		{
+			get
+			{
+				if (currentInputSystem == null)
+				{
+					SetControls();
+				}
+
+				return currentInputSystem;
+			}
+		}
+
 		public Vector2 lookInput
 		{
-			get { return currentInputSystem.lookInput; }
+			get { return currentInput.lookInput; }
 		}
 
 		public Vector2 moveInput
 		{
-			get { return currentInputSystem.moveInput; }
+			get { return currentInput.moveInput; }
 		}
 
 		public bool hasMovementInput
 		{
-			get { return currentInputSystem.hasMovementInput; }
+			get { return currentInput.hasMovementInput; }
 		}
 
 		public Action jumpPressed
 		{
-			get { return currentInputSystem.jumpPressed; }
-			set { currentInputSystem.jumpPressed = value; }
+			get { return currentInput.jumpPressed; }
+			set { currentInput.jumpPressed = value; }
 		}
 
-		private void Awake()
+		private void SetControls()
 		{
 			#if UNITY_ANDROID || UNITY_IOS
 			SetMobileControls();
