@@ -29,30 +29,6 @@ namespace StandardAssets.Characters.CharacterInput
 		[SerializeField]
 		protected string keyboardJumpName = "Jump";
 
-		[SerializeField]
-		protected bool enableOnScreenJoystickControls;
-
-		public StaticOnScreenJoystick leftOnScreenJoystick;
-		public StaticOnScreenJoystick rightOnScreenJoystick;
-
-		public void OnScreenTouchJump()
-		{
-			if (jumpPressed != null)
-			{
-				jumpPressed();
-			}
-		}
-
-		void GetOnScreenJoystickVectors()
-		{
-			Vector2 leftStickVector = leftOnScreenJoystick.GetStickVector();
-			moveInputVector.Set(leftStickVector.x, leftStickVector.y);
-
-			Vector2 rightStickVector = rightOnScreenJoystick.GetStickVector();
-			look.x = -rightStickVector.x;
-			look.y = -rightStickVector.y;
-		}
-
 		protected override void Update()
 		{
 			base.Update();
@@ -67,8 +43,6 @@ namespace StandardAssets.Characters.CharacterInput
 		/// </summary>
 		protected override void UpdateLookVector()
 		{
-			if (!enableOnScreenJoystickControls)
-			{
 				string lookX = LegacyCharacterInputDevicesCache.ResolveControl(lookXAxisName);
 				string lookY = LegacyCharacterInputDevicesCache.ResolveControl(lookYAxisName);
 
@@ -77,20 +51,14 @@ namespace StandardAssets.Characters.CharacterInput
 					return;
 				}
 
-				look.x = Input.GetAxis(lookX);
-				look.y = Input.GetAxis(lookY);
-			}
+				lookInputVector.x = Input.GetAxis(lookX);
+				lookInputVector.y = Input.GetAxis(lookY);
 		}
 
 		protected override void UpdateMoveVector()
 		{
 			//Update Move Vector
 			moveInputVector.Set(Input.GetAxis(horizontalAxisName), Input.GetAxis(verticalAxisName));
-			
-			if (enableOnScreenJoystickControls)
-			{
-				GetOnScreenJoystickVectors();
-			}
 		}
 
 		private void UpdateJump()

@@ -3269,12 +3269,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Slider+SliderEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &616509926 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114961145437418454, guid: 1818690cc80044ecbadf3a53cc5f29e1,
-    type: 2}
-  m_PrefabInternal: {fileID: 1105289692}
-  m_Script: {fileID: 11500000, guid: d1052986cb0c4fe4b8cfbdfeba746ea0, type: 3}
 --- !u!1 &639158757
 GameObject:
   m_ObjectHideFlags: 0
@@ -5116,7 +5110,8 @@ Prefab:
       propertyPath: rightOnScreenJoystick
       value: 
       objectReference: {fileID: 1459568251}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114961145437418454, guid: 1818690cc80044ecbadf3a53cc5f29e1, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: 1818690cc80044ecbadf3a53cc5f29e1, type: 2}
   m_IsPrefabAsset: 0
 --- !u!114 &1105289705 stripped
@@ -5636,6 +5631,26 @@ Mesh:
   m_MeshMetrics[0]: 1
   m_MeshMetrics[1]: 1
   m_MeshOptimized: 0
+--- !u!1 &1262320896 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1627797537853366, guid: 1818690cc80044ecbadf3a53cc5f29e1,
+    type: 2}
+  m_PrefabInternal: {fileID: 1105289692}
+--- !u!114 &1262320908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1262320896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dccffe17c4b4678912f9f7cee52230c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cinemachineLookXAxisName: Horizontal
+  cinemachineLookYAxisName: Vertical
+  leftOnScreenJoystick: {fileID: 519839250}
+  rightOnScreenJoystick: {fileID: 1459568251}
 --- !u!1 &1277704997
 GameObject:
   m_ObjectHideFlags: 0
@@ -10275,6 +10290,21 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114776520492025024, guid: 427451d50f088d34e8f335aa359d2468,
+        type: 2}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1036766026}
+    - target: {fileID: 114776520492025024, guid: 427451d50f088d34e8f335aa359d2468,
+        type: 2}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1036766026}
+    - target: {fileID: 114652794543586906, guid: 427451d50f088d34e8f335aa359d2468,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1262320908}
     - target: {fileID: 114198887299514626, guid: 427451d50f088d34e8f335aa359d2468,
         type: 2}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -10287,19 +10317,9 @@ Prefab:
       objectReference: {fileID: 1036766026}
     - target: {fileID: 114652794543586906, guid: 427451d50f088d34e8f335aa359d2468,
         type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 616509926}
-    - target: {fileID: 114776520492025024, guid: 427451d50f088d34e8f335aa359d2468,
-        type: 2}
-      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1036766026}
-    - target: {fileID: 114776520492025024, guid: 427451d50f088d34e8f335aa359d2468,
-        type: 2}
-      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 1036766026}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnScreenTouchJump
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 427451d50f088d34e8f335aa359d2468, type: 2}
   m_IsPrefabAsset: 0

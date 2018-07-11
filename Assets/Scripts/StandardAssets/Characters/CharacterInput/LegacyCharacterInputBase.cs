@@ -16,11 +16,11 @@ namespace StandardAssets.Characters.CharacterInput
 		protected Vector2 moveInputVector;
 		protected Action jumped;
 
-		protected Vector2 look;
+		protected Vector2 lookInputVector;
 		
 		public Vector2 lookInput
 		{
-			get { return look; }
+			get { return lookInputVector; }
 		}
 
 		public Vector2 moveInput
