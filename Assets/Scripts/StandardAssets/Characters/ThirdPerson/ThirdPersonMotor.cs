@@ -67,13 +67,18 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected float forwardClampSpeed, targetForwardClampSpeed, lateralClampSpeed, targetLateralClampSpeed;
 
-		protected Vector3 cachedGroundMovementVector;
+		protected float cachedForwardMovement;
 		
 		protected TurnaroundBehaviour turnaroundBehaviour;
 
 		protected bool isStrafing
 		{
 			get { return movementMode == ThirdPersonMotorMovementMode.Strafe; }
+		}
+
+		public float normalizedVerticalSpeed
+		{
+			get { return (characterPhysics as BaseCharacterPhysics).normalizedVerticalSpeed; }
 		}
 
 		public void FinishedTurn()
@@ -106,16 +111,20 @@ namespace StandardAssets.Characters.ThirdPerson
 		//Unity Messages
 		protected virtual void OnAnimatorMove()
 		{
+			if (movementState == ThirdPersonGroundMovementState.TurningAround)
+			{
+				return;
+			}
+			
 			if (characterPhysics.isGrounded)
 			{
 				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
 				groundMovementVector.y = 0;
 				characterPhysics.Move(groundMovementVector);
-				cachedGroundMovementVector = groundMovementVector;
 			}
 			else
 			{
-				characterPhysics.Move(cachedGroundMovementVector);
+				characterPhysics.Move(cachedForwardMovement * transform.forward * configuration.scaledGroundVelocity);
 			}
 		}
 
@@ -265,7 +274,13 @@ namespace StandardAssets.Characters.ThirdPerson
 				jumpStarted();
 			}
 
-			characterPhysics.SetJumpVelocity(configuration.initialJumpVelocity);
+			if (Mathf.Abs(normalizedLateralSpeed) < normalizedForwardSpeed)
+			{
+				characterPhysics.SetJumpVelocity(configuration.initialJumpVelocity);
+				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
+				groundMovementVector.y = 0;
+				cachedForwardMovement = groundMovementVector.GetMagnitudeOnAxis(transform.forward);
+			}
 		}
 
 		/// <summary>
@@ -385,6 +400,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			if (!characterInput.hasMovementInput)
 			{
+				normalizedTurningSpeed = 0;
 				return;
 			}
 
@@ -395,9 +411,13 @@ namespace StandardAssets.Characters.ThirdPerson
 				return;
 			}
 
+			float turnSpeed = characterPhysics.isGrounded
+				? configuration.turningYSpeed
+				: configuration.jumpTurningYSpeed; 
+			
 			targetRotation =
 				Quaternion.RotateTowards(transform.rotation, targetRotation,
-				                         configuration.turningYSpeed * Time.deltaTime);
+				                         turnSpeed * Time.deltaTime);
 
 			SetTurningSpeed(transform.rotation, targetRotation);
 

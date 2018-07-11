@@ -138,6 +138,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4623938780008152}
   - component: {fileID: 114732836240478164}
+  - component: {fileID: 114205303613213748}
   m_Layer: 0
   m_Name: Action Cameras
   m_TagString: Untagged
@@ -309,7 +310,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1107938386496766}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 48.679134, y: 71.205, z: 141.25787}
+  m_LocalPosition: {x: 48.723392, y: 64.352, z: 141.24301}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4820137179724512}
@@ -324,8 +325,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1071072325798808}
-  m_LocalRotation: {x: 0.002667607, y: 0.15628283, z: -0.00042207754, w: 0.9877087}
-  m_LocalPosition: {x: -0.0024986267, y: 0.017593384, z: -0.0077056885}
+  m_LocalRotation: {x: 0.0000000018560067, y: 0.15628359, z: 0.00000001172996, w: 0.98771226}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4137827927345122}
@@ -338,7 +339,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1868133574474336}
-  m_LocalRotation: {x: 0.064852245, y: -0.16508761, z: -0.010879482, w: -0.9840843}
+  m_LocalRotation: {x: -0.056735735, y: 0.156809, z: 0.009023406, w: 0.9859567}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -378,8 +379,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1283079301411650}
-  m_LocalRotation: {x: -0.062277358, y: 0.15597259, z: 0.0098539, w: 0.985747}
-  m_LocalPosition: {x: -0.0024986267, y: 0.017593384, z: -0.0077056885}
+  m_LocalRotation: {x: -0.05673553, y: 0.15602551, z: 0.008977039, w: 0.9860814}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4312708186366368}
@@ -392,7 +393,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1359487887483424}
-  m_LocalRotation: {x: 0.032584745, y: -0.16535535, z: -0.0054663345, w: -0.98568046}
+  m_LocalRotation: {x: -0.028473653, y: 0.15700312, z: 0.004528521, w: 0.9871772}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -419,8 +420,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1626269604935996}
-  m_LocalRotation: {x: -0.029963536, y: 0.15621123, z: 0.0047320183, w: 0.9872578}
-  m_LocalPosition: {x: -0.0024986267, y: 0.017593384, z: -0.0077056885}
+  m_LocalRotation: {x: -0.028474845, y: 0.15621841, z: 0.0044964706, w: 0.9873018}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4556879235415254}
@@ -448,9 +449,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1992574331631312}
-  m_LocalRotation: {x: 0.0000000010912817, y: -0.16544439, z: 0.0000000065051635,
-    w: -0.98621917}
-  m_LocalPosition: {x: 0.0000076293945, y: 0, z: 0}
+  m_LocalRotation: {x: 0.0000000010360336, y: -0.15706842, z: 0.000000006514193, w: -0.98758775}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4333757991717308}
@@ -464,7 +464,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1864263028637152}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 48.573185, y: 71.205, z: 140.76608}
+  m_LocalPosition: {x: 48.573185, y: 64.352, z: 140.76608}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4181487689278928}
@@ -510,7 +510,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 5
-  m_FollowOffset: {x: 0, y: 1.517599, z: -3.258095}
+  m_FollowOffset: {x: 0, y: 1.5, z: -3.25}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -637,7 +637,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 67
+    FieldOfView: 60
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -723,7 +723,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 67
+    FieldOfView: 60
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -750,6 +750,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114205303613213748
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1499470995771072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e501d18bb52cf8c40b1853ca4904654f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CollideAgainst:
+    serializedVersion: 2
+    m_Bits: 1
+  m_IgnoreTag: Player
+  m_TransparentLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_MinimumDistanceFromTarget: 0.1
+  m_AvoidObstacles: 1
+  m_DistanceLimit: 0
+  m_MinimumOcclusionTime: 0
+  m_CameraRadius: 0.2
+  m_Strategy: 1
+  m_MaximumEffort: 4
+  m_SmoothingTime: 0
+  m_Damping: 0
+  m_DampingWhenOccluded: 0
+  m_OptimalTargetDistance: 0
 --- !u!114 &114206960372778476
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -776,7 +805,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 67
+    FieldOfView: 60
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -838,7 +867,7 @@ MonoBehaviour:
   m_Follow: {fileID: 0}
   m_CommonLens: 1
   m_Lens:
-    FieldOfView: 67
+    FieldOfView: 60
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -942,7 +971,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 67
+    FieldOfView: 60
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -984,7 +1013,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 67
+    FieldOfView: 60
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -1112,7 +1141,7 @@ MonoBehaviour:
   m_Follow: {fileID: 0}
   m_CommonLens: 1
   m_Lens:
-    FieldOfView: 67
+    FieldOfView: 60
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -1223,7 +1252,243 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   m_CustomBlends: {fileID: 0}
-  m_ParentHash: []
+  m_ParentHash:
+  - m_Hash: -832181705
+    m_ParentHash: -1729304434
+  - m_Hash: 320451265
+    m_ParentHash: -832181705
+  - m_Hash: -683487597
+    m_ParentHash: 320451265
+  - m_Hash: -1197712662
+    m_ParentHash: 320451265
+  - m_Hash: -337124837
+    m_ParentHash: 320451265
+  - m_Hash: -300428033
+    m_ParentHash: 320451265
+  - m_Hash: -410505533
+    m_ParentHash: 320451265
+  - m_Hash: 155415394
+    m_ParentHash: 320451265
+  - m_Hash: 1318292888
+    m_ParentHash: 320451265
+  - m_Hash: 1439590299
+    m_ParentHash: 320451265
+  - m_Hash: -249377427
+    m_ParentHash: 320451265
+  - m_Hash: 1314967040
+    m_ParentHash: 320451265
+  - m_Hash: 1455388774
+    m_ParentHash: 320451265
+  - m_Hash: -1587269274
+    m_ParentHash: 320451265
+  - m_Hash: -226379532
+    m_ParentHash: 320451265
+  - m_Hash: -561158760
+    m_ParentHash: 320451265
+  - m_Hash: -1459908933
+    m_ParentHash: 320451265
+  - m_Hash: -204326807
+    m_ParentHash: 320451265
+  - m_Hash: 1651250028
+    m_ParentHash: 320451265
+  - m_Hash: -1739922809
+    m_ParentHash: 320451265
+  - m_Hash: 632636617
+    m_ParentHash: 320451265
+  - m_Hash: 1575706310
+    m_ParentHash: 320451265
+  - m_Hash: 615224435
+    m_ParentHash: 320451265
+  - m_Hash: 570559032
+    m_ParentHash: 320451265
+  - m_Hash: 2127667772
+    m_ParentHash: 320451265
+  - m_Hash: -986323918
+    m_ParentHash: 320451265
+  - m_Hash: -1629258548
+    m_ParentHash: 320451265
+  - m_Hash: -1346339211
+    m_ParentHash: 320451265
+  - m_Hash: -242376937
+    m_ParentHash: 320451265
+  - m_Hash: 1426683423
+    m_ParentHash: 320451265
+  - m_Hash: -1542769631
+    m_ParentHash: 320451265
+  - m_Hash: 617460135
+    m_ParentHash: 320451265
+  - m_Hash: -1105731645
+    m_ParentHash: 320451265
+  - m_Hash: -1486678042
+    m_ParentHash: 320451265
+  - m_Hash: 687527156
+    m_ParentHash: 320451265
+  - m_Hash: -538859776
+    m_ParentHash: 320451265
+  - m_Hash: -894528098
+    m_ParentHash: 320451265
+  - m_Hash: 1099696254
+    m_ParentHash: 320451265
+  - m_Hash: -780242571
+    m_ParentHash: 320451265
+  - m_Hash: 1984947050
+    m_ParentHash: 320451265
+  - m_Hash: -1365826165
+    m_ParentHash: 320451265
+  - m_Hash: 741725477
+    m_ParentHash: 320451265
+  - m_Hash: -2090425236
+    m_ParentHash: 320451265
+  - m_Hash: 309744511
+    m_ParentHash: 320451265
+  - m_Hash: 2049943004
+    m_ParentHash: 320451265
+  - m_Hash: -638670350
+    m_ParentHash: 320451265
+  - m_Hash: -2133454577
+    m_ParentHash: 320451265
+  - m_Hash: -959524056
+    m_ParentHash: 320451265
+  - m_Hash: -12630543
+    m_ParentHash: 320451265
+  - m_Hash: -1665866393
+    m_ParentHash: 320451265
+  - m_Hash: -184097699
+    m_ParentHash: 320451265
+  - m_Hash: 1138635525
+    m_ParentHash: 320451265
+  - m_Hash: 1302077877
+    m_ParentHash: 320451265
+  - m_Hash: 1364637054
+    m_ParentHash: 320451265
+  - m_Hash: -438428448
+    m_ParentHash: 320451265
+  - m_Hash: -518188506
+    m_ParentHash: 320451265
+  - m_Hash: -306723958
+    m_ParentHash: 320451265
+  - m_Hash: 510184233
+    m_ParentHash: 320451265
+  - m_Hash: -1782213209
+    m_ParentHash: 320451265
+  - m_Hash: 517401462
+    m_ParentHash: 320451265
+  - m_Hash: -1074380724
+    m_ParentHash: 320451265
+  - m_Hash: 690283347
+    m_ParentHash: 320451265
+  - m_Hash: -68362405
+    m_ParentHash: 320451265
+  - m_Hash: -590065574
+    m_ParentHash: 320451265
+  - m_Hash: -577539054
+    m_ParentHash: 320451265
+  - m_Hash: -948637526
+    m_ParentHash: 320451265
+  - m_Hash: 1614096046
+    m_ParentHash: 320451265
+  - m_Hash: -577605460
+    m_ParentHash: -832181705
+  - m_Hash: -272226820
+    m_ParentHash: -577605460
+  - m_Hash: -1759443928
+    m_ParentHash: -577605460
+  - m_Hash: 1931957523
+    m_ParentHash: -1729304434
+  - m_Hash: 486345207
+    m_ParentHash: 1931957523
+  - m_Hash: -156454175
+    m_ParentHash: 1931957523
+  - m_Hash: 1873142619
+    m_ParentHash: 1931957523
+  - m_Hash: -1138345225
+    m_ParentHash: 1931957523
+  - m_Hash: -130304280
+    m_ParentHash: 1931957523
+  - m_Hash: 2090170590
+    m_ParentHash: 1931957523
+  - m_Hash: -1165115072
+    m_ParentHash: 2090170590
+  - m_Hash: 1438027756
+    m_ParentHash: -1165115072
+  - m_Hash: -1303628783
+    m_ParentHash: -1165115072
+  - m_Hash: -1716016764
+    m_ParentHash: -1165115072
+  - m_Hash: -1431640803
+    m_ParentHash: -1165115072
+  - m_Hash: 953737660
+    m_ParentHash: -1165115072
+  - m_Hash: -340365721
+    m_ParentHash: -1165115072
+  - m_Hash: 370637929
+    m_ParentHash: -1165115072
+  - m_Hash: 199688242
+    m_ParentHash: -1165115072
+  - m_Hash: -1446698112
+    m_ParentHash: -1165115072
+  - m_Hash: -1269682767
+    m_ParentHash: -1165115072
+  - m_Hash: -1120988215
+    m_ParentHash: 2090170590
+  - m_Hash: -2083904025
+    m_ParentHash: -1120988215
+  - m_Hash: 625512755
+    m_ParentHash: -1120988215
+  - m_Hash: 246615206
+    m_ParentHash: -1120988215
+  - m_Hash: 151760080
+    m_ParentHash: -1120988215
+  - m_Hash: 970352639
+    m_ParentHash: -1120988215
+  - m_Hash: -356980700
+    m_ParentHash: -1120988215
+  - m_Hash: -1008715480
+    m_ParentHash: -1120988215
+  - m_Hash: -1578179694
+    m_ParentHash: -1120988215
+  - m_Hash: -661532650
+    m_ParentHash: -1120988215
+  - m_Hash: 592873619
+    m_ParentHash: -1120988215
+  - m_Hash: 387774481
+    m_ParentHash: -1120988215
+  - m_Hash: 194593255
+    m_ParentHash: 2090170590
+  - m_Hash: 1834511345
+    m_ParentHash: 194593255
+  - m_Hash: -196003253
+    m_ParentHash: 194593255
+  - m_Hash: -2091513123
+    m_ParentHash: 194593255
+  - m_Hash: 489856894
+    m_ParentHash: 194593255
+  - m_Hash: 1781903336
+    m_ParentHash: 194593255
+  - m_Hash: -214106542
+    m_ParentHash: 194593255
+  - m_Hash: -2076455228
+    m_ParentHash: 194593255
+  - m_Hash: -1366295073
+    m_ParentHash: 2090170590
+  - m_Hash: -1997374841
+    m_ParentHash: -1366295073
+  - m_Hash: 301673277
+    m_ParentHash: -1366295073
+  - m_Hash: 1727798187
+    m_ParentHash: -1366295073
+  - m_Hash: -124219896
+    m_ParentHash: -1366295073
+  - m_Hash: -1885356386
+    m_ParentHash: -1366295073
+  - m_Hash: 378990372
+    m_ParentHash: -1366295073
+  - m_Hash: 1636949938
+    m_ParentHash: -1366295073
+  - m_Hash: -927103129
+    m_ParentHash: -1729304434
+  - m_Hash: -1295397390
+    m_ParentHash: -927103129
 --- !u!114 &114777554955325138
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1250,7 +1515,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 67
+    FieldOfView: 60
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -1289,7 +1554,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 5
-  m_FollowOffset: {x: 0, y: 1.517599, z: -3.258095}
+  m_FollowOffset: {x: 0, y: 1.5, z: -3.25}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -1358,7 +1623,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 5
-  m_FollowOffset: {x: 0, y: 1.517599, z: -3.258095}
+  m_FollowOffset: {x: 0, y: 1.5, z: -3.25}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1

@@ -37,6 +37,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return fallingTime; }
 		}
 		
+		public float normalizedVerticalSpeed
+		{
+			get { return 0; }
+		}
+		
 		public Action jumpStarted { get; set; }
 		public Action landed { get; set; }
 		public Action<float> fallStarted { get; set; }

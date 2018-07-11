@@ -19,6 +19,19 @@ namespace StandardAssets.Characters.Physics
 		public Action<float> startedFalling { get; set; }
 		public float airTime { get; private set; }
 		public float fallTime { get; private set; }
+
+		public float normalizedVerticalSpeed
+		{
+			get
+			{
+				if (initialJumpVelocity < Mathf.Epsilon)
+				{
+					return 0f;
+				}
+				
+				return currentVerticalVelocity / initialJumpVelocity;
+			}
+		}
 		
 		/// <summary>
 		/// The initial jump velocity

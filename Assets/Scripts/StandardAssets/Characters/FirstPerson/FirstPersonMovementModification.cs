@@ -16,7 +16,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// The input
 		/// </summary>
 		[SerializeField]
-		protected CompoundLegacyUnityInputResponse inputs;
+		protected CompoundInputResponse inputs;
 
 		/// <summary>
 		/// The state

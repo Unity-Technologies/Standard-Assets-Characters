@@ -138,6 +138,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4194683713618194}
   - component: {fileID: 114237999432150476}
+  - component: {fileID: 114793715878783376}
   m_Layer: 0
   m_Name: Strafe Cameras
   m_TagString: Untagged
@@ -169,8 +170,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1223925126897282}
-  m_LocalRotation: {x: -0.33986264, y: 0.52593964, z: 0.42643577, w: -0.65271235}
-  m_LocalPosition: {x: 0.50290644, y: 1.1834258, z: -0.17670608}
+  m_LocalRotation: {x: 0.081845105, y: 0.23339775, z: 0.080970414, w: -0.9655417}
+  m_LocalPosition: {x: 1.1191097, y: 0.34393486, z: -1.7847923}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4269008395274592}
@@ -210,8 +211,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1325133545373306}
-  m_LocalRotation: {x: -0.35791618, y: 0.5339961, z: 0.3953352, w: -0.6560902}
-  m_LocalPosition: {x: 0.50324905, y: 1.1824994, z: -0.16970831}
+  m_LocalRotation: {x: 0.049377777, y: 0.23051637, z: 0.07604648, w: -0.9688349}
+  m_LocalPosition: {x: 1.1213443, y: 0.34409496, z: -1.7837036}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4883525284414134}
@@ -224,8 +225,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1118087579076260}
-  m_LocalRotation: {x: 0.069492, y: 0.0000000179942, z: -0.00000000180948, w: 0.99758255}
-  m_LocalPosition: {x: 49.576546, y: 70.055, z: 141.35732}
+  m_LocalRotation: {x: 0.07259982, y: 0.09827543, z: -0.007188828, w: 0.9924815}
+  m_LocalPosition: {x: 49.576546, y: 63.752, z: 142.85732}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4441212525938800}
@@ -280,8 +281,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1133555506919104}
-  m_LocalRotation: {x: 0.13918522, y: -0.0011297291, z: 0.65156615, w: -0.745713}
-  m_LocalPosition: {x: -0.34222418, y: 1.0722868, z: -0.63521326}
+  m_LocalRotation: {x: 0.1361786, y: 0.036575276, z: 0.06632949, w: -0.9877844}
+  m_LocalPosition: {x: -0.03212893, y: 0.30039734, z: -2.0807912}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4957545600031312}
@@ -300,7 +301,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 1
-  m_FollowOffset: {x: 0, y: 0.35, z: -2.5}
+  m_FollowOffset: {x: 0, y: 0.9, z: -1}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -318,18 +319,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4044717213e31446939f7bd49c896ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TrackedObjectOffset: {x: 0, y: 0, z: 0}
+  m_TrackedObjectOffset: {x: 0.2, y: 0.75, z: 0}
   m_LookaheadTime: 0
-  m_LookaheadSmoothing: 10
+  m_LookaheadSmoothing: 4
   m_LookaheadIgnoreY: 1
-  m_HorizontalDamping: 0.5
+  m_HorizontalDamping: 0.2
   m_VerticalDamping: 0.5
   m_ScreenX: 0.5
   m_ScreenY: 0.5
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
-  m_SoftZoneWidth: 0.8
-  m_SoftZoneHeight: 0.8
+  m_SoftZoneWidth: 0.05
+  m_SoftZoneHeight: 0.05
   m_BiasX: 0
   m_BiasY: 0
 --- !u!114 &114113289057002824
@@ -480,7 +481,243 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   m_CustomBlends: {fileID: 0}
-  m_ParentHash: []
+  m_ParentHash:
+  - m_Hash: -832181705
+    m_ParentHash: -1729304434
+  - m_Hash: 320451265
+    m_ParentHash: -832181705
+  - m_Hash: -683487597
+    m_ParentHash: 320451265
+  - m_Hash: -1197712662
+    m_ParentHash: 320451265
+  - m_Hash: -337124837
+    m_ParentHash: 320451265
+  - m_Hash: -300428033
+    m_ParentHash: 320451265
+  - m_Hash: -410505533
+    m_ParentHash: 320451265
+  - m_Hash: 155415394
+    m_ParentHash: 320451265
+  - m_Hash: 1318292888
+    m_ParentHash: 320451265
+  - m_Hash: 1439590299
+    m_ParentHash: 320451265
+  - m_Hash: -249377427
+    m_ParentHash: 320451265
+  - m_Hash: 1314967040
+    m_ParentHash: 320451265
+  - m_Hash: 1455388774
+    m_ParentHash: 320451265
+  - m_Hash: -1587269274
+    m_ParentHash: 320451265
+  - m_Hash: -226379532
+    m_ParentHash: 320451265
+  - m_Hash: -561158760
+    m_ParentHash: 320451265
+  - m_Hash: -1459908933
+    m_ParentHash: 320451265
+  - m_Hash: -204326807
+    m_ParentHash: 320451265
+  - m_Hash: 1651250028
+    m_ParentHash: 320451265
+  - m_Hash: -1739922809
+    m_ParentHash: 320451265
+  - m_Hash: 632636617
+    m_ParentHash: 320451265
+  - m_Hash: 1575706310
+    m_ParentHash: 320451265
+  - m_Hash: 615224435
+    m_ParentHash: 320451265
+  - m_Hash: 570559032
+    m_ParentHash: 320451265
+  - m_Hash: 2127667772
+    m_ParentHash: 320451265
+  - m_Hash: -986323918
+    m_ParentHash: 320451265
+  - m_Hash: -1629258548
+    m_ParentHash: 320451265
+  - m_Hash: -1346339211
+    m_ParentHash: 320451265
+  - m_Hash: -242376937
+    m_ParentHash: 320451265
+  - m_Hash: 1426683423
+    m_ParentHash: 320451265
+  - m_Hash: -1542769631
+    m_ParentHash: 320451265
+  - m_Hash: 617460135
+    m_ParentHash: 320451265
+  - m_Hash: -1105731645
+    m_ParentHash: 320451265
+  - m_Hash: -1486678042
+    m_ParentHash: 320451265
+  - m_Hash: 687527156
+    m_ParentHash: 320451265
+  - m_Hash: -538859776
+    m_ParentHash: 320451265
+  - m_Hash: -894528098
+    m_ParentHash: 320451265
+  - m_Hash: 1099696254
+    m_ParentHash: 320451265
+  - m_Hash: -780242571
+    m_ParentHash: 320451265
+  - m_Hash: 1984947050
+    m_ParentHash: 320451265
+  - m_Hash: -1365826165
+    m_ParentHash: 320451265
+  - m_Hash: 741725477
+    m_ParentHash: 320451265
+  - m_Hash: -2090425236
+    m_ParentHash: 320451265
+  - m_Hash: 309744511
+    m_ParentHash: 320451265
+  - m_Hash: 2049943004
+    m_ParentHash: 320451265
+  - m_Hash: -638670350
+    m_ParentHash: 320451265
+  - m_Hash: -2133454577
+    m_ParentHash: 320451265
+  - m_Hash: -959524056
+    m_ParentHash: 320451265
+  - m_Hash: -12630543
+    m_ParentHash: 320451265
+  - m_Hash: -1665866393
+    m_ParentHash: 320451265
+  - m_Hash: -184097699
+    m_ParentHash: 320451265
+  - m_Hash: 1138635525
+    m_ParentHash: 320451265
+  - m_Hash: 1302077877
+    m_ParentHash: 320451265
+  - m_Hash: 1364637054
+    m_ParentHash: 320451265
+  - m_Hash: -438428448
+    m_ParentHash: 320451265
+  - m_Hash: -518188506
+    m_ParentHash: 320451265
+  - m_Hash: -306723958
+    m_ParentHash: 320451265
+  - m_Hash: 510184233
+    m_ParentHash: 320451265
+  - m_Hash: -1782213209
+    m_ParentHash: 320451265
+  - m_Hash: 517401462
+    m_ParentHash: 320451265
+  - m_Hash: -1074380724
+    m_ParentHash: 320451265
+  - m_Hash: 690283347
+    m_ParentHash: 320451265
+  - m_Hash: -68362405
+    m_ParentHash: 320451265
+  - m_Hash: -590065574
+    m_ParentHash: 320451265
+  - m_Hash: -577539054
+    m_ParentHash: 320451265
+  - m_Hash: -948637526
+    m_ParentHash: 320451265
+  - m_Hash: 1614096046
+    m_ParentHash: 320451265
+  - m_Hash: -577605460
+    m_ParentHash: -832181705
+  - m_Hash: -272226820
+    m_ParentHash: -577605460
+  - m_Hash: -1759443928
+    m_ParentHash: -577605460
+  - m_Hash: 1931957523
+    m_ParentHash: -1729304434
+  - m_Hash: 486345207
+    m_ParentHash: 1931957523
+  - m_Hash: -156454175
+    m_ParentHash: 1931957523
+  - m_Hash: 1873142619
+    m_ParentHash: 1931957523
+  - m_Hash: -1138345225
+    m_ParentHash: 1931957523
+  - m_Hash: -130304280
+    m_ParentHash: 1931957523
+  - m_Hash: 2090170590
+    m_ParentHash: 1931957523
+  - m_Hash: -1165115072
+    m_ParentHash: 2090170590
+  - m_Hash: 1438027756
+    m_ParentHash: -1165115072
+  - m_Hash: -1303628783
+    m_ParentHash: -1165115072
+  - m_Hash: -1716016764
+    m_ParentHash: -1165115072
+  - m_Hash: -1431640803
+    m_ParentHash: -1165115072
+  - m_Hash: 953737660
+    m_ParentHash: -1165115072
+  - m_Hash: -340365721
+    m_ParentHash: -1165115072
+  - m_Hash: 370637929
+    m_ParentHash: -1165115072
+  - m_Hash: 199688242
+    m_ParentHash: -1165115072
+  - m_Hash: -1446698112
+    m_ParentHash: -1165115072
+  - m_Hash: -1269682767
+    m_ParentHash: -1165115072
+  - m_Hash: -1120988215
+    m_ParentHash: 2090170590
+  - m_Hash: -2083904025
+    m_ParentHash: -1120988215
+  - m_Hash: 625512755
+    m_ParentHash: -1120988215
+  - m_Hash: 246615206
+    m_ParentHash: -1120988215
+  - m_Hash: 151760080
+    m_ParentHash: -1120988215
+  - m_Hash: 970352639
+    m_ParentHash: -1120988215
+  - m_Hash: -356980700
+    m_ParentHash: -1120988215
+  - m_Hash: -1008715480
+    m_ParentHash: -1120988215
+  - m_Hash: -1578179694
+    m_ParentHash: -1120988215
+  - m_Hash: -661532650
+    m_ParentHash: -1120988215
+  - m_Hash: 592873619
+    m_ParentHash: -1120988215
+  - m_Hash: 387774481
+    m_ParentHash: -1120988215
+  - m_Hash: 194593255
+    m_ParentHash: 2090170590
+  - m_Hash: 1834511345
+    m_ParentHash: 194593255
+  - m_Hash: -196003253
+    m_ParentHash: 194593255
+  - m_Hash: -2091513123
+    m_ParentHash: 194593255
+  - m_Hash: 489856894
+    m_ParentHash: 194593255
+  - m_Hash: 1781903336
+    m_ParentHash: 194593255
+  - m_Hash: -214106542
+    m_ParentHash: 194593255
+  - m_Hash: -2076455228
+    m_ParentHash: 194593255
+  - m_Hash: -1366295073
+    m_ParentHash: 2090170590
+  - m_Hash: -1997374841
+    m_ParentHash: -1366295073
+  - m_Hash: 301673277
+    m_ParentHash: -1366295073
+  - m_Hash: 1727798187
+    m_ParentHash: -1366295073
+  - m_Hash: -124219896
+    m_ParentHash: -1366295073
+  - m_Hash: -1885356386
+    m_ParentHash: -1366295073
+  - m_Hash: 378990372
+    m_ParentHash: -1366295073
+  - m_Hash: 1636949938
+    m_ParentHash: -1366295073
+  - m_Hash: -927103129
+    m_ParentHash: -1729304434
+  - m_Hash: -1295397390
+    m_ParentHash: -927103129
 --- !u!114 &114241169659179886
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -629,7 +866,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 40
+    FieldOfView: 60
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -689,6 +926,35 @@ MonoBehaviour:
   m_LegacyHeightOffset: 3.4028235e+38
   m_LegacyHeadingBias: 3.4028235e+38
   m_HeadingIsSlave: 1
+--- !u!114 &114793715878783376
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1335100531195730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e501d18bb52cf8c40b1853ca4904654f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CollideAgainst:
+    serializedVersion: 2
+    m_Bits: 1
+  m_IgnoreTag: Player
+  m_TransparentLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_MinimumDistanceFromTarget: 0.1
+  m_AvoidObstacles: 1
+  m_DistanceLimit: 0
+  m_MinimumOcclusionTime: 0
+  m_CameraRadius: 0.2
+  m_Strategy: 1
+  m_MaximumEffort: 4
+  m_SmoothingTime: 0
+  m_Damping: 0
+  m_DampingWhenOccluded: 0
+  m_OptimalTargetDistance: 0
 --- !u!114 &114807695711799916
 MonoBehaviour:
   m_ObjectHideFlags: 1

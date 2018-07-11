@@ -15,8 +15,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected AnimationCurve forwardSpeed = AnimationCurve.Linear(0, 0, 1, 1);
 
-		[SerializeField]
-		protected ThirdPersonAnimationController animationController;
 
 		Vector3 targetRotationEuler;
 		Quaternion targetRotation;
@@ -24,21 +22,14 @@ namespace StandardAssets.Characters.ThirdPerson
 		private float currentForwardSpeed;
 		private float currentTurningSpeed;
 		private float rotation;
+		private ThirdPersonAnimationController animationController;
 
-		void Update()
+		private void Awake()
 		{
-			if (isTurningAround)
-			{
-				EvaluateTurn();
-				turningTime += Time.deltaTime;
-				if (turningTime >= timeToTurn)
-				{
-					EndTurnAround();
-				}
-			}
+			animationController = GetComponent<ThirdPersonAnimationController>();
 		}
 
-		void EvaluateTurn()
+		private void EvaluateTurn()
 		{
 			float normalizedTime = turningTime / timeToTurn;
 
@@ -55,6 +46,19 @@ namespace StandardAssets.Characters.ThirdPerson
 				turnSpeed * Mathf.Sign(MathUtilities.Wrap180(newYRotation) - MathUtilities.Wrap180(oldYRotation));
 
 			animationController.UpdateLateralSpeed(actualTurnSpeed, Time.deltaTime);
+		}
+		
+		protected virtual void Update()
+		{
+			if (isTurningAround)
+			{
+				EvaluateTurn();
+				turningTime += Time.deltaTime;
+				if (turningTime >= timeToTurn)
+				{
+					EndTurnAround();
+				}
+			}
 		}
 
 		protected override void FinishedTurning()
