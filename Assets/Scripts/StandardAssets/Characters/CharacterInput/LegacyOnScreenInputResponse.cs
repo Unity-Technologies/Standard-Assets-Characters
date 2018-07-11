@@ -13,7 +13,7 @@ namespace StandardAssets.Characters.CharacterInput
 		
 		public void TouchToggle(bool touchToggle)
 		{
-			if (!touchToggle)
+			if (touchToggle)
 			{
 				OnInputStarted();
 				touchToggle = true;
