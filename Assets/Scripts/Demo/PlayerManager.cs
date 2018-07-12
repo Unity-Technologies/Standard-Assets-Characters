@@ -1,4 +1,5 @@
-﻿using StandardAssets.Characters.CharacterInput;
+﻿using Cinemachine;
+using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.FirstPerson;
 using StandardAssets.Characters.ThirdPerson;
 using UnityEngine;
@@ -28,9 +29,17 @@ namespace Demo
 		{
 			SetupThirdPerson();
 			SetupFirstPerson();
-			SetThirdPerson();
+			
+			
 			changeViews.Init();
+			
+			//TO DO
+			//The cinemachine cameras only enable on after the first switch.
+			SetFirstPerson();
+			SetThirdPerson();
 		}
+
+		
 
 		private void OnEnable()
 		{
@@ -76,6 +85,7 @@ namespace Demo
 		private void SetupFirstPerson()
 		{
 			firstPersonParent = SetupUnderParent("FIRST PERSON", firstPersonGameObjects);
+			
 		}
 
 		private GameObject SetupUnderParent(string parentName, GameObject[] gameObjects)
