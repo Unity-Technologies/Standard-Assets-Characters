@@ -2,14 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e136a53-8aa4-431a-a764-b817eb8c0fba" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/CharacterCapsule.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/CharacterCapsule.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/CharacterCapsuleStepInfo.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/CharacterCapsuleStepInfo.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Project/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Project/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Project/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Project/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DefaultCharacters_New/3rdPerson_DefaultMale_RootMotion.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/ProbuilderScene00/LightingData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/ProbuilderScene00/LightingData.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/OpenCharacterController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/OpenCharacterController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectVersion.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectVersion.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Editor/JetBrains/JetBrains.Rider.Unity.Editor.Plugin.Repacked.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Editor/JetBrains/JetBrains.Rider.Unity.Editor.Plugin.Repacked.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/ProbuilderScene00_Profiles.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/CharacterCapsule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/CharacterCapsule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/CharacterCapsuleMover.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/CharacterCapsuleMover.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/ICharacterCapsuleMover.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/ICharacterCapsuleMover.cs" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -20,100 +21,281 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="CharacterCapsule.cs" pinned="false" current-in-tab="true">
+      <file leaf-file-name="CharacterCapsule.cs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/CharacterCapsule.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-278">
-              <caret line="28" column="13" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
+            <state relative-caret-position="226">
+              <caret line="315" column="13" lean-forward="true" selection-start-line="315" selection-start-column="13" selection-end-line="315" selection-end-column="13" />
               <folding>
-                <marker date="1530618932000" expanded="true" signature="63:5092" ph="{...}" />
-                <marker date="1530618932000" expanded="true" signature="67:166" ph="/// Capsule used for a character's movement and collision detection. ... " />
-                <marker date="1530618932000" expanded="true" signature="213:5090" ph="{...}" />
-                <marker date="1530618932000" expanded="true" signature="219:278" ph="/// Center of the capsule. ... " />
-                <marker date="1530618932000" expanded="true" signature="345:404" ph="/// Radius of the capsule. ... " />
-                <marker date="1530618932000" expanded="true" signature="476:535" ph="/// Height of the capsule. ... " />
-                <marker date="1530618932000" expanded="true" signature="607:725" ph="/// The character's collision skin width. Use it to avoid numerical precision issues. ... " />
-                <marker date="1530618932000" expanded="true" signature="860:918" ph="/// The capsule collider. ... " />
-                <marker date="1530618932000" expanded="true" signature="965:1036" ph="/// Cached reference to the transform. ... " />
-                <marker date="1530618932000" expanded="true" signature="1077:1183" ph="/// The capsule radius in world units, with the relevant scaling applied. ... " />
-                <marker date="1530618932000" expanded="true" signature="1210:1377" ph="{...}" />
-                <marker date="1530618932000" expanded="true" signature="1221:1373" ph="{...}" />
-                <marker date="1530618932000" expanded="true" signature="1383:2054" ph="/// Compute the minimal translation required to separate the character from the collider. ... " />
-                <marker date="1530618932000" expanded="true" signature="2256:2787" ph="{...}" />
-                <marker date="1530618932000" expanded="true" signature="2296:2391" ph="{...}" />
-                <marker date="1530618932000" expanded="true" signature="2834:2900" ph="{...}" />
-                <marker date="1530618932000" expanded="true" signature="2904:2973" ph="/// Initialize the capsule collider. ... " />
-                <marker date="1530618932000" expanded="true" signature="3010:3684" ph="{...}" />
-                <marker date="1530618932000" expanded="true" signature="3279:3680" ph="{...}" />
-                <marker date="1530618932000" expanded="true" signature="3744:5087" ph="{...}" />
-                <marker date="1530618932000" expanded="true" signature="3780:3879" ph="{...}" />
+                <marker date="1531382483000" expanded="false" signature="6:54" ph="..." />
+                <marker date="1531382483000" expanded="true" signature="99:13733" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="103:265" ph="/// Capsule used for a character's movement and collision detection. ... " />
+                <marker date="1531382483000" expanded="true" signature="312:13731" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="318:371" ph="/// Max slope limit. ... " />
+                <marker date="1531382483000" expanded="true" signature="423:475" ph="/// Min skin width. ... " />
+                <marker date="1531382483000" expanded="true" signature="527:663" ph="/// Limits the collider to only climb slopes that are less steep (in degrees) than the indicated value. ... " />
+                <marker date="1531382483000" expanded="true" signature="837:1129" ph="/// The character will step up a stair only if it is closer to the ground than the indicated value. ... " />
+                <marker date="1531382483000" expanded="true" signature="1132:1420" ph="[...]" />
+                <marker date="1531382483000" expanded="true" signature="1478:1731" ph="/// Two colliders can penetrate each other as deep as their Skin Width. Larger Skin Widths reduce jitter. ... " />
+                <marker date="1531382483000" expanded="true" signature="1734:1973" ph="[...]" />
+                <marker date="1531382483000" expanded="true" signature="2031:2242" ph="/// If the character tries to move below the indicated value, it will not move at all. This can be used to reduce ... " />
+                <marker date="1531382483000" expanded="true" signature="2245:2438" ph="[...]" />
+                <marker date="1531382483000" expanded="true" signature="2501:2634" ph="/// This will offset the Capsule Collider in world space, and won’t affect how the Character pivots. ... " />
+                <marker date="1531382483000" expanded="true" signature="2794:2918" ph="/// Length of the Capsule Collider’s radius. This is essentially the width of the collider. ... " />
+                <marker date="1531382483000" expanded="true" signature="3075:3249" ph="/// The Character’s Capsule Collider height. Changing this will scale the collider along the Y axis in both posit ... " />
+                <marker date="1531382483000" expanded="true" signature="3252:3406" ph="[...]" />
+                <marker date="1531382483000" expanded="true" signature="3460:3617" ph="/// Layer to use for the collider. Leave empty to use the same layer as the game object to which this component i ... " />
+                <marker date="1531382483000" expanded="true" signature="3620:3757" ph="[...]" />
+                <marker date="1531382483000" expanded="true" signature="3812:3878" ph="/// Layers to test for collision. ... " />
+                <marker date="1531382483000" expanded="true" signature="3986:4120" ph="/// Add a kinematic Rigidbody? Physics works better when moving Colliders have a kinematic Rigidbody. ... " />
+                <marker date="1531382483000" expanded="true" signature="4301:4359" ph="/// The capsule collider. ... " />
+                <marker date="1531382483000" expanded="true" signature="4406:4477" ph="/// Cached reference to the transform. ... " />
+                <marker date="1531382483000" expanded="true" signature="4518:4643" ph="/// The capsule center with the relevant scaling applied (e.g. if object scale is not 1,1,1) ... " />
+                <marker date="1531382483000" expanded="true" signature="4673:4824" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="4684:4820" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="4828:4953" ph="/// The capsule radius with the relevant scaling applied (e.g. if object scale is not 1,1,1) ... " />
+                <marker date="1531382483000" expanded="true" signature="4981:5148" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="4992:5144" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="5152:5277" ph="/// The capsule height with the relevant scaling applied (e.g. if object scale is not 1,1,1) ... " />
+                <marker date="1531382483000" expanded="true" signature="5305:5374" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="5316:5370" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="5380:6157" ph="/// Compute the minimal translation required to separate the character from the collider. ... " />
+                <marker date="1531382483000" expanded="true" signature="6412:7335" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="6452:6549" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="6575:6692" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="7228:7312" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="7339:7422" ph="/// Get the slope limit. ... " />
+                <marker date="1531382483000" expanded="true" signature="7453:7483" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="7487:7570" ph="/// Get the step offset. ... " />
+                <marker date="1531382483000" expanded="true" signature="7601:7631" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="7635:7717" ph="/// Get the skin width. ... " />
+                <marker date="1531382483000" expanded="true" signature="7747:7776" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="7782:7875" ph="/// Get the minimum move distance. ... " />
+                <marker date="1531382483000" expanded="true" signature="7911:7946" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="7950:8036" ph="/// Get the center (local). ... " />
+                <marker date="1531382483000" expanded="true" signature="8065:8091" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="8097:8183" ph="/// Get the radius (local). ... " />
+                <marker date="1531382483000" expanded="true" signature="8210:8236" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="8240:8326" ph="/// Get the height (local). ... " />
+                <marker date="1531382483000" expanded="true" signature="8353:8379" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="8383:8483" ph="/// Get the layers to test for collision. ... " />
+                <marker date="1531382483000" expanded="true" signature="8526:8564" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="8568:8659" ph="/// Get the foot local position. ... " />
+                <marker date="1531382483000" expanded="true" signature="8699:8772" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="8776:8867" ph="/// Get the foot world position. ... " />
+                <marker date="1531382483000" expanded="true" signature="8907:9019" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="9023:9122" ph="/// Get the top sphere's local position. ... " />
+                <marker date="1531382483000" expanded="true" signature="9196:9456" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="9260:9329" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="9337:9418" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="9460:9562" ph="/// Get the bottom sphere's local position. ... " />
+                <marker date="1531382483000" expanded="true" signature="9639:9939" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="9743:9812" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="9820:9901" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="9945:10044" ph="/// Get the top sphere's world position. ... " />
+                <marker date="1531382483000" expanded="true" signature="10118:10435" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="10182:10263" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="10271:10364" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="10439:10541" ph="/// Get the bottom sphere's world position. ... " />
+                <marker date="1531382483000" expanded="true" signature="10618:10935" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="10682:10763" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="10771:10864" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="10941:11118" ph="/// Returns a point on the capsule collider that is closest to a given location. ... " />
+                <marker date="1531382483000" expanded="true" signature="11178:11236" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="11283:11349" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="11353:11422" ph="/// Initialize the capsule collider. ... " />
+                <marker date="1531382483000" expanded="true" signature="11459:12430" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="11668:11711" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="11719:11782" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="11895:12180" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="12211:12403" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="12316:12398" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="12434:12514" ph="/// Call this when the capsule's values change. ... " />
+                <marker date="1531382483000" expanded="true" signature="12547:12847" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="12722:12843" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="12916:12946" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="13006:13719" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="13042:13085" ph="{...}" />
+                <marker date="1531382483000" expanded="true" signature="13459:13564" ph="{...}" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="OpenCharacterController.cs" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/OpenCharacterController.cs">
+      <file leaf-file-name="CharacterCapsuleMover.cs" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/CharacterCapsuleMover.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="626">
-              <caret line="336" lean-forward="true" selection-start-line="336" selection-end-line="336" />
+            <state relative-caret-position="231">
+              <caret line="630" column="12" lean-forward="true" selection-start-line="630" selection-start-column="12" selection-end-line="630" selection-end-column="12" />
               <folding>
-                <marker date="1530619052000" expanded="true" signature="63:14197" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="119:14195" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="1500:1559" ph="/// The character capsule. ... " />
-                <marker date="1530619052000" expanded="true" signature="1689:1801" ph="/// Max colliders to test for during the penetration tests. Must be at least 1. ... " />
-                <marker date="1530619052000" expanded="true" signature="2199:2282" ph="/// Colliders to use during the penetration tests. ... " />
-                <marker date="1530619052000" expanded="true" signature="2417:2650" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="2690:2901" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="2815:2897" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="2925:3118" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="2962:3053" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="3148:3231" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="3260:3378" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="3300:3374" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="3411:3714" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="3628:3668" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="3676:3710" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="3766:5111" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="4013:4035" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="4299:4544" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="4360:4387" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="4478:4527" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="4606:4628" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="4659:4970" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="4848:4965" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="4905:4959" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="5061:5107" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="5115:5238" ph="/// Check if the character penetrates other colliders, and push the character out of them. ... " />
-                <marker date="1530619052000" expanded="true" signature="5282:5820" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="5578:5600" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="5824:6178" ph="/// Check for possible collisions along the movement vector. ... " />
-                <marker date="1530619052000" expanded="true" signature="6263:7262" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="6519:7231" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="6663:7188" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="6828:7080" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="7090:7182" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="7197:7226" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="7268:7704" ph="/// A single step for checking possible collisions along the movement vector. ... " />
-                <marker date="1530619052000" expanded="true" signature="7884:9311" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="9031:9059" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="9317:9845" ph="/// Get a movement vector, which will move the character to a position where there are no collisions. ... " />
-                <marker date="1530619052000" expanded="true" signature="9957:13406" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="10958:10985" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="11305:12228" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="11650:11677" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="11829:11943" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="12037:12064" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="12125:12223" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="12328:13299" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="12338:12518" ph="/* Test if the possible direction has no collision, for cases where angle is just more ... */" />
-                <marker date="1530619052000" expanded="true" signature="13200:13294" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="13330:13361" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="13437:13756" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="13461:13752" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="13814:13888" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="13920:14192" ph="{...}" />
-                <marker date="1530619052000" expanded="true" signature="13944:13966" ph="{...}" />
+                <marker date="1531382727000" expanded="false" signature="44:175" ph="..." />
+                <marker date="1531382727000" expanded="true" signature="227:40464" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="231:309" ph="/// Handles the movement of a CharacterCapsule. ... " />
+                <marker date="1531382727000" expanded="true" signature="385:40462" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="391:513" ph="/// The maximum move itterations. Mainly used as a fail safe to prevent an infinite loop. ... " />
+                <marker date="1531382727000" expanded="true" signature="565:674" ph="/// Stick to the ground if it is less than this distance from the character. ... " />
+                <marker date="1531382727000" expanded="true" signature="739:820" ph="/// Max colliders to use in the overlap methods. ... " />
+                <marker date="1531382727000" expanded="true" signature="872:993" ph="/// Offset to use when moving to a collision point, to prevent overlapping the colliders ... " />
+                <marker date="1531382727000" expanded="true" signature="1047:1151" ph="/// Distance to test beneath the character when doing the grounded test ... " />
+                <marker date="1531382727000" expanded="true" signature="1210:1350" ph="/// If character's position does not change by more than this amount then we assume the character is stuck. ... " />
+                <marker date="1531382727000" expanded="true" signature="1404:1540" ph="/// If character collided this number of times during the movement loop then test if character is stuck ... " />
+                <marker date="1531382727000" expanded="true" signature="1590:1728" ph="/// Assume character is stuck if the position is the same for longer than this number of loop itterations ... " />
+                <marker date="1531382727000" expanded="true" signature="1773:1925" ph="/// Only step over obstacles if the angle between the move vector and the obstacle's inverted normal is less than ... " />
+                <marker date="1531382727000" expanded="true" signature="2277:2363" ph="/// Was the touching the ground during the last move? ... " />
+                <marker date="1531382727000" expanded="true" signature="2394:2466" ph="/// Collision flags from the last move. ... " />
+                <marker date="1531382727000" expanded="true" signature="2511:2578" ph="/// The character capsule to move. ... " />
+                <marker date="1531382727000" expanded="true" signature="2629:2710" ph="/// Cached reference to the capsule's transform. ... " />
+                <marker date="1531382727000" expanded="true" signature="2754:2818" ph="/// Remaining movement vectors. ... " />
+                <marker date="1531382727000" expanded="true" signature="2883:2953" ph="/// Index into the moveVectors array. ... " />
+                <marker date="1531382727000" expanded="true" signature="2988:3101" ph="/// Velocity of the last movement. It's the new position minus the old position. ... " />
+                <marker date="1531382727000" expanded="true" signature="3133:3261" ph="/// Count the number of collisions during movement, to determine when the character gets stuck. ... " />
+                <marker date="1531382727000" expanded="true" signature="3289:3416" ph="/// For keeping track of the character's position, to determine when the character gets stuck. ... " />
+                <marker date="1531382727000" expanded="true" signature="3454:3544" ph="/// Count how long the character is in the same position. ... " />
+                <marker date="1531382727000" expanded="true" signature="3576:3642" ph="/// Stepping over obstacles info. ... " />
+                <marker date="1531382727000" expanded="false" signature="3724:4281" ph="DEBUG FIELDS REMOVE WHEN DONE TESTING" />
+                <marker date="1531382727000" expanded="true" signature="4212:4259" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="4354:5944" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="4496:4538" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="5378:5421" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="5511:5566" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="5640:5685" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="5767:5821" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="5989:6276" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="6280:6382" ph="/// Determine if the character is grounded. ... " />
+                <marker date="1531382727000" expanded="true" signature="6448:6852" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="6513:6540" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="6856:7134" ph="/// Movement loop. Keep moving until completely blocked by obstacles, or we reached the desired position/distance ... " />
+                <marker date="1531382727000" expanded="true" signature="7203:10692" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="7514:7863" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="7669:7784" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="7793:7858" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="7894:8247" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="8049:8166" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="8175:8242" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="8255:8352" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="8612:8646" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="8720:8874" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="8907:9038" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="9089:10688" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="9400:9453" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="9596:10093" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="9694:9791" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="9801:10087" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="9875:9905" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="10050:10080" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="10158:10672" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="10246:10273" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="10696:10801" ph="/// Is the move loop on the final move vector? ... " />
+                <marker date="1531382727000" expanded="true" signature="10836:10928" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="10932:11087" ph="/// Is the character stuck during the movement loop (e.g. bouncing between 2 or more colliders)? ... " />
+                <marker date="1531382727000" expanded="true" signature="11112:11637" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="11154:11182" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="11213:11270" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="11387:11551" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="11449:11546" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="11559:11615" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="11641:11885" ph="/// Get the square magnitude of the difference of the two vectors. ... " />
+                <marker date="1531382727000" expanded="true" signature="11954:12028" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="12032:12300" ph="/// Test if character can stick to the ground, and set the down vector if so. ... " />
+                <marker date="1531382727000" expanded="true" signature="12379:12699" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="12565:12641" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="12703:13053" ph="/// A single movement major step. Returns true when there is collision. ... " />
+                <marker date="1531382727000" expanded="true" signature="13143:13222" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="13226:13634" ph="/// Try to start stepping over obstacles. ... " />
+                <marker date="1531382727000" expanded="true" signature="13736:17335" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="14116:14308" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="14154:14280" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="14316:14491" ph="/* TODO: Need to handle cases where small obstacles hit our side edges, but we don't want to try to step over ... */" />
+                <marker date="1531382727000" expanded="true" signature="14923:15041" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="14961:15013" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="15483:15601" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="15521:15573" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="15609:15778" ph="/* Determine how high we actually need to step (e.g. if obstacle height is less than step height) ... */" />
+                <marker date="1531382727000" expanded="true" signature="16205:16921" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="16319:16916" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="16498:16634" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="16542:16600" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="16669:16910" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="17339:17489" ph="/// Update stepping over obstacles. ... " />
+                <marker date="1531382727000" expanded="true" signature="17539:19009" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="17626:17654" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="17763:17877" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="17801:17849" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="17974:18046" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="18888:18942" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="19013:19117" ph="/// Stop stepping over obstacles. ... " />
+                <marker date="1531382727000" expanded="true" signature="19160:20134" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="19263:19285" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="19844:19974" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="19982:20031" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="20076:20130" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="20140:20490" ph="/// A single movement minor step. Returns true when there is collision. ... " />
+                <marker date="1531382727000" expanded="true" signature="20580:22584" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="20951:21538" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="21132:21355" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="21181:21318" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="21615:21941" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="22131:22378" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="22588:23190" ph="/// Do two capsule casts. One excluding the capsule's skin width and one including the skin width. ... " />
+                <marker date="1531382727000" expanded="true" signature="23423:23759" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="23763:24164" ph="/// Do a capsule cast, exlucliding the skin width. ... " />
+                <marker date="1531382727000" expanded="true" signature="24333:24883" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="24887:25284" ph="/// Do a capsule cast, including the skin width. ... " />
+                <marker date="1531382727000" expanded="true" signature="25445:26035" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="26039:26560" ph="/// Move away from an obstacle. ... " />
+                <marker date="1531382727000" expanded="true" signature="26855:30269" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="28175:28291" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="28397:28589" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="28693:29103" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="28736:28970" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="28846:28964" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="29020:29057" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="29066:29098" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="29118:29469" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="29314:29382" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="29525:30255" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="30273:30606" ph="/// Get direction and distance to move out of the obstacle. ... " />
+                <marker date="1531382727000" expanded="true" signature="30713:32638" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="31365:31393" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="31545:32312" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="31614:31638" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="31930:32111" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="32158:32296" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="32399:32605" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="32642:32945" ph="/// Move the capsule position. ... " />
+                <marker date="1531382727000" expanded="true" signature="33041:34409" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="33119:33183" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="33252:33307" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="33403:33453" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="33779:34079" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="34314:34405" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="34413:34603" ph="/// Update the collision flags. ... " />
+                <marker date="1531382727000" expanded="true" signature="34678:35016" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="34776:34830" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="34857:34919" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="34950:35012" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="35020:40459" ph="DEBUG METHODS REMOVE WHEN DONE TESTING" />
+                <marker date="1531382727000" expanded="true" signature="35147:35234" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="35188:35230" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="35238:35421" ph="/// Debugs the test collision. ... " />
+                <marker date="1531382727000" expanded="true" signature="35510:37466" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="36182:36210" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="36392:36525" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="36461:36485" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="36559:37444" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="36655:37421" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="36962:37206" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="37005:37113" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="37124:37173" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="37274:37376" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="37470:37537" ph="/// DEBUG: Some test calculations. ... " />
+                <marker date="1531382727000" expanded="true" signature="37569:39585" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="37911:38018" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="38828:39580" ph="/* distance = 2.5, hitDistance = 1.0, penetrationDistance = 0.3 ... */" />
+                <marker date="1531382727000" expanded="true" signature="39589:39711" ph="/// DEBUG: Vector3 ToString ... " />
+                <marker date="1531382727000" expanded="true" signature="39764:39886" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="39946:40437" ph="{...}" />
+                <marker date="1531382727000" expanded="true" signature="40072:40094" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -123,57 +305,78 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>transform</find>
-      <find>gravity</find>
-      <find>currentVerticalVelocity</find>
-      <find>playerMovement</find>
-      <find>minSlope</find>
-      <find>groundCheckPoint</find>
-      <find>GetPredicitedFallDistance</find>
-      <find>CapsuleCollider</find>
-      <find>capsuleCollider</find>
-      <find>characterCapsule</find>
-      <find>maxPenetrationTests</find>
-      <find>ComputePenetration</find>
-      <find>maxStepHeight</find>
-      <find>CapsuleCast</find>
-      <find>characterCapsule.radius</find>
-      <find>EaseGrounding</find>
-      <find>playerCentre</find>
-      <find>CheckPossibleCollision</find>
-      <find>CheckCollisionPenetrations</find>
-      <find>GetCollisionFreeVector</find>
+      <find>debugMoveLoopItteration</find>
+      <find>UpdateStepOver(</find>
+      <find>trytos</find>
+      <find>moveloop</find>
+      <find>MoveLoop</find>
+      <find>update</find>
+      <find>UpdateStepOver</find>
+      <find>moveloop(</find>
+      <find>m_Controller</find>
+      <find>move(</find>
+      <find>trystart</find>
+      <find>remainingDistance</find>
+      <find>k_MaxStepOverHitAngle</find>
+      <find>TryToStartStepOver</find>
+      <find>debugToggle</find>
+      <find>updatest</find>
+      <find>temp</find>
+      <find>trytosta</find>
+      <find>TryToStartStepOver(</find>
+      <find>TryToStartStepOver(§</find>
       <find>// temp</find>
+      <find>getpene</find>
+      <find>GetPenetrationInfo</find>
+      <find>getpen</find>
+      <find>OverlapCapsuleNonAlloc</find>
+      <find>should ne</find>
+      <find>debugTempTopSphereWorldPosition</find>
+      <find>debugTopSphereWorldPosition</find>
+      <find>GetBottomSphereWorldPosition</find>
+      <find>GetTopSphereWorldPosition</find>
     </findStrings>
+    <replaceStrings>
+      <replace>stepInfo.isStepping</replace>
+    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/OpenCharacterControllerPhysics.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/ICharacterPhysics.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/BaseCharacterPhysics.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/CharacterControllerPhysics.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/C6560484-1487-4BD8-A1E5-C22CF49E3748/8b/7acfd591/CollisionFlags.cs" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/_DebugTest/DebugCamera.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/FirstPerson/FirstPersonController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../SAC/_Received/2018-07-04_cpp/CharacterController.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../SAC/_Received/2018-07-04_cpp/CharacterController.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/_DebugTest/DebugCharacterInput.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/CharacterCapsuleMover.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/_DebugTest/DebugCharacterControllerPhysics.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/_DebugTest/DebugCharacterControllerInfo.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/GizmosHelpers/GizmosHelper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/CharacterCapsule.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Effects/MovementEventListener.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/JumpAnimatorState.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Effects/MovementEventLibraryEntry.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/BaseCharacterPhysics.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Effects/MovementEventBroadcaster.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/CharacterControllerPhysics.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/Setup/PhysX/PhysX-3.4-master/PhysX_3.4/Source/PhysXCharacterKinematic/src/CctCharacterController.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Demo/FreeLookCameraConfigUi.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Effects/ColliderMovementEventBroadcaster.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/CharacterCapsuleStepInfo.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/C6560484-1487-4BD8-A1E5-C22CF49E3748/c4/3308c221/CapsuleCollider.cs" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/CharacterInput/ICharacterInput.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/FirstPerson/FirstPersonController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Effects/ColliderMovementDetection.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Effects/MovementEvent.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Demo/CameraConfigUi.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Effects/MovementEventLibrary.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/BaseThirdPersonMotor.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/ICharacterCapsuleMover.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Demo/VCamPovCameraConfigUi.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/OpenCharacterController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/C6560484-1487-4BD8-A1E5-C22CF49E3748/38/fdcf909a/Collider.cs" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/AnimationMotorProperties.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/AnimationThirdPersonMotor.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/CustomCharacterPhysics.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/PhysicsThirdPersonMotor.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/_DebugTest/DebugExtensions.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -184,8 +387,21 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Demo/CameraConfigUi.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Demo/FreeLookCameraConfigUi.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Demo/VCamPovCameraConfigUi.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/CharacterCapsule.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/CharacterControllerPhysics.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/_DebugTest/DebugCharacterControllerPhysics.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/_DebugTest/DebugOpenCharacterControllerPhysics.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/_DebugTest/DebugOpenCharacterController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/BaseCharacterPhysics.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/_DebugTest/DebugExtensions.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/_DebugTest/DebugCamera.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/_DebugTest/DebugCharacterInput.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/StandardAssets/GizmosHelpers/GizmosHelper.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/OpenCharacterController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/ICharacterCapsuleMover.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/CharacterCapsuleStepInfo.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/_DebugTest/DebugCharacterControllerInfo.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/CharacterCapsule.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/CharacterCapsuleMover.cs" />
       </list>
     </option>
   </component>
@@ -237,6 +453,14 @@
               <item name="Assembly-CSharp" type="977d5f41:SolutionExplorerNodeRider" />
               <item name="Assets" type="977d5f41:SolutionExplorerNodeRider" />
               <item name="Scripts" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="Project (2 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Assembly-CSharp" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Assets" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Scripts" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="_DebugTest" type="977d5f41:SolutionExplorerNodeRider" />
             </path>
             <path>
               <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
@@ -313,12 +537,18 @@
       <workItem from="1528455508189" duration="1178000" />
       <workItem from="1528462171979" duration="1430000" />
       <workItem from="1530516670910" duration="19788000" />
-      <workItem from="1530601259558" duration="13041000" />
+      <workItem from="1530601259558" duration="19698000" />
+      <workItem from="1530690368524" duration="16969000" />
+      <workItem from="1530773711578" duration="26450000" />
+      <workItem from="1530860029759" duration="20817000" />
+      <workItem from="1531116949065" duration="21982000" />
+      <workItem from="1531299886238" duration="13081000" />
+      <workItem from="1531380434079" duration="2089000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="36512000" />
+    <option name="totallyTimeSpent" value="144557000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -338,15 +568,15 @@
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Unit Tests" order="7" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21884984" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23162939" />
       <window_info anchor="bottom" id="Unity" order="8" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="NuGet" order="7" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -355,7 +585,7 @@
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.17114094" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.12416107" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -367,112 +597,39 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/CharacterCapsule.cs">
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/_DebugTest/DebugCharacterControllerInfo.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="496">
-          <caret line="31" column="39" selection-start-line="31" selection-start-column="39" selection-end-line="31" selection-end-column="39" />
+        <state relative-caret-position="1488">
+          <caret line="96" column="13" selection-start-line="96" selection-start-column="13" selection-end-line="96" selection-end-column="13" />
           <folding>
-            <marker date="1530618932000" expanded="true" signature="63:5092" ph="{...}" />
-            <marker date="1530618932000" expanded="true" signature="67:166" ph="/// Capsule used for a character's movement and collision detection. ... " />
-            <marker date="1530618932000" expanded="true" signature="213:5090" ph="{...}" />
-            <marker date="1530618932000" expanded="true" signature="219:278" ph="/// Center of the capsule. ... " />
-            <marker date="1530618932000" expanded="true" signature="345:404" ph="/// Radius of the capsule. ... " />
-            <marker date="1530618932000" expanded="true" signature="476:535" ph="/// Height of the capsule. ... " />
-            <marker date="1530618932000" expanded="true" signature="607:725" ph="/// The character's collision skin width. Use it to avoid numerical precision issues. ... " />
-            <marker date="1530618932000" expanded="true" signature="860:918" ph="/// The capsule collider. ... " />
-            <marker date="1530618932000" expanded="true" signature="965:1036" ph="/// Cached reference to the transform. ... " />
-            <marker date="1530618932000" expanded="true" signature="1077:1183" ph="/// The capsule radius in world units, with the relevant scaling applied. ... " />
-            <marker date="1530618932000" expanded="true" signature="1210:1377" ph="{...}" />
-            <marker date="1530618932000" expanded="true" signature="1221:1373" ph="{...}" />
-            <marker date="1530618932000" expanded="true" signature="1383:2054" ph="/// Compute the minimal translation required to separate the character from the collider. ... " />
-            <marker date="1530618932000" expanded="true" signature="2256:2787" ph="{...}" />
-            <marker date="1530618932000" expanded="true" signature="2296:2391" ph="{...}" />
-            <marker date="1530618932000" expanded="true" signature="2834:2900" ph="{...}" />
-            <marker date="1530618932000" expanded="true" signature="2904:2973" ph="/// Initialize the capsule collider. ... " />
-            <marker date="1530618932000" expanded="true" signature="3010:3684" ph="{...}" />
-            <marker date="1530618932000" expanded="true" signature="3279:3680" ph="{...}" />
-            <marker date="1530618932000" expanded="true" signature="3744:5087" ph="{...}" />
-            <marker date="1530618932000" expanded="true" signature="3780:3879" ph="{...}" />
+            <marker date="1531319557000" expanded="false" signature="6:85" ph="..." />
+            <marker date="1531319557000" expanded="true" signature="130:4479" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="191:4477" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="502:1075" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="1123:1380" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="1429:1561" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="1565:1680" ph="/// Called when the collision flags changed. ... " />
+            <marker date="1531319557000" expanded="true" signature="1744:1782" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="1786:1914" ph="/// Called when the stepping over state changed. ... " />
+            <marker date="1531319557000" expanded="true" signature="1971:2129" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="2037:2078" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="2086:2125" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="2175:2443" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="2252:2286" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="2294:2329" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="2353:2391" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="2399:2439" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="2488:4474" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="2532:2554" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="3627:4057" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="3723:3756" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="3818:3851" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="3913:3946" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="4065:4101" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="4131:4470" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="4160:4259" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="4268:4369" ph="{...}" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/OpenCharacterController.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4384">
-          <caret line="274" column="17" lean-forward="true" selection-start-line="274" selection-start-column="17" selection-end-line="274" selection-end-column="17" />
-          <folding>
-            <marker date="1530619052000" expanded="true" signature="63:14197" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="119:14195" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="1500:1559" ph="/// The character capsule. ... " />
-            <marker date="1530619052000" expanded="true" signature="1689:1801" ph="/// Max colliders to test for during the penetration tests. Must be at least 1. ... " />
-            <marker date="1530619052000" expanded="true" signature="2199:2282" ph="/// Colliders to use during the penetration tests. ... " />
-            <marker date="1530619052000" expanded="true" signature="2417:2650" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="2690:2901" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="2815:2897" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="2925:3118" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="2962:3053" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="3148:3231" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="3260:3378" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="3300:3374" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="3411:3714" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="3628:3668" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="3676:3710" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="3766:5111" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="4013:4035" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="4299:4544" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="4360:4387" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="4478:4527" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="4606:4628" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="4659:4970" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="4848:4965" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="4905:4959" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="5061:5107" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="5115:5238" ph="/// Check if the character penetrates other colliders, and push the character out of them. ... " />
-            <marker date="1530619052000" expanded="true" signature="5282:5820" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="5578:5600" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="5824:6178" ph="/// Check for possible collisions along the movement vector. ... " />
-            <marker date="1530619052000" expanded="true" signature="6263:7262" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="6519:7231" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="6663:7188" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="6828:7080" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="7090:7182" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="7197:7226" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="7268:7704" ph="/// A single step for checking possible collisions along the movement vector. ... " />
-            <marker date="1530619052000" expanded="true" signature="7884:9311" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="9031:9059" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="9317:9845" ph="/// Get a movement vector, which will move the character to a position where there are no collisions. ... " />
-            <marker date="1530619052000" expanded="true" signature="9957:13406" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="10958:10985" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="11305:12228" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="11650:11677" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="11829:11943" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="12037:12064" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="12125:12223" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="12328:13299" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="12338:12518" ph="/* Test if the possible direction has no collision, for cases where angle is just more ... */" />
-            <marker date="1530619052000" expanded="true" signature="13200:13294" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="13330:13361" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="13437:13756" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="13461:13752" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="13814:13888" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="13920:14192" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="13944:13966" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/PhysicsThirdPersonMotor.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2896">
-          <caret line="181" column="48" selection-start-line="181" selection-start-column="48" selection-end-line="181" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Demo/FreeLookCameraConfigUi.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="112">
-          <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
         </state>
       </provider>
     </entry>
@@ -483,13 +640,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/BaseThirdPersonMotor.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="8" column="26" selection-start-line="8" selection-start-column="26" selection-end-line="8" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/BaseThirdPersonMotor.cs" />
     <entry file="file://$PROJECT_DIR$/Assets/Scripts/Demo/VCamPovCameraConfigUi.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="656">
@@ -497,30 +648,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/PhysicsThirdPersonMotor.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2655">
-          <caret line="181" column="48" lean-forward="true" selection-start-line="181" selection-start-column="48" selection-end-line="181" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/BaseThirdPersonMotor.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="8" column="26" selection-start-line="8" selection-start-column="26" selection-end-line="8" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/PhysicsThirdPersonMotor.cs" />
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/BaseThirdPersonMotor.cs" />
     <entry file="file://$PROJECT_DIR$/Assets/DefaultCharacters/Scripts/SharedScripts/DefaultControllerInput.cs" />
     <entry file="file://$PROJECT_DIR$/Assets/DefaultCharacters/Scripts/SharedScripts/IControllerInput.cs" />
     <entry file="file://$PROJECT_DIR$/Assets/DefaultCharacters/Scripts/SharedScripts/DefaultThirdPersonCharacter.cs" />
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/BaseThirdPersonMotor.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="112">
-          <caret line="8" column="26" selection-start-line="8" selection-start-column="26" selection-end-line="8" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/BaseThirdPersonMotor.cs" />
     <entry file="file://$PROJECT_DIR$/Assets/Scripts/Demo/CameraConfigUi.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="416">
@@ -543,12 +676,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Effects/ColliderMovementEventBroadcaster.cs">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Effects/MovementEventListener.cs">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Effects/MovementEvent.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
@@ -568,19 +695,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/CharacterInput/ICharacterInput.cs">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/AnimationMotorProperties.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="24" column="9" lean-forward="true" selection-start-line="24" selection-start-column="9" selection-end-line="24" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/CharacterControllerPhysics.cs">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/AnimationMotorProperties.cs" />
     <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Effects/MovementEventBroadcaster.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="59">
@@ -588,55 +703,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/FirstPerson/FirstPersonController.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="305">
-          <caret line="171" column="29" selection-start-line="171" selection-start-column="29" selection-end-line="171" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/PhysicsThirdPersonMotor.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="377">
-          <caret line="251" column="44" lean-forward="true" selection-start-line="251" selection-start-column="44" selection-end-line="251" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/CustomCharacterPhysics.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2368">
-          <caret line="150" column="33" selection-start-line="150" selection-start-column="26" selection-end-line="150" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/OpenCharacterControllerPhysics.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="9" column="44" selection-start-line="9" selection-start-column="44" selection-end-line="9" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/JumpAnimatorState.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="12" column="94" lean-forward="true" selection-start-line="12" selection-start-column="94" selection-end-line="12" selection-end-column="94" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/AnimationThirdPersonMotor.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="145">
-          <caret line="52" column="48" selection-start-line="52" selection-start-column="48" selection-end-line="52" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/BaseCharacterPhysics.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="377">
-          <caret line="114" column="24" selection-start-line="114" selection-start-column="24" selection-end-line="114" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/PhysicsThirdPersonMotor.cs" />
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/CustomCharacterPhysics.cs" />
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/JumpAnimatorState.cs" />
     <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/C6560484-1487-4BD8-A1E5-C22CF49E3748/38/fdcf909a/Collider.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="256">
@@ -651,97 +720,479 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Effects/ColliderMovementDetection.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="28" selection-start-line="16" selection-start-column="28" selection-end-line="16" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/_DebugTest/DebugOpenCharacterControllerPhysics.cs" />
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/_DebugTest/DebugOpenCharacterController.cs" />
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/CharacterInput/ICharacterInput.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="8" column="21" selection-start-line="8" selection-start-column="21" selection-end-line="8" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/InputThirdPersonMotor.cs" />
+    <entry file="file://$PROJECT_DIR$/../../SAC/_Received/2018-07-04_cpp/CharacterController.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="19" selection-start-line="19" selection-end-line="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/ThirdPerson/AnimationThirdPersonMotor.cs" />
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/CharacterInput/LegacyUnityInputResponse.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="381">
+          <caret line="54" selection-start-line="54" selection-end-line="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/C6560484-1487-4BD8-A1E5-C22CF49E3748/8b/7acfd591/CollisionFlags.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="12" column="4" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/_DebugTest/DebugCharacterControllerPhysics.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="598">
+          <caret line="132" column="9" selection-start-line="132" selection-start-column="9" selection-end-line="132" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/_DebugTest/DebugExtensions.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="15" column="9" selection-start-line="15" selection-start-column="9" selection-end-line="15" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/FirstPerson/FirstPersonController.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="113">
+          <caret line="127" column="9" lean-forward="true" selection-start-line="127" selection-start-column="9" selection-end-line="127" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/_DebugTest/DebugCamera.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="34" column="12" selection-start-line="34" selection-start-column="12" selection-end-line="34" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/OpenCharacterControllerPhysics.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="25" column="38" selection-start-line="25" selection-start-column="38" selection-end-line="25" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/CharacterInput/LegacyUnityCharacterInput.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2206" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/CharacterControllerPhysics.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="10" column="5" selection-start-line="10" selection-start-column="5" selection-end-line="10" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/GizmosHelpers/GizmosHelper.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="30" column="9" selection-start-line="30" selection-start-column="9" selection-end-line="30" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/BaseCharacterPhysics.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="511">
+          <caret line="55" column="9" selection-start-line="55" selection-start-column="9" selection-end-line="55" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../SAC/_Received/2018-07-04_cpp/CharacterController.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1000">
+          <caret line="103" column="2" lean-forward="true" selection-start-line="103" selection-start-column="2" selection-end-line="103" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Setup/PhysX/PhysX-3.4-master/PhysX_3.4/Source/PhysXCharacterKinematic/src/CctCharacterController.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34380">
+          <caret line="2214" column="1" lean-forward="true" selection-start-line="2214" selection-start-column="1" selection-end-line="2214" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/OpenCharacterController.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="626">
-          <caret line="336" lean-forward="true" selection-start-line="336" selection-end-line="336" />
+        <state relative-caret-position="128">
+          <caret line="8" column="22" lean-forward="true" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/_DebugTest/DebugCharacterInput.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="774">
+          <caret line="100" column="17" selection-start-line="100" selection-start-column="17" selection-end-line="100" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/ICharacterCapsuleMover.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="416">
+          <caret line="27" column="22" lean-forward="true" selection-start-line="27" selection-start-column="22" selection-end-line="27" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/_DebugTest/DebugCharacterControllerInfo.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="477">
+          <caret line="86" column="16" lean-forward="true" selection-start-line="86" selection-start-column="16" selection-end-line="86" selection-end-column="16" />
           <folding>
-            <marker date="1530619052000" expanded="true" signature="63:14197" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="119:14195" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="1500:1559" ph="/// The character capsule. ... " />
-            <marker date="1530619052000" expanded="true" signature="1689:1801" ph="/// Max colliders to test for during the penetration tests. Must be at least 1. ... " />
-            <marker date="1530619052000" expanded="true" signature="2199:2282" ph="/// Colliders to use during the penetration tests. ... " />
-            <marker date="1530619052000" expanded="true" signature="2417:2650" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="2690:2901" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="2815:2897" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="2925:3118" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="2962:3053" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="3148:3231" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="3260:3378" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="3300:3374" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="3411:3714" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="3628:3668" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="3676:3710" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="3766:5111" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="4013:4035" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="4299:4544" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="4360:4387" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="4478:4527" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="4606:4628" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="4659:4970" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="4848:4965" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="4905:4959" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="5061:5107" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="5115:5238" ph="/// Check if the character penetrates other colliders, and push the character out of them. ... " />
-            <marker date="1530619052000" expanded="true" signature="5282:5820" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="5578:5600" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="5824:6178" ph="/// Check for possible collisions along the movement vector. ... " />
-            <marker date="1530619052000" expanded="true" signature="6263:7262" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="6519:7231" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="6663:7188" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="6828:7080" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="7090:7182" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="7197:7226" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="7268:7704" ph="/// A single step for checking possible collisions along the movement vector. ... " />
-            <marker date="1530619052000" expanded="true" signature="7884:9311" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="9031:9059" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="9317:9845" ph="/// Get a movement vector, which will move the character to a position where there are no collisions. ... " />
-            <marker date="1530619052000" expanded="true" signature="9957:13406" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="10958:10985" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="11305:12228" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="11650:11677" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="11829:11943" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="12037:12064" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="12125:12223" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="12328:13299" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="12338:12518" ph="/* Test if the possible direction has no collision, for cases where angle is just more ... */" />
-            <marker date="1530619052000" expanded="true" signature="13200:13294" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="13330:13361" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="13437:13756" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="13461:13752" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="13814:13888" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="13920:14192" ph="{...}" />
-            <marker date="1530619052000" expanded="true" signature="13944:13966" ph="{...}" />
+            <marker date="1531319557000" expanded="false" signature="6:85" ph="..." />
+            <marker date="1531319557000" expanded="true" signature="130:4479" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="191:4477" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="502:1075" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="1123:1380" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="1429:1561" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="1565:1680" ph="/// Called when the collision flags changed. ... " />
+            <marker date="1531319557000" expanded="true" signature="1744:1782" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="1786:1914" ph="/// Called when the stepping over state changed. ... " />
+            <marker date="1531319557000" expanded="true" signature="1971:2129" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="2037:2078" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="2086:2125" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="2175:2443" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="2252:2286" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="2294:2329" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="2353:2391" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="2399:2439" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="2488:4474" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="2532:2554" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="3627:4057" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="3723:3756" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="3818:3851" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="3913:3946" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="4065:4101" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="4131:4470" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="4160:4259" ph="{...}" />
+            <marker date="1531319557000" expanded="true" signature="4268:4369" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/CharacterCapsuleStepInfo.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="528">
+          <caret line="55" column="13" selection-start-line="55" selection-start-column="13" selection-end-line="55" selection-end-column="13" />
+          <folding>
+            <marker date="1531318210000" expanded="true" signature="63:2776" ph="{...}" />
+            <marker date="1531318210000" expanded="true" signature="67:184" ph="/// Info for stepping over small obstacles (i.e. if the character's heightToStep &gt; 0). ... " />
+            <marker date="1531318210000" expanded="true" signature="223:2774" ph="{...}" />
+            <marker date="1531318210000" expanded="true" signature="229:415" ph="/// Continue stepping if the angle between the original move vector (which started the stepping) and the new vect ... " />
+            <marker date="1531318210000" expanded="true" signature="475:542" ph="/// Remaining height to step over. ... " />
+            <marker date="1531318210000" expanded="true" signature="579:667" ph="/// The move vector that started the step over process. ... " />
+            <marker date="1531318210000" expanded="true" signature="706:787" ph="/// Position when the step over process started. ... " />
+            <marker date="1531318210000" expanded="true" signature="826:892" ph="/// Busy stepping over obstacles? ... " />
+            <marker date="1531318210000" expanded="true" signature="943:1109" ph="/// Get the remaining height to climb up. ... " />
+            <marker date="1531318210000" expanded="true" signature="1161:1556" ph="{...}" />
+            <marker date="1531318210000" expanded="true" signature="1259:1365" ph="{...}" />
+            <marker date="1531318210000" expanded="true" signature="1394:1507" ph="{...}" />
+            <marker date="1531318210000" expanded="true" signature="1404:1474" ph="/* Moved down ... */" />
+            <marker date="1531318210000" expanded="true" signature="1562:1821" ph="/// Called when starting to step over obstacles. ... " />
+            <marker date="1531318210000" expanded="true" signature="1909:2036" ph="{...}" />
+            <marker date="1531318210000" expanded="true" signature="2040:2117" ph="/// Called when stop to step over obstcales. ... " />
+            <marker date="1531318210000" expanded="true" signature="2148:2179" ph="{...}" />
+            <marker date="1531318210000" expanded="true" signature="2183:2384" ph="/// Called when a new move vector is used to move the character. It checks if the step over should continue. ... " />
+            <marker date="1531318210000" expanded="true" signature="2434:2771" ph="{...}" />
+            <marker date="1531318210000" expanded="true" signature="2466:2534" ph="{...}" />
+            <marker date="1531318210000" expanded="true" signature="2539:2685" ph="/* Continue stepping if the angle between the original vector and the new vector is ... */" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/CharacterCapsule.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-278">
-          <caret line="28" column="13" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
+        <state relative-caret-position="226">
+          <caret line="315" column="13" lean-forward="true" selection-start-line="315" selection-start-column="13" selection-end-line="315" selection-end-column="13" />
           <folding>
-            <marker date="1530618932000" expanded="true" signature="63:5092" ph="{...}" />
-            <marker date="1530618932000" expanded="true" signature="67:166" ph="/// Capsule used for a character's movement and collision detection. ... " />
-            <marker date="1530618932000" expanded="true" signature="213:5090" ph="{...}" />
-            <marker date="1530618932000" expanded="true" signature="219:278" ph="/// Center of the capsule. ... " />
-            <marker date="1530618932000" expanded="true" signature="345:404" ph="/// Radius of the capsule. ... " />
-            <marker date="1530618932000" expanded="true" signature="476:535" ph="/// Height of the capsule. ... " />
-            <marker date="1530618932000" expanded="true" signature="607:725" ph="/// The character's collision skin width. Use it to avoid numerical precision issues. ... " />
-            <marker date="1530618932000" expanded="true" signature="860:918" ph="/// The capsule collider. ... " />
-            <marker date="1530618932000" expanded="true" signature="965:1036" ph="/// Cached reference to the transform. ... " />
-            <marker date="1530618932000" expanded="true" signature="1077:1183" ph="/// The capsule radius in world units, with the relevant scaling applied. ... " />
-            <marker date="1530618932000" expanded="true" signature="1210:1377" ph="{...}" />
-            <marker date="1530618932000" expanded="true" signature="1221:1373" ph="{...}" />
-            <marker date="1530618932000" expanded="true" signature="1383:2054" ph="/// Compute the minimal translation required to separate the character from the collider. ... " />
-            <marker date="1530618932000" expanded="true" signature="2256:2787" ph="{...}" />
-            <marker date="1530618932000" expanded="true" signature="2296:2391" ph="{...}" />
-            <marker date="1530618932000" expanded="true" signature="2834:2900" ph="{...}" />
-            <marker date="1530618932000" expanded="true" signature="2904:2973" ph="/// Initialize the capsule collider. ... " />
-            <marker date="1530618932000" expanded="true" signature="3010:3684" ph="{...}" />
-            <marker date="1530618932000" expanded="true" signature="3279:3680" ph="{...}" />
-            <marker date="1530618932000" expanded="true" signature="3744:5087" ph="{...}" />
-            <marker date="1530618932000" expanded="true" signature="3780:3879" ph="{...}" />
+            <marker date="1531382483000" expanded="false" signature="6:54" ph="..." />
+            <marker date="1531382483000" expanded="true" signature="99:13733" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="103:265" ph="/// Capsule used for a character's movement and collision detection. ... " />
+            <marker date="1531382483000" expanded="true" signature="312:13731" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="318:371" ph="/// Max slope limit. ... " />
+            <marker date="1531382483000" expanded="true" signature="423:475" ph="/// Min skin width. ... " />
+            <marker date="1531382483000" expanded="true" signature="527:663" ph="/// Limits the collider to only climb slopes that are less steep (in degrees) than the indicated value. ... " />
+            <marker date="1531382483000" expanded="true" signature="837:1129" ph="/// The character will step up a stair only if it is closer to the ground than the indicated value. ... " />
+            <marker date="1531382483000" expanded="true" signature="1132:1420" ph="[...]" />
+            <marker date="1531382483000" expanded="true" signature="1478:1731" ph="/// Two colliders can penetrate each other as deep as their Skin Width. Larger Skin Widths reduce jitter. ... " />
+            <marker date="1531382483000" expanded="true" signature="1734:1973" ph="[...]" />
+            <marker date="1531382483000" expanded="true" signature="2031:2242" ph="/// If the character tries to move below the indicated value, it will not move at all. This can be used to reduce ... " />
+            <marker date="1531382483000" expanded="true" signature="2245:2438" ph="[...]" />
+            <marker date="1531382483000" expanded="true" signature="2501:2634" ph="/// This will offset the Capsule Collider in world space, and won’t affect how the Character pivots. ... " />
+            <marker date="1531382483000" expanded="true" signature="2794:2918" ph="/// Length of the Capsule Collider’s radius. This is essentially the width of the collider. ... " />
+            <marker date="1531382483000" expanded="true" signature="3075:3249" ph="/// The Character’s Capsule Collider height. Changing this will scale the collider along the Y axis in both posit ... " />
+            <marker date="1531382483000" expanded="true" signature="3252:3406" ph="[...]" />
+            <marker date="1531382483000" expanded="true" signature="3460:3617" ph="/// Layer to use for the collider. Leave empty to use the same layer as the game object to which this component i ... " />
+            <marker date="1531382483000" expanded="true" signature="3620:3757" ph="[...]" />
+            <marker date="1531382483000" expanded="true" signature="3812:3878" ph="/// Layers to test for collision. ... " />
+            <marker date="1531382483000" expanded="true" signature="3986:4120" ph="/// Add a kinematic Rigidbody? Physics works better when moving Colliders have a kinematic Rigidbody. ... " />
+            <marker date="1531382483000" expanded="true" signature="4301:4359" ph="/// The capsule collider. ... " />
+            <marker date="1531382483000" expanded="true" signature="4406:4477" ph="/// Cached reference to the transform. ... " />
+            <marker date="1531382483000" expanded="true" signature="4518:4643" ph="/// The capsule center with the relevant scaling applied (e.g. if object scale is not 1,1,1) ... " />
+            <marker date="1531382483000" expanded="true" signature="4673:4824" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="4684:4820" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="4828:4953" ph="/// The capsule radius with the relevant scaling applied (e.g. if object scale is not 1,1,1) ... " />
+            <marker date="1531382483000" expanded="true" signature="4981:5148" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="4992:5144" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="5152:5277" ph="/// The capsule height with the relevant scaling applied (e.g. if object scale is not 1,1,1) ... " />
+            <marker date="1531382483000" expanded="true" signature="5305:5374" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="5316:5370" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="5380:6157" ph="/// Compute the minimal translation required to separate the character from the collider. ... " />
+            <marker date="1531382483000" expanded="true" signature="6412:7335" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="6452:6549" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="6575:6692" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="7228:7312" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="7339:7422" ph="/// Get the slope limit. ... " />
+            <marker date="1531382483000" expanded="true" signature="7453:7483" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="7487:7570" ph="/// Get the step offset. ... " />
+            <marker date="1531382483000" expanded="true" signature="7601:7631" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="7635:7717" ph="/// Get the skin width. ... " />
+            <marker date="1531382483000" expanded="true" signature="7747:7776" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="7782:7875" ph="/// Get the minimum move distance. ... " />
+            <marker date="1531382483000" expanded="true" signature="7911:7946" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="7950:8036" ph="/// Get the center (local). ... " />
+            <marker date="1531382483000" expanded="true" signature="8065:8091" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="8097:8183" ph="/// Get the radius (local). ... " />
+            <marker date="1531382483000" expanded="true" signature="8210:8236" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="8240:8326" ph="/// Get the height (local). ... " />
+            <marker date="1531382483000" expanded="true" signature="8353:8379" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="8383:8483" ph="/// Get the layers to test for collision. ... " />
+            <marker date="1531382483000" expanded="true" signature="8526:8564" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="8568:8659" ph="/// Get the foot local position. ... " />
+            <marker date="1531382483000" expanded="true" signature="8699:8772" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="8776:8867" ph="/// Get the foot world position. ... " />
+            <marker date="1531382483000" expanded="true" signature="8907:9019" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="9023:9122" ph="/// Get the top sphere's local position. ... " />
+            <marker date="1531382483000" expanded="true" signature="9196:9456" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="9260:9329" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="9337:9418" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="9460:9562" ph="/// Get the bottom sphere's local position. ... " />
+            <marker date="1531382483000" expanded="true" signature="9639:9939" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="9743:9812" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="9820:9901" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="9945:10044" ph="/// Get the top sphere's world position. ... " />
+            <marker date="1531382483000" expanded="true" signature="10118:10435" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="10182:10263" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="10271:10364" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="10439:10541" ph="/// Get the bottom sphere's world position. ... " />
+            <marker date="1531382483000" expanded="true" signature="10618:10935" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="10682:10763" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="10771:10864" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="10941:11118" ph="/// Returns a point on the capsule collider that is closest to a given location. ... " />
+            <marker date="1531382483000" expanded="true" signature="11178:11236" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="11283:11349" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="11353:11422" ph="/// Initialize the capsule collider. ... " />
+            <marker date="1531382483000" expanded="true" signature="11459:12430" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="11668:11711" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="11719:11782" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="11895:12180" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="12211:12403" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="12316:12398" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="12434:12514" ph="/// Call this when the capsule's values change. ... " />
+            <marker date="1531382483000" expanded="true" signature="12547:12847" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="12722:12843" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="12916:12946" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="13006:13719" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="13042:13085" ph="{...}" />
+            <marker date="1531382483000" expanded="true" signature="13459:13564" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/StandardAssets/Characters/Physics/CharacterCapsuleMover.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="630" column="12" lean-forward="true" selection-start-line="630" selection-start-column="12" selection-end-line="630" selection-end-column="12" />
+          <folding>
+            <marker date="1531382727000" expanded="false" signature="44:175" ph="..." />
+            <marker date="1531382727000" expanded="true" signature="227:40464" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="231:309" ph="/// Handles the movement of a CharacterCapsule. ... " />
+            <marker date="1531382727000" expanded="true" signature="385:40462" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="391:513" ph="/// The maximum move itterations. Mainly used as a fail safe to prevent an infinite loop. ... " />
+            <marker date="1531382727000" expanded="true" signature="565:674" ph="/// Stick to the ground if it is less than this distance from the character. ... " />
+            <marker date="1531382727000" expanded="true" signature="739:820" ph="/// Max colliders to use in the overlap methods. ... " />
+            <marker date="1531382727000" expanded="true" signature="872:993" ph="/// Offset to use when moving to a collision point, to prevent overlapping the colliders ... " />
+            <marker date="1531382727000" expanded="true" signature="1047:1151" ph="/// Distance to test beneath the character when doing the grounded test ... " />
+            <marker date="1531382727000" expanded="true" signature="1210:1350" ph="/// If character's position does not change by more than this amount then we assume the character is stuck. ... " />
+            <marker date="1531382727000" expanded="true" signature="1404:1540" ph="/// If character collided this number of times during the movement loop then test if character is stuck ... " />
+            <marker date="1531382727000" expanded="true" signature="1590:1728" ph="/// Assume character is stuck if the position is the same for longer than this number of loop itterations ... " />
+            <marker date="1531382727000" expanded="true" signature="1773:1925" ph="/// Only step over obstacles if the angle between the move vector and the obstacle's inverted normal is less than ... " />
+            <marker date="1531382727000" expanded="true" signature="2277:2363" ph="/// Was the touching the ground during the last move? ... " />
+            <marker date="1531382727000" expanded="true" signature="2394:2466" ph="/// Collision flags from the last move. ... " />
+            <marker date="1531382727000" expanded="true" signature="2511:2578" ph="/// The character capsule to move. ... " />
+            <marker date="1531382727000" expanded="true" signature="2629:2710" ph="/// Cached reference to the capsule's transform. ... " />
+            <marker date="1531382727000" expanded="true" signature="2754:2818" ph="/// Remaining movement vectors. ... " />
+            <marker date="1531382727000" expanded="true" signature="2883:2953" ph="/// Index into the moveVectors array. ... " />
+            <marker date="1531382727000" expanded="true" signature="2988:3101" ph="/// Velocity of the last movement. It's the new position minus the old position. ... " />
+            <marker date="1531382727000" expanded="true" signature="3133:3261" ph="/// Count the number of collisions during movement, to determine when the character gets stuck. ... " />
+            <marker date="1531382727000" expanded="true" signature="3289:3416" ph="/// For keeping track of the character's position, to determine when the character gets stuck. ... " />
+            <marker date="1531382727000" expanded="true" signature="3454:3544" ph="/// Count how long the character is in the same position. ... " />
+            <marker date="1531382727000" expanded="true" signature="3576:3642" ph="/// Stepping over obstacles info. ... " />
+            <marker date="1531382727000" expanded="false" signature="3724:4281" ph="DEBUG FIELDS REMOVE WHEN DONE TESTING" />
+            <marker date="1531382727000" expanded="true" signature="4212:4259" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="4354:5944" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="4496:4538" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="5378:5421" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="5511:5566" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="5640:5685" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="5767:5821" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="5989:6276" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="6280:6382" ph="/// Determine if the character is grounded. ... " />
+            <marker date="1531382727000" expanded="true" signature="6448:6852" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="6513:6540" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="6856:7134" ph="/// Movement loop. Keep moving until completely blocked by obstacles, or we reached the desired position/distance ... " />
+            <marker date="1531382727000" expanded="true" signature="7203:10692" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="7514:7863" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="7669:7784" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="7793:7858" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="7894:8247" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="8049:8166" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="8175:8242" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="8255:8352" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="8612:8646" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="8720:8874" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="8907:9038" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="9089:10688" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="9400:9453" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="9596:10093" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="9694:9791" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="9801:10087" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="9875:9905" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="10050:10080" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="10158:10672" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="10246:10273" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="10696:10801" ph="/// Is the move loop on the final move vector? ... " />
+            <marker date="1531382727000" expanded="true" signature="10836:10928" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="10932:11087" ph="/// Is the character stuck during the movement loop (e.g. bouncing between 2 or more colliders)? ... " />
+            <marker date="1531382727000" expanded="true" signature="11112:11637" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="11154:11182" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="11213:11270" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="11387:11551" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="11449:11546" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="11559:11615" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="11641:11885" ph="/// Get the square magnitude of the difference of the two vectors. ... " />
+            <marker date="1531382727000" expanded="true" signature="11954:12028" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="12032:12300" ph="/// Test if character can stick to the ground, and set the down vector if so. ... " />
+            <marker date="1531382727000" expanded="true" signature="12379:12699" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="12565:12641" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="12703:13053" ph="/// A single movement major step. Returns true when there is collision. ... " />
+            <marker date="1531382727000" expanded="true" signature="13143:13222" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="13226:13634" ph="/// Try to start stepping over obstacles. ... " />
+            <marker date="1531382727000" expanded="true" signature="13736:17335" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="14116:14308" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="14154:14280" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="14316:14491" ph="/* TODO: Need to handle cases where small obstacles hit our side edges, but we don't want to try to step over ... */" />
+            <marker date="1531382727000" expanded="true" signature="14923:15041" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="14961:15013" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="15483:15601" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="15521:15573" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="15609:15778" ph="/* Determine how high we actually need to step (e.g. if obstacle height is less than step height) ... */" />
+            <marker date="1531382727000" expanded="true" signature="16205:16921" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="16319:16916" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="16498:16634" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="16542:16600" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="16669:16910" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="17339:17489" ph="/// Update stepping over obstacles. ... " />
+            <marker date="1531382727000" expanded="true" signature="17539:19009" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="17626:17654" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="17763:17877" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="17801:17849" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="17974:18046" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="18888:18942" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="19013:19117" ph="/// Stop stepping over obstacles. ... " />
+            <marker date="1531382727000" expanded="true" signature="19160:20134" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="19263:19285" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="19844:19974" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="19982:20031" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="20076:20130" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="20140:20490" ph="/// A single movement minor step. Returns true when there is collision. ... " />
+            <marker date="1531382727000" expanded="true" signature="20580:22584" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="20951:21538" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="21132:21355" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="21181:21318" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="21615:21941" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="22131:22378" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="22588:23190" ph="/// Do two capsule casts. One excluding the capsule's skin width and one including the skin width. ... " />
+            <marker date="1531382727000" expanded="true" signature="23423:23759" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="23763:24164" ph="/// Do a capsule cast, exlucliding the skin width. ... " />
+            <marker date="1531382727000" expanded="true" signature="24333:24883" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="24887:25284" ph="/// Do a capsule cast, including the skin width. ... " />
+            <marker date="1531382727000" expanded="true" signature="25445:26035" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="26039:26560" ph="/// Move away from an obstacle. ... " />
+            <marker date="1531382727000" expanded="true" signature="26855:30269" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="28175:28291" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="28397:28589" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="28693:29103" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="28736:28970" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="28846:28964" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="29020:29057" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="29066:29098" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="29118:29469" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="29314:29382" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="29525:30255" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="30273:30606" ph="/// Get direction and distance to move out of the obstacle. ... " />
+            <marker date="1531382727000" expanded="true" signature="30713:32638" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="31365:31393" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="31545:32312" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="31614:31638" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="31930:32111" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="32158:32296" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="32399:32605" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="32642:32945" ph="/// Move the capsule position. ... " />
+            <marker date="1531382727000" expanded="true" signature="33041:34409" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="33119:33183" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="33252:33307" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="33403:33453" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="33779:34079" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="34314:34405" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="34413:34603" ph="/// Update the collision flags. ... " />
+            <marker date="1531382727000" expanded="true" signature="34678:35016" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="34776:34830" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="34857:34919" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="34950:35012" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="35020:40459" ph="DEBUG METHODS REMOVE WHEN DONE TESTING" />
+            <marker date="1531382727000" expanded="true" signature="35147:35234" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="35188:35230" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="35238:35421" ph="/// Debugs the test collision. ... " />
+            <marker date="1531382727000" expanded="true" signature="35510:37466" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="36182:36210" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="36392:36525" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="36461:36485" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="36559:37444" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="36655:37421" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="36962:37206" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="37005:37113" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="37124:37173" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="37274:37376" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="37470:37537" ph="/// DEBUG: Some test calculations. ... " />
+            <marker date="1531382727000" expanded="true" signature="37569:39585" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="37911:38018" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="38828:39580" ph="/* distance = 2.5, hitDistance = 1.0, penetrationDistance = 0.3 ... */" />
+            <marker date="1531382727000" expanded="true" signature="39589:39711" ph="/// DEBUG: Vector3 ToString ... " />
+            <marker date="1531382727000" expanded="true" signature="39764:39886" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="39946:40437" ph="{...}" />
+            <marker date="1531382727000" expanded="true" signature="40072:40094" ph="{...}" />
           </folding>
         </state>
       </provider>

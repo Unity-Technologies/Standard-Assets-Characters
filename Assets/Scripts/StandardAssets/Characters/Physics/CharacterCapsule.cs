@@ -29,9 +29,11 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// The character will step up a stair only if it is closer to the ground than the indicated value.
 		/// This should not be greater than the Character Controller’s height or it will generate an error.
+		/// Generally this should be kept as small as possible.
 		/// </summary>
 		[Tooltip("The character will step up a stair only if it is closer to the ground than the indicated value. " +
-		         "This should not be greater than the Character Controller’s height or it will generate an error.")]
+		         "This should not be greater than the Character Controller’s height or it will generate an error. " +
+		         "Generally this should be kept as small as possible.")]
 		[SerializeField]
 		private float stepOffset = 0.3f;
 
@@ -223,6 +225,15 @@ namespace StandardAssets.Characters.Physics
 		public float GetMinMoveDistance()
 		{
 			return minMoveDistance;
+		}
+
+		/// <summary>
+		/// Get the minimum move sqr distance.
+		/// </summary>
+		/// <returns></returns>
+		public float GetMinMoveSqrDistance()
+		{
+			return minMoveDistance * minMoveDistance;
 		}
 
 		/// <summary>
@@ -423,7 +434,12 @@ namespace StandardAssets.Characters.Physics
 			}
 
 			// Draw fake capsule collider
-			GizmosHelper.DrawCapsule(GetTopSphereWorldPosition(), GetBottomSphereWorldPosition(), scaledRadius, Color.green);
+			GizmosHelper.DrawCapsule(GetTopSphereWorldPosition(), GetBottomSphereWorldPosition(), 
+			                         scaledRadius, Color.green);
+			
+			// Big capsule collider
+			GizmosHelper.DrawCapsule(GetTopSphereWorldPosition(), GetBottomSphereWorldPosition(), 
+			                         scaledRadius + skinWidth, Color.yellow);
 		}
 		#endif
 	}

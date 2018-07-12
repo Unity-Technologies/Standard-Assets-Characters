@@ -1,11 +1,6 @@
-﻿//#define DEBUG_CHARACTER_CAPSULE_MOVER
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-
-#if DEBUG_CHARACTER_CAPSULE_MOVER
-using StandardAssets.GizmosHelpers;
-#endif
 
 namespace StandardAssets.Characters.Physics
 {
@@ -44,11 +39,30 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		private const float k_StuckDistance = 0.001f;
 		
-		// Start testing if character is stuck if character collided this number of times during the movement loop
+		/// <summary>
+		/// If character collided this number of times during the movement loop then test if character is stuck
+		/// </summary>
 		private const int k_HitCountForStuck = 6;
 		
-		// Assume character is stuck if the position is the same for longer than this number of loop itterations
+		/// <summary>
+		/// Assume character is stuck if the position is the same for longer than this number of loop itterations
+		/// </summary>
 		private const int k_MaxStuckCount = 1;
+
+		/// <summary>
+		/// Only step over obstacles if the angle between the move vector and the obstacle's inverted normal is less than this.
+		/// </summary>
+		private const float k_MaxStepOverHitAngle = 90.0f;
+
+		/// <summary>
+		/// Minimum distance to move. This minimizes small penetrations (e.g. into the floor)
+		/// </summary>
+		private const float k_MinMoveDistance = 0.0001f;
+		
+		/// <summary>
+		/// Minimum sqr distance to move. This minimizes small penetrations (e.g. into the floor)
+		/// </summary>
+		private const float k_MinMoveSqrDistance = k_MinMoveDistance * k_MinMoveDistance;
 
 		/// <inheritdoc />
 		public event Action<bool> onGroundedChanged;
@@ -58,6 +72,9 @@ namespace StandardAssets.Characters.Physics
 
 		/// <inheritdoc />
 		public event Action<CollisionFlags> onCollisionFlagsChanged;
+
+		/// <inheritdoc />
+		public event Action<bool> onStepOverChanged;
 
 		/// <summary>
 		/// Was the touching the ground during the last move?
@@ -83,6 +100,11 @@ namespace StandardAssets.Characters.Physics
 		/// Remaining movement vectors.
 		/// </summary>
 		private List<Vector3> moveVectors = new List<Vector3>();
+		
+		/// <summary>
+		/// Index into the moveVectors array.
+		/// </summary>
+		private int moveVectorIndex;
 
 		/// <summary>
 		/// Velocity of the last movement. It's the new position minus the old position.
@@ -103,25 +125,30 @@ namespace StandardAssets.Characters.Physics
 		/// Count how long the character is in the same position.
 		/// </summary>
 		private int stuckCount;
-
-		#region DEBUG FIELDS REMOVE WHEN DONE TESTING
-		#if DEBUG_CHARACTER_CAPSULE_MOVER
-		private Vector3? debugTopSphereWorldPosition = null;
-		private Vector3? debugBottomSphereWorldPosition = null;
-		private static int debugItteration;
-		private static int debugTestCollisionCount;
-		private static int debugMaxMoveItterationsCount;
-		private Vector3? debugCurrentPosition;
-		private bool debugToggle;	// Toggle special debug output via the F1 key
-		#endif
-		#endregion
 		
+		/// <summary>
+		/// Stepping over obstacles info.
+		/// </summary>
+		private CharacterCapsuleStepInfo stepInfo = new CharacterCapsuleStepInfo();
+		
+		#if UNITY_EDITOR
+		/// <summary>
+		/// Keeps track of the character's position. Used to show an error when character is moved by means other than the Move method.
+		/// </summary>
+		private Vector3? debugCurrentPosition;
+		/// <summary>
+		/// Limits how many times we show the error message, when debugCurrentPosition not same as character's position.
+		/// </summary>
+		private int debugCurrentPositionErrorCount;
+		#endif
+
 		/// <inheritdoc />
 		public CollisionFlags Move(Vector3 moveVector)
 		{
-			float distance = moveVector.sqrMagnitude;
-			if (distance <= Mathf.Epsilon ||
-			    distance < characterCapsule.GetMinMoveDistance())
+			float sqrDistance = moveVector.sqrMagnitude;
+			if (sqrDistance <= Mathf.Epsilon ||
+			    sqrDistance < characterCapsule.GetMinMoveSqrDistance() ||
+			    sqrDistance < k_MinMoveSqrDistance)
 			{
 				return CollisionFlags.None;
 			}
@@ -130,6 +157,7 @@ namespace StandardAssets.Characters.Physics
 			Vector3 oldPosition = capsuleTransform.position;
 			Vector3 oldVelocity = velocity;
 			CollisionFlags oldCollisionFlags = collisionFlags;
+			bool oldIsStepping = stepInfo.isStepping;
 			Vector3 moveVectorNoY = new Vector3(moveVector.x, 0.0f, moveVector.z);
 			bool tryToStickToGround = (wasGrounded &&
 			                           moveVector.y <= 0.0f &&
@@ -138,11 +166,13 @@ namespace StandardAssets.Characters.Physics
 			collisionFlags = CollisionFlags.None;
 			hitCount = 0;
 
+			// Do the move loop
 			MoveLoop(moveVector, tryToStickToGround);
 
 			isGrounded = GetGrounded(wasGrounded, oldPosition);
 			velocity = capsuleTransform.position - oldPosition;
 
+			// Check is the changed events should be fired
 			if (onVelocityChanged != null &&
 			    oldVelocity != velocity)
 			{
@@ -161,15 +191,11 @@ namespace StandardAssets.Characters.Physics
 				onGroundedChanged(isGrounded);
 			}
 
-			#if DEBUG_CHARACTER_CAPSULE_MOVER
-			DebugTestCollision(null, "END OF MOVE");
-			if (debugToggle)
+			if (onStepOverChanged != null &&
+			    oldIsStepping != stepInfo.isStepping)
 			{
-				Debug.Log(string.Format("moveVector: {0}     y: {1}",
-				                        DebugVectorToString(moveVector),
-				                        moveVector.y));
+				onStepOverChanged(stepInfo.isStepping);
 			}
-			#endif
 
 			return collisionFlags;
 		}
@@ -209,6 +235,7 @@ namespace StandardAssets.Characters.Physics
 			moveVectors.Clear();
 
 			Vector3 remainingMoveVector;
+			int tryStepOverIndex = -1;
 
 			// Break the movement up into horizontal and vertical
 			Vector3 horizontal = new Vector3(moveVector.x, 0.0f, moveVector.z);
@@ -216,36 +243,62 @@ namespace StandardAssets.Characters.Physics
 			
 			if (vertical.y > 0.0f)
 			{
-				// Move up then horizontal
-				remainingMoveVector = vertical;
-				moveVectors.Add(horizontal);
 				// TODO: Handle cases where the vector is large
+				if (Math.Abs(horizontal.x) > Mathf.Epsilon ||
+				    Math.Abs(horizontal.z) > Mathf.Epsilon)
+				{
+					// Move up then horizontal
+					remainingMoveVector = vertical;
+					moveVectors.Add(horizontal);
+				}
+				else
+				{
+					// Move up
+					remainingMoveVector = vertical;
+				}
 			}
 			else if (vertical.y < 0.0f)
 			{
-				// Move horizontal then down
-				remainingMoveVector = horizontal;
-				moveVectors.Add(vertical);
 				// TODO: Handle cases where the vector is large
+				if (Math.Abs(horizontal.x) > Mathf.Epsilon ||
+				    Math.Abs(horizontal.z) > Mathf.Epsilon)
+				{
+					// Move horizontal then down
+					remainingMoveVector = horizontal;
+					moveVectors.Add(vertical);
+				}
+				else
+				{
+					// Move down
+					remainingMoveVector = vertical;
+				}
 			}
 			else
 			{
-				// Move horizontal only
+				// Move horizontal
 				remainingMoveVector = horizontal;
+				tryStepOverIndex = 0;
 			}
 
-			int moveVectorIndex = 0;
+			moveVectorIndex = 0;
 			bool didTryToStickToGround = false;
 			stuckCount = 0;
 			stuckPosition = null;
+			
+			// TEMP: Disable stepOffset. Some bugs to fix first before commiting it.
+			tryStepOverIndex = -1;
+
+			if (stepInfo.isStepping &&
+			    stepInfo.OnNewMoveVector(remainingMoveVector) == false)
+			{
+				StopStepOver(true);
+			}
 
 			for (int i = 0; i < k_MaxMoveItterations; i++)
-			{
-				#if DEBUG_CHARACTER_CAPSULE_MOVER
-				debugItteration = i;
-				#endif
-				
-				bool collided = MoveMajorStep(ref remainingMoveVector, i == 0, didTryToStickToGround);
+			{				
+				bool collided = MoveMajorStep(ref remainingMoveVector, 
+				                              didTryToStickToGround, 
+				                              i == tryStepOverIndex || stepInfo.isStepping);
 
 				if (IsStuck())
 				{
@@ -281,15 +334,7 @@ namespace StandardAssets.Characters.Physics
 				
 				#if UNITY_EDITOR
 				if (i == k_MaxMoveItterations - 1)
-				{
-					#if DEBUG_CHARACTER_CAPSULE_MOVER
-					if (debugMaxMoveItterationsCount > 5)
-					{
-						break;
-					}
-					debugMaxMoveItterationsCount++;
-					#endif
-					
+				{					
 					Debug.LogError(string.Format("reached k_MaxMoveItterations!     (remainingMoveVector: {0}, {1}, {2})     " +
 												 "(moveVector: {3}, {4}, {5})     hitCount: {6}",
 												 remainingMoveVector.x, remainingMoveVector.y, remainingMoveVector.z,
@@ -298,6 +343,16 @@ namespace StandardAssets.Characters.Physics
 				}
 				#endif
 			}
+		}
+
+		/// <summary>
+		/// Is the move loop on the final move vector?
+		/// </summary>
+		/// <returns></returns>
+		private bool IsFinalMoveVector()
+		{
+			return moveVectors.Count == 0 ||
+			       moveVectorIndex >= moveVectors.Count;
 		}
 
 		/// <summary>
@@ -369,62 +424,183 @@ namespace StandardAssets.Characters.Physics
 		}
 
 		/// <summary>
-		/// A single movement major step. Returns true when there is collision.
+		/// Try to start stepping over obstacles.
+		/// Sets up the movement vectors to step over an obstacle.
 		/// </summary>
-		/// <param name="moveVector">The move vector.</param>
-		/// <param name="tryStepOver">Try to step over obstacles?</param>
-		/// <param name="tryGrounding">Try grounding the player?</param>
-		/// <returns>True when there is collision.</returns>
-		private bool MoveMajorStep(ref Vector3 moveVector, bool tryStepOver, bool tryGrounding)
+		/// <param name="moveVector">The movement vector.</param>
+		/// <param name="remainingDistance">The remaining distance to move</param>
+		/// <param name="angleToObstacle">Angle between the move vector and the obstacle's inverted normal.</param>
+		/// <returns></returns>
+		private bool TryToStartStepOver(Vector3 moveVector, float remainingDistance, float angleToObstacle)
 		{
-			/*if (tryStepOver)
+			float stepOffset = characterCapsule.GetStepOffset();
+			if (stepOffset <= 0.0f ||
+			    (collisionFlags & CollisionFlags.CollidedSides) == 0 ||
+			    isGrounded == false ||
+			    angleToObstacle > k_MaxStepOverHitAngle ||
+			    Math.Abs(moveVector.y) > Mathf.Epsilon ||
+			    (Math.Abs(moveVector.x) < Mathf.Epsilon &&
+			     Math.Abs(moveVector.z) < Mathf.Epsilon))
 			{
-				if (TryStepOver(moveVector))
-				{
-					moveVector = Vector3.zero;
-					return false;
-				}
-			}*/
+				return false;
+			}
 			
-			return MoveMinorStep(ref moveVector, tryGrounding);
+			// TODO: Need to handle cases where small obstacles hit our side edges, but we don't want to try to step over
+			// them. Instead slide along them.
+
+			// Any obstacles above?
+			float upDistance = stepOffset;
+			Vector3 up = Vector3.up * upDistance;
+			Ray ray = new Ray(characterCapsule.GetTopSphereWorldPosition(), Vector3.up);
+			if (UnityEngine.Physics.SphereCast(ray,
+			                                   characterCapsule.scaledRadius,
+			                                   characterCapsule.GetSkinWidth() + upDistance,
+			                                   characterCapsule.GetCollisionLayerMask()))
+			{				
+				return false;
+			}
+			
+			// We only step over obstacles if we can fully fit on it (i.e. the capsule's diameter)
+			Vector3 moveVectorNoY = new Vector3(moveVector.x, 0.0f, moveVector.z).normalized;
+			float diameter = characterCapsule.scaledRadius * 2.0f;
+			Vector3 horizontal = moveVectorNoY * diameter;
+			RaycastHit hitInfo;
+			// Any obstacles ahead (after we moved up)?
+			if (CapsuleBigCast(horizontal.normalized, horizontal.magnitude, out hitInfo, up))
+			{
+				return false;
+			}
+			
+			// Determine how high we actually need to step (e.g. if obstacle height is less than step height)
+			// Test how far character will fall (after moving up and horizontal)
+			ray = new Ray(characterCapsule.GetBottomSphereWorldPosition() + up + horizontal, Vector3.down);
+			if (UnityEngine.Physics.SphereCast(ray,
+			                                   characterCapsule.scaledRadius,
+			                                   out hitInfo,
+			                                   characterCapsule.GetSkinWidth() + stepOffset,
+			                                   characterCapsule.GetCollisionLayerMask()))
+			{
+				float downDistance = Mathf.Max(hitInfo.distance - k_CollisionOffset, 0.0f);
+				if (downDistance > 0.0f)
+				{
+					float finalY = capsuleTransform.position.y + up.y - downDistance;
+					upDistance = Mathf.Max(finalY - capsuleTransform.position.y, 0.0f);
+					if (upDistance <= 0.0f)
+					{
+						return false;
+					}
+
+					if (upDistance < stepOffset)
+					{
+						up = Vector3.up * upDistance;
+					}
+				}
+			}
+
+			// Move Up
+			moveVectors.Add(up);
+			
+			// Move Horizontal
+			horizontal = moveVectorNoY * remainingDistance;
+			moveVectors.Add(horizontal);
+			
+			// Start stepping over the obstacles
+			stepInfo.OnStartStepOver(upDistance, moveVector, capsuleTransform.position);
+			
+			return true;
 		}
 
 		/// <summary>
-		/// Try to step over obstacles.
-		/// Sets up the movement vectors to step over an obstacle.
+		/// Update stepping over obstacles.
 		/// </summary>
-		/// <param name="moveVector"></param>
+		/// <param name="moveVector">Movement vector.</param>
 		/// <returns></returns>
-		private bool TryStepOver(Vector3 moveVector)
+		private bool UpdateStepOver(Vector3 moveVector)
 		{
 			float stepOffset = characterCapsule.GetStepOffset();
-			if (stepOffset > 0.0f &&
-			    Math.Abs(moveVector.y) < Mathf.Epsilon &&
-			    (Math.Abs(moveVector.x) > Mathf.Epsilon ||
-			     Math.Abs(moveVector.z) > Mathf.Epsilon))
+			if (stepOffset <= 0.0f)
 			{
-				// Up
-				moveVectors.Add(Vector3.up * stepOffset);
-				
-				// Horizontal
-				moveVectors.Add(new Vector3(moveVector.x, 0.0f, moveVector.z));
-				
-				// Down
-				moveVectors.Add(Vector3.down * stepOffset);
-				
-				return true;
+				return false;
+			}
+			
+			float upDistance = stepInfo.GetRemainingHeight(capsuleTransform.position);
+			if (upDistance <= 0.0f)
+			{
+				return false;
 			}
 
-			return false;
+			if (Math.Abs(moveVector.x) < Mathf.Epsilon &&
+			    Math.Abs(moveVector.z) < Mathf.Epsilon)
+			{
+				// Wait until we get a horizontal vector
+				return true;
+			}
+			
+			// Any obstacles above?
+			Vector3 up = Vector3.up * upDistance;
+			Ray ray = new Ray(characterCapsule.GetTopSphereWorldPosition(), Vector3.up);
+			if (UnityEngine.Physics.SphereCast(ray,
+			                                   characterCapsule.scaledRadius,
+			                                   characterCapsule.GetSkinWidth() + upDistance,
+			                                   characterCapsule.GetCollisionLayerMask()))
+			{
+				// Stop stepping over
+				return false;
+			}
+				
+			// Move Up
+			moveVectors.Add(up);
+			
+			return true;
+		}
+
+		/// <summary>
+		/// Stop stepping over obstacles.
+		/// </summary>
+		/// <param name="fallDown"></param>
+		private void StopStepOver(bool fallDown)
+		{
+			stepInfo.OnStopStepOver();
+
+			if (fallDown == false)
+			{
+				return;
+			}
+			
+			// Determine how far down we should fall
+			float maxDistance = characterCapsule.GetStepOffset();
+			Vector3 down;
+			RaycastHit hitInfo;
+			Ray ray = new Ray(characterCapsule.GetBottomSphereWorldPosition(), Vector3.down);
+			if (UnityEngine.Physics.SphereCast(ray,
+			                                   characterCapsule.scaledRadius,
+			                                   out hitInfo,
+			                                   characterCapsule.GetSkinWidth() + maxDistance,
+			                                   characterCapsule.GetCollisionLayerMask()))
+			{
+				float downDistance = Mathf.Max(hitInfo.distance - k_CollisionOffset, 0.0f);
+				down = Vector3.down * downDistance;
+			}
+			else
+			{
+				down = Vector3.down * maxDistance;
+			}
+			
+			if (Math.Abs(down.y) > Mathf.Epsilon)
+			{
+				// Move Down
+				moveVectors.Add(down);
+			}
 		}
 		
 		/// <summary>
-		/// A single movement minor step. Returns true when there is collision.
+		/// A single movement major step. Returns true when there is collision.
 		/// </summary>
 		/// <param name="moveVector">The move vector.</param>
 		/// <param name="tryGrounding">Try grounding the player?</param>
+		/// <param name="tryStepOver">Try to step over obstacles?</param>
 		/// <returns>True when there is collision.</returns>
-		private bool MoveMinorStep(ref Vector3 moveVector, bool tryGrounding)
+		private bool MoveMajorStep(ref Vector3 moveVector, bool tryGrounding, bool tryStepOver)
 		{
 			Vector3 direction = moveVector.normalized;
 			float distance = moveVector.magnitude;
@@ -438,12 +614,16 @@ namespace StandardAssets.Characters.Physics
 			                 out smallRadiusHitInfo, out bigRadiusHitInfo))
 			{
 				// No collision, so move to the position
-				MovePosition(moveVector, null, null);
-				moveVector = Vector3.zero;
+				MovePosition(moveVector, null, null, "no collision");
 
-				#if DEBUG_CHARACTER_CAPSULE_MOVER
-				DebugTestCollision(null, "move minor 1 (should never happen!)");
-				#endif
+				// Stepping and the final movement?
+				if (stepInfo.isStepping && 
+				    IsFinalMoveVector())
+				{
+					StopStepOver(false);
+				}
+				
+				moveVector = Vector3.zero;
 
 				return false;
 			}
@@ -455,6 +635,8 @@ namespace StandardAssets.Characters.Physics
 				MoveAwayFromObstacle(ref moveVector, ref smallRadiusHitInfo,
 				                     direction, distance, 
 									 tryGrounding,
+				                     tryStepOver,
+				                     true,
 				                     "NoBigCollision");
 				
 				return true;
@@ -467,6 +649,8 @@ namespace StandardAssets.Characters.Physics
 				MoveAwayFromObstacle(ref moveVector, ref smallRadiusHitInfo,
 				                     direction, distance,
 									 tryGrounding,
+				                     tryStepOver,
+				                     true,
 				                     "UseSmallCollision");
 				return true;
 			}
@@ -474,6 +658,8 @@ namespace StandardAssets.Characters.Physics
 			MoveAwayFromObstacle(ref moveVector, ref bigRadiusHitInfo,
 								 direction, distance,
 								 tryGrounding,
+			                     tryStepOver,
+			                     false,
 								 "UseBigCollision");
 			
 			return true;
@@ -492,27 +678,75 @@ namespace StandardAssets.Characters.Physics
 		private bool CapsuleCast(Vector3 direction, float distance, 
 		                         out bool smallRadiusHit, out bool bigRadiusHit,
 		                         out RaycastHit smallRadiusHitInfo, out RaycastHit bigRadiusHitInfo)
-		{
-			// Exlclude the skin width in the test
-			smallRadiusHit = UnityEngine.Physics.CapsuleCast(characterCapsule.GetTopSphereWorldPosition(),
-															 characterCapsule.GetBottomSphereWorldPosition(),
-			                                                 characterCapsule.scaledRadius,
-			                                                 direction,
-			                                                 out smallRadiusHitInfo,
-			                                                 distance,
-			                                                 characterCapsule.GetCollisionLayerMask());
+		{			
+			// Exclude the skin width in the test
+			smallRadiusHit = CapsuleSmallCast(direction, distance, out smallRadiusHitInfo, Vector3.zero);
 			
 			// Include the skin width in the test
-			bigRadiusHit = UnityEngine.Physics.CapsuleCast(characterCapsule.GetTopSphereWorldPosition(),
-														   characterCapsule.GetBottomSphereWorldPosition(),
-			                                               characterCapsule.scaledRadius + characterCapsule.GetSkinWidth(),
-			                                               direction,
-			                                               out bigRadiusHitInfo,
-			                                               distance,
-			                                               characterCapsule.GetCollisionLayerMask());
+			bigRadiusHit = CapsuleBigCast(direction, distance, out bigRadiusHitInfo, Vector3.zero);
 
 			return smallRadiusHit ||
 			       bigRadiusHit;
+		}
+
+		/// <summary>
+		/// Do a capsule cast, exlucliding the skin width.
+		/// </summary>
+		/// <param name="direction">Direction to cast.</param>
+		/// <param name="distance">Distance to cast.</param>
+		/// <param name="smallRadiusHitInfo">Hit info.</param>
+		/// <param name="offsetPosition">Position offset. If we want to do a cast not at the capsule's current position.</param>
+		/// <returns></returns>
+		private bool CapsuleSmallCast(Vector3 direction, float distance,
+									  out RaycastHit smallRadiusHitInfo,
+		                              Vector3 offsetPosition)
+		{
+			// Cast further than the distance we need, to try to take into account small edge cases (e.g. CapsuleCast fails 
+			// when moving almost parallel to an obstacle for small distances).
+			float extraDistance = characterCapsule.scaledRadius;
+
+			if (UnityEngine.Physics.CapsuleCast(characterCapsule.GetTopSphereWorldPosition() + offsetPosition,
+			                                    characterCapsule.GetBottomSphereWorldPosition() + offsetPosition,
+			                                    characterCapsule.scaledRadius,
+			                                    direction,
+			                                    out smallRadiusHitInfo,
+			                                    distance + extraDistance,
+			                                    characterCapsule.GetCollisionLayerMask()))
+			{
+				return smallRadiusHitInfo.distance <= distance;
+			}
+
+			return false;
+		}
+
+		/// <summary>
+		/// Do a capsule cast, including the skin width.
+		/// </summary>
+		/// <param name="direction">Direction to cast.</param>
+		/// <param name="distance">Distance to cast.</param>
+		/// <param name="bigRadiusHitInfo">Hit info.</param>
+		/// <param name="offsetPosition">Position offset. If we want to do a cast not at the capsule's current position.</param>
+		/// <returns></returns>
+		private bool CapsuleBigCast(Vector3 direction, float distance,
+									out RaycastHit bigRadiusHitInfo,
+		                            Vector3 offsetPosition)
+		{
+			// Cast further than the distance we need, to try to take into account small edge cases (e.g. CapsuleCast fails 
+			// when moving almost parallel to an obstacle for small distances).
+			float extraDistance = characterCapsule.scaledRadius + characterCapsule.GetSkinWidth();
+
+			if (UnityEngine.Physics.CapsuleCast(characterCapsule.GetTopSphereWorldPosition() + offsetPosition,
+			                                    characterCapsule.GetBottomSphereWorldPosition() + offsetPosition,
+			                                    characterCapsule.scaledRadius + characterCapsule.GetSkinWidth(),
+			                                    direction,
+			                                    out bigRadiusHitInfo,
+			                                    distance + extraDistance,
+			                                    characterCapsule.GetCollisionLayerMask()))
+			{
+				return bigRadiusHitInfo.distance <= distance;
+			}
+
+			return false;
 		}
 
 		/// <summary>
@@ -523,48 +757,42 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="direction">Direction of the cast.</param>
 		/// <param name="distance">Distance of the cast.</param>
 		/// <param name="tryGrounding">Try grounding the player?</param>
+		/// <param name="tryStepOver">Try to step over obstacles?</param>
+		/// <param name="hitInfoIsSmallRadius">If the hitInfo for the capsule's small radius?</param>
+		/// <param name="debugInfo">Debug info. Remove when testing is done.</param>
 		private void MoveAwayFromObstacle(ref Vector3 moveVector, ref RaycastHit hitInfo,
 		                                  Vector3 direction, float distance,
-										  bool tryGrounding,
+										  bool tryGrounding, 
+		                                  bool tryStepOver,
+		                                  bool hitInfoIsSmallRadius,
 		                                  string debugInfo)
 		{
+			// IMPORTANT: This method must set moveVector, unless we are certain the character needs to continue moving
+			// forward into/over the obstacle.
+			
 			float hitDistance = Mathf.Max(hitInfo.distance - k_CollisionOffset, 0.0f);
 
 			// Move to the collision point
-			MovePosition(direction * hitDistance, direction, hitInfo);
+			MovePosition(direction * hitDistance, direction, hitInfo, "move to collision point");
 
 			float skinPenetrationDistance;
 			Vector3 skinPenetrationVector;
 			float remainingDistance = Mathf.Max(distance - hitDistance, 0.0f);
 
-			GetPenetrationInfo(out skinPenetrationDistance, out skinPenetrationVector, ref hitInfo);
-
-			#if DEBUG_CHARACTER_CAPSULE_MOVER
-			DebugTestCollision(hitInfo.collider, 
-							   string.Format("move away 1  (hd: {0}     rd: {1}     pd: {2}     pv: {3}     dbg: {4})",
-											 hitDistance,
-											 remainingDistance,
-											 skinPenetrationDistance,
-											 DebugVectorToString(skinPenetrationVector),
-											 debugInfo));
-			
-			debugTopSphereWorldPosition = characterCapsule.GetTopSphereWorldPosition();
-			debugBottomSphereWorldPosition = characterCapsule.GetBottomSphereWorldPosition();
-			#endif
+			GetPenetrationInfo(out skinPenetrationDistance, out skinPenetrationVector);
 
 			// Push away from the obstacle
-			MovePosition(skinPenetrationVector * skinPenetrationDistance, null, null);
-
-			#if DEBUG_CHARACTER_CAPSULE_MOVER
-			bool debugShow = DebugTestCollision(hitInfo.collider, "move away 2");
-			#endif
-
+			MovePosition(skinPenetrationVector * skinPenetrationDistance, null, null,
+			             string.Format("push away from obstacle (d: {0}     rd: {1})",
+			                           distance,
+			                           remainingDistance));
+			
 			bool slide = true;
+			bool preserveMoveVector = false;
 			bool slopeIsSteep = false;
 			if (tryGrounding)
 			{
 				// No further movement when grounding the character
-				moveVector = Vector3.zero;
 				slide = false;
 			}
 			else if (Math.Abs(moveVector.x) > Mathf.Epsilon ||
@@ -574,12 +802,36 @@ namespace StandardAssets.Characters.Physics
 				float angle = Vector3.Angle(Vector3.up, hitInfo.normal);
 				slopeIsSteep = angle > characterCapsule.GetSlopeLimit();
 			}
+			
+			if (tryStepOver &&
+			    tryGrounding == false &&
+			    (stepInfo.isStepping || slopeIsSteep))
+			{
+				if (stepInfo.isStepping == false)
+				{
+					if (TryToStartStepOver(moveVector, remainingDistance, Vector3.Angle(moveVector, -hitInfo.normal)))
+					{
+						slide = false;
+					}
+				}
+				else if (UpdateStepOver(moveVector) == false)
+				{
+					StopStepOver(true);
+				}
+				else
+				{
+					// Bussy stepping over
+					slide = false;
+					preserveMoveVector = true;
+				}
+			}
 
+			// Set moveVector
 			if (slide)
 			{
 				// Vector to slide along the obstacle
 				Vector3 project = Vector3.ProjectOnPlane(direction, hitInfo.normal);
-				project.Normalize();
+				//project.Normalize();
 
 				if (slopeIsSteep &&
 				    project.y > 0.0f)
@@ -587,29 +839,17 @@ namespace StandardAssets.Characters.Physics
 					// Do not move up the slope
 					project.y = 0.0f;
 				}
+				
+				project.Normalize();
 			
 				// Slide along the obstacle
 				moveVector = project * remainingDistance;
 			}
-
-			#if DEBUG_CHARACTER_CAPSULE_MOVER
-			if (debugShow)
+			else if (preserveMoveVector == false)
 			{
-				// Ray backwards from hit point
-				Debug.DrawRay(hitInfo.point - direction, direction, Color.red, 10.0f);
-
-				// Ray forwards from capsule centre position
-				Debug.DrawRay(capsuleTransform.position + characterCapsule.scaledCenter, direction, Color.green, 10.0f);
-
-				// Original movement vector
-				Debug.DrawRay(capsuleTransform.position + characterCapsule.scaledCenter, direction * distance, Color.yellow, 10.0f);
-
-				// Penetration info
-				Debug.DrawRay(hitInfo.point, skinPenetrationVector * skinPenetrationDistance, Color.yellow, 10.0f);
-
-				//Debug.Break();
+				// Stop current move loop itteration
+				moveVector = Vector3.zero;
 			}
-			#endif
 		}
 
 		/// <summary>
@@ -617,38 +857,50 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		/// <param name="getDistance">Get distance to move out of the obstacle.</param>
 		/// <param name="getDirection">Get direction to move out of the obstacle.</param>
-		/// <param name="hitInfo">Hit info of the obstacle that was hit.</param>
-		private bool GetPenetrationInfo(out float getDistance, out Vector3 getDirection, ref RaycastHit hitInfo)
+		/// <param name="includSkinWidth">Include the skin width in the test?</param>
+		/// <param name="offsetPosition">Offset position, if we want to test somewhere other than the capsule's position.</param>
+		private bool GetPenetrationInfo(out float getDistance, out Vector3 getDirection,
+		                                bool includSkinWidth = true,
+		                                Vector3? offsetPosition = null)
 		{
 			getDistance = 0.0f;
 			getDirection = Vector3.zero;
 
 			Collider[] colliders = new Collider[k_MaxOverlapColliders];
-			UnityEngine.Physics.OverlapCapsuleNonAlloc(characterCapsule.GetTopSphereWorldPosition(),
-			                                           characterCapsule.GetBottomSphereWorldPosition(),
-			                                           characterCapsule.scaledRadius + characterCapsule.GetSkinWidth(),
-			                                           colliders,
-			                                           characterCapsule.GetCollisionLayerMask());
-			if (colliders.Length <= 0)
+			Vector3 offset = offsetPosition != null
+				? offsetPosition.Value
+				: Vector3.zero;
+			float skinWidth = includSkinWidth
+				? characterCapsule.GetSkinWidth()
+				: 0.0f;
+			int overlapCount = UnityEngine.Physics.OverlapCapsuleNonAlloc(characterCapsule.GetTopSphereWorldPosition() + offset,
+			                                                              characterCapsule.GetBottomSphereWorldPosition() + offset,
+			                                                              characterCapsule.scaledRadius + skinWidth,
+			                                                              colliders,
+			                                                              characterCapsule.GetCollisionLayerMask());
+			if (overlapCount <= 0 ||
+			    colliders.Length <= 0)
 			{
 				return false;
 			}
 
 			bool result = false;
-			foreach(var collider in colliders)
+			for (int i = 0; i < overlapCount; i++)
 			{
+				Collider collider = colliders[i];
 				if (collider == null)
 				{
 					break;
 				}
+				
 				Vector3 direction;
 				float distance;
 				Transform colliderTransform = collider.transform;
-				if (characterCapsule.ComputePenetration(Vector3.zero, 
+				if (characterCapsule.ComputePenetration(offset, 
 														collider, colliderTransform.position, colliderTransform.rotation, 
-														out direction, out distance, true))
+														out direction, out distance, includSkinWidth))
 				{
-					getDistance += distance;
+					getDistance += distance + k_CollisionOffset;
 					getDirection += direction;
 					result = true;
 				}
@@ -663,38 +915,37 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="moveVector">Move vector.</param>
 		/// <param name="collideDirection">Direction we encountered collision. Null if no collision.</param>
 		/// <param name="hitInfo">Hit info of the collision. Null if no collision.</param>
-		private void MovePosition(Vector3 moveVector, Vector3? collideDirection, RaycastHit? hitInfo)
+		private void MovePosition(Vector3 moveVector, Vector3? collideDirection, RaycastHit? hitInfo,
+		                          string debugInfo = null)
 		{
-			#if DEBUG_CHARACTER_CAPSULE_MOVER
-			if (debugCurrentPosition == null)
-			{
-				debugCurrentPosition = capsuleTransform.position;
-			}
-			#endif
-
 			if (Math.Abs(moveVector.sqrMagnitude) > Mathf.Epsilon)
 			{
 				capsuleTransform.position += moveVector;
 			}
 
-			#if DEBUG_CHARACTER_CAPSULE_MOVER
-			if (Math.Abs(moveVector.sqrMagnitude) > Mathf.Epsilon)
+			#if UNITY_EDITOR
+			if (debugCurrentPosition == null)
+			{
+				debugCurrentPosition = capsuleTransform.position;
+			}
+			else if (Math.Abs(moveVector.sqrMagnitude) > Mathf.Epsilon)
 			{
 				debugCurrentPosition += moveVector;
 			}
 			if (debugCurrentPosition != null &&
+			    debugCurrentPositionErrorCount < 5 &&	// Only show error 5 times
 			    (Math.Abs(debugCurrentPosition.Value.x - capsuleTransform.position.x) > Mathf.Epsilon ||
 			     Math.Abs(debugCurrentPosition.Value.y - capsuleTransform.position.y) > Mathf.Epsilon ||
 			     Math.Abs(debugCurrentPosition.Value.z - capsuleTransform.position.z) > Mathf.Epsilon))
 			{
 				Debug.LogError(string.Format(
-					               "Positions are different! Something else changed the capsule's transform position! {0}     {1}",
-					               DebugVectorToString(capsuleTransform.position),
-					               DebugVectorToString(debugCurrentPosition.Value)));
+					               "The character capsule's position was changed by something other than Move. " +
+					               "[position: ({0}, {1}, {2})     should be: ({3}, {4}, {5})]",
+					               capsuleTransform.position.x, capsuleTransform.position.y, capsuleTransform.position.z,
+					               debugCurrentPosition.Value.x, debugCurrentPosition.Value.y, debugCurrentPosition.Value.z));
+				debugCurrentPositionErrorCount++;
+				debugCurrentPosition = capsuleTransform.position;
 			}
-			DebugTestCollision(hitInfo != null ? hitInfo.Value.collider : null, 
-							   string.Format("MOVE POSITION: {0}",
-											 DebugVectorToString(moveVector)));
 			#endif
 
 			if (collideDirection != null &&
@@ -727,165 +978,5 @@ namespace StandardAssets.Characters.Physics
 				collisionFlags |= CollisionFlags.CollidedBelow;
 			}
 		}
-
-		#region DEBUG METHODS REMOVE WHEN DONE TESTING
-		#if DEBUG_CHARACTER_CAPSULE_MOVER
-		/// <inheritdoc />
-		private void Update()
-		{
-			if (Input.GetKeyDown(KeyCode.F1))
-			{
-				debugToggle = !debugToggle;
-			}
-		}
-
-		/// <summary>
-		/// Debugs the test collision.
-		/// </summary>
-		/// <param name="testCollider">Test specifically for this collider. If null then will test for all colliders.</param>
-		private bool DebugTestCollision(Collider testCollider = null, string debugInfo = null)
-		{
-			Collider[] colliders = UnityEngine.Physics.OverlapCapsule(characterCapsule.GetTopSphereWorldPosition(),
-																	  characterCapsule.GetBottomSphereWorldPosition(),
-																	  characterCapsule.scaledRadius + characterCapsule.GetSkinWidth(),
-																	  characterCapsule.GetCollisionLayerMask());
-			if (colliders != null &&
-				colliders.Length > 0)
-			{
-				System.Text.StringBuilder sb = new System.Text.StringBuilder();
-				List<Collider> foundColliders = new List<Collider>(colliders.Length);
-				foreach(var collider in colliders)
-				{
-					/*if (testCollider != null &&
-						collider != testCollider)
-					{
-						continue;
-					}*/
-
-					foundColliders.Add(collider);
-				}
-
-				if (foundColliders.Count > 0)
-				{
-					debugTestCollisionCount ++;
-					if (debugTestCollisionCount <= 10 ||
-					    debugToggle)
-					{
-						sb.Append(string.Format("inside colliders: {0}     itt: {1}     hCount: {2}     (x{3})     ", 
-							debugInfo != null ? debugInfo : "",
-							debugItteration,
-							hitCount,
-							foundColliders.Count));
-						bool foundTestCollider = false;
-						foreach(var collider in foundColliders)
-						{
-							if (collider == testCollider)
-							{
-								foundTestCollider = true;
-								sb.Append(string.Format("**{0}**", collider.name));
-							}
-							else
-							{
-								sb.Append(collider.name);
-							}
-							sb.Append("     ");
-						}
-
-						if (testCollider != null &&
-							foundTestCollider == false)
-						{
-							sb.Append(string.Format("(did not find test collider: {0})", testCollider.name));
-						}
-
-						Debug.LogWarning(sb.ToString());
-					}
-
-					return true;
-				}
-			}
-
-			return false;
-		}
-
-		/// <summary>
-		/// DEBUG: Some test calculations.
-		/// </summary>
-		private void DebugTestCalcs()
-		{
-			float distance = 2.5f;
-			float hitDistance = 1.0f;
-			float remainingDistance = distance - hitDistance;
-			float penetrationDistance = 0.3f;
-			Vector3 hitNormal = Vector3.back;
-			Vector3 direction = Vector3.RotateTowards(Vector3.forward, Vector3.right, Mathf.Deg2Rad * 45.0f, 1.0f);
-
-			if (remainingDistance < penetrationDistance)
-			{
-				// Increase distance to move away from obstacle
-				remainingDistance = penetrationDistance;
-			}
-
-			// Vector to slide along the obstacle
-			Vector3 project = Vector3.ProjectOnPlane(direction, hitNormal);
-			project.Normalize();
-			// Normal to rotate the vector
-			Vector3 normal = Vector3.Cross(project, -direction);
-			float angle = Mathf.Asin(penetrationDistance / remainingDistance);
-			// Rotate the projected vector away from the obstacle
-			Vector3 rotatedVector = Quaternion.AngleAxis(Mathf.Rad2Deg * angle, normal) * 
-				(project * remainingDistance);
-
-			Debug.Log(string.Format("dir: {0}     proj: {1}     nor: {2}     rd: {3}     pd: {4}     rvec: {5}     ang: {6}",
-				DebugVectorToString(direction),
-				DebugVectorToString(project),
-				DebugVectorToString(normal),
-				remainingDistance,
-				penetrationDistance,
-				DebugVectorToString(rotatedVector),
-				Mathf.Rad2Deg * angle));
-
-			//distance = 2.5, hitDistance = 1.0, penetrationDistance = 0.3
-			//dir: (0.7071068, 0, 0.7071068) [0.9999999]     proj: (1, 0, 0) [1]     nor: (0, 0.7071068, 0) [0.7071068]     rd: 1.5     pd: 0.3     rvec: (1.469694, 0, -0.3) [1.5]     ang: 11.53696
-
-			//distance = 2.5, hitDistance = 1.0, penetrationDistance = 3.3
-			//dir: (0.7071068, 0, 0.7071068) [0.9999999]     proj: (1, 0, 0) [1]     nor: (0, 0.7071068, 0) [0.7071068]     rd: 1.5     pd: 3.3     rvec: (NaN, NaN, NaN) [NaN]     ang: NaN
-
-			//distance = 2.5, hitDistance = 1.0, penetrationDistance = 3.3
-			//dir: (0.7071068, 0, 0.7071068) [0.9999999]     proj: (1, 0, 0) [1]     nor: (0, 0.7071068, 0) [0.7071068]     rd: 3.3     pd: 3.3     rvec: (1.966953E-07, 0, -3.3) [3.3]     ang: 90
-
-		}
-
-		/// <summary>
-		/// DEBUG: Vector3 ToString
-		/// </summary>
-		/// <param name="vector"></param>
-		/// <returns></returns>
-		private string DebugVectorToString(Vector3 vector)
-		{
-			return string.Format("({0}, {1}, {2}) [{3}]",
-				vector.x,
-				vector.y,
-				vector.z,
-				vector.magnitude);
-		}
-
-		/// <inheritdoc />
-		private void OnDrawGizmosSelected()
-		{
-			if (characterCapsule == null ||
-				debugTopSphereWorldPosition == null ||
-				debugBottomSphereWorldPosition == null)
-			{
-				return;
-			}
-
-			GizmosHelper.DrawCapsule(debugTopSphereWorldPosition.Value, debugBottomSphereWorldPosition.Value, 
-				characterCapsule.scaledRadius, Color.cyan);
-
-			GizmosHelper.DrawCapsule(debugTopSphereWorldPosition.Value, debugBottomSphereWorldPosition.Value, 
-				characterCapsule.scaledRadius + characterCapsule.GetSkinWidth(), Color.magenta);
-		}
-		#endif
-		#endregion
 	}
 }
