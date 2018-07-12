@@ -13,6 +13,14 @@ namespace StandardAssets.Characters.FirstPerson
 		[SerializeField]
 		protected Camera mainCamera;
 
+		void Awake()
+		{
+			if (mainCamera == null)
+			{
+				mainCamera = Camera.main;
+			}
+		}
+
 		/// <summary>
 		/// Adjust rotation
 		/// </summary>
