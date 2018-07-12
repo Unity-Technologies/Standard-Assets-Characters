@@ -469,9 +469,10 @@ namespace StandardAssets.Characters.ThirdPerson
 				forwardVelocity = currentForwardInputProperties.inputChangeGain;
 			}
 
+			var clamp = Mathf.Min(characterInput.moveInput.magnitude, forwardClampSpeed);
 			normalizedForwardSpeed =
-				Mathf.Clamp(normalizedForwardSpeed + input * forwardVelocity * Time.deltaTime, -forwardClampSpeed,
-				            forwardClampSpeed);
+				Mathf.Clamp(normalizedForwardSpeed + input * forwardVelocity * Time.deltaTime, -clamp,
+					clamp);
 		}
 
 		protected virtual void EaseOffForwardInput()
@@ -488,9 +489,10 @@ namespace StandardAssets.Characters.ThirdPerson
 				lateralVelocity = currentLateralInputProperties.inputChangeGain;
 			}
 
+			var clamp = Mathf.Min(characterInput.moveInput.magnitude, forwardClampSpeed);
 			normalizedLateralSpeed =
-				Mathf.Clamp(normalizedLateralSpeed + -input * lateralVelocity * Time.deltaTime, -forwardClampSpeed,
-				            forwardClampSpeed);
+				Mathf.Clamp(normalizedLateralSpeed + -input * lateralVelocity * Time.deltaTime, -clamp,
+					clamp);
 		}
 
 		protected virtual void EaseOffLateralInput()
