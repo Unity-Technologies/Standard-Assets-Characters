@@ -19,6 +19,9 @@ namespace Demo
 		[SerializeField]
 		protected GameObject[] firstPersonGameObjects, thirdPersonGameObjects;
 
+		[SerializeField]
+		protected Vector3 positionOffset;
+
 		private GameObject firstPersonParent, thirdPersonParent;
 		
 		private void Awake()
@@ -51,8 +54,8 @@ namespace Demo
 		{
 			//Set Third Person
 			thirdPersonParent.SetActive(true);
-			//thirdPersonMotor.transform.position = firstPersonController.transform.position;
-			//thirdPersonMotor.transform.rotation = firstPersonController.transform.rotation;
+			thirdPersonMotor.transform.position = firstPersonController.transform.position + positionOffset;
+			thirdPersonMotor.transform.rotation = firstPersonController.transform.rotation;
 			firstPersonParent.SetActive(false);
 		}
 
@@ -60,8 +63,8 @@ namespace Demo
 		{
 			//Set FPS
 			thirdPersonParent.SetActive(false);
-			//firstPersonController.transform.position = thirdPersonMotor.transform.position;
-			//firstPersonController.transform.rotation = thirdPersonMotor.transform.rotation;
+			firstPersonController.transform.position = thirdPersonMotor.transform.position + positionOffset;
+			firstPersonController.transform.rotation = thirdPersonMotor.transform.rotation;
 			firstPersonParent.SetActive(true);
 		}
 
