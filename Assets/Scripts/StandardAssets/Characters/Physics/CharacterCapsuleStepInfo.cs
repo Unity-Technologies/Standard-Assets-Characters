@@ -14,9 +14,19 @@ namespace StandardAssets.Characters.Physics
 		private const float k_MinAngleFromStartVector = 0.5f;
 
 		/// <summary>
+		/// If updates between Move methods take longer than this then assume the stepping stopped.
+		/// </summary>
+		private const float k_MaxTimeSinceLastUpdate = 1.0f;
+
+		/// <summary>
 		/// Remaining height to step over.
 		/// </summary>
 		private float remainingHeight;
+
+		/// <summary>
+		/// Target height to step over.
+		/// </summary>
+		private float targetHeight;
 
 		/// <summary>
 		/// The move vector that started the step over process.
@@ -27,6 +37,11 @@ namespace StandardAssets.Characters.Physics
 		/// Position when the step over process started.
 		/// </summary>
 		private Vector3 startPosition;
+
+		/// <summary>
+		/// Time.realtimeSinceStartup when the step was last updated. Used to determine if a step should coninue between Move methods.
+		/// </summary>
+		private float lastUpdateTime;
 		
 		/// <summary>
 		/// Busy stepping over obstacles?
@@ -40,19 +55,16 @@ namespace StandardAssets.Characters.Physics
 		/// <returns></returns>
 		public float GetRemainingHeight(Vector3 position)
 		{
-			float distance = position.y - startPosition.y;
+			float heightClimbed = position.y - startPosition.y;
 			
-			// Moved up?
-			if (distance > 0.0f)
+			if (heightClimbed < 0.0f)
 			{
-				// Reduce the remaining distance as the character moves up
-				remainingHeight -= distance;
-			}
-			else if (distance < 0.0f)
-			{
-				// Moved down
-				// When moving down then assume the climbing stopped
+				// Moved down past the original position (assume the climbing stopped)
 				remainingHeight = 0.0f;
+			}
+			else
+			{
+				remainingHeight = targetHeight - heightClimbed;
 			}
 
 			return Mathf.Max(remainingHeight, 0.0f);
@@ -67,11 +79,21 @@ namespace StandardAssets.Characters.Physics
 		public void OnStartStepOver(float heightToStep, Vector3 moveVector, Vector3 position)
 		{
 			isStepping = true;
+			targetHeight = heightToStep;
 			remainingHeight = heightToStep;
 			startMoveVector = moveVector;
 			startPosition = position;
+			lastUpdateTime = Time.realtimeSinceStartup;
 		}
 
+		/// <summary>
+		/// Called when the step was updated.
+		/// </summary>
+		public void OnUpdate()
+		{
+			lastUpdateTime = Time.realtimeSinceStartup;
+		}
+		
 		/// <summary>
 		/// Called when stop to step over obstcales.
 		/// </summary>
@@ -86,15 +108,19 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="moveVector">The new move vector.</param>
 		public bool OnNewMoveVector(Vector3 moveVector)
 		{
-			if (isStepping == false)
+			// Not busy stepping over obstacles OR too much time elapsed sine the last Move?
+			if (isStepping == false ||
+			    Time.realtimeSinceStartup - lastUpdateTime > k_MaxTimeSinceLastUpdate)
 			{
-				// Not busy stepping over obstacles
+				
 				return false;
 			}
 
 			// Continue stepping if the angle between the original vector and the new vector is
 			// small enough (i.e. character has not changed direction).
-			return Vector3.Angle(startMoveVector, moveVector) < k_MinAngleFromStartVector;
+			// Ignore Y component of vector.
+			return Vector3.Angle(new Vector3(startMoveVector.x, 0.0f, startMoveVector.z), 
+			                     new Vector3(moveVector.x, 0.0f, moveVector.z)) < k_MinAngleFromStartVector;
 		}
 	}
 }

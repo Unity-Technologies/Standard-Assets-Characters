@@ -439,7 +439,7 @@ namespace StandardAssets.Characters.Physics
 			
 			// Big capsule collider
 			GizmosHelper.DrawCapsule(GetTopSphereWorldPosition(), GetBottomSphereWorldPosition(), 
-			                         scaledRadius + skinWidth, Color.yellow);
+			                         scaledRadius + skinWidth, new Color(1.0f, 1.0f, 0.0f, 0.1f));
 		}
 		#endif
 	}

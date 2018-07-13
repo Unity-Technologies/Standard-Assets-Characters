@@ -22,11 +22,12 @@ namespace StandardAssets.Characters.Physics
 		/// Fired when the collision flags changed.
 		/// </summary>
 		event Action<CollisionFlags> onCollisionFlagsChanged;
-
+		
 		/// <summary>
-		/// Fired when the stepping over obstacles state changed.
+		/// Check for small obstacles hitting our side edges when we attempt to step over obstacles? This can be set
+		/// to true for the player and false for other characters, because it does additional physics casts.
 		/// </summary>
-		event Action<bool> onStepOverChanged;
+		bool checkSmallObstaclesWhenStepOver { get; set; }
 		
 		/// <summary>
 		/// Move the character capsule. This function does not apply any gravity.

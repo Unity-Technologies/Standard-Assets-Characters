@@ -55,7 +55,7 @@ namespace StandardAssets.Characters.Physics
 		private const float k_MaxStepOverHitAngle = 90.0f;
 
 		/// <summary>
-		/// Minimum distance to move. This minimizes small penetrations (e.g. into the floor)
+		/// Minimum distance to move. This minimizes small penetrations and inaccurate casts (e.g. into the floor)
 		/// </summary>
 		private const float k_MinMoveDistance = 0.0001f;
 		
@@ -63,6 +63,11 @@ namespace StandardAssets.Characters.Physics
 		/// Minimum sqr distance to move. This minimizes small penetrations (e.g. into the floor)
 		/// </summary>
 		private const float k_MinMoveSqrDistance = k_MinMoveDistance * k_MinMoveDistance;
+
+		/// <summary>
+		/// Minimum step offset height to move (if character has a step offset).
+		/// </summary>
+		private const float k_MinStepOffsetHeight = k_MinMoveDistance;
 
 		/// <inheritdoc />
 		public event Action<bool> onGroundedChanged;
@@ -74,7 +79,7 @@ namespace StandardAssets.Characters.Physics
 		public event Action<CollisionFlags> onCollisionFlagsChanged;
 
 		/// <inheritdoc />
-		public event Action<bool> onStepOverChanged;
+		public bool checkSmallObstaclesWhenStepOver { get; set; }
 
 		/// <summary>
 		/// Was the touching the ground during the last move?
@@ -99,7 +104,7 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Remaining movement vectors.
 		/// </summary>
-		private List<Vector3> moveVectors = new List<Vector3>();
+		private List<CharacterCapsuleMoverVector> moveVectors = new List<CharacterCapsuleMoverVector>();
 		
 		/// <summary>
 		/// Index into the moveVectors array.
@@ -141,7 +146,7 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		private int debugCurrentPositionErrorCount;
 		#endif
-
+		
 		/// <inheritdoc />
 		public CollisionFlags Move(Vector3 moveVector)
 		{
@@ -191,12 +196,6 @@ namespace StandardAssets.Characters.Physics
 				onGroundedChanged(isGrounded);
 			}
 
-			if (onStepOverChanged != null &&
-			    oldIsStepping != stepInfo.isStepping)
-			{
-				onStepOverChanged(stepInfo.isStepping);
-			}
-
 			return collisionFlags;
 		}
 
@@ -234,8 +233,14 @@ namespace StandardAssets.Characters.Physics
 		{
 			moveVectors.Clear();
 
-			Vector3 remainingMoveVector;
+			CharacterCapsuleMoverVector remainingMoveVector;
 			int tryStepOverIndex = -1;
+			
+			if (stepInfo.isStepping &&
+			    stepInfo.OnNewMoveVector(moveVector) == false)
+			{
+				StopStepOver(true, "MoveLoop start: move vector changed, or too much time elapsed.");
+			}
 
 			// Break the movement up into horizontal and vertical
 			Vector3 horizontal = new Vector3(moveVector.x, 0.0f, moveVector.z);
@@ -248,35 +253,36 @@ namespace StandardAssets.Characters.Physics
 				    Math.Abs(horizontal.z) > Mathf.Epsilon)
 				{
 					// Move up then horizontal
-					remainingMoveVector = vertical;
-					moveVectors.Add(horizontal);
+					remainingMoveVector = new CharacterCapsuleMoverVector(vertical);
+					moveVectors.Add(new CharacterCapsuleMoverVector(horizontal));
 				}
 				else
 				{
 					// Move up
-					remainingMoveVector = vertical;
+					remainingMoveVector = new CharacterCapsuleMoverVector(vertical);
 				}
 			}
 			else if (vertical.y < 0.0f)
 			{
 				// TODO: Handle cases where the vector is large
+				
 				if (Math.Abs(horizontal.x) > Mathf.Epsilon ||
 				    Math.Abs(horizontal.z) > Mathf.Epsilon)
 				{
 					// Move horizontal then down
-					remainingMoveVector = horizontal;
-					moveVectors.Add(vertical);
+					remainingMoveVector = new CharacterCapsuleMoverVector(horizontal);
+					moveVectors.Add(new CharacterCapsuleMoverVector(vertical));
 				}
 				else
 				{
 					// Move down
-					remainingMoveVector = vertical;
+					remainingMoveVector = new CharacterCapsuleMoverVector(vertical);
 				}
 			}
 			else
 			{
 				// Move horizontal
-				remainingMoveVector = horizontal;
+				remainingMoveVector = new CharacterCapsuleMoverVector(horizontal);
 				tryStepOverIndex = 0;
 			}
 
@@ -285,29 +291,24 @@ namespace StandardAssets.Characters.Physics
 			stuckCount = 0;
 			stuckPosition = null;
 			
-			// TEMP: Disable stepOffset. Some bugs to fix first before commiting it.
-			tryStepOverIndex = -1;
-
-			if (stepInfo.isStepping &&
-			    stepInfo.OnNewMoveVector(remainingMoveVector) == false)
-			{
-				StopStepOver(true);
-			}
+			// TEMP: Disable stepOffset
+			//tryStepOverIndex = -1;
 
 			for (int i = 0; i < k_MaxMoveItterations; i++)
 			{				
-				bool collided = MoveMajorStep(ref remainingMoveVector, 
+				bool collided = MoveMajorStep(ref remainingMoveVector.moveVector, 
+				                              remainingMoveVector.canSlide,
 				                              didTryToStickToGround, 
 				                              i == tryStepOverIndex || stepInfo.isStepping);
 
 				if (IsStuck())
 				{
-					remainingMoveVector = Vector3.zero;
+					remainingMoveVector = new CharacterCapsuleMoverVector(Vector3.zero);
 				}
 				
 				// Collided or vector used up (i.e. vector is zero)?
 				if (!collided || 
-				    remainingMoveVector.sqrMagnitude <= Mathf.Epsilon)
+				    remainingMoveVector.moveVector.sqrMagnitude <= Mathf.Epsilon)
 				{
 					// Are there remaining movement vectors?
 					if (moveVectorIndex < moveVectors.Count)
@@ -334,15 +335,95 @@ namespace StandardAssets.Characters.Physics
 				
 				#if UNITY_EDITOR
 				if (i == k_MaxMoveItterations - 1)
-				{					
+				{
 					Debug.LogError(string.Format("reached k_MaxMoveItterations!     (remainingMoveVector: {0}, {1}, {2})     " +
 												 "(moveVector: {3}, {4}, {5})     hitCount: {6}",
-												 remainingMoveVector.x, remainingMoveVector.y, remainingMoveVector.z,
+												 remainingMoveVector.moveVector.x, remainingMoveVector.moveVector.y, remainingMoveVector.moveVector.z,
 												 moveVector.x, moveVector.y, moveVector.z,
 												 hitCount));
 				}
 				#endif
 			}
+		}
+		
+		/// <summary>
+		/// A single movement major step. Returns true when there is collision.
+		/// </summary>
+		/// <param name="moveVector">The move vector.</param>
+		/// <param name="canSlide">Can slide against obsyacles?</param>
+		/// <param name="tryGrounding">Try grounding the player?</param>
+		/// <param name="tryStepOver">Try to step over obstacles?</param>
+		/// <returns>True when there is collision.</returns>
+		private bool MoveMajorStep(ref Vector3 moveVector, bool canSlide, bool tryGrounding, bool tryStepOver)
+		{
+			Vector3 direction = moveVector.normalized;
+			float distance = moveVector.magnitude;
+			RaycastHit bigRadiusHitInfo;
+			RaycastHit smallRadiusHitInfo;
+			bool smallRadiusHit;
+			bool bigRadiusHit;
+
+			if (!CapsuleCast(direction, distance,
+			                 out smallRadiusHit, out bigRadiusHit,
+			                 out smallRadiusHitInfo, out bigRadiusHitInfo))
+			{
+				// No collision, so move to the position
+				MovePosition(moveVector, null, null, "no collision");
+				
+				// Stepping and the final movement vector?
+				if (stepInfo.isStepping &&
+				    IsFinalMoveVector())
+				{
+					// Do a last update, in case we need to move up.
+					UpdateStepOver(moveVector, 0.0f, canSlide);
+					
+					StopStepOver(true, string.Format("No collision.     heightRem: {0}",
+						                                 stepInfo.GetRemainingHeight(capsuleTransform.position)));
+				}
+				
+				moveVector = Vector3.zero;
+
+				return false;
+			}
+
+			// Did the big radius not hit an obstacle?
+			if (bigRadiusHit == false)
+			{
+				// The small radius hit an obstacle, so character is inside an obstacle
+				MoveAwayFromObstacle(ref moveVector, ref smallRadiusHitInfo,
+				                     direction, distance, 
+				                     canSlide,
+									 tryGrounding,
+				                     tryStepOver,
+				                     true,
+				                     "NoBigCollision");
+				
+				return true;
+			}
+
+			// Use the nearest collision point (e.g. to handle cases where 2 or more colliders' edges meet)
+			if (smallRadiusHit && 
+			    smallRadiusHitInfo.distance < bigRadiusHitInfo.distance)
+			{
+				MoveAwayFromObstacle(ref moveVector, ref smallRadiusHitInfo,
+				                     direction, distance,
+				                     canSlide,
+									 tryGrounding,
+				                     tryStepOver,
+				                     true,
+				                     "UseSmallCollision");
+				return true;
+			}
+
+			MoveAwayFromObstacle(ref moveVector, ref bigRadiusHitInfo,
+								 direction, distance,
+			                     canSlide,
+								 tryGrounding,
+			                     tryStepOver,
+			                     false,
+								 "UseBigCollision");
+			
+			return true;
 		}
 
 		/// <summary>
@@ -407,19 +488,20 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		/// <param name="moveVector">The original movement vector.</param>
 		/// <param name="getDownVector">Get the down vector.</param>
+		/// <param name="getCanSlide">Get if can slide against obstacles.</param>
 		/// <returns></returns>
-		private bool CanStickToGround(Vector3 moveVector, out Vector3 getDownVector)
+		private bool CanStickToGround(Vector3 moveVector, out CharacterCapsuleMoverVector getDownVector)
 		{
 			Vector3 moveVectorNoY = new Vector3(moveVector.x, 0.0f, moveVector.z);
 			float downDistance = moveVectorNoY.magnitude;
-			
+
 			if (downDistance <= k_MaxStickToGroundDownDistance)
 			{
-				getDownVector = Vector3.down * downDistance;
+				getDownVector = new CharacterCapsuleMoverVector(Vector3.down * downDistance, false);
 				return true;
 			}
 			
-			getDownVector = Vector3.zero;
+			getDownVector = new CharacterCapsuleMoverVector(Vector3.zero);
 			return false;
 		}
 
@@ -431,7 +513,7 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="remainingDistance">The remaining distance to move</param>
 		/// <param name="angleToObstacle">Angle between the move vector and the obstacle's inverted normal.</param>
 		/// <returns></returns>
-		private bool TryToStartStepOver(Vector3 moveVector, float remainingDistance, float angleToObstacle)
+		private bool StartStepOver(Vector3 moveVector, float remainingDistance, float angleToObstacle)
 		{
 			float stepOffset = characterCapsule.GetStepOffset();
 			if (stepOffset <= 0.0f ||
@@ -445,11 +527,29 @@ namespace StandardAssets.Characters.Physics
 				return false;
 			}
 			
-			// TODO: Need to handle cases where small obstacles hit our side edges, but we don't want to try to step over
-			// them. Instead slide along them.
+			if (checkSmallObstaclesWhenStepOver)
+			{
+				// TODO: Handle cases where small obstacles hit our side edges, but we don't want to try to step over them.
+			}
 
+			float moveVectorMagnitude = moveVector.magnitude;
+			Vector3 moveVectorNoY = new Vector3(moveVector.x, 0.0f, moveVector.z).normalized;
+			RaycastHit hitInfo;
+			 
+			// Only step up if there's an obstacle at the character's feet (e.g. do not step when only character's head collides)
+			if (!SmallSphereCast(moveVector, moveVectorMagnitude, out hitInfo, Vector3.zero, true) && 
+			    !BigSphereCast(moveVector, moveVectorMagnitude, out hitInfo, Vector3.zero, true))
+			{				
+				return false;
+			}
+			
+			// We only step over obstacles if we can fully fit on it (i.e. the capsule's diameter)
+			float diameter = characterCapsule.scaledRadius * 2.0f;
+			Vector3 horizontal = moveVectorNoY * diameter;
+			float horizontalSize = horizontal.magnitude;
+			horizontal.Normalize();
 			// Any obstacles above?
-			float upDistance = stepOffset;
+			float upDistance = Mathf.Max(stepOffset, k_MinStepOffsetHeight);
 			Vector3 up = Vector3.up * upDistance;
 			Ray ray = new Ray(characterCapsule.GetTopSphereWorldPosition(), Vector3.up);
 			if (UnityEngine.Physics.SphereCast(ray,
@@ -460,49 +560,20 @@ namespace StandardAssets.Characters.Physics
 				return false;
 			}
 			
-			// We only step over obstacles if we can fully fit on it (i.e. the capsule's diameter)
-			Vector3 moveVectorNoY = new Vector3(moveVector.x, 0.0f, moveVector.z).normalized;
-			float diameter = characterCapsule.scaledRadius * 2.0f;
-			Vector3 horizontal = moveVectorNoY * diameter;
-			RaycastHit hitInfo;
 			// Any obstacles ahead (after we moved up)?
-			if (CapsuleBigCast(horizontal.normalized, horizontal.magnitude, out hitInfo, up))
+			// First test big capsule then small capsule, in case big capsule already inside an obstacle.
+			if (BigCapsuleCast(horizontal, horizontalSize, out hitInfo, up) ||
+			    SmallCapsuleCast(horizontal, horizontalSize + characterCapsule.GetSkinWidth(), out hitInfo, up))
 			{
 				return false;
 			}
 			
-			// Determine how high we actually need to step (e.g. if obstacle height is less than step height)
-			// Test how far character will fall (after moving up and horizontal)
-			ray = new Ray(characterCapsule.GetBottomSphereWorldPosition() + up + horizontal, Vector3.down);
-			if (UnityEngine.Physics.SphereCast(ray,
-			                                   characterCapsule.scaledRadius,
-			                                   out hitInfo,
-			                                   characterCapsule.GetSkinWidth() + stepOffset,
-			                                   characterCapsule.GetCollisionLayerMask()))
-			{
-				float downDistance = Mathf.Max(hitInfo.distance - k_CollisionOffset, 0.0f);
-				if (downDistance > 0.0f)
-				{
-					float finalY = capsuleTransform.position.y + up.y - downDistance;
-					upDistance = Mathf.Max(finalY - capsuleTransform.position.y, 0.0f);
-					if (upDistance <= 0.0f)
-					{
-						return false;
-					}
-
-					if (upDistance < stepOffset)
-					{
-						up = Vector3.up * upDistance;
-					}
-				}
-			}
-
 			// Move Up
-			moveVectors.Add(up);
+			moveVectors.Add(new CharacterCapsuleMoverVector(up, false));
 			
 			// Move Horizontal
 			horizontal = moveVectorNoY * remainingDistance;
-			moveVectors.Add(horizontal);
+			moveVectors.Add(new CharacterCapsuleMoverVector(horizontal, false));
 			
 			// Start stepping over the obstacles
 			stepInfo.OnStartStepOver(upDistance, moveVector, capsuleTransform.position);
@@ -514,17 +585,13 @@ namespace StandardAssets.Characters.Physics
 		/// Update stepping over obstacles.
 		/// </summary>
 		/// <param name="moveVector">Movement vector.</param>
+		/// <param name="remainingDistance">Remaining distance to move after moving up.</param>
+		/// <param name="canSlide">Can the remaining distance slide along obstacles?</param>
 		/// <returns></returns>
-		private bool UpdateStepOver(Vector3 moveVector)
+		private bool UpdateStepOver(Vector3 moveVector, float remainingDistance, bool canSlide)
 		{
 			float stepOffset = characterCapsule.GetStepOffset();
 			if (stepOffset <= 0.0f)
-			{
-				return false;
-			}
-			
-			float upDistance = stepInfo.GetRemainingHeight(capsuleTransform.position);
-			if (upDistance <= 0.0f)
 			{
 				return false;
 			}
@@ -536,12 +603,19 @@ namespace StandardAssets.Characters.Physics
 				return true;
 			}
 			
+			// Climb height remaining
+			float heightRemaining = stepInfo.GetRemainingHeight(capsuleTransform.position);
+			if (heightRemaining <= 0.0f)
+			{
+				return false;
+			}
+			
 			// Any obstacles above?
-			Vector3 up = Vector3.up * upDistance;
+			Vector3 up = Vector3.up * Mathf.Max(heightRemaining, k_MinStepOffsetHeight);
 			Ray ray = new Ray(characterCapsule.GetTopSphereWorldPosition(), Vector3.up);
 			if (UnityEngine.Physics.SphereCast(ray,
 			                                   characterCapsule.scaledRadius,
-			                                   characterCapsule.GetSkinWidth() + upDistance,
+			                                   characterCapsule.GetSkinWidth() + heightRemaining,
 			                                   characterCapsule.GetCollisionLayerMask()))
 			{
 				// Stop stepping over
@@ -549,7 +623,15 @@ namespace StandardAssets.Characters.Physics
 			}
 				
 			// Move Up
-			moveVectors.Add(up);
+			moveVectors.Add(new CharacterCapsuleMoverVector(up, false));
+			
+			// Continue other movement after moving up
+			if (remainingDistance > 0.0f)
+			{
+				moveVectors.Add(new CharacterCapsuleMoverVector(moveVector.normalized * remainingDistance, false));
+			}
+
+			stepInfo.OnUpdate();
 			
 			return true;
 		}
@@ -557,11 +639,12 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Stop stepping over obstacles.
 		/// </summary>
-		/// <param name="fallDown"></param>
-		private void StopStepOver(bool fallDown)
+		/// <param name="fallDown">Should fall down to tough the ground?</param>
+		/// <param name="debugInfo">Debug info.</param>
+		private void StopStepOver(bool fallDown, string debugInfo)
 		{
 			stepInfo.OnStopStepOver();
-
+			
 			if (fallDown == false)
 			{
 				return;
@@ -589,80 +672,8 @@ namespace StandardAssets.Characters.Physics
 			if (Math.Abs(down.y) > Mathf.Epsilon)
 			{
 				// Move Down
-				moveVectors.Add(down);
+				moveVectors.Add(new CharacterCapsuleMoverVector(down, false));
 			}
-		}
-		
-		/// <summary>
-		/// A single movement major step. Returns true when there is collision.
-		/// </summary>
-		/// <param name="moveVector">The move vector.</param>
-		/// <param name="tryGrounding">Try grounding the player?</param>
-		/// <param name="tryStepOver">Try to step over obstacles?</param>
-		/// <returns>True when there is collision.</returns>
-		private bool MoveMajorStep(ref Vector3 moveVector, bool tryGrounding, bool tryStepOver)
-		{
-			Vector3 direction = moveVector.normalized;
-			float distance = moveVector.magnitude;
-			RaycastHit bigRadiusHitInfo;
-			RaycastHit smallRadiusHitInfo;
-			bool smallRadiusHit;
-			bool bigRadiusHit;
-
-			if (!CapsuleCast(direction, distance,
-			                 out smallRadiusHit, out bigRadiusHit,
-			                 out smallRadiusHitInfo, out bigRadiusHitInfo))
-			{
-				// No collision, so move to the position
-				MovePosition(moveVector, null, null, "no collision");
-
-				// Stepping and the final movement?
-				if (stepInfo.isStepping && 
-				    IsFinalMoveVector())
-				{
-					StopStepOver(false);
-				}
-				
-				moveVector = Vector3.zero;
-
-				return false;
-			}
-
-			// Did the big radius not hit an obstacle?
-			if (bigRadiusHit == false)
-			{
-				// The small radius hit an obstacle, so character is inside an obstacle
-				MoveAwayFromObstacle(ref moveVector, ref smallRadiusHitInfo,
-				                     direction, distance, 
-									 tryGrounding,
-				                     tryStepOver,
-				                     true,
-				                     "NoBigCollision");
-				
-				return true;
-			}
-
-			// Use the nearest collision point (e.g. to handle cases where 2 or more colliders' edges meet)
-			if (smallRadiusHit && 
-			    smallRadiusHitInfo.distance < bigRadiusHitInfo.distance)
-			{
-				MoveAwayFromObstacle(ref moveVector, ref smallRadiusHitInfo,
-				                     direction, distance,
-									 tryGrounding,
-				                     tryStepOver,
-				                     true,
-				                     "UseSmallCollision");
-				return true;
-			}
-
-			MoveAwayFromObstacle(ref moveVector, ref bigRadiusHitInfo,
-								 direction, distance,
-								 tryGrounding,
-			                     tryStepOver,
-			                     false,
-								 "UseBigCollision");
-			
-			return true;
 		}
 
 		/// <summary>
@@ -680,10 +691,10 @@ namespace StandardAssets.Characters.Physics
 		                         out RaycastHit smallRadiusHitInfo, out RaycastHit bigRadiusHitInfo)
 		{			
 			// Exclude the skin width in the test
-			smallRadiusHit = CapsuleSmallCast(direction, distance, out smallRadiusHitInfo, Vector3.zero);
+			smallRadiusHit = SmallCapsuleCast(direction, distance, out smallRadiusHitInfo, Vector3.zero);
 			
 			// Include the skin width in the test
-			bigRadiusHit = CapsuleBigCast(direction, distance, out bigRadiusHitInfo, Vector3.zero);
+			bigRadiusHit = BigCapsuleCast(direction, distance, out bigRadiusHitInfo, Vector3.zero);
 
 			return smallRadiusHit ||
 			       bigRadiusHit;
@@ -697,11 +708,11 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="smallRadiusHitInfo">Hit info.</param>
 		/// <param name="offsetPosition">Position offset. If we want to do a cast not at the capsule's current position.</param>
 		/// <returns></returns>
-		private bool CapsuleSmallCast(Vector3 direction, float distance,
+		private bool SmallCapsuleCast(Vector3 direction, float distance,
 									  out RaycastHit smallRadiusHitInfo,
 		                              Vector3 offsetPosition)
 		{
-			// Cast further than the distance we need, to try to take into account small edge cases (e.g. CapsuleCast fails 
+			// Cast further than the distance we need, to try to take into account small edge cases (e.g. Casts fail 
 			// when moving almost parallel to an obstacle for small distances).
 			float extraDistance = characterCapsule.scaledRadius;
 
@@ -727,16 +738,84 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="bigRadiusHitInfo">Hit info.</param>
 		/// <param name="offsetPosition">Position offset. If we want to do a cast not at the capsule's current position.</param>
 		/// <returns></returns>
-		private bool CapsuleBigCast(Vector3 direction, float distance,
+		private bool BigCapsuleCast(Vector3 direction, float distance,
 									out RaycastHit bigRadiusHitInfo,
 		                            Vector3 offsetPosition)
 		{
-			// Cast further than the distance we need, to try to take into account small edge cases (e.g. CapsuleCast fails 
+			// Cast further than the distance we need, to try to take into account small edge cases (e.g. Casts fail 
 			// when moving almost parallel to an obstacle for small distances).
 			float extraDistance = characterCapsule.scaledRadius + characterCapsule.GetSkinWidth();
 
 			if (UnityEngine.Physics.CapsuleCast(characterCapsule.GetTopSphereWorldPosition() + offsetPosition,
 			                                    characterCapsule.GetBottomSphereWorldPosition() + offsetPosition,
+			                                    characterCapsule.scaledRadius + characterCapsule.GetSkinWidth(),
+			                                    direction,
+			                                    out bigRadiusHitInfo,
+			                                    distance + extraDistance,
+			                                    characterCapsule.GetCollisionLayerMask()))
+			{
+				return bigRadiusHitInfo.distance <= distance;
+			}
+
+			return false;
+		}
+		
+		/// <summary>
+		/// Do a sphere cast, exlucliding the skin width. Sphere position is at the top or bottom of the capsule.
+		/// </summary>
+		/// <param name="direction">Direction to cast.</param>
+		/// <param name="distance">Distance to cast.</param>
+		/// <param name="smallRadiusHitInfo">Hit info.</param>
+		/// <param name="offsetPosition">Position offset. If we want to do a cast not at the capsule's current position.</param>
+		/// <param name="useBottomSphere">Use the sphere at the bottom of the capsule? If false then use the top sphere.</param>
+		/// <returns></returns>
+		private bool SmallSphereCast(Vector3 direction, float distance,
+		                             out RaycastHit smallRadiusHitInfo,
+		                             Vector3 offsetPosition,
+		                             bool useBottomSphere)
+		{
+			// Cast further than the distance we need, to try to take into account small edge cases (e.g. Casts fail 
+			// when moving almost parallel to an obstacle for small distances).
+			float extraDistance = characterCapsule.scaledRadius;
+
+			Vector3 spherePosition = useBottomSphere
+				? characterCapsule.GetBottomSphereWorldPosition() + offsetPosition
+				: characterCapsule.GetTopSphereWorldPosition() + offsetPosition;
+			if (UnityEngine.Physics.SphereCast(spherePosition,
+			                                    characterCapsule.scaledRadius,
+			                                    direction,
+			                                    out smallRadiusHitInfo,
+			                                    distance + extraDistance,
+			                                    characterCapsule.GetCollisionLayerMask()))
+			{
+				return smallRadiusHitInfo.distance <= distance;
+			}
+
+			return false;
+		}
+		
+		/// <summary>
+		/// Do a sphere cast, including the skin width. Sphere position is at the top or bottom of the capsule.
+		/// </summary>
+		/// <param name="direction">Direction to cast.</param>
+		/// <param name="distance">Distance to cast.</param>
+		/// <param name="bigRadiusHitInfo">Hit info.</param>
+		/// <param name="offsetPosition">Position offset. If we want to do a cast not at the capsule's current position.</param>
+		/// <param name="useBottomSphere">Use the sphere at the bottom of the capsule? If false then use the top sphere.</param>
+		/// <returns></returns>
+		private bool BigSphereCast(Vector3 direction, float distance,
+		                           out RaycastHit bigRadiusHitInfo,
+		                           Vector3 offsetPosition,
+		                           bool useBottomSphere)
+		{
+			// Cast further than the distance we need, to try to take into account small edge cases (e.g. Casts fail 
+			// when moving almost parallel to an obstacle for small distances).
+			float extraDistance = characterCapsule.scaledRadius + characterCapsule.GetSkinWidth();
+
+			Vector3 spherePosition = useBottomSphere
+				? characterCapsule.GetBottomSphereWorldPosition() + offsetPosition
+				: characterCapsule.GetTopSphereWorldPosition() + offsetPosition;
+			if (UnityEngine.Physics.SphereCast(spherePosition,
 			                                    characterCapsule.scaledRadius + characterCapsule.GetSkinWidth(),
 			                                    direction,
 			                                    out bigRadiusHitInfo,
@@ -756,12 +835,14 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="hitInfo">Hit info of the collision.</param>
 		/// <param name="direction">Direction of the cast.</param>
 		/// <param name="distance">Distance of the cast.</param>
+		/// <param name="canSlide">Can slide against obstacles?</param>
 		/// <param name="tryGrounding">Try grounding the player?</param>
 		/// <param name="tryStepOver">Try to step over obstacles?</param>
 		/// <param name="hitInfoIsSmallRadius">If the hitInfo for the capsule's small radius?</param>
 		/// <param name="debugInfo">Debug info. Remove when testing is done.</param>
 		private void MoveAwayFromObstacle(ref Vector3 moveVector, ref RaycastHit hitInfo,
 		                                  Vector3 direction, float distance,
+		                                  bool canSlide,
 										  bool tryGrounding, 
 		                                  bool tryStepOver,
 		                                  bool hitInfoIsSmallRadius,
@@ -787,13 +868,11 @@ namespace StandardAssets.Characters.Physics
 			                           distance,
 			                           remainingDistance));
 			
-			bool slide = true;
-			bool preserveMoveVector = false;
 			bool slopeIsSteep = false;
 			if (tryGrounding)
 			{
 				// No further movement when grounding the character
-				slide = false;
+				canSlide = false;
 			}
 			else if (Math.Abs(moveVector.x) > Mathf.Epsilon ||
 			         Math.Abs(moveVector.z) > Mathf.Epsilon)
@@ -809,29 +888,26 @@ namespace StandardAssets.Characters.Physics
 			{
 				if (stepInfo.isStepping == false)
 				{
-					if (TryToStartStepOver(moveVector, remainingDistance, Vector3.Angle(moveVector, -hitInfo.normal)))
-					{
-						slide = false;
-					}
+					StartStepOver(moveVector, remainingDistance, Vector3.Angle(moveVector, -hitInfo.normal));
 				}
-				else if (UpdateStepOver(moveVector) == false)
+				else if (UpdateStepOver(moveVector, remainingDistance, canSlide) == false)
 				{
-					StopStepOver(true);
+					StopStepOver(true, string.Format("UpdateStepOver returned false.     heightRem: {0}",
+					                                 stepInfo.GetRemainingHeight(capsuleTransform.position)));
 				}
-				else
+
+				if (stepInfo.isStepping)
 				{
-					// Bussy stepping over
-					slide = false;
-					preserveMoveVector = true;
+					// Do not slide while stepping (e.g. prevent sliding off an obstacle we are trying to step over)
+					canSlide = false;
 				}
 			}
 
 			// Set moveVector
-			if (slide)
+			if (canSlide)
 			{
 				// Vector to slide along the obstacle
 				Vector3 project = Vector3.ProjectOnPlane(direction, hitInfo.normal);
-				//project.Normalize();
 
 				if (slopeIsSteep &&
 				    project.y > 0.0f)
@@ -845,7 +921,7 @@ namespace StandardAssets.Characters.Physics
 				// Slide along the obstacle
 				moveVector = project * remainingDistance;
 			}
-			else if (preserveMoveVector == false)
+			else
 			{
 				// Stop current move loop itteration
 				moveVector = Vector3.zero;
@@ -932,17 +1008,21 @@ namespace StandardAssets.Characters.Physics
 			{
 				debugCurrentPosition += moveVector;
 			}
+
+			int debugMaxCurrentPositionErrorCount = 5;
 			if (debugCurrentPosition != null &&
-			    debugCurrentPositionErrorCount < 5 &&	// Only show error 5 times
+			    debugCurrentPositionErrorCount < debugMaxCurrentPositionErrorCount &&	// Only show error 5 times
 			    (Math.Abs(debugCurrentPosition.Value.x - capsuleTransform.position.x) > Mathf.Epsilon ||
 			     Math.Abs(debugCurrentPosition.Value.y - capsuleTransform.position.y) > Mathf.Epsilon ||
 			     Math.Abs(debugCurrentPosition.Value.z - capsuleTransform.position.z) > Mathf.Epsilon))
 			{
-				Debug.LogError(string.Format(
-					               "The character capsule's position was changed by something other than Move. " +
-					               "[position: ({0}, {1}, {2})     should be: ({3}, {4}, {5})]",
-					               capsuleTransform.position.x, capsuleTransform.position.y, capsuleTransform.position.z,
-					               debugCurrentPosition.Value.x, debugCurrentPosition.Value.y, debugCurrentPosition.Value.z));
+				// TODO: Restore this error log
+				//Debug.LogError(string.Format(
+				//	               "The character capsule's position was changed by something other than Move. " +
+				//	               "[position: ({0}, {1}, {2})     should be: ({3}, {4}, {5})] (Only showing this error {6} times.)",
+				//	               capsuleTransform.position.x, capsuleTransform.position.y, capsuleTransform.position.z,
+				//	               debugCurrentPosition.Value.x, debugCurrentPosition.Value.y, debugCurrentPosition.Value.z,
+				//	               debugMaxCurrentPositionErrorCount));
 				debugCurrentPositionErrorCount++;
 				debugCurrentPosition = capsuleTransform.position;
 			}
