@@ -21,9 +21,6 @@ namespace StandardAssets.Characters.CharacterInput
 
 		private LegacyCharacterInputBase currentInputSystem;
 		
-		//To adust the camera sensitivity for when on mobile. 
-		[SerializeField]
-		protected CinemachineVirtualCamera[] VCams;	
 
 		private LegacyCharacterInputBase currentInput
 		{
@@ -73,14 +70,8 @@ namespace StandardAssets.Characters.CharacterInput
 			currentInputSystem = mobileInput;
 			mobileInput.gameObject.SetActive(true);
 			standaloneInput.gameObject.SetActive(false);
-
-			foreach (var camera in VCams)
-			{
-				camera.GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.m_MaxSpeed = 
-					camera.GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.m_MaxSpeed/2;
-				camera.GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_MaxSpeed = 
-					camera.GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_MaxSpeed/2;
-			}
+            
+           
 			
 			/*
 			 * if (mousePov != null)
