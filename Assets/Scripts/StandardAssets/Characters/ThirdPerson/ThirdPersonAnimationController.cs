@@ -91,7 +91,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		private int hashIsStrafing;
 
 		private bool isGrounded;
-		private bool didJump;
 
 		public float animatorForwardSpeed
 		{
@@ -107,11 +106,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			get { return animator.GetFloat(hashTurningSpeed); }
 		}
-		
+
+
 		public void AirborneStateExit()
 		{
 			animator.SetFloat(predictedFallDistanceParameterName, 0);
-			animator.SetBool(jumpedParameterName, false);
 		}
 
 		public void LocomotionStateUpdate()
@@ -242,7 +241,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void OnLanding()
 		{
 			isGrounded = true;
-			didJump = false;
 			animator.SetBool(hashGrounded, true);
 		}
 
@@ -251,7 +249,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private void OnJumpStarted()
 		{
-			didJump = true;
 			isGrounded = false;
 			animator.SetTrigger(hashJumped);
 			animator.SetFloat(hashFallingTime, 0);
