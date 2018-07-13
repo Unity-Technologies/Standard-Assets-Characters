@@ -336,11 +336,12 @@ namespace StandardAssets.Characters.Physics
 				#if UNITY_EDITOR
 				if (i == k_MaxMoveItterations - 1)
 				{
-					Debug.LogError(string.Format("reached k_MaxMoveItterations!     (remainingMoveVector: {0}, {1}, {2})     " +
-												 "(moveVector: {3}, {4}, {5})     hitCount: {6}",
-												 remainingMoveVector.moveVector.x, remainingMoveVector.moveVector.y, remainingMoveVector.moveVector.z,
-												 moveVector.x, moveVector.y, moveVector.z,
-												 hitCount));
+					// TODO: Restore this error during debugging
+					//Debug.LogError(string.Format("reached k_MaxMoveItterations!     (remainingMoveVector: {0}, {1}, {2})     " +
+					//							 "(moveVector: {3}, {4}, {5})     hitCount: {6}",
+					//							 remainingMoveVector.moveVector.x, remainingMoveVector.moveVector.y, remainingMoveVector.moveVector.z,
+					//							 moveVector.x, moveVector.y, moveVector.z,
+					//							 hitCount));
 				}
 				#endif
 			}
