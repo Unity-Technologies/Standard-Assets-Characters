@@ -188,7 +188,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			isGrounded = false;
 			animator.SetFloat(hashFallingTime, 0);
 			animator.SetBool(hashGrounded, false);
-			animator.SetBool(hashJumped, didJump);
 			animator.SetFloat(hashPredictedFallDistance, predictedFallDistance);
 		}
 
@@ -245,7 +244,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			isGrounded = true;
 			didJump = false;
 			animator.SetBool(hashGrounded, true);
-			animator.SetBool(hashJumped, false);
 		}
 
 		/// <summary>
@@ -255,7 +253,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			didJump = true;
 			isGrounded = false;
-			animator.SetBool(hashJumped, true);
+			animator.SetTrigger(hashJumped);
 			animator.SetFloat(hashFallingTime, 0);
 			animator.SetBool(hashGrounded, false);
 			
