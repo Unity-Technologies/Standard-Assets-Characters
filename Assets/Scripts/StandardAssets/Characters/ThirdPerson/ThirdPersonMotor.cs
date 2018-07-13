@@ -406,7 +406,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			Quaternion targetRotation = CalculateTargetRotation();
 
-			if (CheckForAndHandleRapidTurn(targetRotation))
+			if (characterPhysics.isGrounded && CheckForAndHandleRapidTurn(targetRotation))
 			{
 				return;
 			}

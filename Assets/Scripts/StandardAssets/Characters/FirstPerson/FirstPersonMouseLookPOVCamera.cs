@@ -52,7 +52,7 @@ namespace StandardAssets.Characters.FirstPerson
             // If onScreen touch controls are avtive, then switch off mouse look 
             if (onScreenTouch != null)
             {
-                if (onScreenTouch.active)
+                if (onScreenTouch.activeSelf)
                 {
                     usingTouchControls = true;
                 }
