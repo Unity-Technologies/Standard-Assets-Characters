@@ -22,6 +22,11 @@ namespace StandardAssets.Characters.Physics
 		/// Fired when the collision flags changed.
 		/// </summary>
 		event Action<CollisionFlags> onCollisionFlagsChanged;
+
+		/// <summary>
+		/// Fired when the stepping over obstacles state changed.
+		/// </summary>
+		event Action<bool> onStepOverChanged;
 		
 		/// <summary>
 		/// Move the character capsule. This function does not apply any gravity.

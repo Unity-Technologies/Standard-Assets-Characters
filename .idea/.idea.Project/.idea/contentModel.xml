@@ -7,6 +7,13 @@
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="Scripts" t="Include">
+          <e p="_DebugTest" t="Include">
+            <e p="DebugCamera.cs" t="Include" />
+            <e p="DebugCharacterControllerInfo.cs" t="Include" />
+            <e p="DebugCharacterControllerPhysics.cs" t="Include" />
+            <e p="DebugCharacterInput.cs" t="Include" />
+            <e p="DebugExtensions.cs" t="Include" />
+          </e>
           <e p="Demo" t="Include">
             <e p="BulletController.cs" t="Include" />
             <e p="CameraConfigUi.cs" t="Include" />
@@ -15,21 +22,30 @@
             <e p="FirstPersonMovementSpeedConfigUi.cs" t="Include" />
             <e p="FreeLookCameraConfigUi.cs" t="Include" />
             <e p="GoToMenu.cs" t="Include" />
+            <e p="PlayerManager.cs" t="Include" />
             <e p="Quit.cs" t="Include" />
-            <e p="ThirdPersonMovementSpeedConfigUi.cs" t="Include" />
+            <e p="TurnSpeedOptions.cs" t="Include" />
+            <e p="TurnSpeedOptionsUiController.cs" t="Include" />
+            <e p="TurnSpeedOptionUiElement.cs" t="Include" />
             <e p="VCamPovCameraConfigUi.cs" t="Include" />
           </e>
           <e p="StandardAssets" t="Include">
             <e p="Characters" t="Include">
               <e p="CharacterInput" t="Include">
+                <e p="CompoundInputResponse.cs" t="Include" />
                 <e p="ICharacterInput.cs" t="Include" />
                 <e p="InputResponse.cs" t="Include" />
+                <e p="LegacyCharacterInput.cs" t="Include" />
+                <e p="LegacyCharacterInputBase.cs" t="Include" />
                 <e p="LegacyCharacterInputDevices.cs" t="Include" />
                 <e p="LegacyCharacterInputDevicesCache.cs" t="Include" />
-                <e p="LegacyUnityCharacterInput.cs" t="Include" />
-                <e p="LegacyUnityInputResponse.cs" t="Include" />
-                <e p="LegacyUnityInputResponsePoller.cs" t="Include" />
+                <e p="LegacyCrossPlatformCharacterInput.cs" t="Include" />
+                <e p="LegacyInputResponse.cs" t="Include" />
+                <e p="LegacyInputResponsePoller.cs" t="Include" />
+                <e p="LegacyOnScreenCharacterInput.cs" t="Include" />
+                <e p="LegacyOnScreenInputResponse.cs" t="Include" />
                 <e p="NavMeshClick.cs" t="Include" />
+                <e p="StaticOnScreenJoystick.cs" t="Include" />
               </e>
               <e p="Effects" t="Include">
                 <e p="AudioMovementEventPlayer.cs" t="Include" />
@@ -56,27 +72,39 @@
                 <e p="PovCharacterRotator.cs" t="Include" />
               </e>
               <e p="Physics" t="Include">
-                <e p="AnimationMotorProperties.cs" t="Include" />
                 <e p="BaseCharacterPhysics.cs" t="Include" />
                 <e p="CharacterCapsule.cs" t="Include" />
+                <e p="CharacterCapsuleMover.cs" t="Include" />
+                <e p="CharacterCapsuleStepInfo.cs" t="Include" />
                 <e p="CharacterControllerPhysics.cs" t="Include" />
-                <e p="CustomCharacterPhysics.cs" t="Include" />
+                <e p="ICharacterCapsuleMover.cs" t="Include" />
                 <e p="ICharacterPhysics.cs" t="Include" />
                 <e p="OpenCharacterController.cs" t="Include" />
                 <e p="OpenCharacterControllerPhysics.cs" t="Include" />
-                <e p="PhysicsMotorProperties.cs" t="Include" />
                 <e p="RigidbodyCharacterPhysics.cs" t="Include" />
               </e>
               <e p="ThirdPerson" t="Include">
-                <e p="AnimationThirdPersonMotor.cs" t="Include" />
-                <e p="BaseThirdPersonMotor.cs" t="Include" />
-                <e p="InputThirdPersonMotor.cs" t="Include" />
+                <e p="AnimationInputProperties.cs" t="Include" />
+                <e p="AnimatorBehaviours" t="Include">
+                  <e p="AirborneAnimatorStatemachine.cs" t="Include" />
+                  <e p="JumpAnimatorState.cs" t="Include" />
+                  <e p="LocomotionAnimatorState.cs" t="Include" />
+                </e>
+                <e p="BlendspaceTurnaroundBehaviour.cs" t="Include" />
+                <e p="CameraManager.cs" t="Include" />
+                <e p="DebugBlendspaceTurnaroundBehaviour.cs" t="Include" />
                 <e p="IThirdPersonMotor.cs" t="Include" />
-                <e p="JumpAnimatorState.cs" t="Include" />
                 <e p="NavMeshThirdPersonMotor.cs" t="Include" />
-                <e p="PhysicsThirdPersonMotor.cs" t="Include" />
                 <e p="ThirdPersonAnimationController.cs" t="Include" />
+                <e p="ThirdPersonConfiguration.cs" t="Include" />
+                <e p="ThirdPersonGroundMovementState.cs" t="Include" />
+                <e p="ThirdPersonMotor.cs" t="Include" />
+                <e p="ThirdPersonMotorMovementMode.cs" t="Include" />
+                <e p="TurnaroundBehaviour.cs" t="Include" />
               </e>
+            </e>
+            <e p="GizmosHelpers" t="Include">
+              <e p="GizmosHelper.cs" t="Include" />
             </e>
           </e>
           <e p="TFBGames" t="Include">
@@ -91,7 +119,9 @@
             <e p="ConfigurableUpdateBehaviour.cs" t="Include" />
             <e p="ConfigurableUpdateType.cs" t="Include" />
             <e p="CurveEvaluator.cs" t="Include" />
+            <e p="MathUtilities.cs" t="Include" />
             <e p="MinMaxCurveEvaluator.cs" t="Include" />
+            <e p="Vector3Extensions.cs" t="Include" />
           </e>
         </e>
         <e p="TextMesh Pro" t="Include">
