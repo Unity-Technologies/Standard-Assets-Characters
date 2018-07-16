@@ -47,11 +47,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		public Action<float> fallStarted { get; set; }
 		public Action<float> rapidlyTurned { get; set; }
 
-		public void FinishedTurn()
-		{
-			throw new NotImplementedException();
-		}
-
 		/// <inheritdoc />
 		protected void Awake()
 		{

@@ -63,12 +63,14 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected ThirdPersonGroundMovementState preTurnMovementState;
 		protected ThirdPersonGroundMovementState movementState = ThirdPersonGroundMovementState.Walking;
 
+		protected ThirdPersonAerialMovementState aerialState = ThirdPersonAerialMovementState.Grounded;
+
 		protected AnimationInputProperties currentForwardInputProperties, currentLateralInputProperties;
 
 		protected float forwardClampSpeed, targetForwardClampSpeed, lateralClampSpeed, targetLateralClampSpeed;
 
 		protected float cachedForwardMovement;
-		
+
 		protected TurnaroundBehaviour turnaroundBehaviour;
 
 		protected bool isStrafing
@@ -81,11 +83,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return (characterPhysics as BaseCharacterPhysics).normalizedVerticalSpeed; }
 		}
 
-		public void FinishedTurn()
-		{
-			//TODO REMOVE THIS
-		}
-		
 		public void OnJumpAnimationComplete()
 		{
 			var baseCharacterPhysics = GetComponent<BaseCharacterPhysics>();
@@ -101,6 +98,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			else
 			{
+				aerialState = ThirdPersonAerialMovementState.Falling;
 				if (fallStarted != null)
 				{
 					fallStarted(distance);
@@ -115,7 +113,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				return;
 			}
-			
+
 			if (characterPhysics.isGrounded)
 			{
 				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
@@ -136,7 +134,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				turnaroundBehaviour = turn;
 			}
-			
+
 			characterInput = GetComponent<ICharacterInput>();
 			characterPhysics = GetComponent<ICharacterPhysics>();
 			animator = GetComponent<Animator>();
@@ -241,6 +239,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		protected virtual void OnLanding()
 		{
+			aerialState = ThirdPersonAerialMovementState.Grounded;
+			//cachedForwardMovement = 0f;
+
 			if (landed != null)
 			{
 				landed();
@@ -253,6 +254,15 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <param name="predictedFallDistance"></param>
 		protected virtual void OnStartedFalling(float predictedFallDistance)
 		{
+			if (aerialState == ThirdPersonAerialMovementState.Grounded)
+			{
+				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
+				groundMovementVector.y = 0;
+				cachedForwardMovement = groundMovementVector.GetMagnitudeOnAxis(transform.forward);
+			}
+
+			aerialState = ThirdPersonAerialMovementState.Falling;
+
 			if (fallStarted != null)
 			{
 				fallStarted(predictedFallDistance);
@@ -269,6 +279,8 @@ namespace StandardAssets.Characters.ThirdPerson
 				return;
 			}
 
+			aerialState = ThirdPersonAerialMovementState.Jumping;
+			
 			if (jumpStarted != null)
 			{
 				jumpStarted();
@@ -360,11 +372,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
-		protected virtual void TurningAround()
-		{
-			//throw new NotImplementedException();
-		}
-
 		protected virtual void ActionMovement()
 		{
 			SetLookDirection();
@@ -413,8 +420,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			float turnSpeed = characterPhysics.isGrounded
 				? configuration.turningYSpeed
-				: configuration.jumpTurningYSpeed; 
-			
+				: configuration.jumpTurningYSpeed;
+
 			targetRotation =
 				Quaternion.RotateTowards(transform.rotation, targetRotation,
 				                         turnSpeed * Time.deltaTime);
@@ -472,7 +479,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			var clamp = Mathf.Min(characterInput.moveInput.magnitude, forwardClampSpeed);
 			normalizedForwardSpeed =
 				Mathf.Clamp(normalizedForwardSpeed + input * forwardVelocity * Time.deltaTime, -clamp,
-					clamp);
+				            clamp);
 		}
 
 		protected virtual void EaseOffForwardInput()
@@ -492,7 +499,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			var clamp = Mathf.Min(characterInput.moveInput.magnitude, forwardClampSpeed);
 			normalizedLateralSpeed =
 				Mathf.Clamp(normalizedLateralSpeed + -input * lateralVelocity * Time.deltaTime, -clamp,
-					clamp);
+				            clamp);
 		}
 
 		protected virtual void EaseOffLateralInput()
@@ -543,8 +550,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			float currentY = currentRotation.eulerAngles.y;
 			float newY = newRotation.eulerAngles.y;
 			float difference = (MathUtilities.Wrap180(newY) - MathUtilities.Wrap180(currentY)) / Time.deltaTime;
+
 			normalizedTurningSpeed = Mathf.Lerp(normalizedTurningSpeed,
-			                                    Mathf.Clamp(difference / configuration.turningYSpeed, -1, 1),
+			                                    Mathf.Clamp(
+				                                    difference / configuration.turningYSpeed *
+				                                    configuration.turningSpeedScaleVisual, -1, 1),
 			                                    Time.deltaTime * configuration.turningLerpFactor);
 		}
 

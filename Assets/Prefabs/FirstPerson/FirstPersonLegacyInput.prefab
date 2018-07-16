@@ -530,7 +530,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1964405990763292
 GameObject:
   m_ObjectHideFlags: 0
@@ -546,7 +546,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4216962856274970
 Transform:
   m_ObjectHideFlags: 1
@@ -651,7 +651,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1627797537853366}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 47.75, y: 11.58, z: 63.168888}
+  m_LocalPosition: {x: 16, y: 19.39, z: 33}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4617565824343848}
@@ -834,17 +834,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48973502197442979c49c5becb275492, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookXAxisName: LookX
-  lookYAxisName: LookY
-  XSensitivity: -10
-  YSensitivity: 10
-  smoothTime: 1
   VCams:
   - {fileID: 114713529341382392}
   - {fileID: 114606634733582770}
   - {fileID: 114074389995230264}
   mPOV: {fileID: 114957854057706032}
-  onScreenTouch: {fileID: 1945195998101900}
 --- !u!114 &114131800974490702
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1826,13 +1820,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cinemachineLookXAxisName: Horizontal
   cinemachineLookYAxisName: Vertical
-  horizontalAxisName: Horizontal
-  verticalAxisName: Vertical
-  useLookInput: 0
   lookXAxisName: LookX
   lookYAxisName: LookY
+  horizontalAxisName: Horizontal
+  verticalAxisName: Vertical
   keyboardJumpName: Jump
-  povMouseLook: {fileID: 114128930939556762}
 --- !u!114 &114880963597325348
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1958,8 +1950,8 @@ MonoBehaviour:
   m_VerticalAxis:
     Value: -5.2946043
     m_MaxSpeed: 220
-    m_AccelTime: 0.1
-    m_DecelTime: 0.1
+    m_AccelTime: 0.02
+    m_DecelTime: 0.02
     m_InputAxisName: Vertical
     m_InputAxisValue: 0
     m_InvertInput: 0
@@ -1975,8 +1967,8 @@ MonoBehaviour:
   m_HorizontalAxis:
     Value: 15.732724
     m_MaxSpeed: 300
-    m_AccelTime: 0.1
-    m_DecelTime: 0.1
+    m_AccelTime: 0.01
+    m_DecelTime: 0.01
     m_InputAxisName: Horizontal
     m_InputAxisValue: 0
     m_InvertInput: 1
