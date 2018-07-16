@@ -49,7 +49,5 @@ namespace StandardAssets.Characters.ThirdPerson
 		Action<float> rapidlyTurned { get; set; }
 
 		float normalizedVerticalSpeed { get; }
-
-		void FinishedTurn();
 	}
 }

@@ -81,11 +81,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return (characterPhysics as BaseCharacterPhysics).normalizedVerticalSpeed; }
 		}
 
-		public void FinishedTurn()
-		{
-			//TODO REMOVE THIS
-		}
-
 		public void OnJumpAnimationComplete()
 		{
 			var baseCharacterPhysics = GetComponent<BaseCharacterPhysics>();
@@ -358,11 +353,6 @@ namespace StandardAssets.Characters.ThirdPerson
 					StrafeMovement();
 					break;
 			}
-		}
-
-		protected virtual void TurningAround()
-		{
-			//throw new NotImplementedException();
 		}
 
 		protected virtual void ActionMovement()
