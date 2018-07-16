@@ -12,15 +12,8 @@ namespace StandardAssets.Characters.CharacterInput
 
 		[SerializeField]
 		protected string cinemachineLookYAxisName = "Vertical";
-
-		protected bool useMouseLookOnly;
 		
-		public bool toggleMouseLookOnly
-		{
-			get { return useMouseLookOnly;}
-			set { useMouseLookOnly = value; }
-		}
-
+		
 		protected Vector2 moveInputVector;
 		protected Action jumped;
 
@@ -51,10 +44,6 @@ namespace StandardAssets.Characters.CharacterInput
 		{
 			CinemachineCore.GetInputAxis = LookInputOverride;
 			
-			if(Input.GetJoystickNames().Length==0)
-			{
-				useMouseLookOnly = true;
-			}
 		}
 		
 		/// <summary>
