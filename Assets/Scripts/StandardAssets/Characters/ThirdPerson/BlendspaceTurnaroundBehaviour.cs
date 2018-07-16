@@ -15,6 +15,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected AnimationCurve forwardSpeed = AnimationCurve.Linear(0, 0, 1, 1);
 
+		[SerializeField]
+		protected Calculation forwardSpeedCalculation;
+
 
 		Vector3 targetRotationEuler;
 		Quaternion targetRotation;
@@ -35,7 +38,16 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			float forwardSpeedValue = forwardSpeed.Evaluate(normalizedTime);
 
-			animationController.UpdateForwardSpeed(Mathf.Clamp(forwardSpeedValue + currentForwardSpeed, -1, 1), Time.deltaTime);
+			if (forwardSpeedCalculation == Calculation.Multiplicative)
+			{
+				forwardSpeedValue = forwardSpeedValue * currentForwardSpeed;
+			}
+			else
+			{
+				forwardSpeedValue = forwardSpeedValue + currentForwardSpeed;
+			}
+
+			animationController.UpdateForwardSpeed(Mathf.Clamp(forwardSpeedValue, -1, 1), Time.deltaTime);
 			
 			float oldYRotation = transform.eulerAngles.y;
 			transform.rotation =
@@ -79,5 +91,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			targetRotationEuler.y += rotation;
 			targetRotation = Quaternion.Euler(targetRotationEuler);
 		}
+	}
+
+	public enum Calculation
+	{
+		Additive,
+		Multiplicative
 	}
 }

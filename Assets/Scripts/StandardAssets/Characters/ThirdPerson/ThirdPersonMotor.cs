@@ -63,6 +63,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected ThirdPersonGroundMovementState preTurnMovementState;
 		protected ThirdPersonGroundMovementState movementState = ThirdPersonGroundMovementState.Walking;
 
+		protected ThirdPersonAerialMovementState aerialState = ThirdPersonAerialMovementState.Grounded;
+
 		protected AnimationInputProperties currentForwardInputProperties, currentLateralInputProperties;
 
 		protected float forwardClampSpeed, targetForwardClampSpeed, lateralClampSpeed, targetLateralClampSpeed;
@@ -78,8 +80,15 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public float normalizedVerticalSpeed
 		{
-			get { return (characterPhysics as BaseCharacterPhysics).normalizedVerticalSpeed; }
+			get { return characterPhysics.normalizedVerticalSpeed; }
 		}
+
+		public ThirdPersonConfiguration thirdPersonConfiguration
+		{
+			get { return configuration; }
+		}
+		
+		public Quaternion targetRotation { get; private set; }
 
 		public void OnJumpAnimationComplete()
 		{
@@ -96,6 +105,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			else
 			{
+				aerialState = ThirdPersonAerialMovementState.Falling;
 				if (fallStarted != null)
 				{
 					fallStarted(distance);
@@ -236,6 +246,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		protected virtual void OnLanding()
 		{
+			aerialState = ThirdPersonAerialMovementState.Grounded;
+			//cachedForwardMovement = 0f;
+
 			if (landed != null)
 			{
 				landed();
@@ -248,6 +261,15 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <param name="predictedFallDistance"></param>
 		protected virtual void OnStartedFalling(float predictedFallDistance)
 		{
+			if (aerialState == ThirdPersonAerialMovementState.Grounded)
+			{
+				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
+				groundMovementVector.y = 0;
+				cachedForwardMovement = groundMovementVector.GetMagnitudeOnAxis(transform.forward);
+			}
+
+			aerialState = ThirdPersonAerialMovementState.Falling;
+
 			if (fallStarted != null)
 			{
 				fallStarted(predictedFallDistance);
@@ -264,6 +286,8 @@ namespace StandardAssets.Characters.ThirdPerson
 				return;
 			}
 
+			aerialState = ThirdPersonAerialMovementState.Jumping;
+			
 			if (jumpStarted != null)
 			{
 				jumpStarted();
@@ -375,15 +399,15 @@ namespace StandardAssets.Characters.ThirdPerson
 			lookForwardY.z = 0;
 			lookForwardY.y -= characterInput.lookInput.x * Time.deltaTime * configuration.scaleStrafeLook;
 
-			Quaternion targetRotation = Quaternion.Euler(lookForwardY);
+			targetRotation = Quaternion.Euler(lookForwardY);
 
-			targetRotation =
+			Quaternion newRotation =
 				Quaternion.RotateTowards(transform.rotation, targetRotation,
 				                         configuration.turningYSpeed * Time.deltaTime);
 
-			SetTurningSpeed(transform.rotation, targetRotation);
+			SetTurningSpeed(transform.rotation, newRotation);
 
-			transform.rotation = targetRotation;
+			transform.rotation = newRotation;
 		}
 
 		protected virtual void SetLookDirection()
@@ -394,7 +418,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				return;
 			}
 
-			Quaternion targetRotation = CalculateTargetRotation();
+			targetRotation = CalculateTargetRotation();
 
 			if (characterPhysics.isGrounded && CheckForAndHandleRapidTurn(targetRotation))
 			{
@@ -405,13 +429,13 @@ namespace StandardAssets.Characters.ThirdPerson
 				? configuration.turningYSpeed
 				: configuration.jumpTurningYSpeed;
 
-			targetRotation =
+			Quaternion newRotation =
 				Quaternion.RotateTowards(transform.rotation, targetRotation,
 				                         turnSpeed * Time.deltaTime);
 
-			SetTurningSpeed(transform.rotation, targetRotation);
+			SetTurningSpeed(transform.rotation, newRotation);
 
-			transform.rotation = targetRotation;
+			transform.rotation = newRotation;
 		}
 
 		protected virtual void CalculateForwardMovement()
@@ -546,7 +570,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			movementState = preTurnMovementState;
 		}
 
-		protected virtual bool CheckForAndHandleRapidTurn(Quaternion targetRotation)
+		protected virtual bool CheckForAndHandleRapidTurn(Quaternion target)
 		{
 			if (turnaroundBehaviour == null)
 			{
@@ -554,7 +578,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 			float currentY = transform.eulerAngles.y;
-			float newY = targetRotation.eulerAngles.y;
+			float newY = target.eulerAngles.y;
 			float angle = MathUtilities.Wrap180(MathUtilities.Wrap180(newY) - MathUtilities.Wrap180(currentY));
 
 			if (Mathf.Abs(angle) > configuration.angleRapidTurn)

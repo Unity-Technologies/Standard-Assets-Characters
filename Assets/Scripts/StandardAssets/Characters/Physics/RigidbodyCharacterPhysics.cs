@@ -22,6 +22,14 @@ namespace StandardAssets.Characters.Physics
 		public float airTime { get; private set; }
 		public float fallTime { get; private set; }
 
+		public float normalizedVerticalSpeed
+		{
+			get
+			{
+				return rigidBody.velocity.y;
+			}
+		}
+
 		/// <inheritdoc />
 		public Action landed { get; set; }
 

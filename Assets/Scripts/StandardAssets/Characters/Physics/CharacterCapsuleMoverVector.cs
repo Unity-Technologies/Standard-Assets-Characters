@@ -3,7 +3,7 @@
 namespace StandardAssets.Characters.Physics
 {
 	/// <summary>
-	/// A vector used by the character capsule mover.
+	/// A vector used by the CharacterCapsuleMover.
 	/// </summary>
 	public class CharacterCapsuleMoverVector
 	{
@@ -20,8 +20,8 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Constructor.
 		/// </summary>
-		/// <param name="newMoveVector"></param>
-		/// <param name="newCanSlide"></param>
+		/// <param name="newMoveVector">The move vector.</param>
+		/// <param name="newCanSlide">Can the movement slide along obstacles?</param>
 		public CharacterCapsuleMoverVector(Vector3 newMoveVector, bool newCanSlide = true)
 		{
 			moveVector = newMoveVector;

@@ -1,5 +1,6 @@
 ﻿using System;
 using Cinemachine;
+using StandardAssets.Characters.FirstPerson;
 using UnityEngine;
 using UnityEngine.Experimental.Input;
 
@@ -10,6 +11,22 @@ namespace StandardAssets.Characters.CharacterInput
 	/// </summary>
 	public class LegacyCharacterInput : LegacyCharacterInputBase
 	{
+		[SerializeField]
+		protected string lookXAxisName = "LookX";
+
+		[SerializeField]
+		protected string lookYAxisName = "LookY";
+		
+		[SerializeField]
+		protected bool useMouseLookOnly = true;
+
+		[SerializeField]
+		public bool toggleMouseLookOnly
+		{
+			get { return useMouseLookOnly;}
+			set { useMouseLookOnly = value; }
+		}
+		
 		[Header("Movement Input Axes")]
 		[SerializeField]
 		protected string horizontalAxisName = "Horizontal";
@@ -18,16 +35,10 @@ namespace StandardAssets.Characters.CharacterInput
 		protected string verticalAxisName = "Vertical";
 
 		[SerializeField]
-		protected bool useLookInput = true;
-
-		[SerializeField]
-		protected string lookXAxisName = "LookX";
-
-		[SerializeField]
-		protected string lookYAxisName = "LookY";
-
-		[SerializeField]
 		protected string keyboardJumpName = "Jump";
+
+		//[SerializeField] 
+		//protected FirstPersonMouseLookPOVCamera povMouseLook;
 
 		protected override void Update()
 		{
@@ -36,28 +47,30 @@ namespace StandardAssets.Characters.CharacterInput
 		}
 
 		/// <summary>
-		/// Update the look vector2, this is used in 3rd person
-		/// and allows mouse and controller to both work at the same time.
-		/// mouse look will take preference.
-		/// IF there is no mouse inputs, it will get gamepad axis.  
+		//If !useMouseLookOnly, and Gamepad is plugged in, the look
+		//will be controlled by gamepad. If !useMouseLookOnly and no gamepad 
+		//is plugged in, mouse look axis name will still resolove. 
 		/// </summary>
 		protected override void UpdateLookVector()
 		{
-				string lookX = LegacyCharacterInputDevicesCache.ResolveControl(lookXAxisName);
-				string lookY = LegacyCharacterInputDevicesCache.ResolveControl(lookYAxisName);
+			
+			if (useMouseLookOnly)
+			{
+				lookInputVector.x = Input.GetAxis(lookXAxisName);
+				lookInputVector.y = Input.GetAxis(lookYAxisName);
+				return;
+			}
+			
+			string lookX = LegacyCharacterInputDevicesCache.ResolveControl(lookXAxisName);
+			string lookY = LegacyCharacterInputDevicesCache.ResolveControl(lookYAxisName);
 
-				if (lookX == lookXAxisName && lookY == lookYAxisName && !useLookInput)
-				{
-					return;
-				}
-
-				lookInputVector.x = Input.GetAxis(lookX);
-				lookInputVector.y = Input.GetAxis(lookY);
+			lookInputVector.x = Input.GetAxis(lookX);
+			lookInputVector.y = Input.GetAxis(lookY);
+			
 		}
 
 		protected override void UpdateMoveVector()
 		{
-			//Update Move Vector
 			moveInputVector.Set(Input.GetAxis(horizontalAxisName), Input.GetAxis(verticalAxisName));
 		}
 

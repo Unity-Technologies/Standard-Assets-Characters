@@ -176,7 +176,7 @@ namespace StandardAssets.Characters.Physics
 				capsuleCollider.height = height + (skinWidth * 2.0f);
 			}
 
-			// TODO: Physics.ComputePenetration does not always return values when the colliders overlap. Need a better method.
+			// Note: Physics.ComputePenetration does not always return values when the colliders overlap.
 			bool result = UnityEngine.Physics.ComputePenetration(capsuleCollider,
 			                                              		 cachedTransform.position + positionOffset,
 			                                              		 cachedTransform.rotation,
@@ -433,7 +433,7 @@ namespace StandardAssets.Characters.Physics
 				return;
 			}
 
-			// Draw fake capsule collider
+			// Draw capsule collider
 			GizmosHelper.DrawCapsule(GetTopSphereWorldPosition(), GetBottomSphereWorldPosition(), 
 			                         scaledRadius, Color.green);
 			
