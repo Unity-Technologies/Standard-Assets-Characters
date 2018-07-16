@@ -525,8 +525,8 @@ GameObject:
   - component: {fileID: 114806330699989004}
   - component: {fileID: 114346304956769404}
   - component: {fileID: 114089309699034070}
-  - component: {fileID: 114907068646424796}
   - component: {fileID: 114436560949563180}
+  - component: {fileID: 114126601861518038}
   m_Layer: 11
   m_Name: MaleThirdPerson
   m_TagString: Player
@@ -1546,7 +1546,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1294013925418394}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 47.75, y: 10.18, z: 63.168888}
+  m_LocalPosition: {x: 47.75, y: 19.352, z: 63.168888}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4373934692070628}
@@ -2625,6 +2625,61 @@ MonoBehaviour:
   cinemachineLookYAxisName: Vertical
   leftOnScreenJoystick: {fileID: 114004964462743514}
   rightOnScreenJoystick: {fileID: 114899799394176718}
+--- !u!114 &114126601861518038
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1294013925418394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75c30f5f657547d7b0479680982c985b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeToTurn: 0.15
+  turnSpeed: 0.5
+  forwardSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.0041656494
+      value: -0.011727907
+      inSlope: -3.069767
+      outSlope: -3.069767
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.17916666
+    - serializedVersion: 3
+      time: 0.3121027
+      value: -1
+      inSlope: 0.280108
+      outSlope: 0.280108
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.60981685
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.50811255
+      value: 0.1
+      inSlope: 2.998844
+      outSlope: 2.998844
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.9916687
+      value: 0.011360168
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &114200361099830622
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2800,7 +2855,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   standaloneInput: {fileID: 114708474431008640}
   mobileInput: {fileID: 114115391730479704}
-  VCams: []
 --- !u!114 &114447118663720106
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3089,7 +3143,6 @@ MonoBehaviour:
   lookXAxisName: LookX
   lookYAxisName: LookY
   keyboardJumpName: Jump
-  povMouseLook: {fileID: 0}
 --- !u!114 &114725283838162428
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3256,67 +3309,6 @@ MonoBehaviour:
   joystickBase: {fileID: 224000812552088444}
   joystickHat: {fileID: 224249921379171624}
   deadZone: 0.1
---- !u!114 &114907068646424796
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1294013925418394}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01f7e0eda92f4bf5a5401d8684c6065b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeToTurn: 0.3
-  turnSpeed: 0.5
-  forwardSpeed:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: -0.0041656494
-      value: -0.011727907
-      inSlope: -3.069767
-      outSlope: -3.069767
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.17916666
-    - serializedVersion: 3
-      time: 0.3121027
-      value: -1
-      inSlope: 0.280108
-      outSlope: 0.280108
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.60981685
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.50811255
-      value: 0.1
-      inSlope: 2.998844
-      outSlope: 2.998844
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.9916687
-      value: 0.011360168
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  times:
-  - 0.1
-  - 0.2
-  - 0.3
-  - 0.4
-  - 0.5
 --- !u!137 &137464820802569840
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
