@@ -19,6 +19,13 @@ namespace StandardAssets.Characters.CharacterInput
 		
 		[SerializeField]
 		protected bool useMouseLookOnly = true;
+
+		[SerializeField]
+		public bool toggleMouseLookOnly
+		{
+			get { return useMouseLookOnly;}
+			set { useMouseLookOnly = value; }
+		}
 		
 		[Header("Movement Input Axes")]
 		[SerializeField]
