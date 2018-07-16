@@ -8,7 +8,8 @@ namespace StandardAssets.Characters.FirstPerson
 {
     public class FirstPersonMouseLookPOVCamera: MonoBehaviour
     {
-        [SerializeField]
+        /*
+         * [SerializeField]
         protected string lookXAxisName = "LookX";
 		
         [SerializeField]
@@ -29,6 +30,14 @@ namespace StandardAssets.Characters.FirstPerson
         private bool invertX = false;
         private bool invertY = false;
         
+         private Vector2 look;
+
+        private bool usingTouchControls;
+
+        [SerializeField] 
+        protected GameObject onScreenTouch;
+         */
+        
         /// <summary>
         /// Reference to all the cinemachine vcams on the character
         /// All the VCams must have the 'aim' set to POV 
@@ -38,53 +47,57 @@ namespace StandardAssets.Characters.FirstPerson
         [SerializeField]
         protected CinemachinePOV mPOV; 
 
-        private Vector2 look;
-
-        private bool usingTouchControls;
-
-        [SerializeField] 
-        protected GameObject onScreenTouch;
+       
         
         void Awake ()
         {
             mPOV = VCams[0].GetCinemachineComponent<CinemachinePOV>();
             
-            // If onScreen touch controls are avtive, then switch off mouse look 
+           /*
+            *  // If onScreen touch controls are avtive, then switch off mouse look 
             if (onScreenTouch != null)
             {
                 if (onScreenTouch.activeSelf)
                 {
                     usingTouchControls = true;
+                    Debug.Log("Using Touch");
                 }
             }
             else
             {
                 usingTouchControls = false;
             }
+            */
            
         }
 
         void Update()
         {
-            ResponsiveMouseLook();
+            UpdatePovCameras();
+            
+            /*
+             * ResponsiveMouseLook();
             if (!usingTouchControls)
             {
                 look.x = Input.GetAxis(lookXAxisName);
                 look.y = Input.GetAxis(lookYAxisName);
             }
+            Debug.Log("Look: "+look);
+             */
         }
         void ResponsiveMouseLook()
         {
-            var cameraRotation = GetCameraRotationVector();	
-            UpdatePovCameras(cameraRotation);
+           // var cameraRotation = GetCameraRotationVector();	
+            
         }
         
         /// <summary>
         /// Update each cameras Horizontal and Vertical axis values
         /// </summary>
         /// <param name="cameraRotation"></param>
-        void UpdatePovCameras(Vector3 cameraRotation)
+        void UpdatePovCameras()
         {
+            var cameraRotation = new Vector3(mPOV.m_VerticalAxis.Value, mPOV.m_HorizontalAxis.Value, 0);
             foreach (var cam in VCams)
             {
                 var vCam = cam.GetCinemachineComponent<CinemachinePOV>();
@@ -93,7 +106,8 @@ namespace StandardAssets.Characters.FirstPerson
             }
         }
         
-        /// <summary>
+       /*
+        *  /// <summary>
         /// Manually scales the mouse look vector to eliminate acceleration and deceleration times felt
         /// when using the mouse to control the POV cinemachine cameras
         /// </summary>
@@ -147,5 +161,6 @@ namespace StandardAssets.Characters.FirstPerson
         {
             return new Vector2(XSensitivity,YSensitivity);
         }
+        */
     }
 }

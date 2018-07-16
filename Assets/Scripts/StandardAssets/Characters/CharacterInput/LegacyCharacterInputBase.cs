@@ -49,8 +49,10 @@ namespace StandardAssets.Characters.CharacterInput
 		/// </summary>
 		private float LookInputOverride(string cinemachineAxisName)
 		{
+			
 			if (cinemachineAxisName == cinemachineLookXAxisName)
 			{
+				
 				return lookInput.x;
 			}
 
