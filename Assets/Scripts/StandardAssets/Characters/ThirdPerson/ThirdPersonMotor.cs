@@ -80,7 +80,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public float normalizedVerticalSpeed
 		{
-			get { return (characterPhysics as BaseCharacterPhysics).normalizedVerticalSpeed; }
+			get { return characterPhysics.normalizedVerticalSpeed; }
 		}
 
 		public ThirdPersonConfiguration thirdPersonConfiguration
@@ -88,7 +88,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return configuration; }
 		}
 		
-		public Quaternion targetRotation { get; set; }
+		public Quaternion targetRotation { get; private set; }
 
 		public void OnJumpAnimationComplete()
 		{
