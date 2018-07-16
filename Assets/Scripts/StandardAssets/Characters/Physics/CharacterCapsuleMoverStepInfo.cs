@@ -4,8 +4,9 @@ namespace StandardAssets.Characters.Physics
 {
 	/// <summary>
 	/// Info for stepping over small obstacles (i.e. if the character's heightToStep > 0).
+	/// This is used by the CharacterCapsuleMover.
 	/// </summary>
-	public class CharacterCapsuleStepInfo
+	public class CharacterCapsuleMoverStepInfo
 	{
 		/// <summary>
 		/// Continue stepping if the angle between the original move vector (which started the stepping) and the new vector

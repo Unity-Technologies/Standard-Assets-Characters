@@ -15,6 +15,11 @@ namespace StandardAssets.Characters.Physics
 		private const int k_MaxMoveItterations = 100;
 
 		/// <summary>
+		/// Max move vector length when splitting it up into horizontal and vertial components.
+		/// </summary>
+		private const float k_MaxMoveVectorLength = 0.5f;
+
+		/// <summary>
 		/// Stick to the ground if it is less than this distance from the character.
 		/// </summary>
 		private const float k_MaxStickToGroundDownDistance = 1.0f;
@@ -38,6 +43,11 @@ namespace StandardAssets.Characters.Physics
 		/// If character's position does not change by more than this amount then we assume the character is stuck.
 		/// </summary>
 		private const float k_StuckDistance = 0.001f;
+
+		/// <summary>
+		/// If character's position does not change by more than this amount then we assume the character is stuck.
+		/// </summary>
+		private const float k_StuckSqrDistance = k_StuckDistance * k_StuckDistance;
 		
 		/// <summary>
 		/// If character collided this number of times during the movement loop then test if character is stuck
@@ -78,19 +88,6 @@ namespace StandardAssets.Characters.Physics
 		/// <inheritdoc />
 		public event Action<CollisionFlags> onCollisionFlagsChanged;
 
-		/// <inheritdoc />
-		public bool checkSmallObstaclesWhenStepOver { get; set; }
-
-		/// <summary>
-		/// Was the touching the ground during the last move?
-		/// </summary>
-		private bool isGrounded;
-
-		/// <summary>
-		/// Collision flags from the last move.
-		/// </summary>
-		private CollisionFlags collisionFlags;
-
 		/// <summary>
 		/// The character capsule to move.
 		/// </summary>
@@ -107,14 +104,9 @@ namespace StandardAssets.Characters.Physics
 		private List<CharacterCapsuleMoverVector> moveVectors = new List<CharacterCapsuleMoverVector>();
 		
 		/// <summary>
-		/// Index into the moveVectors array.
+		/// Next index in the moveVectors list.
 		/// </summary>
-		private int moveVectorIndex;
-
-		/// <summary>
-		/// Velocity of the last movement. It's the new position minus the old position.
-		/// </summary>
-		private Vector3 velocity;
+		private int nextMoveVectorIndex;
 
 		/// <summary>
 		/// Count the number of collisions during movement, to determine when the character gets stuck.
@@ -134,7 +126,12 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Stepping over obstacles info.
 		/// </summary>
-		private CharacterCapsuleStepInfo stepInfo = new CharacterCapsuleStepInfo();
+		private CharacterCapsuleMoverStepInfo stepInfo = new CharacterCapsuleMoverStepInfo();
+
+		/// <summary>
+		/// The collision info when hitting colliders.
+		/// </summary>
+		private Dictionary<Collider, List<CharacterCapsuleMoverCollisionInfo>> collisionInfoDictionary = new Dictionary<Collider, List<CharacterCapsuleMoverCollisionInfo>>();
 		
 		#if UNITY_EDITOR
 		/// <summary>
@@ -146,57 +143,49 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		private int debugCurrentPositionErrorCount;
 		#endif
-		
+
+		/// <inheritdoc />
+		public bool isGrounded { get; private set; }
+
+		/// <inheritdoc />
+		public CollisionFlags collisionFlags { get; private set; }
+
+		/// <inheritdoc />
+		public Vector3 velocity { get; private set; }
+
+		/// <inheritdoc />
+		public bool checkSmallObstaclesWhenStepOver { get; set; }
+
 		/// <inheritdoc />
 		public CollisionFlags Move(Vector3 moveVector)
 		{
-			float sqrDistance = moveVector.sqrMagnitude;
-			if (sqrDistance <= Mathf.Epsilon ||
-			    sqrDistance < characterCapsule.GetMinMoveSqrDistance() ||
-			    sqrDistance < k_MinMoveSqrDistance)
+			return MoveInternal(moveVector, true);
+		}
+
+		/// <inheritdoc />
+		public bool SimpleMove(Vector3 speed)
+		{
+			Vector3 moveVector = new Vector3(speed.x, speed.y + UnityEngine.Physics.gravity.y, speed.z);
+
+			// Reminder: Time.deltaTime returns the fixed delta time when called from inside FixedUpdate.
+			MoveInternal(moveVector * Time.deltaTime, false);
+
+			return isGrounded;
+		}
+
+		/// <inheritdoc />
+		public void SetPosition(Vector3 position, bool updateGrounded)
+		{
+			capsuleTransform.position = position;
+
+			#if UNITY_EDITOR
+			debugCurrentPosition = capsuleTransform.position;
+			#endif
+
+			if (updateGrounded)
 			{
-				return CollisionFlags.None;
+				UpdateGrounded(CollisionFlags.None);
 			}
-
-			bool wasGrounded = isGrounded;
-			Vector3 oldPosition = capsuleTransform.position;
-			Vector3 oldVelocity = velocity;
-			CollisionFlags oldCollisionFlags = collisionFlags;
-			bool oldIsStepping = stepInfo.isStepping;
-			Vector3 moveVectorNoY = new Vector3(moveVector.x, 0.0f, moveVector.z);
-			bool tryToStickToGround = (wasGrounded &&
-			                           moveVector.y <= 0.0f &&
-			                           Math.Abs(moveVectorNoY.sqrMagnitude) > Mathf.Epsilon);
-			
-			collisionFlags = CollisionFlags.None;
-			hitCount = 0;
-
-			// Do the move loop
-			MoveLoop(moveVector, tryToStickToGround);
-
-			isGrounded = GetGrounded(wasGrounded, oldPosition);
-			velocity = capsuleTransform.position - oldPosition;
-
-			// Check is the changed events should be fired
-			if (onVelocityChanged != null &&
-			    oldVelocity != velocity)
-			{
-				onVelocityChanged(velocity);
-			}
-			
-			if (onCollisionFlagsChanged != null &&
-			    oldCollisionFlags != collisionFlags)
-			{
-				onCollisionFlagsChanged(collisionFlags);
-			}
-			
-			if (onGroundedChanged != null &&
-			    wasGrounded != isGrounded)
-			{
-				onGroundedChanged(isGrounded);
-			}
-
-			return collisionFlags;
 		}
 
 		/// <inheritdoc />
@@ -207,21 +196,79 @@ namespace StandardAssets.Characters.Physics
 		}
 
 		/// <summary>
-		/// Determine if the character is grounded.
+		/// Moves the characters.
 		/// </summary>
-		/// <returns></returns>
-		private bool GetGrounded(bool wasGrounded, Vector3 oldPosition)
+		/// <param name="moveVector">Move vector.</param>
+		/// <param name="slideWhenMovingDown">Slide against obstacles when moving down? (e.g. we don't want to slide when applying gravity while the charcter is grounded)</param>
+		/// <returns>CollisionFlags is the summary of collisions that occurred during the move.</returns>
+		private CollisionFlags MoveInternal(Vector3 moveVector, bool slideWhenMovingDown)
 		{
-			if ((collisionFlags & CollisionFlags.CollidedBelow) != 0)
+			float sqrDistance = moveVector.sqrMagnitude;
+			if (sqrDistance <= Mathf.Epsilon ||
+				sqrDistance < characterCapsule.GetMinMoveSqrDistance() ||
+				sqrDistance < k_MinMoveSqrDistance)
 			{
-				return true;
+				return CollisionFlags.None;
 			}
 
-			Ray ray = new Ray(characterCapsule.GetBottomSphereWorldPosition(), Vector3.down);
-			return UnityEngine.Physics.SphereCast(ray, 
-												  characterCapsule.scaledRadius, 
-												  characterCapsule.GetSkinWidth() + k_GroundedTestDistance,
-												  characterCapsule.GetCollisionLayerMask());
+			bool wasGrounded = isGrounded;
+			Vector3 oldPosition = capsuleTransform.position;
+			Vector3 oldVelocity = velocity;
+			CollisionFlags oldCollisionFlags = collisionFlags;
+			Vector3 moveVectorNoY = new Vector3(moveVector.x, 0.0f, moveVector.z);
+			bool tryToStickToGround = (wasGrounded &&
+				moveVector.y <= 0.0f &&
+				Math.Abs(moveVectorNoY.sqrMagnitude) > Mathf.Epsilon);
+
+			collisionFlags = CollisionFlags.None;
+			hitCount = 0;
+
+			// Do the move loop
+			MoveLoop(moveVector, tryToStickToGround, slideWhenMovingDown);
+
+			UpdateGrounded(collisionFlags);
+			velocity = capsuleTransform.position - oldPosition;
+
+			// Check is the changed events should be fired
+			if (onVelocityChanged != null &&
+				oldVelocity != velocity)
+			{
+				onVelocityChanged(velocity);
+			}
+
+			if (onCollisionFlagsChanged != null &&
+				oldCollisionFlags != collisionFlags)
+			{
+				onCollisionFlagsChanged(collisionFlags);
+			}
+
+			return collisionFlags;
+		}
+
+		/// <summary>
+		/// Determine if the character is grounded.
+		/// </summary>
+		/// <param name="movedCollisionFlags">Moved collision flags of the current move. Set to None if not moving.</param>
+		private void UpdateGrounded(CollisionFlags movedCollisionFlags)
+		{
+			bool wasGrounded = isGrounded;
+			
+			if ((movedCollisionFlags & CollisionFlags.CollidedBelow) != 0)
+			{
+				isGrounded = true;
+			}
+			else
+			{
+				RaycastHit hitinfo;
+				isGrounded = SmallSphereCast(Vector3.down, k_GroundedTestDistance + characterCapsule.GetSkinWidth(), out hitinfo,
+				                             Vector3.zero, true);
+			}
+			
+			if (onGroundedChanged != null &&
+			    wasGrounded != isGrounded)
+			{
+				onGroundedChanged(isGrounded);
+			}
 		}
 
 		/// <summary>
@@ -229,9 +276,11 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		/// <param name="moveVector">The move vector.</param>
 		/// <param name="tryToStickToGround">Try to stick to the ground?</param>
-		private void MoveLoop(Vector3 moveVector, bool tryToStickToGround)
+		/// <param name="slideWhenMovingDown">Slide against obstacles when moving down? (e.g. we don't want to slide when applying gravity while the charcter is grounded)</param>
+		private void MoveLoop(Vector3 moveVector, bool tryToStickToGround, bool slideWhenMovingDown)
 		{
 			moveVectors.Clear();
+			nextMoveVectorIndex = 0;
 
 			CharacterCapsuleMoverVector remainingMoveVector;
 			int tryStepOverIndex = -1;
@@ -242,60 +291,21 @@ namespace StandardAssets.Characters.Physics
 				StopStepOver(true, "MoveLoop start: move vector changed, or too much time elapsed.");
 			}
 
-			// Break the movement up into horizontal and vertical
-			Vector3 horizontal = new Vector3(moveVector.x, 0.0f, moveVector.z);
-			Vector3 vertical = new Vector3(0.0f, moveVector.y, 0.0f);
-			
-			if (vertical.y > 0.0f)
-			{
-				// TODO: Handle cases where the vector is large
-				if (Math.Abs(horizontal.x) > Mathf.Epsilon ||
-				    Math.Abs(horizontal.z) > Mathf.Epsilon)
-				{
-					// Move up then horizontal
-					remainingMoveVector = new CharacterCapsuleMoverVector(vertical);
-					moveVectors.Add(new CharacterCapsuleMoverVector(horizontal));
-				}
-				else
-				{
-					// Move up
-					remainingMoveVector = new CharacterCapsuleMoverVector(vertical);
-				}
-			}
-			else if (vertical.y < 0.0f)
-			{
-				// TODO: Handle cases where the vector is large
-				
-				if (Math.Abs(horizontal.x) > Mathf.Epsilon ||
-				    Math.Abs(horizontal.z) > Mathf.Epsilon)
-				{
-					// Move horizontal then down
-					remainingMoveVector = new CharacterCapsuleMoverVector(horizontal);
-					moveVectors.Add(new CharacterCapsuleMoverVector(vertical));
-				}
-				else
-				{
-					// Move down
-					remainingMoveVector = new CharacterCapsuleMoverVector(vertical);
-				}
-			}
-			else
-			{
-				// Move horizontal
-				remainingMoveVector = new CharacterCapsuleMoverVector(horizontal);
-				tryStepOverIndex = 0;
-			}
+			// Split the move vector into horizontal and vertical components.
+			InitMoveVectors(moveVector, out tryStepOverIndex, slideWhenMovingDown);
+			remainingMoveVector = moveVectors[nextMoveVectorIndex];
+			nextMoveVectorIndex++;
 
-			moveVectorIndex = 0;
 			bool didTryToStickToGround = false;
 			stuckCount = 0;
 			stuckPosition = null;
 			
-			// TEMP: Disable stepOffset
-			//tryStepOverIndex = -1;
+			#if DISABLE_STEP_OFFSET
+			tryStepOverIndex = -1;
+			#endif
 
 			for (int i = 0; i < k_MaxMoveItterations; i++)
-			{				
+			{	
 				bool collided = MoveMajorStep(ref remainingMoveVector.moveVector, 
 				                              remainingMoveVector.canSlide,
 				                              didTryToStickToGround, 
@@ -311,10 +321,10 @@ namespace StandardAssets.Characters.Physics
 				    remainingMoveVector.moveVector.sqrMagnitude <= Mathf.Epsilon)
 				{
 					// Are there remaining movement vectors?
-					if (moveVectorIndex < moveVectors.Count)
+					if (nextMoveVectorIndex < moveVectors.Count)
 					{
-						remainingMoveVector = moveVectors[moveVectorIndex];
-						moveVectorIndex++;
+						remainingMoveVector = moveVectors[nextMoveVectorIndex];
+						nextMoveVectorIndex++;
 					}
 					else
 					{
@@ -336,12 +346,11 @@ namespace StandardAssets.Characters.Physics
 				#if UNITY_EDITOR
 				if (i == k_MaxMoveItterations - 1)
 				{
-					// TODO: Restore this error during debugging
-					//Debug.LogError(string.Format("reached k_MaxMoveItterations!     (remainingMoveVector: {0}, {1}, {2})     " +
-					//							 "(moveVector: {3}, {4}, {5})     hitCount: {6}",
-					//							 remainingMoveVector.moveVector.x, remainingMoveVector.moveVector.y, remainingMoveVector.moveVector.z,
-					//							 moveVector.x, moveVector.y, moveVector.z,
-					//							 hitCount));
+					Debug.LogError(string.Format("reached k_MaxMoveItterations!     (remainingMoveVector: {0}, {1}, {2})     " +
+												 "(moveVector: {3}, {4}, {5})     hitCount: {6}",
+												 remainingMoveVector.moveVector.x, remainingMoveVector.moveVector.y, remainingMoveVector.moveVector.z,
+												 moveVector.x, moveVector.y, moveVector.z,
+												 hitCount));
 				}
 				#endif
 			}
@@ -428,13 +437,144 @@ namespace StandardAssets.Characters.Physics
 		}
 
 		/// <summary>
+		/// Initialize the moveVectors list.
+		/// </summary>
+		/// <param name="moveVector">The move vector.</param>
+		/// <param name="getTryStepOverIndex">Get the index in the list when the character must try to step over obstacles.</param>
+		/// <param name="slideWhenMovingDown">Slide against obstacles when moving down? (e.g. we don't want to slide when applying gravity while the charcter is grounded)</param>
+		private void InitMoveVectors(Vector3 moveVector, out int getTryStepOverIndex, bool slideWhenMovingDown)
+		{
+			getTryStepOverIndex = -1;
+
+			// Split the move vector into horizontal and vertical components.
+			float length = moveVector.magnitude;
+			if (length <= k_MaxMoveVectorLength ||
+				moveVector.y == 0.0f ||
+				(moveVector.x == 0.0f && moveVector.z == 0.0f))
+			{
+				SplitMoveVector(moveVector, out getTryStepOverIndex, slideWhenMovingDown);
+				return;
+			}
+
+			Vector3 direction = moveVector.normalized;
+			int len = (int)((float)length / k_MaxMoveVectorLength) + 1;
+			for (int i = 0; i < len; i++)
+			{
+				float distance = Mathf.Min(length, k_MaxMoveVectorLength);
+				if (distance <= 0.0f)
+				{
+					break;
+				}
+				int tempTryStepOverIndex;
+				SplitMoveVector(direction * distance, out tempTryStepOverIndex, slideWhenMovingDown);
+				if (getTryStepOverIndex == -1)
+				{
+					getTryStepOverIndex = tempTryStepOverIndex;
+				}
+				length -= k_MaxMoveVectorLength;
+			}
+
+			#if UNITY_EDITOR
+			if (len >= k_MaxMoveItterations)
+			{
+				Debug.LogWarning(string.Format("The moveVector is large ({0}). Try using a smaller moveVector.",
+											   moveVector.magnitude));
+			}
+			#endif
+		}
+
+		/// <summary>
+		/// Split the move vector into horizontal and vertical components. The results are added to the moveVectors list.
+		/// </summary>
+		/// <param name="moveVector">The move vector.</param>
+		/// <param name="getTryStepOverIndex">Get the index in the list when the character must try to step over obstacles.</param>
+		/// <param name="slideWhenMovingDown">Slide against obstacles when moving down? (e.g. we don't want to slide when applying gravity while the charcter is grounded)</param>
+		private void SplitMoveVector(Vector3 moveVector, out int getTryStepOverIndex, bool slideWhenMovingDown)
+		{
+			Vector3 horizontal = new Vector3(moveVector.x, 0.0f, moveVector.z);
+			Vector3 vertical = new Vector3(0.0f, moveVector.y, 0.0f);
+
+			getTryStepOverIndex = -1;
+
+			if (vertical.y > 0.0f)
+			{
+				if (Math.Abs(horizontal.x) > Mathf.Epsilon ||
+					Math.Abs(horizontal.z) > Mathf.Epsilon)
+				{
+					// Move up then horizontal
+					AddMoveVector(vertical);
+					getTryStepOverIndex = AddMoveVector(horizontal);
+				}
+				else
+				{
+					// Move up
+					AddMoveVector(vertical);
+				}
+			}
+			else if (vertical.y < 0.0f)
+			{
+				if (Math.Abs(horizontal.x) > Mathf.Epsilon ||
+					Math.Abs(horizontal.z) > Mathf.Epsilon)
+				{
+					// Move horizontal then down
+					getTryStepOverIndex = AddMoveVector(horizontal);
+					AddMoveVector(vertical, slideWhenMovingDown);
+				}
+				else
+				{
+					// Move down
+					AddMoveVector(vertical, slideWhenMovingDown);
+				}
+			}
+			else
+			{
+				// Move horizontal
+				getTryStepOverIndex = AddMoveVector(horizontal);
+			}
+		}
+
+		/// <summary>
+		/// Add the movement vector to the moveVectors list.
+		/// </summary>
+		/// <param name="vector">Move vector to add.</param>
+		/// <param name="canSlide">Can the movement slide along obstacles?</param>
+		private int AddMoveVector(Vector3 moveVector, bool canSlide = true)
+		{
+			moveVectors.Add(new CharacterCapsuleMoverVector(moveVector, canSlide));
+			return moveVectors.Count - 1;
+		}
+
+		/// <summary>
+		/// Insert the movement vector into the moveVectors list.
+		/// </summary>
+		/// <param name="index">Index.</param>
+		/// <param name="vector">Move vector to add.</param>
+		/// <param name="canSlide">Can the movement slide along obstacles?</param>
+		/// <returns>The index where it was inserted.</returns>
+		private int InsertMoveVector(int index, Vector3 moveVector, bool canSlide = true)
+		{
+			if (index < 0)
+			{
+				index = 0;
+			}
+			if (index >= moveVectors.Count)
+			{
+				moveVectors.Add(new CharacterCapsuleMoverVector(moveVector, canSlide));
+				return moveVectors.Count - 1;
+			}
+
+			moveVectors.Insert(index, new CharacterCapsuleMoverVector(moveVector, canSlide));
+			return index;
+		}
+
+		/// <summary>
 		/// Is the move loop on the final move vector?
 		/// </summary>
 		/// <returns></returns>
 		private bool IsFinalMoveVector()
 		{
 			return moveVectors.Count == 0 ||
-			       moveVectorIndex >= moveVectors.Count;
+			       nextMoveVectorIndex >= moveVectors.Count;
 		}
 
 		/// <summary>
@@ -452,7 +592,7 @@ namespace StandardAssets.Characters.Physics
 			{
 				stuckPosition = capsuleTransform.position;
 			}
-			else if (VectorSqrMagnitude(stuckPosition.Value, capsuleTransform.position) <= k_StuckDistance * k_StuckDistance)
+			else if (VectorSqrMagnitude(stuckPosition.Value, capsuleTransform.position) <= k_StuckSqrDistance)
 			{
 				stuckCount ++;
 				if (stuckCount > k_MaxStuckCount)
@@ -540,7 +680,7 @@ namespace StandardAssets.Characters.Physics
 			// Only step up if there's an obstacle at the character's feet (e.g. do not step when only character's head collides)
 			if (!SmallSphereCast(moveVector, moveVectorMagnitude, out hitInfo, Vector3.zero, true) && 
 			    !BigSphereCast(moveVector, moveVectorMagnitude, out hitInfo, Vector3.zero, true))
-			{				
+			{	
 				return false;
 			}
 			
@@ -557,7 +697,7 @@ namespace StandardAssets.Characters.Physics
 			                                   characterCapsule.scaledRadius,
 			                                   characterCapsule.GetSkinWidth() + upDistance,
 			                                   characterCapsule.GetCollisionLayerMask()))
-			{				
+			{
 				return false;
 			}
 			
@@ -570,11 +710,11 @@ namespace StandardAssets.Characters.Physics
 			}
 			
 			// Move Up
-			moveVectors.Add(new CharacterCapsuleMoverVector(up, false));
+			int index = InsertMoveVector(nextMoveVectorIndex, up, false);
 			
 			// Move Horizontal
 			horizontal = moveVectorNoY * remainingDistance;
-			moveVectors.Add(new CharacterCapsuleMoverVector(horizontal, false));
+			InsertMoveVector(index + 1, horizontal, false);
 			
 			// Start stepping over the obstacles
 			stepInfo.OnStartStepOver(upDistance, moveVector, capsuleTransform.position);
@@ -624,12 +764,12 @@ namespace StandardAssets.Characters.Physics
 			}
 				
 			// Move Up
-			moveVectors.Add(new CharacterCapsuleMoverVector(up, false));
+			int index = InsertMoveVector(nextMoveVectorIndex, up, false);
 			
 			// Continue other movement after moving up
 			if (remainingDistance > 0.0f)
 			{
-				moveVectors.Add(new CharacterCapsuleMoverVector(moveVector.normalized * remainingDistance, false));
+				InsertMoveVector(index + 1, moveVector.normalized * remainingDistance, false);
 			}
 
 			stepInfo.OnUpdate();
@@ -645,7 +785,7 @@ namespace StandardAssets.Characters.Physics
 		private void StopStepOver(bool fallDown, string debugInfo)
 		{
 			stepInfo.OnStopStepOver();
-			
+
 			if (fallDown == false)
 			{
 				return;
@@ -673,7 +813,7 @@ namespace StandardAssets.Characters.Physics
 			if (Math.Abs(down.y) > Mathf.Epsilon)
 			{
 				// Move Down
-				moveVectors.Add(new CharacterCapsuleMoverVector(down, false));
+				InsertMoveVector(nextMoveVectorIndex, down, false);
 			}
 		}
 
@@ -849,17 +989,19 @@ namespace StandardAssets.Characters.Physics
 		                                  bool hitInfoIsSmallRadius,
 		                                  string debugInfo)
 		{
-			// IMPORTANT: This method must set moveVector, unless we are certain the character needs to continue moving
-			// forward into/over the obstacle.
+			// IMPORTANT: This method must set moveVector.
 			
 			float hitDistance = Mathf.Max(hitInfo.distance - k_CollisionOffset, 0.0f);
+			float remainingDistance = Mathf.Max(distance - hitDistance, 0.0f);
 
 			// Move to the collision point
-			MovePosition(direction * hitDistance, direction, hitInfo, "move to collision point");
+			MovePosition(direction * hitDistance, direction, hitInfo, string.Format("move to collision point (rd: {0}     mv: {1}, {2}, {3}     cSld: {4})", 
+																					remainingDistance, 
+																					moveVector.x, moveVector.y, moveVector.z,
+																					canSlide));
 
 			float skinPenetrationDistance;
 			Vector3 skinPenetrationVector;
-			float remainingDistance = Mathf.Max(distance - hitDistance, 0.0f);
 
 			GetPenetrationInfo(out skinPenetrationDistance, out skinPenetrationVector);
 
@@ -1017,13 +1159,13 @@ namespace StandardAssets.Characters.Physics
 			     Math.Abs(debugCurrentPosition.Value.y - capsuleTransform.position.y) > Mathf.Epsilon ||
 			     Math.Abs(debugCurrentPosition.Value.z - capsuleTransform.position.z) > Mathf.Epsilon))
 			{
-				// TODO: Restore this error log
-				//Debug.LogError(string.Format(
-				//	               "The character capsule's position was changed by something other than Move. " +
-				//	               "[position: ({0}, {1}, {2})     should be: ({3}, {4}, {5})] (Only showing this error {6} times.)",
-				//	               capsuleTransform.position.x, capsuleTransform.position.y, capsuleTransform.position.z,
-				//	               debugCurrentPosition.Value.x, debugCurrentPosition.Value.y, debugCurrentPosition.Value.z,
-				//	               debugMaxCurrentPositionErrorCount));
+				Debug.LogError(string.Format(
+					               "{0}: The character capsule's position was changed by something other than Move, SimpleMove or SetPosition. " +
+					               "[position: ({1}, {2}, {3})     should be: ({4}, {5}, {6})] (Only showing this error {7} times.)",
+					               capsuleTransform.name,
+					               capsuleTransform.position.x, capsuleTransform.position.y, capsuleTransform.position.z,
+					               debugCurrentPosition.Value.x, debugCurrentPosition.Value.y, debugCurrentPosition.Value.z,
+					               debugMaxCurrentPositionErrorCount));
 				debugCurrentPositionErrorCount++;
 				debugCurrentPosition = capsuleTransform.position;
 			}
@@ -1032,17 +1174,16 @@ namespace StandardAssets.Characters.Physics
 			if (collideDirection != null &&
 			    hitInfo != null)
 			{
-				hitCount++;
-				UpdateCollisionFlags(collideDirection.Value, hitInfo.Value);
+				UpdateCollisionInfo(collideDirection.Value, hitInfo.Value);
 			}
 		}
 
 		/// <summary>
-		/// Update the collision flags.
+		/// Update the collision flags and info.
 		/// </summary>
 		/// <param name="direction">The direction moved.</param>
 		/// <param name="hitInfo">The hit info of the collision.</param>
-		private void UpdateCollisionFlags(Vector3 direction, RaycastHit hitInfo)
+		private void UpdateCollisionInfo(Vector3 direction, RaycastHit hitInfo)
 		{
 			if (Math.Abs(direction.x) > Mathf.Epsilon ||
 			    Math.Abs(direction.z) > Mathf.Epsilon)
@@ -1057,6 +1198,25 @@ namespace StandardAssets.Characters.Physics
 			else if (direction.y < 0.0)
 			{
 				collisionFlags |= CollisionFlags.CollidedBelow;
+			}
+
+			hitCount++;
+
+			CharacterCapsuleMoverCollisionInfo newCollisionInfo = new CharacterCapsuleMoverCollisionInfo(hitInfo);
+			List<CharacterCapsuleMoverCollisionInfo> list = null;
+			Collider collider = hitInfo.collider;
+			if (collisionInfoDictionary.ContainsKey(collider))
+			{
+				list = collisionInfoDictionary[collider];
+			}
+			else
+			{
+				list = new List<CharacterCapsuleMoverCollisionInfo>();
+				collisionInfoDictionary.Add(collider, list);
+			}
+			if (list != null)
+			{
+				list.Add(newCollisionInfo);
 			}
 		}
 	}
