@@ -18,14 +18,14 @@ namespace StandardAssets.Characters.CharacterInput
 		protected string lookYAxisName = "LookY";
 		
 		[SerializeField]
-		protected bool useMouseLookOnly = true;
-
-		[SerializeField]
+		protected bool useMouseLookOnly = false;
+		
 		public bool toggleMouseLookOnly
 		{
 			get { return useMouseLookOnly;}
 			set { useMouseLookOnly = value; }
 		}
+
 		
 		[Header("Movement Input Axes")]
 		[SerializeField]

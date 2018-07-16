@@ -1228,7 +1228,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1836935938310798
 GameObject:
   m_ObjectHideFlags: 1
@@ -1546,7 +1546,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1294013925418394}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 47.75, y: 19.352, z: 63.168888}
+  m_LocalPosition: {x: 47.75, y: 10.18, z: 63.168888}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4373934692070628}
@@ -2456,7 +2456,7 @@ Animator:
   m_Avatar: {fileID: 9000000, guid: 20d97ea0953936148b25caa82b5e14f9, type: 3}
   m_Controller: {fileID: 9100000, guid: 9250483fadc19a444bcc66715ab615e9, type: 2}
   m_CullingMode: 1
-  m_UpdateMode: 0
+  m_UpdateMode: 1
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
@@ -3137,11 +3137,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cinemachineLookXAxisName: Horizontal
   cinemachineLookYAxisName: Vertical
-  horizontalAxisName: Horizontal
-  verticalAxisName: Vertical
-  useLookInput: 0
   lookXAxisName: LookX
   lookYAxisName: LookY
+  useMouseLookOnly: 0
+  horizontalAxisName: Horizontal
+  verticalAxisName: Vertical
   keyboardJumpName: Jump
 --- !u!114 &114725283838162428
 MonoBehaviour:
