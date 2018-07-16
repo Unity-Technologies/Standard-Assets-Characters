@@ -63,6 +63,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected ThirdPersonGroundMovementState preTurnMovementState;
 		protected ThirdPersonGroundMovementState movementState = ThirdPersonGroundMovementState.Walking;
 
+		protected ThirdPersonAerialMovementState aerialState = ThirdPersonAerialMovementState.Grounded;
+
 		protected AnimationInputProperties currentForwardInputProperties, currentLateralInputProperties;
 
 		protected float forwardClampSpeed, targetForwardClampSpeed, lateralClampSpeed, targetLateralClampSpeed;
@@ -96,6 +98,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			else
 			{
+				aerialState = ThirdPersonAerialMovementState.Falling;
 				if (fallStarted != null)
 				{
 					fallStarted(distance);
@@ -236,6 +239,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		protected virtual void OnLanding()
 		{
+			aerialState = ThirdPersonAerialMovementState.Grounded;
+			//cachedForwardMovement = 0f;
+
 			if (landed != null)
 			{
 				landed();
@@ -248,6 +254,15 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <param name="predictedFallDistance"></param>
 		protected virtual void OnStartedFalling(float predictedFallDistance)
 		{
+			if (aerialState == ThirdPersonAerialMovementState.Grounded)
+			{
+				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
+				groundMovementVector.y = 0;
+				cachedForwardMovement = groundMovementVector.GetMagnitudeOnAxis(transform.forward);
+			}
+
+			aerialState = ThirdPersonAerialMovementState.Falling;
+
 			if (fallStarted != null)
 			{
 				fallStarted(predictedFallDistance);
@@ -264,6 +279,8 @@ namespace StandardAssets.Characters.ThirdPerson
 				return;
 			}
 
+			aerialState = ThirdPersonAerialMovementState.Jumping;
+			
 			if (jumpStarted != null)
 			{
 				jumpStarted();
