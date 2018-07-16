@@ -117,11 +117,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			//TODO update locomotion pre run
 		}
-		
-		public void OnRapidTurnComplete()
-		{
-			motor.FinishedTurn();
-		}
 
 		public void UpdatePredictedFallDistance(float distance)
 		{
