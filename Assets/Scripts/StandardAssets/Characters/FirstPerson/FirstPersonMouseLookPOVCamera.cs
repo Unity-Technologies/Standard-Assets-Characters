@@ -6,98 +6,45 @@ using UnityEngine.Experimental.Input;
 
 namespace StandardAssets.Characters.FirstPerson
 {
+    /// <summary>
+    /// This script is to update the various POV cams for 1st person
+    /// If a player is in crouch mode, and looks around, the prone and walk camera positions will be updated.
+    /// </summary>
     public class FirstPersonMouseLookPOVCamera: MonoBehaviour
-    {
-        /*
-         * [SerializeField]
-        protected string lookXAxisName = "LookX";
-		
+    {     
         [SerializeField]
-        protected string lookYAxisName = "LookY";
-        
-        /// <summary>
-        /// These variables control the speed/sensitivity of the mouse look
-        /// They are adjustable in play mode using the UI
-        /// If camera starts to jitter, make sure inspector values match these defaults. 
-        /// </summary>
-        [SerializeField]
-        protected float XSensitivity = 10; 
-        [SerializeField]
-        protected float YSensitivity = -10;
-        [SerializeField]
-        protected float smoothTime = 1.1f;
-
-        private bool invertX = false;
-        private bool invertY = false;
-        
-         private Vector2 look;
-
-        private bool usingTouchControls;
-
-        [SerializeField] 
-        protected GameObject onScreenTouch;
-         */
-        
+        protected CinemachineVirtualCameraBase vCamBase;
+   
         /// <summary>
         /// Reference to all the cinemachine vcams on the character
         /// All the VCams must have the 'aim' set to POV 
         /// </summary>
         [SerializeField]
         protected CinemachineVirtualCamera[] VCams;	
-        [SerializeField]
-        protected CinemachinePOV mPOV; 
-
        
+        private CinemachinePOV currentLivePOVCam; 
+
         
         void Awake ()
         {
-            mPOV = VCams[0].GetCinemachineComponent<CinemachinePOV>();
-            
-           /*
-            *  // If onScreen touch controls are avtive, then switch off mouse look 
-            if (onScreenTouch != null)
-            {
-                if (onScreenTouch.activeSelf)
-                {
-                    usingTouchControls = true;
-                    Debug.Log("Using Touch");
-                }
-            }
-            else
-            {
-                usingTouchControls = false;
-            }
-            */
-           
+            SetCurrentLiveCamera();
         }
 
         void Update()
         {
             UpdatePovCameras();
-            
-            /*
-             * ResponsiveMouseLook();
-            if (!usingTouchControls)
-            {
-                look.x = Input.GetAxis(lookXAxisName);
-                look.y = Input.GetAxis(lookYAxisName);
-            }
-            Debug.Log("Look: "+look);
-             */
-        }
-        void ResponsiveMouseLook()
-        {
-           // var cameraRotation = GetCameraRotationVector();	
-            
         }
         
         /// <summary>
-        /// Update each cameras Horizontal and Vertical axis values
+        /// Update each cameras Horizontal and Vertical axis values to the current live camera
         /// </summary>
         /// <param name="cameraRotation"></param>
         void UpdatePovCameras()
         {
-            var cameraRotation = new Vector3(mPOV.m_VerticalAxis.Value, mPOV.m_HorizontalAxis.Value, 0);
+            SetCurrentLiveCamera();
+            
+            var cameraRotation = new Vector3(currentLivePOVCam.m_VerticalAxis.Value, currentLivePOVCam.m_HorizontalAxis.Value, 0);
+            
             foreach (var cam in VCams)
             {
                 var vCam = cam.GetCinemachineComponent<CinemachinePOV>();
@@ -105,62 +52,22 @@ namespace StandardAssets.Characters.FirstPerson
                 vCam.m_VerticalAxis.Value = cameraRotation.x;
             }
         }
-        
-       /*
-        *  /// <summary>
-        /// Manually scales the mouse look vector to eliminate acceleration and deceleration times felt
-        /// when using the mouse to control the POV cinemachine cameras
-        /// </summary>
-        Vector3 GetCameraRotationVector()
-        {
-            var cameraRotation = new Vector3(mPOV.m_VerticalAxis.Value, mPOV.m_HorizontalAxis.Value, 0);
-            var rotationDelta = new Vector3(look.y * YSensitivity, look.x* XSensitivity, 0);
-			
-            rotationDelta = Cinemachine.Utility.Damper.Damp(rotationDelta, smoothTime, Time.deltaTime);
-			
-            cameraRotation += rotationDelta;
 
-            return cameraRotation;
-        }
-        
-        //Add missing methods 
-        public void InvertXAxis()
+        ///<summary>
+        ///Set the current live camera
+        ///<summary>
+        void SetCurrentLiveCamera()
         {
-            invertX = !invertX;
-            XSensitivity *= -1;
-        }
-        
-        public void InvertYAxis()
-        {
-            invertY = !invertY;
-            YSensitivity *= -1;
-        }
-
-        public void SetSensitivity(float x, float y)
-        {
-            if (x != 0)
+            foreach(var cam in VCams)
             {
-                if (invertX)
+                if(vCamBase.IsLiveChild(cam))
                 {
-                    x *= -1;
+                    currentLivePOVCam = cam.GetCinemachineComponent<CinemachinePOV>();
+                    break;
                 }
-                XSensitivity = x;
-            }
-
-            if (y != 0)
-            {
-                if (invertY)
-                {
-                    y *= -1;
-                }
-                YSensitivity = y;
-            }
+            } 
         }
-
-        public Vector2 GetSensitivity()
-        {
-            return new Vector2(XSensitivity,YSensitivity);
-        }
-        */
+        
+      
     }
 }

@@ -13,6 +13,7 @@ namespace StandardAssets.Characters.CharacterInput
 		[SerializeField]
 		protected string cinemachineLookYAxisName = "Vertical";
 		
+		
 		protected Vector2 moveInputVector;
 		protected Action jumped;
 
@@ -42,6 +43,7 @@ namespace StandardAssets.Characters.CharacterInput
 		private void OnEnable()
 		{
 			CinemachineCore.GetInputAxis = LookInputOverride;
+			
 		}
 		
 		/// <summary>
