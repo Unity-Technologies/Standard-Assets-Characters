@@ -80,7 +80,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public float normalizedVerticalSpeed
 		{
-			get { return (characterPhysics as BaseCharacterPhysics).normalizedVerticalSpeed; }
+			get { return characterPhysics.normalizedVerticalSpeed; }
 		}
 
 		public ThirdPersonConfiguration thirdPersonConfiguration

@@ -37,6 +37,11 @@ namespace StandardAssets.Characters.Physics
 		/// The time that the character was falling for
 		/// </summary>
 		float fallTime { get; }
+
+		/// <summary>
+		/// The normalized vertical speed
+		/// </summary>
+		float normalizedVerticalSpeed{ get; }
 		
 		/// <summary>
 		/// Handles movement
