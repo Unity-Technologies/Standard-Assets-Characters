@@ -33,9 +33,6 @@ namespace Demo
 			
 			changeViews.Init();
 			
-			//TO DO
-			//The cinemachine cameras only enable on after the first switch.
-			SetFirstPerson();
 			SetThirdPerson();
 		}
 
