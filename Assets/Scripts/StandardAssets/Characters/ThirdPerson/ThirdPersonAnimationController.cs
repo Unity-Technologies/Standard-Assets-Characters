@@ -1,6 +1,7 @@
 ﻿using System;
 using StandardAssets.Characters.Effects;
 using UnityEngine;
+using Util;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
@@ -58,9 +59,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		[SerializeField]
 		protected bool invert;
-		
+
 		[SerializeField]
-		protected ColliderMovementDetection leftFoot, rightfoot;
+		protected float footednessThreshold = 0.25f, footednessThresholdOffset = 0.25f;
 		
 		/// <summary>
 		/// Required motor
@@ -170,11 +171,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			motor.landed += OnLanding;
 			motor.fallStarted += OnFallStarted;
 			motor.rapidlyTurned += OnRapidlyTurned;
-			if (leftFoot != null && rightfoot != null)
-			{
-				leftFoot.detection += OnLeftFoot;
-				rightfoot.detection += OnRightFoot;
-			}
 		}
 
 		private void OnFallStarted(float predictedFallDistance)
@@ -183,16 +179,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			animator.SetFloat(hashFallingTime, 0);
 			animator.SetBool(hashGrounded, false);
 			animator.SetFloat(hashPredictedFallDistance, predictedFallDistance);
-		}
-
-		private void OnRightFoot(MovementEvent obj)
-		{
-			SetFootednessBool(!invert);
-		}
-
-		private void OnLeftFoot(MovementEvent obj)
-		{
-			SetFootednessBool(invert);
 		}
 
 		private void SetFootednessBool(bool value)
@@ -216,12 +202,6 @@ namespace StandardAssets.Characters.ThirdPerson
 				motor.landed -= OnLanding;
 				motor.fallStarted -= OnFallStarted;
 				motor.rapidlyTurned -= OnRapidlyTurned;
-			}
-
-			if (leftFoot != null && rightfoot != null)
-			{
-				leftFoot.detection -= OnLeftFoot;
-				rightfoot.detection -= OnRightFoot;
 			}
 		}
 
@@ -269,6 +249,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			UpdateForwardSpeed(motor.normalizedForwardSpeed, Time.deltaTime);
 			UpdateLateralSpeed(motor.normalizedLateralSpeed, Time.deltaTime);
 			UpdateTurningSpeed(motor.normalizedTurningSpeed, Time.deltaTime);
+			UpdateFoot();
 			
 			animator.SetBool(hashHasInput, CheckHasSpeed(motor.normalizedForwardSpeed) || CheckHasSpeed(motor.normalizedLateralSpeed));
 			
@@ -279,6 +260,23 @@ namespace StandardAssets.Characters.ThirdPerson
 				animator.SetFloat(hashVerticalSpeed, motor.normalizedVerticalSpeed, floatInterpolationTime, Time.deltaTime);
 				animator.SetFloat(hashFallingTime, motor.fallTime);
 			}
+		}
+
+		private void UpdateFoot()
+		{
+			AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+			float currentProgress = MathUtilities.GetFraction(stateInfo.normalizedTime);
+			Debug.LogError(currentProgress);
+			//TODO: remove zero index
+			if (MathUtilities.Wrap1(currentProgress +
+			                        footednessThresholdOffset) >
+			    MathUtilities.Wrap1(footednessThreshold + footednessThresholdOffset))
+			{
+				SetFootednessBool(!invert);
+				return;
+			}
+			
+			SetFootednessBool(invert);
 		}
 
 		private bool CheckHasSpeed(float speed)
