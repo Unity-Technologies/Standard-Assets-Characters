@@ -108,6 +108,10 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return animator.GetFloat(hashTurningSpeed); }
 		}
 
+		public float animationNormalizedProgress { get; private set; }
+		
+		public bool isRightFootPlanted { get; private set; }
+
 
 		public void AirborneStateExit()
 		{
@@ -186,9 +190,13 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (Mathf.Abs(motor.normalizedLateralSpeed) < Mathf.Epsilon)
 			{
 				animator.SetBool(hashFootedness, value);
+				isRightFootPlanted = value;
 				return;
 			}
-			animator.SetBool(hashFootedness, motor.normalizedLateralSpeed > 0);
+
+			bool lateralSpeedRight = motor.normalizedLateralSpeed > 0;
+			animator.SetBool(hashFootedness, lateralSpeedRight);
+			isRightFootPlanted = lateralSpeedRight;
 		}
 
 		/// <summary>
@@ -265,10 +273,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void UpdateFoot()
 		{
 			AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-			float currentProgress = MathUtilities.GetFraction(stateInfo.normalizedTime);
-			Debug.LogError(currentProgress);
+			animationNormalizedProgress = MathUtilities.GetFraction(stateInfo.normalizedTime);
 			//TODO: remove zero index
-			if (MathUtilities.Wrap1(currentProgress +
+			if (MathUtilities.Wrap1(animationNormalizedProgress +
 			                        footednessThresholdOffset) >
 			    MathUtilities.Wrap1(footednessThreshold + footednessThresholdOffset))
 			{
