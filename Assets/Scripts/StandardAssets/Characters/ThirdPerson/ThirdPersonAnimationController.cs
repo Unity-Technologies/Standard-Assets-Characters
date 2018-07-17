@@ -1,6 +1,7 @@
 ﻿using System;
 using StandardAssets.Characters.Effects;
 using UnityEngine;
+using Util;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
@@ -58,9 +59,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		[SerializeField]
 		protected bool invert;
-		
+
 		[SerializeField]
-		protected ColliderMovementDetection leftFoot, rightfoot;
+		protected float footednessThreshold = 0.25f, footednessThresholdOffset = 0.25f;
 		
 		/// <summary>
 		/// Required motor
@@ -106,6 +107,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			get { return animator.GetFloat(hashTurningSpeed); }
 		}
+
+		public float animationNormalizedProgress { get; private set; }
+		
+		public bool isRightFootPlanted { get; private set; }
 
 
 		public void AirborneStateExit()
@@ -170,11 +175,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			motor.landed += OnLanding;
 			motor.fallStarted += OnFallStarted;
 			motor.rapidlyTurned += OnRapidlyTurned;
-			if (leftFoot != null && rightfoot != null)
-			{
-				leftFoot.detection += OnLeftFoot;
-				rightfoot.detection += OnRightFoot;
-			}
 		}
 
 		private void OnFallStarted(float predictedFallDistance)
@@ -185,24 +185,18 @@ namespace StandardAssets.Characters.ThirdPerson
 			animator.SetFloat(hashPredictedFallDistance, predictedFallDistance);
 		}
 
-		private void OnRightFoot(MovementEvent obj)
-		{
-			SetFootednessBool(!invert);
-		}
-
-		private void OnLeftFoot(MovementEvent obj)
-		{
-			SetFootednessBool(invert);
-		}
-
 		private void SetFootednessBool(bool value)
 		{
 			if (Mathf.Abs(motor.normalizedLateralSpeed) < Mathf.Epsilon)
 			{
 				animator.SetBool(hashFootedness, value);
+				isRightFootPlanted = value;
 				return;
 			}
-			animator.SetBool(hashFootedness, motor.normalizedLateralSpeed > 0);
+
+			bool lateralSpeedRight = motor.normalizedLateralSpeed > 0;
+			animator.SetBool(hashFootedness, lateralSpeedRight);
+			isRightFootPlanted = lateralSpeedRight;
 		}
 
 		/// <summary>
@@ -216,12 +210,6 @@ namespace StandardAssets.Characters.ThirdPerson
 				motor.landed -= OnLanding;
 				motor.fallStarted -= OnFallStarted;
 				motor.rapidlyTurned -= OnRapidlyTurned;
-			}
-
-			if (leftFoot != null && rightfoot != null)
-			{
-				leftFoot.detection -= OnLeftFoot;
-				rightfoot.detection -= OnRightFoot;
 			}
 		}
 
@@ -269,6 +257,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			UpdateForwardSpeed(motor.normalizedForwardSpeed, Time.deltaTime);
 			UpdateLateralSpeed(motor.normalizedLateralSpeed, Time.deltaTime);
 			UpdateTurningSpeed(motor.normalizedTurningSpeed, Time.deltaTime);
+			UpdateFoot();
 			
 			animator.SetBool(hashHasInput, CheckHasSpeed(motor.normalizedForwardSpeed) || CheckHasSpeed(motor.normalizedLateralSpeed));
 			
@@ -279,6 +268,22 @@ namespace StandardAssets.Characters.ThirdPerson
 				animator.SetFloat(hashVerticalSpeed, motor.normalizedVerticalSpeed, floatInterpolationTime, Time.deltaTime);
 				animator.SetFloat(hashFallingTime, motor.fallTime);
 			}
+		}
+
+		private void UpdateFoot()
+		{
+			AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+			animationNormalizedProgress = MathUtilities.GetFraction(stateInfo.normalizedTime);
+			//TODO: remove zero index
+			if (MathUtilities.Wrap1(animationNormalizedProgress +
+			                        footednessThresholdOffset) >
+			    MathUtilities.Wrap1(footednessThreshold + footednessThresholdOffset))
+			{
+				SetFootednessBool(!invert);
+				return;
+			}
+			
+			SetFootednessBool(invert);
 		}
 
 		private bool CheckHasSpeed(float speed)
