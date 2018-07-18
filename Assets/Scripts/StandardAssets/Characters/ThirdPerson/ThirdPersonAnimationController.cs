@@ -201,7 +201,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				return;
 			}
 
-			bool lateralSpeedRight = motor.normalizedLateralSpeed > 0;
+			bool lateralSpeedRight = motor.normalizedLateralSpeed < 0;
 			animator.SetBool(hashFootedness, lateralSpeedRight);
 			isRightFootPlanted = lateralSpeedRight;
 		}
