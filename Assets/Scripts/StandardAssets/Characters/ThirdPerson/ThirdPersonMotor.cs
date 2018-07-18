@@ -348,6 +348,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			currentForwardInputProperties = configuration.strafeForwardMovementProperties;
 			currentLateralInputProperties = configuration.strafeLateralMovementProperties;
 			movementMode = ThirdPersonMotorMovementMode.Strafe;
+			gameObject.transform.forward = Camera.main.transform.forward;
 		}
 
 		/// <summary>
@@ -363,6 +364,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			currentForwardInputProperties = configuration.forwardMovementProperties;
 			currentLateralInputProperties = null;
 			movementMode = ThirdPersonMotorMovementMode.Action;
+			
+			
 		}
 
 		/// <summary>
