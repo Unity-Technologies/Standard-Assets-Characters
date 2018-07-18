@@ -2913,8 +2913,8 @@ MonoBehaviour:
   rapidTurnParameterName: RapidTurn
   isStrafingParameterName: IsStrafing
   invert: 0
-  leftFoot: {fileID: 114447118663720106}
-  rightfoot: {fileID: 114449538320415148}
+  footednessThreshold: 0.25
+  footednessThresholdOffset: 0.25
 --- !u!114 &114483523814417916
 MonoBehaviour:
   m_ObjectHideFlags: 1

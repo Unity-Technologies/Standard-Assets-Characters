@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Timers;
 using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
-using UnityEngine.Events;
 using Util;
 
 namespace StandardAssets.Characters.ThirdPerson
@@ -11,6 +9,7 @@ namespace StandardAssets.Characters.ThirdPerson
 	[RequireComponent(typeof(ICharacterPhysics))]
 	[RequireComponent(typeof(ICharacterInput))]
 	[RequireComponent(typeof(Animator))]
+	[RequireComponent(typeof(ThirdPersonAnimationController))]
 	public class ThirdPersonMotor : MonoBehaviour, IThirdPersonMotor
 	{
 		//Events
@@ -55,6 +54,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// The physic implementation
 		/// </summary>
 		protected ICharacterPhysics characterPhysics;
+
+		protected ThirdPersonAnimationController animationController;
 
 		protected Animator animator;
 
@@ -121,7 +122,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				return;
 			}
 
-			if (characterPhysics.isGrounded)
+			if (ShouldApplyRootMotion())
 			{
 				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
 				groundMovementVector.y = 0;
@@ -133,6 +134,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
+		private bool ShouldApplyRootMotion()
+		{
+			return characterPhysics.isGrounded || !animationController.isAirborne;
+		}
+		
 		protected virtual void Awake()
 		{
 			TurnaroundBehaviour turn = GetComponent<TurnaroundBehaviour>();
@@ -145,6 +151,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			characterInput = GetComponent<ICharacterInput>();
 			characterPhysics = GetComponent<ICharacterPhysics>();
 			animator = GetComponent<Animator>();
+			animationController = GetComponent<ThirdPersonAnimationController>();
 
 			if (cameraTransform == null)
 			{

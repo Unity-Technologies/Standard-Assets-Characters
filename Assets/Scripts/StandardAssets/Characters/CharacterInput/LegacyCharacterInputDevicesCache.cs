@@ -10,6 +10,10 @@ namespace StandardAssets.Characters.CharacterInput
 
 		private static LegacyCharacterInputDevices s_CharacterInputDevices;
 
+		private static bool xBoneActive; //XBox One
+		private static bool xBoxActive; //XBox 360
+		private static bool ps4Active; //PS4
+
 		static LegacyCharacterInputDevicesCache()
 		{
 			LegacyCharacterInputDevices[] resources = Resources.LoadAll<LegacyCharacterInputDevices>(string.Empty);
@@ -28,12 +32,20 @@ namespace StandardAssets.Characters.CharacterInput
 			
 			s_CharacterInputDevices = resources[0];
 			SetupConvention();
+			SetActiveGamepad();
 		}
 
 		private static void SetupConvention()
 		{
 			s_ConventionCache = s_CharacterInputDevices.controlConventions.Replace("{platform}", "{0}").Replace("{controller}", "{1}")
 			                                     .Replace("{control}", "{2}");
+		}
+
+		private static void SetActiveGamepad()
+		{
+			xBoneActive = IsXboxOne();
+			xBoxActive = IsXbox360();
+			ps4Active = IsPS4();
 		}
 
 		public static string ResolveControl(string control)
@@ -46,15 +58,15 @@ namespace StandardAssets.Characters.CharacterInput
 			platformId = s_CharacterInputDevices.windowsPlatformIdentifier;
 #endif
 			string controllerId = string.Empty;
-			if (IsXboxOne())
+			if (xBoneActive)
 			{
 				controllerId = s_CharacterInputDevices.xboxOneControllerIdentifier;
 			}
-			else if (IsXbox360())
+			else if (xBoxActive)
 			{
 				controllerId = s_CharacterInputDevices.xbox360ControllerIdentifier;
 			}
-			else if (IsPS4())
+			else if (ps4Active)
 			{
 				controllerId = s_CharacterInputDevices.ps4ControllerIdentifier;
 			}
