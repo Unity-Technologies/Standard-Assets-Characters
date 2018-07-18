@@ -112,10 +112,17 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		public bool isRightFootPlanted { get; private set; }
 
+		public bool isAirborne { get; private set; }
 
 		public void AirborneStateExit()
 		{
 			animator.SetFloat(predictedFallDistanceParameterName, 0);
+			isAirborne = false;
+		}
+		
+		public void AirborneStateEnter()
+		{
+			isAirborne = true;
 		}
 
 		public void LocomotionStateUpdate()
