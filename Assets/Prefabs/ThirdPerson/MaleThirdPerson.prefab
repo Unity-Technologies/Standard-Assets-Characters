@@ -516,15 +516,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4076727408819664}
-  - component: {fileID: 114348692547226352}
   - component: {fileID: 114484545000245226}
   - component: {fileID: 95372130055387216}
   - component: {fileID: 114453032354610446}
   - component: {fileID: 114830054038821640}
   - component: {fileID: 114701851465361092}
-  - component: {fileID: 114806330699989004}
   - component: {fileID: 114346304956769404}
-  - component: {fileID: 114089309699034070}
   - component: {fileID: 114436560949563180}
   - component: {fileID: 114126601861518038}
   m_Layer: 11
@@ -2599,17 +2596,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &114089309699034070
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1294013925418394}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf1af807006f4a03b851eae6d2f48a94, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114115391730479704
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2795,21 +2781,6 @@ MonoBehaviour:
   cameraTransform: {fileID: 0}
   runInput: {fileID: 11400000, guid: 4536a47671291463386c18678dd23194, type: 2}
   strafeInput: {fileID: 11400000, guid: f7e824638922944d5b76347cc85e8952, type: 2}
---- !u!114 &114348692547226352
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1294013925418394}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b5c6cf5f04e4e2b9c79ad2fda5ddbea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerRootTransform: {fileID: 4040340540093194}
-  rootTransformOffset: {x: 0, y: -0.85, z: 0}
-  characterCapsule: {fileID: 114806330699989004}
-  enableDebug: 1
 --- !u!114 &114430763955348664
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2954,6 +2925,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terminalVelocity: 10
+  characterController:
+    playerRootTransform: {fileID: 4040340540093194}
+    rootTransformOffset: {x: 0, y: -0.85, z: 0}
+    slopeLimit: 45
+    stepOffset: 0.3
+    skinWidth: 0.08
+    minMoveDistance: 0
+    center: {x: 0, y: 0, z: 0}
+    radius: 0.4
+    height: 1.6
+    colliderLayer: 
+    collisionLayerMask:
+      serializedVersion: 2
+      m_Bits: 257
+    addKinematicRigidbody: 1
+    localHumanControlled: 1
+    enableDebug: 0
 --- !u!114 &114519407302604966
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3204,29 +3192,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114806330699989004
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1294013925418394}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fee6c3ba6b914ab2b7caea31ccec1945, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slopeLimit: 45
-  stepOffset: 0.3
-  skinWidth: 0.08
-  minMoveDistance: 0
-  center: {x: 0, y: 0, z: 0}
-  radius: 0.4
-  height: 1.6
-  colliderLayer: 
-  collisionLayerMask:
-    serializedVersion: 2
-    m_Bits: 311
-  addKinematicRigidbody: 1
 --- !u!114 &114811615323391376
 MonoBehaviour:
   m_ObjectHideFlags: 1
