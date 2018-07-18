@@ -463,26 +463,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected virtual void CalculateStrafeMovement()
 		{
-			Vector2 moveInput = characterInput.moveInput;
-
-			// we need to ease each axis
-			if (Mathf.Abs(moveInput.y) > Mathf.Epsilon)
-			{
-				ApplyForwardInput(Mathf.Sign(moveInput.y));
-			}
-			else
-			{
-				EaseOffForwardInput();
-			}
-
-			if (Mathf.Abs(moveInput.x) > Mathf.Epsilon)
-			{
-				ApplyLateralInput(Mathf.Sign(moveInput.x));
-			}
-			else
-			{
-				EaseOffLateralInput();
-			}
+			normalizedForwardSpeed = Mathf.Approximately (characterInput.moveInput.y, 0f) ? 0f : characterInput.moveInput.y;
+			normalizedLateralSpeed = Mathf.Approximately (characterInput.moveInput.x, 0f) ? 0f : characterInput.moveInput.x;
 		}
 
 		protected virtual void ApplyForwardInput(float input)
@@ -503,26 +485,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			normalizedForwardSpeed =
 				Mathf.Lerp(normalizedForwardSpeed, 0, currentForwardInputProperties.inputDecay * Time.deltaTime);
-		}
-
-		protected virtual void ApplyLateralInput(float input)
-		{
-			float lateralVelocity = currentLateralInputProperties.inputGain;
-			if (Mathf.Abs(Mathf.Sign(input) - Mathf.Sign(normalizedLateralSpeed)) > 0)
-			{
-				lateralVelocity = currentLateralInputProperties.inputChangeGain;
-			}
-
-			var clamp = Mathf.Min(characterInput.moveInput.magnitude, forwardClampSpeed);
-			normalizedLateralSpeed =
-				Mathf.Clamp(normalizedLateralSpeed + -input * lateralVelocity * Time.deltaTime, -clamp,
-				            clamp);
-		}
-
-		protected virtual void EaseOffLateralInput()
-		{
-			normalizedLateralSpeed =
-				Mathf.Lerp(normalizedLateralSpeed, 0, currentLateralInputProperties.inputDecay * Time.deltaTime);
 		}
 
 		protected virtual float DecelerateClampSpeed(float currentValue, float targetValue, float gain)

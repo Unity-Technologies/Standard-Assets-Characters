@@ -2,20 +2,25 @@
 
 namespace StandardAssets.Characters.Physics
 {
-	[RequireComponent(typeof(OpenCharacterController))]
 	public class OpenCharacterControllerPhysics : BaseCharacterPhysics
 	{
-		private OpenCharacterController characterController;
+		[SerializeField]
+		protected OpenCharacterController characterController;
 		
 		public override float GetPredicitedFallDistance()
 		{
 			return characterController.GetPredicitedFallDistance();
 		}
 
+		public OpenCharacterController GetOpenCharacterController()
+		{
+			return characterController;
+		}
+
 		protected override void Awake()
 		{
 			base.Awake();
-			characterController = GetComponent<OpenCharacterController>();
+			characterController.Awake(transform);
 		}
 
 		protected override bool CheckGrounded()
@@ -27,5 +32,24 @@ namespace StandardAssets.Characters.Physics
 		{
 			characterController.Move(movement);
 		}
+
+		#if UNITY_EDITOR
+		private void OnValidate()
+		{
+			characterController.OnValidate();
+		}
+		#endif
+
+		private void LateUpdate()
+		{
+			characterController.LateUpdate();
+		}
+		
+		#if UNITY_EDITOR
+		private void OnDrawGizmosSelected()
+		{
+			characterController.OnDrawGizmosSelected(transform);
+		}
+		#endif
 	}
 }
