@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Cinemachine;
+using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
@@ -10,6 +11,14 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected GameObject strafeSDC, actionSDC;
 
+		public CinemachineStateDrivenCamera actionCameraState;
+		public CinemachineStateDrivenCamera strafeCameraState;
+
+		private CinemachineVirtualCamera vCam;
+
+		private int livePriority = 10;
+		private int standbyPriority = 1;
+
 		private void OnEnable()
 		{
 			if (motor == null)
@@ -20,6 +29,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			motor.startStrafeMode += MotorOnStartStrafeMode;
 			motor.startActionMode += MotorOnStartActionMode;
+			
+			
 		}
 
 		private void OnDisable()
@@ -35,14 +46,23 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		void MotorOnStartActionMode()
 		{
-			strafeSDC.SetActive(false);
-			actionSDC.SetActive(true);
+			foreach (var cam in actionCameraState.ChildCameras)
+			{
+				cam.GetComponent<CinemachineFreeLook>().m_XAxis.Value = 0;
+				cam.GetComponent<CinemachineFreeLook>().m_YAxis.Value = strafeCameraState.ChildCameras[0].GetComponent<CinemachineFreeLook>().m_YAxis.Value;
+			}
+			actionCameraState.Priority = livePriority;
+            			strafeCameraState.Priority = standbyPriority;
+			//strafeSDC.SetActive(false);
+			//actionSDC.SetActive(true);
 		}
 
 		void MotorOnStartStrafeMode()
-		{
-			strafeSDC.SetActive(true);
-			actionSDC.SetActive(false);
+		{	
+			actionCameraState.Priority = standbyPriority;
+			strafeCameraState.Priority = livePriority;
+			//strafeSDC.SetActive(true);
+			//actionSDC.SetActive(false);
 		}
 	}
 }
