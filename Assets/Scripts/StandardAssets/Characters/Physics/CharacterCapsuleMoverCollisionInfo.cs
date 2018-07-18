@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace StandardAssets.Characters.Physics
 {
 	/// <summary>
 	/// Collision info used by the CharacterCapsuleMover.
 	/// </summary>
-	public class CharacterCapsuleMoverCollisionInfo
+	public struct CharacterCapsuleMoverCollisionInfo
 	{
 		/// <summary>
 		/// The hit info.

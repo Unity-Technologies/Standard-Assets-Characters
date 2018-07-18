@@ -11,5 +11,17 @@ namespace Util
 			
 			return val;
 		}
+		
+		/// <summary>
+		/// Get the square magnitude from vectorA to vectorB.
+		/// </summary>
+		/// <returns>The sqr magnitude.</returns>
+		/// <param name="vectorA">First vector.</param>
+		/// <param name="vectorB">Second vector.</param>
+		public static float SqrMagnitudeFrom(this Vector3 vectorA, Vector3 vectorB)
+		{
+			Vector3 diff = vectorA - vectorB;
+			return diff.sqrMagnitude;
+		}
 	}
 }
