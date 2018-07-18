@@ -21,6 +21,9 @@ namespace StandardAssets.Characters.CharacterInput
 		
 		[SerializeField]
 		protected bool isGamepad;
+
+		[SerializeField]
+		protected bool useAxisAsButton;
 		
 		/// <summary>
 		/// Initializes the polling behaviour for the legacy input system
@@ -42,7 +45,7 @@ namespace StandardAssets.Characters.CharacterInput
 			GameObject gameObject = new GameObject();
 			gameObject.name = string.Format("LegacyInput_{0}_Poller", name);
 			LegacyInputResponsePoller poller = gameObject.AddComponent<LegacyInputResponsePoller>();
-			poller.Init(this, behaviour, axis);
+			poller.Init(this, behaviour, axis,useAxisAsButton);
 		}
 
 		/// <summary>

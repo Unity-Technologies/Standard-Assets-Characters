@@ -29,17 +29,22 @@ namespace StandardAssets.Characters.CharacterInput
 
 		private string axisRaw;
 
+		//This is to enable the ability to use an axis as a button. XBone Left Trigger is a -1->1 axis,
+		// If the player wishes to use the left/right triggers on an xBone controller on OSX as a "button" type response. 
+		private bool useAxisAsButton; 
+
 		/// <summary>
 		/// Called by the LegacyInputResponse
 		/// </summary>
 		/// <param name="newResponse"></param>
 		/// <param name="newBehaviour"></param>
 		/// <param name="axisRaw"></param>
-		public void Init(LegacyInputResponse newResponse, DefaultInputResponseBehaviour newBehaviour, String axisString)
+		public void Init(LegacyInputResponse newResponse, DefaultInputResponseBehaviour newBehaviour, String axisString,bool axisAsButton)
 		{
 			response = newResponse;
 			behaviour = newBehaviour;
 			axisRaw = axisString;
+			useAxisAsButton = axisAsButton;
 
 			if (s_Pollers == null)
 			{
@@ -73,7 +78,16 @@ namespace StandardAssets.Characters.CharacterInput
 		/// </summary>
 		private void Hold()
 		{
-			bool isAxis = Input.GetButton(axisRaw);
+			bool isAxis;
+			if (useAxisAsButton)
+			{
+				isAxis = checkAxisAsButton();
+			}
+			else
+			{
+				isAxis = Input.GetButton(axisRaw);
+			}
+			
 			
 			if (!check && isAxis)
 			{		
@@ -93,7 +107,17 @@ namespace StandardAssets.Characters.CharacterInput
 		/// </summary>
 		private void Toggle()
 		{
-			if (Input.GetButtonDown(axisRaw))
+			bool buttonDown;
+			if (useAxisAsButton)
+			{
+				buttonDown = checkAxisAsButton();
+			}
+			else
+			{
+				buttonDown = Input.GetButtonDown(axisRaw);
+			}
+			
+			if (buttonDown)
 			{
 				if (!check)
 				{
@@ -106,6 +130,20 @@ namespace StandardAssets.Characters.CharacterInput
 				check = !check;
 			}
 		}
+
+		private bool checkAxisAsButton()
+		{
+			if (useAxisAsButton)
+			{
+				if (Input.GetAxis(axisRaw)==1) //If axis is 1, "button is pushed" 
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
+		
 		/// <summary>
 		/// Checks the list of all active Pollers and turns off all active toggles except its own.
 		/// This is to prevent a state change while check==true, which leads having to re-toggle before
