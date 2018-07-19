@@ -112,10 +112,17 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		public bool isRightFootPlanted { get; private set; }
 
+		public bool isAirborne { get; private set; }
 
 		public void AirborneStateExit()
 		{
 			animator.SetFloat(predictedFallDistanceParameterName, 0);
+			isAirborne = false;
+		}
+		
+		public void AirborneStateEnter()
+		{
+			isAirborne = true;
 		}
 
 		public void LocomotionStateUpdate()
@@ -194,7 +201,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				return;
 			}
 
-			bool lateralSpeedRight = motor.normalizedLateralSpeed > 0;
+			bool lateralSpeedRight = motor.normalizedLateralSpeed < 0;
 			animator.SetBool(hashFootedness, lateralSpeedRight);
 			isRightFootPlanted = lateralSpeedRight;
 		}

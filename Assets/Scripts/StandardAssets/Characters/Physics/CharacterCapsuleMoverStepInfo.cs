@@ -104,16 +104,15 @@ namespace StandardAssets.Characters.Physics
 		}
 
 		/// <summary>
-		/// Called when a new move vector is used to move the character. It checks if the step over should continue.
+		/// Called when the move loop starts. It checks if the step over should continue.
 		/// </summary>
 		/// <param name="moveVector">The new move vector.</param>
-		public bool OnNewMoveVector(Vector3 moveVector)
+		public bool OnMoveLoop(Vector3 moveVector)
 		{
 			// Not busy stepping over obstacles OR too much time elapsed sine the last Move?
 			if (isStepping == false ||
 			    Time.realtimeSinceStartup - lastUpdateTime > k_MaxTimeSinceLastUpdate)
 			{
-				
 				return false;
 			}
 

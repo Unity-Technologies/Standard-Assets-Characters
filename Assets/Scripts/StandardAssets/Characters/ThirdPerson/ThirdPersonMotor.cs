@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Timers;
 using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
-using UnityEngine.Events;
 using Util;
 
 namespace StandardAssets.Characters.ThirdPerson
@@ -11,6 +9,7 @@ namespace StandardAssets.Characters.ThirdPerson
 	[RequireComponent(typeof(ICharacterPhysics))]
 	[RequireComponent(typeof(ICharacterInput))]
 	[RequireComponent(typeof(Animator))]
+	[RequireComponent(typeof(ThirdPersonAnimationController))]
 	public class ThirdPersonMotor : MonoBehaviour, IThirdPersonMotor
 	{
 		//Events
@@ -55,6 +54,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// The physic implementation
 		/// </summary>
 		protected ICharacterPhysics characterPhysics;
+
+		protected ThirdPersonAnimationController animationController;
 
 		protected Animator animator;
 
@@ -121,7 +122,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				return;
 			}
 
-			if (characterPhysics.isGrounded)
+			if (ShouldApplyRootMotion())
 			{
 				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
 				groundMovementVector.y = 0;
@@ -133,6 +134,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
+		private bool ShouldApplyRootMotion()
+		{
+			return characterPhysics.isGrounded || !animationController.isAirborne;
+		}
+		
 		protected virtual void Awake()
 		{
 			TurnaroundBehaviour turn = GetComponent<TurnaroundBehaviour>();
@@ -145,6 +151,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			characterInput = GetComponent<ICharacterInput>();
 			characterPhysics = GetComponent<ICharacterPhysics>();
 			animator = GetComponent<Animator>();
+			animationController = GetComponent<ThirdPersonAnimationController>();
 
 			if (cameraTransform == null)
 			{
@@ -341,6 +348,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			currentForwardInputProperties = configuration.strafeForwardMovementProperties;
 			currentLateralInputProperties = configuration.strafeLateralMovementProperties;
 			movementMode = ThirdPersonMotorMovementMode.Strafe;
+			gameObject.transform.forward = Camera.main.transform.forward;
 		}
 
 		/// <summary>
@@ -356,6 +364,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			currentForwardInputProperties = configuration.forwardMovementProperties;
 			currentLateralInputProperties = null;
 			movementMode = ThirdPersonMotorMovementMode.Action;
+			
+			
 		}
 
 		/// <summary>
@@ -453,26 +463,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected virtual void CalculateStrafeMovement()
 		{
-			Vector2 moveInput = characterInput.moveInput;
-
-			// we need to ease each axis
-			if (Mathf.Abs(moveInput.y) > Mathf.Epsilon)
-			{
-				ApplyForwardInput(Mathf.Sign(moveInput.y));
-			}
-			else
-			{
-				EaseOffForwardInput();
-			}
-
-			if (Mathf.Abs(moveInput.x) > Mathf.Epsilon)
-			{
-				ApplyLateralInput(Mathf.Sign(moveInput.x));
-			}
-			else
-			{
-				EaseOffLateralInput();
-			}
+			normalizedForwardSpeed = Mathf.Approximately (characterInput.moveInput.y, 0f) ? 0f : characterInput.moveInput.y;
+			normalizedLateralSpeed = Mathf.Approximately (characterInput.moveInput.x, 0f) ? 0f : characterInput.moveInput.x;
 		}
 
 		protected virtual void ApplyForwardInput(float input)
@@ -493,26 +485,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			normalizedForwardSpeed =
 				Mathf.Lerp(normalizedForwardSpeed, 0, currentForwardInputProperties.inputDecay * Time.deltaTime);
-		}
-
-		protected virtual void ApplyLateralInput(float input)
-		{
-			float lateralVelocity = currentLateralInputProperties.inputGain;
-			if (Mathf.Abs(Mathf.Sign(input) - Mathf.Sign(normalizedLateralSpeed)) > 0)
-			{
-				lateralVelocity = currentLateralInputProperties.inputChangeGain;
-			}
-
-			var clamp = Mathf.Min(characterInput.moveInput.magnitude, forwardClampSpeed);
-			normalizedLateralSpeed =
-				Mathf.Clamp(normalizedLateralSpeed + -input * lateralVelocity * Time.deltaTime, -clamp,
-				            clamp);
-		}
-
-		protected virtual void EaseOffLateralInput()
-		{
-			normalizedLateralSpeed =
-				Mathf.Lerp(normalizedLateralSpeed, 0, currentLateralInputProperties.inputDecay * Time.deltaTime);
 		}
 
 		protected virtual float DecelerateClampSpeed(float currentValue, float targetValue, float gain)
