@@ -1,7 +1,6 @@
 ﻿using System;
 using StandardAssets.Characters.Effects;
 using UnityEngine;
-using UnityEngine.Experimental.Audio.Google;
 using Util;
 
 namespace StandardAssets.Characters.ThirdPerson
@@ -66,17 +65,20 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		public bool isRightFootPlanted { get; private set; }
 
-		public bool isAirborne { get; private set; }
+		public bool shouldUseRootMotion { get; private set; }
 
 		public void AirborneStateExit()
 		{
 			animator.SetFloat(configuration.predictedFallDistanceParameterName, 0);
-			isAirborne = false;
+			shouldUseRootMotion = true;
 		}
 		
 		public void AirborneStateEnter()
 		{
-			isAirborne = true;
+			if (motor.normalizedForwardSpeed > 0 && Mathf.Approximately(Mathf.Abs(motor.normalizedLateralSpeed), 0))
+			{
+				shouldUseRootMotion = false;
+			}
 		}
 
 		public void LocomotionStateUpdate()
@@ -127,6 +129,26 @@ namespace StandardAssets.Characters.ThirdPerson
 			motor = motorToUse;
 			animator = gameObject.GetComponent<Animator>();
 		}
+		/// <summary>
+		/// Sets the Animator parameters
+		/// </summary>
+		public void Update()
+		{
+			UpdateForwardSpeed(motor.normalizedForwardSpeed, Time.deltaTime);
+			UpdateLateralSpeed(motor.normalizedLateralSpeed, Time.deltaTime);
+			UpdateTurningSpeed(motor.normalizedTurningSpeed, Time.deltaTime);
+			UpdateFoot();
+			
+			animator.SetBool(hashHasInput, CheckHasSpeed(motor.normalizedForwardSpeed) || CheckHasSpeed(motor.normalizedLateralSpeed));
+			
+			animator.SetBool(hashIsStrafing, Mathf.Abs(motor.normalizedLateralSpeed) > 0);
+
+			if (!isGrounded)
+			{
+				animator.SetFloat(hashVerticalSpeed, motor.normalizedVerticalSpeed, configuration.floatInterpolationTime, Time.deltaTime);
+				animator.SetFloat(hashFallingTime, motor.fallTime);
+			}
+		}
 
 		/// <summary>
 		/// Subscribe
@@ -150,27 +172,6 @@ namespace StandardAssets.Characters.ThirdPerson
 				motor.landed -= OnLanding;
 				motor.fallStarted -= OnFallStarted;
 				motor.rapidlyTurned -= OnRapidlyTurned;
-			}
-		}
-		
-		/// <summary>
-		/// Sets the Animator parameters
-		/// </summary>
-		public void Update()
-		{
-			UpdateForwardSpeed(motor.normalizedForwardSpeed, Time.deltaTime);
-			UpdateLateralSpeed(motor.normalizedLateralSpeed, Time.deltaTime);
-			UpdateTurningSpeed(motor.normalizedTurningSpeed, Time.deltaTime);
-			UpdateFoot();
-			
-			animator.SetBool(hashHasInput, CheckHasSpeed(motor.normalizedForwardSpeed) || CheckHasSpeed(motor.normalizedLateralSpeed));
-			
-			animator.SetBool(hashIsStrafing, Mathf.Abs(motor.normalizedLateralSpeed) > 0);
-
-			if (!isGrounded)
-			{
-				animator.SetFloat(hashVerticalSpeed, motor.normalizedVerticalSpeed, configuration.floatInterpolationTime, Time.deltaTime);
-				animator.SetFloat(hashFallingTime, motor.fallTime);
 			}
 		}
 
