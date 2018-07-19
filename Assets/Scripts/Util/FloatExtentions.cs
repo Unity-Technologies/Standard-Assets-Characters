@@ -8,45 +8,45 @@ namespace Util
 	public static class FloatExtentions
 	{
 		/// <summary>
-		/// Is a equal to b? Compares two floats and takes floating point inaccuracy into account, by using Epsilon.
+		/// Is floatA equal to floatB? Compares two floats and takes floating point inaccuracy into account, by using Epsilon.
 		/// </summary>
-		/// <param name="a"></param>
-		/// <param name="b"></param>
+		/// <param name="floatA"></param>
+		/// <param name="floatB"></param>
 		/// <returns></returns>
-		public static bool IsEqualTo(this float a, float b)
+		public static bool IsEqualTo(this float floatA, float floatB)
 		{
-			return Mathf.Abs(a - b) < Mathf.Epsilon;
+			return Mathf.Abs(floatA - floatB) < Mathf.Epsilon;
 		}
 
 		/// <summary>
-		/// Is a not equal to b? Compares two floats and takes floating point inaccuracy into account, by using Epsilon.
+		/// Is floatA not equal to floatB? Compares two floats and takes floating point inaccuracy into account, by using Epsilon.
 		/// </summary>
-		/// <param name="a"></param>
-		/// <param name="b"></param>
+		/// <param name="floatA"></param>
+		/// <param name="floatB"></param>
 		/// <returns></returns>
-		public static bool NotEqualTo(this float a, float b)
+		public static bool NotEqualTo(this float floatA, float floatB)
 		{
-			return Mathf.Abs(a - b) > Mathf.Epsilon;
+			return Mathf.Abs(floatA - floatB) > Mathf.Epsilon;
 		}
 		
 		/// <summary>
-		/// Is a equal to zero? Compares two floats and takes floating point inaccuracy into account, by using Epsilon.
+		/// Is floatA equal to zero? Takes floating point inaccuracy into account, by using Epsilon.
 		/// </summary>
-		/// <param name="a"></param>
+		/// <param name="floatA"></param>
 		/// <returns></returns>
-		public static bool IsEqualToZero(this float a)
+		public static bool IsEqualToZero(this float floatA)
 		{
-			return Mathf.Abs(a) < Mathf.Epsilon;
+			return Mathf.Abs(floatA) < Mathf.Epsilon;
 		}
 		
 		/// <summary>
-		/// Is a not equal to zero? Compares two floats and takes floating point inaccuracy into account, by using Epsilon.
+		/// Is floatA not equal to zero? Takes floating point inaccuracy into account, by using Epsilon.
 		/// </summary>
-		/// <param name="a"></param>
+		/// <param name="floatA"></param>
 		/// <returns></returns>
-		public static bool NotEqualToZero(this float a)
+		public static bool NotEqualToZero(this float floatA)
 		{
-			return Mathf.Abs(a) > Mathf.Epsilon;
+			return Mathf.Abs(floatA) > Mathf.Epsilon;
 		}
 	}
 }

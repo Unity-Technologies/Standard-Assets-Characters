@@ -3,7 +3,7 @@
 namespace StandardAssets.Characters.Physics
 {
 	/// <summary>
-	/// Collision info used by the CharacterCapsuleMover.
+	/// Collision info used by the OpenCharacterController.
 	/// </summary>
 	public struct CharacterCapsuleMoverCollisionInfo
 	{

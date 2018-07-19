@@ -49,5 +49,15 @@ namespace StandardAssets.Characters.ThirdPerson
 		Action<float> rapidlyTurned { get; set; }
 
 		float normalizedVerticalSpeed { get; }
+
+		void Init(ThirdPersonBrain brain);
+
+		void Subscribe();
+
+		void Unsubscribe();
+
+		void Update();
+
+		void OnAnimatorMove();
 	}
 }

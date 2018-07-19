@@ -8,60 +8,11 @@ namespace StandardAssets.Characters.ThirdPerson
 	/// <summary>
 	/// Class that sends Third Person locomotion to the Animator 
 	/// </summary>
-	[RequireComponent(typeof(IThirdPersonMotor))]
-	[RequireComponent(typeof(Animator))]
-	public class ThirdPersonAnimationController : MonoBehaviour
+	[Serializable]
+	public class ThirdPersonAnimationController
 	{
 		[SerializeField]
-		protected float floatInterpolationTime = 0.05f;
-		
-		[SerializeField]
-		protected string forwardSpeedParameterName = "ForwardSpeed";
-		
-		[SerializeField]
-		protected string lateralSpeedParameterName = "LateralSpeed";
-		
-		[SerializeField]
-		protected string turningSpeedParameterName = "TurningSpeed";
-
-		[SerializeField]
-		protected string verticalSpeedParameterName = "VerticalSpeed";
-		
-		[SerializeField]
-		protected string groundedParameterName = "Grounded";
-		
-		[SerializeField]
-		protected string hasInputParameterName = "HasInput";
-		
-		[SerializeField]
-		protected string fallingTimeParameterName = "FallTime";
-		
-		[SerializeField]
-		protected string footednessParameterName = "OnRightFoot";
-		
-		[SerializeField]
-		protected string jumpedParameterName = "Jumped";
-		
-		[SerializeField]
-		protected string jumpedLateralSpeedParameterName = "JumpedLateralSpeed";
-		
-		[SerializeField]
-		protected string jumpedForwardSpeedParameterName = "JumpedForwardSpeed";
-
-		[SerializeField]
-		protected string predictedFallDistanceParameterName = "PredictedFallDistance";
-		
-		[SerializeField]
-		protected string rapidTurnParameterName = "RapidTurn";
-
-		[SerializeField]
-		protected string isStrafingParameterName = "IsStrafing";
-		
-		[SerializeField]
-		protected bool invert;
-
-		[SerializeField]
-		protected float footednessThreshold = 0.25f, footednessThresholdOffset = 0.25f;
+		protected ThirdPersonAnimationConfiguration configuration;
 		
 		/// <summary>
 		/// Required motor
@@ -72,6 +23,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// The animator
 		/// </summary>
 		private Animator animator;
+
+		private GameObject gameObject;
 		
 		/// <summary>
 		/// Hashes of the animator parameters
@@ -116,7 +69,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public void AirborneStateExit()
 		{
-			animator.SetFloat(predictedFallDistanceParameterName, 0);
+			animator.SetFloat(configuration.predictedFallDistanceParameterName, 0);
 			shouldUseRootMotion = true;
 		}
 		
@@ -140,51 +93,86 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public void UpdateForwardSpeed(float newSpeed, float deltaTime)
 		{
-			animator.SetFloat(hashForwardSpeed, newSpeed, floatInterpolationTime, deltaTime);
+			animator.SetFloat(hashForwardSpeed, newSpeed, configuration.floatInterpolationTime, deltaTime);
 		}
 		
 		public void UpdateLateralSpeed(float newSpeed, float deltaTime)
 		{
-			animator.SetFloat(hashLateralSpeed, newSpeed, floatInterpolationTime, deltaTime);
+			animator.SetFloat(hashLateralSpeed, newSpeed, configuration.floatInterpolationTime, deltaTime);
 		}
 		
 		public void UpdateTurningSpeed(float newSpeed, float deltaTime)
 		{
-			animator.SetFloat(hashTurningSpeed, newSpeed, floatInterpolationTime, deltaTime);
+			animator.SetFloat(hashTurningSpeed, newSpeed, configuration.floatInterpolationTime, deltaTime);
 		}
 
 		/// <summary>
 		/// Gets the required components
 		/// </summary>
-		private void Awake()
+		public void Init(ThirdPersonBrain brain, IThirdPersonMotor motorToUse)
 		{
-			hashForwardSpeed = Animator.StringToHash(forwardSpeedParameterName);
-			hashLateralSpeed = Animator.StringToHash(lateralSpeedParameterName);
-			hashTurningSpeed = Animator.StringToHash(turningSpeedParameterName);
-			hashVerticalSpeed = Animator.StringToHash(verticalSpeedParameterName);
-			hashGrounded = Animator.StringToHash(groundedParameterName);
-			hashHasInput = Animator.StringToHash(hasInputParameterName);
-			hashFallingTime = Animator.StringToHash(fallingTimeParameterName);
-			hashFootedness = Animator.StringToHash(footednessParameterName);
-			hashJumped = Animator.StringToHash(jumpedParameterName);
-			hashJumpedForwardSpeed = Animator.StringToHash(jumpedForwardSpeedParameterName);
-			hashJumpedLateralSpeed = Animator.StringToHash(jumpedLateralSpeedParameterName);
-			hashPredictedFallDistance = Animator.StringToHash(predictedFallDistanceParameterName);
-			hashRapidTurn = Animator.StringToHash(rapidTurnParameterName);
-			hashIsStrafing = Animator.StringToHash(isStrafingParameterName);
-			motor = GetComponent<IThirdPersonMotor>();
-			animator = GetComponent<Animator>();
+			gameObject = brain.gameObject;
+			hashForwardSpeed = Animator.StringToHash(configuration.forwardSpeedParameterName);
+			hashLateralSpeed = Animator.StringToHash(configuration.lateralSpeedParameterName);
+			hashTurningSpeed = Animator.StringToHash(configuration.turningSpeedParameterName);
+			hashVerticalSpeed = Animator.StringToHash(configuration.verticalSpeedParameterName);
+			hashGrounded = Animator.StringToHash(configuration.groundedParameterName);
+			hashHasInput = Animator.StringToHash(configuration.hasInputParameterName);
+			hashFallingTime = Animator.StringToHash(configuration.fallingTimeParameterName);
+			hashFootedness = Animator.StringToHash(configuration.footednessParameterName);
+			hashJumped = Animator.StringToHash(configuration.jumpedParameterName);
+			hashJumpedForwardSpeed = Animator.StringToHash(configuration.jumpedForwardSpeedParameterName);
+			hashJumpedLateralSpeed = Animator.StringToHash(configuration.jumpedLateralSpeedParameterName);
+			hashPredictedFallDistance = Animator.StringToHash(configuration.predictedFallDistanceParameterName);
+			hashRapidTurn = Animator.StringToHash(configuration.rapidTurnParameterName);
+			hashIsStrafing = Animator.StringToHash(configuration.isStrafingParameterName);
+			motor = motorToUse;
+			animator = gameObject.GetComponent<Animator>();
+		}
+		/// <summary>
+		/// Sets the Animator parameters
+		/// </summary>
+		public void Update()
+		{
+			UpdateForwardSpeed(motor.normalizedForwardSpeed, Time.deltaTime);
+			UpdateLateralSpeed(motor.normalizedLateralSpeed, Time.deltaTime);
+			UpdateTurningSpeed(motor.normalizedTurningSpeed, Time.deltaTime);
+			UpdateFoot();
+			
+			animator.SetBool(hashHasInput, CheckHasSpeed(motor.normalizedForwardSpeed) || CheckHasSpeed(motor.normalizedLateralSpeed));
+			
+			animator.SetBool(hashIsStrafing, Mathf.Abs(motor.normalizedLateralSpeed) > 0);
+
+			if (!isGrounded)
+			{
+				animator.SetFloat(hashVerticalSpeed, motor.normalizedVerticalSpeed, configuration.floatInterpolationTime, Time.deltaTime);
+				animator.SetFloat(hashFallingTime, motor.fallTime);
+			}
 		}
 
 		/// <summary>
 		/// Subscribe
 		/// </summary>
-		private void OnEnable()
+		public void Subscribe()
 		{
 			motor.jumpStarted += OnJumpStarted;
 			motor.landed += OnLanding;
 			motor.fallStarted += OnFallStarted;
 			motor.rapidlyTurned += OnRapidlyTurned;
+		}
+		
+		/// <summary>
+		/// Unsubscribe
+		/// </summary>
+		public void Unsubscribe()
+		{
+			if (motor != null)
+			{
+				motor.jumpStarted -= OnJumpStarted;
+				motor.landed -= OnLanding;
+				motor.fallStarted -= OnFallStarted;
+				motor.rapidlyTurned -= OnRapidlyTurned;
+			}
 		}
 
 		private void OnFallStarted(float predictedFallDistance)
@@ -207,20 +195,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			bool lateralSpeedRight = motor.normalizedLateralSpeed < 0;
 			animator.SetBool(hashFootedness, lateralSpeedRight);
 			isRightFootPlanted = lateralSpeedRight;
-		}
-
-		/// <summary>
-		/// Unsubscribe
-		/// </summary>
-		private void OnDisable()
-		{
-			if (motor != null)
-			{
-				motor.jumpStarted -= OnJumpStarted;
-				motor.landed -= OnLanding;
-				motor.fallStarted -= OnFallStarted;
-				motor.rapidlyTurned -= OnRapidlyTurned;
-			}
 		}
 
 		private void OnRapidlyTurned(float normalizedTurn)
@@ -259,41 +233,20 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
-		/// <summary>
-		/// Sets the Animator parameters
-		/// </summary>
-		private void Update()
-		{
-			UpdateForwardSpeed(motor.normalizedForwardSpeed, Time.deltaTime);
-			UpdateLateralSpeed(motor.normalizedLateralSpeed, Time.deltaTime);
-			UpdateTurningSpeed(motor.normalizedTurningSpeed, Time.deltaTime);
-			UpdateFoot();
-			
-			animator.SetBool(hashHasInput, CheckHasSpeed(motor.normalizedForwardSpeed) || CheckHasSpeed(motor.normalizedLateralSpeed));
-			
-			animator.SetBool(hashIsStrafing, Mathf.Abs(motor.normalizedLateralSpeed) > 0);
-
-			if (!isGrounded)
-			{
-				animator.SetFloat(hashVerticalSpeed, motor.normalizedVerticalSpeed, floatInterpolationTime, Time.deltaTime);
-				animator.SetFloat(hashFallingTime, motor.fallTime);
-			}
-		}
-
 		private void UpdateFoot()
 		{
 			AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 			animationNormalizedProgress = MathUtilities.GetFraction(stateInfo.normalizedTime);
 			//TODO: remove zero index
 			if (MathUtilities.Wrap1(animationNormalizedProgress +
-			                        footednessThresholdOffset) >
-			    MathUtilities.Wrap1(footednessThreshold + footednessThresholdOffset))
+			                        configuration.footednessThresholdOffsetValue) >
+			    MathUtilities.Wrap1(configuration.footednessThresholdValue + configuration.footednessThresholdOffsetValue))
 			{
-				SetFootednessBool(!invert);
+				SetFootednessBool(!configuration.invertFoot);
 				return;
 			}
 			
-			SetFootednessBool(invert);
+			SetFootednessBool(configuration.invertFoot);
 		}
 
 		private bool CheckHasSpeed(float speed)

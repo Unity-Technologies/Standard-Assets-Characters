@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
 using Util;
 
 namespace StandardAssets.Characters.Physics
 {
 	/// <summary>
-	/// Stuck info used by the CharacterCapsuleMover.
+	/// Stuck info and logic used by the OpenCharacterController.
 	/// </summary>
 	public class CharacterCapsuleMoverStuckInfo
 	{
@@ -22,24 +19,20 @@ namespace StandardAssets.Characters.Physics
 		private const float k_StuckSqrDistance = k_StuckDistance * k_StuckDistance;
 		
 		/// <summary>
-		/// If character collided this number of times during the movement loop then test if character is stuck
+		/// If character collided this number of times during the movement loop then test if character is stuck by
+		/// examining the position
 		/// </summary>
 		private const int k_HitCountForStuck = 6;
 		
 		/// <summary>
 		/// Assume character is stuck if the position is the same for longer than this number of loop itterations
 		/// </summary>
-		private const int k_MaxStuckCount = 1;
-
+		private const int k_MaxStuckPositionCount = 1;
+		
 		/// <summary>
-		/// If the remaining move distance has not changed by more than this value then assume it is the same.
+		/// Is the character stuck in the current move loop itteration?
 		/// </summary>
-		private const float k_RemainingMoveDistanceEpsilon = 0.0000001f;
-
-		/// <summary>
-		/// Max hit directions to keep track of, to determine if character is stuck between obstacles
-		/// </summary>
-		private const int k_MaxHitDirections = 6;
+		public bool isStuck;
 		
 		/// <summary>
 		/// Count the number of collisions during movement, to determine when the character gets stuck.
@@ -49,27 +42,12 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// For keeping track of the character's position, to determine when the character gets stuck.
 		/// </summary>
-		public Vector3? stuckPosition;
+		private Vector3? stuckPosition;
 
 		/// <summary>
 		/// Count how long the character is in the same position.
 		/// </summary>
-		public int stuckCount;
-
-		/// <summary>
-		/// Is the character stuck in the current move loop itteration?
-		/// </summary>
-		public bool isStuck;
-
-		/// <summary>
-		/// Keep track of the max remaining distance during collision, to determine if character gets stuck
-		/// </summary>
-		public float? stuckMaxRemainingDistance;
-
-		/// <summary>
-		/// List of hit directions to determine if character is bouncing between obstacles.
-		/// </summary>
-		private List<Vector3> hitDirections = new List<Vector3>(k_MaxHitDirections);
+		private int stuckPositionCount;
 
 		/// <summary>
 		/// Called when the move loop starts.
@@ -77,21 +55,36 @@ namespace StandardAssets.Characters.Physics
 		public void OnMoveLoop()
 		{
 			hitCount = 0;
-			stuckCount = 0;
+			stuckPositionCount = 0;
 			stuckPosition = null;
 			isStuck = false;
-			stuckMaxRemainingDistance = null;
 		}
 		
 		/// <summary>
 		/// Is the character stuck during the movement loop (e.g. bouncing between 2 or more colliders)?
 		/// </summary>
 		/// <param name="characterPosition">The character's position.</param>
+		/// <param name="currentMoveVector">Current move vector.</param>
+		/// <param name="originalMoveVector">Original move vector.</param>
 		/// <returns></returns>
-		public bool UpdateStuck(Vector3 characterPosition)
+		public bool UpdateStuck(Vector3 characterPosition, Vector3 currentMoveVector, 
+		                        Vector3 originalMoveVector)
 		{
+			// First test
 			if (isStuck == false)
 			{
+				// From Quake2: "if velocity is against the original velocity, stop dead to avoid tiny occilations in sloping corners"
+				if (currentMoveVector.sqrMagnitude.NotEqualToZero() &&
+				    Vector3.Dot(currentMoveVector, originalMoveVector) <= 0.0f)
+				{
+					isStuck = true;
+				}
+			}
+			
+			// Second test
+			if (isStuck == false)
+			{
+				// Test if collided and while position remains the same
 				if (hitCount < k_HitCountForStuck)
 				{
 					return false;
@@ -103,15 +96,15 @@ namespace StandardAssets.Characters.Physics
 				}
 				else if (stuckPosition.Value.SqrMagnitudeFrom(characterPosition) <= k_StuckSqrDistance)
 				{
-					stuckCount++;
-					if (stuckCount > k_MaxStuckCount)
+					stuckPositionCount++;
+					if (stuckPositionCount > k_MaxStuckPositionCount)
 					{
 						isStuck = true;
 					}
 				}
 				else
 				{
-					stuckCount = 0;
+					stuckPositionCount = 0;
 					stuckPosition = null;
 				}
 			}
@@ -120,60 +113,13 @@ namespace StandardAssets.Characters.Physics
 			{
 				isStuck = false;
 				hitCount = 0;
-				stuckCount = 0;
+				stuckPositionCount = 0;
 				stuckPosition = null;
-				stuckMaxRemainingDistance = null;
 
 				return true;
 			}
 
 			return false;
-		}
-
-		/// <summary>
-		/// Called when the character collided with an obstacles. It determine's if the character is stuck.
-		/// </summary>
-		/// <param name="hitDirection">Direction character travelled when hitting an obstacle.</param>
-		public void OnCollided(Vector3 hitDirection)
-		{
-			// We only care if the direction has horizontal movement
-			if (hitDirection.x.IsEqualToZero() &&
-			    hitDirection.z.IsEqualToZero())
-			{
-				return;
-			}
-			
-			hitDirections.Add(hitDirection);
-			
-			// TEMP: log directions and angles between them
-			if (hitDirections.Count >= k_MaxHitDirections)
-			{
-				int anglesCount = 0;
-				StringBuilder sb = new StringBuilder();
-				Vector3 prevDirection = hitDirections[0];
-				for (int i = 1, len = hitDirections.Count; i < len; i++)
-				{
-					Vector3 direction = hitDirections[i];
-					float angle = Vector3.Angle(prevDirection, direction);
-					if (angle >= 80.0f)
-					{
-						anglesCount++;
-					}
-					sb.AppendLine(string.Format("angle: {0}     dir: ({1}, {2}, {3})",
-					                        angle,
-					                        direction.x, direction.y, direction.z));
-				}
-				hitDirections.Clear();
-				
-				/*if (anglesCount > 2)
-				{
-					isStuck = true;
-					sb.AppendLine(string.Format("STUCK: {0}",
-					                            anglesCount));
-				}*/
-				
-				Debug.Log(sb.ToString());
-			}
 		}
 	}
 }
