@@ -136,7 +136,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private bool ShouldApplyRootMotion()
 		{
-			return characterPhysics.isGrounded || !animationController.isAirborne;
+			return characterPhysics.isGrounded && animationController.shouldUseRootMotion;
 		}
 		
 		protected virtual void Awake()

@@ -112,17 +112,20 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		public bool isRightFootPlanted { get; private set; }
 
-		public bool isAirborne { get; private set; }
+		public bool shouldUseRootMotion { get; private set; }
 
 		public void AirborneStateExit()
 		{
 			animator.SetFloat(predictedFallDistanceParameterName, 0);
-			isAirborne = false;
+			shouldUseRootMotion = true;
 		}
 		
 		public void AirborneStateEnter()
 		{
-			isAirborne = true;
+			if (motor.normalizedForwardSpeed > 0 && Mathf.Approximately(Mathf.Abs(motor.normalizedLateralSpeed), 0))
+			{
+				shouldUseRootMotion = false;
+			}
 		}
 
 		public void LocomotionStateUpdate()
