@@ -1,5 +1,4 @@
-﻿using UnityEditor.IMGUI.Controls;
-using UnityEngine;
+﻿using UnityEngine;
 using Util;
 
 namespace StandardAssets.Characters.ThirdPerson
@@ -37,12 +36,14 @@ namespace StandardAssets.Characters.ThirdPerson
                 Vector3 playerDirection = avatar.transform.forward;
                 Quaternion playerRotation = avatar.transform.rotation;
 
-                
-                
+
+                var debugPoint = new Vector3((transform.position.x + (avatar.angularVelocity.y * 2)),
+                                     playerPos.y + 0.8f, playerPos.z) + playerDirection * 5;
                 
                 Debug.DrawLine(playerPos, playerPos + playerDirection * 5, Color.red);
                 
-                Debug.DrawLine(playerPos, new Vector3(playerPos.x + avatar.angularVelocity.y * 2, playerPos.y + 1f, playerPos.z) + playerDirection * 5, Color.blue);
+                Debug.DrawLine(new Vector3(playerPos.x, playerPos.y + 0.8f, playerPos.z),  
+                    debugPoint, Color.blue);
                 
                 
 //                avatar.SetLookAtPosition(!avatar.angularVelocity.Equals(Vector3.zero)
@@ -51,7 +52,7 @@ namespace StandardAssets.Characters.ThirdPerson
 //                
                 
                 
-                avatar.SetLookAtPosition(new Vector3(playerPos.x + avatar.angularVelocity.y * 2, playerPos.y + 1f, playerPos.z) + playerDirection * 5);
+                avatar.SetLookAtPosition(debugPoint);
             }
         }
     }
