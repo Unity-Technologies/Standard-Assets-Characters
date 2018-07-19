@@ -136,7 +136,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private bool ShouldApplyRootMotion()
 		{
-			return characterPhysics.isGrounded || !animationController.isAirborne;
+			return characterPhysics.isGrounded && animationController.shouldUseRootMotion;
 		}
 		
 		protected virtual void Awake()
@@ -463,8 +463,10 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected virtual void CalculateStrafeMovement()
 		{
-			normalizedForwardSpeed = Mathf.Approximately (characterInput.moveInput.y, 0f) ? 0f : characterInput.moveInput.y;
-			normalizedLateralSpeed = Mathf.Approximately (characterInput.moveInput.x, 0f) ? 0f : characterInput.moveInput.x;
+			normalizedForwardSpeed = (Mathf.Approximately(characterInput.moveInput.y, 0f) ? 0f : characterInput.moveInput.y)
+				* configuration.strafeForwardMovementProperties.inputUnclamped;
+			normalizedLateralSpeed = Mathf.Approximately (characterInput.moveInput.x, 0f) ? 0f : characterInput.moveInput.x
+				* configuration.strafeLateralMovementProperties.inputUnclamped;
 		}
 
 		protected virtual void ApplyForwardInput(float input)
