@@ -415,10 +415,7 @@ GameObject:
   - component: {fileID: 114074065261041036}
   - component: {fileID: 114651346732965486}
   - component: {fileID: 114035350532953534}
-  - component: {fileID: 114561844803457874}
-  - component: {fileID: 114233431554465932}
   - component: {fileID: 135661079851010840}
-  - component: {fileID: 114334457643941040}
   - component: {fileID: 114373860247929458}
   m_Layer: 11
   m_Name: FirstPersonLegacyInput
@@ -488,7 +485,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4617565824343848}
   - component: {fileID: 114473157933188712}
-  - component: {fileID: 114128930939556762}
   m_Layer: 11
   m_Name: Cameras
   m_TagString: Untagged
@@ -647,7 +643,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1627797537853366}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16, y: 3.12, z: 33}
+  m_LocalPosition: {x: 47.75, y: 11.58, z: 63.168888}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4617565824343848}
@@ -700,6 +696,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terminalVelocity: -60
+  characterController:
+    playerRootTransform: {fileID: 0}
+    rootTransformOffset: {x: 0, y: -0.85, z: 0}
+    slopeLimit: 45
+    stepOffset: 0.3
+    skinWidth: 0.08
+    minMoveDistance: 0
+    center: {x: 0, y: 0, z: 0}
+    radius: 0.2
+    height: 1
+    colliderLayer: 
+    collisionLayerMask:
+      serializedVersion: 2
+      m_Bits: 257
+    addKinematicRigidbody: 1
+    localHumanControlled: 1
+    enableDebug: 0
 --- !u!114 &114048688547853064
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -777,22 +790,6 @@ MonoBehaviour:
   joystickBase: {fileID: 224246877084276708}
   joystickHat: {fileID: 224560227021101052}
   deadZone: 0.1
---- !u!114 &114128930939556762
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1922616701639256}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48973502197442979c49c5becb275492, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  vCamBase: {fileID: 114473157933188712}
-  VCams:
-  - {fileID: 114713529341382392}
-  - {fileID: 114606634733582770}
-  - {fileID: 114074389995230264}
 --- !u!114 &114131800974490702
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -876,29 +873,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114233431554465932
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1627797537853366}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fee6c3ba6b914ab2b7caea31ccec1945, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slopeLimit: 45
-  stepOffset: 0.3
-  skinWidth: 0.08
-  minMoveDistance: 0
-  center: {x: 0, y: 0, z: 0}
-  radius: 0.2
-  height: 1
-  colliderLayer: 
-  collisionLayerMask:
-    serializedVersion: 2
-    m_Bits: 257
-  addKinematicRigidbody: 1
 --- !u!114 &114255799992331492
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -964,17 +938,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114334457643941040
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1627797537853366}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf1af807006f4a03b851eae6d2f48a94, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114360290322005352
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1211,7 +1174,7 @@ MonoBehaviour:
   - m_Script
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
-  m_Priority: 10
+  m_Priority: 50
   m_StandbyUpdate: 1
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
@@ -1297,21 +1260,6 @@ MonoBehaviour:
   joystickBase: {fileID: 224805422820774724}
   joystickHat: {fileID: 224446068859184612}
   deadZone: 0.1
---- !u!114 &114561844803457874
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1627797537853366}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b5c6cf5f04e4e2b9c79ad2fda5ddbea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerRootTransform: {fileID: 0}
-  rootTransformOffset: {x: 0, y: -0.85, z: 0}
-  characterCapsule: {fileID: 114233431554465932}
-  enableDebug: 1
 --- !u!114 &114570266145897858
 MonoBehaviour:
   m_ObjectHideFlags: 1

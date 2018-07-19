@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEditor.IMGUI.Controls;
+using UnityEngine;
 using Util;
 
 namespace StandardAssets.Characters.ThirdPerson
@@ -12,28 +13,46 @@ namespace StandardAssets.Characters.ThirdPerson
         void OnAnimatorIK(int layerIndex)
         {
             float lookAtAngle = 0f;
-            Vector3 lookAtAxis;
-            GetComponent<ThirdPersonMotor>().targetRotation.ToAngleAxis(out lookAtAngle, out lookAtAxis);
-            var avatarPosition = GetComponent<ThirdPersonMotor>().transform.position;
+            
             var avatar = GetComponent<Animator>();
 
             avatar.SetLookAtWeight(lookAtWeight);
-
-            var avatarForwardPosition = transform.forward;
-
-//            var piotrVector = GetComponent<ThirdPersonMotor>().targetRotation * Vector3.forward;
-//
-//            var slepDerp = Vector3.Slerp(avatarForwardPosition, piotrVector, 0.5f);
-
-            var direction = Quaternion.AngleAxis(lookAtAngle, avatarForwardPosition);
             
-            Debug.Log("Hello Angle: " + MathUtilities.Wrap180(GetComponent<ThirdPersonMotor>().targetRotation.eulerAngles.y - transform.eulerAngles.y));
+            var lookAtPosition = new Vector3(transform.position.x + avatar.angularVelocity.y, transform.position.y, avatar.angularVelocity.z + 1f);
+            var neutralLookAtPosition = new Vector3(transform.position.x, transform.position.y, avatar.angularVelocity.z + 1f);
+            
+            
+            /* When using avatar.angularVelocity you can determine the direction of the PC by the steps below
+            //Forward = avatar.angularVelocity = Vector3.Zero
+            //Right = avatar.angularVelocity.y > 0
+            //Left = avatar.angularVelocity.y < 0
+            */
+            
 
+            
             if (avatar)
             {
-                avatar.SetLookAtPosition(direction.eulerAngles);
-            }
+                
+                Vector3 playerPos = avatar.transform.position;
+                Vector3 playerDirection = avatar.transform.forward;
+                Quaternion playerRotation = avatar.transform.rotation;
 
+                
+                
+                
+                Debug.DrawLine(playerPos, playerPos + playerDirection * 5, Color.red);
+                
+                Debug.DrawLine(playerPos, new Vector3(playerPos.x + avatar.angularVelocity.y * 2, playerPos.y + 1f, playerPos.z) + playerDirection * 5, Color.blue);
+                
+                
+//                avatar.SetLookAtPosition(!avatar.angularVelocity.Equals(Vector3.zero)
+//                    ? lookAtPosition2
+//                    : lookahead);
+//                
+                
+                
+                avatar.SetLookAtPosition(new Vector3(playerPos.x + avatar.angularVelocity.y * 2, playerPos.y + 1f, playerPos.z) + playerDirection * 5);
+            }
         }
     }
 }
