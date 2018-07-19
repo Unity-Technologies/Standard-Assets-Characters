@@ -6,11 +6,8 @@ using Util;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
-	[RequireComponent(typeof(ICharacterPhysics))]
-	[RequireComponent(typeof(ICharacterInput))]
-	[RequireComponent(typeof(Animator))]
-	[RequireComponent(typeof(ThirdPersonAnimationController))]
-	public class ThirdPersonMotor : MonoBehaviour, IThirdPersonMotor
+	[Serializable]
+	public class ThirdPersonMotor : IThirdPersonMotor
 	{
 		//Events
 		public event Action startActionMode, startStrafeMode;
@@ -74,6 +71,9 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected TurnaroundBehaviour turnaroundBehaviour;
 
+		protected Transform transform;
+		protected GameObject gameObject;
+
 		protected bool isStrafing
 		{
 			get { return movementMode == ThirdPersonMotorMovementMode.Strafe; }
@@ -93,7 +93,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public void OnJumpAnimationComplete()
 		{
-			var baseCharacterPhysics = GetComponent<BaseCharacterPhysics>();
+			var baseCharacterPhysics = gameObject.GetComponent<BaseCharacterPhysics>();
 			if (baseCharacterPhysics == null)
 			{
 				return;
@@ -115,7 +115,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 
 		//Unity Messages
-		protected virtual void OnAnimatorMove()
+		public void OnAnimatorMove()
 		{
 			if (movementState == ThirdPersonGroundMovementState.TurningAround)
 			{
@@ -139,19 +139,22 @@ namespace StandardAssets.Characters.ThirdPerson
 			return characterPhysics.isGrounded || !animationController.isAirborne;
 		}
 		
-		protected virtual void Awake()
+		public void Init(ThirdPersonBrain brain)
 		{
-			TurnaroundBehaviour turn = GetComponent<TurnaroundBehaviour>();
+			gameObject = brain.gameObject;
+			transform = brain.transform;
+			
+			TurnaroundBehaviour turn = gameObject.GetComponent<TurnaroundBehaviour>();
 
 			if (turn != null && turn.enabled)
 			{
 				turnaroundBehaviour = turn;
 			}
 
-			characterInput = GetComponent<ICharacterInput>();
-			characterPhysics = GetComponent<ICharacterPhysics>();
-			animator = GetComponent<Animator>();
-			animationController = GetComponent<ThirdPersonAnimationController>();
+			characterInput = gameObject.GetComponent<ICharacterInput>();
+			characterPhysics = gameObject.GetComponent<ICharacterPhysics>();
+			animator = gameObject.GetComponent<Animator>();
+			animationController = brain.animationControl;
 
 			if (cameraTransform == null)
 			{
@@ -177,7 +180,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Subscribe
 		/// </summary>
-		protected virtual void OnEnable()
+		public void Subscribe()
 		{
 			//Physics subscriptions
 			characterPhysics.landed += OnLanding;
@@ -207,7 +210,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Unsubscribe
 		/// </summary>
-		protected virtual void OnDisable()
+		public void Unsubscribe()
 		{
 			//Physics subscriptions
 			if (characterPhysics != null)
@@ -241,7 +244,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
-		protected virtual void Update()
+		public void Update()
 		{
 			HandleMovement();
 			HandleClampSpeedDeceleration();

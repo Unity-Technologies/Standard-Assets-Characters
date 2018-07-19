@@ -516,14 +516,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4076727408819664}
-  - component: {fileID: 114484545000245226}
   - component: {fileID: 95372130055387216}
-  - component: {fileID: 114453032354610446}
-  - component: {fileID: 114830054038821640}
-  - component: {fileID: 114701851465361092}
-  - component: {fileID: 114346304956769404}
+  - component: {fileID: 114484545000245226}
   - component: {fileID: 114436560949563180}
-  - component: {fileID: 114126601861518038}
+  - component: {fileID: 114403526203746496}
   m_Layer: 11
   m_Name: MaleThirdPerson
   m_TagString: Player
@@ -1543,7 +1539,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1294013925418394}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 47.75, y: 10.18, z: 63.168888}
+  m_LocalPosition: {x: 47.75, y: 19.352, z: 63.168888}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4373934692070628}
@@ -2611,62 +2607,6 @@ MonoBehaviour:
   cinemachineLookYAxisName: Vertical
   leftOnScreenJoystick: {fileID: 114004964462743514}
   rightOnScreenJoystick: {fileID: 114899799394176718}
---- !u!114 &114126601861518038
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1294013925418394}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75c30f5f657547d7b0479680982c985b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeToTurn: 0.15
-  turnSpeed: 0.5
-  forwardSpeed:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: -0.0041656494
-      value: -0.011727907
-      inSlope: -3.069767
-      outSlope: -3.069767
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.17916666
-    - serializedVersion: 3
-      time: 0.3121027
-      value: -1
-      inSlope: 0.280108
-      outSlope: 0.280108
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.60981685
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.50811255
-      value: 0.1
-      inSlope: 2.998844
-      outSlope: 2.998844
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.9916687
-      value: 0.011360168
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  forwardSpeedCalculation: 0
 --- !u!114 &114200361099830622
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2766,7 +2706,7 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114346304956769404
+--- !u!114 &114403526203746496
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2774,13 +2714,33 @@ MonoBehaviour:
   m_GameObject: {fileID: 1294013925418394}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9420a2ec6bc849faa980b98f0e113910, type: 3}
+  m_Script: {fileID: 11500000, guid: 475c226dbac9416ea06c859daeb6d183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  configuration: {fileID: 11400000, guid: 33e0d88026c128b4ca3076e2e5149510, type: 2}
-  cameraTransform: {fileID: 0}
-  runInput: {fileID: 11400000, guid: 4536a47671291463386c18678dd23194, type: 2}
-  strafeInput: {fileID: 11400000, guid: f7e824638922944d5b76347cc85e8952, type: 2}
+  rootMotionMotor:
+    configuration: {fileID: 11400000, guid: 33e0d88026c128b4ca3076e2e5149510, type: 2}
+    cameraTransform: {fileID: 0}
+    runInput: {fileID: 11400000, guid: 4536a47671291463386c18678dd23194, type: 2}
+    strafeInput: {fileID: 11400000, guid: f7e824638922944d5b76347cc85e8952, type: 2}
+  animationController:
+    floatInterpolationTime: 0.05
+    forwardSpeedParameterName: ForwardSpeed
+    lateralSpeedParameterName: LateralSpeed
+    turningSpeedParameterName: TurningSpeed
+    verticalSpeedParameterName: VerticalSpeed
+    groundedParameterName: Grounded
+    hasInputParameterName: HasInput
+    fallingTimeParameterName: FallTime
+    footednessParameterName: OnRightFoot
+    jumpedParameterName: Jumped
+    jumpedLateralSpeedParameterName: JumpedLateralSpeed
+    jumpedForwardSpeedParameterName: JumpedForwardSpeed
+    predictedFallDistanceParameterName: PredictedFallDistance
+    rapidTurnParameterName: RapidTurn
+    isStrafingParameterName: IsStrafing
+    invert: 0
+    footednessThreshold: 0.25
+    footednessThresholdOffset: 0.25
 --- !u!114 &114430763955348664
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2857,35 +2817,6 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 256
---- !u!114 &114453032354610446
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1294013925418394}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50675fc63f6845a9b80e1db1c59a5d83, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  floatInterpolationTime: 0.05
-  forwardSpeedParameterName: ForwardSpeed
-  lateralSpeedParameterName: LateralSpeed
-  turningSpeedParameterName: TurningSpeed
-  verticalSpeedParameterName: VerticalSpeed
-  groundedParameterName: Grounded
-  hasInputParameterName: HasInput
-  fallingTimeParameterName: FallTime
-  footednessParameterName: OnRightFoot
-  jumpedParameterName: Jumped
-  jumpedLateralSpeedParameterName: JumpedLateralSpeed
-  jumpedForwardSpeedParameterName: JumpedForwardSpeed
-  predictedFallDistanceParameterName: PredictedFallDistance
-  rapidTurnParameterName: RapidTurn
-  isStrafingParameterName: IsStrafing
-  invert: 0
-  footednessThreshold: 0.25
-  footednessThresholdOffset: 0.25
 --- !u!114 &114483523814417916
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3099,20 +3030,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114701851465361092
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1294013925418394}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 932f87fc223c4752b5884acf4253164f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementDetections:
-  - {fileID: 114447118663720106}
-  - {fileID: 114449538320415148}
 --- !u!114 &114708474431008640
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3248,18 +3165,6 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 0
---- !u!114 &114830054038821640
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1294013925418394}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f15fdcce5f854ef08215491f1d17f1a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startingMovementEventLibrary: {fileID: 0}
 --- !u!114 &114899799394176718
 MonoBehaviour:
   m_ObjectHideFlags: 1

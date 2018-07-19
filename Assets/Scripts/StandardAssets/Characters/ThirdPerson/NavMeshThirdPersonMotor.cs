@@ -7,9 +7,10 @@ namespace StandardAssets.Characters.ThirdPerson
 	/// <summary>
 	/// Maps a NavMeshAgent movement to values that the animator understands
 	/// </summary>
-	[RequireComponent(typeof(NavMeshAgent))]
-	public class NavMeshThirdPersonMotor : MonoBehaviour, IThirdPersonMotor
+	[Serializable]
+	public class NavMeshThirdPersonMotor : IThirdPersonMotor
 	{
+		private GameObject gameObject;
 		/// <summary>
 		/// The attached NavMeshAgent
 		/// </summary>
@@ -41,18 +42,18 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			get { return 0; }
 		}
-		
+
+		public void Init(ThirdPersonBrain brain)
+		{
+			gameObject = brain.gameObject;
+			agent = gameObject.GetComponent<NavMeshAgent>();
+			fallingTime = 0f;
+		}
+
 		public Action jumpStarted { get; set; }
 		public Action landed { get; set; }
 		public Action<float> fallStarted { get; set; }
 		public Action<float> rapidlyTurned { get; set; }
-
-		/// <inheritdoc />
-		protected void Awake()
-		{
-			agent = GetComponent<NavMeshAgent>();
-			fallingTime = 0f;
-		}
 
 		/// <summary>
 		/// Helper function to get the component of velocity along an axis

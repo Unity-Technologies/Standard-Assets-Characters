@@ -12,7 +12,7 @@ namespace Demo
 		protected InputResponse changeViews;
 
 		[SerializeField]
-		protected ThirdPersonMotor thirdPersonMotor;
+		protected ThirdPersonBrain thirdPersonBrain;
 
 		[SerializeField]
 		protected FirstPersonController firstPersonController;
@@ -60,8 +60,8 @@ namespace Demo
 		{
 			//Set Third Person
 			thirdPersonParent.SetActive(true);
-			thirdPersonMotor.transform.position = firstPersonController.transform.position + positionOffset;
-			thirdPersonMotor.transform.rotation = firstPersonController.transform.rotation;
+			thirdPersonBrain.transform.position = firstPersonController.transform.position + positionOffset;
+			thirdPersonBrain.transform.rotation = firstPersonController.transform.rotation;
 			firstPersonParent.SetActive(false);
 		}
 
@@ -69,8 +69,8 @@ namespace Demo
 		{
 			//Set FPS
 			thirdPersonParent.SetActive(false);
-			firstPersonController.transform.position = thirdPersonMotor.transform.position + positionOffset;
-			firstPersonController.transform.rotation = thirdPersonMotor.transform.rotation;
+			firstPersonController.transform.position = thirdPersonBrain.transform.position + positionOffset;
+			firstPersonController.transform.rotation = thirdPersonBrain.transform.rotation;
 			firstPersonParent.SetActive(true);
 		}
 
