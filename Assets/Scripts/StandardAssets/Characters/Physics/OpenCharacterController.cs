@@ -10,7 +10,7 @@ using StandardAssets.GizmosHelpers;
 namespace StandardAssets.Characters.Physics
 {
 	/// <summary>
-	/// Open character controller. Handles the movement of a character. It uses a capsule for movement and collision detection.
+	/// Open character controller. Handles the movement of a character, by using a capsule for movement and collision detection.
 	/// Note: The capsule is always upright. It ignores rotation.
 	/// </summary>
 	[Serializable]
@@ -161,16 +161,29 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// The Character’s Capsule Collider height. Changing this will scale the collider along the Y axis in both positive and negative directions.
 		/// </summary>
-		[Tooltip(
-			"The Character’s Capsule Collider height. Changing this will scale the collider along the Y axis in both positive and negative directions.")]
+		[Tooltip("The Character’s Capsule Collider height. Changing this will scale the collider along the Y axis in both " +
+		         "positive and negative directions.")]
 		[SerializeField]
 		private float height = 2.0f;
 
 		/// <summary>
-		/// Layer to use for the collider. Leave empty to use the same layer as the game object to which this component is attached.
+		/// Add a kinematic Rigidbody? Physics works better when moving Colliders have a kinematic Rigidbody.
 		/// </summary>
-		[Tooltip(
-			"Layer to use for the collider. Leave empty to use the same layer as the game object to which this component is attached.")]
+		[Tooltip("Add a kinematic Rigidbody? Physics works better when moving Colliders have a kinematic Rigidbody.")]
+		[SerializeField]
+		private bool addKinematicRigidbody = true;
+
+		/// <summary>
+		/// Add the collider (and Rigidbody) to a child object? It will create a new child object.
+		/// </summary>
+		[Tooltip("Add the collider (and Rigidbody) to a child object? It will create a new child object.")]
+		[SerializeField]
+		private bool addColliderAsAChild = true;
+		
+		/// <summary>
+		/// Layer to use for the collider (if it's added to a child object). Leave empty to use the same layer as the parent.
+		/// </summary>
+		[Tooltip("Layer to use for the collider (if it's added to a child object). Leave empty to use the same layer as the parent.")]
 		[SerializeField]
 		private string colliderLayer;
 
@@ -182,18 +195,19 @@ namespace StandardAssets.Characters.Physics
 		private LayerMask collisionLayerMask = ~0;	// ~0 sets it to Everything
 
 		/// <summary>
-		/// Add a kinematic Rigidbody? Physics works better when moving Colliders have a kinematic Rigidbody.
-		/// </summary>
-		[Tooltip("Add a kinematic Rigidbody? Physics works better when moving Colliders have a kinematic Rigidbody.")]
-		[SerializeField]
-		private bool addKinematicRigidbody = true;
-
-		/// <summary>
 		/// Is the character controlled by a local human? If true then more caluclations are done for more accurate movement.
 		/// </summary>
-		[Tooltip("Is the character controlled by a local human? If true then more caluclations are done for more accurate movement.")]
+		[Tooltip("Is the character controlled by a local human? If true then more caluclations are done for more " +
+		         "accurate movement.")]
 		[SerializeField]
 		private bool localHumanControlled = true;
+
+		/// <summary>
+		/// Can character slide vertically when touching the ceiling?
+		/// </summary>
+		[Tooltip("Can character slide vertically when touching the ceiling?")]
+		[SerializeField]
+		private bool canSlideAgainstCeiling = true;
 
 		[Header("Debug")]
 		[Tooltip("Enable additional debugging visuals in scene view")]
@@ -209,11 +223,6 @@ namespace StandardAssets.Characters.Physics
 		/// Cached reference to the transform.
 		/// </summary>
 		private Transform cachedTransform;
-		
-		/// <summary>
-		/// Cached reference to the capsule's transform.
-		/// </summary>
-		private Transform capsuleTransform;
 		
 		/// <summary>
 		/// Remaining movement vectors.
@@ -346,15 +355,15 @@ namespace StandardAssets.Characters.Physics
 		/// <returns>Whether the character is grounded.</returns>
 		public bool SimpleMove(Vector3 speed)
 		{
-			Vector3 moveVector = new Vector3(speed.x, speed.y + UnityEngine.Physics.gravity.y, speed.z);
-
 			// Reminder: Time.deltaTime returns the fixed delta time when called from inside FixedUpdate.
-			MoveInternal(moveVector * Time.deltaTime, false);
+			Vector3 moveVector = new Vector3(speed.x, speed.y + UnityEngine.Physics.gravity.y, speed.z) * Time.deltaTime;
+
+			MoveInternal(moveVector, false);
 
 			#if UNITY_EDITOR
 			if (enableDebug)
 			{
-				Debug.DrawRay(cachedTransform.position + rootTransformOffset, speed, Color.green, 1f);
+				Debug.DrawRay(cachedTransform.position + rootTransformOffset, moveVector, Color.green, 1f);
 			}
 			#endif
 
@@ -368,10 +377,10 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="updateGrounded">Update the grounded state? This uses a cast, so only set it to true if you need it.</param>
 		public void SetPosition(Vector3 position, bool updateGrounded)
 		{
-			capsuleTransform.position = position;
+			cachedTransform.position = position;
 
 			#if UNITY_EDITOR
-			debugCurrentPosition = capsuleTransform.position;
+			debugCurrentPosition = cachedTransform.position;
 			#endif
 
 			if (updateGrounded)
@@ -586,26 +595,80 @@ namespace StandardAssets.Characters.Physics
 		/// <inheritdoc />
 		public void Awake(Transform transform)
 		{			
-			capsuleTransform = transform;
 			cachedTransform = transform;
 			InitCapsuleCollider();
 		}
+		
+		#if UNITY_EDITOR
+		/// <inheritdoc />
+		public void OnValidate()
+		{
+			ValidateCapsule();
+		}
+		#endif
+
+		/// <inheritdoc />
+		public void LateUpdate()
+		{
+			if (playerRootTransform != null)
+			{
+				playerRootTransform.localPosition = rootTransformOffset;
+			}
+		}
+		
+		#if UNITY_EDITOR
+		/// <inheritdoc />
+		public void OnDrawGizmosSelected(Transform transform)
+		{
+			if (cachedTransform == null)
+			{
+				cachedTransform = transform;
+			}
+			
+			// Foot position
+			Gizmos.color = Color.cyan;
+			Vector3 footPosition = GetFootWorldPosition();
+			Gizmos.DrawLine(footPosition + Vector3.left * scaledRadius,
+			                footPosition + Vector3.right * scaledRadius);
+			Gizmos.DrawLine(footPosition + Vector3.back * scaledRadius,
+			                footPosition + Vector3.forward * scaledRadius);
+			
+			if (capsuleCollider != null)
+			{
+				// No need to draw a fake collider, because the real collider will draw itself
+				return;
+			}
+
+			// Draw capsule collider
+			GizmosHelper.DrawCapsule(GetTopSphereWorldPosition(), GetBottomSphereWorldPosition(), 
+			                         scaledRadius, Color.green);
+			
+			// Big capsule collider
+			GizmosHelper.DrawCapsule(GetTopSphereWorldPosition(), GetBottomSphereWorldPosition(), 
+			                         scaledRadius + skinWidth, new Color(1.0f, 1.0f, 0.0f, 0.1f));
+		}
+		#endif
 		
 		/// <summary>
 		/// Initialize the capsule collider.
 		/// </summary>
 		private void InitCapsuleCollider()
 		{
-			// Create a child object and add the capsule collider to it
-			GameObject go = new GameObject("CapsuleCollider");
-			go.transform.SetParent(cachedTransform);
-			if (string.IsNullOrEmpty(colliderLayer))
+			// Default to this game object
+			GameObject go = cachedTransform.gameObject;
+			if (addColliderAsAChild)
 			{
-				go.layer = cachedTransform.gameObject.layer;
-			}
-			else
-			{
-				go.layer = LayerMask.NameToLayer(colliderLayer);
+				// Create a child object to which to add the capsule collider and rigidbody
+				go = new GameObject("CapsuleCollider");
+				go.transform.SetParent(cachedTransform);
+				if (string.IsNullOrEmpty(colliderLayer))
+				{
+					go.layer = cachedTransform.gameObject.layer;
+				}
+				else
+				{
+					go.layer = LayerMask.NameToLayer(colliderLayer);
+				}
 			}
 
 			capsuleCollider = (CapsuleCollider)go.AddComponent(typeof(CapsuleCollider));
@@ -614,9 +677,12 @@ namespace StandardAssets.Characters.Physics
 				// Must be enabled for ComputePenetration to work.
 				capsuleCollider.enabled = true;
 
-				capsuleCollider.transform.localPosition = Vector3.zero;
-				capsuleCollider.transform.localRotation = Quaternion.identity;
-				capsuleCollider.transform.localScale = Vector3.one;
+				if (addColliderAsAChild)
+				{
+					capsuleCollider.transform.localPosition = Vector3.zero;
+					capsuleCollider.transform.localRotation = Quaternion.identity;
+					capsuleCollider.transform.localScale = Vector3.one;
+				}
 			}
 
 			if (addKinematicRigidbody)
@@ -647,23 +713,6 @@ namespace StandardAssets.Characters.Physics
 				capsuleCollider.height = height;
 			}
 		}
-
-		#if UNITY_EDITOR
-		/// <inheritdoc />
-		public void OnValidate()
-		{
-			ValidateCapsule();
-		}
-		#endif
-
-		/// <inheritdoc />
-		public void LateUpdate()
-		{
-			if (playerRootTransform != null)
-			{
-				playerRootTransform.localPosition = rootTransformOffset;
-			}
-		}
 		
 		/// <summary>
 		/// Moves the characters.
@@ -682,13 +731,13 @@ namespace StandardAssets.Characters.Physics
 			}
 
 			bool wasGrounded = isGrounded;
-			Vector3 oldPosition = capsuleTransform.position;
+			Vector3 oldPosition = cachedTransform.position;
 			Vector3 oldVelocity = velocity;
 			CollisionFlags oldCollisionFlags = collisionFlags;
 			Vector3 moveVectorNoY = new Vector3(moveVector.x, 0.0f, moveVector.z);
 			bool tryToStickToGround = (wasGrounded &&
 			                           moveVector.y <= 0.0f &&
-			                           moveVectorNoY.sqrMagnitude.NotEqualToZero());	//Math.Abs(moveVectorNoY.sqrMagnitude) > Mathf.Epsilon);
+			                           moveVectorNoY.sqrMagnitude.NotEqualToZero());
 
 			collisionFlags = CollisionFlags.None;
 
@@ -696,7 +745,7 @@ namespace StandardAssets.Characters.Physics
 			MoveLoop(moveVector, tryToStickToGround, slideWhenMovingDown);
 
 			UpdateGrounded(collisionFlags);
-			velocity = capsuleTransform.position - oldPosition;
+			velocity = cachedTransform.position - oldPosition;
 
 			// Check is the changed events should be fired
 			if (onVelocityChanged != null &&
@@ -771,29 +820,32 @@ namespace StandardAssets.Characters.Physics
 			tryStepOverIndex = -1;
 			#endif
 
+			// The loop
 			for (int i = 0; i < k_MaxMoveItterations; i++)
-			{				
+			{	
 				bool collided = MoveMajorStep(ref remainingMoveVector.moveVector, 
 				                              remainingMoveVector.canSlide,
 				                              didTryToStickToGround, 
 				                              i == tryStepOverIndex || stepInfo.isStepping);
-
-				if (stuckInfo.UpdateStuck(capsuleTransform.position))
+				
+				// Character stuck?
+				if (stuckInfo.UpdateStuck(cachedTransform.position,
+				                          remainingMoveVector.moveVector,
+				                          moveVector))
 				{
 					// Stop current move loop vector
 					remainingMoveVector = new CharacterCapsuleMoverVector(Vector3.zero);
 				}
-				
-				// Only slide once for non-human controlled characters
-				if (!GetLocalHumanControlled() && 
-				    collided)
+				else if (!localHumanControlled && 
+				         collided)
 				{
+					// Only slide once for non-human controlled characters
 					remainingMoveVector.canSlide = false;
 				}
 				
-				// Collided or vector used up (i.e. vector is zero)?
+				// Not collided OR vector used up (i.e. vector is zero)?
 				if (!collided || 
-				    remainingMoveVector.moveVector.sqrMagnitude <= 0.0f)
+				    remainingMoveVector.moveVector.sqrMagnitude.IsEqualToZero())
 				{
 					// Are there remaining movement vectors?
 					if (nextMoveVectorIndex < moveVectors.Count)
@@ -879,8 +931,7 @@ namespace StandardAssets.Characters.Physics
 				                     canSlide,
 									 tryGrounding,
 				                     tryStepOver,
-				                     true,
-				                     "NoBigCollision");
+				                     true);
 				
 				return true;
 			}
@@ -894,8 +945,7 @@ namespace StandardAssets.Characters.Physics
 				                     canSlide,
 									 tryGrounding,
 				                     tryStepOver,
-				                     true,
-				                     "UseSmallCollision");
+				                     true);
 				return true;
 			}
 
@@ -904,8 +954,7 @@ namespace StandardAssets.Characters.Physics
 			                     canSlide,
 								 tryGrounding,
 			                     tryStepOver,
-			                     false,
-								 "UseBigCollision");
+			                     false);
 			
 			return true;
 		}
@@ -972,23 +1021,23 @@ namespace StandardAssets.Characters.Physics
 
 			if (vertical.y > 0.0f)
 			{
-				if (horizontal.x.NotEqualToZero() ||	//Math.Abs(horizontal.x) > Mathf.Epsilon ||
-				    horizontal.z.NotEqualToZero())		//Math.Abs(horizontal.z) > Mathf.Epsilon)
+				if (horizontal.x.NotEqualToZero() || 
+				    horizontal.z.NotEqualToZero())
 				{
 					// Move up then horizontal
-					AddMoveVector(vertical);
+					AddMoveVector(vertical, canSlideAgainstCeiling);
 					getTryStepOverIndex = AddMoveVector(horizontal);
 				}
 				else
 				{
 					// Move up
-					AddMoveVector(vertical);
+					AddMoveVector(vertical, canSlideAgainstCeiling);
 				}
 			}
 			else if (vertical.y < 0.0f)
 			{
-				if (horizontal.x.NotEqualToZero() ||	//Math.Abs(horizontal.x) > Mathf.Epsilon ||
-				    horizontal.z.NotEqualToZero())		//Math.Abs(horizontal.z) > Mathf.Epsilon)
+				if (horizontal.x.NotEqualToZero() || 
+				    horizontal.z.NotEqualToZero())
 				{
 					// Move horizontal then down
 					getTryStepOverIndex = AddMoveVector(horizontal);
@@ -1087,9 +1136,9 @@ namespace StandardAssets.Characters.Physics
 			    (collisionFlags & CollisionFlags.CollidedSides) == 0 ||
 			    isGrounded == false ||
 			    angleToObstacle > k_MaxStepOverHitAngle ||
-			    moveVector.y.NotEqualToZero() ||			//Math.Abs(moveVector.y) > Mathf.Epsilon ||
-			    (moveVector.x.IsEqualToZero() &&			//Math.Abs(moveVector.x) < Mathf.Epsilon &&
-			     moveVector.z.IsEqualToZero()))				//Math.Abs(moveVector.z) < Mathf.Epsilon)))
+			    moveVector.y.NotEqualToZero() || 
+			    (moveVector.x.IsEqualToZero() && 
+			     moveVector.z.IsEqualToZero()))
 			{
 				return false;
 			}
@@ -1110,22 +1159,19 @@ namespace StandardAssets.Characters.Physics
 			Vector3 horizontal = moveVectorNoY * diameter;
 			float horizontalSize = horizontal.magnitude;
 			horizontal.Normalize();
+			
 			// Any obstacles above?
 			float upDistance = Mathf.Max(stepOffset, k_MinStepOffsetHeight);
 			Vector3 up = Vector3.up * upDistance;
-			Ray ray = new Ray(GetTopSphereWorldPosition(), Vector3.up);
-			if (UnityEngine.Physics.SphereCast(ray,
-			                                   scaledRadius,
-			                                   GetSkinWidth() + upDistance,
-			                                   GetCollisionLayerMask()))
+			if (SmallSphereCast(Vector3.up, GetSkinWidth() + upDistance, out hitInfo, Vector3.zero, false) ||
+			    BigSphereCast(Vector3.up, upDistance, out hitInfo, Vector3.zero, false))
 			{
 				return false;
 			}
 			
 			// Any obstacles ahead (after we moved up)?
-			// First test big capsule then small capsule, in case big capsule already inside an obstacle.
-			if (BigCapsuleCast(horizontal, horizontalSize, out hitInfo, up) ||
-			    SmallCapsuleCast(horizontal, horizontalSize + GetSkinWidth(), out hitInfo, up))
+			if (SmallCapsuleCast(horizontal, GetSkinWidth() + horizontalSize, out hitInfo, up) ||
+			    BigCapsuleCast(horizontal, horizontalSize, out hitInfo, up))
 			{
 				return false;
 			}
@@ -1138,8 +1184,8 @@ namespace StandardAssets.Characters.Physics
 			InsertMoveVector(index + 1, horizontal, false);
 			
 			// Start stepping over the obstacles
-			stepInfo.OnStartStepOver(upDistance, moveVector, capsuleTransform.position);
-			
+			stepInfo.OnStartStepOver(upDistance, moveVector, cachedTransform.position);
+
 			return true;
 		}
 
@@ -1158,15 +1204,15 @@ namespace StandardAssets.Characters.Physics
 				return false;
 			}
 
-			if (moveVector.x.IsEqualToZero() &&		//Math.Abs(moveVector.x) < Mathf.Epsilon &&
-			    moveVector.z.IsEqualToZero())		//Math.Abs(moveVector.z) < Mathf.Epsilon)
+			if (moveVector.x.IsEqualToZero() && 
+			    moveVector.z.IsEqualToZero())
 			{
 				// Wait until we get a horizontal vector
 				return true;
 			}
 			
 			// Climb height remaining
-			float heightRemaining = stepInfo.GetRemainingHeight(capsuleTransform.position);
+			float heightRemaining = stepInfo.GetRemainingHeight(cachedTransform.position);
 			if (heightRemaining <= 0.0f)
 			{
 				return false;
@@ -1174,11 +1220,9 @@ namespace StandardAssets.Characters.Physics
 			
 			// Any obstacles above?
 			Vector3 up = Vector3.up * Mathf.Max(heightRemaining, k_MinStepOffsetHeight);
-			Ray ray = new Ray(GetTopSphereWorldPosition(), Vector3.up);
-			if (UnityEngine.Physics.SphereCast(ray,
-			                                   scaledRadius,
-			                                   GetSkinWidth() + heightRemaining,
-			                                   GetCollisionLayerMask()))
+			RaycastHit hitInfo;
+			if (SmallSphereCast(Vector3.up, GetSkinWidth() + heightRemaining, out hitInfo, Vector3.zero, false) ||
+			    BigSphereCast(Vector3.up, heightRemaining, out hitInfo, Vector3.zero, false))
 			{
 				// Stop stepping over
 				return false;
@@ -1205,7 +1249,7 @@ namespace StandardAssets.Characters.Physics
 		private void StopStepOver(bool fallDown)
 		{
 			stepInfo.OnStopStepOver();
-			
+
 			if (fallDown == false)
 			{
 				return;
@@ -1230,7 +1274,7 @@ namespace StandardAssets.Characters.Physics
 				down = Vector3.down * maxDistance;
 			}
 			
-			if (down.y.NotEqualToZero())	//Math.Abs(down.y) > Mathf.Epsilon)
+			if (down.y.NotEqualToZero())
 			{
 				// Move Down
 				InsertMoveVector(nextMoveVectorIndex, down, false);
@@ -1390,7 +1434,7 @@ namespace StandardAssets.Characters.Physics
 		}
 		
 		/// <summary>
-		/// Move away from an obstacle.
+		/// Called whan a capsule cast detected an obstacle. Move away from the obstacle and slide against it if needed.
 		/// </summary>
 		/// <param name="moveVector">The movement vector.</param>
 		/// <param name="hitInfo">Hit info of the collision.</param>
@@ -1400,14 +1444,12 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="tryGrounding">Try grounding the player?</param>
 		/// <param name="tryStepOver">Try to step over obstacles?</param>
 		/// <param name="hitSmallCapsule">Did the collision occur with the small capsule (i.e. no skin width)?</param>
-		/// <param name="debugInfo">Debug info. Remove when testing is done.</param>
 		private void MoveAwayFromObstacle(ref Vector3 moveVector, ref RaycastHit hitInfo,
 		                                  Vector3 direction, float distance,
 		                                  bool canSlide,
 										  bool tryGrounding, 
 		                                  bool tryStepOver,
-		                                  bool hitSmallCapsule,
-		                                  string debugInfo)
+		                                  bool hitSmallCapsule)
 		{
 			// IMPORTANT: This method must set moveVector.
 			
@@ -1421,18 +1463,14 @@ namespace StandardAssets.Characters.Physics
 			// bit of dampening when sliding along obstacles
 			float remainingDistance = Mathf.Max(distance - hitInfo.distance, 0.0f);
 			
-			// TODO: Need to do a bit more to get stuckInfo.OnCollided to work properly.
-			// Determine if character is stuck
-			//stuckInfo.OnCollided(hitInfo.normal);
-			
 			// Move to the collision point
 			MovePosition(direction * hitDistance, direction, hitInfo);
 
 			float skinPenetrationDistance;
 			Vector3 skinPenetrationVector;
 
-			GetPenetrationInfo(out skinPenetrationDistance, out skinPenetrationVector, true, null);
-
+			GetPenetrationInfo(out skinPenetrationDistance, out skinPenetrationVector, true, null, hitInfo);
+			
 			// Push away from the obstacle
 			MovePosition(skinPenetrationVector * skinPenetrationDistance, null, null);
 			
@@ -1443,8 +1481,8 @@ namespace StandardAssets.Characters.Physics
 				// No further movement when grounding the character, or the character is stuck
 				canSlide = false;
 			}
-			else if (moveVector.x.NotEqualToZero() ||	//Math.Abs(moveVector.x) > Mathf.Epsilon ||
-			         moveVector.z.NotEqualToZero())		//Math.Abs(moveVector.z) > Mathf.Epsilon)
+			else if (moveVector.x.NotEqualToZero() || 
+			         moveVector.z.NotEqualToZero())
 			{
 				// Test if character is trying to walk up a steep slope
 				float angle = Vector3.Angle(Vector3.up, hitInfo.normal);
@@ -1507,7 +1545,8 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="offsetPosition">Offset position, if we want to test somewhere other than the capsule's position.</param>
 		private bool GetPenetrationInfo(out float getDistance, out Vector3 getDirection,
 		                                bool includSkinWidth = true,
-		                                Vector3? offsetPosition = null)
+		                                Vector3? offsetPosition = null,
+		                                RaycastHit? hitInfo = null)
 		{
 			getDistance = 0.0f;
 			getDirection = Vector3.zero;
@@ -1543,11 +1582,20 @@ namespace StandardAssets.Characters.Physics
 				float distance;
 				Transform colliderTransform = collider.transform;
 				if (ComputePenetration(offset, 
-														collider, colliderTransform.position, colliderTransform.rotation, 
-														out direction, out distance, includSkinWidth))
+				                       collider, colliderTransform.position, colliderTransform.rotation, 
+				                       out direction, out distance, includSkinWidth))
 				{
 					getDistance += distance + k_CollisionOffset;
 					getDirection += direction;
+					result = true;
+				}
+				else if (hitInfo != null &&
+				         hitInfo.Value.collider == collider)
+				{
+					// We can use the hit normal to push away from the collider, because CapsuleCast generally returns a normal
+					// that pushes away from the collider.
+					getDistance += k_CollisionOffset;
+					getDirection -= hitInfo.Value.normal;
 					result = true;
 				}
 			}
@@ -1563,37 +1611,37 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="hitInfo">Hit info of the collision. Null if no collision.</param>
 		private void MovePosition(Vector3 moveVector, Vector3? collideDirection, RaycastHit? hitInfo)
 		{
-			if (moveVector.sqrMagnitude.NotEqualToZero())	//Math.Abs(moveVector.sqrMagnitude) > Mathf.Epsilon)
+			if (moveVector.sqrMagnitude.NotEqualToZero())
 			{
-				capsuleTransform.position += moveVector;
+				cachedTransform.position += moveVector;
 			}
 
 			#if UNITY_EDITOR
 			if (debugCurrentPosition == null)
 			{
-				debugCurrentPosition = capsuleTransform.position;
+				debugCurrentPosition = cachedTransform.position;
 			}
-			else if (moveVector.sqrMagnitude.NotEqualToZero())	//Math.Abs(moveVector.sqrMagnitude) > Mathf.Epsilon)
+			else if (moveVector.sqrMagnitude.NotEqualToZero())
 			{
 				debugCurrentPosition += moveVector;
 			}
 
-			int debugMaxCurrentPositionErrorCount = 5;
+			int debugMaxCurrentPositionErrorCount = 5; // How many times to show the error
 			if (debugCurrentPosition != null &&
-			    debugCurrentPositionErrorCount < debugMaxCurrentPositionErrorCount &&	// Only show error 5 times
-			    (debugCurrentPosition.Value.x.NotEqualTo(capsuleTransform.position.x) ||	//Math.Abs(debugCurrentPosition.Value.x - capsuleTransform.position.x) > Mathf.Epsilon ||
-			     debugCurrentPosition.Value.y.NotEqualTo(capsuleTransform.position.y) ||	//Math.Abs(debugCurrentPosition.Value.y - capsuleTransform.position.y) > Mathf.Epsilon ||
-			     debugCurrentPosition.Value.z.NotEqualTo(capsuleTransform.position.z)))		//Math.Abs(debugCurrentPosition.Value.z - capsuleTransform.position.z) > Mathf.Epsilon))
+			    debugCurrentPositionErrorCount < debugMaxCurrentPositionErrorCount && 
+			    (debugCurrentPosition.Value.x.NotEqualTo(cachedTransform.position.x) || 
+			     debugCurrentPosition.Value.y.NotEqualTo(cachedTransform.position.y) || 
+			     debugCurrentPosition.Value.z.NotEqualTo(cachedTransform.position.z)))
 			{
 				Debug.LogError(string.Format(
 					               "{0}: The character capsule's position was changed by something other than Move, SimpleMove or SetPosition. " +
 					               "[position: ({1}, {2}, {3})     should be: ({4}, {5}, {6})] (Only showing this error {7} times.)",
-					               capsuleTransform.name,
-					               capsuleTransform.position.x, capsuleTransform.position.y, capsuleTransform.position.z,
+					               cachedTransform.name,
+					               cachedTransform.position.x, cachedTransform.position.y, cachedTransform.position.z,
 					               debugCurrentPosition.Value.x, debugCurrentPosition.Value.y, debugCurrentPosition.Value.z,
 					               debugMaxCurrentPositionErrorCount));
 				debugCurrentPositionErrorCount++;
-				debugCurrentPosition = capsuleTransform.position;
+				debugCurrentPosition = cachedTransform.position;
 			}
 			#endif
 
@@ -1611,8 +1659,8 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="hitInfo">The hit info of the collision.</param>
 		private void UpdateCollisionInfo(Vector3 direction, RaycastHit? hitInfo)
 		{
-			if (direction.x.NotEqualToZero() ||		//Math.Abs(direction.x) > Mathf.Epsilon ||
-			    direction.z.NotEqualToZero())		//Math.Abs(direction.z) > Mathf.Epsilon)
+			if (direction.x.NotEqualToZero() || 
+			    direction.z.NotEqualToZero())
 			{
 				collisionFlags |= CollisionFlags.Sides;
 			}
@@ -1648,38 +1696,5 @@ namespace StandardAssets.Characters.Physics
 				}
 			}
 		}
-		
-		#if UNITY_EDITOR
-		/// <inheritdoc />
-		public void OnDrawGizmosSelected(Transform transform)
-		{
-			if (cachedTransform == null)
-			{
-				cachedTransform = transform;
-			}
-			
-			// Foot position
-			Gizmos.color = Color.cyan;
-			Vector3 footPosition = GetFootWorldPosition();
-			Gizmos.DrawLine(footPosition + Vector3.left * scaledRadius,
-			                footPosition + Vector3.right * scaledRadius);
-			Gizmos.DrawLine(footPosition + Vector3.back * scaledRadius,
-			                footPosition + Vector3.forward * scaledRadius);
-			
-			if (capsuleCollider != null)
-			{
-				// No need to draw a fake collider, because the real collider will draw itself
-				return;
-			}
-
-			// Draw capsule collider
-			GizmosHelper.DrawCapsule(GetTopSphereWorldPosition(), GetBottomSphereWorldPosition(), 
-			                         scaledRadius, Color.green);
-			
-			// Big capsule collider
-			GizmosHelper.DrawCapsule(GetTopSphereWorldPosition(), GetBottomSphereWorldPosition(), 
-			                         scaledRadius + skinWidth, new Color(1.0f, 1.0f, 0.0f, 0.1f));
-		}
-		#endif
 	}
 }
