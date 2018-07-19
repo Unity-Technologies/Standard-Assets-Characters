@@ -4,10 +4,10 @@ namespace StandardAssets.Characters.ThirdPerson
 {
 	public class ThirdPersonBrain : MonoBehaviour
 	{
-		[SerializeField]
-		protected ThirdPersonMotor rootMotionMotor;
+		[SerializeField, Tooltip("Properties of the root motion motor")]
+		protected RootMotionThirdPersonMotor rootMotionMotor;
 
-		[SerializeField]
+		[SerializeField, Tooltip("Properties of the animation controller")]
 		protected ThirdPersonAnimationController animationController;
 
 		private IThirdPersonMotor currentMotor;
@@ -17,7 +17,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return animationController; }
 		}
 
-		public ThirdPersonMotor rootMotionThirdPersonMotor
+		public RootMotionThirdPersonMotor rootMotionThirdPersonMotor
 		{
 			get { return rootMotionThirdPersonMotor; }
 		}

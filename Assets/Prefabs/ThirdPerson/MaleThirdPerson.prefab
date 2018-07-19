@@ -2723,24 +2723,7 @@ MonoBehaviour:
     runInput: {fileID: 11400000, guid: 4536a47671291463386c18678dd23194, type: 2}
     strafeInput: {fileID: 11400000, guid: f7e824638922944d5b76347cc85e8952, type: 2}
   animationController:
-    floatInterpolationTime: 0.05
-    forwardSpeedParameterName: ForwardSpeed
-    lateralSpeedParameterName: LateralSpeed
-    turningSpeedParameterName: TurningSpeed
-    verticalSpeedParameterName: VerticalSpeed
-    groundedParameterName: Grounded
-    hasInputParameterName: HasInput
-    fallingTimeParameterName: FallTime
-    footednessParameterName: OnRightFoot
-    jumpedParameterName: Jumped
-    jumpedLateralSpeedParameterName: JumpedLateralSpeed
-    jumpedForwardSpeedParameterName: JumpedForwardSpeed
-    predictedFallDistanceParameterName: PredictedFallDistance
-    rapidTurnParameterName: RapidTurn
-    isStrafingParameterName: IsStrafing
-    invert: 0
-    footednessThreshold: 0.25
-    footednessThresholdOffset: 0.25
+    configuration: {fileID: 11400000, guid: 16861f506e03f4b39a1b25e1bb3e307f, type: 2}
 --- !u!114 &114430763955348664
 MonoBehaviour:
   m_ObjectHideFlags: 1

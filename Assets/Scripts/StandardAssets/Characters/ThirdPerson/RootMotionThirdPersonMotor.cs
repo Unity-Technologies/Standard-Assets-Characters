@@ -7,14 +7,14 @@ using Util;
 namespace StandardAssets.Characters.ThirdPerson
 {
 	[Serializable]
-	public class ThirdPersonMotor : IThirdPersonMotor
+	public class RootMotionThirdPersonMotor : IThirdPersonMotor
 	{
 		//Events
 		public event Action startActionMode, startStrafeMode;
 
 		//Serialized Fields
 		[SerializeField]
-		protected ThirdPersonConfiguration configuration;
+		protected ThirdPersonRootMotionConfiguration configuration;
 
 		[SerializeField]
 		protected Transform cameraTransform;
@@ -84,7 +84,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return characterPhysics.normalizedVerticalSpeed; }
 		}
 
-		public ThirdPersonConfiguration thirdPersonConfiguration
+		public ThirdPersonRootMotionConfiguration thirdPersonConfiguration
 		{
 			get { return configuration; }
 		}

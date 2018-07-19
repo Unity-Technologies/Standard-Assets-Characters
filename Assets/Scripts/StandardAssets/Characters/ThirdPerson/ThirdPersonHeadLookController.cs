@@ -5,7 +5,7 @@ using Util;
 namespace StandardAssets.Characters.ThirdPerson
 {
     [RequireComponent(typeof(Animator))]
-    [RequireComponent(typeof(ThirdPersonMotor))]
+    [RequireComponent(typeof(RootMotionThirdPersonMotor))]
     public class ThirdPersonHeadLookController : MonoBehaviour
     {
         public float lookAtWeight;
