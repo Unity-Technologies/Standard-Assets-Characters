@@ -51,5 +51,13 @@ namespace StandardAssets.Characters.ThirdPerson
 		float normalizedVerticalSpeed { get; }
 
 		void Init(ThirdPersonBrain brain);
+
+		void Subscribe();
+
+		void Unsubscribe();
+
+		void Update();
+
+		void OnAnimatorMove();
 	}
 }

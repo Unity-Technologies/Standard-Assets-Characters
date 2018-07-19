@@ -155,9 +155,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Gets the required components
 		/// </summary>
-		public void Init(GameObject obj, IThirdPersonMotor motorToUse)
+		public void Init(ThirdPersonBrain brain, IThirdPersonMotor motorToUse)
 		{
-			gameObject = obj;
+			gameObject = brain.gameObject;
 			hashForwardSpeed = Animator.StringToHash(forwardSpeedParameterName);
 			hashLateralSpeed = Animator.StringToHash(lateralSpeedParameterName);
 			hashTurningSpeed = Animator.StringToHash(turningSpeedParameterName);

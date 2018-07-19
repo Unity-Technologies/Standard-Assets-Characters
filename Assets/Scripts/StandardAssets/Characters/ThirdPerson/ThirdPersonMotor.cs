@@ -93,7 +93,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public void OnJumpAnimationComplete()
 		{
-			var baseCharacterPhysics = gameObject.GetComponent<BaseCharacterPhysics>();
+			var baseCharacterPhysics = characterPhysics as BaseCharacterPhysics;
 			if (baseCharacterPhysics == null)
 			{
 				return;

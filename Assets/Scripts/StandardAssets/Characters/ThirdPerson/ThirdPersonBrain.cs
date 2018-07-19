@@ -26,30 +26,30 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			currentMotor = rootMotionMotor;
 			currentMotor.Init(this);
-			animationController.Init(gameObject, currentMotor);
+			animationController.Init(this, currentMotor);
 		}
 
 		private void OnEnable()
 		{
 			animationController.Subscribe();
-			rootMotionMotor.Subscribe();
+			currentMotor.Subscribe();
 		}
 		
 		private void OnDisable()
 		{
 			animationController.Unsubscribe();
-			rootMotionMotor.Unsubscribe();
+			currentMotor.Unsubscribe();
 		}
 
 		private void Update()
 		{
 			animationController.Update();
-			rootMotionMotor.Update();
+			currentMotor.Update();
 		}
 
 		private void OnAnimatorMove()
 		{
-			rootMotionMotor.OnAnimatorMove();
+			currentMotor.OnAnimatorMove();
 		}
 	}
 }
