@@ -11,48 +11,21 @@ namespace StandardAssets.Characters.ThirdPerson
 
         void OnAnimatorIK(int layerIndex)
         {
-            float lookAtAngle = 0f;
-            
             var avatar = GetComponent<Animator>();
-
+            
             avatar.SetLookAtWeight(lookAtWeight);
             
-            var lookAtPosition = new Vector3(transform.position.x + avatar.angularVelocity.y, transform.position.y, avatar.angularVelocity.z + 1f);
-            var neutralLookAtPosition = new Vector3(transform.position.x, transform.position.y, avatar.angularVelocity.z + 1f);
-            
-            
-            /* When using avatar.angularVelocity you can determine the direction of the PC by the steps below
-            //Forward = avatar.angularVelocity = Vector3.Zero
-            //Right = avatar.angularVelocity.y > 0
-            //Left = avatar.angularVelocity.y < 0
-            */
-            
+            var targetRotation = GetComponent<ThirdPersonMotor>().targetRotation;
 
+            var angle = Mathf.Clamp(targetRotation.eulerAngles.y - avatar.transform.eulerAngles.y, -60, 60);
+            
+            var lookAtPos = avatar.transform.position + Quaternion.AngleAxis(angle, Vector3.up) * avatar.transform.forward * 100f;
+            
+            Vector3 playerPos = avatar.transform.position;
             
             if (avatar)
             {
-                
-                Vector3 playerPos = avatar.transform.position;
-                Vector3 playerDirection = avatar.transform.forward;
-                Quaternion playerRotation = avatar.transform.rotation;
-
-
-                var debugPoint = new Vector3((transform.position.x + (avatar.angularVelocity.y * 2)),
-                                     playerPos.y + 0.8f, playerPos.z) + playerDirection * 5;
-                
-                Debug.DrawLine(playerPos, playerPos + playerDirection * 5, Color.red);
-                
-                Debug.DrawLine(new Vector3(playerPos.x, playerPos.y + 0.8f, playerPos.z),  
-                    debugPoint, Color.blue);
-                
-                
-//                avatar.SetLookAtPosition(!avatar.angularVelocity.Equals(Vector3.zero)
-//                    ? lookAtPosition2
-//                    : lookahead);
-//                
-                
-                
-                avatar.SetLookAtPosition(debugPoint);
+                avatar.SetLookAtPosition(lookAtPos);
             }
         }
     }
