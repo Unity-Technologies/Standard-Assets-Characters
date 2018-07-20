@@ -6,7 +6,7 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 	{
 		public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
 		{
-			var animationController = animator.GetComponent<ThirdPersonAnimationController>();
+			var animationController = animator.GetComponent<ThirdPersonBrain>().animationControl;
 			if (animationController != null)
 			{
 				animationController.LocomotionStateUpdate();

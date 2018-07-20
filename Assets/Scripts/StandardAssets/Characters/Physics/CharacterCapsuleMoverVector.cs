@@ -3,7 +3,7 @@
 namespace StandardAssets.Characters.Physics
 {
 	/// <summary>
-	/// A vector used by the CharacterCapsuleMover.
+	/// A vector used by the OpenCharacterController.
 	/// </summary>
 	public struct CharacterCapsuleMoverVector
 	{

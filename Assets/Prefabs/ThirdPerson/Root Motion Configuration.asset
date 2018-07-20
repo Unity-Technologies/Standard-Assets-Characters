@@ -9,11 +9,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d70839d074c4aaf8d6d3e6c7b3cfbc7, type: 3}
-  m_Name: Third Person Configuration
+  m_Name: Root Motion Configuration
   m_EditorClassIdentifier: 
   jumpSpeed: 3
   jumpGroundVelocityScale: 1.1
-  turningSpeed: 250
+  turningSpeed: 200
   turningSpeedVisualScale: 0.4
   jumpTurningSpeedScale: 0.25
   turningLerp: 2
@@ -31,7 +31,7 @@ MonoBehaviour:
     directionInputDecay: 5
     directionInputChangeGain: 7
     directionInputClamped: 1
-    directionInputUnclamped: 1
+    directionInputUnclamped: 0.7777778
   strafeLateralMovement:
     directionInputGain: 2
     directionInputDecay: 5

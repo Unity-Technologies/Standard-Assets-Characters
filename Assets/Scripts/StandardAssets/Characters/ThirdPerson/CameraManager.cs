@@ -7,7 +7,7 @@ namespace StandardAssets.Characters.ThirdPerson
 	public class CameraManager : MonoBehaviour
 	{
 		[SerializeField]
-		protected ThirdPersonMotor motor;
+		protected RootMotionThirdPersonMotor motor;
 
 		[SerializeField]
 		protected GameObject strafeSDC, actionSDC;

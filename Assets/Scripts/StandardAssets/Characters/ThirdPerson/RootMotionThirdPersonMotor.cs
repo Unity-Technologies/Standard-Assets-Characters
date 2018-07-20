@@ -6,18 +6,15 @@ using Util;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
-	[RequireComponent(typeof(ICharacterPhysics))]
-	[RequireComponent(typeof(ICharacterInput))]
-	[RequireComponent(typeof(Animator))]
-	[RequireComponent(typeof(ThirdPersonAnimationController))]
-	public class ThirdPersonMotor : MonoBehaviour, IThirdPersonMotor
+	[Serializable]
+	public class RootMotionThirdPersonMotor : IThirdPersonMotor
 	{
 		//Events
 		public event Action startActionMode, startStrafeMode;
 
 		//Serialized Fields
 		[SerializeField]
-		protected ThirdPersonConfiguration configuration;
+		protected ThirdPersonRootMotionConfiguration configuration;
 
 		[SerializeField]
 		protected Transform cameraTransform;
@@ -37,6 +34,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			get { return characterPhysics.fallTime; }
 		}
+
+		public float targetYRotation { get; private set; }
 
 		public Action jumpStarted { get; set; }
 		public Action landed { get; set; }
@@ -74,6 +73,9 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected TurnaroundBehaviour turnaroundBehaviour;
 
+		protected Transform transform;
+		protected GameObject gameObject;
+
 		protected bool isStrafing
 		{
 			get { return movementMode == ThirdPersonMotorMovementMode.Strafe; }
@@ -84,16 +86,14 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return characterPhysics.normalizedVerticalSpeed; }
 		}
 
-		public ThirdPersonConfiguration thirdPersonConfiguration
+		public ThirdPersonRootMotionConfiguration thirdPersonConfiguration
 		{
 			get { return configuration; }
 		}
-		
-		public Quaternion targetRotation { get; private set; }
 
 		public void OnJumpAnimationComplete()
 		{
-			var baseCharacterPhysics = GetComponent<BaseCharacterPhysics>();
+			var baseCharacterPhysics = characterPhysics as BaseCharacterPhysics;
 			if (baseCharacterPhysics == null)
 			{
 				return;
@@ -115,7 +115,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 
 		//Unity Messages
-		protected virtual void OnAnimatorMove()
+		public void OnAnimatorMove()
 		{
 			if (movementState == ThirdPersonGroundMovementState.TurningAround)
 			{
@@ -136,22 +136,25 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private bool ShouldApplyRootMotion()
 		{
-			return characterPhysics.isGrounded || !animationController.isAirborne;
+			return characterPhysics.isGrounded && animationController.shouldUseRootMotion;
 		}
 		
-		protected virtual void Awake()
+		public void Init(ThirdPersonBrain brain)
 		{
-			TurnaroundBehaviour turn = GetComponent<TurnaroundBehaviour>();
+			gameObject = brain.gameObject;
+			transform = brain.transform;
+			
+			TurnaroundBehaviour turn = gameObject.GetComponent<TurnaroundBehaviour>();
 
 			if (turn != null && turn.enabled)
 			{
 				turnaroundBehaviour = turn;
 			}
 
-			characterInput = GetComponent<ICharacterInput>();
-			characterPhysics = GetComponent<ICharacterPhysics>();
-			animator = GetComponent<Animator>();
-			animationController = GetComponent<ThirdPersonAnimationController>();
+			characterInput = gameObject.GetComponent<ICharacterInput>();
+			characterPhysics = gameObject.GetComponent<ICharacterPhysics>();
+			animator = gameObject.GetComponent<Animator>();
+			animationController = brain.animationControl;
 
 			if (cameraTransform == null)
 			{
@@ -177,7 +180,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Subscribe
 		/// </summary>
-		protected virtual void OnEnable()
+		public void Subscribe()
 		{
 			//Physics subscriptions
 			characterPhysics.landed += OnLanding;
@@ -207,7 +210,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Unsubscribe
 		/// </summary>
-		protected virtual void OnDisable()
+		public void Unsubscribe()
 		{
 			//Physics subscriptions
 			if (characterPhysics != null)
@@ -241,7 +244,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
-		protected virtual void Update()
+		public void Update()
 		{
 			HandleMovement();
 			HandleClampSpeedDeceleration();
@@ -409,7 +412,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			lookForwardY.z = 0;
 			lookForwardY.y -= characterInput.lookInput.x * Time.deltaTime * configuration.scaleStrafeLook;
 
-			targetRotation = Quaternion.Euler(lookForwardY);
+			Quaternion targetRotation = Quaternion.Euler(lookForwardY);
+
+			targetYRotation = targetRotation.eulerAngles.y;
 
 			Quaternion newRotation =
 				Quaternion.RotateTowards(transform.rotation, targetRotation,
@@ -428,7 +433,8 @@ namespace StandardAssets.Characters.ThirdPerson
 				return;
 			}
 
-			targetRotation = CalculateTargetRotation();
+			Quaternion targetRotation = CalculateTargetRotation();
+			targetYRotation = targetRotation.eulerAngles.y;
 
 			if (characterPhysics.isGrounded && CheckForAndHandleRapidTurn(targetRotation))
 			{
@@ -463,8 +469,10 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected virtual void CalculateStrafeMovement()
 		{
-			normalizedForwardSpeed = Mathf.Approximately (characterInput.moveInput.y, 0f) ? 0f : characterInput.moveInput.y;
-			normalizedLateralSpeed = Mathf.Approximately (characterInput.moveInput.x, 0f) ? 0f : characterInput.moveInput.x;
+			normalizedForwardSpeed = (Mathf.Approximately(characterInput.moveInput.y, 0f) ? 0f : characterInput.moveInput.y)
+				* configuration.strafeForwardMovementProperties.inputUnclamped;
+			normalizedLateralSpeed = Mathf.Approximately (characterInput.moveInput.x, 0f) ? 0f : characterInput.moveInput.x
+				* configuration.strafeLateralMovementProperties.inputUnclamped;
 		}
 
 		protected virtual void ApplyForwardInput(float input)

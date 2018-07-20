@@ -3,8 +3,8 @@
 namespace StandardAssets.Characters.Physics
 {
 	/// <summary>
-	/// Info for stepping over small obstacles (i.e. if the character's heightToStep > 0).
-	/// This is used by the CharacterCapsuleMover.
+	/// Info for stepping over small obstacles (i.e. if the character's stepOffset > 0).
+	/// This is used by the OpenCharacterController.
 	/// </summary>
 	public class CharacterCapsuleMoverStepInfo
 	{

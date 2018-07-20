@@ -6,7 +6,7 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 	{
 		public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			var animationController = animator.GetComponent<ThirdPersonAnimationController>();
+			var animationController = animator.GetComponent<ThirdPersonBrain>().animationControl;
 			if (animationController != null)
 			{
 				animationController.AirborneStateEnter();
@@ -15,7 +15,7 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 		
 		public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			var animationController = animator.GetComponent<ThirdPersonAnimationController>();
+			var animationController = animator.GetComponent<ThirdPersonBrain>().animationControl;
 			if (animationController != null)
 			{
 				animationController.AirborneStateExit();

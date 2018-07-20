@@ -28,6 +28,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		float fallTime { get; }
 		
+		float targetYRotation { get; }
+		
 		/// <summary>
 		/// Fired on jump
 		/// </summary>
@@ -49,5 +51,15 @@ namespace StandardAssets.Characters.ThirdPerson
 		Action<float> rapidlyTurned { get; set; }
 
 		float normalizedVerticalSpeed { get; }
+
+		void Init(ThirdPersonBrain brain);
+
+		void Subscribe();
+
+		void Unsubscribe();
+
+		void Update();
+
+		void OnAnimatorMove();
 	}
 }
