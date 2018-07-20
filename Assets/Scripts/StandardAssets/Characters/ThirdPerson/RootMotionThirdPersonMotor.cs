@@ -138,18 +138,13 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			return characterPhysics.isGrounded && animationController.shouldUseRootMotion;
 		}
-		
-		public void Init(ThirdPersonBrain brain)
+
+		public void Init(ThirdPersonBrain brain, TurnaroundBehaviour turnaround = null)
 		{
 			gameObject = brain.gameObject;
 			transform = brain.transform;
-			
-			TurnaroundBehaviour turn = gameObject.GetComponent<TurnaroundBehaviour>();
 
-			if (turn != null && turn.enabled)
-			{
-				turnaroundBehaviour = turn;
-			}
+			turnaroundBehaviour = turnaround;
 
 			characterInput = gameObject.GetComponent<ICharacterInput>();
 			characterPhysics = gameObject.GetComponent<ICharacterPhysics>();

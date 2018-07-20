@@ -1,9 +1,11 @@
-﻿using System.Timers;
+﻿using System;
+using System.Timers;
 using UnityEngine;
 using Util;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
+	[Serializable]
 	public class BlendspaceTurnaroundBehaviour : TurnaroundBehaviour
 	{
 		[SerializeField]
@@ -18,7 +20,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected Calculation forwardSpeedCalculation;
 
-
 		Vector3 targetRotationEuler;
 		Quaternion targetRotation;
 		private float turningTime = 0f;
@@ -26,10 +27,25 @@ namespace StandardAssets.Characters.ThirdPerson
 		private float currentTurningSpeed;
 		private float rotation;
 		private ThirdPersonAnimationController animationController;
+		private Transform transform;
 
-		private void Awake()
+		public override void Init(ThirdPersonBrain brain)
 		{
-			animationController = GetComponent<ThirdPersonAnimationController>();
+			animationController = brain.animationControl;
+			transform = brain.transform;
+		}
+		
+		public override void Update()
+		{
+			if (isTurningAround)
+			{
+				EvaluateTurn();
+				turningTime += Time.deltaTime;
+				if (turningTime >= timeToTurn)
+				{
+					EndTurnAround();
+				}
+			}
 		}
 
 		private void EvaluateTurn()
@@ -58,19 +74,6 @@ namespace StandardAssets.Characters.ThirdPerson
 				turnSpeed * Mathf.Sign(MathUtilities.Wrap180(newYRotation) - MathUtilities.Wrap180(oldYRotation));
 
 			animationController.UpdateLateralSpeed(actualTurnSpeed, Time.deltaTime);
-		}
-		
-		protected virtual void Update()
-		{
-			if (isTurningAround)
-			{
-				EvaluateTurn();
-				turningTime += Time.deltaTime;
-				if (turningTime >= timeToTurn)
-				{
-					EndTurnAround();
-				}
-			}
 		}
 
 		protected override void FinishedTurning()

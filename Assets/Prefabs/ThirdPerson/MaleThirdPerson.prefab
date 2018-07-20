@@ -2724,6 +2724,35 @@ MonoBehaviour:
     strafeInput: {fileID: 11400000, guid: f7e824638922944d5b76347cc85e8952, type: 2}
   animationController:
     configuration: {fileID: 11400000, guid: 16861f506e03f4b39a1b25e1bb3e307f, type: 2}
+  turnaroundType: 1
+  blendspaceTurnaroundBehaviour:
+    timeToTurn: 0.2
+    turnSpeed: 1
+    forwardSpeed:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    forwardSpeedCalculation: 1
 --- !u!114 &114430763955348664
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2849,12 +2878,14 @@ MonoBehaviour:
     center: {x: 0, y: 0, z: 0}
     radius: 0.4
     height: 1.6
+    addKinematicRigidbody: 1
+    addColliderAsAChild: 1
     colliderLayer: 
     collisionLayerMask:
       serializedVersion: 2
       m_Bits: 257
-    addKinematicRigidbody: 1
     localHumanControlled: 1
+    canSlideAgainstCeiling: 1
     enableDebug: 0
 --- !u!114 &114519407302604966
 MonoBehaviour:

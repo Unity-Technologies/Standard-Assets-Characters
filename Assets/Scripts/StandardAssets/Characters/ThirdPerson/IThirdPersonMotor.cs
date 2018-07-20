@@ -52,7 +52,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		float normalizedVerticalSpeed { get; }
 
-		void Init(ThirdPersonBrain brain);
+		void Init(ThirdPersonBrain brain, TurnaroundBehaviour turnaround = null);
 
 		void Subscribe();
 
