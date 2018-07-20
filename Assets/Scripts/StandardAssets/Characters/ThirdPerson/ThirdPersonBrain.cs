@@ -25,6 +25,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return animationController; }
 		}
 
+		public TurnaroundBehaviour turnaroundBehaviour
+		{
+			get { return currentTurnaroundBehaviour; }
+		}
+
 		private void Awake()
 		{
 			currentTurnaroundBehaviour = GetCurrentTurnaroundBehaviour();
@@ -34,7 +39,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			
 			currentMotor = GetCurrentMotor();
-			currentMotor.Init(this, currentTurnaroundBehaviour);
+			currentMotor.Init(this);
 			
 			if (animationController != null)
 			{
