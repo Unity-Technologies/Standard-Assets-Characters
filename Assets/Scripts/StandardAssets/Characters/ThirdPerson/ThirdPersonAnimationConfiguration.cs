@@ -56,6 +56,12 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected float footednessThreshold = 0.25f, footednessThresholdOffset = 0.25f;
 
+		[SerializeField]
+		protected float headLookAtWeight = 1f;
+
+		[SerializeField]
+		protected float headLookAtMaxRotation = 60f;
+
 		public float floatInterpolationTime
 		{
 			get { return floatInterpolation; }
@@ -144,6 +150,16 @@ namespace StandardAssets.Characters.ThirdPerson
 		public float footednessThresholdOffsetValue
 		{
 			get { return footednessThresholdOffset; }
+		}
+
+		public float lookAtWeight
+		{
+			get { return headLookAtWeight; }
+		}
+
+		public float lookAtMaxRotation
+		{
+			get { return headLookAtMaxRotation; }
 		}
 	}
 }

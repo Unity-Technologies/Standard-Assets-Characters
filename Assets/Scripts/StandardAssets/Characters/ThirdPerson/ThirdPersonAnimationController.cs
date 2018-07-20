@@ -13,23 +13,24 @@ namespace StandardAssets.Characters.ThirdPerson
 	{
 		[SerializeField]
 		protected ThirdPersonAnimationConfiguration configuration;
-		
+
 		/// <summary>
 		/// Required motor
 		/// </summary>
 		private IThirdPersonMotor motor;
-		
+
 		/// <summary>
 		/// The animator
 		/// </summary>
 		private Animator animator;
 
 		private GameObject gameObject;
-		
+
 		/// <summary>
 		/// Hashes of the animator parameters
 		/// </summary>
 		private int hashForwardSpeed;
+
 		private int hashLateralSpeed;
 		private int hashTurningSpeed;
 		private int hashVerticalSpeed;
@@ -50,19 +51,19 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			get { return animator.GetFloat(hashForwardSpeed); }
 		}
-		
+
 		public float animatorLateralSpeed
 		{
 			get { return animator.GetFloat(hashLateralSpeed); }
 		}
-		
+
 		public float animatorTurningSpeed
 		{
 			get { return animator.GetFloat(hashTurningSpeed); }
 		}
 
 		public float animationNormalizedProgress { get; private set; }
-		
+
 		public bool isRightFootPlanted { get; private set; }
 
 		public bool shouldUseRootMotion { get; private set; }
@@ -72,7 +73,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			animator.SetFloat(configuration.predictedFallDistanceParameterName, 0);
 			shouldUseRootMotion = true;
 		}
-		
+
 		public void AirborneStateEnter()
 		{
 			if (motor.normalizedForwardSpeed > 0 && Mathf.Approximately(Mathf.Abs(motor.normalizedLateralSpeed), 0))
@@ -95,12 +96,12 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			animator.SetFloat(hashForwardSpeed, newSpeed, configuration.floatInterpolationTime, deltaTime);
 		}
-		
+
 		public void UpdateLateralSpeed(float newSpeed, float deltaTime)
 		{
 			animator.SetFloat(hashLateralSpeed, newSpeed, configuration.floatInterpolationTime, deltaTime);
 		}
-		
+
 		public void UpdateTurningSpeed(float newSpeed, float deltaTime)
 		{
 			animator.SetFloat(hashTurningSpeed, newSpeed, configuration.floatInterpolationTime, deltaTime);
@@ -129,6 +130,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			motor = motorToUse;
 			animator = gameObject.GetComponent<Animator>();
 		}
+
 		/// <summary>
 		/// Sets the Animator parameters
 		/// </summary>
@@ -138,16 +140,30 @@ namespace StandardAssets.Characters.ThirdPerson
 			UpdateLateralSpeed(motor.normalizedLateralSpeed, Time.deltaTime);
 			UpdateTurningSpeed(motor.normalizedTurningSpeed, Time.deltaTime);
 			UpdateFoot();
-			
-			animator.SetBool(hashHasInput, CheckHasSpeed(motor.normalizedForwardSpeed) || CheckHasSpeed(motor.normalizedLateralSpeed));
-			
+
+			animator.SetBool(hashHasInput,
+			                 CheckHasSpeed(motor.normalizedForwardSpeed) ||
+			                 CheckHasSpeed(motor.normalizedLateralSpeed));
+
 			animator.SetBool(hashIsStrafing, Mathf.Abs(motor.normalizedLateralSpeed) > 0);
 
 			if (!isGrounded)
 			{
-				animator.SetFloat(hashVerticalSpeed, motor.normalizedVerticalSpeed, configuration.floatInterpolationTime, Time.deltaTime);
+				animator.SetFloat(hashVerticalSpeed, motor.normalizedVerticalSpeed,
+				                  configuration.floatInterpolationTime, Time.deltaTime);
 				animator.SetFloat(hashFallingTime, motor.fallTime);
 			}
+		}
+
+		public void HeadTurn()
+		{
+			animator.SetLookAtWeight(configuration.lookAtWeight);
+			float angle = Mathf.Clamp(MathUtilities.Wrap180(motor.targetYRotation - animator.transform.eulerAngles.y),
+			                          -configuration.lookAtMaxRotation, configuration.lookAtMaxRotation);
+			
+			Vector3 lookAtPos = animator.transform.position +
+			                    Quaternion.AngleAxis(angle, Vector3.up) * animator.transform.forward * 100f;
+			animator.SetLookAtPosition(lookAtPos);
 		}
 
 		/// <summary>
@@ -160,7 +176,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			motor.fallStarted += OnFallStarted;
 			motor.rapidlyTurned += OnRapidlyTurned;
 		}
-		
+
 		/// <summary>
 		/// Unsubscribe
 		/// </summary>
@@ -220,7 +236,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			animator.SetTrigger(hashJumped);
 			animator.SetFloat(hashFallingTime, 0);
 			animator.SetBool(hashGrounded, false);
-			
+
 			if (Mathf.Abs(motor.normalizedLateralSpeed) > Mathf.Abs(motor.normalizedForwardSpeed))
 			{
 				animator.SetFloat(hashJumpedForwardSpeed, 0);
@@ -240,12 +256,13 @@ namespace StandardAssets.Characters.ThirdPerson
 			//TODO: remove zero index
 			if (MathUtilities.Wrap1(animationNormalizedProgress +
 			                        configuration.footednessThresholdOffsetValue) >
-			    MathUtilities.Wrap1(configuration.footednessThresholdValue + configuration.footednessThresholdOffsetValue))
+			    MathUtilities.Wrap1(configuration.footednessThresholdValue +
+			                        configuration.footednessThresholdOffsetValue))
 			{
 				SetFootednessBool(!configuration.invertFoot);
 				return;
 			}
-			
+
 			SetFootednessBool(configuration.invertFoot);
 		}
 
@@ -253,7 +270,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			return Mathf.Abs(speed) > 0;
 		}
-		
+
 		/// <summary>
 		/// Helper function to get the component of velocity along an axis
 		/// </summary>
@@ -264,7 +281,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			float dot = Vector3.Dot(axis, vector.normalized);
 			float val = dot * vector.magnitude;
-			
+
 			Debug.Log(val);
 			return val;
 		}

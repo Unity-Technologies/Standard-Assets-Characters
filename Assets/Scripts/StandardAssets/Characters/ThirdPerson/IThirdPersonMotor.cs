@@ -28,6 +28,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		float fallTime { get; }
 		
+		float targetYRotation { get; }
+		
 		/// <summary>
 		/// Fired on jump
 		/// </summary>

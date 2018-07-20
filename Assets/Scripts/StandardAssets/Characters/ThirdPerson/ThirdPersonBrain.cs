@@ -26,30 +26,53 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			currentMotor = rootMotionMotor;
 			currentMotor.Init(this);
-			animationController.Init(this, currentMotor);
+			if (animationController != null)
+			{
+				animationController.Init(this, currentMotor);
+			}
 		}
 
 		private void OnEnable()
 		{
-			animationController.Subscribe();
+			if (animationController != null)
+			{
+				animationController.Subscribe();
+			}
+			
 			currentMotor.Subscribe();
 		}
 		
 		private void OnDisable()
 		{
-			animationController.Unsubscribe();
+			if (animationController != null)
+			{
+				animationController.Unsubscribe();
+			}
+			
 			currentMotor.Unsubscribe();
 		}
 
 		private void Update()
 		{
-			animationController.Update();
+			if (animationController != null)
+			{
+				animationController.Update();
+			}
+			
 			currentMotor.Update();
 		}
 
 		private void OnAnimatorMove()
 		{
 			currentMotor.OnAnimatorMove();
+		}
+
+		private void OnAnimatorIK(int layerIndex)
+		{
+			if (animationController != null)
+			{
+				animationController.HeadTurn();
+			}
 		}
 	}
 }

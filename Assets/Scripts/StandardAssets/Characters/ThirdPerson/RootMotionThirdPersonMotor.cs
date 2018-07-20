@@ -35,6 +35,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return characterPhysics.fallTime; }
 		}
 
+		public float targetYRotation { get; private set; }
+
 		public Action jumpStarted { get; set; }
 		public Action landed { get; set; }
 		public Action<float> fallStarted { get; set; }
@@ -88,8 +90,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			get { return configuration; }
 		}
-		
-		public Quaternion targetRotation { get; private set; }
 
 		public void OnJumpAnimationComplete()
 		{
@@ -412,7 +412,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			lookForwardY.z = 0;
 			lookForwardY.y -= characterInput.lookInput.x * Time.deltaTime * configuration.scaleStrafeLook;
 
-			targetRotation = Quaternion.Euler(lookForwardY);
+			Quaternion targetRotation = Quaternion.Euler(lookForwardY);
+
+			targetYRotation = targetRotation.eulerAngles.y;
 
 			Quaternion newRotation =
 				Quaternion.RotateTowards(transform.rotation, targetRotation,
@@ -431,7 +433,8 @@ namespace StandardAssets.Characters.ThirdPerson
 				return;
 			}
 
-			targetRotation = CalculateTargetRotation();
+			Quaternion targetRotation = CalculateTargetRotation();
+			targetYRotation = targetRotation.eulerAngles.y;
 
 			if (characterPhysics.isGrounded && CheckForAndHandleRapidTurn(targetRotation))
 			{
