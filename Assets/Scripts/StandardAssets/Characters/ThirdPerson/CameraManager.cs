@@ -1,4 +1,5 @@
 ﻿using Cinemachine;
+using StandardAssets.Characters.CharacterInput;
 using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson
@@ -19,6 +20,14 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private int livePriority = 10;
 		private int standbyPriority = 1;
+		
+		[SerializeField]
+		protected InputResponse recenterCamera;
+	
+		private void Awake()
+		{
+			recenterCamera.Init();
+		}
 
 		private void OnEnable()
 		{
@@ -30,6 +39,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			motor.startStrafeMode += MotorOnStartStrafeMode;
 			motor.startActionMode += MotorOnStartActionMode;
+			recenterCamera.started += RecenterCamera;
+			
 		}
 
 		private void OnDisable()
@@ -41,16 +52,20 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			motor.startStrafeMode -= MotorOnStartStrafeMode;
 			motor.startActionMode -= MotorOnStartActionMode;
+			recenterCamera.started -= RecenterCamera;
 		}
 		
 		void MotorOnStartActionMode()
 		{
-			foreach (var cam in actionCameraState.ChildCameras)
+			 foreach (var cam in actionCameraState.ChildCameras)
 			{
-				cam.GetComponent<CinemachineFreeLook>().m_XAxis.Value = 0;
+				cam.GetComponent<CinemachineFreeLook>().m_XAxis.Value = cam.transform.eulerAngles.y;
 				cam.GetComponent<CinemachineFreeLook>().m_YAxis.Value =
 					strafeCameraState.ChildCameras[0].GetComponent<CinemachineFreeLook>().m_YAxis.Value;
+				//cam.GetComponent<CinemachineFreeLook>().m_RecenterToTargetHeading.DoRecentering();
 			}
+			 
+			
 			actionCameraState.Priority = livePriority;
             strafeCameraState.Priority = standbyPriority;
 			//strafeSDC.SetActive(false);
@@ -67,5 +82,15 @@ namespace StandardAssets.Characters.ThirdPerson
 			//strafeSDC.SetActive(true);
 			//actionSDC.SetActive(false);
 		}
+
+		void RecenterCamera()
+		{
+			Debug.Log("Recenter Camera");
+			
+			Debug.Log(actionCameraState.ChildCameras[0].transform.eulerAngles.y);
+
+		}
+		
+		
 	}
 }
