@@ -452,14 +452,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected virtual void CalculateForwardMovement()
 		{
 			normalizedLateralSpeed = 0;
-
-			if (!characterInput.hasMovementInput)
-			{
-				EaseOffForwardInput();
-				return;
-			}
-
-			ApplyForwardInput(1f);
+			ApplyForwardInput(characterInput.moveInput.magnitude);
 		}
 
 		protected virtual void CalculateStrafeMovement()
@@ -482,12 +475,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			normalizedForwardSpeed =
 				Mathf.Clamp(normalizedForwardSpeed + input * forwardVelocity * Time.deltaTime, -clamp,
 				            clamp);
-		}
-
-		protected virtual void EaseOffForwardInput()
-		{
-			normalizedForwardSpeed =
-				Mathf.Lerp(normalizedForwardSpeed, 0, currentForwardInputProperties.inputDecay * Time.deltaTime);
 		}
 
 		protected virtual float DecelerateClampSpeed(float currentValue, float targetValue, float gain)
