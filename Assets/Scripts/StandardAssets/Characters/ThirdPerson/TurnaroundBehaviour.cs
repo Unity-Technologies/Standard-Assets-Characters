@@ -4,11 +4,15 @@ using Util;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
-	public abstract class TurnaroundBehaviour : MonoBehaviour
+	public abstract class TurnaroundBehaviour
 	{
 		public Action turnaroundComplete;
 		
 		protected bool isTurningAround;
+
+		public abstract void Init(ThirdPersonBrain brain);
+
+		public abstract void Update();
 		
 		public void TurnAround(float angle)
 		{
