@@ -167,16 +167,16 @@ namespace StandardAssets.Characters.Physics
 		private float height = 2.0f;
 
 		/// <summary>
-		/// Add a kinematic Rigidbody? Physics works better when moving Colliders have a kinematic Rigidbody.
+		/// Add a kinematic Rigidbody? (Only if no Rigidbody is already attached.) Physics works better when moving Colliders have a kinematic Rigidbody.
 		/// </summary>
-		[Tooltip("Add a kinematic Rigidbody? Physics works better when moving Colliders have a kinematic Rigidbody.")]
+		[Tooltip("Add a kinematic Rigidbody? (Only if no Rigidbody is already attached.) Physics works better when moving Colliders have a kinematic Rigidbody.")]
 		[SerializeField]
 		private bool addKinematicRigidbody = true;
 
 		/// <summary>
-		/// Add the collider (and Rigidbody) to a child object? It will create a new child object.
+		/// Add the collider (and Rigidbody) to a child object? (Only if no collider or Rigidbody are already attached.) It will create a new child object.
 		/// </summary>
-		[Tooltip("Add the collider (and Rigidbody) to a child object? It will create a new child object.")]
+		[Tooltip("Add the collider (and Rigidbody) to a child object? (Only if no collider or Rigidbody are already attached.) It will create a new child object.")]
 		[SerializeField]
 		private bool addColliderAsAChild = true;
 		
@@ -209,6 +209,16 @@ namespace StandardAssets.Characters.Physics
 		[SerializeField]
 		private bool canSlideAgainstCeiling = true;
 
+		/// <summary>
+		/// Send "OnOpenCharacterControllerHit" messages to game objects? Messages are sent when the character hits a collider while performing a move.
+		/// </summary>
+		[Tooltip("Send \"OnOpenCharacterControllerHit\" messages to game objects? Messages are sent when the character hits a collider while performing a move.")]
+		[SerializeField]
+		private bool sendColliderHitMessages = true;
+
+		/// <summary>
+		/// Enable additional debugging visuals in scene view
+		/// </summary>
 		[Header("Debug")]
 		[Tooltip("Enable additional debugging visuals in scene view")]
 		[SerializeField]
@@ -223,11 +233,16 @@ namespace StandardAssets.Characters.Physics
 		/// Cached reference to the transform.
 		/// </summary>
 		private Transform cachedTransform;
+
+		/// <summary>
+		/// The position at the start of the movement.
+		/// </summary>
+		private Vector3 startPosition;
 		
 		/// <summary>
-		/// Remaining movement vectors.
+		/// Movement vectors used in the move loop.
 		/// </summary>
-		private List<CharacterCapsuleMoverVector> moveVectors = new List<CharacterCapsuleMoverVector>();
+		private List<OpenCharacterControllerVector> moveVectors = new List<OpenCharacterControllerVector>();
 		
 		/// <summary>
 		/// Next index in the moveVectors list.
@@ -237,17 +252,17 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Stepping over obstacles info.
 		/// </summary>
-		private CharacterCapsuleMoverStepInfo stepInfo = new CharacterCapsuleMoverStepInfo();
+		private OpenCharacterControllerStepInfo stepInfo = new OpenCharacterControllerStepInfo();
 		
 		/// <summary>
 		/// Stuck info.
 		/// </summary>
-		private CharacterCapsuleMoverStuckInfo stuckInfo = new CharacterCapsuleMoverStuckInfo();
+		private OpenCharacterControllerStuckInfo stuckInfo = new OpenCharacterControllerStuckInfo();
 
 		/// <summary>
 		/// The collision info when hitting colliders.
 		/// </summary>
-		private Dictionary<Collider, List<CharacterCapsuleMoverCollisionInfo>> collisionInfoDictionary = new Dictionary<Collider, List<CharacterCapsuleMoverCollisionInfo>>();
+		private Dictionary<Collider, OpenCharacterControllerCollisionInfo> collisionInfoDictionary = new Dictionary<Collider, OpenCharacterControllerCollisionInfo>();
 		
 		#if UNITY_EDITOR
 		/// <summary>
@@ -603,7 +618,7 @@ namespace StandardAssets.Characters.Physics
 		/// <inheritdoc />
 		public void OnValidate()
 		{
-			ValidateCapsule();
+			ValidateCapsule(false);
 		}
 		#endif
 
@@ -632,8 +647,14 @@ namespace StandardAssets.Characters.Physics
 			                footPosition + Vector3.right * scaledRadius);
 			Gizmos.DrawLine(footPosition + Vector3.back * scaledRadius,
 			                footPosition + Vector3.forward * scaledRadius);
-			
-			if (capsuleCollider != null)
+
+			CapsuleCollider tempCapsuleCollider = capsuleCollider;
+			if (tempCapsuleCollider == null)
+			{
+				// Check if there's an attached collider
+				tempCapsuleCollider = (CapsuleCollider)cachedTransform.gameObject.GetComponent(typeof(CapsuleCollider));
+			}
+			if (tempCapsuleCollider != null)
 			{
 				// No need to draw a fake collider, because the real collider will draw itself
 				return;
@@ -654,9 +675,14 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		private void InitCapsuleCollider()
 		{
-			// Default to this game object
 			GameObject go = cachedTransform.gameObject;
-			if (addColliderAsAChild)
+			capsuleCollider = (CapsuleCollider)go.GetComponent(typeof(CapsuleCollider));
+			Rigidbody rigidbody = (Rigidbody)go.GetComponent(typeof(Rigidbody));
+			bool addCapsule = capsuleCollider == null;
+			bool addRigidbody = rigidbody == null;
+			
+			if (addCapsule &&
+			    addColliderAsAChild)
 			{
 				// Create a child object to which to add the capsule collider and rigidbody
 				go = new GameObject("CapsuleCollider");
@@ -671,13 +697,17 @@ namespace StandardAssets.Characters.Physics
 				}
 			}
 
-			capsuleCollider = (CapsuleCollider)go.AddComponent(typeof(CapsuleCollider));
+			if (addCapsule)
+			{
+				capsuleCollider = (CapsuleCollider)go.AddComponent(typeof(CapsuleCollider));
+			}
 			if (capsuleCollider != null)
 			{
 				// Must be enabled for ComputePenetration to work.
 				capsuleCollider.enabled = true;
 
-				if (addColliderAsAChild)
+				if (addCapsule && 
+				    addColliderAsAChild)
 				{
 					capsuleCollider.transform.localPosition = Vector3.zero;
 					capsuleCollider.transform.localRotation = Quaternion.identity;
@@ -685,9 +715,10 @@ namespace StandardAssets.Characters.Physics
 				}
 			}
 
-			if (addKinematicRigidbody)
+			if (addRigidbody && 
+			    addKinematicRigidbody)
 			{
-				Rigidbody rigidbody = (Rigidbody)go.AddComponent(typeof(Rigidbody));
+				rigidbody = (Rigidbody)go.AddComponent(typeof(Rigidbody));
 				if (rigidbody != null)
 				{
 					rigidbody.isKinematic = true;
@@ -695,19 +726,31 @@ namespace StandardAssets.Characters.Physics
 				}
 			}
 
-			ValidateCapsule();
+			if (!addCapsule &&
+			    capsuleCollider != null)
+			{
+				// Copy settings from the capsule collider
+				center = capsuleCollider.center;
+				radius = capsuleCollider.radius;
+				height = capsuleCollider.height;
+			}
+
+			ValidateCapsule(addCapsule);
 		}
 
 		/// <summary>
 		/// Call this when the capsule's values change.
 		/// </summary>
-		private void ValidateCapsule()
+		/// <param name="addedCapsuleCollider">Was the capsule collider automatically added?</param>
+		private void ValidateCapsule(bool addedCapsuleCollider)
 		{
 			slopeLimit = Mathf.Clamp(slopeLimit, 0.0f, k_MaxSlopeLimit);
 			skinWidth = Mathf.Clamp(skinWidth, k_MinSkinWidth, float.MaxValue);
 			
-			if (capsuleCollider != null)
+			if (addedCapsuleCollider && 
+			    capsuleCollider != null)
 			{
+				// Copy settings to the capsule collider
 				capsuleCollider.center = center;
 				capsuleCollider.radius = radius;
 				capsuleCollider.height = height;
@@ -731,7 +774,6 @@ namespace StandardAssets.Characters.Physics
 			}
 
 			bool wasGrounded = isGrounded;
-			Vector3 oldPosition = cachedTransform.position;
 			Vector3 oldVelocity = velocity;
 			CollisionFlags oldCollisionFlags = collisionFlags;
 			Vector3 moveVectorNoY = new Vector3(moveVector.x, 0.0f, moveVector.z);
@@ -739,13 +781,16 @@ namespace StandardAssets.Characters.Physics
 			                           moveVector.y <= 0.0f &&
 			                           moveVectorNoY.sqrMagnitude.NotEqualToZero());
 
+			startPosition = cachedTransform.position;
+			
 			collisionFlags = CollisionFlags.None;
+			collisionInfoDictionary.Clear();
 
 			// Do the move loop
 			MoveLoop(moveVector, tryToStickToGround, slideWhenMovingDown);
 
 			UpdateGrounded(collisionFlags);
-			velocity = cachedTransform.position - oldPosition;
+			velocity = cachedTransform.position - startPosition;
 
 			// Check is the changed events should be fired
 			if (onVelocityChanged != null &&
@@ -760,7 +805,31 @@ namespace StandardAssets.Characters.Physics
 				onCollisionFlagsChanged(collisionFlags);
 			}
 
+			if (sendColliderHitMessages)
+			{
+				SendHitMessages();
+			}
+
 			return collisionFlags;
+		}
+
+		/// <summary>
+		/// Send hit messages.
+		/// </summary>
+		private void SendHitMessages()
+		{
+			if (collisionInfoDictionary == null ||
+			    collisionInfoDictionary.Count <= 0)
+			{
+				return;
+			}
+
+			foreach (var keyValuePair in collisionInfoDictionary)
+			{
+				cachedTransform.gameObject.SendMessage("OnOpenCharacterControllerHit", 
+				                                       keyValuePair.Value, 
+				                                       SendMessageOptions.DontRequireReceiver);
+			}
 		}
 
 		/// <summary>
@@ -810,7 +879,7 @@ namespace StandardAssets.Characters.Physics
 			
 			// Split the move vector into horizontal and vertical components.
 			InitMoveVectors(moveVector, out tryStepOverIndex, slideWhenMovingDown);
-			CharacterCapsuleMoverVector remainingMoveVector = moveVectors[nextMoveVectorIndex];
+			OpenCharacterControllerVector remainingMoveVector = moveVectors[nextMoveVectorIndex];
 			nextMoveVectorIndex++;
 
 			bool didTryToStickToGround = false;
@@ -822,7 +891,7 @@ namespace StandardAssets.Characters.Physics
 
 			// The loop
 			for (int i = 0; i < k_MaxMoveItterations; i++)
-			{	
+			{
 				bool collided = MoveMajorStep(ref remainingMoveVector.moveVector, 
 				                              remainingMoveVector.canSlide,
 				                              didTryToStickToGround, 
@@ -834,7 +903,7 @@ namespace StandardAssets.Characters.Physics
 				                          moveVector))
 				{
 					// Stop current move loop vector
-					remainingMoveVector = new CharacterCapsuleMoverVector(Vector3.zero);
+					remainingMoveVector = new OpenCharacterControllerVector(Vector3.zero);
 				}
 				else if (!localHumanControlled && 
 				         collided)
@@ -872,7 +941,7 @@ namespace StandardAssets.Characters.Physics
 				
 				#if UNITY_EDITOR
 				if (i == k_MaxMoveItterations - 1)
-				{					
+				{
 					Debug.LogError(string.Format("reached k_MaxMoveItterations!     (remainingMoveVector: {0}, {1}, {2})     " +
 												 "(moveVector: {3}, {4}, {5})     hitCount: {6}",
 												 remainingMoveVector.moveVector.x, remainingMoveVector.moveVector.y, remainingMoveVector.moveVector.z,
@@ -913,6 +982,7 @@ namespace StandardAssets.Characters.Physics
 				{
 					// Do a last update, in case we need to move up.
 					UpdateStepOver(moveVector, 0.0f, canSlide);
+					
 					StopStepOver(true);
 				}
 
@@ -924,12 +994,12 @@ namespace StandardAssets.Characters.Physics
 
 			// Did the big radius not hit an obstacle?
 			if (bigRadiusHit == false)
-			{
+			{	
 				// The small radius hit an obstacle, so character is inside an obstacle
 				MoveAwayFromObstacle(ref moveVector, ref smallRadiusHitInfo,
-				                     direction, distance, 
+				                     direction, distance,
 				                     canSlide,
-									 tryGrounding,
+				                     tryGrounding,
 				                     tryStepOver,
 				                     true);
 				
@@ -948,7 +1018,7 @@ namespace StandardAssets.Characters.Physics
 				                     true);
 				return true;
 			}
-
+			
 			MoveAwayFromObstacle(ref moveVector, ref bigRadiusHitInfo,
 								 direction, distance,
 			                     canSlide,
@@ -972,8 +1042,8 @@ namespace StandardAssets.Characters.Physics
 			// Split the move vector into horizontal and vertical components.
 			float length = moveVector.magnitude;
 			if (length <= k_MaxMoveVectorLength ||
-				moveVector.y == 0.0f ||
-				(moveVector.x == 0.0f && moveVector.z == 0.0f))
+				moveVector.y.IsEqualToZero() ||
+				(moveVector.x.IsEqualToZero() && moveVector.z.IsEqualToZero()))
 			{
 				SplitMoveVector(moveVector, out getTryStepOverIndex, slideWhenMovingDown);
 				return;
@@ -1063,7 +1133,7 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="canSlide">Can the movement slide along obstacles?</param>
 		private int AddMoveVector(Vector3 moveVector, bool canSlide = true)
 		{
-			moveVectors.Add(new CharacterCapsuleMoverVector(moveVector, canSlide));
+			moveVectors.Add(new OpenCharacterControllerVector(moveVector, canSlide));
 			return moveVectors.Count - 1;
 		}
 
@@ -1082,11 +1152,11 @@ namespace StandardAssets.Characters.Physics
 			}
 			if (index >= moveVectors.Count)
 			{
-				moveVectors.Add(new CharacterCapsuleMoverVector(moveVector, canSlide));
+				moveVectors.Add(new OpenCharacterControllerVector(moveVector, canSlide));
 				return moveVectors.Count - 1;
 			}
 
-			moveVectors.Insert(index, new CharacterCapsuleMoverVector(moveVector, canSlide));
+			moveVectors.Insert(index, new OpenCharacterControllerVector(moveVector, canSlide));
 			return index;
 		}
 
@@ -1106,18 +1176,18 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="moveVector">The original movement vector.</param>
 		/// <param name="getDownVector">Get the down vector.</param>
 		/// <returns></returns>
-		private bool CanStickToGround(Vector3 moveVector, out CharacterCapsuleMoverVector getDownVector)
+		private bool CanStickToGround(Vector3 moveVector, out OpenCharacterControllerVector getDownVector)
 		{
 			Vector3 moveVectorNoY = new Vector3(moveVector.x, 0.0f, moveVector.z);
 			float downDistance = moveVectorNoY.magnitude;
 
 			if (downDistance <= k_MaxStickToGroundDownDistance)
 			{
-				getDownVector = new CharacterCapsuleMoverVector(Vector3.down * downDistance, false);
+				getDownVector = new OpenCharacterControllerVector(Vector3.down * downDistance, false);
 				return true;
 			}
 			
-			getDownVector = new CharacterCapsuleMoverVector(Vector3.zero);
+			getDownVector = new OpenCharacterControllerVector(Vector3.zero);
 			return false;
 		}
 		
@@ -1165,14 +1235,14 @@ namespace StandardAssets.Characters.Physics
 			Vector3 up = Vector3.up * upDistance;
 			if (SmallSphereCast(Vector3.up, GetSkinWidth() + upDistance, out hitInfo, Vector3.zero, false) ||
 			    BigSphereCast(Vector3.up, upDistance, out hitInfo, Vector3.zero, false))
-			{
+			{	
 				return false;
 			}
 			
 			// Any obstacles ahead (after we moved up)?
 			if (SmallCapsuleCast(horizontal, GetSkinWidth() + horizontalSize, out hitInfo, up) ||
 			    BigCapsuleCast(horizontal, horizontalSize, out hitInfo, up))
-			{
+			{	
 				return false;
 			}
 			
@@ -1185,7 +1255,7 @@ namespace StandardAssets.Characters.Physics
 			
 			// Start stepping over the obstacles
 			stepInfo.OnStartStepOver(upDistance, moveVector, cachedTransform.position);
-
+			
 			return true;
 		}
 
@@ -1214,7 +1284,7 @@ namespace StandardAssets.Characters.Physics
 			// Climb height remaining
 			float heightRemaining = stepInfo.GetRemainingHeight(cachedTransform.position);
 			if (heightRemaining <= 0.0f)
-			{
+			{	
 				return false;
 			}
 			
@@ -1543,6 +1613,7 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="getDirection">Get direction to move out of the obstacle.</param>
 		/// <param name="includSkinWidth">Include the skin width in the test?</param>
 		/// <param name="offsetPosition">Offset position, if we want to test somewhere other than the capsule's position.</param>
+		/// <param name="hitInfo">The hit info.</param>
 		private bool GetPenetrationInfo(out float getDistance, out Vector3 getDirection,
 		                                bool includSkinWidth = true,
 		                                Vector3? offsetPosition = null,
@@ -1676,23 +1747,20 @@ namespace StandardAssets.Characters.Physics
 
 			stuckInfo.hitCount++;
 
-			if (hitInfo != null)
+			if (sendColliderHitMessages && 
+			    hitInfo != null)
 			{
-				CharacterCapsuleMoverCollisionInfo newCollisionInfo = new CharacterCapsuleMoverCollisionInfo(hitInfo.Value);
-				List<CharacterCapsuleMoverCollisionInfo> list;
 				Collider collider = hitInfo.Value.collider;
-				if (collisionInfoDictionary.ContainsKey(collider))
+				// We only care about the first collision with a collider
+				if (collisionInfoDictionary.ContainsKey(collider) == false)
 				{
-					list = collisionInfoDictionary[collider];
-				}
-				else
-				{
-					list = new List<CharacterCapsuleMoverCollisionInfo>();
-					collisionInfoDictionary.Add(collider, list);
-				}
-				if (list != null)
-				{
-					list.Add(newCollisionInfo);
+					Vector3 moved = cachedTransform.position - startPosition;
+					OpenCharacterControllerCollisionInfo newCollisionInfo =
+						new OpenCharacterControllerCollisionInfo(this,
+						                                       hitInfo.Value,
+						                                       direction,
+						                                       moved.magnitude);
+					collisionInfoDictionary.Add(collider, newCollisionInfo);
 				}
 			}
 		}
