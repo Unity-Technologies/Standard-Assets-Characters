@@ -13,8 +13,16 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected TurnaroundType turnaroundType;
 
+		//TODO remove these temp headers
+		[Header("Waiting on attribute to hide")]
+		[Header("the turnaroundbehaviour based")]
+		[Header("above enum")]
+		
 		[SerializeField]
 		protected BlendspaceTurnaroundBehaviour blendspaceTurnaroundBehaviour;
+
+		[SerializeField]
+		protected AnimationTurnaroundBehaviour animationTurnaroundBehaviour;
 
 		private IThirdPersonMotor currentMotor;
 
@@ -56,7 +64,7 @@ namespace StandardAssets.Characters.ThirdPerson
 					case TurnaroundType.Blendspace:
 						return blendspaceTurnaroundBehaviour;
 					case TurnaroundType.Animation:
-						return null;//TODO make animation turnaround behaviour
+						return animationTurnaroundBehaviour;
 					default:
 						return null;
 			}
