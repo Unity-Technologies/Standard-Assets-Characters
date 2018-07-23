@@ -77,6 +77,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected Transform transform;
 		protected GameObject gameObject;
 
+		protected ThirdPersonBrain thirdPersonBrain;
+
 		protected bool isStrafing
 		{
 			get { return movementMode == ThirdPersonMotorMovementMode.Strafe; }
@@ -145,7 +147,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			gameObject = brain.gameObject;
 			transform = brain.transform;
-
+			thirdPersonBrain = brain;
 			turnaroundBehaviour = brain.turnaroundBehaviour;
 
 			characterInput = brain.inputForCharacter;
@@ -349,9 +351,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			currentLateralInputProperties = configuration.strafeLateralMovementProperties;
 			movementMode = ThirdPersonMotorMovementMode.Strafe;
 			
+
+			thirdPersonBrain.cameraAnimationManager.SetAnimation("Strafe");
 			
-			//TODO Adjust method for calling these animations that control the state driven camera
-			animator.Play("Strafe",1);
            gameObject.transform.forward = Camera.main.transform.forward;
                                       			
 		}
@@ -365,7 +367,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				startActionMode();
 			}
-			animator.Play("Action",1);
+			thirdPersonBrain.cameraAnimationManager.SetAnimation("Action");
 			currentForwardInputProperties = configuration.forwardMovementProperties;
 			currentLateralInputProperties = null;
 			movementMode = ThirdPersonMotorMovementMode.Action;
