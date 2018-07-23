@@ -499,13 +499,15 @@ GameObject:
   - component: {fileID: 223058344082315494}
   - component: {fileID: 114676201132202548}
   - component: {fileID: 114621958980955488}
+  - component: {fileID: 114668284783415094}
+  - component: {fileID: 114600182875165442}
   m_Layer: 5
   m_Name: OnScreenControls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1964405990763292
 GameObject:
   m_ObjectHideFlags: 0
@@ -521,7 +523,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4159997171141706
 Transform:
   m_ObjectHideFlags: 1
@@ -639,7 +641,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1627797537853366}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16, y: 3.12, z: 33}
+  m_LocalPosition: {x: 46, y: 12, z: 63}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4617565824343848}
@@ -1313,6 +1315,24 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 0
+--- !u!114 &114600182875165442
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1945195998101900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1077351063, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
 --- !u!114 &114606634733582770
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1454,6 +1474,20 @@ MonoBehaviour:
     m_RecenteringTime: 2
     m_LegacyHeadingDefinition: -1
     m_LegacyVelocityFilterStrength: -1
+--- !u!114 &114668284783415094
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1945195998101900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -619905303, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
 --- !u!114 &114676201132202548
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1468,9 +1502,9 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 800, y: 450}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -1812,7 +1846,7 @@ MonoBehaviour:
     m_AccelTime: 0.02
     m_DecelTime: 0.02
     m_InputAxisName: Vertical
-    m_InputAxisValue: 0
+    m_InputAxisValue: -0
     m_InvertInput: 0
     m_MinValue: -90
     m_MaxValue: 90
@@ -1829,7 +1863,7 @@ MonoBehaviour:
     m_AccelTime: 0.02
     m_DecelTime: 0.02
     m_InputAxisName: Horizontal
-    m_InputAxisValue: 0
+    m_InputAxisValue: -0
     m_InvertInput: 1
     m_MinValue: -180
     m_MaxValue: 180
@@ -2365,7 +2399,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -110, y: 111}
+  m_AnchoredPosition: {x: -110, y: 110}
   m_SizeDelta: {x: 165, y: 165}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224872875489374440

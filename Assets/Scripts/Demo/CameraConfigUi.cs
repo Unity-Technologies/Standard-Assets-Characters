@@ -3,7 +3,6 @@ using Cinemachine;
 using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.FirstPerson;
 using UnityEngine;
-using UnityEngine.Experimental.Input;
 using UnityEngine.UI;
 
 namespace Demo

@@ -1,7 +1,6 @@
 ﻿using System;
 using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Physics;
-using UnityEditor.Animations;
 using UnityEngine;
 using Util;
 

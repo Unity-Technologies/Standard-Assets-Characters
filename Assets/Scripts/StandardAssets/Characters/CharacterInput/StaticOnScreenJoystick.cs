@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Experimental.Input.Processors;
 
 namespace StandardAssets.Characters.CharacterInput
 {
