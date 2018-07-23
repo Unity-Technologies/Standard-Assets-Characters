@@ -26,6 +26,9 @@ namespace Demo
 
 		private GameObject firstPersonParent, thirdPersonParent;
 		
+		[SerializeField]
+		protected CinemachineStateDrivenCamera thirdPersonStateCameras;
+		
 		private void Awake()
 		{
 			SetupThirdPerson();
@@ -64,6 +67,12 @@ namespace Demo
 			thirdPersonBrain.transform.position = firstPersonBrain.transform.position + positionOffset;
 			thirdPersonBrain.transform.rotation = firstPersonBrain.transform.rotation;
 			firstPersonParent.SetActive(false);
+			if (thirdPersonStateCameras != null)
+			{
+				thirdPersonStateCameras.Priority = 11;
+			}
+
+		
 		}
 
 		private void SetFirstPerson()
@@ -73,6 +82,11 @@ namespace Demo
 			firstPersonBrain.transform.position = thirdPersonBrain.transform.position + positionOffset;
 			firstPersonBrain.transform.rotation = thirdPersonBrain.transform.rotation;
 			firstPersonParent.SetActive(true);
+			if (thirdPersonStateCameras != null)
+			{
+				thirdPersonStateCameras.Priority = 1;
+			}
+			
 		}
 
 		private void SetupThirdPerson()
@@ -93,9 +107,12 @@ namespace Demo
 			parent.transform.rotation = transform.rotation;
 			parent.transform.SetParent(transform, true);
 
-			foreach (GameObject go in gameObjects)
+			if (gameObjects != null && parent !=null)
 			{
-				go.transform.SetParent(parent.transform, true);
+				foreach (GameObject go in gameObjects)
+				{
+					go.transform.SetParent(parent.transform, true);
+				}
 			}
 
 			return parent;
