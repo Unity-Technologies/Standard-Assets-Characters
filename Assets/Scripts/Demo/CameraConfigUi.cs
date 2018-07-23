@@ -16,9 +16,6 @@ namespace Demo
 		public bool invertXAxis { get; set; }
 		public bool invertYAxis { get; set; }
 
-		[SerializeField]
-		protected FirstPersonMouseLookPOVCamera povCamAdjustables; //Mouse sensitivity(for POV cameras)
-
 		/// <summary>
 		/// Cinemachine FreeLook Cameras
 		/// </summary>
@@ -55,11 +52,6 @@ namespace Demo
 		protected Text xAxisSliderValueTextMouse;
 		[SerializeField]
 		protected Text yAxisSliderValueTextMouse;
-
-		[SerializeField]
-		protected Toggle xAxisToggleMouse;
-		[SerializeField]
-		protected Toggle yAxisToggleMouse;
 
 		[SerializeField]
 		protected Slider horizontalSliderMouse;
@@ -126,48 +118,6 @@ namespace Demo
 			{
 				InvertYAxis(camera, invertYAxis);
 			}
-		}
-
-		public void ToggleXAxisMouse(Toggle toggle)
-		{
-			if (povCamAdjustables == null)
-			{
-				return;
-			}
-		
-			//povCamAdjustables.InvertXAxis();
-		}
-
-		public void ToggleYAxisMouse(Toggle toggle)
-		{
-			if (povCamAdjustables == null)
-			{
-				return;
-			}
-			//povCamAdjustables.InvertYAxis();
-		}
-
-		public void SetMouseXSpeed(Slider slider)
-		{
-			if (povCamAdjustables == null)
-			{
-				return;
-			}
-		//	var newSensitivity = GetMouseSensitivityValue(povCamAdjustables.GetSensitivity().x, slider);
-		//	povCamAdjustables.SetSensitivity(newSensitivity,0);
-			//SetMouseSensitivytSliderText(xAxisSliderValueTextMouse, newSensitivity);
-		}
-		
-		public void SetMouseYSpeed(Slider slider)
-		{
-			if (povCamAdjustables == null)
-			{
-				return;
-			}
-
-			//var newSensitivity = GetMouseSensitivityValue(povCamAdjustables.GetSensitivity().y, slider);
-			//povCamAdjustables.SetSensitivity(0,newSensitivity);
-		//	SetMouseSensitivytSliderText(yAxisSliderValueTextMouse, newSensitivity);
 		}
 
 		float GetMouseSensitivityValue(float current, Slider slider)
