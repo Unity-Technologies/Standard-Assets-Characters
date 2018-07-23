@@ -16,10 +16,15 @@ namespace StandardAssets.Characters.Effects
 		/// <summary>
 		/// Helper method for triggering movement events
 		/// </summary>
-		/// <param name="listener"></param>
-		protected void Trigger(MovementEventListener listener)
+		/// <param name="handler"></param>
+		protected void Trigger(MovementEventHandler handler)
 		{
-			listener.SetCurrentMovementEventLibrary(library);
+			if (handler == null)
+			{
+				return;
+			}
+			
+			handler.SetCurrentMovementEventLibrary(library);
 		}
 	}
 }

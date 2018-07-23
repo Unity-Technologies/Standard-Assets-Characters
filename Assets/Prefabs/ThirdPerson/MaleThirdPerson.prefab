@@ -2717,6 +2717,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 475c226dbac9416ea06c859daeb6d183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraAnimations: {fileID: 0}
   rootMotionMotor:
     configuration: {fileID: 11400000, guid: 33e0d88026c128b4ca3076e2e5149510, type: 2}
     cameraTransform: {fileID: 0}
@@ -2753,6 +2754,13 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     forwardSpeedCalculation: 1
+  animationTurnaroundBehaviour:
+    rapidTurnParameter: RapidTurn
+  thirdPersonMovementEventHandler:
+    startingMovementEventLibrary: {fileID: 0}
+    movementDetections:
+    - {fileID: 114447118663720106}
+    - {fileID: 114449538320415148}
 --- !u!114 &114430763955348664
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2886,6 +2894,7 @@ MonoBehaviour:
       m_Bits: 257
     localHumanControlled: 1
     canSlideAgainstCeiling: 1
+    sendColliderHitMessages: 1
     enableDebug: 0
 --- !u!114 &114519407302604966
 MonoBehaviour:

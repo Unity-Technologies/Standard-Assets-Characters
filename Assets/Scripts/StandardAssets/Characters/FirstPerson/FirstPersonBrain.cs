@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using StandardAssets.Characters.CharacterInput;
+using StandardAssets.Characters.Common;
+using StandardAssets.Characters.Effects;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
 
@@ -11,7 +13,7 @@ namespace StandardAssets.Characters.FirstPerson
 	/// </summary>
 	[RequireComponent(typeof(ICharacterPhysics))]
 	[RequireComponent(typeof(ICharacterInput))]
-	public class FirstPersonController : MonoBehaviour
+	public class FirstPersonBrain : CharacterBrain
 	{
 		/// <summary>
 		/// The state that first person motor starts in
@@ -24,12 +26,15 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		[SerializeField] 
 		protected FirstPersonMovementModification[] movementModifiers;
-
+		
 		/// <summary>
-		/// Airborne modifier of the movement speed
+		/// Main Camera that is using the POV camera
 		/// </summary>
 		[SerializeField]
-		protected float airborneSpeedModifier = 0.5f;
+		protected Camera mainCamera;
+
+		[SerializeField]
+		protected FirstPersonMovementEventHandler firstPersonMovementEventHandler;
 		
 		/// <summary>
 		/// Exposes the movement properties array for use in UI 
@@ -38,18 +43,6 @@ namespace StandardAssets.Characters.FirstPerson
 		{
 			get { return movementModifiers; }
 		}
-
-		/// <summary>
-		/// The Physic implementation used to do the movement
-		/// e.g. CharacterController or Rigidbody (or New C# CharacterController analog)
-		/// </summary>
-		private ICharacterPhysics characterPhysics;
-
-		/// <summary>
-		/// The Input implementation to be used
-		/// e.g. Default unity input or (in future) the new new input system
-		/// </summary>
-		private ICharacterInput characterInput;
 
 		/// <summary>
 		/// The current movement properties
@@ -67,11 +60,16 @@ namespace StandardAssets.Characters.FirstPerson
 		private bool previouslyHasInput;
 
 		protected FirstPersonMovementProperties[] allMovement;
-		
+
 		/// <summary>
 		/// The current motor state - controls how the character moves in different states
 		/// </summary>
 		public FirstPersonMovementProperties currentMovementProperties { get; protected set; }
+		
+		public override MovementEventHandler movementEventHandler
+		{
+			get { return firstPersonMovementEventHandler; }
+		}
 
 		public FirstPersonMovementProperties[] allMovementProperties
 		{
@@ -97,10 +95,14 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// Get the attached implementations on wake
 		/// </summary>
-		protected virtual void Awake()
+		protected override void Awake()
 		{
-			characterPhysics = GetComponent<ICharacterPhysics>();
-			characterInput = GetComponent<ICharacterInput>();
+			base.Awake();
+			firstPersonMovementEventHandler.Init(transform, characterPhysics);
+			if (mainCamera == null)
+			{
+				mainCamera = Camera.main;
+			}
 			ChangeState(startingMovementProperties);
 		}
 
@@ -110,6 +112,12 @@ namespace StandardAssets.Characters.FirstPerson
 		private void OnEnable()
 		{
 			characterInput.jumpPressed += OnJumpPressed;
+			firstPersonMovementEventHandler.Subscribe();
+
+			foreach (FirstPersonMovementProperties movementProperties in allMovementProperties)
+			{
+				movementProperties.enterState += SetAnimation;
+			}
 		}
 
 		/// <summary>
@@ -117,12 +125,28 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		private void OnDisable()
 		{
+			firstPersonMovementEventHandler.Unsubscribe();
 			if (characterInput == null)
 			{
 				return;
 			}
 			
 			characterInput.jumpPressed -= OnJumpPressed;
+			
+			foreach (FirstPersonMovementProperties movementProperties in allMovementProperties)
+			{
+				movementProperties.enterState -= SetAnimation;
+			}	
+		}
+
+		/// <summary>
+		/// Handles camera rotation
+		/// </summary>
+		private void Update()
+		{
+			Vector3 currentRotation = transform.rotation.eulerAngles;
+			currentRotation.y = mainCamera.transform.rotation.eulerAngles.y;
+			transform.rotation = Quaternion.Euler(currentRotation);
 		}
 
 		/// <summary>
@@ -142,6 +166,7 @@ namespace StandardAssets.Characters.FirstPerson
 		private void FixedUpdate()
 		{
 			Move();
+			firstPersonMovementEventHandler.Tick();
 		}
 
 		/// <summary>
@@ -193,8 +218,7 @@ namespace StandardAssets.Characters.FirstPerson
 		{
 			movementTime += Time.fixedDeltaTime;
 			movementTime = Mathf.Clamp(movementTime, 0f, currentMovementProperties.accelerationCurve.maxValue);
-			float speedModifier = characterPhysics.isGrounded ? 1f : airborneSpeedModifier;
-			currentSpeed = currentMovementProperties.accelerationCurve.Evaluate(movementTime) * currentMovementProperties.maximumSpeed * speedModifier;
+			currentSpeed = currentMovementProperties.accelerationCurve.Evaluate(movementTime) * currentMovementProperties.maximumSpeed;
 		}
 		
 		/// <summary>

@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+﻿using StandardAssets.Characters.Common;
+using StandardAssets.Characters.Effects;
+using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
-	public class ThirdPersonBrain : MonoBehaviour
+	public class ThirdPersonBrain : CharacterBrain
 	{
 		[SerializeField, Tooltip("Properties of the root motion motor")]
 		protected RootMotionThirdPersonMotor rootMotionMotor;
@@ -23,6 +25,9 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[SerializeField]
 		protected AnimationTurnaroundBehaviour animationTurnaroundBehaviour;
+		
+		[SerializeField]
+		protected ThirdPersonMovementEventHandler thirdPersonMovementEventHandler;
 
 		private IThirdPersonMotor currentMotor;
 
@@ -38,8 +43,15 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return currentTurnaroundBehaviour; }
 		}
 
-		private void Awake()
+		public override MovementEventHandler movementEventHandler
 		{
+			get { return thirdPersonMovementEventHandler; }
+		}
+		
+		protected override void Awake()
+		{
+			base.Awake();
+			
 			currentTurnaroundBehaviour = GetCurrentTurnaroundBehaviour();
 			if (currentTurnaroundBehaviour != null)
 			{
@@ -53,6 +65,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				animationController.Init(this, currentMotor);
 			}
+			
+			thirdPersonMovementEventHandler.Init();
 		}
 
 		private TurnaroundBehaviour GetCurrentTurnaroundBehaviour()
@@ -83,6 +97,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			
 			currentMotor.Subscribe();
+			thirdPersonMovementEventHandler.Subscribe();
 		}
 		
 		private void OnDisable()
@@ -93,6 +108,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			
 			currentMotor.Unsubscribe();
+			thirdPersonMovementEventHandler.Unsubscribe();
 		}
 
 		private void Update()

@@ -39,7 +39,10 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			motor.startStrafeMode += MotorOnStartStrafeMode;
 			motor.startActionMode += MotorOnStartActionMode;
-			recenterCamera.started += RecenterCamera;
+			if (recenterCamera != null)
+			{
+				recenterCamera.started += RecenterCamera;
+			}
 			
 		}
 
@@ -52,7 +55,10 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			motor.startStrafeMode -= MotorOnStartStrafeMode;
 			motor.startActionMode -= MotorOnStartActionMode;
-			recenterCamera.started -= RecenterCamera;
+			if (recenterCamera != null)
+			{
+				recenterCamera.started -= RecenterCamera;
+			}
 		}
 		
 		void MotorOnStartActionMode()
