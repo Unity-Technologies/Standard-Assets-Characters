@@ -6,7 +6,7 @@ namespace StandardAssets.Characters.Physics
 	/// <summary>
 	/// Stuck info and logic used by the OpenCharacterController.
 	/// </summary>
-	public class CharacterCapsuleMoverStuckInfo
+	public class OpenCharacterControllerStuckInfo
 	{
 		/// <summary>
 		/// If character's position does not change by more than this amount then we assume the character is stuck.

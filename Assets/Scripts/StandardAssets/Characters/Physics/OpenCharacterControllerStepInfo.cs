@@ -6,7 +6,7 @@ namespace StandardAssets.Characters.Physics
 	/// Info for stepping over small obstacles (i.e. if the character's stepOffset > 0).
 	/// This is used by the OpenCharacterController.
 	/// </summary>
-	public class CharacterCapsuleMoverStepInfo
+	public class OpenCharacterControllerStepInfo
 	{
 		/// <summary>
 		/// Continue stepping if the angle between the original move vector (which started the stepping) and the new vector

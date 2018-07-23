@@ -3,6 +3,7 @@ using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.FirstPerson;
 using StandardAssets.Characters.ThirdPerson;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Demo
 {
@@ -14,8 +15,8 @@ namespace Demo
 		[SerializeField]
 		protected ThirdPersonBrain thirdPersonBrain;
 
-		[SerializeField]
-		protected FirstPersonController firstPersonController;
+		[SerializeField, FormerlySerializedAs("firstPersonController")]
+		protected FirstPersonBrain firstPersonBrain;
 		
 		[SerializeField]
 		protected GameObject[] firstPersonGameObjects, thirdPersonGameObjects;
@@ -60,8 +61,8 @@ namespace Demo
 		{
 			//Set Third Person
 			thirdPersonParent.SetActive(true);
-			thirdPersonBrain.transform.position = firstPersonController.transform.position + positionOffset;
-			thirdPersonBrain.transform.rotation = firstPersonController.transform.rotation;
+			thirdPersonBrain.transform.position = firstPersonBrain.transform.position + positionOffset;
+			thirdPersonBrain.transform.rotation = firstPersonBrain.transform.rotation;
 			firstPersonParent.SetActive(false);
 		}
 
@@ -69,8 +70,8 @@ namespace Demo
 		{
 			//Set FPS
 			thirdPersonParent.SetActive(false);
-			firstPersonController.transform.position = thirdPersonBrain.transform.position + positionOffset;
-			firstPersonController.transform.rotation = thirdPersonBrain.transform.rotation;
+			firstPersonBrain.transform.position = thirdPersonBrain.transform.position + positionOffset;
+			firstPersonBrain.transform.rotation = thirdPersonBrain.transform.rotation;
 			firstPersonParent.SetActive(true);
 		}
 

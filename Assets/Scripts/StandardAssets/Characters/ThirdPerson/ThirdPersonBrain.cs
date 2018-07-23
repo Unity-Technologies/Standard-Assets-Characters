@@ -1,35 +1,92 @@
-﻿using UnityEngine;
+﻿using StandardAssets.Characters.Common;
+using StandardAssets.Characters.Effects;
+using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
-	public class ThirdPersonBrain : MonoBehaviour
+	public class ThirdPersonBrain : CharacterBrain
 	{
 		[SerializeField, Tooltip("Properties of the root motion motor")]
 		protected RootMotionThirdPersonMotor rootMotionMotor;
 
 		[SerializeField, Tooltip("Properties of the animation controller")]
 		protected ThirdPersonAnimationController animationController;
+		
+		[SerializeField]
+		protected TurnaroundType turnaroundType;
+
+		//TODO remove these temp headers
+		[Header("Waiting on attribute to hide")]
+		[Header("the turnaroundbehaviour based")]
+		[Header("above enum")]
+		
+		[SerializeField]
+		protected BlendspaceTurnaroundBehaviour blendspaceTurnaroundBehaviour;
+
+		[SerializeField]
+		protected AnimationTurnaroundBehaviour animationTurnaroundBehaviour;
+		
+		[SerializeField]
+		protected ThirdPersonMovementEventHandler thirdPersonMovementEventHandler;
 
 		private IThirdPersonMotor currentMotor;
+
+		private TurnaroundBehaviour currentTurnaroundBehaviour;
 
 		public ThirdPersonAnimationController animationControl
 		{
 			get { return animationController; }
 		}
 
-		public RootMotionThirdPersonMotor rootMotionThirdPersonMotor
+		public TurnaroundBehaviour turnaroundBehaviour
 		{
-			get { return rootMotionThirdPersonMotor; }
+			get { return currentTurnaroundBehaviour; }
 		}
 
-		private void Awake()
+		public override MovementEventHandler movementEventHandler
 		{
-			currentMotor = rootMotionMotor;
+			get { return thirdPersonMovementEventHandler; }
+		}
+		
+		protected override void Awake()
+		{
+			base.Awake();
+			
+			currentTurnaroundBehaviour = GetCurrentTurnaroundBehaviour();
+			if (currentTurnaroundBehaviour != null)
+			{
+				currentTurnaroundBehaviour.Init(this);
+			}
+			
+			currentMotor = GetCurrentMotor();
 			currentMotor.Init(this);
+			
 			if (animationController != null)
 			{
 				animationController.Init(this, currentMotor);
 			}
+			
+			thirdPersonMovementEventHandler.Init();
+		}
+
+		private TurnaroundBehaviour GetCurrentTurnaroundBehaviour()
+		{
+			switch (turnaroundType)
+			{
+					case TurnaroundType.None:
+						return null;
+					case TurnaroundType.Blendspace:
+						return blendspaceTurnaroundBehaviour;
+					case TurnaroundType.Animation:
+						return animationTurnaroundBehaviour;
+					default:
+						return null;
+			}
+		}
+		
+		private IThirdPersonMotor GetCurrentMotor()
+		{
+			return rootMotionMotor;
 		}
 
 		private void OnEnable()
@@ -40,6 +97,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			
 			currentMotor.Subscribe();
+			thirdPersonMovementEventHandler.Subscribe();
 		}
 		
 		private void OnDisable()
@@ -50,6 +108,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			
 			currentMotor.Unsubscribe();
+			thirdPersonMovementEventHandler.Unsubscribe();
 		}
 
 		private void Update()
@@ -60,6 +119,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			
 			currentMotor.Update();
+
+			if (currentTurnaroundBehaviour != null)
+			{
+				currentTurnaroundBehaviour.Update();
+			}
 		}
 
 		private void OnAnimatorMove()

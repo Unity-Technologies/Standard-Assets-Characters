@@ -1,6 +1,7 @@
 ﻿using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.FirstPerson;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Demo
@@ -10,8 +11,8 @@ namespace Demo
     /// </summary>
     public class FirstPersonMovementSpeedConfigUi : MonoBehaviour
     {
-        [SerializeField]
-        protected FirstPersonController fpsController;
+        [SerializeField, FormerlySerializedAs("fpsController")]
+        protected FirstPersonBrain fpsBrain;
         
         private FirstPersonMovementModification[] modifiers;
         
@@ -36,14 +37,14 @@ namespace Demo
 
         void Start()
         {
-            modifiers = fpsController.exposedMovementModifiers;
+            modifiers = fpsBrain.exposedMovementModifiers;
 
             sliderTextValues = new Text[] {sprintSpeedTextValue, crouchSpeedTextValue, proneSpeedTextValue};
             sliderValues = new float[] {maxSprintSpeedValue, maxCrouchSpeedValue, maxProneSpeedValue};
             sliders = new Slider[] {sprintSlider, crouchSlider, proneSlider};
             
             //Walk is sperate as it is the starting values
-            startingMaxSpeedValue= fpsController.currentMovementProperties.maximumSpeed;
+            startingMaxSpeedValue= fpsBrain.currentMovementProperties.maximumSpeed;
             SetInitialSliderValues(startingSpeedSlider,startingSpeedTextValue,startingMaxSpeedValue);
 
             for (int i = 0; i < sliders.Length; i++)
@@ -64,7 +65,7 @@ namespace Demo
         public void SetWalkSpeed(Slider slider)
         {
             float speed = ScaleSpeed(slider.value);
-            fpsController.currentMovementProperties.maximumSpeed = speed;
+            fpsBrain.currentMovementProperties.maximumSpeed = speed;
             startingSpeedTextValue.text = speed.ToString("0");
         }
 

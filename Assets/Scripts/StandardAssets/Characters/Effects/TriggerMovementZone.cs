@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using StandardAssets.Characters.Common;
+using UnityEngine;
 
 namespace StandardAssets.Characters.Effects
 {
@@ -12,10 +13,10 @@ namespace StandardAssets.Characters.Effects
 		/// <param name="other"></param>
 		void OnTriggerEnter(Collider other)
 		{
-			MovementEventListener listener = other.GetComponent<MovementEventListener>();
-			if (listener != null)
+			CharacterBrain brain = other.GetComponent<CharacterBrain>();
+			if (brain != null)
 			{
-				Trigger(listener);
+				Trigger(brain.movementEventHandler);
 			}
 		}
 	}

@@ -5,7 +5,7 @@ namespace StandardAssets.Characters.Physics
 	/// <summary>
 	/// A vector used by the OpenCharacterController.
 	/// </summary>
-	public struct CharacterCapsuleMoverVector
+	public struct OpenCharacterControllerVector
 	{
 		/// <summary>
 		/// The move vector.
@@ -27,7 +27,7 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		/// <param name="newMoveVector">The move vector.</param>
 		/// <param name="newCanSlide">Can the movement slide along obstacles?</param>
-		public CharacterCapsuleMoverVector(Vector3 newMoveVector, bool newCanSlide = true)
+		public OpenCharacterControllerVector(Vector3 newMoveVector, bool newCanSlide = true)
 		{
 			moveVector = newMoveVector;
 			canSlide = newCanSlide;
