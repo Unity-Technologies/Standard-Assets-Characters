@@ -15,6 +15,11 @@ namespace StandardAssets.Characters.Common
 		[SerializeField]
 		protected CameraAnimationManager cameraAnimations;
 		
+		public CameraAnimationManager cameraAnimationManager
+		{
+			get { return cameraAnimations; }
+		}
+		
 		/// <summary>
 		/// The Physic implementation used to do the movement
 		/// e.g. CharacterController or Rigidbody (or New C# CharacterController analog)
