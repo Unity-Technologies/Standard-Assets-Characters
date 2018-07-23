@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using StandardAssets.Characters.CharacterInput;
+using StandardAssets.Characters.Common;
+using StandardAssets.Characters.Effects;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
 
@@ -11,7 +13,7 @@ namespace StandardAssets.Characters.FirstPerson
 	/// </summary>
 	[RequireComponent(typeof(ICharacterPhysics))]
 	[RequireComponent(typeof(ICharacterInput))]
-	public class FirstPersonBrain : MonoBehaviour
+	public class FirstPersonBrain : CharacterBrain
 	{
 		/// <summary>
 		/// The state that first person motor starts in
@@ -36,6 +38,9 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		[SerializeField]
 		protected Camera mainCamera;
+
+		[SerializeField]
+		protected FirstPersonMovementEventHandler firstPersonMovementEventHandler;
 		
 		/// <summary>
 		/// Exposes the movement properties array for use in UI 
@@ -73,11 +78,16 @@ namespace StandardAssets.Characters.FirstPerson
 		private bool previouslyHasInput;
 
 		protected FirstPersonMovementProperties[] allMovement;
-		
+
 		/// <summary>
 		/// The current motor state - controls how the character moves in different states
 		/// </summary>
 		public FirstPersonMovementProperties currentMovementProperties { get; protected set; }
+		
+		public override MovementEventHandler movementEventHandler
+		{
+			get { return firstPersonMovementEventHandler; }
+		}
 
 		public FirstPersonMovementProperties[] allMovementProperties
 		{
@@ -107,6 +117,7 @@ namespace StandardAssets.Characters.FirstPerson
 		{
 			characterPhysics = GetComponent<ICharacterPhysics>();
 			characterInput = GetComponent<ICharacterInput>();
+			firstPersonMovementEventHandler.Init(transform, characterPhysics);
 			if (mainCamera == null)
 			{
 				mainCamera = Camera.main;
@@ -120,6 +131,7 @@ namespace StandardAssets.Characters.FirstPerson
 		private void OnEnable()
 		{
 			characterInput.jumpPressed += OnJumpPressed;
+			firstPersonMovementEventHandler.Subscribe();
 		}
 
 		/// <summary>
@@ -127,12 +139,14 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		private void OnDisable()
 		{
+			firstPersonMovementEventHandler.Unsubscribe();
 			if (characterInput == null)
 			{
 				return;
 			}
 			
 			characterInput.jumpPressed -= OnJumpPressed;
+			
 		}
 
 		/// <summary>
@@ -162,6 +176,7 @@ namespace StandardAssets.Characters.FirstPerson
 		private void FixedUpdate()
 		{
 			Move();
+			firstPersonMovementEventHandler.Tick();
 		}
 
 		/// <summary>

@@ -411,11 +411,8 @@ GameObject:
   - component: {fileID: 114035350532953534}
   - component: {fileID: 114373860247929458}
   - component: {fileID: 114501385933726858}
-  - component: {fileID: 114750215591757036}
-  - component: {fileID: 114570266145897858}
   - component: {fileID: 95678976135669546}
   - component: {fileID: 114074065261041036}
-  - component: {fileID: 114651346732965486}
   m_Layer: 11
   m_Name: FirstPersonLegacyInput
   m_TagString: Untagged
@@ -1248,6 +1245,14 @@ MonoBehaviour:
       type: 2}
   airborneSpeedModifier: 0.5
   mainCamera: {fileID: 0}
+  firstPersonMovementEventHandler:
+    startingMovementEventLibrary: {fileID: 0}
+    walkDistanceThreshold: 0.7
+    footIds:
+    - leftfoot
+    - rightfoot
+    jumpId: jumping
+    landingId: landing
 --- !u!114 &114537350083130186
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1263,18 +1268,6 @@ MonoBehaviour:
   joystickBase: {fileID: 224805422820774724}
   joystickHat: {fileID: 224446068859184612}
   deadZone: 0.1
---- !u!114 &114570266145897858
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1627797537853366}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f15fdcce5f854ef08215491f1d17f1a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startingMovementEventLibrary: {fileID: 0}
 --- !u!114 &114596901099322298
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1472,19 +1465,6 @@ MonoBehaviour:
     m_RecenteringTime: 2
     m_LegacyHeadingDefinition: -1
     m_LegacyVelocityFilterStrength: -1
---- !u!114 &114651346732965486
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1627797537853366}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79b8563e9117458bb97ca06f29b17116, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jumpId: jumping
-  landingId: landing
 --- !u!114 &114676201132202548
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1641,21 +1621,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114750215591757036
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1627797537853366}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c7789a178b748a187e03661002abd65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  distanceThreshold: 0.6
-  ids:
-  - leftfoot
-  - rightfoot
 --- !u!114 &114794738707924550
 MonoBehaviour:
   m_ObjectHideFlags: 1
