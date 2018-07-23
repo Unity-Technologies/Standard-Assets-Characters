@@ -26,12 +26,6 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		[SerializeField] 
 		protected FirstPersonMovementModification[] movementModifiers;
-
-		/// <summary>
-		/// Airborne modifier of the movement speed
-		/// </summary>
-		[SerializeField]
-		protected float airborneSpeedModifier = 0.5f;
 		
 		/// <summary>
 		/// Main Camera that is using the POV camera
@@ -132,6 +126,11 @@ namespace StandardAssets.Characters.FirstPerson
 		{
 			characterInput.jumpPressed += OnJumpPressed;
 			firstPersonMovementEventHandler.Subscribe();
+
+			foreach (FirstPersonMovementProperties movementProperties in allMovementProperties)
+			{
+				movementProperties.enterState += SetAnimation;
+			}
 		}
 
 		/// <summary>
@@ -147,6 +146,10 @@ namespace StandardAssets.Characters.FirstPerson
 			
 			characterInput.jumpPressed -= OnJumpPressed;
 			
+			foreach (FirstPersonMovementProperties movementProperties in allMovementProperties)
+			{
+				movementProperties.enterState -= SetAnimation;
+			}	
 		}
 
 		/// <summary>
@@ -228,8 +231,7 @@ namespace StandardAssets.Characters.FirstPerson
 		{
 			movementTime += Time.fixedDeltaTime;
 			movementTime = Mathf.Clamp(movementTime, 0f, currentMovementProperties.accelerationCurve.maxValue);
-			float speedModifier = characterPhysics.isGrounded ? 1f : airborneSpeedModifier;
-			currentSpeed = currentMovementProperties.accelerationCurve.Evaluate(movementTime) * currentMovementProperties.maximumSpeed * speedModifier;
+			currentSpeed = currentMovementProperties.accelerationCurve.Evaluate(movementTime) * currentMovementProperties.maximumSpeed;
 		}
 		
 		/// <summary>

@@ -1231,6 +1231,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eec248ab0c3e4eeaafde0796225ff6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraAnimations: {fileID: 114074065261041036}
   startingMovementProperties: {fileID: 11400000, guid: 94a57537c57334a9091fcb1053cb89b7,
     type: 2}
   movementModifiers:
@@ -1243,7 +1244,6 @@ MonoBehaviour:
   - inputs: {fileID: 11400000, guid: 2692a7f21a6ff044792d5134fd85691a, type: 2}
     movementProperties: {fileID: 11400000, guid: 2413b5cc65be04853b7389c604265250,
       type: 2}
-  airborneSpeedModifier: 0.5
   mainCamera: {fileID: 0}
   firstPersonMovementEventHandler:
     startingMovementEventLibrary: {fileID: 0}
