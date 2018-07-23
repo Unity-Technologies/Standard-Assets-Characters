@@ -11,7 +11,7 @@ namespace StandardAssets.Characters.FirstPerson
 	/// </summary>
 	[RequireComponent(typeof(ICharacterPhysics))]
 	[RequireComponent(typeof(ICharacterInput))]
-	public class FirstPersonController : MonoBehaviour
+	public class FirstPersonBrain : MonoBehaviour
 	{
 		/// <summary>
 		/// The state that first person motor starts in
@@ -30,6 +30,12 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		[SerializeField]
 		protected float airborneSpeedModifier = 0.5f;
+		
+		/// <summary>
+		/// Main Camera that is using the POV camera
+		/// </summary>
+		[SerializeField]
+		protected Camera mainCamera;
 		
 		/// <summary>
 		/// Exposes the movement properties array for use in UI 
@@ -101,6 +107,10 @@ namespace StandardAssets.Characters.FirstPerson
 		{
 			characterPhysics = GetComponent<ICharacterPhysics>();
 			characterInput = GetComponent<ICharacterInput>();
+			if (mainCamera == null)
+			{
+				mainCamera = Camera.main;
+			}
 			ChangeState(startingMovementProperties);
 		}
 
@@ -123,6 +133,16 @@ namespace StandardAssets.Characters.FirstPerson
 			}
 			
 			characterInput.jumpPressed -= OnJumpPressed;
+		}
+
+		/// <summary>
+		/// Handles camera rotation
+		/// </summary>
+		private void Update()
+		{
+			Vector3 currentRotation = transform.rotation.eulerAngles;
+			currentRotation.y = mainCamera.transform.rotation.eulerAngles.y;
+			transform.rotation = Quaternion.Euler(currentRotation);
 		}
 
 		/// <summary>

@@ -6,7 +6,7 @@ namespace StandardAssets.Characters.FirstPerson
 	/// Needed to play dummy animations so that the SDC can respond
 	/// </summary>
 	[RequireComponent(typeof(Animator))]
-	[RequireComponent(typeof(FirstPersonController))]
+	[RequireComponent(typeof(FirstPersonBrain))]
 	public class AnimationManager : MonoBehaviour
 	{
 		/// <summary>
@@ -14,7 +14,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		private Animator animator;
 
-		private FirstPersonController controller;
+		private FirstPersonBrain brain;
 
 		/// <summary>
 		/// Cache the animator
@@ -31,7 +31,7 @@ namespace StandardAssets.Characters.FirstPerson
 		private void OnEnable()
 		{
 			LazyLoadController();
-			foreach (FirstPersonMovementProperties firstPersonMovementProperties in controller.allMovementProperties)
+			foreach (FirstPersonMovementProperties firstPersonMovementProperties in brain.allMovementProperties)
 			{
 				firstPersonMovementProperties.enterState += SetAnimation;
 			}
@@ -42,7 +42,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		private void OnDisable()
 		{
-			foreach (FirstPersonMovementProperties firstPersonMovementProperties in controller.allMovementProperties)
+			foreach (FirstPersonMovementProperties firstPersonMovementProperties in brain.allMovementProperties)
 			{
 				firstPersonMovementProperties.enterState -= SetAnimation;
 			}
@@ -66,12 +66,12 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		private void LazyLoadController()
 		{
-			if (controller != null)
+			if (brain != null)
 			{
 				return;
 			}
 
-			controller = GetComponent<FirstPersonController>();
+			brain = GetComponent<FirstPersonBrain>();
 		}
 		
 		/// <summary>

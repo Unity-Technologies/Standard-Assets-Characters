@@ -27,15 +27,15 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// The controller
 		/// </summary>
-		private FirstPersonController controller;
+		private FirstPersonBrain brain;
 
 		/// <summary>
 		/// Initializes the modification
 		/// </summary>
-		/// <param name="controllerToUse"></param>
-		public void Init(FirstPersonController controllerToUse)
+		/// <param name="brainToUse"></param>
+		public void Init(FirstPersonBrain brainToUse)
 		{
-			controller = controllerToUse;
+			brain = brainToUse;
 			inputs.Init();
 			inputs.started += OnStateChange;
 			inputs.ended += OnStateReset;
@@ -43,12 +43,12 @@ namespace StandardAssets.Characters.FirstPerson
 
 		private void OnStateChange()
 		{
-			controller.EnterNewState(movementProperties);
+			brain.EnterNewState(movementProperties);
 		}
 
 		private void OnStateReset()
 		{
-			controller.ResetState();
+			brain.ResetState();
 		}
 		
 		

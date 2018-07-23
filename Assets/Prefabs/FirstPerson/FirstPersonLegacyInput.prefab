@@ -407,16 +407,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4664608565436408}
+  - component: {fileID: 135661079851010840}
+  - component: {fileID: 114035350532953534}
+  - component: {fileID: 114373860247929458}
   - component: {fileID: 114501385933726858}
-  - component: {fileID: 114736923435200732}
   - component: {fileID: 114750215591757036}
   - component: {fileID: 114570266145897858}
   - component: {fileID: 95678976135669546}
   - component: {fileID: 114074065261041036}
   - component: {fileID: 114651346732965486}
-  - component: {fileID: 114035350532953534}
-  - component: {fileID: 135661079851010840}
-  - component: {fileID: 114373860247929458}
   m_Layer: 11
   m_Name: FirstPersonLegacyInput
   m_TagString: Untagged
@@ -643,7 +642,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1627797537853366}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 47.75, y: 11.58, z: 63.168888}
+  m_LocalPosition: {x: 16, y: 3.12, z: 33}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4617565824343848}
@@ -706,12 +705,15 @@ MonoBehaviour:
     center: {x: 0, y: 0, z: 0}
     radius: 0.2
     height: 1
+    addKinematicRigidbody: 1
+    addColliderAsAChild: 1
     colliderLayer: 
     collisionLayerMask:
       serializedVersion: 2
       m_Bits: 257
-    addKinematicRigidbody: 1
     localHumanControlled: 1
+    canSlideAgainstCeiling: 1
+    sendColliderHitMessages: 1
     enableDebug: 0
 --- !u!114 &114048688547853064
 MonoBehaviour:
@@ -1245,6 +1247,7 @@ MonoBehaviour:
     movementProperties: {fileID: 11400000, guid: 2413b5cc65be04853b7389c604265250,
       type: 2}
   airborneSpeedModifier: 0.5
+  mainCamera: {fileID: 0}
 --- !u!114 &114537350083130186
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1611,18 +1614,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114736923435200732
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1627797537853366}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d013a7b7a7ca4e32894d045abefec011, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainCamera: {fileID: 0}
 --- !u!114 &114743016496576480
 MonoBehaviour:
   m_ObjectHideFlags: 1
