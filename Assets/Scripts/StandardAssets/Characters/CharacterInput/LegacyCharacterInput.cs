@@ -2,7 +2,6 @@
 using Cinemachine;
 using StandardAssets.Characters.FirstPerson;
 using UnityEngine;
-using UnityEngine.Experimental.Input;
 
 namespace StandardAssets.Characters.CharacterInput
 {

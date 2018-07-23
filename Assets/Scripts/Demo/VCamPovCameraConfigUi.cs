@@ -20,16 +20,8 @@ namespace Demo
 				((m_XAxisMaxSpeed * speedRange)+minSpeedCinemachineGamepad));
 
 			m_YAxisMaxSpeed = 0.3f;
-			//m_YAxisMaxSpeed	= (cameras[0].GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_MaxSpeed - minSpeed) / speedRange;
 			SetMaxSpeedSliderInitialValues(verticalSliderGamepad, m_YAxisMaxSpeed, verticalSliderGamepadValueText,
 				((m_YAxisMaxSpeed * speedRange)+minSpeedCinemachineGamepad));
-
-			if (povCamAdjustables != null)
-			{
-			////xAxisMaxSpeedMouse = Mathf.Abs(povCamAdjustables.GetSensitivity().x );
-				//yAxisMaxSpeedMouse = Mathf.Abs(povCamAdjustables.GetSensitivity().y );
-			}
-
 			
 			SetMaxSpeedSliderInitialValues(horizontalSliderMouse,xAxisMaxSpeedMouse/20,xAxisSliderValueTextMouse,xAxisMaxSpeedMouse);
 			SetMaxSpeedSliderInitialValues(verticalSliderMouse,yAxisMaxSpeedMouse/20,yAxisSliderValueTextMouse,yAxisMaxSpeedMouse);
