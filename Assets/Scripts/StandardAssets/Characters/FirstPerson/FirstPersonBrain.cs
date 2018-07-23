@@ -45,18 +45,6 @@ namespace StandardAssets.Characters.FirstPerson
 		}
 
 		/// <summary>
-		/// The Physic implementation used to do the movement
-		/// e.g. CharacterController or Rigidbody (or New C# CharacterController analog)
-		/// </summary>
-		private ICharacterPhysics characterPhysics;
-
-		/// <summary>
-		/// The Input implementation to be used
-		/// e.g. Default unity input or (in future) the new new input system
-		/// </summary>
-		private ICharacterInput characterInput;
-
-		/// <summary>
 		/// The current movement properties
 		/// </summary>
 		private float currentSpeed;

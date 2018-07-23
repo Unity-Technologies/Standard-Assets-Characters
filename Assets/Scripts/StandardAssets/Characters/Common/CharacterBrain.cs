@@ -19,13 +19,13 @@ namespace StandardAssets.Characters.Common
 		/// The Physic implementation used to do the movement
 		/// e.g. CharacterController or Rigidbody (or New C# CharacterController analog)
 		/// </summary>
-		private ICharacterPhysics characterPhysics;
+		protected ICharacterPhysics characterPhysics;
 
 		/// <summary>
 		/// The Input implementation to be used
 		/// e.g. Default unity input or (in future) the new new input system
 		/// </summary>
-		private ICharacterInput characterInput;
+		protected ICharacterInput characterInput;
 
 		public ICharacterPhysics physicsForCharacter
 		{

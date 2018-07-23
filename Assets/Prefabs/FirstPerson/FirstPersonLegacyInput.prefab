@@ -411,8 +411,6 @@ GameObject:
   - component: {fileID: 114035350532953534}
   - component: {fileID: 114373860247929458}
   - component: {fileID: 114501385933726858}
-  - component: {fileID: 95678976135669546}
-  - component: {fileID: 114074065261041036}
   m_Layer: 11
   m_Name: FirstPersonLegacyInput
   m_TagString: Untagged
@@ -481,6 +479,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4617565824343848}
   - component: {fileID: 114473157933188712}
+  - component: {fileID: 95812032362341330}
+  - component: {fileID: 114812623414586040}
   m_Layer: 11
   m_Name: Cameras
   m_TagString: Untagged
@@ -662,13 +662,13 @@ Transform:
   m_Father: {fileID: 4617565824343848}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &95678976135669546
+--- !u!95 &95812032362341330
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1627797537853366}
+  m_GameObject: {fileID: 1922616701639256}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: ce1bd576a4b9f4bd8a6abbb0e25dd32b, type: 2}
@@ -727,17 +727,6 @@ MonoBehaviour:
   cinemachineLookYAxisName: Vertical
   leftOnScreenJoystick: {fileID: 114106014998193290}
   rightOnScreenJoystick: {fileID: 114537350083130186}
---- !u!114 &114074065261041036
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1627797537853366}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b47216618e54cb19f75a56e601bb515, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114074389995230264
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1177,7 +1166,7 @@ MonoBehaviour:
   m_StandbyUpdate: 1
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
-  m_AnimatedTarget: {fileID: 95678976135669546}
+  m_AnimatedTarget: {fileID: 95812032362341330}
   m_LayerIndex: 0
   m_ShowDebugText: 1
   m_ChildCameras:
@@ -1231,7 +1220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eec248ab0c3e4eeaafde0796225ff6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraAnimations: {fileID: 114074065261041036}
+  cameraAnimations: {fileID: 114812623414586040}
   startingMovementProperties: {fileID: 11400000, guid: 94a57537c57334a9091fcb1053cb89b7,
     type: 2}
   movementModifiers:
@@ -1654,6 +1643,17 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Sprint
+--- !u!114 &114812623414586040
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1922616701639256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b47216618e54cb19f75a56e601bb515, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114864940878007130
 MonoBehaviour:
   m_ObjectHideFlags: 1
