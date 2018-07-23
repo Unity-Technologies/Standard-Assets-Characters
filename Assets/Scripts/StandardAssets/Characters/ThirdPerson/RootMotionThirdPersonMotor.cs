@@ -1,6 +1,7 @@
 ﻿using System;
 using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Physics;
+using UnityEditor.Animations;
 using UnityEngine;
 using Util;
 
@@ -76,6 +77,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected Transform transform;
 		protected GameObject gameObject;
 
+		protected ThirdPersonBrain thirdPersonBrain;
+
 		protected bool isStrafing
 		{
 			get { return movementMode == ThirdPersonMotorMovementMode.Strafe; }
@@ -117,6 +120,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		//Unity Messages
 		public void OnAnimatorMove()
 		{
+			
 			if (movementState == ThirdPersonGroundMovementState.TurningAround)
 			{
 				return;
@@ -143,7 +147,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			gameObject = brain.gameObject;
 			transform = brain.transform;
-
+			thirdPersonBrain = brain;
 			turnaroundBehaviour = brain.turnaroundBehaviour;
 
 			characterInput = brain.inputForCharacter;
@@ -346,7 +350,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			currentForwardInputProperties = configuration.strafeForwardMovementProperties;
 			currentLateralInputProperties = configuration.strafeLateralMovementProperties;
 			movementMode = ThirdPersonMotorMovementMode.Strafe;
-			gameObject.transform.forward = Camera.main.transform.forward;
+			
+
+			thirdPersonBrain.cameraAnimationManager.SetAnimation("Strafe");
+			
+           gameObject.transform.forward = Camera.main.transform.forward;
+                                      			
 		}
 
 		/// <summary>
@@ -358,12 +367,15 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				startActionMode();
 			}
-
+			thirdPersonBrain.cameraAnimationManager.SetAnimation("Action");
 			currentForwardInputProperties = configuration.forwardMovementProperties;
 			currentLateralInputProperties = null;
 			movementMode = ThirdPersonMotorMovementMode.Action;
+		
+			//TODO Adjust method for calling these animations that control the state driven camera
 			
 			
+
 		}
 
 		/// <summary>
@@ -401,6 +413,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected virtual void SetStrafeLookDirection()
 		{
+			
 			Vector3 lookForwardY = transform.rotation.eulerAngles;
 
 			lookForwardY.x = 0;
@@ -419,7 +432,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			transform.rotation = newRotation;
 		}
-
+		
+		
 		protected virtual void SetLookDirection()
 		{
 			if (!characterInput.hasMovementInput)

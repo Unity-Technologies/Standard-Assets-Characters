@@ -39,10 +39,10 @@ namespace StandardAssets.Characters.Common
 		/// 
 		/// </summary>
 		/// <param name="state"></param>
-		public void SetAnimation(string state)
+		public void SetAnimation(string state, int level = 0)
 		{
 			LazyLoadAnimator();
-			animator.Play(state);
+			animator.Play(state,level);
 		}
 	}
 }
