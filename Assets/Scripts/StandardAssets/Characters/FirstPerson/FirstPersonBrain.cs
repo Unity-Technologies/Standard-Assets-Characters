@@ -107,10 +107,9 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// Get the attached implementations on wake
 		/// </summary>
-		protected virtual void Awake()
+		protected override void Awake()
 		{
-			characterPhysics = GetComponent<ICharacterPhysics>();
-			characterInput = GetComponent<ICharacterInput>();
+			base.Awake();
 			firstPersonMovementEventHandler.Init(transform, characterPhysics);
 			if (mainCamera == null)
 			{

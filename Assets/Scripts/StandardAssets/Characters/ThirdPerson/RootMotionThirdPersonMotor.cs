@@ -146,8 +146,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			turnaroundBehaviour = brain.turnaroundBehaviour;
 
-			characterInput = gameObject.GetComponent<ICharacterInput>();
-			characterPhysics = gameObject.GetComponent<ICharacterPhysics>();
+			characterInput = brain.inputForCharacter;
+			characterPhysics = brain.physicsForCharacter;
 			animator = gameObject.GetComponent<Animator>();
 			animationController = brain.animationControl;
 

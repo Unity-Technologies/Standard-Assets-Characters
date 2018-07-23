@@ -48,8 +48,10 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return thirdPersonMovementEventHandler; }
 		}
 		
-		private void Awake()
+		protected override void Awake()
 		{
+			base.Awake();
+			
 			currentTurnaroundBehaviour = GetCurrentTurnaroundBehaviour();
 			if (currentTurnaroundBehaviour != null)
 			{
