@@ -1539,7 +1539,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1294013925418394}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 47.75, y: 19.352, z: 63.168888}
+  m_LocalPosition: {x: 47.75, y: 10.18, z: 63.168888}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4373934692070628}
@@ -2849,12 +2849,14 @@ MonoBehaviour:
     center: {x: 0, y: 0, z: 0}
     radius: 0.4
     height: 1.6
+    addKinematicRigidbody: 1
+    addColliderAsAChild: 1
     colliderLayer: 
     collisionLayerMask:
       serializedVersion: 2
       m_Bits: 257
-    addKinematicRigidbody: 1
     localHumanControlled: 1
+    canSlideAgainstCeiling: 1
     enableDebug: 0
 --- !u!114 &114519407302604966
 MonoBehaviour:

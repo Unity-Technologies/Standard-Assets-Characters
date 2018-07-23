@@ -1,6 +1,7 @@
 ﻿using System;
 using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Physics;
+using UnityEditor.Animations;
 using UnityEngine;
 using Util;
 
@@ -117,6 +118,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		//Unity Messages
 		public void OnAnimatorMove()
 		{
+			
 			if (movementState == ThirdPersonGroundMovementState.TurningAround)
 			{
 				return;
@@ -351,7 +353,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			currentForwardInputProperties = configuration.strafeForwardMovementProperties;
 			currentLateralInputProperties = configuration.strafeLateralMovementProperties;
 			movementMode = ThirdPersonMotorMovementMode.Strafe;
-			gameObject.transform.forward = Camera.main.transform.forward;
+			
+			
+			//TODO Adjust method for calling these animations that control the state driven camera
+			animator.Play("Strafe",1);
+           gameObject.transform.forward = Camera.main.transform.forward;
+                                      			
 		}
 
 		/// <summary>
@@ -363,12 +370,15 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				startActionMode();
 			}
-
+			animator.Play("Action",1);
 			currentForwardInputProperties = configuration.forwardMovementProperties;
 			currentLateralInputProperties = null;
 			movementMode = ThirdPersonMotorMovementMode.Action;
+		
+			//TODO Adjust method for calling these animations that control the state driven camera
 			
 			
+
 		}
 
 		/// <summary>
@@ -406,6 +416,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected virtual void SetStrafeLookDirection()
 		{
+			
 			Vector3 lookForwardY = transform.rotation.eulerAngles;
 
 			lookForwardY.x = 0;
@@ -424,7 +435,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			transform.rotation = newRotation;
 		}
-
+		
+		
 		protected virtual void SetLookDirection()
 		{
 			if (!characterInput.hasMovementInput)
