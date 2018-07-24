@@ -1,4 +1,4 @@
-﻿using StandardAssets.Characters.Common;
+using StandardAssets.Characters.Common;
 using StandardAssets.Characters.Effects;
 using UnityEngine;
 
@@ -15,11 +15,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected TurnaroundType turnaroundType;
 
-		//TODO remove these temp headers
-		[Header("Waiting on attribute to hide")]
-		[Header("the turnaroundbehaviour based")]
-		[Header("above enum")]
-		
 		[SerializeField]
 		protected BlendspaceTurnaroundBehaviour blendspaceTurnaroundBehaviour;
 
