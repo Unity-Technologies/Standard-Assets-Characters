@@ -2,7 +2,7 @@
 
 namespace StandardAssets.Characters.ThirdPerson
 {
-	[CreateAssetMenu(fileName = "Third Person Animation Configuration", menuName = "Standard Assets/Characters/Create Third Person Animation Configuration", order = 1)]
+	[CreateAssetMenu(fileName = "Third Person Animation Configuration", menuName = "Standard Assets/Characters/Third Person Animation Configuration", order = 1)]
 	public class ThirdPersonAnimationConfiguration : ScriptableObject
 	{
 		[SerializeField]
