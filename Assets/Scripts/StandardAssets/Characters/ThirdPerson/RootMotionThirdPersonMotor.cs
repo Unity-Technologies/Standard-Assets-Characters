@@ -2,6 +2,7 @@
 using Attributes;
 using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Physics;
+using UnityEditor;
 using UnityEngine;
 using Util;
 
@@ -14,7 +15,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		public event Action startActionMode, startStrafeMode;
 
 		//Serialized Fields
-		[HelperBox("Configuration is a separate asset. Click on the associated configuration to located it in the Project View. Values can be edited here during runtime and not be lost. It also allows one to create different settings and swap between them. To create a new setting Right click -> Create -> Standard Assets -> Characters -> Third Person Root Motion Configuration")]
+		[HelperBox("Configuration is a separate asset. Click on the associated configuration to located it in the Project View. Values can be edited here during runtime and not be lost. It also allows one to create different settings and swap between them. To create a new setting Right click -> Create -> Standard Assets -> Characters -> Third Person Root Motion Configuration", MessageType.Info)]
 		[SerializeField]
 		protected ThirdPersonRootMotionConfiguration configuration;
 
