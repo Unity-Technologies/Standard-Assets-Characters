@@ -1,3 +1,4 @@
+using Attributes;
 using StandardAssets.Characters.Common;
 using StandardAssets.Characters.Effects;
 using UnityEngine;
@@ -16,9 +17,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected TurnaroundType turnaroundType;
 
 		[SerializeField]
+		[ConditionalInclude("turnaroundType", TurnaroundType.Blendspace)]
 		protected BlendspaceTurnaroundBehaviour blendspaceTurnaroundBehaviour;
 
 		[SerializeField]
+		[ConditionalInclude("turnaroundType", TurnaroundType.Animation)]
 		protected AnimationTurnaroundBehaviour animationTurnaroundBehaviour;
 		
 		[SerializeField]
