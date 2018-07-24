@@ -4,9 +4,9 @@ using Attributes.Types;
 using StandardAssets.Characters.Effects;
 using UnityEngine;
 using Util;
-
 #if UNITY_EDITOR
 using UnityEditor;
+
 #endif
 
 namespace StandardAssets.Characters.ThirdPerson
@@ -17,7 +17,8 @@ namespace StandardAssets.Characters.ThirdPerson
 	[Serializable]
 	public class ThirdPersonAnimationController
 	{
-		[HelperBox(HelperType.Info, "Configuration is a separate asset. Click on the associated configuration to located it in the Project View. Values can be edited here during runtime and not be lost. It also allows one to create different settings and swap between them. To create a new setting Right click -> Create -> Standard Assets -> Characters -> Third Person Animation Configuration")]
+		[HelperBox(HelperType.Info,
+			"Configuration is a separate asset. Click on the associated configuration to located it in the Project View. Values can be edited here during runtime and not be lost. It also allows one to create different settings and swap between them. To create a new setting Right click -> Create -> Standard Assets -> Characters -> Third Person Animation Configuration")]
 		[SerializeField]
 		protected ThirdPersonAnimationConfiguration configuration;
 
@@ -75,6 +76,21 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 
 		public float animationNormalizedProgress { get; private set; }
+
+		public float footednessNormalizedProgress
+		{
+			get
+			{
+				if (isRightFootPlanted)
+				{
+					return MathUtilities.Wrap1(
+						animationNormalizedProgress - configuration.footednessThresholdOffsetValue -
+						configuration.footednessThresholdValue);
+				}
+
+				return animationNormalizedProgress;
+			}
+		}
 
 		public bool isRightFootPlanted { get; private set; }
 
@@ -172,7 +188,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			animator.SetLookAtWeight(configuration.lookAtWeight);
 			float angle = Mathf.Clamp(MathUtilities.Wrap180(motor.targetYRotation - animator.transform.eulerAngles.y),
 			                          -configuration.lookAtMaxRotation, configuration.lookAtMaxRotation);
-			
+
 			Vector3 lookAtPos = animator.transform.position +
 			                    Quaternion.AngleAxis(angle, Vector3.up) * animator.transform.forward * 100f;
 			animator.SetLookAtPosition(lookAtPos);

@@ -21,14 +21,19 @@ namespace Util
 
 		public static float Wrap1(float toWrap)
 		{
+			return WrapX(toWrap, 1);
+		}
+
+		public static float WrapX(float toWrap, float x)
+		{
 			while (toWrap < 0)
 			{
-				toWrap += 1;
+				toWrap += x;
 			}
 
-			while (toWrap > 1)
+			while (toWrap > x)
 			{
-				toWrap -= 1;
+				toWrap -= x;
 			}
 
 			return toWrap;
