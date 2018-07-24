@@ -1,5 +1,6 @@
 ﻿using Attributes;
 using UnityEditor;
+using UnityEditor.VersionControl;
 using UnityEngine;
 
 namespace Editor
@@ -46,7 +47,7 @@ namespace Editor
                 additionalHeight = 48f;
             }
 
-            return height > minHeight ? height + height + additionalHeight : minHeight + height + additionalHeight;
+            return newHeight > minHeight ? newHeight + height + additionalHeight : minHeight + height + additionalHeight;
         }
 
 
@@ -65,7 +66,7 @@ namespace Editor
                 helpPos.height -= additionalHeight;
             }
 
-            EditorGUI.HelpBox(helpPos, helpAttribute.text, helpAttribute.type);
+            EditorGUI.HelpBox(helpPos, helpAttribute.text, (MessageType)helpAttribute.type);
 
             position.y += helpPos.height + marginHeight;
             position.height = height;
