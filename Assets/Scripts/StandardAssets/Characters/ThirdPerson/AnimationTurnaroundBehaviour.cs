@@ -1,31 +1,76 @@
 ﻿using System;
+using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
 	[Serializable]
 	public class AnimationTurnaroundBehaviour : TurnaroundBehaviour
 	{
-		public string rapidTurnParameter = "RapidTurn";
+		[SerializeField]
+		protected string runLeftTurn = "RunForwardTurnLeft",
+		                 runRightTurn = "RunForwardTurnRight",
+		                 walkLeftTurn = "WalkForwardTurnLeft",
+		                 walkRightTurn = "WalkForwardTurnRight";
+
+		[SerializeField]
+		protected float normalizedRunSpeedThreshold = 0.5f;
+
+		private ThirdPersonAnimationController animationController;
 		
+		Vector3 startingRotationEuler;
+//		Quaternion targetRotation;
+		private float rotation;
+		private Transform transform;
+
 		//TODO actually implement
 		public override void Init(ThirdPersonBrain brain)
 		{
-			throw new System.NotImplementedException();
+			animationController = brain.animationControl;
+			transform = brain.transform;
 		}
 
 		public override void Update()
 		{
-			throw new System.NotImplementedException();
+			if (!isTurningAround)
+			{
+				return;
+			}
+
+			Vector3 newRotation = startingRotationEuler - new Vector3(0, animationController.animationNormalizedProgress * rotation, 0);
+			
+			transform.rotation = Quaternion.Euler(newRotation);
+			
+			if(animationController.animationNormalizedProgress > 0.9f)
+			//if (Mathf.Approximately(animationController.animationNormalizedProgress, 1))
+			{
+				EndTurnAround();
+			}
 		}
 
 		protected override void FinishedTurning()
 		{
-			throw new System.NotImplementedException();
+			Debug.Log("FINISHED TURNING");
 		}
 
 		protected override void StartTurningAround(float angle)
 		{
-			throw new System.NotImplementedException();
+			string rapidTurnState = runLeftTurn;
+			if (animationController.animatorForwardSpeed > normalizedRunSpeedThreshold)
+			{
+				
+			}
+			else
+			{
+				
+			}
+			
+			rotation = Mathf.Abs(angle);
+			Debug.Log(rotation);
+			startingRotationEuler = transform.eulerAngles;
+//			targetRotationEuler.y += rotation;
+//			targetRotation = Quaternion.Euler(targetRotationEuler);
+			
+			animationController.unityAnimator.CrossFade(rapidTurnState, 0.1f, 0, animationController.animationNormalizedProgress);
 		}
 	}
 }
