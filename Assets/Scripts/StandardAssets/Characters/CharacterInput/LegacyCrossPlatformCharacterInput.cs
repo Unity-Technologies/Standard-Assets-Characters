@@ -14,10 +14,8 @@ namespace StandardAssets.Characters.CharacterInput
 		[SerializeField]
 		protected LegacyOnScreenCharacterInput mobileInput;
 
-		/*
-		 * [SerializeField]
-		protected FirstPersonMouseLookPOVCamera mousePov; 
-		 */
+		[SerializeField]
+		protected bool debugOnScreenControls;
 
 		private LegacyCharacterInputBase currentInputSystem;
 		
@@ -58,6 +56,12 @@ namespace StandardAssets.Characters.CharacterInput
 
 		private void SetControls()
 		{
+			if (debugOnScreenControls)
+			{
+				SetMobileControls();
+				return;
+			}
+			
 			#if UNITY_ANDROID || UNITY_IOS
 			SetMobileControls();
 			#else
@@ -70,15 +74,6 @@ namespace StandardAssets.Characters.CharacterInput
 			currentInputSystem = mobileInput;
 			mobileInput.gameObject.SetActive(true);
 			standaloneInput.gameObject.SetActive(false);
-            
-           
-			
-			/*
-			 * if (mousePov != null)
-			{
-				mousePov.enabled = false;
-			}
-			 */
 		}
 
 		private void SetStandaloneControls()
