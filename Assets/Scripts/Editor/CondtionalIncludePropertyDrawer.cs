@@ -12,22 +12,25 @@ namespace Editor
         private ConditionalIncludeAttribute includeAttribute
         {
             get{ return (ConditionalIncludeAttribute)attribute; } 
-            
         }
+
+        private bool showField;
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
+            showField = false;
             var conditionIndex = property.serializedObject.FindProperty(includeAttribute.conditionField).enumValueIndex;
-
-            if ((int) includeAttribute.enumElement == conditionIndex)
+            
+            if ((int) includeAttribute.conditionElement == conditionIndex)
             {
+                showField = true;
                 EditorGUI.PropertyField(position, property, label, true);
             }
         }
         
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return EditorGUI.GetPropertyHeight(property, label, true);
+            return showField ? EditorGUI.GetPropertyHeight(property) : 0;
         }
     }
 }

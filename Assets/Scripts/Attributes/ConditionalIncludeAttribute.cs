@@ -9,12 +9,12 @@ namespace Attributes
     public class ConditionalIncludeAttribute : PropertyAttribute
     {
         public readonly string conditionField;
-        public readonly object enumElement;
+        public readonly object conditionElement;
         
-        public ConditionalIncludeAttribute(string conditionField, object enumElement)
+        public ConditionalIncludeAttribute(string conditionField, object conditionElement)
         {
             this.conditionField = conditionField;
-            this.enumElement = enumElement;
+            this.conditionElement = conditionElement;
         }
         
     }
