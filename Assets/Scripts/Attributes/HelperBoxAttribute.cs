@@ -10,10 +10,6 @@ namespace Attributes
         public readonly string text;
         public readonly HelperType type;
 
-
-        /// <summary>
-        /// Adds a HelperBox to the Unity inspector above this field.
-        /// </summary>
         public HelperBoxAttribute(HelperType type,string text)
         {
             this.type = type;
