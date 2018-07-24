@@ -44,10 +44,10 @@ namespace Editor
 
             if (multilineAttribute != null && prop.propertyType == SerializedPropertyType.String)
             {
-                additionalHeight = 48f;
+                additionalHeight = 50f;
             }
 
-            return newHeight > minHeight ? newHeight + height + additionalHeight : minHeight + height + additionalHeight;
+            return height > minHeight ? newHeight + height + additionalHeight : minHeight + height + additionalHeight;
         }
 
 

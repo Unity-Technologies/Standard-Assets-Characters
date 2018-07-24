@@ -6,25 +6,17 @@ using UnityEngine;
 
 namespace Attributes
 {
-    public abstract class ConditionalIncludeAttribute : PropertyAttribute
+    public class ConditionalIncludeAttribute : PropertyAttribute
     {
-        public bool Toggle;
-        public string Condition;
-
-        public ConditionalIncludeAttribute()
+        public readonly string conditionField;
+        public readonly object conditionElement;
+        
+        public ConditionalIncludeAttribute(string conditionField, object conditionElement)
         {
-            Toggle = true;
+            this.conditionField = conditionField;
+            this.conditionElement = conditionElement;
         }
-
-        public ConditionalIncludeAttribute(bool toggle)
-        {
-            Toggle = toggle;
-        }
-
-        public ConditionalIncludeAttribute(string condition)
-        {
-            Condition = condition;
-        }
+        
     }
     
    

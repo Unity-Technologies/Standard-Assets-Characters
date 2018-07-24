@@ -54,6 +54,11 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private bool isGrounded;
 
+		public Animator unityAnimator
+		{
+			get { return animator; }
+		}
+
 		public float animatorForwardSpeed
 		{
 			get { return animator.GetFloat(hashForwardSpeed); }
