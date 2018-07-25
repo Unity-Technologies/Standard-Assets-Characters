@@ -27,8 +27,7 @@ namespace Demo
 
 		private GameObject firstPersonParent, thirdPersonParent;
 		
-		[SerializeField]
-		protected CinemachineStateDrivenCamera thirdPersonStateCameras;
+		
 
 		[SerializeField] 
 		protected bool parentObjects = true;
@@ -42,6 +41,8 @@ namespace Demo
 			}
 			
 			changeViews.Init();
+			
+			SetThirdPerson();
 		}
 
 		private void OnEnable()
@@ -69,10 +70,6 @@ namespace Demo
 			thirdPersonBrain.transform.position = firstPersonBrain.transform.position + positionOffset;
 			thirdPersonBrain.transform.rotation = firstPersonBrain.transform.rotation;
 			firstPersonParent.SetActive(false);
-			if (thirdPersonStateCameras != null)
-			{
-				thirdPersonStateCameras.Priority = 11;
-			}
 		}
 
 		private void SetFirstPerson()
@@ -82,10 +79,7 @@ namespace Demo
 			firstPersonBrain.transform.position = thirdPersonBrain.transform.position + positionOffset;
 			firstPersonBrain.transform.rotation = thirdPersonBrain.transform.rotation;
 			firstPersonParent.SetActive(true);
-			if (thirdPersonStateCameras != null)
-			{
-				thirdPersonStateCameras.Priority = 1;
-			}
+			
 		}
 
 		private void SetupThirdPerson()
