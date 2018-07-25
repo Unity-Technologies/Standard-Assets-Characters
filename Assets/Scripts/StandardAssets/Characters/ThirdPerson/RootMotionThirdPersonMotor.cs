@@ -1,10 +1,11 @@
 ﻿using System;
 using Attributes;
+using Attributes.Types;
 using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
 using Util;
-using Attributes.Types;
+
 namespace StandardAssets.Characters.ThirdPerson
 {
 	[Serializable]

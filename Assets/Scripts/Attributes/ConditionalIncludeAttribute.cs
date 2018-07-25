@@ -1,8 +1,5 @@
-﻿using UnityEditor;
-using UnityEngine;
-#if UNITY_EDITOR
+﻿using UnityEngine;
 
-#endif
 
 namespace Attributes
 {
