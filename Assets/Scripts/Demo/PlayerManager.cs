@@ -42,6 +42,7 @@ namespace Demo
 			
 			changeViews.Init();
 			
+			SetFirstPerson();
 			SetThirdPerson();
 		}
 
