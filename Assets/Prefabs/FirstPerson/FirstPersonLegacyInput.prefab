@@ -517,13 +517,14 @@ GameObject:
   m_Component:
   - component: {fileID: 4592299920666842}
   - component: {fileID: 114048688547853064}
+  - component: {fileID: 114065516138221464}
   m_Layer: 11
   m_Name: MobileInput
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4159997171141706
 Transform:
   m_ObjectHideFlags: 1
@@ -729,6 +730,19 @@ MonoBehaviour:
   cinemachineLookYAxisName: Vertical
   leftOnScreenJoystick: {fileID: 114106014998193290}
   rightOnScreenJoystick: {fileID: 114537350083130186}
+--- !u!114 &114065516138221464
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1964405990763292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fc6253e057a43f28dcd37cb1095043a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxSpeedDecreaseValue: 0.75
+  stateCamera: {fileID: 114473157933188712}
 --- !u!114 &114074389995230264
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1846,7 +1860,7 @@ MonoBehaviour:
     m_AccelTime: 0.02
     m_DecelTime: 0.02
     m_InputAxisName: Vertical
-    m_InputAxisValue: -0
+    m_InputAxisValue: 0
     m_InvertInput: 0
     m_MinValue: -90
     m_MaxValue: 90
@@ -1863,7 +1877,7 @@ MonoBehaviour:
     m_AccelTime: 0.02
     m_DecelTime: 0.02
     m_InputAxisName: Horizontal
-    m_InputAxisValue: -0
+    m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
     m_MaxValue: 180
