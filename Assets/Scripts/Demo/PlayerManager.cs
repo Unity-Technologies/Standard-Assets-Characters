@@ -34,6 +34,12 @@ namespace Demo
 
 		private void Awake()
 		{
+			// TODO remove this when this stops getting nulled
+			if (thirdPersonBrain == null)
+			{
+				thirdPersonBrain = FindObjectOfType<ThirdPersonBrain>();
+			}
+			
 			if (parentObjects)
 			{
 				SetupThirdPerson();
