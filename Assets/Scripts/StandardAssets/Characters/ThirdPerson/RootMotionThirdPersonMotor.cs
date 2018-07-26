@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Attributes;
 using Attributes.Types;
 using StandardAssets.Characters.CharacterInput;
@@ -354,11 +355,21 @@ namespace StandardAssets.Characters.ThirdPerson
 			movementMode = ThirdPersonMotorMovementMode.Strafe;
 			
 
-			thirdPersonBrain.cameraAnimationManager.SetAnimation("Strafe");
-			
-           gameObject.transform.forward = Camera.main.transform.forward;
-                                      			
+			thirdPersonBrain.cameraAnimationManager.SetAnimation("Strafe",1);
+
+
+			turning = true;
+			var cameraForward = Camera.main.transform.forward;
+			cameraForward.y = 0; 
+			//cameraForward.z = 0;
+			gameObject.transform.forward = cameraForward;
+			//SetStrafeLookDirectionTransition(cameraForward);
+		//	SetStartStrafeLookDirection();
+
 		}
+
+		private bool turning;
+		private Quaternion lookDirection;
 
 		/// <summary>
 		/// Method called by strafe input ended
@@ -369,16 +380,26 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				startActionMode();
 			}
-			thirdPersonBrain.cameraAnimationManager.SetAnimation("Action");
+			
+			Debug.Log("Strafe End");
+			thirdPersonBrain.cameraAnimationManager.SetAnimation("Action",1);
+
+		
 			currentForwardInputProperties = configuration.forwardMovementProperties;
 			currentLateralInputProperties = null;
 			movementMode = ThirdPersonMotorMovementMode.Action;
-		
+			/*
+			 * currentForwardInputProperties = configuration.forwardMovementProperties;
+			currentLateralInputProperties = null;
+			movementMode = ThirdPersonMotorMovementMode.Action;
+			 */
+			
 			//TODO Adjust method for calling these animations that control the state driven camera
-			
-			
 
 		}
+
+		
+		
 
 		/// <summary>
 		/// Called by update to handle movement
@@ -422,7 +443,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			lookForwardY.x = 0;
 			lookForwardY.z = 0;
 			lookForwardY.y -= characterInput.lookInput.x * Time.deltaTime * configuration.scaleStrafeLook;
-
+			
 			Quaternion targetRotation = Quaternion.Euler(lookForwardY);
 
 			targetYRotation = targetRotation.eulerAngles.y;
@@ -435,7 +456,6 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			transform.rotation = newRotation;
 		}
-		
 		
 		protected virtual void SetLookDirection()
 		{
@@ -465,6 +485,31 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			transform.rotation = newRotation;
 		}
+		protected virtual void SetStartStrafeLookDirection()
+		{
+			var cameraForward = Camera.main.transform.forward;
+			cameraForward.y = 0;
+			
+			//cameraForward.z = 0;
+			// gameObject.transform.forward = cameraForward;
+			
+			Quaternion targetRotation = Quaternion.LookRotation(cameraForward);
+			//Quaternion targetRotation = CalculateTargetRotation();
+			targetYRotation = targetRotation.eulerAngles.y;
+
+			float turnSpeed = characterPhysics.isGrounded
+				? configuration.turningYSpeed
+				: configuration.jumpTurningYSpeed;
+
+			Quaternion newRotation =
+				Quaternion.RotateTowards(transform.rotation, targetRotation,
+				                         turnSpeed * Time.deltaTime);
+
+			SetTurningSpeed(transform.rotation, newRotation);
+
+			transform.rotation = newRotation;
+		}
+		
 
 		protected virtual void CalculateForwardMovement()
 		{
@@ -524,7 +569,6 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			Vector3 localMovementDirection =
 				new Vector3(characterInput.moveInput.x, 0f, characterInput.moveInput.y);
-
 			Quaternion cameraToInputOffset = Quaternion.FromToRotation(Vector3.forward, localMovementDirection);
 			cameraToInputOffset.eulerAngles = new Vector3(0f, cameraToInputOffset.eulerAngles.y, 0f);
 
