@@ -255,6 +255,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private void OnJumpStarted()
 		{
+			if (!isGrounded)
+			{
+				return;
+			}
+			
 			isGrounded = false;
 			animator.SetTrigger(hashJumped);
 			animator.SetFloat(hashFallingTime, 0);
