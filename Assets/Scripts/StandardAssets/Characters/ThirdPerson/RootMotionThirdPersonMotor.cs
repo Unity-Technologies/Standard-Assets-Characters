@@ -355,16 +355,21 @@ namespace StandardAssets.Characters.ThirdPerson
 			movementMode = ThirdPersonMotorMovementMode.Strafe;
 			
 
-			thirdPersonBrain.cameraAnimationManager.SetAnimation("Strafe");
-			
+			thirdPersonBrain.cameraAnimationManager.SetAnimation("Strafe",1);
+
+
+			turning = true;
 			var cameraForward = Camera.main.transform.forward;
-			//cameraForward.y = 0; 
+			cameraForward.y = 0; 
 			//cameraForward.z = 0;
-          // gameObject.transform.forward = cameraForward;
+			gameObject.transform.forward = cameraForward;
 			//SetStrafeLookDirectionTransition(cameraForward);
-			SetStartStrafeLookDirection();
+		//	SetStartStrafeLookDirection();
 
 		}
+
+		private bool turning;
+		private Quaternion lookDirection;
 
 		/// <summary>
 		/// Method called by strafe input ended
@@ -376,7 +381,8 @@ namespace StandardAssets.Characters.ThirdPerson
 				startActionMode();
 			}
 			
-			thirdPersonBrain.cameraAnimationManager.SetAnimation("Action");
+			Debug.Log("Strafe End");
+			thirdPersonBrain.cameraAnimationManager.SetAnimation("Action",1);
 
 		
 			currentForwardInputProperties = configuration.forwardMovementProperties;
