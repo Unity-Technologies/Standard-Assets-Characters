@@ -26,7 +26,10 @@ namespace StandardAssets.Characters.ThirdPerson
 	
 		private void Awake()
 		{
-			recenterCamera.Init();
+			if (recenterCamera != null)
+			{
+				recenterCamera.Init();
+			}
 		}
 
 		private void OnEnable()

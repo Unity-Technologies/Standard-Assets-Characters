@@ -1,10 +1,11 @@
 ﻿using System;
 using Attributes;
+using Attributes.Types;
 using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
 using Util;
-using Attributes.Types;
+
 namespace StandardAssets.Characters.ThirdPerson
 {
 	[Serializable]
@@ -291,7 +292,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		protected virtual void OnJumpPressed()
 		{
-			if (!characterPhysics.isGrounded)
+			if (!characterPhysics.isGrounded || !animationController.shouldUseRootMotion)
 			{
 				return;
 			}
@@ -386,6 +387,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			if (movementState == ThirdPersonGroundMovementState.TurningAround)
 			{
+				normalizedForwardSpeed = 1;
 				return;
 			}
 

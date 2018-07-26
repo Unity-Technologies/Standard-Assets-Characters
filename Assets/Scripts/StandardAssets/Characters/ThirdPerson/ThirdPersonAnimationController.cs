@@ -1,13 +1,8 @@
 ﻿using System;
 using Attributes;
 using Attributes.Types;
-using StandardAssets.Characters.Effects;
 using UnityEngine;
 using Util;
-#if UNITY_EDITOR
-using UnityEditor;
-
-#endif
 
 namespace StandardAssets.Characters.ThirdPerson
 {
@@ -260,6 +255,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private void OnJumpStarted()
 		{
+			if (!isGrounded)
+			{
+				return;
+			}
+			
 			isGrounded = false;
 			animator.SetTrigger(hashJumped);
 			animator.SetFloat(hashFallingTime, 0);
