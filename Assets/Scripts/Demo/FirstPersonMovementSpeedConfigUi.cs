@@ -1,5 +1,4 @@
-﻿using StandardAssets.Characters.CharacterInput;
-using StandardAssets.Characters.FirstPerson;
+﻿using StandardAssets.Characters.FirstPerson;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;

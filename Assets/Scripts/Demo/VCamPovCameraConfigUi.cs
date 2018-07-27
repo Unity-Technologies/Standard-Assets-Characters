@@ -1,5 +1,4 @@
 ﻿using Cinemachine;
-using UnityEngine;
 
 namespace Demo
 {

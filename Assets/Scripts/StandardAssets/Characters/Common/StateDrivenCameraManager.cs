@@ -1,5 +1,4 @@
-﻿using System.Net.Mime;
-using StandardAssets.Characters.CharacterInput;
+﻿using StandardAssets.Characters.CharacterInput;
 using UnityEngine;
 using UnityEngine.UI;
 

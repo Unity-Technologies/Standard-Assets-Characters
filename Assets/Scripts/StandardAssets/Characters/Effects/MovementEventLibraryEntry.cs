@@ -1,5 +1,4 @@
 ﻿using System;
-using Boo.Lang;
 using UnityEngine;
 
 namespace StandardAssets.Characters.Effects

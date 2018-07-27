@@ -1,6 +1,4 @@
-﻿using System;
-using Parabox.STL;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace StandardAssets.Characters.CharacterInput
 {

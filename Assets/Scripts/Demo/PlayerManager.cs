@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Cinemachine;
 using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.FirstPerson;
 using StandardAssets.Characters.ThirdPerson;

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Xml.Linq;
-using StandardAssets.Characters.Physics;
+﻿using StandardAssets.Characters.Physics;
 using UnityEngine;
 
 namespace StandardAssets.Characters.Effects
