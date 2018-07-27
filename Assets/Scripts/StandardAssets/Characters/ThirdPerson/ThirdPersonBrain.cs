@@ -67,6 +67,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			thirdPersonMovementEventHandler.Init();
 		}
 
+		private void Start()
+		{
+			currentTurnaroundBehaviour.Start();
+		}
+
 		private TurnaroundBehaviour GetCurrentTurnaroundBehaviour()
 		{
 			switch (turnaroundType)
