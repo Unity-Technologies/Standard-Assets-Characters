@@ -1,5 +1,4 @@
-﻿using StandardAssets.Characters.FirstPerson;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace StandardAssets.Characters.Common
 {

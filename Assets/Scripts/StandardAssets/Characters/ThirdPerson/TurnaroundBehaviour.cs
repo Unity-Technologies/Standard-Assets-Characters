@@ -1,6 +1,4 @@
 ﻿using System;
-using UnityEngine;
-using Util;
 
 namespace StandardAssets.Characters.ThirdPerson
 {

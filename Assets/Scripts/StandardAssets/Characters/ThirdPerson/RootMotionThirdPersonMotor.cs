@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using Attributes;
 using Attributes.Types;
 using StandardAssets.Characters.CharacterInput;

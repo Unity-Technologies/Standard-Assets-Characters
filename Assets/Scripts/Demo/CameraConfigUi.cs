@@ -1,7 +1,4 @@
-﻿using System.Text;
-using Cinemachine;
-using StandardAssets.Characters.CharacterInput;
-using StandardAssets.Characters.FirstPerson;
+﻿using Cinemachine;
 using UnityEngine;
 using UnityEngine.UI;
 

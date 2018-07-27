@@ -1,5 +1,4 @@
-﻿using System.Net.Mime;
-using StandardAssets.Characters.CharacterInput;
+﻿using StandardAssets.Characters.CharacterInput;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,6 +20,7 @@ namespace StandardAssets.Characters.Common
 
 		private void Awake()
 		{
+			
 			currentCameraText.text = cameraMode[currentCameraModeIndex];
 			
 			changeCameraModeInputResponse.Init();
