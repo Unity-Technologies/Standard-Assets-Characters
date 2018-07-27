@@ -21,6 +21,7 @@ namespace StandardAssets.Characters.Common
 
 		private void Awake()
 		{
+			
 			currentCameraText.text = cameraMode[currentCameraModeIndex];
 			
 			changeCameraModeInputResponse.Init();
