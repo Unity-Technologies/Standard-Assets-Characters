@@ -408,7 +408,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			if (movementState == ThirdPersonGroundMovementState.TurningAround)
 			{
-				normalizedForwardSpeed = 1;
+				CalculateForwardMovement();
 				return;
 			}
 
