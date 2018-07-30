@@ -12,10 +12,6 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public abstract void Update();
 
-		public virtual void Start()
-		{
-		}
-
 		public void TurnAround(float angle)
 		{
 			if (isTurningAround)

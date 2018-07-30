@@ -67,11 +67,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			thirdPersonMovementEventHandler.Init();
 		}
 
-		private void Start()
-		{
-			currentTurnaroundBehaviour.Start();
-		}
-
 		private TurnaroundBehaviour GetCurrentTurnaroundBehaviour()
 		{
 			switch (turnaroundType)
@@ -141,5 +136,15 @@ namespace StandardAssets.Characters.ThirdPerson
 				animationController.HeadTurn();
 			}
 		}
+
+		#if UNITY_EDITOR
+		private void OnValidate()
+		{
+			if (turnaroundType == TurnaroundType.Animation)
+			{
+				animationTurnaroundBehaviour.OnValidate(GetComponent<Animator>());
+			}
+		}
+		#endif
 	}
 }

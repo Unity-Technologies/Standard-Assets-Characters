@@ -2,6 +2,9 @@
 using System.Linq;
 using UnityEngine;
 using Util;
+#if UNITY_EDITOR
+using UnityEditor.Animations;
+#endif
 
 namespace StandardAssets.Characters.ThirdPerson
 {
@@ -44,17 +47,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			animationController = brain.animationControl;
 			transform = brain.transform;
-		}
-
-		public override void Start()
-		{
-			base.Start();
-			//TODO make this happen at edit time
-			var runtimeAnimationController = animationController.unityAnimator.runtimeAnimatorController;
-			runLeftTurn.duration = GetClipDuration(runtimeAnimationController, runLeftTurn.name);
-			runRightTurn.duration = GetClipDuration(runtimeAnimationController, runRightTurn.name);
-			walkLeftTurn.duration = GetClipDuration(runtimeAnimationController, walkLeftTurn.name);
-			walkRightTurn.duration = GetClipDuration(runtimeAnimationController, walkRightTurn.name);
 		}
 
 		public override void Update()
@@ -106,17 +98,69 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			return leftPlanted ? walkRightTurn : walkLeftTurn;
 		}
-
-		private static float GetClipDuration(RuntimeAnimatorController runtimeAnimationController, string clipName)
+		
+#if UNITY_EDITOR
+		private int turnsFound;
+		public void OnValidate(Animator animator)
 		{
-			var clip = runtimeAnimationController.animationClips.FirstOrDefault(c => 
-			c.name == clipName);
-			if (clip != null)
+			turnsFound = 0;
+			// we get states from state machine, no need to look in blend trees for this.
+			var animation = animator.runtimeAnimatorController as AnimatorController;
+			TraverseStatemachineToCheckStates(animation.layers[0].stateMachine);
+			
+			if (turnsFound < 4)
 			{
-				return clip.length;
+				Debug.LogError("Did not find all turn states in state machine");
 			}
-			Debug.LogErrorFormat("Clip not found: {0}", clipName);
-			return 0;
 		}
+
+		private void TraverseStatemachineToCheckStates(AnimatorStateMachine stateMachine)
+		{
+			if (turnsFound == 4)
+			{
+				return;
+			}
+			foreach (var childState in stateMachine.states)
+			{
+				var clip = childState.state.motion as AnimationClip;
+				if (clip != null)
+				{
+					CheckStateForTurn(childState.state);
+					if (turnsFound == 4)
+					{
+						return;
+					}
+				}
+			}
+			foreach (var childStateMachine in stateMachine.stateMachines)
+			{
+				TraverseStatemachineToCheckStates(childStateMachine.stateMachine);
+			}
+		}
+
+		private void CheckStateForTurn(AnimatorState state)
+		{
+			if (state.name == runLeftTurn.name)
+			{
+				runLeftTurn.duration = state.motion.averageDuration;
+				turnsFound++;
+			}
+			else if (state.name == runRightTurn.name)
+			{
+				runRightTurn.duration = state.motion.averageDuration;
+				turnsFound++;
+			}
+			if (state.name == walkLeftTurn.name)
+			{
+				walkLeftTurn.duration = state.motion.averageDuration;
+				turnsFound++;
+			}
+			if (state.name == walkRightTurn.name)
+			{
+				walkRightTurn.duration = state.motion.averageDuration;
+				turnsFound++;
+			}
+		}
+#endif
 	}
 }
