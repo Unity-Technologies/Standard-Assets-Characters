@@ -2781,7 +2781,7 @@ MonoBehaviour:
     strafeInput: {fileID: 11400000, guid: f7e824638922944d5b76347cc85e8952, type: 2}
   animationController:
     configuration: {fileID: 11400000, guid: 16861f506e03f4b39a1b25e1bb3e307f, type: 2}
-  turnaroundType: 1
+  turnaroundType: 2
   blendspaceTurnaroundBehaviour:
     timeToTurn: 0.2
     turnSpeed: 1
@@ -2811,14 +2811,18 @@ MonoBehaviour:
       m_RotationOrder: 4
     forwardSpeedCalculation: 1
   animationTurnaroundBehaviour:
-    runLeftTurn: RunForwardTurnLeft
-    runRightTurn: RunForwardTurnRight
-    walkLeftTurn: WalkForwardTurnLeft
-    walkRightTurn: WalkForwardTurnRight
+    runLeftTurn:
+      name: RunForwardTurnLeft180
+    runRightTurn:
+      name: RunForwardTurnRight180_Mirror
+    walkLeftTurn:
+      name: WalkForwardTurnLeft180
+    walkRightTurn:
+      name: WalkForwardTurnRight180_Mirror
     normalizedRunSpeedThreshold: 0.5
     crossfadeDuration: 0.125
     maxNormalizedTime: 0.125
-    animationProgressLerpTime: 0.4
+    normalizedCompletionTime: 0.9
   thirdPersonMovementEventHandler:
     startingMovementEventLibrary: {fileID: 0}
     movementDetections:
