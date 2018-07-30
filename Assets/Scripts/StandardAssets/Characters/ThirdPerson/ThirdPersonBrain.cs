@@ -45,7 +45,15 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 
 		public IThirdPersonMotor CurrentMotor { get; private set; }
-		
+
+		public ThirdPersonCameraAnimationManager thirdPersonCameraAnimationManager
+		{
+			get
+			{
+				return cameraAnimationManager as ThirdPersonCameraAnimationManager;
+			}
+		}
+
 		protected override void Awake()
 		{
 			base.Awake();
