@@ -15,7 +15,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		public event Action startActionMode, startStrafeMode;
 
 		//Serialized Fields
-		[HelperBox(HelperType.Info, "Configuration is a separate asset. Click on the associated configuration to located it in the Project View. Values can be edited here during runtime and not be lost. It also allows one to create different settings and swap between them. To create a new setting Right click -> Create -> Standard Assets -> Characters -> Third Person Root Motion Configuration")]
+		[HelperBox(HelperType.Info,
+			"Configuration is a separate asset. Click on the associated configuration to located it in the Project View. Values can be edited here during runtime and not be lost. It also allows one to create different settings and swap between them. To create a new setting Right click -> Create -> Standard Assets -> Characters -> Third Person Root Motion Configuration")]
 		[SerializeField]
 		protected ThirdPersonRootMotionConfiguration configuration;
 
@@ -72,7 +73,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected float forwardClampSpeed, targetForwardClampSpeed, lateralClampSpeed, targetLateralClampSpeed;
 
-		protected float cachedForwardMovement;
+		protected float cachedForwardMovement, averageForwardMovement;
 
 		protected TurnaroundBehaviour turnaroundBehaviour;
 
@@ -122,7 +123,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		//Unity Messages
 		public void OnAnimatorMove()
 		{
-			
 			if (movementState == ThirdPersonGroundMovementState.TurningAround)
 			{
 				return;
@@ -274,9 +274,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			if (aerialState == ThirdPersonAerialMovementState.Grounded)
 			{
-				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
-				groundMovementVector.y = 0;
-				cachedForwardMovement = groundMovementVector.GetMagnitudeOnAxis(transform.forward);
+				cachedForwardMovement = averageForwardMovement;
 			}
 
 			aerialState = ThirdPersonAerialMovementState.Falling;
@@ -298,7 +296,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 			aerialState = ThirdPersonAerialMovementState.Jumping;
-			
+
 			if (jumpStarted != null)
 			{
 				jumpStarted();
@@ -307,9 +305,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (Mathf.Abs(normalizedLateralSpeed) < normalizedForwardSpeed)
 			{
 				characterPhysics.SetJumpVelocity(configuration.initialJumpVelocity);
-				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
-				groundMovementVector.y = 0;
-				cachedForwardMovement = groundMovementVector.GetMagnitudeOnAxis(transform.forward);
+				cachedForwardMovement = averageForwardMovement;
+				Debug.Log(cachedForwardMovement);
 			}
 		}
 
@@ -352,19 +349,16 @@ namespace StandardAssets.Characters.ThirdPerson
 			currentForwardInputProperties = configuration.strafeForwardMovementProperties;
 			currentLateralInputProperties = configuration.strafeLateralMovementProperties;
 			movementMode = ThirdPersonMotorMovementMode.Strafe;
-			
 
-			thirdPersonBrain.cameraAnimationManager.SetAnimation("Strafe",1);
-
+			thirdPersonBrain.cameraAnimationManager.SetAnimation("Strafe", 1);
 
 			turning = true;
 			var cameraForward = Camera.main.transform.forward;
-			cameraForward.y = 0; 
+			cameraForward.y = 0;
 			//cameraForward.z = 0;
 			gameObject.transform.forward = cameraForward;
 			//SetStrafeLookDirectionTransition(cameraForward);
-		//	SetStartStrafeLookDirection();
-
+			//	SetStartStrafeLookDirection();
 		}
 
 		private bool turning;
@@ -379,11 +373,10 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				startActionMode();
 			}
-			
-			Debug.Log("Strafe End");
-			thirdPersonBrain.cameraAnimationManager.SetAnimation("Action",1);
 
-		
+			Debug.Log("Strafe End");
+			thirdPersonBrain.cameraAnimationManager.SetAnimation("Action", 1);
+
 			currentForwardInputProperties = configuration.forwardMovementProperties;
 			currentLateralInputProperties = null;
 			movementMode = ThirdPersonMotorMovementMode.Action;
@@ -392,13 +385,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			currentLateralInputProperties = null;
 			movementMode = ThirdPersonMotorMovementMode.Action;
 			 */
-			
+
 			//TODO Adjust method for calling these animations that control the state driven camera
-
 		}
-
-		
-		
 
 		/// <summary>
 		/// Called by update to handle movement
@@ -436,13 +425,12 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected virtual void SetStrafeLookDirection()
 		{
-			
 			Vector3 lookForwardY = transform.rotation.eulerAngles;
 
 			lookForwardY.x = 0;
 			lookForwardY.z = 0;
 			lookForwardY.y -= characterInput.lookInput.x * Time.deltaTime * configuration.scaleStrafeLook;
-			
+
 			Quaternion targetRotation = Quaternion.Euler(lookForwardY);
 
 			targetYRotation = targetRotation.eulerAngles.y;
@@ -455,7 +443,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			transform.rotation = newRotation;
 		}
-		
+
 		protected virtual void SetLookDirection()
 		{
 			if (!characterInput.hasMovementInput)
@@ -484,14 +472,15 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			transform.rotation = newRotation;
 		}
+
 		protected virtual void SetStartStrafeLookDirection()
 		{
 			var cameraForward = Camera.main.transform.forward;
 			cameraForward.y = 0;
-			
+
 			//cameraForward.z = 0;
 			// gameObject.transform.forward = cameraForward;
-			
+
 			Quaternion targetRotation = Quaternion.LookRotation(cameraForward);
 			//Quaternion targetRotation = CalculateTargetRotation();
 			targetYRotation = targetRotation.eulerAngles.y;
@@ -508,20 +497,26 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			transform.rotation = newRotation;
 		}
-		
 
 		protected virtual void CalculateForwardMovement()
 		{
 			normalizedLateralSpeed = 0;
 			ApplyForwardInput(characterInput.moveInput.magnitude);
+			Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
+			groundMovementVector.y = 0;
+			averageForwardMovement =
+				(averageForwardMovement + groundMovementVector.GetMagnitudeOnAxis(transform.forward)) / 2f;
 		}
 
 		protected virtual void CalculateStrafeMovement()
 		{
-			normalizedForwardSpeed = (Mathf.Approximately(characterInput.moveInput.y, 0f) ? 0f : characterInput.moveInput.y)
+			normalizedForwardSpeed =
+				(Mathf.Approximately(characterInput.moveInput.y, 0f) ? 0f : characterInput.moveInput.y)
 				* configuration.strafeForwardMovementProperties.inputUnclamped;
-			normalizedLateralSpeed = Mathf.Approximately (characterInput.moveInput.x, 0f) ? 0f : characterInput.moveInput.x
-				* configuration.strafeLateralMovementProperties.inputUnclamped;
+			normalizedLateralSpeed = Mathf.Approximately(characterInput.moveInput.x, 0f)
+				? 0f
+				: characterInput.moveInput.x
+				  * configuration.strafeLateralMovementProperties.inputUnclamped;
 		}
 
 		protected virtual void ApplyForwardInput(float input)
