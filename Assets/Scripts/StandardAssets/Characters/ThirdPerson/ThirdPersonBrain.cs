@@ -27,6 +27,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected ThirdPersonMovementEventHandler thirdPersonMovementEventHandler;
 
+		[SerializeField]
+		protected ThirdPersonCameraAnimationManager cameraAnimationManager;
+
 		private TurnaroundBehaviour currentTurnaroundBehaviour;
 
 		public ThirdPersonAnimationController animationControl
@@ -50,7 +53,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			get
 			{
-				return cameraAnimationManager as ThirdPersonCameraAnimationManager;
+				return cameraAnimationManager;
 			}
 		}
 
