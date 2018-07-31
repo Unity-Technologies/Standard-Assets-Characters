@@ -11,31 +11,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d70839d074c4aaf8d6d3e6c7b3cfbc7, type: 3}
   m_Name: Root Motion Configuration
   m_EditorClassIdentifier: 
-  jumpSpeed: 3
-  jumpGroundVelocityScale: 1.1
-  turningSpeed: 200
-  turningSpeedVisualScale: 0.4
-  jumpTurningSpeedScale: 0.25
-  turningLerp: 2
-  strafeLookInputScale: 250
   rootMotionMovementScale: 1
+  useCustomStrafeParameters: 1
+  strafing:
+    strafeInputSamples: 5
+    strafeForwardSpeed: 0.9
+    strafeBackwardSpeed: 1
+    strafeLateralSpeed: 1
+  jumpSpeed: 4
+  jumpGroundVelocitySamples: 5
+  jumpGroundVelocityScale: 1.1
+  jumpTurningSpeedScale: 0.25
+  turningSpeed: 250
+  turningSpeedVisualScale: 0.4
+  turningLerp: 2
   rapidTurnAngle: 120
+  strafeLookInputScale: 250
   forwardMovement:
     directionInputGain: 5
     directionInputDecay: 10
     directionInputChangeGain: 5
-    directionInputClamped: 1
-    directionInputUnclamped: 1
-  strafeForwardMovement:
-    directionInputGain: 2
-    directionInputDecay: 5
-    directionInputChangeGain: 7
-    directionInputClamped: 1
-    directionInputUnclamped: 0.7777778
-  strafeLateralMovement:
-    directionInputGain: 2
-    directionInputDecay: 5
-    directionInputChangeGain: 7
     directionInputClamped: 1
     directionInputUnclamped: 1
   maxFallDistance: 1

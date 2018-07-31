@@ -1,7 +1,7 @@
 ﻿using System;
 using StandardAssets.Characters.CharacterInput;
 using UnityEngine;
-using UnityEngine.Serialization;
+
 
 namespace StandardAssets.Characters.FirstPerson
 {

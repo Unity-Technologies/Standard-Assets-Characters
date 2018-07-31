@@ -12,14 +12,24 @@ namespace Editor
         private ConditionalIncludeAttribute includeAttribute
         {
             get{ return (ConditionalIncludeAttribute)attribute; } 
-            
         }
+
+        private bool showField;
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            var conditionIndex = property.serializedObject.FindProperty(includeAttribute.conditionField).enumValueIndex;
-
-            if ((int) includeAttribute.enumElement == conditionIndex)
+            showField = false;
+            if(includeAttribute.conditionElement != null)
+            {
+                var conditionIndex = property.serializedObject.FindProperty(includeAttribute.conditionField).enumValueIndex;
+                showField = (int) includeAttribute.conditionElement == conditionIndex; 
+            }
+            else
+            {
+                showField = property.serializedObject.FindProperty(includeAttribute.conditionField).boolValue;
+            }
+            
+            if (showField)
             {
                 EditorGUI.PropertyField(position, property, label, true);
             }
@@ -27,7 +37,7 @@ namespace Editor
         
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return EditorGUI.GetPropertyHeight(property, label, true);
+            return showField ? EditorGUI.GetPropertyHeight(property) : -EditorGUIUtility.singleLineHeight;
         }
     }
 }

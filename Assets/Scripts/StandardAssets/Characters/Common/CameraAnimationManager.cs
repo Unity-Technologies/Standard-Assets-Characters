@@ -1,5 +1,4 @@
-﻿using StandardAssets.Characters.FirstPerson;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace StandardAssets.Characters.Common
 {
@@ -39,10 +38,10 @@ namespace StandardAssets.Characters.Common
 		/// 
 		/// </summary>
 		/// <param name="state"></param>
-		public void SetAnimation(string state, int level = 0)
+		public void SetAnimation(string state, int layer = 0)
 		{
 			LazyLoadAnimator();
-			animator.Play(state,level);
+			animator.Play(state,layer);
 		}
 	}
 }

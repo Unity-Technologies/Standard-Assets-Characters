@@ -1,8 +1,6 @@
 ﻿using System;
-using Cinemachine;
-using StandardAssets.Characters.FirstPerson;
 using UnityEngine;
-using UnityEngine.Networking;
+
 
 namespace StandardAssets.Characters.CharacterInput
 {

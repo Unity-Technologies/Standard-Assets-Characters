@@ -2781,7 +2781,7 @@ MonoBehaviour:
     strafeInput: {fileID: 11400000, guid: f7e824638922944d5b76347cc85e8952, type: 2}
   animationController:
     configuration: {fileID: 11400000, guid: 16861f506e03f4b39a1b25e1bb3e307f, type: 2}
-  turnaroundType: 1
+  turnaroundType: 2
   blendspaceTurnaroundBehaviour:
     timeToTurn: 0.2
     turnSpeed: 1
@@ -2811,7 +2811,18 @@ MonoBehaviour:
       m_RotationOrder: 4
     forwardSpeedCalculation: 1
   animationTurnaroundBehaviour:
-    rapidTurnParameter: RapidTurn
+    runLeftTurn:
+      name: RunForwardTurnLeft180
+    runRightTurn:
+      name: RunForwardTurnRight180_Mirror
+    walkLeftTurn:
+      name: WalkForwardTurnLeft180
+    walkRightTurn:
+      name: WalkForwardTurnRight180_Mirror
+    normalizedRunSpeedThreshold: 0.5
+    crossfadeDuration: 0.125
+    maxNormalizedTime: 0.125
+    normalizedCompletionTime: 0.9
   thirdPersonMovementEventHandler:
     startingMovementEventLibrary: {fileID: 0}
     movementDetections:
@@ -2863,6 +2874,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   standaloneInput: {fileID: 114708474431008640}
   mobileInput: {fileID: 114016809366549044}
+  debugOnScreenControls: 0
 --- !u!114 &114447118663720106
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2907,7 +2919,7 @@ MonoBehaviour:
   terminalVelocity: 10
   characterController:
     playerRootTransform: {fileID: 4040340540093194}
-    rootTransformOffset: {x: 0, y: -0.85, z: 0}
+    rootTransformOffset: {x: 0, y: -0.88, z: 0}
     slopeLimit: 45
     stepOffset: 0.3
     skinWidth: 0.08

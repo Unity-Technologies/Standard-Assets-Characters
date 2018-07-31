@@ -27,7 +27,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected ThirdPersonMovementEventHandler thirdPersonMovementEventHandler;
 
-		private IThirdPersonMotor currentMotor;
+		[SerializeField]
+		protected ThirdPersonCameraAnimationManager cameraAnimationManager;
 
 		private TurnaroundBehaviour currentTurnaroundBehaviour;
 
@@ -45,7 +46,17 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			get { return thirdPersonMovementEventHandler; }
 		}
-		
+
+		public IThirdPersonMotor CurrentMotor { get; private set; }
+
+		public ThirdPersonCameraAnimationManager thirdPersonCameraAnimationManager
+		{
+			get
+			{
+				return cameraAnimationManager;
+			}
+		}
+
 		protected override void Awake()
 		{
 			base.Awake();
@@ -56,12 +67,12 @@ namespace StandardAssets.Characters.ThirdPerson
 				currentTurnaroundBehaviour.Init(this);
 			}
 			
-			currentMotor = GetCurrentMotor();
-			currentMotor.Init(this);
+			CurrentMotor = GetCurrentMotor();
+			CurrentMotor.Init(this);
 			
 			if (animationController != null)
 			{
-				animationController.Init(this, currentMotor);
+				animationController.Init(this, CurrentMotor);
 			}
 			
 			thirdPersonMovementEventHandler.Init();
@@ -94,7 +105,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				animationController.Subscribe();
 			}
 			
-			currentMotor.Subscribe();
+			CurrentMotor.Subscribe();
 			thirdPersonMovementEventHandler.Subscribe();
 		}
 		
@@ -105,7 +116,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				animationController.Unsubscribe();
 			}
 			
-			currentMotor.Unsubscribe();
+			CurrentMotor.Unsubscribe();
 			thirdPersonMovementEventHandler.Unsubscribe();
 		}
 
@@ -116,7 +127,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				animationController.Update();
 			}
 			
-			currentMotor.Update();
+			CurrentMotor.Update();
 
 			if (currentTurnaroundBehaviour != null)
 			{
@@ -126,7 +137,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private void OnAnimatorMove()
 		{
-			currentMotor.OnAnimatorMove();
+			CurrentMotor.OnAnimatorMove();
 		}
 
 		private void OnAnimatorIK(int layerIndex)
@@ -136,5 +147,15 @@ namespace StandardAssets.Characters.ThirdPerson
 				animationController.HeadTurn();
 			}
 		}
+
+		#if UNITY_EDITOR
+		private void OnValidate()
+		{
+			if (turnaroundType == TurnaroundType.Animation)
+			{
+				animationTurnaroundBehaviour.OnValidate(GetComponent<Animator>());
+			}
+		}
+		#endif
 	}
 }

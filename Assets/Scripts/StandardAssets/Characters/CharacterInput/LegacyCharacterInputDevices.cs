@@ -1,6 +1,4 @@
-﻿using System;
-using Boo.Lang;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace StandardAssets.Characters.CharacterInput
 {

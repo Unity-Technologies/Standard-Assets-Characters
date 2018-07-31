@@ -12,14 +12,6 @@ namespace StandardAssets.Characters.Common
 	[RequireComponent(typeof(ICharacterInput))]
 	public abstract class CharacterBrain : MonoBehaviour
 	{
-		[SerializeField]
-		protected CameraAnimationManager cameraAnimations;
-		
-		public CameraAnimationManager cameraAnimationManager
-		{
-			get { return cameraAnimations; }
-		}
-		
 		/// <summary>
 		/// The Physic implementation used to do the movement
 		/// e.g. CharacterController or Rigidbody (or New C# CharacterController analog)
@@ -51,17 +43,6 @@ namespace StandardAssets.Characters.Common
 		{
 			characterPhysics = GetComponent<ICharacterPhysics>();
 			characterInput = GetComponent<ICharacterInput>();
-		}
-
-		protected void SetAnimation(string animation)
-		{
-			if (cameraAnimations == null)
-			{
-				Debug.LogWarning("No camera animation manager setup");
-				return;
-			}
-			
-			cameraAnimations.SetAnimation(animation);
 		}
 	}
 }

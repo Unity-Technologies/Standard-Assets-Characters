@@ -1,4 +1,4 @@
-﻿using Cinemachine;
+﻿using System.Collections.Generic;
 using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.FirstPerson;
 using StandardAssets.Characters.ThirdPerson;
@@ -26,21 +26,30 @@ namespace Demo
 
 		private GameObject firstPersonParent, thirdPersonParent;
 		
-		[SerializeField]
-		protected CinemachineStateDrivenCamera thirdPersonStateCameras;
 		
+
+		[SerializeField] 
+		protected bool parentObjects = true;
+
 		private void Awake()
 		{
-			SetupThirdPerson();
-			SetupFirstPerson();
+			// TODO remove this when this stops getting nulled
+			if (thirdPersonBrain == null)
+			{
+				thirdPersonBrain = FindObjectOfType<ThirdPersonBrain>();
+			}
 			
+			if (parentObjects)
+			{
+				SetupThirdPerson();
+				SetupFirstPerson();
+			}
 			
 			changeViews.Init();
 			
+			SetFirstPerson();
 			SetThirdPerson();
 		}
-
-		
 
 		private void OnEnable()
 		{
@@ -50,7 +59,7 @@ namespace Demo
 				changeViews.ended += SetThirdPerson;
 			}
 		}
-		
+
 		private void OnDisable()
 		{
 			if (changeViews != null)
@@ -67,12 +76,6 @@ namespace Demo
 			thirdPersonBrain.transform.position = firstPersonBrain.transform.position + positionOffset;
 			thirdPersonBrain.transform.rotation = firstPersonBrain.transform.rotation;
 			firstPersonParent.SetActive(false);
-			if (thirdPersonStateCameras != null)
-			{
-				thirdPersonStateCameras.Priority = 11;
-			}
-
-		
 		}
 
 		private void SetFirstPerson()
@@ -82,10 +85,6 @@ namespace Demo
 			firstPersonBrain.transform.position = thirdPersonBrain.transform.position + positionOffset;
 			firstPersonBrain.transform.rotation = thirdPersonBrain.transform.rotation;
 			firstPersonParent.SetActive(true);
-			if (thirdPersonStateCameras != null)
-			{
-				thirdPersonStateCameras.Priority = 1;
-			}
 			
 		}
 
@@ -97,24 +96,20 @@ namespace Demo
 		private void SetupFirstPerson()
 		{
 			firstPersonParent = SetupUnderParent("FIRST PERSON", firstPersonGameObjects);
-			
 		}
 
-		private GameObject SetupUnderParent(string parentName, GameObject[] gameObjects)
+		private GameObject SetupUnderParent(string parentName, IEnumerable<GameObject> gameObjects)
 		{
-			GameObject parent = new GameObject {name = parentName};
-			parent.transform.position = transform.position;
-			parent.transform.rotation = transform.rotation;
-			parent.transform.SetParent(transform, true);
-
-			if (gameObjects != null && parent !=null)
+			var parent = new GameObject(parentName);
+			parent.transform.SetParent(transform, false);
+			
+			foreach (var go in gameObjects)
 			{
-				foreach (GameObject go in gameObjects)
+				if (go != null)
 				{
 					go.transform.SetParent(parent.transform, true);
 				}
 			}
-
 			return parent;
 		}
 	}

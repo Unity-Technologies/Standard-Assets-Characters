@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using StandardAssets.Characters.CharacterInput;
+﻿using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Common;
 using StandardAssets.Characters.Effects;
 using StandardAssets.Characters.Physics;
@@ -35,6 +34,14 @@ namespace StandardAssets.Characters.FirstPerson
 
 		[SerializeField]
 		protected FirstPersonMovementEventHandler firstPersonMovementEventHandler;
+		
+		[SerializeField]
+		protected CameraAnimationManager cameraAnimations;
+		
+		public CameraAnimationManager cameraAnimationManager
+		{
+			get { return cameraAnimations; }
+		}
 		
 		/// <summary>
 		/// Exposes the movement properties array for use in UI 
@@ -90,6 +97,17 @@ namespace StandardAssets.Characters.FirstPerson
 				
 				return allMovement;
 			}
+		}
+		
+		protected void SetAnimation(string animation)
+		{
+			if (cameraAnimations == null)
+			{
+				Debug.LogWarning("No camera animation manager setup");
+				return;
+			}
+			
+			cameraAnimations.SetAnimation(animation);
 		}
 
 		/// <summary>
