@@ -162,7 +162,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			characterPhysics = brain.physicsForCharacter;
 			animator = gameObject.GetComponent<Animator>();
 			animationController = brain.animationControl;
-			averageForwardMovement = new SlidingAverage(5);
+			averageForwardMovement = new SlidingAverage(configuration.jumpGroundVelocityWindowSize);
 			strafeAverageForwardInput = new SlidingAverage(configuration.strafeInputWindowSize);
 			strafeAverageLateralInput = new SlidingAverage(configuration.strafeInputWindowSize);
 
