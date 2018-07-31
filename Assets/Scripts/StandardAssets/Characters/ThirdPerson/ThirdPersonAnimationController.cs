@@ -12,8 +12,6 @@ namespace StandardAssets.Characters.ThirdPerson
 	[Serializable]
 	public class ThirdPersonAnimationController
 	{
-		[HelperBox(HelperType.Info,
-			"Configuration is a separate asset. Click on the associated configuration to located it in the Project View. Values can be edited here during runtime and not be lost. It also allows one to create different settings and swap between them. To create a new setting Right click -> Create -> Standard Assets -> Characters -> Third Person Animation Configuration")]
 		[SerializeField]
 		protected ThirdPersonAnimationConfiguration configuration;
 
