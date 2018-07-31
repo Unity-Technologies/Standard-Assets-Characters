@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Cinemachine;
 using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.FirstPerson;
 using StandardAssets.Characters.ThirdPerson;
@@ -31,7 +32,12 @@ namespace Demo
 		protected Vector3 positionOffset;
 
 		private GameObject firstPersonParent, thirdPersonParent;
-		
+
+		[SerializeField]
+		protected CinemachineStateDrivenCamera thirdPersonMainStateDrivenCamera;
+
+		[SerializeField]
+		protected CinemachineStateDrivenCamera firstPersonMainStateDrivenCamera;
 		
 
 		[SerializeField] 
@@ -87,6 +93,11 @@ namespace Demo
 			{
 				thirdPersonCameraModeText.gameObject.SetActive(true);
 			}
+
+			if (thirdPersonMainStateDrivenCamera != null)
+			{
+				thirdPersonMainStateDrivenCamera.MoveToTopOfPrioritySubqueue();
+			}
 		}
 
 		private void SetFirstPerson()
@@ -99,6 +110,11 @@ namespace Demo
 			if (thirdPersonCameraModeText !=null)
 			{
 				thirdPersonCameraModeText.gameObject.SetActive(false);
+			}
+
+			if (firstPersonMainStateDrivenCamera != null)
+			{
+				firstPersonMainStateDrivenCamera.MoveToTopOfPrioritySubqueue();
 			}
 
 		}
