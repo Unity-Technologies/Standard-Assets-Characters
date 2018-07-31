@@ -80,6 +80,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected SlidingAverage averageForwardMovement;
 
+		protected SlidingAverage strafeAverageForwardInput, strafeAverageLateralInput;
+
 		protected TurnaroundBehaviour turnaroundBehaviour;
 
 		private bool isTurningIntoStrafe;
@@ -161,6 +163,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			animator = gameObject.GetComponent<Animator>();
 			animationController = brain.animationControl;
 			averageForwardMovement = new SlidingAverage(5);
+			strafeAverageForwardInput = new SlidingAverage(configuration.strafeInputWindowSize);
+			strafeAverageLateralInput = new SlidingAverage(configuration.strafeInputWindowSize);
 
 			if (cameraTransform == null)
 			{
@@ -506,13 +510,16 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected virtual void CalculateStrafeMovement()
 		{
+			strafeAverageForwardInput.Add(characterInput.moveInput.y);
+			float averageForwardInput = strafeAverageForwardInput.average;
+			strafeAverageLateralInput.Add(characterInput.moveInput.x);
+			float averageLateralInput = strafeAverageLateralInput.average;
+			
 			normalizedForwardSpeed =
-				Mathf.Clamp((Mathf.Approximately(characterInput.moveInput.y, 0f) ? 0f : characterInput.moveInput.y),
+				Mathf.Clamp((Mathf.Approximately(averageForwardInput, 0f) ? 0f : averageForwardInput),
 				            -configuration.normalizedBackwardStrafeSpeed, configuration.normalizedForwardStrafeSpeed);
-			normalizedLateralSpeed = Mathf.Approximately(characterInput.moveInput.x, 0f)
-				? 0f
-				: characterInput.moveInput.x
-				  * configuration.normalizedLateralStrafeSpeed;
+			normalizedLateralSpeed = Mathf.Approximately(averageLateralInput, 0f)
+				? 0f : averageLateralInput * configuration.normalizedLateralStrafeSpeed;
 		}
 
 		protected virtual void ApplyForwardInput(float input)
