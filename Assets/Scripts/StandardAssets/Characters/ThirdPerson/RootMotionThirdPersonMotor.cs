@@ -10,7 +10,7 @@ namespace StandardAssets.Characters.ThirdPerson
 {
 	[Serializable]
 	public class RootMotionThirdPersonMotor : IThirdPersonMotor
-	{
+	{		
 		//Events
 		public event Action startActionMode, startStrafeMode;
 
@@ -72,7 +72,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected float forwardClampSpeed, targetForwardClampSpeed, lateralClampSpeed, targetLateralClampSpeed;
 
-		protected float cachedForwardMovement;
+		protected float cachedForwardMovement, averageForwardMovement;
 
 		protected TurnaroundBehaviour turnaroundBehaviour;
 
@@ -274,9 +274,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			if (aerialState == ThirdPersonAerialMovementState.Grounded)
 			{
-				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
-				groundMovementVector.y = 0;
-				cachedForwardMovement = groundMovementVector.GetMagnitudeOnAxis(transform.forward);
+				cachedForwardMovement = averageForwardMovement;
 			}
 
 			aerialState = ThirdPersonAerialMovementState.Falling;
@@ -307,9 +305,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (Mathf.Abs(normalizedLateralSpeed) < normalizedForwardSpeed)
 			{
 				characterPhysics.SetJumpVelocity(configuration.initialJumpVelocity);
-				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
-				groundMovementVector.y = 0;
-				cachedForwardMovement = groundMovementVector.GetMagnitudeOnAxis(transform.forward);
+				cachedForwardMovement = averageForwardMovement;
 			}
 		}
 
@@ -354,8 +350,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			movementMode = ThirdPersonMotorMovementMode.Strafe;
 			
 
-			thirdPersonBrain.cameraAnimationManager.SetAnimation("Strafe",1);
-
+			//thirdPersonBrain.cameraAnimationManager.SetAnimation("Strafe",1);
+			thirdPersonBrain.thirdPersonCameraAnimationManager.StrafeStarted();
 
 			turning = true;
 			var cameraForward = Camera.main.transform.forward;
@@ -381,8 +377,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			
 			Debug.Log("Strafe End");
-			thirdPersonBrain.cameraAnimationManager.SetAnimation("Action",1);
-
+			
+		//	thirdPersonBrain.cameraAnimationManager.SetAnimation("Action",1);
+			thirdPersonBrain.thirdPersonCameraAnimationManager.StrafeEnded();
 		
 			currentForwardInputProperties = configuration.forwardMovementProperties;
 			currentLateralInputProperties = null;
@@ -514,6 +511,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			normalizedLateralSpeed = 0;
 			ApplyForwardInput(characterInput.moveInput.magnitude);
+			
+			Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
+			groundMovementVector.y = 0;
+			averageForwardMovement =
+				(averageForwardMovement + groundMovementVector.GetMagnitudeOnAxis(transform.forward)) / 2f;
 		}
 
 		protected virtual void CalculateStrafeMovement()

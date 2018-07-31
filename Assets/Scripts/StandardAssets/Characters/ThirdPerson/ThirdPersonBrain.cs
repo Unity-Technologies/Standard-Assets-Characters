@@ -27,6 +27,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected ThirdPersonMovementEventHandler thirdPersonMovementEventHandler;
 
+		[SerializeField]
+		protected ThirdPersonCameraAnimationManager cameraAnimationManager;
+
 		private TurnaroundBehaviour currentTurnaroundBehaviour;
 
 		public ThirdPersonAnimationController animationControl
@@ -45,7 +48,15 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 
 		public IThirdPersonMotor CurrentMotor { get; private set; }
-		
+
+		public ThirdPersonCameraAnimationManager thirdPersonCameraAnimationManager
+		{
+			get
+			{
+				return cameraAnimationManager;
+			}
+		}
+
 		protected override void Awake()
 		{
 			base.Awake();
