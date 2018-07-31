@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.FirstPerson;
+using StandardAssets.Characters.Physics;
 using StandardAssets.Characters.ThirdPerson;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -28,10 +29,11 @@ namespace Demo
 		protected GameObject[] firstPersonGameObjects, thirdPersonGameObjects;
 
 		[SerializeField]
-		protected Vector3 positionOffset;
+		protected Vector3 positionOffset = new Vector3(0, 1, 0);
 
 		private GameObject firstPersonParent, thirdPersonParent;
-		
+
+		private OpenCharacterController firstPersonCharacterController, thirdPersonCharacterController;
 		
 
 		[SerializeField] 
@@ -79,7 +81,14 @@ namespace Demo
 		{
 			//Set Third Person
 			thirdPersonParent.SetActive(true);
-			thirdPersonBrain.transform.position = firstPersonBrain.transform.position + positionOffset;
+			if (firstPersonCharacterController.isGrounded)
+			{
+				thirdPersonCharacterController.SetPosition(firstPersonBrain.transform.position + positionOffset, true);
+			}
+			else
+			{
+				thirdPersonCharacterController.SetPosition(firstPersonBrain.transform.position, true);
+			}
 			thirdPersonBrain.transform.rotation = firstPersonBrain.transform.rotation;
 			firstPersonParent.SetActive(false);
 
@@ -93,7 +102,14 @@ namespace Demo
 		{
 			//Set FPS
 			thirdPersonParent.SetActive(false);
-			firstPersonBrain.transform.position = thirdPersonBrain.transform.position + positionOffset;
+			if (thirdPersonCharacterController.isGrounded)
+			{
+				firstPersonCharacterController.SetPosition(thirdPersonBrain.transform.position + positionOffset, true);
+			}
+			else
+			{
+				firstPersonCharacterController.SetPosition(thirdPersonBrain.transform.position, true);
+			}
 			firstPersonBrain.transform.rotation = thirdPersonBrain.transform.rotation;
 			firstPersonParent.SetActive(true);
 			if (thirdPersonCameraModeText !=null)
@@ -105,11 +121,13 @@ namespace Demo
 
 		private void SetupThirdPerson()
 		{
+			thirdPersonCharacterController = thirdPersonBrain.GetComponent<OpenCharacterControllerPhysics>().GetOpenCharacterController();
 			thirdPersonParent = SetupUnderParent("THIRD PERSON", thirdPersonGameObjects);
 		}
 
 		private void SetupFirstPerson()
 		{
+			firstPersonCharacterController = firstPersonBrain.GetComponent<OpenCharacterControllerPhysics>().GetOpenCharacterController();
 			firstPersonParent = SetupUnderParent("FIRST PERSON", firstPersonGameObjects);
 		}
 
