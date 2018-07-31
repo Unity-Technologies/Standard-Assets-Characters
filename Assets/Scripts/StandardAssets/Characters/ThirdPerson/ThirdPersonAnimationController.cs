@@ -88,29 +88,20 @@ namespace StandardAssets.Characters.ThirdPerson
 		public bool isRightFootPlanted { get; private set; }
 
 		public bool shouldUseRootMotion { get; private set; }
-
-		public void AirborneStateExit()
+		
+		public void LocomotionStateEnter()
 		{
-			animator.SetFloat(configuration.predictedFallDistanceParameterName, 0);
 			shouldUseRootMotion = true;
 		}
-
-		public void AirborneStateEnter()
+		
+		public void LocomotionStateExit()
 		{
-			if (motor.normalizedForwardSpeed > 0 && Mathf.Approximately(Mathf.Abs(motor.normalizedLateralSpeed), 0))
+			// check if we are entering into a root movement jump
+			if (!isGrounded && motor.normalizedForwardSpeed > 0 && 
+			    Mathf.Approximately(Mathf.Abs(motor.normalizedLateralSpeed), 0))
 			{
 				shouldUseRootMotion = false;
 			}
-		}
-
-		public void LocomotionStateUpdate()
-		{
-			//TODO update locomotion pre run
-		}
-
-		public void UpdatePredictedFallDistance(float distance)
-		{
-			animator.SetFloat(hashPredictedFallDistance, distance);
 		}
 
 		public void UpdateForwardSpeed(float newSpeed, float deltaTime)
