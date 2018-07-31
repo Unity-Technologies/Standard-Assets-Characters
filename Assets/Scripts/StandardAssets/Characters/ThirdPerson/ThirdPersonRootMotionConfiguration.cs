@@ -22,6 +22,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected float jumpSpeed = 10f;
 		[SerializeField]
+		protected int jumpGroundVelocitySamples = 1;
+		[SerializeField]
 		protected float jumpGroundVelocityScale = 1f;
 		[SerializeField]
 		protected float jumpTurningSpeedScale = 0.5f;
@@ -75,6 +77,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		public float jumpTurningYSpeed
 		{
 			get { return turningSpeed * jumpTurningSpeedScale; }
+		}
+
+		public int jumpGroundVelocityWindowSize
+		{
+			get { return jumpGroundVelocitySamples; }
 		}
 
 		public float scaleRootMovement

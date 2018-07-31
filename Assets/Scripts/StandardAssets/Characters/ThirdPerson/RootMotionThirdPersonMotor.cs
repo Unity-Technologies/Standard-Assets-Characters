@@ -15,8 +15,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		public event Action startActionMode, startStrafeMode;
 
 		//Serialized Fields
-		[HelperBox(HelperType.Info,
-			"Configuration is a separate asset. Click on the associated configuration to located it in the Project View. Values can be edited here during runtime and not be lost. It also allows one to create different settings and swap between them. To create a new setting Right click -> Create -> Standard Assets -> Characters -> Third Person Root Motion Configuration")]
 		[SerializeField]
 		protected ThirdPersonRootMotionConfiguration configuration;
 
@@ -162,7 +160,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			characterPhysics = brain.physicsForCharacter;
 			animator = gameObject.GetComponent<Animator>();
 			animationController = brain.animationControl;
-			averageForwardMovement = new SlidingAverage(5);
+			averageForwardMovement = new SlidingAverage(configuration.jumpGroundVelocityWindowSize);
 			strafeAverageForwardInput = new SlidingAverage(configuration.strafeInputWindowSize);
 			strafeAverageLateralInput = new SlidingAverage(configuration.strafeInputWindowSize);
 
@@ -369,14 +367,11 @@ namespace StandardAssets.Characters.ThirdPerson
 				startActionMode();
 			}
 
-			Debug.Log("Strafe End");
-
 			thirdPersonBrain.thirdPersonCameraAnimationManager.StrafeEnded();
 
 			currentForwardInputProperties = configuration.forwardMovementProperties;
 			currentLateralInputProperties = null;
 			movementMode = ThirdPersonMotorMovementMode.Action;
-			//TODO Adjust method for calling these animations that control the state driven camera
 		}
 
 		/// <summary>

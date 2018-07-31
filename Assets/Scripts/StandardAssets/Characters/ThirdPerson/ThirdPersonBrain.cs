@@ -1,4 +1,5 @@
 using Attributes;
+using Attributes.Types;
 using StandardAssets.Characters.Common;
 using StandardAssets.Characters.Effects;
 using UnityEngine;
@@ -7,6 +8,11 @@ namespace StandardAssets.Characters.ThirdPerson
 {
 	public class ThirdPersonBrain : CharacterBrain
 	{
+		[HelperBox(HelperType.Info,
+			"Configurations are separate assets (ScriptableObjects). Click on the associated configuration to located it in the Project View. Values can be edited here during runtime and not be lost. It also allows one to create different settings and swap between them. To create a new setting Right click -> Create -> Standard Assets -> Characters -> ...")]
+		[SerializeField]
+		protected ThirdPersonCameraAnimationManager cameraAnimationManager;
+		
 		[SerializeField, Tooltip("Properties of the root motion motor")]
 		protected RootMotionThirdPersonMotor rootMotionMotor;
 
@@ -26,9 +32,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		[SerializeField]
 		protected ThirdPersonMovementEventHandler thirdPersonMovementEventHandler;
-
-		[SerializeField]
-		protected ThirdPersonCameraAnimationManager cameraAnimationManager;
 
 		private TurnaroundBehaviour currentTurnaroundBehaviour;
 
