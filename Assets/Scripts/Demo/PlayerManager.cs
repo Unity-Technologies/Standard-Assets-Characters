@@ -4,11 +4,17 @@ using StandardAssets.Characters.FirstPerson;
 using StandardAssets.Characters.ThirdPerson;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 namespace Demo
 {
 	public class PlayerManager : MonoBehaviour
 	{
+
+		[SerializeField]
+		protected Text thirdPersonCameraModeText;
+
+		
 		[SerializeField]
 		protected InputResponse changeViews;
 
@@ -76,6 +82,11 @@ namespace Demo
 			thirdPersonBrain.transform.position = firstPersonBrain.transform.position + positionOffset;
 			thirdPersonBrain.transform.rotation = firstPersonBrain.transform.rotation;
 			firstPersonParent.SetActive(false);
+
+			if (thirdPersonCameraModeText !=null)
+			{
+				thirdPersonCameraModeText.gameObject.SetActive(true);
+			}
 		}
 
 		private void SetFirstPerson()
@@ -85,7 +96,11 @@ namespace Demo
 			firstPersonBrain.transform.position = thirdPersonBrain.transform.position + positionOffset;
 			firstPersonBrain.transform.rotation = thirdPersonBrain.transform.rotation;
 			firstPersonParent.SetActive(true);
-			
+			if (thirdPersonCameraModeText !=null)
+			{
+				thirdPersonCameraModeText.gameObject.SetActive(false);
+			}
+
 		}
 
 		private void SetupThirdPerson()
