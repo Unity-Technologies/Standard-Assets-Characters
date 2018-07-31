@@ -342,7 +342,7 @@ BlendTree:
     m_CycleOffset: 0
     m_DirectBlendParameter: ForwardSpeed
     m_Mirror: 0
-  m_BlendParameter: ForwardSpeed
+  m_BlendParameter: JumpedForwardSpeed
   m_BlendParameterY: VerticalSpeed
   m_MinThreshold: 0
   m_MaxThreshold: 1
@@ -1530,7 +1530,7 @@ BlendTree:
     m_CycleOffset: 0
     m_DirectBlendParameter: ForwardSpeed
     m_Mirror: 0
-  m_BlendParameter: ForwardSpeed
+  m_BlendParameter: JumpedForwardSpeed
   m_BlendParameterY: VerticalSpeed
   m_MinThreshold: 0
   m_MaxThreshold: 1
@@ -4174,8 +4174,8 @@ AnimatorTransition:
     m_ConditionEvent: IsStrafing
     m_EventTreshold: 0
   - m_ConditionMode: 3
-    m_ConditionEvent: ForwardSpeed
-    m_EventTreshold: 0.01
+    m_ConditionEvent: JumpedForwardSpeed
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102922362744200480}
   m_Solo: 0
@@ -4199,8 +4199,8 @@ AnimatorTransition:
     m_ConditionEvent: IsStrafing
     m_EventTreshold: 0.1
   - m_ConditionMode: 3
-    m_ConditionEvent: ForwardSpeed
-    m_EventTreshold: 0.01
+    m_ConditionEvent: JumpedForwardSpeed
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102250994599122910}
   m_Solo: 0

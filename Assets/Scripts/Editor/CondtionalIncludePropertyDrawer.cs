@@ -19,18 +19,25 @@ namespace Editor
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             showField = false;
-            var conditionIndex = property.serializedObject.FindProperty(includeAttribute.conditionField).enumValueIndex;
-            
-            if ((int) includeAttribute.conditionElement == conditionIndex)
+            if(includeAttribute.conditionElement != null)
             {
-                showField = true;
+                var conditionIndex = property.serializedObject.FindProperty(includeAttribute.conditionField).enumValueIndex;
+                showField = (int) includeAttribute.conditionElement == conditionIndex; 
+            }
+            else
+            {
+                showField = property.serializedObject.FindProperty(includeAttribute.conditionField).boolValue;
+            }
+            
+            if (showField)
+            {
                 EditorGUI.PropertyField(position, property, label, true);
             }
         }
         
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return showField ? EditorGUI.GetPropertyHeight(property) : 0;
+            return showField ? EditorGUI.GetPropertyHeight(property) : -EditorGUIUtility.singleLineHeight;
         }
     }
 }

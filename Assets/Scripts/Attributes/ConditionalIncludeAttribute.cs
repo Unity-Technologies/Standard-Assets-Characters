@@ -14,6 +14,11 @@ namespace Attributes
             this.conditionElement = conditionElement;
         }
         
+        public ConditionalIncludeAttribute(string conditionField)
+        {
+            this.conditionField = conditionField;
+            this.conditionElement = null;
+        }
     }
     
    

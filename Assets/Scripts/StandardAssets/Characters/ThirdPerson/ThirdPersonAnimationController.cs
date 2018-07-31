@@ -159,22 +159,25 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		public void Update()
 		{
-			UpdateForwardSpeed(motor.normalizedForwardSpeed, Time.deltaTime);
-			UpdateLateralSpeed(motor.normalizedLateralSpeed, Time.deltaTime);
 			UpdateTurningSpeed(motor.normalizedTurningSpeed, Time.deltaTime);
-			UpdateFoot();
 
 			animator.SetBool(hashHasInput,
 			                 CheckHasSpeed(motor.normalizedForwardSpeed) ||
 			                 CheckHasSpeed(motor.normalizedLateralSpeed));
 
-			animator.SetBool(hashIsStrafing, Mathf.Abs(motor.normalizedLateralSpeed) > 0);
-
 			if (!isGrounded)
 			{
+				
 				animator.SetFloat(hashVerticalSpeed, motor.normalizedVerticalSpeed,
 				                  configuration.floatInterpolationTime, Time.deltaTime);
 				animator.SetFloat(hashFallingTime, motor.fallTime);
+			}
+			else
+			{
+				animator.SetBool(hashIsStrafing, Mathf.Abs(motor.normalizedLateralSpeed) > 0);
+				UpdateFoot();
+				UpdateForwardSpeed(motor.normalizedForwardSpeed, Time.deltaTime);
+				UpdateLateralSpeed(motor.normalizedLateralSpeed, Time.deltaTime);
 			}
 		}
 
@@ -261,20 +264,21 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			
 			isGrounded = false;
-			animator.SetTrigger(hashJumped);
-			animator.SetFloat(hashFallingTime, 0);
-			animator.SetBool(hashGrounded, false);
 
-			if (Mathf.Abs(motor.normalizedLateralSpeed) > Mathf.Abs(motor.normalizedForwardSpeed))
-			{
-				animator.SetFloat(hashJumpedForwardSpeed, 0);
-				animator.SetFloat(hashJumpedLateralSpeed, motor.normalizedLateralSpeed);
-			}
-			else
+			if (Mathf.Abs(motor.normalizedLateralSpeed) < Mathf.Abs(motor.normalizedForwardSpeed))
 			{
 				animator.SetFloat(hashJumpedLateralSpeed, 0);
 				animator.SetFloat(hashJumpedForwardSpeed, motor.normalizedForwardSpeed);
 			}
+			else
+			{
+				animator.SetFloat(hashJumpedForwardSpeed, 0);
+				animator.SetFloat(hashJumpedLateralSpeed, motor.normalizedLateralSpeed);
+			}
+			
+			animator.SetTrigger(hashJumped);
+			animator.SetFloat(hashFallingTime, 0);
+			animator.SetBool(hashGrounded, false);
 		}
 
 		private void UpdateFoot()
