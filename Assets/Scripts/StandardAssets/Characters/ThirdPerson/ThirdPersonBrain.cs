@@ -9,7 +9,7 @@ namespace StandardAssets.Characters.ThirdPerson
 	public class ThirdPersonBrain : CharacterBrain
 	{
 		[HelperBox(HelperType.Info,
-			"Configurations are separate assets (ScriptableObjects). Click on the associated configuration to located it in the Project View. Values can be edited here during runtime and not be lost. It also allows one to create different settings and swap between them. To create a new setting Right click -> Create -> Standard Assets -> Characters -> ...")]
+			"Configurations are separate assets (ScriptableObjects). Click on the associated configuration to locate it in the Project View. Values can be edited here during runtime and not be lost. It also allows one to create different settings and swap between them. To create a new setting Right click -> Create -> Standard Assets -> Characters -> ...")]
 		[SerializeField]
 		protected ThirdPersonCameraAnimationManager cameraAnimationManager;
 		
@@ -35,14 +35,32 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private TurnaroundBehaviour currentTurnaroundBehaviour;
 
+		private TurnaroundBehaviour[] turnaroundBehaviours;
+
 		public ThirdPersonAnimationController animationControl
 		{
 			get { return animationController; }
 		}
 
-		public TurnaroundBehaviour turnaroundBehaviour
+		public TurnaroundBehaviour turnaround
 		{
 			get { return currentTurnaroundBehaviour; }
+		}
+
+		public TurnaroundBehaviour[] turnaroundOptions
+		{
+			get
+			{
+				if (turnaroundBehaviours == null)
+				{
+					turnaroundBehaviours = new TurnaroundBehaviour[]
+					{
+						blendspaceTurnaroundBehaviour, 
+						animationTurnaroundBehaviour
+					};
+				}
+				return turnaroundBehaviours;
+			}
 		}
 
 		public override MovementEventHandler movementEventHandler
@@ -64,11 +82,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			base.Awake();
 			
+			blendspaceTurnaroundBehaviour.Init(this);
+			animationTurnaroundBehaviour.Init(this);
 			currentTurnaroundBehaviour = GetCurrentTurnaroundBehaviour();
-			if (currentTurnaroundBehaviour != null)
-			{
-				currentTurnaroundBehaviour.Init(this);
-			}
 			
 			CurrentMotor = GetCurrentMotor();
 			CurrentMotor.Init(this);
@@ -154,6 +170,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		#if UNITY_EDITOR
 		private void OnValidate()
 		{
+			currentTurnaroundBehaviour = GetCurrentTurnaroundBehaviour();
 			if (turnaroundType == TurnaroundType.Animation)
 			{
 				animationTurnaroundBehaviour.OnValidate(GetComponent<Animator>());

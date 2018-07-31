@@ -1698,24 +1698,26 @@ namespace StandardAssets.Characters.Physics
 			{
 				debugCurrentPosition += moveVector;
 			}
+			
+			//TODO: Diorgo to fix error message
 
-			int debugMaxCurrentPositionErrorCount = 5; // How many times to show the error
-			if (debugCurrentPosition != null &&
-			    debugCurrentPositionErrorCount < debugMaxCurrentPositionErrorCount && 
-			    (debugCurrentPosition.Value.x.NotEqualTo(cachedTransform.position.x) || 
-			     debugCurrentPosition.Value.y.NotEqualTo(cachedTransform.position.y) || 
-			     debugCurrentPosition.Value.z.NotEqualTo(cachedTransform.position.z)))
-			{
-				Debug.LogError(string.Format(
-					               "{0}: The character capsule's position was changed by something other than Move, SimpleMove or SetPosition. " +
-					               "[position: ({1}, {2}, {3})     should be: ({4}, {5}, {6})] (Only showing this error {7} times.)",
-					               cachedTransform.name,
-					               cachedTransform.position.x, cachedTransform.position.y, cachedTransform.position.z,
-					               debugCurrentPosition.Value.x, debugCurrentPosition.Value.y, debugCurrentPosition.Value.z,
-					               debugMaxCurrentPositionErrorCount));
-				debugCurrentPositionErrorCount++;
-				debugCurrentPosition = cachedTransform.position;
-			}
+//			int debugMaxCurrentPositionErrorCount = 5; // How many times to show the error
+//			if (debugCurrentPosition != null &&
+//			    debugCurrentPositionErrorCount < debugMaxCurrentPositionErrorCount && 
+//			    (debugCurrentPosition.Value.x.NotEqualTo(cachedTransform.position.x) || 
+//			     debugCurrentPosition.Value.y.NotEqualTo(cachedTransform.position.y) || 
+//			     debugCurrentPosition.Value.z.NotEqualTo(cachedTransform.position.z)))
+//			{
+//				Debug.LogError(string.Format(
+//					               "{0}: The character capsule's position was changed by something other than Move, SimpleMove or SetPosition. " +
+//					               "[position: ({1}, {2}, {3})     should be: ({4}, {5}, {6})] (Only showing this error {7} times.)",
+//					               cachedTransform.name,
+//					               cachedTransform.position.x, cachedTransform.position.y, cachedTransform.position.z,
+//					               debugCurrentPosition.Value.x, debugCurrentPosition.Value.y, debugCurrentPosition.Value.z,
+//					               debugMaxCurrentPositionErrorCount));
+//				debugCurrentPositionErrorCount++;
+//				debugCurrentPosition = cachedTransform.position;
+//			}
 			#endif
 
 			if (collideDirection != null &&
