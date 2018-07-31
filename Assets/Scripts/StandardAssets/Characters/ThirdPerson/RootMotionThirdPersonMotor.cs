@@ -495,9 +495,17 @@ namespace StandardAssets.Characters.ThirdPerson
 			normalizedLateralSpeed = 0;
 			ApplyForwardInput(characterInput.moveInput.magnitude);
 
-			Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
-			groundMovementVector.y = 0;
-			averageForwardMovement.Add(groundMovementVector.GetMagnitudeOnAxis(transform.forward));
+			if (characterPhysics.isGrounded)
+			{
+				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
+				groundMovementVector.y = 0;
+	
+				float value = groundMovementVector.GetMagnitudeOnAxis(transform.forward);
+				if (value > 0)
+				{
+					averageForwardMovement.Add(value);
+				}
+			}
 		}
 
 		protected virtual void CalculateStrafeMovement()
