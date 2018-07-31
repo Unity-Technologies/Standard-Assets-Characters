@@ -72,7 +72,9 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected float forwardClampSpeed, targetForwardClampSpeed, lateralClampSpeed, targetLateralClampSpeed;
 
-		protected float cachedForwardMovement, averageForwardMovement;
+		protected float cachedForwardMovement;
+
+		protected SlidingAverage averageForwardMovement;
 
 		protected TurnaroundBehaviour turnaroundBehaviour;
 
@@ -151,11 +153,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			transform = brain.transform;
 			thirdPersonBrain = brain;
 			turnaroundBehaviour = brain.turnaroundBehaviour;
-
 			characterInput = brain.inputForCharacter;
 			characterPhysics = brain.physicsForCharacter;
 			animator = gameObject.GetComponent<Animator>();
 			animationController = brain.animationControl;
+			averageForwardMovement = new SlidingAverage(5);
 
 			if (cameraTransform == null)
 			{
@@ -274,7 +276,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			if (aerialState == ThirdPersonAerialMovementState.Grounded)
 			{
-				cachedForwardMovement = averageForwardMovement;
+				cachedForwardMovement = averageForwardMovement.average;
 			}
 
 			aerialState = ThirdPersonAerialMovementState.Falling;
@@ -305,7 +307,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (Mathf.Abs(normalizedLateralSpeed) < normalizedForwardSpeed)
 			{
 				characterPhysics.SetJumpVelocity(configuration.initialJumpVelocity);
-				cachedForwardMovement = averageForwardMovement;
+				cachedForwardMovement = averageForwardMovement.average;
 			}
 		}
 
@@ -514,8 +516,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
 			groundMovementVector.y = 0;
-			averageForwardMovement =
-				(averageForwardMovement + groundMovementVector.GetMagnitudeOnAxis(transform.forward)) / 2f;
+			averageForwardMovement.Add(groundMovementVector.GetMagnitudeOnAxis(transform.forward));
 		}
 
 		protected virtual void CalculateStrafeMovement()
