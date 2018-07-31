@@ -139,17 +139,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 927d6a93e36da4d1285014ba8af28c12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114386004023527074
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 927d6a93e36da4d1285014ba8af28c12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114473597251462312
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -163,17 +152,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clipOffsetParameter: WalkRapidTurnOffset
   clipSpeedParameter: WalkRapidTurnSpeed
---- !u!114 &114484265387039190
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 927d6a93e36da4d1285014ba8af28c12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114504166222175868
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3639,8 +3617,7 @@ AnimatorState:
   m_Transitions:
   - {fileID: 1101182760885469328}
   - {fileID: 1101312662952412620}
-  m_StateMachineBehaviours:
-  - {fileID: 114386004023527074}
+  m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -3828,8 +3805,7 @@ AnimatorState:
   m_Transitions:
   - {fileID: 1101004008574210026}
   - {fileID: 1101642434988825308}
-  m_StateMachineBehaviours:
-  - {fileID: 114484265387039190}
+  m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -4006,8 +3982,7 @@ AnimatorStateMachine:
   - first: {fileID: 1107485051808353962}
     second:
     - {fileID: 1109140358605120518}
-  m_StateMachineBehaviours:
-  - {fileID: 114091132044892706}
+  m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 420, y: -420, z: 0}
   m_EntryPosition: {x: 420, y: -384, z: 0}
   m_ExitPosition: {x: 816, y: 108, z: 0}

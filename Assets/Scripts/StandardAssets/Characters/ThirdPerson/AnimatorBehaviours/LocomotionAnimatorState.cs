@@ -4,12 +4,21 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 {
 	public class LocomotionAnimatorState : StateMachineBehaviour 
 	{
-		public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
+		public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
 		{
 			var animationController = animator.GetComponent<ThirdPersonBrain>().animationControl;
 			if (animationController != null)
 			{
-				animationController.LocomotionStateUpdate();
+				animationController.LocomotionStateEnter();
+			}
+		}
+		
+		public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
+		{
+			var animationController = animator.GetComponent<ThirdPersonBrain>().animationControl;
+			if (animationController != null)
+			{
+				animationController.LocomotionStateExit();
 			}
 		}
 	}
