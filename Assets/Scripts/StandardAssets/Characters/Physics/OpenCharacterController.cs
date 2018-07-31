@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Attributes;
 using UnityEngine;
 using Util;
 
@@ -148,6 +149,7 @@ namespace StandardAssets.Characters.Physics
 		/// This will offset the Capsule Collider in world space, and won’t affect how the Character pivots.
 		/// </summary>
 		[Tooltip("This will offset the Capsule Collider in world space, and won’t affect how the Character pivots.")]
+		[DisableAtRuntime]
 		[SerializeField]
 		public Vector3 center;
 

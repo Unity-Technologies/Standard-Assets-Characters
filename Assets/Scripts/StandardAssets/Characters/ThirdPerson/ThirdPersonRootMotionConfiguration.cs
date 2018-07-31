@@ -11,8 +11,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected float rootMotionMovementScale = 1f;
 
-		[HelperBox(HelperType.Info,
-			"Strafing speeds are specified in terms of normalized speeds. This is because root motion is used to drive actual speeds. The following parameters allow tweaking so that root movement feels natural. i.e. if you have a run forward animation with a speed of 10 but the strafe run only has a speed of 9 then you could set the strafeRunForwardSpeed = 0.9 so that movement is consistent.")]
 		[SerializeField]
 		protected bool useCustomStrafeParameters = true;
 
@@ -23,6 +21,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		[Header("Jumping")]
 		[SerializeField]
 		protected float jumpSpeed = 10f;
+		[SerializeField]
+		protected int jumpGroundVelocitySamples = 1;
 		[SerializeField]
 		protected float jumpGroundVelocityScale = 1f;
 		[SerializeField]
@@ -38,7 +38,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected float rapidTurnAngle = 140f;
 
-		[Header("Strafe Camera Look")]
+		[Header("Camera")]
 		[SerializeField]
 		protected float strafeLookInputScale = 20f;
 
@@ -77,6 +77,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		public float jumpTurningYSpeed
 		{
 			get { return turningSpeed * jumpTurningSpeedScale; }
+		}
+
+		public int jumpGroundVelocityWindowSize
+		{
+			get { return jumpGroundVelocitySamples; }
 		}
 
 		public float scaleRootMovement

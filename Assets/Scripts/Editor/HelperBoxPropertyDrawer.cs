@@ -9,92 +9,39 @@ namespace Editor
     [CustomPropertyDrawer(typeof(HelperBoxAttribute))]
     public class HelperBoxPropertyDrawer : PropertyDrawer
     {
-        float height = 0;
-        int paddingHeight = 8;
-        int marginHeight = 2;
-        float additionalHeight = 0;
-
-        HelperBoxAttribute helpAttribute
+        private const float k_Spacing = 3f;
+        private const float k_IconSize = 50f;
+        private float height = 0;
+        private float textHeight = 0;
+        
+        private HelperBoxAttribute helpAttribute
         {
             get { return (HelperBoxAttribute) attribute; }
         }
 
-        MultilineAttribute multilineAttribute
-        {
-            get
-            {
-                var attributes = fieldInfo.GetCustomAttributes(typeof(MultilineAttribute), true);
-                return attributes != null && attributes.Length > 0 ? (MultilineAttribute) attributes[0] : null;
-            }
-        }
-
-
         public override float GetPropertyHeight(SerializedProperty prop, GUIContent label)
         {
             height = base.GetPropertyHeight(prop, label);
-
-            float minHeight = paddingHeight * 5;
-
             var content = new GUIContent(helpAttribute.text);
             var style = GUI.skin.GetStyle("helpbox");
+            textHeight = style.CalcHeight(content, EditorGUIUtility.currentViewWidth - k_IconSize);
 
-            var newHeight = style.CalcHeight(content, EditorGUIUtility.currentViewWidth);
-
-            height += marginHeight * 2;
-
-            if (multilineAttribute != null && prop.propertyType == SerializedPropertyType.String)
-            {
-                additionalHeight = 50f;
-            }
-
-            return height > minHeight ? newHeight + height + additionalHeight : minHeight + height + additionalHeight;
+            return height + textHeight + k_Spacing;
         }
 
 
         public override void OnGUI(Rect position, SerializedProperty prop, GUIContent label)
         {
-            var multiline = multilineAttribute;
-
             EditorGUI.BeginProperty(position, label, prop);
-
+	        
             var helpPos = position;
-            helpPos.height -= height + marginHeight;
-
-
-            if (multiline != null)
-            {
-                helpPos.height -= additionalHeight;
-            }
+            helpPos.height = textHeight;
 
             EditorGUI.HelpBox(helpPos, helpAttribute.text, (MessageType)helpAttribute.type);
-
-            position.y += helpPos.height + marginHeight;
             position.height = height;
 
-
-            if (multiline != null)
-            {
-                if (prop.propertyType == SerializedPropertyType.String)
-                {
-                    var style = GUI.skin.label;
-                    var size = style.CalcHeight(label, EditorGUIUtility.currentViewWidth);
-
-                    EditorGUI.LabelField(position, label);
-
-                    position.y += size;
-                    position.height += additionalHeight - size;
-
-                    prop.stringValue = EditorGUI.TextArea(position, prop.stringValue);
-                }
-                else
-                {
-                    EditorGUI.PropertyField(position, prop, label);
-                }
-            }
-            else
-            {
+            position.y +=  k_Spacing + helpPos.height;
                 EditorGUI.PropertyField(position, prop, label);
-            }
 
             EditorGUI.EndProperty();
         }

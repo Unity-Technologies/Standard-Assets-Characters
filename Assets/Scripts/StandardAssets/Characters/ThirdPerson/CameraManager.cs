@@ -1,4 +1,5 @@
-﻿using Cinemachine;
+﻿using Attributes;
+using Cinemachine;
 using StandardAssets.Characters.CharacterInput;
 using UnityEngine;
 

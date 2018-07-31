@@ -37,7 +37,7 @@ namespace Editor
         
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return showField ? EditorGUI.GetPropertyHeight(property) : -EditorGUIUtility.singleLineHeight;
+            return showField ? EditorGUI.GetPropertyHeight(property) : 0;
         }
     }
 }

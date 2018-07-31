@@ -15,8 +15,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		public event Action startActionMode, startStrafeMode;
 
 		//Serialized Fields
-		[HelperBox(HelperType.Info,
-			"Configuration is a separate asset. Click on the associated configuration to located it in the Project View. Values can be edited here during runtime and not be lost. It also allows one to create different settings and swap between them. To create a new setting Right click -> Create -> Standard Assets -> Characters -> Third Person Root Motion Configuration")]
 		[SerializeField]
 		protected ThirdPersonRootMotionConfiguration configuration;
 
@@ -79,6 +77,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected float cachedForwardMovement;
 
 		protected SlidingAverage averageForwardMovement;
+
+		protected SlidingAverage strafeAverageForwardInput, strafeAverageLateralInput;
 
 		protected TurnaroundBehaviour turnaroundBehaviour;
 
@@ -160,7 +160,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			characterPhysics = brain.physicsForCharacter;
 			animator = gameObject.GetComponent<Animator>();
 			animationController = brain.animationControl;
-			averageForwardMovement = new SlidingAverage(5);
+			averageForwardMovement = new SlidingAverage(configuration.jumpGroundVelocityWindowSize);
+			strafeAverageForwardInput = new SlidingAverage(configuration.strafeInputWindowSize);
+			strafeAverageLateralInput = new SlidingAverage(configuration.strafeInputWindowSize);
 
 			if (cameraTransform == null)
 			{
@@ -365,14 +367,11 @@ namespace StandardAssets.Characters.ThirdPerson
 				startActionMode();
 			}
 
-			Debug.Log("Strafe End");
-
 			thirdPersonBrain.thirdPersonCameraAnimationManager.StrafeEnded();
 
 			currentForwardInputProperties = configuration.forwardMovementProperties;
 			currentLateralInputProperties = null;
 			movementMode = ThirdPersonMotorMovementMode.Action;
-			//TODO Adjust method for calling these animations that control the state driven camera
 		}
 
 		/// <summary>
@@ -506,13 +505,16 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected virtual void CalculateStrafeMovement()
 		{
+			strafeAverageForwardInput.Add(characterInput.moveInput.y);
+			float averageForwardInput = strafeAverageForwardInput.average;
+			strafeAverageLateralInput.Add(characterInput.moveInput.x);
+			float averageLateralInput = strafeAverageLateralInput.average;
+			
 			normalizedForwardSpeed =
-				Mathf.Clamp((Mathf.Approximately(characterInput.moveInput.y, 0f) ? 0f : characterInput.moveInput.y),
+				Mathf.Clamp((Mathf.Approximately(averageForwardInput, 0f) ? 0f : averageForwardInput),
 				            -configuration.normalizedBackwardStrafeSpeed, configuration.normalizedForwardStrafeSpeed);
-			normalizedLateralSpeed = Mathf.Approximately(characterInput.moveInput.x, 0f)
-				? 0f
-				: characterInput.moveInput.x
-				  * configuration.normalizedLateralStrafeSpeed;
+			normalizedLateralSpeed = Mathf.Approximately(averageLateralInput, 0f)
+				? 0f : averageLateralInput * configuration.normalizedLateralStrafeSpeed;
 		}
 
 		protected virtual void ApplyForwardInput(float input)
