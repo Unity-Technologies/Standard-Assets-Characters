@@ -19,6 +19,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected ThirdPersonRootMotionConfiguration configuration;
 
+		[SerializeField] 
+		protected bool useRapidTurnForStrafeTransition = true;
+
 		[SerializeField]
 		protected Transform cameraTransform;
 
@@ -76,9 +79,9 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected TurnaroundBehaviour turnaroundBehaviour;
 
+		private bool isTurningIntoStrafe;
 		protected Transform transform;
 		protected GameObject gameObject;
-
 		protected ThirdPersonBrain thirdPersonBrain;
 
 		protected bool isStrafing
@@ -349,22 +352,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			currentLateralInputProperties = configuration.strafeLateralMovementProperties;
 			movementMode = ThirdPersonMotorMovementMode.Strafe;
 			
-
-			//thirdPersonBrain.cameraAnimationManager.SetAnimation("Strafe",1);
-			thirdPersonBrain.thirdPersonCameraAnimationManager.StrafeStarted();
-
-			turning = true;
-			var cameraForward = Camera.main.transform.forward;
-			cameraForward.y = 0; 
-			//cameraForward.z = 0;
-			gameObject.transform.forward = cameraForward;
-			//SetStrafeLookDirectionTransition(cameraForward);
-		//	SetStartStrafeLookDirection();
-
+			isTurningIntoStrafe = true;
 		}
-
-		private bool turning;
-		private Quaternion lookDirection;
 
 		/// <summary>
 		/// Method called by strafe input ended
@@ -378,24 +367,13 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			Debug.Log("Strafe End");
 			
-		//	thirdPersonBrain.cameraAnimationManager.SetAnimation("Action",1);
 			thirdPersonBrain.thirdPersonCameraAnimationManager.StrafeEnded();
 		
 			currentForwardInputProperties = configuration.forwardMovementProperties;
 			currentLateralInputProperties = null;
 			movementMode = ThirdPersonMotorMovementMode.Action;
-			/*
-			 * currentForwardInputProperties = configuration.forwardMovementProperties;
-			currentLateralInputProperties = null;
-			movementMode = ThirdPersonMotorMovementMode.Action;
-			 */
-			
 			//TODO Adjust method for calling these animations that control the state driven camera
-
 		}
-
-		
-		
 
 		/// <summary>
 		/// Called by update to handle movement
@@ -427,7 +405,14 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected virtual void StrafeMovement()
 		{
-			SetStrafeLookDirection();
+			if (!isTurningIntoStrafe)
+			{
+				SetStrafeLookDirection();
+			}
+			else
+			{
+				SetStartStrafeLookDirection();
+			}
 			CalculateStrafeMovement();
 		}
 
@@ -481,31 +466,32 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			transform.rotation = newRotation;
 		}
+		
 		protected virtual void SetStartStrafeLookDirection()
 		{
 			var cameraForward = Camera.main.transform.forward;
 			cameraForward.y = 0;
 			
-			//cameraForward.z = 0;
-			// gameObject.transform.forward = cameraForward;
-			
 			Quaternion targetRotation = Quaternion.LookRotation(cameraForward);
-			//Quaternion targetRotation = CalculateTargetRotation();
-			targetYRotation = targetRotation.eulerAngles.y;
+			targetYRotation = MathUtilities.Wrap180(targetRotation.eulerAngles.y);
 
-			float turnSpeed = characterPhysics.isGrounded
-				? configuration.turningYSpeed
-				: configuration.jumpTurningYSpeed;
+			if (useRapidTurnForStrafeTransition && CheckForAndHandleRapidTurn(targetRotation))
+			{
+				return;
+			}
 
-			Quaternion newRotation =
-				Quaternion.RotateTowards(transform.rotation, targetRotation,
-				                         turnSpeed * Time.deltaTime);
+			Quaternion newRotation = Quaternion.RotateTowards(transform.rotation, targetRotation,
+					configuration.turningYSpeed * Time.deltaTime);
 
 			SetTurningSpeed(transform.rotation, newRotation);
 
+			if (transform.rotation == targetRotation)
+			{
+				isTurningIntoStrafe = false;
+				thirdPersonBrain.thirdPersonCameraAnimationManager.StrafeStarted();
+			}
 			transform.rotation = newRotation;
 		}
-		
 
 		protected virtual void CalculateForwardMovement()
 		{
