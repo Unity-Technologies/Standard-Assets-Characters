@@ -80,8 +80,6 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected SlidingAverage strafeAverageForwardInput, strafeAverageLateralInput;
 
-		protected TurnaroundBehaviour turnaroundBehaviour;
-
 		private bool isTurningIntoStrafe;
 		protected Transform transform;
 		protected GameObject gameObject;
@@ -155,7 +153,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			gameObject = brain.gameObject;
 			transform = brain.transform;
 			thirdPersonBrain = brain;
-			turnaroundBehaviour = brain.turnaroundBehaviour;
 			characterInput = brain.inputForCharacter;
 			characterPhysics = brain.physicsForCharacter;
 			animator = gameObject.GetComponent<Animator>();
@@ -208,8 +205,8 @@ namespace StandardAssets.Characters.ThirdPerson
 				strafeInput.ended += OnStrafeEnded;
 			}
 
-			//Turnaround Subscription
-			if (turnaroundBehaviour != null)
+			//Turnaround subscription for runtime support
+			foreach (TurnaroundBehaviour turnaroundBehaviour in thirdPersonBrain.turnaroundOptions)
 			{
 				turnaroundBehaviour.turnaroundComplete += TurnaroundComplete;
 			}
@@ -245,10 +242,10 @@ namespace StandardAssets.Characters.ThirdPerson
 				strafeInput.ended -= OnStrafeEnded;
 			}
 
-			//Turnaround Subscription
-			if (turnaroundBehaviour != null)
+			//Turnaround un-subscription for runtime support
+			foreach (TurnaroundBehaviour turnaroundBehaviour in thirdPersonBrain.turnaroundOptions)
 			{
-				turnaroundBehaviour.turnaroundComplete += TurnaroundComplete;
+				turnaroundBehaviour.turnaroundComplete -= TurnaroundComplete;
 			}
 		}
 
@@ -581,7 +578,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected virtual bool CheckForAndHandleRapidTurn(Quaternion target)
 		{
-			if (turnaroundBehaviour == null)
+			if (thirdPersonBrain.turnaround == null)
 			{
 				return false;
 			}
@@ -594,7 +591,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				preTurnMovementState = movementState;
 				movementState = ThirdPersonGroundMovementState.TurningAround;
-				turnaroundBehaviour.TurnAround(angle);
+				thirdPersonBrain.turnaround.TurnAround(angle);
 				return true;
 			}
 
