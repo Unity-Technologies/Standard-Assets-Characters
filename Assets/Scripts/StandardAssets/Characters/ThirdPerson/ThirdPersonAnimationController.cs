@@ -153,10 +153,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			animator.SetBool(hashHasInput,
 			                 CheckHasSpeed(motor.normalizedForwardSpeed) ||
 			                 CheckHasSpeed(motor.normalizedLateralSpeed));
+			
+			UpdateForwardSpeed(motor.normalizedForwardSpeed, Time.deltaTime);
+			UpdateLateralSpeed(motor.normalizedLateralSpeed, Time.deltaTime);
 
 			if (!isGrounded)
 			{
-				
 				animator.SetFloat(hashVerticalSpeed, motor.normalizedVerticalSpeed,
 				                  configuration.floatInterpolationTime, Time.deltaTime);
 				animator.SetFloat(hashFallingTime, motor.fallTime);
@@ -165,8 +167,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				animator.SetBool(hashIsStrafing, Mathf.Abs(motor.normalizedLateralSpeed) > 0);
 				UpdateFoot();
-				UpdateForwardSpeed(motor.normalizedForwardSpeed, Time.deltaTime);
-				UpdateLateralSpeed(motor.normalizedLateralSpeed, Time.deltaTime);
 			}
 		}
 
