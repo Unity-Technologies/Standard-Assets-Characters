@@ -449,6 +449,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4076727408819664}
   - component: {fileID: 95372130055387216}
+  - component: {fileID: 54074972563024526}
+  - component: {fileID: 136858594027696422}
   - component: {fileID: 114484545000245226}
   - component: {fileID: 114436560949563180}
   - component: {fileID: 114403526203746496}
@@ -2416,6 +2418,21 @@ Transform:
   m_Father: {fileID: 4222790675373152}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &54074972563024526
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1294013925418394}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!65 &65244173496618208
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -2773,9 +2790,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 475c226dbac9416ea06c859daeb6d183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraAnimations: {fileID: 0}
   rootMotionMotor:
     configuration: {fileID: 11400000, guid: 33e0d88026c128b4ca3076e2e5149510, type: 2}
+    useRapidTurnForStrafeTransition: 1
     cameraTransform: {fileID: 0}
     runInput: {fileID: 11400000, guid: 4536a47671291463386c18678dd23194, type: 2}
     strafeInput: {fileID: 11400000, guid: f7e824638922944d5b76347cc85e8952, type: 2}
@@ -2828,6 +2845,7 @@ MonoBehaviour:
     movementDetections:
     - {fileID: 114447118663720106}
     - {fileID: 114449538320415148}
+  cameraAnimationManager: {fileID: 0}
 --- !u!114 &114409830971381574
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3250,6 +3268,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!136 &136858594027696422
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1294013925418394}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.4
+  m_Height: 1.6
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!137 &137464820802569840
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
