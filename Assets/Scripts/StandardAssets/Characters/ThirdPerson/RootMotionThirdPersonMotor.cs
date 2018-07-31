@@ -369,14 +369,11 @@ namespace StandardAssets.Characters.ThirdPerson
 				startActionMode();
 			}
 
-			Debug.Log("Strafe End");
-
 			thirdPersonBrain.thirdPersonCameraAnimationManager.StrafeEnded();
 
 			currentForwardInputProperties = configuration.forwardMovementProperties;
 			currentLateralInputProperties = null;
 			movementMode = ThirdPersonMotorMovementMode.Action;
-			//TODO Adjust method for calling these animations that control the state driven camera
 		}
 
 		/// <summary>
