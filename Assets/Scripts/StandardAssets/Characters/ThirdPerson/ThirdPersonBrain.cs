@@ -152,6 +152,13 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				currentTurnaroundBehaviour.Update();
 			}
+		
+			//Just for build testing
+			if (Input.GetKeyDown(KeyCode.T))
+			{
+				turnaroundType = turnaroundType == TurnaroundType.Animation ? TurnaroundType.None : turnaroundType + 1;
+				currentTurnaroundBehaviour = GetCurrentTurnaroundBehaviour();
+			}
 		}
 
 		private void OnAnimatorMove()
@@ -171,10 +178,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void OnValidate()
 		{
 			currentTurnaroundBehaviour = GetCurrentTurnaroundBehaviour();
-			if (turnaroundType == TurnaroundType.Animation)
-			{
-				animationTurnaroundBehaviour.OnValidate(GetComponent<Animator>());
-			}
+			animationTurnaroundBehaviour.OnValidate(GetComponent<Animator>());
 		}
 		#endif
 	}
