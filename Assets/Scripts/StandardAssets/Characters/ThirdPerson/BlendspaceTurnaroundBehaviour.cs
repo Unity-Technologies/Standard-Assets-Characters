@@ -99,6 +99,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
+		public override Vector3 GetMovement()
+		{
+			return Vector3.zero;
+		}
+
 		private void EvaluateTurn()
 		{
 			float normalizedTime = turningTime / timeToTurn;
