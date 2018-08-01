@@ -69,6 +69,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
+		public override Vector3 GetMovement()
+		{
+			return Vector3.zero;
+		}
+
 		protected override void FinishedTurning()
 		{
 		}

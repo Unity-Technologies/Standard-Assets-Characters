@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
@@ -11,6 +12,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		public abstract void Init(ThirdPersonBrain brain);
 
 		public abstract void Update();
+
+		public abstract Vector3 GetMovement();
 
 		public void TurnAround(float angle)
 		{

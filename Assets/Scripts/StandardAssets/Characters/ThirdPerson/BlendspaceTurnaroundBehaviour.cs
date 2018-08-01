@@ -1,4 +1,5 @@
 ﻿using System;
+using Attributes;
 using UnityEngine;
 using Util;
 
@@ -7,17 +8,14 @@ namespace StandardAssets.Characters.ThirdPerson
 	[Serializable]
 	public class BlendspaceTurnaroundBehaviour : TurnaroundBehaviour
 	{
+		private const float k_DefaultTurnTime = 0.2f, k_DefaultTurnSpeed = 0f;
+		
 		[SerializeField]
-		protected float timeToTurn = 0.3f;
-
+		protected bool configureBlendspace;
+		
+		//[ConditionalInclude("configureBlendspace")]
 		[SerializeField]
-		protected float turnSpeed = 1f;
-
-		[SerializeField]
-		protected AnimationCurve forwardSpeed = AnimationCurve.Linear(0, 0, 1, 1);
-
-		[SerializeField]
-		protected Calculation forwardSpeedCalculation;
+		protected BlendspaceTurnaroundConfiguration configuration;
 
 		Vector3 targetRotationEuler;
 		Quaternion targetRotation;
@@ -27,6 +25,60 @@ namespace StandardAssets.Characters.ThirdPerson
 		private float rotation;
 		private ThirdPersonAnimationController animationController;
 		private Transform transform;
+		
+		private AnimationCurve defaultForwardCurve = AnimationCurve.Linear(0, 1, 1, 1);
+
+		private float timeToTurn
+		{
+			get
+			{
+				if (configureBlendspace)
+				{
+					return configuration.turnTime;
+				}
+
+				return k_DefaultTurnTime;
+			}
+		}
+
+		private float turnSpeed
+		{
+			get
+			{
+				if (configureBlendspace)
+				{
+					return configuration.normalizedTurnSpeed;
+				}
+
+				return k_DefaultTurnSpeed;
+			}
+		}
+
+		private AnimationCurve forwardSpeed
+		{
+			get
+			{
+				if (configureBlendspace)
+				{
+					return configuration.forwardSpeedOverTime;
+				}
+
+				return defaultForwardCurve;
+			}
+		}
+
+		private Calculation forwardSpeedCalculation
+		{
+			get
+			{
+				if (configureBlendspace)
+				{
+					return configuration.forwardSpeedCalc;
+				}
+
+				return Calculation.Multiplicative;
+			}
+		}
 
 		public override void Init(ThirdPersonBrain brain)
 		{
@@ -45,6 +97,11 @@ namespace StandardAssets.Characters.ThirdPerson
 					EndTurnAround();
 				}
 			}
+		}
+
+		public override Vector3 GetMovement()
+		{
+			return Vector3.zero;
 		}
 
 		private void EvaluateTurn()
