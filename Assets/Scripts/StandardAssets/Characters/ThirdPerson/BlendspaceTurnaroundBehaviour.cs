@@ -8,7 +8,7 @@ namespace StandardAssets.Characters.ThirdPerson
 	[Serializable]
 	public class BlendspaceTurnaroundBehaviour : TurnaroundBehaviour
 	{
-		private const float k_DefaultTurnTime = 0.2f, k_DefaultTurnSpeed = 0f;
+		private const float k_DefaultTurnTime = 0.15f, k_DefaultTurnSpeed = 0f;
 		
 		[SerializeField]
 		protected bool configureBlendspace;
