@@ -2885,6 +2885,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 475c226dbac9416ea06c859daeb6d183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraAnimationManager: {fileID: 0}
   rootMotionMotor:
     configuration: {fileID: 11400000, guid: 33e0d88026c128b4ca3076e2e5149510, type: 2}
     useRapidTurnForStrafeTransition: 1
@@ -2925,12 +2926,16 @@ MonoBehaviour:
   animationTurnaroundBehaviour:
     runLeftTurn:
       name: RunForwardTurnLeft180
+      duration: 0.9333334
     runRightTurn:
       name: RunForwardTurnRight180_Mirror
+      duration: 0.9333334
     walkLeftTurn:
       name: WalkForwardTurnLeft180
+      duration: 0.8
     walkRightTurn:
       name: WalkForwardTurnRight180_Mirror
+      duration: 0.8
     normalizedRunSpeedThreshold: 0.5
     crossfadeDuration: 0.125
     maxNormalizedTime: 0.125
@@ -2940,7 +2945,6 @@ MonoBehaviour:
     movementDetections:
     - {fileID: 114447118663720106}
     - {fileID: 114449538320415148}
-  cameraAnimationManager: {fileID: 0}
 --- !u!114 &114409830971381574
 MonoBehaviour:
   m_ObjectHideFlags: 1

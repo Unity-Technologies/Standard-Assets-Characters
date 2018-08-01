@@ -15,7 +15,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected class AnimationInfo
 		{
 			public string name;
-			public float duration { get; set; }
+			[HideInInspector]
+			public float duration;
 
 			public AnimationInfo(string name)
 			{
