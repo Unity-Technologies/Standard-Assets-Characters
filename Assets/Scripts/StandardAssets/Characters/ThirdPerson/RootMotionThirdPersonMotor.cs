@@ -128,6 +128,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			if (movementState == ThirdPersonGroundMovementState.TurningAround)
 			{
+				characterPhysics.Move(thirdPersonBrain.turnaround.GetMovement());
 				return;
 			}
 
