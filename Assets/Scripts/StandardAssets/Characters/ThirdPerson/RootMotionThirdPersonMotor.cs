@@ -38,6 +38,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 
 		public float targetYRotation { get; private set; }
+		
+		public float cachedForwardMovement { get; protected set; }
 
 		public Action jumpStarted { get; set; }
 		public Action landed { get; set; }
@@ -66,8 +68,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected ThirdPersonGroundMovementState movementState = ThirdPersonGroundMovementState.Walking;
 
 		protected ThirdPersonAerialMovementState aerialState = ThirdPersonAerialMovementState.Grounded;
-
-		protected float cachedForwardMovement;
 
 		protected SlidingAverage averageForwardMovement;
 
@@ -523,6 +523,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			if (ShouldTurnAround(angle))
 			{
+				cachedForwardMovement = averageForwardMovement.average;
 				preTurnMovementState = movementState;
 				movementState = ThirdPersonGroundMovementState.TurningAround;
 				thirdPersonBrain.turnaround.TurnAround(angle);

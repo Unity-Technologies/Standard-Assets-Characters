@@ -17,16 +17,19 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected BlendspaceTurnaroundConfiguration configuration;
 
-		Vector3 targetRotationEuler;
-		Quaternion targetRotation;
+		private Vector3 targetRotationEuler, movementVector;
+		private Quaternion targetRotation;
 		private float turningTime = 0f;
 		private float currentForwardSpeed;
 		private float currentTurningSpeed;
 		private float rotation;
+		private ThirdPersonBrain thirdPersonBrain;
 		private ThirdPersonAnimationController animationController;
 		private Transform transform;
 		
 		private AnimationCurve defaultForwardCurve = AnimationCurve.Linear(0, 1, 1, 1);
+		
+		private AnimationCurve defaultTurnMovementCurve = AnimationCurve.Linear(0,-1,1,-1);
 
 		private float timeToTurn
 		{
@@ -80,10 +83,24 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
+		private AnimationCurve turnMovementOverTime
+		{
+			get
+			{
+				if (configureBlendspace)
+				{
+					return configuration.turnMovementOverTime;
+				}
+
+				return defaultTurnMovementCurve;
+			}
+		}
+
 		public override void Init(ThirdPersonBrain brain)
 		{
 			animationController = brain.animationControl;
 			transform = brain.transform;
+			thirdPersonBrain = brain;
 		}
 		
 		public override void Update()
@@ -101,7 +118,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public override Vector3 GetMovement()
 		{
-			return Vector3.zero;
+			float normalizedTime = turningTime / timeToTurn;
+			return movementVector * turnMovementOverTime.Evaluate(normalizedTime);
 		}
 
 		private void EvaluateTurn()
@@ -146,9 +164,18 @@ namespace StandardAssets.Characters.ThirdPerson
 			turningTime = 0f;
 			currentForwardSpeed = animationController.animatorForwardSpeed;
 			currentTurningSpeed = animationController.animatorTurningSpeed;
+			
 			targetRotationEuler = transform.eulerAngles;
 			targetRotationEuler.y += rotation;
 			targetRotation = Quaternion.Euler(targetRotationEuler);
+
+			RootMotionThirdPersonMotor motor = thirdPersonBrain.CurrentMotor as RootMotionThirdPersonMotor;
+			if (motor != null)
+			{
+				movementVector = transform.forward * motor.cachedForwardMovement;
+				movementVector.y = 0;
+			}
+			
 		}
 	}
 
