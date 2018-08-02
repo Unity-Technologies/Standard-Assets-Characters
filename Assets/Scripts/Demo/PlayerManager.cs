@@ -124,9 +124,11 @@ namespace Demo
 
 			if (firstPersonMainStateDrivenCamera != null)
 			{
-				firstPersonMainStateDrivenCamera
+				/*
+				 * firstPersonMainStateDrivenCamera
 					.ChildCameras[0].GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachinePOV>()
 					.m_HorizontalAxis.Value = LastKnownFreeLookCamPoisition();
+				 */
 				firstPersonMainStateDrivenCamera.MoveToTopOfPrioritySubqueue();
 				
 			}
