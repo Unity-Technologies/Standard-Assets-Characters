@@ -110,7 +110,7 @@ namespace Demo
 		{
 			//Set FPS
 			thirdPersonParent.SetActive(false);
-			firstPersonBrain.transform.position = thirdPersonBrain.transform.position + positionOffset;
+			firstPersonBrain.transform.position = thirdPersonBrain.transform.position - positionOffset;
 			firstPersonBrain.transform.rotation = thirdPersonBrain.transform.rotation;
 			firstPersonParent.SetActive(true);
 			if (thirdPersonCameraModeText !=null)
