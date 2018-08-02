@@ -32,10 +32,12 @@ namespace StandardAssets.Characters.ThirdPerson
 						idleLeftTurn = new AnimationInfo("IdleTurnLeft180"),
 						idleRightTurn = new AnimationInfo("IdleTurnRight180_Mirror");
 
+		private const int k_AnimationCount = 6;
+
 		[SerializeField] 
 		protected AnimationCurve rotationCurve = AnimationCurve.Linear(0, 0, 1, 1);
 
-		[SerializeField] protected float normalizedRunSpeedThreshold = 0.5f,
+		[SerializeField] protected float normalizedRunSpeedThreshold = 0.1f,
 			crossfadeDuration = 0.125f,
 			maxNormalizedTime = 0.125f,
 			normalizedCompletionTime = 0.9f;
@@ -89,7 +91,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected override void StartTurningAround(float angle)
 		{
 			targetAngle = MathUtilities.Wrap180(angle);
-			current = GetCurrent(animationController.animatorForwardSpeed,
+			current = GetCurrent(animationController.animatorForwardSpeed, angle > 0,
 				!animationController.isRightFootPlanted);
 
 			startRotation = transform.eulerAngles;
@@ -101,22 +103,19 @@ namespace StandardAssets.Characters.ThirdPerson
 			animationController.unityAnimator.speed = current.speed;
 		}
 
-		private AnimationInfo GetCurrent(float forwardSpeed, bool leftPlanted)
+		private AnimationInfo GetCurrent(float forwardSpeed, bool turningRight, bool leftPlanted)
 		{
-			targetAngle = Mathf.Abs(targetAngle);
-			if (!leftPlanted)
+			if (forwardSpeed >= normalizedRunSpeedThreshold)
 			{
-				targetAngle *= -1;
+				// 180 turns should be based on footedness
+				targetAngle = Mathf.Abs(targetAngle); 
+				if (!leftPlanted) 
+				{ 
+					targetAngle *= -1; 
+				} 
+				return leftPlanted ? runRightTurn : runLeftTurn;
 			}
-			if (forwardSpeed < 0.1f)
-			{
-				return leftPlanted ? idleRightTurn : idleLeftTurn;
-			}
-			if (forwardSpeed < normalizedRunSpeedThreshold)
-			{
-				return leftPlanted ? walkRightTurn : walkLeftTurn;
-			}
-			return leftPlanted ? runRightTurn : runLeftTurn;
+			return turningRight ? idleRightTurn : idleLeftTurn;
 		}
 		
 #if UNITY_EDITOR
@@ -128,7 +127,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			var animation = animator.runtimeAnimatorController as AnimatorController;
 			TraverseStatemachineToCheckStates(animation.layers[0].stateMachine);
 			
-			if (turnsFound < 6)
+			if (turnsFound < k_AnimationCount)
 			{
 				Debug.LogError("Did not find all turn states in state machine");
 			}
@@ -136,7 +135,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private void TraverseStatemachineToCheckStates(AnimatorStateMachine stateMachine)
 		{
-			if (turnsFound == 6)
+			if (turnsFound == k_AnimationCount)
 			{
 				return;
 			}
@@ -146,7 +145,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				if (clip != null)
 				{
 					CheckStateForTurn(childState.state);
-					if (turnsFound == 6)
+					if (turnsFound == k_AnimationCount)
 					{
 						return;
 					}
