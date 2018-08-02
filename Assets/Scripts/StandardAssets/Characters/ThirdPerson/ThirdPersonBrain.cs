@@ -1,3 +1,4 @@
+using System;
 using Attributes;
 using Attributes.Types;
 using StandardAssets.Characters.Common;
@@ -174,6 +175,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
+		private void OnGUI()
+		{
+			GUI.Label(new Rect(Screen.width * 0.8f, 0, Screen.width * 0.2f, Screen.height * 0.1f), 
+				string.Format("Turn around: {0}\nPress T to cycle", turnaroundType));
+		}
+		
 		#if UNITY_EDITOR
 		private void OnValidate()
 		{

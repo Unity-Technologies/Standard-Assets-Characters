@@ -38,6 +38,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 
 		public float targetYRotation { get; private set; }
+		
+		public float cachedForwardMovement { get; protected set; }
 
 		public Action jumpStarted { get; set; }
 		public Action landed { get; set; }
@@ -67,11 +69,9 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected ThirdPersonAerialMovementState aerialState = ThirdPersonAerialMovementState.Grounded;
 
-		protected float cachedForwardMovement;
-
 		protected SlidingAverage averageForwardMovement;
 
-		protected SlidingAverage strafeAverageForwardInput, strafeAverageLateralInput;
+		protected SlidingAverage actionAverageForwardInput, strafeAverageForwardInput, strafeAverageLateralInput;
 
 		private bool isTurningIntoStrafe;
 		protected Transform transform;
@@ -152,6 +152,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			animator = gameObject.GetComponent<Animator>();
 			animationController = brain.animationControl;
 			averageForwardMovement = new SlidingAverage(configuration.jumpGroundVelocityWindowSize);
+			actionAverageForwardInput = new SlidingAverage(configuration.forwardInputWindowSize);
 			strafeAverageForwardInput = new SlidingAverage(configuration.strafeInputWindowSize);
 			strafeAverageLateralInput = new SlidingAverage(configuration.strafeInputWindowSize);
 
@@ -438,7 +439,15 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected virtual void CalculateForwardMovement()
 		{
 			normalizedLateralSpeed = 0;
-			normalizedForwardSpeed = Mathf.Clamp(characterInput.moveInput.magnitude, -1, 1);
+			if (!InputShouldTurnAround())
+			{
+				actionAverageForwardInput.Add(characterInput.moveInput.magnitude);
+				normalizedForwardSpeed = actionAverageForwardInput.average;
+			}
+			else
+			{
+				normalizedForwardSpeed = 0f;
+			}
 
 			if (characterPhysics.isGrounded)
 			{
@@ -465,17 +474,6 @@ namespace StandardAssets.Characters.ThirdPerson
 				            -configuration.normalizedBackwardStrafeSpeed, configuration.normalizedForwardStrafeSpeed);
 			normalizedLateralSpeed = Mathf.Approximately(averageLateralInput, 0f)
 				? 0f : averageLateralInput * configuration.normalizedLateralStrafeSpeed;
-		}
-
-
-		protected virtual float DecelerateClampSpeed(float currentValue, float targetValue, float gain)
-		{
-			if (currentValue <= targetValue)
-			{
-				return targetValue;
-			}
-
-			return Mathf.Lerp(currentValue, targetValue, Time.deltaTime * gain);
 		}
 
 		protected virtual Quaternion CalculateTargetRotation()
@@ -523,6 +521,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			if (ShouldTurnAround(angle))
 			{
+				cachedForwardMovement = averageForwardMovement.average;
 				preTurnMovementState = movementState;
 				movementState = ThirdPersonGroundMovementState.TurningAround;
 				thirdPersonBrain.turnaround.TurnAround(angle);
@@ -536,11 +535,16 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			if (Mathf.Approximately(normalizedForwardSpeed, 0))
 			{
-				return Mathf.Abs(angle) > configuration.angleRapidTurn;
+				return Mathf.Abs(angle) > configuration.stationaryAngleRapidTurn;
 			}
-			
+
+			return InputShouldTurnAround();
+		}
+
+		protected virtual bool InputShouldTurnAround()
+		{
 			return Vector2.Angle(characterInput.moveInput, characterInput.previousNonZeroMoveInput) >
-			       configuration.angleRapidTurn;
+			       configuration.inputAngleRapidTurn;
 		}
 	}
 }
