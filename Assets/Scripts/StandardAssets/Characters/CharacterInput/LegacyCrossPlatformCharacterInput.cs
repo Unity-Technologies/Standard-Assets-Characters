@@ -41,6 +41,11 @@ namespace StandardAssets.Characters.CharacterInput
 			get { return currentInput.moveInput; }
 		}
 
+		public Vector2 previousNonZeroMoveInput
+		{
+			get { return currentInput.previousNonZeroMoveInput; }
+		}
+
 		public bool hasMovementInput
 		{
 			get { return currentInput.hasMovementInput; }

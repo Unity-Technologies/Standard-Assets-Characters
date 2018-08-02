@@ -14,7 +14,7 @@ namespace StandardAssets.Characters.CharacterInput
 		protected string cinemachineLookYAxisName = "Vertical";
 		
 		
-		protected Vector2 moveInputVector;
+		protected Vector2 moveInputVector, previousMoveInputVector;
 		protected Action jumped;
 
 		protected Vector2 lookInputVector;
@@ -27,6 +27,11 @@ namespace StandardAssets.Characters.CharacterInput
 		public Vector2 moveInput
 		{
 			get { return moveInputVector; }
+		}
+
+		public Vector2 previousNonZeroMoveInput
+		{
+			get { return previousMoveInputVector; }
 		}
 
 		public bool hasMovementInput
