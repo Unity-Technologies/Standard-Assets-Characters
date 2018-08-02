@@ -537,11 +537,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			if (Mathf.Approximately(normalizedForwardSpeed, 0))
 			{
-				return Mathf.Abs(angle) > configuration.angleRapidTurn;
+				return Mathf.Abs(angle) > configuration.stationaryAngleRapidTurn;
 			}
 			
 			return Vector2.Angle(characterInput.moveInput, characterInput.previousNonZeroMoveInput) >
-			       configuration.angleRapidTurn;
+			       configuration.inputAngleRapidTurn;
 		}
 	}
 }

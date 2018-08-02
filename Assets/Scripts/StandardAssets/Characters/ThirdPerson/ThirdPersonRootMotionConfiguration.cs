@@ -36,7 +36,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected float turningLerp = 1f;
 		[SerializeField]
-		protected float rapidTurnAngle = 140f;
+		protected float rapidTurnInputAngle = 140f;
+		[SerializeField]
+		protected float stationaryRapidTurnAngle = 90f;
 
 		[Header("Camera")]
 		[SerializeField]
@@ -99,9 +101,14 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return turningLerp; }
 		}
 
-		public float angleRapidTurn
+		public float inputAngleRapidTurn
 		{
-			get { return rapidTurnAngle; }
+			get { return rapidTurnInputAngle; }
+		}
+
+		public float stationaryAngleRapidTurn
+		{
+			get { return stationaryRapidTurnAngle; }
 		}
 
 		public float maxFallDistanceToLand
