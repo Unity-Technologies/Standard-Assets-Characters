@@ -2890,7 +2890,6 @@ MonoBehaviour:
     configuration: {fileID: 11400000, guid: 33e0d88026c128b4ca3076e2e5149510, type: 2}
     useRapidTurnForStrafeTransition: 1
     cameraTransform: {fileID: 0}
-    runInput: {fileID: 11400000, guid: 4536a47671291463386c18678dd23194, type: 2}
     strafeInput: {fileID: 11400000, guid: f7e824638922944d5b76347cc85e8952, type: 2}
   animationController:
     configuration: {fileID: 11400000, guid: 16861f506e03f4b39a1b25e1bb3e307f, type: 2}
@@ -2925,25 +2924,79 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
       forwardSpeedCalculation: 1
+      movementDuringTurn:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: -1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: -1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
   animationTurnaroundBehaviour:
     runLeftTurn:
       name: RunForwardTurnLeft180
+      speed: 1.5
       duration: 1.0666667
     runRightTurn:
       name: RunForwardTurnRight180_Mirror
+      speed: 1.5
       duration: 1.0666667
     walkLeftTurn:
       name: WalkForwardTurnLeft180
+      speed: 1
       duration: 0.99999994
     walkRightTurn:
       name: WalkForwardTurnRight180_Mirror
+      speed: 1
       duration: 0.99999994
     idleLeftTurn:
       name: IdleTurnLeft180
+      speed: 10
       duration: 1.6333334
     idleRightTurn:
       name: IdleTurnRight180_Mirror
+      speed: 10
       duration: 1.6333334
+    rotationCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
     normalizedRunSpeedThreshold: 0.5
     crossfadeDuration: 0.125
     maxNormalizedTime: 0.125

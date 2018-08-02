@@ -14,6 +14,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected class AnimationInfo
 		{
 			public string name;
+			public float speed = 1;
 			[HideInInspector]
 			public float duration;
 
@@ -31,6 +32,8 @@ namespace StandardAssets.Characters.ThirdPerson
 						idleLeftTurn = new AnimationInfo("IdleTurnLeft180"),
 						idleRightTurn = new AnimationInfo("IdleTurnRight180_Mirror");
 
+		[SerializeField] 
+		protected AnimationCurve rotationCurve = AnimationCurve.Linear(0, 0, 1, 1);
 
 		[SerializeField] protected float normalizedRunSpeedThreshold = 0.5f,
 			crossfadeDuration = 0.125f,
@@ -38,7 +41,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			normalizedCompletionTime = 0.9f;
 
 		private float animationTime,
-			targetAngle;
+			targetAngle,
+			cachedAnimatorSpeed;
 		private AnimationInfo current;
 		private Vector3 startRotation;
 		private ThirdPersonAnimationController animationController;
@@ -57,18 +61,24 @@ namespace StandardAssets.Characters.ThirdPerson
 				return;
 			}
 
-			Vector3 newRotation = startRotation + new Vector3(0, (animationTime / current.duration) * targetAngle, 0);
+			var rotation = rotationCurve.Evaluate(animationTime / current.duration);
+			Vector3 newRotation = startRotation + new Vector3(0, rotation * targetAngle, 0);
 			transform.rotation = Quaternion.Euler(newRotation);
 
-			animationTime += Time.deltaTime / normalizedCompletionTime;
+			animationTime += Time.deltaTime / normalizedCompletionTime * current.speed;
 			if(animationTime >= current.duration)
 			{
 				EndTurnAround();
+				animationController.unityAnimator.speed = cachedAnimatorSpeed;
 			}
 		}
 
 		public override Vector3 GetMovement()
 		{
+			if (current == idleLeftTurn || current == idleRightTurn)
+			{
+				return Vector3.zero;
+			}
 			return animationController.unityAnimator.deltaPosition;
 		}
 
@@ -86,6 +96,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			var time = Mathf.Clamp(animationController.footednessNormalizedProgress, 0, maxNormalizedTime);
 			animationController.unityAnimator.CrossFade(current.name, crossfadeDuration, 0, 0);
 			animationTime = time;
+
+			cachedAnimatorSpeed = animationController.unityAnimator.speed;
+			animationController.unityAnimator.speed = current.speed;
 		}
 
 		private AnimationInfo GetCurrent(float forwardSpeed, bool leftPlanted)
