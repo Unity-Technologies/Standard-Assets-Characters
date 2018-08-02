@@ -494,7 +494,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected virtual void CalculateForwardMovement()
 		{
 			normalizedLateralSpeed = 0;
-			ApplyForwardInput(characterInput.moveInput.magnitude);
+			normalizedForwardSpeed = Mathf.Clamp(characterInput.moveInput.magnitude, -1, 1);
 
 			if (characterPhysics.isGrounded)
 			{
@@ -523,19 +523,6 @@ namespace StandardAssets.Characters.ThirdPerson
 				? 0f : averageLateralInput * configuration.normalizedLateralStrafeSpeed;
 		}
 
-		protected virtual void ApplyForwardInput(float input)
-		{
-			float forwardVelocity = currentForwardInputProperties.inputGain;
-			if (Mathf.Abs(Mathf.Sign(input) - Mathf.Sign(normalizedForwardSpeed)) > 0)
-			{
-				forwardVelocity = currentForwardInputProperties.inputChangeGain;
-			}
-
-			var clamp = Mathf.Min(characterInput.moveInput.magnitude, forwardClampSpeed);
-			normalizedForwardSpeed =
-				Mathf.Clamp(normalizedForwardSpeed + input * forwardVelocity * Time.deltaTime, -clamp,
-				            clamp);
-		}
 
 		protected virtual float DecelerateClampSpeed(float currentValue, float targetValue, float gain)
 		{
