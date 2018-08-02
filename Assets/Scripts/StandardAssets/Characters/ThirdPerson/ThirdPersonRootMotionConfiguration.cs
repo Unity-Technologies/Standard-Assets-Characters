@@ -12,6 +12,13 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected float rootMotionMovementScale = 1f;
 
 		[SerializeField]
+		protected bool useCustomActionParameters = true;
+		
+		[ConditionalInclude("useCustomActionParameters")]
+		[SerializeField]
+		protected ActionProperties action;
+		
+		[SerializeField]
 		protected bool useCustomStrafeParameters = true;
 
 		[ConditionalInclude("useCustomStrafeParameters")]
@@ -125,6 +132,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		public int strafeInputWindowSize
 		{
 			get { return useCustomStrafeParameters ? strafing.strafeInputWindowSize : 1; }
+		}
+		
+		public int forwardInputWindowSize
+		{
+			get { return useCustomActionParameters ? action.forwardInputWindowSize : 1; }
 		}	
 	}
 }

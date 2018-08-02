@@ -13,7 +13,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected bool configureBlendspace;
 		
-		//[ConditionalInclude("configureBlendspace")]
+		[ConditionalInclude("configureBlendspace")]
 		[SerializeField]
 		protected BlendspaceTurnaroundConfiguration configuration;
 
