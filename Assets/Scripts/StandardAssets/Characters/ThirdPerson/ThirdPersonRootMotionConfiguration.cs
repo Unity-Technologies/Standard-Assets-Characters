@@ -12,6 +12,13 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected float rootMotionMovementScale = 1f;
 
 		[SerializeField]
+		protected bool useCustomActionParameters = true;
+		
+		[ConditionalInclude("useCustomActionParameters")]
+		[SerializeField]
+		protected ActionProperties action;
+		
+		[SerializeField]
 		protected bool useCustomStrafeParameters = true;
 
 		[ConditionalInclude("useCustomStrafeParameters")]
@@ -36,23 +43,16 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected float turningLerp = 1f;
 		[SerializeField]
-		protected float rapidTurnAngle = 140f;
+		protected float rapidTurnInputAngle = 140f;
+		[SerializeField]
+		protected float stationaryRapidTurnAngle = 90f;
 
 		[Header("Camera")]
 		[SerializeField]
 		protected float strafeLookInputScale = 20f;
-
-		[SerializeField]
-		protected AnimationInputProperties forwardMovement;
-
 		
 		[SerializeField, Tooltip("A fall distance higher than this will trigger a fall animation")]
 		protected float maxFallDistance = 1;
-		
-		public AnimationInputProperties forwardMovementProperties
-		{
-			get { return forwardMovement; }
-		}
 
 		public float initialJumpVelocity
 		{
@@ -99,9 +99,14 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return turningLerp; }
 		}
 
-		public float angleRapidTurn
+		public float inputAngleRapidTurn
 		{
-			get { return rapidTurnAngle; }
+			get { return rapidTurnInputAngle; }
+		}
+
+		public float stationaryAngleRapidTurn
+		{
+			get { return stationaryRapidTurnAngle; }
 		}
 
 		public float maxFallDistanceToLand
@@ -129,5 +134,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return useCustomStrafeParameters ? strafing.strafeInputWindowSize : 1; }
 		}
 		
+		public int forwardInputWindowSize
+		{
+			get { return useCustomActionParameters ? action.forwardInputWindowSize : 1; }
+		}	
 	}
 }

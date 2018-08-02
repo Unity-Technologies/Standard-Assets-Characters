@@ -8,6 +8,9 @@ namespace StandardAssets.Characters.ThirdPerson
 	{
 		[SerializeField]
 		protected float timeToTurn = 0.2f;
+		
+		[SerializeField]
+		protected AnimationCurve rotationDuringTurn = AnimationCurve.Linear(0,0,1,1);
 
 		[SerializeField]
 		protected float turnSpeed = 0f;
@@ -18,6 +21,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected Calculation forwardSpeedCalculation = Calculation.Multiplicative;
 
+		[SerializeField]
+		protected AnimationCurve movementDuringTurn = AnimationCurve.Linear(0, -1, 1, -1);
+		
 		public float turnTime
 		{
 			get { return timeToTurn; }
@@ -36,6 +42,16 @@ namespace StandardAssets.Characters.ThirdPerson
 		public Calculation forwardSpeedCalc
 		{
 			get { return forwardSpeedCalculation; }
+		}
+
+		public AnimationCurve turnMovementOverTime
+		{
+			get { return movementDuringTurn; }
+		}
+
+		public AnimationCurve rotationOverTime
+		{
+			get { return rotationDuringTurn; }
 		}
 	}
 }

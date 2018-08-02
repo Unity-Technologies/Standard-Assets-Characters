@@ -67,6 +67,10 @@ namespace StandardAssets.Characters.CharacterInput
 
 		protected override void UpdateMoveVector()
 		{
+			if (hasMovementInput)
+			{
+				previousMoveInputVector.Set(moveInputVector.x, moveInputVector.y);
+			}
 			moveInputVector.Set(Input.GetAxis(horizontalAxisName), Input.GetAxis(verticalAxisName));
 		}
 
