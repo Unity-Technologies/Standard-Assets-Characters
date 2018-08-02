@@ -521,7 +521,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			float newY = target.eulerAngles.y;
 			float angle = MathUtilities.Wrap180(MathUtilities.Wrap180(newY) - MathUtilities.Wrap180(currentY));
 
-			if (Mathf.Abs(angle) > configuration.angleRapidTurn)
+			if (ShouldTurnAround(angle))
 			{
 				preTurnMovementState = movementState;
 				movementState = ThirdPersonGroundMovementState.TurningAround;
@@ -530,6 +530,17 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 			return false;
+		}
+
+		protected virtual bool ShouldTurnAround(float angle)
+		{
+			if (Mathf.Approximately(normalizedForwardSpeed, 0))
+			{
+				return Mathf.Abs(angle) > configuration.angleRapidTurn;
+			}
+			
+			return Vector2.Angle(characterInput.moveInput, characterInput.previousNonZeroMoveInput) >
+			       configuration.angleRapidTurn;
 		}
 	}
 }
