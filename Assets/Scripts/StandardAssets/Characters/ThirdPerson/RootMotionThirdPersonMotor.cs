@@ -25,9 +25,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected Transform cameraTransform;
 
 		[SerializeField]
-		protected InputResponse runInput;
-
-		[SerializeField]
 		protected InputResponse strafeInput;
 
 		//Properties
@@ -69,10 +66,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected ThirdPersonGroundMovementState movementState = ThirdPersonGroundMovementState.Walking;
 
 		protected ThirdPersonAerialMovementState aerialState = ThirdPersonAerialMovementState.Grounded;
-
-		protected AnimationInputProperties currentForwardInputProperties, currentLateralInputProperties;
-
-		protected float forwardClampSpeed, targetForwardClampSpeed, lateralClampSpeed, targetLateralClampSpeed;
 
 		protected float cachedForwardMovement;
 
@@ -167,20 +160,12 @@ namespace StandardAssets.Characters.ThirdPerson
 				cameraTransform = Camera.main.transform;
 			}
 
-			if (runInput != null)
-			{
-				runInput.Init();
-			}
-
 			if (strafeInput != null)
 			{
 				strafeInput.Init();
 			}
 
 			OnStrafeEnded();
-
-			currentForwardInputProperties = configuration.forwardMovementProperties;
-			targetForwardClampSpeed = forwardClampSpeed = currentForwardInputProperties.inputClamped;
 		}
 
 		/// <summary>
@@ -194,11 +179,6 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			//Input subscriptions
 			characterInput.jumpPressed += OnJumpPressed;
-			if (runInput != null)
-			{
-				runInput.started += OnRunStarted;
-				runInput.ended += OnRunEnded;
-			}
 
 			if (strafeInput != null)
 			{
@@ -231,12 +211,6 @@ namespace StandardAssets.Characters.ThirdPerson
 				characterInput.jumpPressed -= OnJumpPressed;
 			}
 
-			if (runInput != null)
-			{
-				runInput.started -= OnRunStarted;
-				runInput.ended -= OnRunEnded;
-			}
-
 			if (strafeInput != null)
 			{
 				strafeInput.started -= OnStrafeStarted;
@@ -253,7 +227,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		public void Update()
 		{
 			HandleMovement();
-			HandleClampSpeedDeceleration();
 		}
 
 		//Protected Methods
@@ -315,32 +288,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 
 		/// <summary>
-		/// Method called by run input started
-		/// </summary>
-		protected virtual void OnRunEnded()
-		{
-			movementState = ThirdPersonGroundMovementState.Walking;
-			targetForwardClampSpeed = currentForwardInputProperties.inputClamped;
-			if (isStrafing)
-			{
-				targetLateralClampSpeed = currentLateralInputProperties.inputClamped;
-			}
-		}
-
-		/// <summary>
-		/// Method called by run input ended
-		/// </summary>
-		protected virtual void OnRunStarted()
-		{
-			movementState = ThirdPersonGroundMovementState.Running;
-			targetForwardClampSpeed = currentForwardInputProperties.inputUnclamped;
-			if (isStrafing)
-			{
-				targetLateralClampSpeed = currentLateralInputProperties.inputUnclamped;
-			}
-		}
-
-		/// <summary>
 		/// Method called by strafe input started
 		/// </summary>
 		protected virtual void OnStrafeStarted()
@@ -366,9 +313,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 			thirdPersonBrain.thirdPersonCameraAnimationManager.StrafeEnded();
-
-			currentForwardInputProperties = configuration.forwardMovementProperties;
-			currentLateralInputProperties = null;
 			movementMode = ThirdPersonMotorMovementMode.Action;
 		}
 
@@ -532,12 +476,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 			return Mathf.Lerp(currentValue, targetValue, Time.deltaTime * gain);
-		}
-
-		protected virtual void HandleClampSpeedDeceleration()
-		{
-			forwardClampSpeed = DecelerateClampSpeed(forwardClampSpeed, targetForwardClampSpeed,
-			                                         currentForwardInputProperties.inputDecay);
 		}
 
 		protected virtual Quaternion CalculateTargetRotation()
