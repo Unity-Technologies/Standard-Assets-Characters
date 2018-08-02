@@ -2928,16 +2928,22 @@ MonoBehaviour:
   animationTurnaroundBehaviour:
     runLeftTurn:
       name: RunForwardTurnLeft180
-      duration: 0.9333334
+      duration: 1.0666667
     runRightTurn:
       name: RunForwardTurnRight180_Mirror
-      duration: 0.9333334
+      duration: 1.0666667
     walkLeftTurn:
       name: WalkForwardTurnLeft180
-      duration: 0.8
+      duration: 0.99999994
     walkRightTurn:
       name: WalkForwardTurnRight180_Mirror
-      duration: 0.8
+      duration: 0.99999994
+    idleLeftTurn:
+      name: IdleTurnLeft180
+      duration: 1.6333334
+    idleRightTurn:
+      name: IdleTurnRight180_Mirror
+      duration: 1.6333334
     normalizedRunSpeedThreshold: 0.5
     crossfadeDuration: 0.125
     maxNormalizedTime: 0.125

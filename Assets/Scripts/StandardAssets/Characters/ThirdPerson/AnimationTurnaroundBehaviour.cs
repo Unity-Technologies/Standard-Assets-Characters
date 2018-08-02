@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using UnityEngine;
 using Util;
 #if UNITY_EDITOR
@@ -28,7 +27,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected AnimationInfo runLeftTurn = new AnimationInfo("RunForwardTurnLeft180"),
 		                 runRightTurn = new AnimationInfo("RunForwardTurnRight180_Mirror"),
 		                 walkLeftTurn = new AnimationInfo("WalkForwardTurnLeft180"),
-		                 walkRightTurn = new AnimationInfo("WalkForwardTurnRight180_Mirror");
+		                 walkRightTurn = new AnimationInfo("WalkForwardTurnRight180_Mirror"),
+						idleLeftTurn = new AnimationInfo("IdleTurnLeft180"),
+						idleRightTurn = new AnimationInfo("IdleTurnRight180_Mirror");
 
 
 		[SerializeField] protected float normalizedRunSpeedThreshold = 0.5f,
@@ -36,11 +37,10 @@ namespace StandardAssets.Characters.ThirdPerson
 			maxNormalizedTime = 0.125f,
 			normalizedCompletionTime = 0.9f;
 
-		private float rotation;
-		private float animationTime;
-		private Vector3 startingRotationEuler;
+		private float animationTime,
+			targetAngle;
 		private AnimationInfo current;
-		
+		private Vector3 startRotation;
 		private ThirdPersonAnimationController animationController;
 		private Transform transform;
 
@@ -57,12 +57,10 @@ namespace StandardAssets.Characters.ThirdPerson
 				return;
 			}
 
-			animationTime += Time.deltaTime / normalizedCompletionTime;
-			Vector3 newRotation = startingRotationEuler + new Vector3(0, animationTime * rotation, 0);
-			newRotation.y = MathUtilities.Wrap180(newRotation.y);
-			
+			Vector3 newRotation = startRotation + new Vector3(0, (animationTime / current.duration) * targetAngle, 0);
 			transform.rotation = Quaternion.Euler(newRotation);
 
+			animationTime += Time.deltaTime / normalizedCompletionTime;
 			if(animationTime >= current.duration)
 			{
 				EndTurnAround();
@@ -71,7 +69,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public override Vector3 GetMovement()
 		{
-			return Vector3.zero;
+			return animationController.unityAnimator.deltaPosition;
 		}
 
 		protected override void FinishedTurning()
@@ -80,29 +78,32 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected override void StartTurningAround(float angle)
 		{
-			current = GetCurrent(animationController.animatorForwardSpeed > normalizedRunSpeedThreshold,
+			targetAngle = MathUtilities.Wrap180(angle);
+			current = GetCurrent(animationController.animatorForwardSpeed,
 				!animationController.isRightFootPlanted);
-			
-			rotation = GetAngleFromFootedness(Mathf.Abs(angle));
-			startingRotationEuler = transform.eulerAngles;
-			
+
+			startRotation = transform.eulerAngles;
 			var time = Mathf.Clamp(animationController.footednessNormalizedProgress, 0, maxNormalizedTime);
-			animationController.unityAnimator.CrossFade(current.name, crossfadeDuration, 0, time);
+			animationController.unityAnimator.CrossFade(current.name, crossfadeDuration, 0, 0);
 			animationTime = time;
 		}
 
-		private float GetAngleFromFootedness(float angle)
+		private AnimationInfo GetCurrent(float forwardSpeed, bool leftPlanted)
 		{
-			return !animationController.isRightFootPlanted ? angle : -angle;
-		}
-
-		private AnimationInfo GetCurrent(bool run, bool leftPlanted)
-		{
-			if (run)
+			targetAngle = Mathf.Abs(targetAngle);
+			if (!leftPlanted)
 			{
-				return leftPlanted ? runRightTurn : runLeftTurn;
+				targetAngle *= -1;
 			}
-			return leftPlanted ? walkRightTurn : walkLeftTurn;
+			if (forwardSpeed < 0.1f)
+			{
+				return leftPlanted ? idleRightTurn : idleLeftTurn;
+			}
+			if (forwardSpeed < normalizedRunSpeedThreshold)
+			{
+				return leftPlanted ? walkRightTurn : walkLeftTurn;
+			}
+			return leftPlanted ? runRightTurn : runLeftTurn;
 		}
 		
 #if UNITY_EDITOR
@@ -114,7 +115,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			var animation = animator.runtimeAnimatorController as AnimatorController;
 			TraverseStatemachineToCheckStates(animation.layers[0].stateMachine);
 			
-			if (turnsFound < 4)
+			if (turnsFound < 6)
 			{
 				Debug.LogError("Did not find all turn states in state machine");
 			}
@@ -122,7 +123,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private void TraverseStatemachineToCheckStates(AnimatorStateMachine stateMachine)
 		{
-			if (turnsFound == 4)
+			if (turnsFound == 6)
 			{
 				return;
 			}
@@ -132,7 +133,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				if (clip != null)
 				{
 					CheckStateForTurn(childState.state);
-					if (turnsFound == 4)
+					if (turnsFound == 6)
 					{
 						return;
 					}
@@ -164,6 +165,16 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (state.name == walkRightTurn.name)
 			{
 				walkRightTurn.duration = state.motion.averageDuration;
+				turnsFound++;
+			}
+			if (state.name == idleLeftTurn.name)
+			{
+				idleLeftTurn.duration = state.motion.averageDuration;
+				turnsFound++;
+			}
+			if (state.name == idleRightTurn.name)
+			{
+				idleRightTurn.duration = state.motion.averageDuration;
 				turnsFound++;
 			}
 		}
