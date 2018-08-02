@@ -13,19 +13,22 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected bool configureBlendspace;
 		
-		//[ConditionalInclude("configureBlendspace")]
+		[ConditionalInclude("configureBlendspace")]
 		[SerializeField]
 		protected BlendspaceTurnaroundConfiguration configuration;
 
-		private Vector3 targetRotationEuler, movementVector;
-		private Quaternion targetRotation;
+		private Vector3 startRotation;
+		
+		private Vector3 movementVector;
 		private float turningTime = 0f;
 		private float currentForwardSpeed;
 		private float currentTurningSpeed;
-		private float rotation;
+		private float targetAngle;
 		private ThirdPersonBrain thirdPersonBrain;
 		private ThirdPersonAnimationController animationController;
 		private Transform transform;
+		
+		private AnimationCurve defaultRotationCurve = AnimationCurve.Linear(0,0,1,1);
 		
 		private AnimationCurve defaultForwardCurve = AnimationCurve.Linear(0, 1, 1, 1);
 		
@@ -96,6 +99,19 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
+		private AnimationCurve rotationOverTime
+		{
+			get
+			{
+				if (configureBlendspace)
+				{
+					return configuration.rotationOverTime;
+				}
+
+				return defaultRotationCurve;
+			}
+		}
+
 		public override void Init(ThirdPersonBrain brain)
 		{
 			animationController = brain.animationControl;
@@ -139,15 +155,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			animationController.UpdateForwardSpeed(Mathf.Clamp(forwardSpeedValue, -1, 1), Time.deltaTime);
 			
-			float oldYRotation = transform.eulerAngles.y;
-			transform.rotation =
-				Quaternion.RotateTowards(transform.rotation, targetRotation, rotation / timeToTurn * Time.deltaTime);
-			float newYRotation = transform.eulerAngles.y;
-
-			float actualTurnSpeed =
-				turnSpeed * Mathf.Sign(MathUtilities.Wrap180(newYRotation) - MathUtilities.Wrap180(oldYRotation));
-
-			animationController.UpdateLateralSpeed(actualTurnSpeed, Time.deltaTime);
+			Vector3 newRotation = startRotation + new Vector3(0, rotationOverTime.Evaluate(normalizedTime) * targetAngle, 0);
+			transform.rotation = Quaternion.Euler(newRotation);
 		}
 
 		protected override void FinishedTurning()
@@ -160,14 +169,12 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected override void StartTurningAround(float angle)
 		{
-			rotation = Mathf.Abs(angle);
+			targetAngle = MathUtilities.Wrap180(angle);
 			turningTime = 0f;
 			currentForwardSpeed = animationController.animatorForwardSpeed;
 			currentTurningSpeed = animationController.animatorTurningSpeed;
 			
-			targetRotationEuler = transform.eulerAngles;
-			targetRotationEuler.y += rotation;
-			targetRotation = Quaternion.Euler(targetRotationEuler);
+			startRotation = transform.eulerAngles;
 
 			RootMotionThirdPersonMotor motor = thirdPersonBrain.CurrentMotor as RootMotionThirdPersonMotor;
 			if (motor != null)
