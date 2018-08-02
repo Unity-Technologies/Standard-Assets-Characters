@@ -43,18 +43,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		[Header("Camera")]
 		[SerializeField]
 		protected float strafeLookInputScale = 20f;
-
-		[SerializeField]
-		protected AnimationInputProperties forwardMovement;
-
 		
 		[SerializeField, Tooltip("A fall distance higher than this will trigger a fall animation")]
 		protected float maxFallDistance = 1;
-		
-		public AnimationInputProperties forwardMovementProperties
-		{
-			get { return forwardMovement; }
-		}
 
 		public float initialJumpVelocity
 		{
@@ -134,7 +125,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		public int strafeInputWindowSize
 		{
 			get { return useCustomStrafeParameters ? strafing.strafeInputWindowSize : 1; }
-		}
-		
+		}	
 	}
 }
