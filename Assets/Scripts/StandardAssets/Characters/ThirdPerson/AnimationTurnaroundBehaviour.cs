@@ -36,9 +36,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			maxNormalizedTime = 0.125f,
 			normalizedCompletionTime = 0.9f;
 
-		private float rotation;
 		private float animationTime;
-		private Vector3 startingRotationEuler;
 		private AnimationInfo current;
 		
 		private ThirdPersonAnimationController animationController;
@@ -57,12 +55,10 @@ namespace StandardAssets.Characters.ThirdPerson
 				return;
 			}
 
-			animationTime += Time.deltaTime / normalizedCompletionTime;
-			Vector3 newRotation = startingRotationEuler + new Vector3(0, animationTime * rotation, 0);
-			newRotation.y = MathUtilities.Wrap180(newRotation.y);
-			
+			Vector3 newRotation = transform.eulerAngles + animationController.unityAnimator.deltaRotation.eulerAngles;
 			transform.rotation = Quaternion.Euler(newRotation);
 
+			animationTime += Time.deltaTime / normalizedCompletionTime;
 			if(animationTime >= current.duration)
 			{
 				EndTurnAround();
@@ -71,7 +67,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public override Vector3 GetMovement()
 		{
-			return Vector3.zero;
+			return animationController.unityAnimator.deltaPosition;
 		}
 
 		protected override void FinishedTurning()
@@ -83,17 +79,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			current = GetCurrent(animationController.animatorForwardSpeed > normalizedRunSpeedThreshold,
 				!animationController.isRightFootPlanted);
 			
-			rotation = GetAngleFromFootedness(Mathf.Abs(angle));
-			startingRotationEuler = transform.eulerAngles;
-			
 			var time = Mathf.Clamp(animationController.footednessNormalizedProgress, 0, maxNormalizedTime);
-			animationController.unityAnimator.CrossFade(current.name, crossfadeDuration, 0, time);
+			animationController.unityAnimator.CrossFade(current.name, crossfadeDuration, 0, 0);
 			animationTime = time;
-		}
-
-		private float GetAngleFromFootedness(float angle)
-		{
-			return !animationController.isRightFootPlanted ? angle : -angle;
 		}
 
 		private AnimationInfo GetCurrent(bool run, bool leftPlanted)
