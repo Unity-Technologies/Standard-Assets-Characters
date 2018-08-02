@@ -3,6 +3,7 @@ using Cinemachine;
 using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.FirstPerson;
 using StandardAssets.Characters.ThirdPerson;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -43,6 +44,8 @@ namespace Demo
 		[SerializeField] 
 		protected bool parentObjects = true;
 
+		private string lastActiveFreeLookCamera;
+
 		private void Awake()
 		{
 			
@@ -63,7 +66,8 @@ namespace Demo
 			
 			
 		}
-
+		
+		
 		private void Start()
 		{
 			SetThirdPerson();
@@ -120,7 +124,11 @@ namespace Demo
 
 			if (firstPersonMainStateDrivenCamera != null)
 			{
+				firstPersonMainStateDrivenCamera
+					.ChildCameras[0].GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachinePOV>()
+					.m_HorizontalAxis.Value = LastKnownFreeLookCamPoisition();
 				firstPersonMainStateDrivenCamera.MoveToTopOfPrioritySubqueue();
+				
 			}
 
 		}
@@ -149,5 +157,32 @@ namespace Demo
 			}
 			return parent;
 		}
+		
+		/// <summary>
+		/// This method will return the last Horizontal axis value for the
+		/// Freelook camera that was active before player changed to Frist person
+		/// </summary>
+		/// <returns></returns>
+		private float LastKnownFreeLookCamPoisition()
+		{
+			foreach (var childStateCamera in thirdPersonMainStateDrivenCamera.ChildCameras)
+			{
+				if (childStateCamera.ParentCamera.IsLiveChild(childStateCamera))
+				{
+					foreach (var childCamera in childStateCamera.GetComponent<CinemachineStateDrivenCamera>().ChildCameras)
+					{
+						if (childCamera.ParentCamera.IsLiveChild(childCamera))
+						{
+							lastActiveFreeLookCamera = childCamera.GetComponent<CinemachineFreeLook>().name;
+							return childCamera.GetComponent<CinemachineFreeLook>().m_XAxis.Value;
+							
+						}
+					}
+				}
+			}
+
+			return 0;
+		}
+
 	}
 }
