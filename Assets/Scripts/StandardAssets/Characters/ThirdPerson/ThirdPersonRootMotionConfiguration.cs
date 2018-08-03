@@ -34,6 +34,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected float jumpGroundVelocityScale = 1f;
 		[SerializeField]
 		protected float jumpTurningSpeedScale = 0.5f;
+
+		[Header("Falling")] [SerializeField] 
+		protected float fallingMaxForwardSpeed = 5;
+		[SerializeField]
+		protected float fallForwardSpeedLerp = 0.05f;
 		
 		[Header("Turning")]
 		[SerializeField]
@@ -137,6 +142,16 @@ namespace StandardAssets.Characters.ThirdPerson
 		public int forwardInputWindowSize
 		{
 			get { return useCustomActionParameters ? action.forwardInputWindowSize : 1; }
-		}	
+		}
+
+		public float fallingForwardSpeed
+		{
+			get { return fallingMaxForwardSpeed; }
+		}
+
+		public float fallSpeedLerp
+		{
+			get { return fallForwardSpeedLerp; }
+		}
 	}
 }

@@ -45,6 +45,11 @@ namespace StandardAssets.Characters.Physics
 		}
 		#endif
 
+		private void Update()
+		{
+			characterController.Update();
+		}
+
 		private void LateUpdate()
 		{
 			characterController.LateUpdate();

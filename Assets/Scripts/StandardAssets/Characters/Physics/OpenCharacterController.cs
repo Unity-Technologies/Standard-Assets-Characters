@@ -23,6 +23,21 @@ namespace StandardAssets.Characters.Physics
 		private const float k_MaxSlopeLimit = 180.0f;
 
 		/// <summary>
+		/// Max slope angle on which character can slide down automatically.
+		/// </summary>
+		private const float k_MaxSlopeSlideAngle = 90.0f;
+
+		/// <summary>
+		/// Distance to test for ground when sliding down slopes.
+		/// </summary>
+		private const float k_SlideDownSlopeTestDistance = 1.0f;
+
+		/// <summary>
+		/// Scale the hit distance when doing the additional raycast, during the slide down slope test
+		/// </summary>
+		private const float k_SlideDownSlopeRaycastScaleDistance = 2.0f;
+
+		/// <summary>
 		/// Min skin width.
 		/// </summary>
 		private const float k_MinSkinWidth = 0.0001f;
@@ -217,6 +232,21 @@ namespace StandardAssets.Characters.Physics
 		[Tooltip("Send \"OnOpenCharacterControllerHit\" messages to game objects? Messages are sent when the character hits a collider while performing a move.")]
 		[SerializeField]
 		private bool sendColliderHitMessages = true;
+		
+		/// <summary>
+		/// Slide down slopes when their angle is more than the slope limit?
+		/// </summary>
+		[Header("Slide Down Slopes")]
+		[Tooltip("Slide down slopes when their angle is more than the slope limit?")]
+		[SerializeField]
+		private bool slideDownSlopes = true;
+
+		/// <summary>
+		/// Scale gravity when sliding down slopes.
+		/// </summary>
+		[Tooltip("Scale gravity when sliding down slopes.")]
+		[SerializeField]
+		private float slideDownGravityScale = 1.0f;
 
 		/// <summary>
 		/// Enable additional debugging visuals in scene view
@@ -291,6 +321,19 @@ namespace StandardAssets.Characters.Physics
 		/// Velocity of the last movement. It's the new position minus the old position.
 		/// </summary>
 		public Vector3 velocity { get; private set; }
+
+		/// <summary>
+		/// Is character busy sliding down a steep slope?
+		/// </summary>
+		public bool isSlidingDownSlope
+		{
+			get { return slidingDownSlopeTime > 0.0f; }
+		}
+		
+		/// <summary>
+		/// How long has character been sliding down a steep slope? (Zero means not busy sliding.)
+		/// </summary>
+		public float slidingDownSlopeTime { get; private set; }
 		
 		/// <summary>
 		/// The capsule center with the relevant scaling applied (e.g. if object scale is not 1,1,1)
@@ -631,6 +674,12 @@ namespace StandardAssets.Characters.Physics
 			{
 				playerRootTransform.localPosition = rootTransformOffset;
 			}
+		}
+
+		/// <inheritdoc />
+		public void Update()
+		{
+			UpdateSlideDownSlopes();
 		}
 		
 		#if UNITY_EDITOR
@@ -1557,8 +1606,8 @@ namespace StandardAssets.Characters.Physics
 			         moveVector.z.NotEqualToZero())
 			{
 				// Test if character is trying to walk up a steep slope
-				float angle = Vector3.Angle(Vector3.up, hitInfo.normal);
-				slopeIsSteep = angle > GetSlopeLimit();
+				float slopeAngle = Vector3.Angle(Vector3.up, hitInfo.normal);
+				slopeIsSteep = slopeAngle > GetSlopeLimit();
 			}
 			
 			if (tryStepOver &&
@@ -1767,6 +1816,77 @@ namespace StandardAssets.Characters.Physics
 					collisionInfoDictionary.Add(collider, newCollisionInfo);
 				}
 			}
+		}
+		
+		/// <summary>
+		/// Auto-slide down steep slopes.
+		/// </summary>
+		private void UpdateSlideDownSlopes()
+		{
+			if (!slideDownSlopes ||
+			    !isGrounded)
+			{
+				slidingDownSlopeTime = 0.0f;
+				return;
+			}
+			
+			RaycastHit hitInfoSphere;
+			if (!SmallSphereCast(Vector3.down, 
+			                     GetSkinWidth() + k_SlideDownSlopeTestDistance, 
+			                     out hitInfoSphere, 
+			                     Vector3.zero, 
+			                     true))
+			{
+				slidingDownSlopeTime = 0.0f;
+				return;
+			}
+
+			Vector3 hitNormal;
+			RaycastHit hitInfoRay;
+			Vector3 origin = GetBottomSphereWorldPosition();
+			Vector3 direction = hitInfoSphere.point - origin;
+			
+			// Raycast returns a more accurate normal than SphereCast
+			if (UnityEngine.Physics.Raycast(origin,
+			                                 direction,
+			                                 out hitInfoRay,
+			                                 direction.magnitude * k_SlideDownSlopeRaycastScaleDistance,
+			                                 GetCollisionLayerMask()) &&
+			    hitInfoRay.collider == hitInfoSphere.collider)
+			{
+				hitNormal = hitInfoRay.normal;
+			}
+			else
+			{
+				hitNormal = hitInfoSphere.normal;
+			}
+			
+			float slopeAngle = Vector3.Angle(Vector3.up, hitNormal);
+			bool slopeIsSteep = slopeAngle > GetSlopeLimit();
+			if (!slopeIsSteep || 
+			    slopeAngle >= k_MaxSlopeSlideAngle)
+			{
+				slidingDownSlopeTime = 0.0f;
+				return;
+			}
+			
+			float dt = Time.deltaTime;
+			
+			slidingDownSlopeTime += dt;
+			
+			// Pro tip: Here you can also use the friction of the physics material of the slope, to adjust the slide speed.
+			
+			// Apply gravity and slide along the obstacle
+			Vector3 moveVector = UnityEngine.Physics.gravity * slideDownGravityScale * dt;
+			
+			// Preserve collision flags and velocity, because user expects them to only be set when manually calling Move/SimpleMove.
+			CollisionFlags oldCollisionFlags = collisionFlags;
+			Vector3 oldVelocity = velocity;
+			
+			MoveInternal(moveVector, true);
+
+			collisionFlags = oldCollisionFlags;
+			velocity = oldVelocity;
 		}
 	}
 }
