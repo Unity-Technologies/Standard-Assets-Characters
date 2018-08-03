@@ -89,12 +89,12 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public bool shouldUseRootMotion { get; private set; }
 		
-		public void LocomotionStateEnter()
+		public void OnPhysicsJumpAnimationExit()
 		{
 			shouldUseRootMotion = true;
 		}
 		
-		public void LocomotionStateExit()
+		public void OnPhysicsJumpAnimationEnter()
 		{
 			// check if we are entering into a root movement jump
 			if (!isGrounded && motor.normalizedForwardSpeed > 0 && 
@@ -141,6 +141,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			hashIsStrafing = Animator.StringToHash(configuration.isStrafingParameterName);
 			motor = motorToUse;
 			animator = gameObject.GetComponent<Animator>();
+			shouldUseRootMotion = true;
 		}
 
 		/// <summary>
