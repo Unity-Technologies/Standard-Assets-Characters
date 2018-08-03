@@ -133,6 +133,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			else
 			{
+				if (aerialState == ThirdPersonAerialMovementState.Falling)
+				{
+					cachedForwardMovement = Mathf.Lerp(cachedForwardMovement, configuration.fallingForwardSpeed *
+														Time.deltaTime * characterInput.moveInput.normalized.magnitude, 
+														configuration.fallSpeedLerp);
+				}
 				characterPhysics.Move(cachedForwardMovement * transform.forward * configuration.scaledGroundVelocity);
 			}
 		}
