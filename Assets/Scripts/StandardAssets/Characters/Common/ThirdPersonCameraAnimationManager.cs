@@ -1,4 +1,6 @@
-﻿using StandardAssets.Characters.CharacterInput;
+﻿using System;
+using Cinemachine;
+using StandardAssets.Characters.CharacterInput;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,9 +15,16 @@ namespace StandardAssets.Characters.Common
 		
 		[SerializeField]
 		protected InputResponse changeCameraModeInputResponse;
+
+		[SerializeField]
+		protected InputResponse recenterCameraInputResponse;
+
+		[SerializeField]
+		protected LegacyCharacterInput characterInput;
+
+		[SerializeField]
+		protected CinemachineStateDrivenCamera actionStateDrivenCameraOne;
 		
-		
-		//Debug Canvas
 		[SerializeField]
 		protected Text currentCameraText;
 		
@@ -26,21 +35,43 @@ namespace StandardAssets.Characters.Common
 			//currentCameraText.text = actionCameraMode[currentActionModeIndex];
 			
 			changeCameraModeInputResponse.Init();
+			recenterCameraInputResponse.Init();
 			
 		}
 
 		private void OnEnable()
 		{
 			changeCameraModeInputResponse.started += SwitchActionMode;
-			
+			recenterCameraInputResponse.started += RecenterCamera;
+
 		}
 
 		private void OnDisable()
 		{
 			changeCameraModeInputResponse.started -= SwitchActionMode;
+			recenterCameraInputResponse.started -= RecenterCamera;
 			
 		}
-		
+
+		void RecenterCamera()
+		{
+			SetChildrenToRecenter(actionStateDrivenCameraOne);
+		}
+
+		private void Update()
+		{ 
+			//TODO
+			//Add threshold for slight movements 
+			
+			//TODO
+			//Add in recenter for run and idle cameras 
+			if (characterInput.hasMovementInput
+			    |characterInput.lookInput != Vector2.zero)
+			{
+				UnsetChildrenToRecenter(actionStateDrivenCameraOne);
+			}
+	}
+
 		public void StrafeStarted()
 		{
 			SetAnimation(strafeState);
@@ -51,6 +82,24 @@ namespace StandardAssets.Characters.Common
 		{
 			SetAnimation(actionCameraMode[currentActionModeIndex]);
 			currentCameraText.text = actionCameraMode[currentActionModeIndex];
+		}
+
+		void SetChildrenToRecenter(CinemachineStateDrivenCamera stateDrivenCamera)
+		{
+			foreach (var childCamera in stateDrivenCamera.ChildCameras)
+			{
+				childCamera.GetComponentInChildren<CinemachineFreeLook>().m_RecenterToTargetHeading.m_enabled = true;
+				childCamera.GetComponentInChildren<CinemachineFreeLook>().m_YAxisRecentering.m_enabled = true;
+			}
+		}
+
+		void UnsetChildrenToRecenter(CinemachineStateDrivenCamera stateDrivenCamera)
+		{
+			foreach (var childCamera in stateDrivenCamera.ChildCameras)
+			{
+				childCamera.GetComponentInChildren<CinemachineFreeLook>().m_RecenterToTargetHeading.m_enabled = false;
+				childCamera.GetComponentInChildren<CinemachineFreeLook>().m_YAxisRecentering.m_enabled = false;
+			}
 		}
 		
 		
