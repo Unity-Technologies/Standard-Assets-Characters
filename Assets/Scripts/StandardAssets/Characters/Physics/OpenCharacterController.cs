@@ -33,11 +33,6 @@ namespace StandardAssets.Characters.Physics
 		private const float k_SlideDownSlopeTestDistance = 1.0f;
 
 		/// <summary>
-		/// Scale the hit distance when doing the additional raycast, during the slide down slope test
-		/// </summary>
-		private const float k_SlideDownSlopeRaycastScaleDistance = 2.0f;
-
-		/// <summary>
 		/// Min skin width.
 		/// </summary>
 		private const float k_MinSkinWidth = 0.0001f;
@@ -45,7 +40,7 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// The maximum move itterations. Mainly used as a fail safe to prevent an infinite loop.
 		/// </summary>
-		private const int k_MaxMoveItterations = 100;
+		private const int k_MaxMoveItterations = 20;
 
 		/// <summary>
 		/// Max move vector length when splitting it up into horizontal and vertical components.
@@ -56,6 +51,11 @@ namespace StandardAssets.Characters.Physics
 		/// Stick to the ground if it is less than this distance from the character.
 		/// </summary>
 		private const float k_MaxStickToGroundDownDistance = 1.0f;
+
+		/// <summary>
+		/// Min distance to test for the ground when sticking to the ground.
+		/// </summary>
+		private const float k_MinStickToGroundDownDistance = 0.01f;
 
 		/// <summary>
 		/// Max colliders to use in the overlap methods.
@@ -91,6 +91,16 @@ namespace StandardAssets.Characters.Physics
 		/// Minimum step offset height to move (if character has a step offset).
 		/// </summary>
 		private const float k_MinStepOffsetHeight = k_MinMoveDistance;
+
+		/// <summary>
+		/// If angle between raycast and capsule/sphere cast normal is less than this then use the raycast normal, which is more accurate.
+		/// </summary>
+		private const float k_MaxAngleToUseRaycastNormal = 5.0f;
+		
+		/// <summary>
+		/// Scale the capsule/sphere hit distance when doing the additional raycast to get a more accurate normal
+		/// </summary>
+		private const float k_RaycastScaleDistance = 2.0f;
 		
 		/// <summary>
 		/// Fired when the grounded state changed.
@@ -240,6 +250,13 @@ namespace StandardAssets.Characters.Physics
 		[Tooltip("Slide down slopes when their angle is more than the slope limit?")]
 		[SerializeField]
 		private bool slideDownSlopes = true;
+		
+		/// <summary>
+		/// The maximum speed that the character can slide downwards
+		/// </summary>
+		[Tooltip("The maximum speed that the character can slide downwards")]
+		[SerializeField]
+		protected float slideDownTerminalVelocity = 10.0f;
 
 		/// <summary>
 		/// Scale gravity when sliding down slopes.
@@ -256,10 +273,10 @@ namespace StandardAssets.Characters.Physics
 		private float slideDownStartDuration = 0.25f;
 
 		/// <summary>
-		/// Enable additional debugging visuals in scene view
+		/// Enable additional debugging info and visuals in the editor
 		/// </summary>
 		[Header("Debug")]
-		[Tooltip("Enable additional debugging visuals in scene view")]
+		[Tooltip("Enable additional debugging info and visuals in the editor")]
 		[SerializeField]
 		private bool enableDebug;
 		
@@ -302,6 +319,11 @@ namespace StandardAssets.Characters.Physics
 		/// The collision info when hitting colliders.
 		/// </summary>
 		private Dictionary<Collider, OpenCharacterControllerCollisionInfo> collisionInfoDictionary = new Dictionary<Collider, OpenCharacterControllerCollisionInfo>();
+
+		/// <summary>
+		/// Slight delay before stopping the sliding down slopes. 
+		/// </summary>
+		private float delayStopSlidingDownSlopeTime;
 		
 		#if UNITY_EDITOR
 		/// <summary>
@@ -651,6 +673,15 @@ namespace StandardAssets.Characters.Physics
 			Vector3 sphereOffsetY = Vector3.up * (scaledHeight / 2.0f - scaledRadius);
 			return cachedTransform.position + scaledCenter - sphereOffsetY;
 		}
+
+		/// <summary>
+		/// Get the capsule's world position.
+		/// </summary>
+		/// <returns></returns>
+		public Vector3 GetCapsuleWorldPosition()
+		{
+			return cachedTransform.position + scaledCenter;
+		}
 		
 		/// <summary>
 		/// Returns a point on the capsule collider that is closest to a given location.
@@ -823,8 +854,10 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		/// <param name="moveVector">Move vector.</param>
 		/// <param name="slideWhenMovingDown">Slide against obstacles when moving down? (e.g. we don't want to slide when applying gravity while the charcter is grounded)</param>
+		/// <param name="forceTryStickToGround">Force try to stick to ground? Only used if character is grounded before moving.</param>
 		/// <returns>CollisionFlags is the summary of collisions that occurred during the move.</returns>
-		private CollisionFlags MoveInternal(Vector3 moveVector, bool slideWhenMovingDown)
+		private CollisionFlags MoveInternal(Vector3 moveVector, bool slideWhenMovingDown,
+		                                    bool forceTryStickToGround = false)
 		{
 			float sqrDistance = moveVector.sqrMagnitude;
 			if (sqrDistance <= 0.0f ||
@@ -840,8 +873,10 @@ namespace StandardAssets.Characters.Physics
 			Vector3 moveVectorNoY = new Vector3(moveVector.x, 0.0f, moveVector.z);
 			bool tryToStickToGround = (wasGrounded &&
 			                           moveVector.y <= 0.0f &&
-			                           moveVectorNoY.sqrMagnitude.NotEqualToZero());
-
+			                           moveVectorNoY.sqrMagnitude.NotEqualToZero()) ||
+			                          (wasGrounded &&
+			                           forceTryStickToGround);
+			
 			startPosition = cachedTransform.position;
 			
 			collisionFlags = CollisionFlags.None;
@@ -1001,13 +1036,15 @@ namespace StandardAssets.Characters.Physics
 				}
 				
 				#if UNITY_EDITOR
-				if (i == k_MaxMoveItterations - 1)
+				if (enableDebug && 
+					i == k_MaxMoveItterations - 1)
 				{
-					Debug.LogError(string.Format("reached k_MaxMoveItterations!     (remainingMoveVector: {0}, {1}, {2})     " +
-												 "(moveVector: {3}, {4}, {5})     hitCount: {6}",
-												 remainingMoveVector.moveVector.x, remainingMoveVector.moveVector.y, remainingMoveVector.moveVector.z,
-												 moveVector.x, moveVector.y, moveVector.z,
-					                             stuckInfo.hitCount));
+					Debug.LogWarning(string.Format("reached k_MaxMoveItterations!     (remainingMoveVector: {0}, {1}, {2})     " +
+					                               "(moveVector: {3}, {4}, {5})     hitCount: {6}",
+					                               remainingMoveVector.moveVector.x, remainingMoveVector.moveVector.y,
+					                               remainingMoveVector.moveVector.z,
+					                               moveVector.x, moveVector.y, moveVector.z,
+					                               stuckInfo.hitCount));
 				}
 				#endif
 			}
@@ -1240,7 +1277,11 @@ namespace StandardAssets.Characters.Physics
 		private bool CanStickToGround(Vector3 moveVector, out OpenCharacterControllerVector getDownVector)
 		{
 			Vector3 moveVectorNoY = new Vector3(moveVector.x, 0.0f, moveVector.z);
-			float downDistance = moveVectorNoY.magnitude;
+			float downDistance = Mathf.Max(moveVectorNoY.magnitude, k_MinStickToGroundDownDistance);
+			if (moveVector.y < 0.0f)
+			{
+				downDistance = Mathf.Max(downDistance, Mathf.Abs(moveVector.y));
+			}
 
 			if (downDistance <= k_MaxStickToGroundDownDistance)
 			{
@@ -1827,17 +1868,46 @@ namespace StandardAssets.Characters.Physics
 				}
 			}
 		}
-		
+
 		/// <summary>
 		/// Auto-slide down steep slopes.
 		/// </summary>
 		private void UpdateSlideDownSlopes()
 		{
+			float dt = Time.deltaTime;
+			if (!UpdateSlideDownSlopesInternal(dt))
+			{
+				if (isSlidingDownSlope)
+				{
+					slidingDownSlopeTime += dt;
+					delayStopSlidingDownSlopeTime += dt;
+					
+					// Slight delay before we stop sliding down slopes. To handle cases where sliding test fails for 1 frame.
+					if (delayStopSlidingDownSlopeTime > 0.2f)
+					{
+						slidingDownSlopeTime = 0.0f;
+					}
+				}
+				else
+				{
+					slidingDownSlopeTime = 0.0f;
+				}
+			}
+			else
+			{
+				delayStopSlidingDownSlopeTime = 0.0f;
+			}
+		}
+		
+		/// <summary>
+		/// Auto-slide down steep slopes.
+		/// </summary>
+		private bool UpdateSlideDownSlopesInternal(float dt)
+		{
 			if (!slideDownSlopes ||
 			    !isGrounded)
 			{
-				slidingDownSlopeTime = 0.0f;
-				return;
+				return false;
 			}
 			
 			RaycastHit hitInfoSphere;
@@ -1847,21 +1917,20 @@ namespace StandardAssets.Characters.Physics
 			                     Vector3.zero, 
 			                     true))
 			{
-				slidingDownSlopeTime = 0.0f;
-				return;
+				return false;
 			}
 
 			Vector3 hitNormal;
 			RaycastHit hitInfoRay;
-			Vector3 origin = GetBottomSphereWorldPosition();
-			Vector3 direction = hitInfoSphere.point - origin;
+			Vector3 rayOrigin = GetBottomSphereWorldPosition();
+			Vector3 rayDirection = hitInfoSphere.point - rayOrigin;
 			
 			// Raycast returns a more accurate normal than SphereCast
-			if (UnityEngine.Physics.Raycast(origin,
-			                                 direction,
-			                                 out hitInfoRay,
-			                                 direction.magnitude * k_SlideDownSlopeRaycastScaleDistance,
-			                                 GetCollisionLayerMask()) &&
+			if (UnityEngine.Physics.Raycast(rayOrigin,
+			                                rayDirection,
+			                                out hitInfoRay,
+			                                rayDirection.magnitude * k_RaycastScaleDistance,
+			                                GetCollisionLayerMask()) &&
 			    hitInfoRay.collider == hitInfoSphere.collider)
 			{
 				hitNormal = hitInfoRay.normal;
@@ -1876,27 +1945,38 @@ namespace StandardAssets.Characters.Physics
 			if (!slopeIsSteep || 
 			    slopeAngle >= k_MaxSlopeSlideAngle)
 			{
-				slidingDownSlopeTime = 0.0f;
-				return;
+				return false;
 			}
-			
-			float dt = Time.deltaTime;
-			
+
+			bool didSlide = true;
 			slidingDownSlopeTime += dt;
 			
 			// Pro tip: Here you can also use the friction of the physics material of the slope, to adjust the slide speed.
 			
+			// Speed increases as slope angle increases
+			float slideSpeedScale = Mathf.Clamp01(slopeAngle / k_MaxSlopeSlideAngle);
 			// Apply gravity and slide along the obstacle
-			Vector3 moveVector = UnityEngine.Physics.gravity * slideDownGravityScale * dt;
+			float gravity = Mathf.Abs(UnityEngine.Physics.gravity.y) * slideDownGravityScale * slideSpeedScale;
+			float verticalVelocity = Mathf.Clamp(gravity * slidingDownSlopeTime,  0.0f, Mathf.Abs(slideDownTerminalVelocity));
+			Vector3 moveVector = new Vector3(0.0f, -verticalVelocity, 0.0f) * dt;
 			
-			// Preserve collision flags and velocity, because user expects them to only be set when manually calling Move/SimpleMove.
+			// Preserve collision flags, velocity and grounded state. Because user expects them to only be set when manually calling Move/SimpleMove.
 			CollisionFlags oldCollisionFlags = collisionFlags;
 			Vector3 oldVelocity = velocity;
+			bool oldIsGrounded = isGrounded;
 			
-			MoveInternal(moveVector, true);
+			MoveInternal(moveVector, true, true);
+			if ((collisionFlags & CollisionFlags.CollidedSides) != 0)
+			{
+				// Stop sliding when hit something on the side
+				didSlide = false;
+			}
 
 			collisionFlags = oldCollisionFlags;
 			velocity = oldVelocity;
+			isGrounded = oldIsGrounded;
+
+			return didSlide;
 		}
 	}
 }
