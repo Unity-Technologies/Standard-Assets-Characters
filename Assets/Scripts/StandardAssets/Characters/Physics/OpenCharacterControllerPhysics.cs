@@ -30,7 +30,12 @@ namespace StandardAssets.Characters.Physics
 
 		protected override void MoveCharacter(Vector3 movement)
 		{
-			characterController.Move(movement);
+			CollisionFlags collisionFlags = characterController.Move(movement);
+			if ((collisionFlags & CollisionFlags.CollidedAbove) == CollisionFlags.CollidedAbove)
+			{
+				currentVerticalVelocity = 0f;
+				initialJumpVelocity = 0f;
+			}
 		}
 
 		#if UNITY_EDITOR
