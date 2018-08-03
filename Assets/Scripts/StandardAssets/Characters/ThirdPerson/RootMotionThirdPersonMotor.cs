@@ -275,7 +275,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		protected virtual void OnJumpPressed()
 		{
-			if (!characterPhysics.isGrounded || !animationController.shouldUseRootMotion)
+			if (!characterPhysics.isGrounded || !animationController.CanJump)
 			{
 				return;
 			}

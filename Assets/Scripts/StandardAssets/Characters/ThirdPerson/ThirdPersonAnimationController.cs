@@ -88,7 +88,24 @@ namespace StandardAssets.Characters.ThirdPerson
 		public bool isRightFootPlanted { get; private set; }
 
 		public bool shouldUseRootMotion { get; private set; }
+
+		private bool isLanding;
+
+		public bool CanJump
+		{
+			get { return shouldUseRootMotion && !isLanding; }
+		}
 		
+		public void OnLandAnimationExit()
+		{
+			isLanding = false;
+		}
+		
+		public void OnLandAnimationEnter()
+		{
+			isLanding = true;
+		}
+
 		public void OnPhysicsJumpAnimationExit()
 		{
 			shouldUseRootMotion = true;
