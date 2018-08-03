@@ -78,6 +78,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected GameObject gameObject;
 		protected ThirdPersonBrain thirdPersonBrain;
 
+		protected int turnaroundFrames;
+
 		protected bool isStrafing
 		{
 			get { return movementMode == ThirdPersonMotorMovementMode.Strafe; }
@@ -444,16 +446,18 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected virtual void CalculateForwardMovement()
 		{
+			if (movementState == ThirdPersonGroundMovementState.TurningAround &&  turnaroundFrames < 5)
+			{
+				turnaroundFrames++;
+				return; 
+			}
+
+			turnaroundFrames++;
+			
 			normalizedLateralSpeed = 0;
-			if (!InputShouldTurnAround())
-			{
-				actionAverageForwardInput.Add(characterInput.moveInput.magnitude);
-				normalizedForwardSpeed = actionAverageForwardInput.average;
-			}
-			else
-			{
-				normalizedForwardSpeed = 0f;
-			}
+			
+			actionAverageForwardInput.Add(characterInput.moveInput.magnitude);
+			normalizedForwardSpeed = actionAverageForwardInput.average;
 
 			if (characterPhysics.isGrounded)
 			{
@@ -521,12 +525,12 @@ namespace StandardAssets.Characters.ThirdPerson
 				return false;
 			}
 
-			float currentY = transform.eulerAngles.y;
-			float newY = target.eulerAngles.y;
-			float angle = MathUtilities.Wrap180(MathUtilities.Wrap180(newY) - MathUtilities.Wrap180(currentY));
+			
+			float angle;
 
-			if (ShouldTurnAround(angle))
+			if (ShouldTurnAround(out angle, target))
 			{
+				turnaroundFrames = 0;
 				cachedForwardMovement = averageForwardMovement.average;
 				preTurnMovementState = movementState;
 				movementState = ThirdPersonGroundMovementState.TurningAround;
@@ -537,20 +541,18 @@ namespace StandardAssets.Characters.ThirdPerson
 			return false;
 		}
 
-		protected virtual bool ShouldTurnAround(float angle)
+		protected virtual bool ShouldTurnAround(out float angle, Quaternion target)
 		{
 			if (Mathf.Approximately(normalizedForwardSpeed, 0))
 			{
+				float currentY = transform.eulerAngles.y;
+				float newY = target.eulerAngles.y;
+				angle = MathUtilities.Wrap180(newY - currentY);
 				return Mathf.Abs(angle) > configuration.stationaryAngleRapidTurn;
 			}
 
-			return InputShouldTurnAround();
-		}
-
-		protected virtual bool InputShouldTurnAround()
-		{
-			return Vector2.Angle(characterInput.moveInput, characterInput.previousNonZeroMoveInput) >
-			       configuration.inputAngleRapidTurn;
+			angle = Vector2.Angle(characterInput.moveInput, characterInput.previousNonZeroMoveInput);
+			return angle  > configuration.inputAngleRapidTurn;
 		}
 	}
 }
