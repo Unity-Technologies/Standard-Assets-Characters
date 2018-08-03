@@ -78,7 +78,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected GameObject gameObject;
 		protected ThirdPersonBrain thirdPersonBrain;
 
-		protected int turnaroundFrames;
+		protected float turnaroundMovementTime;
 
 		protected bool isStrafing
 		{
@@ -432,7 +432,6 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			Quaternion newRotation = Quaternion.RotateTowards(transform.rotation, targetRotation,
 			                                                  configuration.turningYSpeed * Time.deltaTime);
-
 			SetTurningSpeed(transform.rotation, newRotation);
 
 			if (transform.rotation == targetRotation)
@@ -446,13 +445,11 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected virtual void CalculateForwardMovement()
 		{
-			if (movementState == ThirdPersonGroundMovementState.TurningAround &&  turnaroundFrames < 5)
+			if (movementState == ThirdPersonGroundMovementState.TurningAround && turnaroundMovementTime < configuration.ignoreInputTimeRapidTurn)
 			{
-				turnaroundFrames++;
+				turnaroundMovementTime += Time.deltaTime;
 				return; 
 			}
-
-			turnaroundFrames++;
 			
 			normalizedLateralSpeed = 0;
 			
@@ -530,7 +527,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			if (ShouldTurnAround(out angle, target))
 			{
-				turnaroundFrames = 0;
+				turnaroundMovementTime = 0f;
 				cachedForwardMovement = averageForwardMovement.average;
 				preTurnMovementState = movementState;
 				movementState = ThirdPersonGroundMovementState.TurningAround;
