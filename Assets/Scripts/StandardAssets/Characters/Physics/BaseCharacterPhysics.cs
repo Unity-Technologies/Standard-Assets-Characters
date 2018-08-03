@@ -14,6 +14,7 @@ namespace StandardAssets.Characters.Physics
 		protected float terminalVelocity = 10f;
 		
 		public bool isGrounded { get; private set; }
+		public abstract bool startedSlide { get; }
 		public Action landed { get; set; }
 		public Action jumpVelocitySet { get; set; }
 		public Action<float> startedFalling { get; set; }
