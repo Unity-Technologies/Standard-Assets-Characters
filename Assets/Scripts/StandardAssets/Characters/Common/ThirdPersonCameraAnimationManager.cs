@@ -22,11 +22,17 @@ namespace StandardAssets.Characters.Common
 		[SerializeField]
 		protected LegacyCharacterInput characterInput;
 
-		[SerializeField]
-		protected CinemachineStateDrivenCamera actionStateDrivenCameraOne;
+		//[SerializeField]
+		//protected CinemachineStateDrivenCamera actionStateDrivenCameraOne;
 		
 		[SerializeField]
 		protected Text currentCameraText;
+
+		[SerializeField]
+		protected CinemachineFreeLook runFreelook;
+
+		[SerializeField]
+		protected CinemachineFreeLook idleFreelook;
 		
 		
 		private void Awake()
@@ -55,7 +61,8 @@ namespace StandardAssets.Characters.Common
 
 		void RecenterCamera()
 		{
-			SetChildrenToRecenter(actionStateDrivenCameraOne);
+			//SetChildrenToRecenter(actionStateDrivenCameraOne);
+			RecenterFreeLookCam(idleFreelook);
 		}
 
 		private void Update()
@@ -68,7 +75,8 @@ namespace StandardAssets.Characters.Common
 			if (characterInput.hasMovementInput
 			    |characterInput.lookInput != Vector2.zero)
 			{
-				UnsetChildrenToRecenter(actionStateDrivenCameraOne);
+				TurnOffFreeLookCamRecenter(idleFreelook);
+				//UnsetChildrenToRecenter(actionStateDrivenCameraOne);
 			}
 	}
 
@@ -100,6 +108,18 @@ namespace StandardAssets.Characters.Common
 				childCamera.GetComponentInChildren<CinemachineFreeLook>().m_RecenterToTargetHeading.m_enabled = false;
 				childCamera.GetComponentInChildren<CinemachineFreeLook>().m_YAxisRecentering.m_enabled = false;
 			}
+		}
+
+		void RecenterFreeLookCam(CinemachineFreeLook freeLook)
+		{
+			freeLook.m_RecenterToTargetHeading.m_enabled = true;
+			freeLook.m_YAxisRecentering.m_enabled = true;
+		}
+
+		void TurnOffFreeLookCamRecenter(CinemachineFreeLook freeLook)
+		{
+			freeLook.m_RecenterToTargetHeading.m_enabled = false;
+			freeLook.m_YAxisRecentering.m_enabled = false;
 		}
 		
 		
