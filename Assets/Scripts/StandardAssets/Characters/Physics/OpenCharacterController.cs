@@ -247,6 +247,13 @@ namespace StandardAssets.Characters.Physics
 		[Tooltip("Scale gravity when sliding down slopes.")]
 		[SerializeField]
 		private float slideDownGravityScale = 1.0f;
+		
+		/// <summary>
+		/// The time after initiating a slide classified as a slide start. Used to disable jumping.
+		/// </summary>
+		[Tooltip("The time after initiating a slide classified as a slide start. Used to disable jumping.")]
+		[SerializeField]
+		private float slideDownStartDuration = 0.25f;
 
 		/// <summary>
 		/// Enable additional debugging visuals in scene view
@@ -329,6 +336,14 @@ namespace StandardAssets.Characters.Physics
 		{
 			get { return slidingDownSlopeTime > 0.0f; }
 		}
+
+		/// <summary>
+		/// Is the character sliding and has been sliding less than slideDownTimeUntilJumAllowed
+		/// </summary>
+		public bool startedSlide
+		{
+			get { return isSlidingDownSlope && slidingDownSlopeTime <= slideDownStartDuration; }
+		}
 		
 		/// <summary>
 		/// How long has character been sliding down a steep slope? (Zero means not busy sliding.)
@@ -380,12 +395,7 @@ namespace StandardAssets.Characters.Physics
 			                                       out groundHit,
 			                                       float.MaxValue,
 			                                       GetCollisionLayerMask());
-			float landAngle = hit
-				? Vector3.Angle(Vector3.up, groundHit.normal)
-				: 0.0f;
-			return hit && landAngle <= GetSlopeLimit() 
-				? groundHit.distance 
-				: float.MaxValue;
+			return hit? groundHit.distance : float.MaxValue;
 		}
 
 		/// <summary>

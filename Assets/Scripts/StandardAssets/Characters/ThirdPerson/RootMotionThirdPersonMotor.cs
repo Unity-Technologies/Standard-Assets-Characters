@@ -78,6 +78,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected GameObject gameObject;
 		protected ThirdPersonBrain thirdPersonBrain;
 
+		protected float turnaroundMovementTime;
+
 		protected bool isStrafing
 		{
 			get { return movementMode == ThirdPersonMotorMovementMode.Strafe; }
@@ -275,7 +277,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		protected virtual void OnJumpPressed()
 		{
-			if (!characterPhysics.isGrounded || !animationController.CanJump)
+			if (!characterPhysics.isGrounded || characterPhysics.startedSlide || !animationController.CanJump)
 			{
 				return;
 			}
@@ -430,7 +432,6 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			Quaternion newRotation = Quaternion.RotateTowards(transform.rotation, targetRotation,
 			                                                  configuration.turningYSpeed * Time.deltaTime);
-
 			SetTurningSpeed(transform.rotation, newRotation);
 
 			if (transform.rotation == targetRotation)
@@ -444,16 +445,16 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected virtual void CalculateForwardMovement()
 		{
+			if (movementState == ThirdPersonGroundMovementState.TurningAround && turnaroundMovementTime < configuration.ignoreInputTimeRapidTurn)
+			{
+				turnaroundMovementTime += Time.deltaTime;
+				return; 
+			}
+			
 			normalizedLateralSpeed = 0;
-			if (!InputShouldTurnAround())
-			{
-				actionAverageForwardInput.Add(characterInput.moveInput.magnitude);
-				normalizedForwardSpeed = actionAverageForwardInput.average;
-			}
-			else
-			{
-				normalizedForwardSpeed = 0f;
-			}
+			
+			actionAverageForwardInput.Add(characterInput.moveInput.magnitude);
+			normalizedForwardSpeed = actionAverageForwardInput.average;
 
 			if (characterPhysics.isGrounded)
 			{
@@ -521,12 +522,12 @@ namespace StandardAssets.Characters.ThirdPerson
 				return false;
 			}
 
-			float currentY = transform.eulerAngles.y;
-			float newY = target.eulerAngles.y;
-			float angle = MathUtilities.Wrap180(MathUtilities.Wrap180(newY) - MathUtilities.Wrap180(currentY));
+			
+			float angle;
 
-			if (ShouldTurnAround(angle))
+			if (ShouldTurnAround(out angle, target))
 			{
+				turnaroundMovementTime = 0f;
 				cachedForwardMovement = averageForwardMovement.average;
 				preTurnMovementState = movementState;
 				movementState = ThirdPersonGroundMovementState.TurningAround;
@@ -537,20 +538,18 @@ namespace StandardAssets.Characters.ThirdPerson
 			return false;
 		}
 
-		protected virtual bool ShouldTurnAround(float angle)
+		protected virtual bool ShouldTurnAround(out float angle, Quaternion target)
 		{
 			if (Mathf.Approximately(normalizedForwardSpeed, 0))
 			{
+				float currentY = transform.eulerAngles.y;
+				float newY = target.eulerAngles.y;
+				angle = MathUtilities.Wrap180(newY - currentY);
 				return Mathf.Abs(angle) > configuration.stationaryAngleRapidTurn;
 			}
 
-			return InputShouldTurnAround();
-		}
-
-		protected virtual bool InputShouldTurnAround()
-		{
-			return Vector2.Angle(characterInput.moveInput, characterInput.previousNonZeroMoveInput) >
-			       configuration.inputAngleRapidTurn;
+			angle = Vector2.Angle(characterInput.moveInput, characterInput.previousNonZeroMoveInput);
+			return angle  > configuration.inputAngleRapidTurn;
 		}
 	}
 }

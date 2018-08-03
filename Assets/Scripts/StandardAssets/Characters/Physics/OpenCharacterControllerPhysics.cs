@@ -17,6 +17,11 @@ namespace StandardAssets.Characters.Physics
 			return characterController;
 		}
 
+		public override bool startedSlide
+		{
+			get { return characterController.startedSlide; }
+		}
+
 		protected override void Awake()
 		{
 			base.Awake();
