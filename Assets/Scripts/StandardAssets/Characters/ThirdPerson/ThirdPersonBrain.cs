@@ -38,6 +38,11 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private TurnaroundBehaviour[] turnaroundBehaviours;
 
+		public RootMotionThirdPersonMotor rootMotionThirdPersonMotor
+		{
+			get { return rootMotionMotor; }
+		}
+
 		public ThirdPersonAnimationController animationControl
 		{
 			get { return animationController; }
