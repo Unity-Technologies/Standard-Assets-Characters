@@ -246,7 +246,7 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		[Tooltip("Scale gravity when sliding down slopes.")]
 		[SerializeField]
-		private float slideDownGravityMultiplier = 1.0f;
+		private float slideDownGravityScale = 1.0f;
 
 		/// <summary>
 		/// Enable additional debugging visuals in scene view
@@ -321,9 +321,17 @@ namespace StandardAssets.Characters.Physics
 		/// Velocity of the last movement. It's the new position minus the old position.
 		/// </summary>
 		public Vector3 velocity { get; private set; }
+
+		/// <summary>
+		/// Is character busy sliding down a steep slope?
+		/// </summary>
+		public bool isSlidingDownSlope
+		{
+			get { return slidingDownSlopeTime > 0.0f; }
+		}
 		
 		/// <summary>
-		/// How long is player sliding down a steep slope? (Zero means player is not busy sliding down a slope.)
+		/// How long has character been sliding down a steep slope? (Zero means not busy sliding.)
 		/// </summary>
 		public float slidingDownSlopeTime { get; private set; }
 		
@@ -1866,9 +1874,19 @@ namespace StandardAssets.Characters.Physics
 			
 			slidingDownSlopeTime += dt;
 			
+			// Pro tip: Here you can also use the friction of the physics material of the slope, to adjust the slide speed.
+			
 			// Apply gravity and slide along the obstacle
-			Vector3 moveVector = UnityEngine.Physics.gravity * slideDownGravityMultiplier * dt;
+			Vector3 moveVector = UnityEngine.Physics.gravity * slideDownGravityScale * dt;
+			
+			// Preserve collision flags and velocity, because user expects them to only be set when manually calling Move/SimpleMove.
+			CollisionFlags oldCollisionFlags = collisionFlags;
+			Vector3 oldVelocity = velocity;
+			
 			MoveInternal(moveVector, true);
+
+			collisionFlags = oldCollisionFlags;
+			velocity = oldVelocity;
 		}
 	}
 }
