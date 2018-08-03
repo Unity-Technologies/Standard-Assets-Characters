@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
-	[CreateAssetMenu(fileName = "Third Person Root Motion Configuration", menuName = "Standard Assets/Characters/Third Person Root Motion Configuration", order = 1)]
+	[CreateAssetMenu(fileName = "Third Person Root Motion Configuration",
+		menuName = "Standard Assets/Characters/Third Person Root Motion Configuration", order = 1)]
 	public class ThirdPersonRootMotionConfiguration : ScriptableObject
 	{
 		[Header("Ground Motion")]
@@ -13,44 +14,61 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[SerializeField]
 		protected bool useCustomActionParameters = true;
-		
+
 		[ConditionalInclude("useCustomActionParameters")]
 		[SerializeField]
 		protected ActionProperties action;
-		
+
 		[SerializeField]
 		protected bool useCustomStrafeParameters = true;
 
 		[ConditionalInclude("useCustomStrafeParameters")]
 		[SerializeField]
 		protected StrafeProperties strafing;
-		
+
 		[Header("Jumping")]
 		[SerializeField]
 		protected float jumpSpeed = 10f;
+
 		[SerializeField]
 		protected int jumpGroundVelocitySamples = 1;
+
 		[SerializeField]
 		protected float jumpGroundVelocityScale = 1f;
+
 		[SerializeField]
 		protected float jumpTurningSpeedScale = 0.5f;
-		
+
+		[Header("Falling")]
+		[SerializeField]
+		protected float fallingMaxForwardSpeed = 5;
+
+		[SerializeField]
+		protected float fallForwardSpeedLerp = 0.05f;
+
 		[Header("Turning")]
 		[SerializeField]
 		protected float turningSpeed = 500f;
+
 		[SerializeField]
 		protected float turningSpeedVisualScale = 0.5f;
+
 		[SerializeField]
 		protected float turningLerp = 1f;
+
 		[SerializeField]
 		protected float rapidTurnInputAngle = 140f;
+
 		[SerializeField]
 		protected float stationaryRapidTurnAngle = 90f;
+
+		[SerializeField]
+		protected float rapidTurnIgnoreInputTime = 0.05f;
 
 		[Header("Camera")]
 		[SerializeField]
 		protected float strafeLookInputScale = 20f;
-		
+
 		[SerializeField, Tooltip("A fall distance higher than this will trigger a fall animation")]
 		protected float maxFallDistance = 1;
 
@@ -73,7 +91,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			get { return turningSpeedVisualScale; }
 		}
-		
+
 		public float jumpTurningYSpeed
 		{
 			get { return turningSpeed * jumpTurningSpeedScale; }
@@ -109,6 +127,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return stationaryRapidTurnAngle; }
 		}
 
+		public float ignoreInputTimeRapidTurn
+		{
+			get { return rapidTurnIgnoreInputTime; }
+		}
+
 		public float maxFallDistanceToLand
 		{
 			get { return maxFallDistance; }
@@ -128,15 +151,25 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			get { return useCustomStrafeParameters ? strafing.normalizedLateralStrafeSpeed : 1f; }
 		}
-		
+
 		public int strafeInputWindowSize
 		{
 			get { return useCustomStrafeParameters ? strafing.strafeInputWindowSize : 1; }
 		}
-		
+
 		public int forwardInputWindowSize
 		{
 			get { return useCustomActionParameters ? action.forwardInputWindowSize : 1; }
-		}	
+		}
+
+		public float fallingForwardSpeed
+		{
+			get { return fallingMaxForwardSpeed; }
+		}
+
+		public float fallSpeedLerp
+		{
+			get { return fallForwardSpeedLerp; }
+		}
 	}
 }

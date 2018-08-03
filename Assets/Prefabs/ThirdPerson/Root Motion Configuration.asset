@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Name: Root Motion Configuration
   m_EditorClassIdentifier: 
   rootMotionMovementScale: 1
-  useCustomActionParameters: 0
+  useCustomActionParameters: 1
   action:
-    forwardInputSamples: 1
+    forwardInputSamples: 5
   useCustomStrafeParameters: 1
   strafing:
     strafeInputSamples: 5
@@ -25,10 +25,13 @@ MonoBehaviour:
   jumpGroundVelocitySamples: 5
   jumpGroundVelocityScale: 1.1
   jumpTurningSpeedScale: 0.25
+  fallingMaxForwardSpeed: 5
+  fallForwardSpeedLerp: 0.05
   turningSpeed: 300
   turningSpeedVisualScale: 0.4
   turningLerp: 2
-  rapidTurnInputAngle: 140
+  rapidTurnInputAngle: 110
   stationaryRapidTurnAngle: 89
+  rapidTurnIgnoreInputTime: 0.1
   strafeLookInputScale: 250
   maxFallDistance: 1

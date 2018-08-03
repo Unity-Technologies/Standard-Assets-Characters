@@ -8,7 +8,7 @@ namespace StandardAssets.Characters.ThirdPerson
 	[Serializable]
 	public class BlendspaceTurnaroundBehaviour : TurnaroundBehaviour
 	{
-		private const float k_DefaultTurnTime = 0.15f, k_DefaultTurnSpeed = 0f;
+		private const float k_DefaultTurnTime = 0.2f, k_DefaultTurnSpeed = 0f;
 		
 		[SerializeField]
 		protected bool configureBlendspace;
@@ -30,7 +30,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		private AnimationCurve defaultRotationCurve = AnimationCurve.Linear(0,0,1,1);
 		
-		private AnimationCurve defaultForwardCurve = AnimationCurve.Linear(0, 1, 1, 1);
+		private AnimationCurve defaultForwardCurve = AnimationCurve.Linear(0, 0.1f, 1, 0.1f);
 		
 		private AnimationCurve defaultTurnMovementCurve = AnimationCurve.Linear(0,-1,1,-1);
 
@@ -82,7 +82,7 @@ namespace StandardAssets.Characters.ThirdPerson
 					return configuration.forwardSpeedCalc;
 				}
 
-				return Calculation.Multiplicative;
+				return Calculation.Additive;
 			}
 		}
 

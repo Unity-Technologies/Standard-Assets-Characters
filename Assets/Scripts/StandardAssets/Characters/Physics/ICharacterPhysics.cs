@@ -14,6 +14,11 @@ namespace StandardAssets.Characters.Physics
 		bool isGrounded { get; }
 		
 		/// <summary>
+		/// Returns true if the character just started sliding down a slope
+		/// </summary>
+		bool startedSlide { get; }
+
+		/// <summary>
 		/// Invoked when the physic object goes from not grounded to grounded
 		/// </summary>
 		Action landed { get; set; }

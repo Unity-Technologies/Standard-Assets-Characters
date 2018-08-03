@@ -27,6 +27,12 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		private CharacterController characterController;
 
+		public override bool startedSlide
+		{
+			// CharacterController will never slide down a slope
+			get { return false; }
+		}
+
 		protected override void Awake()
 		{
 			//Gets the attached character controller
