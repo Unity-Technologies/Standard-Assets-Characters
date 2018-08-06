@@ -93,7 +93,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public bool CanJump
 		{
-			get { return shouldUseRootMotion && !isLanding; }
+			get { return shouldUseRootMotion && !isLanding && isGrounded; }
 		}
 		
 		public void OnLandAnimationExit()
