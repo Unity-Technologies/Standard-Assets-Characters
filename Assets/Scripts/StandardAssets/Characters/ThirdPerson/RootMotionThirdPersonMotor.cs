@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Attributes;
 using Attributes.Types;
 using StandardAssets.Characters.CharacterInput;
@@ -83,6 +84,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected float turnaroundMovementTime;
 
+		protected SizedQueue<Vector2> previousInputs;
 
 		protected bool isStrafing
 		{
@@ -168,6 +170,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			strafeAverageForwardInput = new SlidingAverage(configuration.strafeInputWindowSize);
 			strafeAverageLateralInput = new SlidingAverage(configuration.strafeInputWindowSize);
 			rotator.Init(characterInput);
+			previousInputs = new SizedQueue<Vector2>(10);
 			
 			if (cameraTransform == null)
 			{
@@ -241,6 +244,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		public void Update()
 		{
 			HandleMovement();
+			previousInputs.Add(characterInput.moveInput);
 		}
 
 		//Protected Methods
@@ -554,8 +558,19 @@ namespace StandardAssets.Characters.ThirdPerson
 				return Mathf.Abs(angle) > configuration.stationaryAngleRapidTurn;
 			}
 
-			angle = Vector2.Angle(characterInput.moveInput, characterInput.previousNonZeroMoveInput);
-			return angle  > configuration.inputAngleRapidTurn;
+			Debug.Log(previousInputs.Count);
+			foreach (Vector2 previousInputsValue in previousInputs.values)
+			{
+				angle = Vector2.Angle(characterInput.moveInput, previousInputsValue);
+				if (angle > configuration.inputAngleRapidTurn)
+				{
+					previousInputs.Clear();
+					return true;
+				}
+			}
+
+			angle = 0;
+			return false;
 		}
 	}
 }
