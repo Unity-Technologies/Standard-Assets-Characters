@@ -26,6 +26,9 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[SerializeField]
 		protected InputResponse strafeInput;
+		
+		[SerializeField]
+		protected CharacterRotator rotator;
 
 		//Properties
 		public float normalizedTurningSpeed { get; private set; }
@@ -79,6 +82,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected ThirdPersonBrain thirdPersonBrain;
 
 		protected float turnaroundMovementTime;
+
 
 		protected bool isStrafing
 		{
@@ -163,7 +167,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			actionAverageForwardInput = new SlidingAverage(configuration.forwardInputWindowSize);
 			strafeAverageForwardInput = new SlidingAverage(configuration.strafeInputWindowSize);
 			strafeAverageLateralInput = new SlidingAverage(configuration.strafeInputWindowSize);
-
+			rotator.Init(characterInput);
+			
 			if (cameraTransform == null)
 			{
 				cameraTransform = Camera.main.transform;
@@ -408,10 +413,10 @@ namespace StandardAssets.Characters.ThirdPerson
 			float turnSpeed = characterPhysics.isGrounded
 				? configuration.turningYSpeed
 				: configuration.jumpTurningYSpeed;
+			
+			rotator.Tick();
 
-			Quaternion newRotation =
-				Quaternion.RotateTowards(transform.rotation, targetRotation,
-				                         turnSpeed * Time.deltaTime);
+			Quaternion newRotation = rotator.GetNewRotation(transform, targetRotation, turnSpeed);
 
 			SetTurningSpeed(transform.rotation, newRotation);
 
