@@ -17,7 +17,7 @@ namespace StandardAssets.Characters.CharacterInput
         protected RectTransform joystickHat;
 
         [SerializeField] 
-        protected float deadZone = 0.1f;
+        protected float deadZone = 0.2f;
             
         private Vector2 joystickPosition = Vector2.zero;
 
@@ -67,24 +67,20 @@ namespace StandardAssets.Characters.CharacterInput
 
         public Vector2 GetStickVector()
         {
-            return OnScreenDeadZone(stickAxis);
+            return ApplyOnScreenDeadZone(stickAxis);
         }
         
-        Vector2 OnScreenDeadZone(Vector2 rawOnScreen)
+        Vector2 ApplyOnScreenDeadZone(Vector2 stickInput)
         {
-            float deadZone = 0.1f;
-			
-            if (rawOnScreen.x <= deadZone & rawOnScreen.x >= -deadZone)
+            if (stickInput.magnitude < deadZone)
             {
-                rawOnScreen.x = 0f;
+                stickInput = Vector2.zero;
             }
-
-            if (rawOnScreen.y <= deadZone & rawOnScreen.y >= -deadZone)
+            else
             {
-                rawOnScreen.y = 0f;
+                stickInput = stickInput.normalized * ((stickInput.magnitude - deadZone));
             }
-
-            return rawOnScreen;
+            return stickInput;
         }
     }
 }

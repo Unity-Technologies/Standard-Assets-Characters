@@ -108,15 +108,25 @@ namespace Demo
 			{
 				thirdPersonMainStateDrivenCamera.MoveToTopOfPrioritySubqueue();
 			}
+			
+			
 		}
 
 		private void SetFirstPerson()
 		{
 			//Set FPS
+			
+			//If first person already set, then go to SetThirdPerson. 
+			if (firstPersonParent!=null & firstPersonParent.active)
+			{
+				SetThirdPerson();
+				return;
+			}
 			thirdPersonParent.SetActive(false);
 			firstPersonBrain.transform.position = thirdPersonBrain.transform.position - positionOffset;
 			firstPersonBrain.transform.rotation = thirdPersonBrain.transform.rotation;
 			firstPersonParent.SetActive(true);
+			
 			if (thirdPersonCameraModeText !=null)
 			{
 				thirdPersonCameraModeText.gameObject.SetActive(false);
@@ -132,7 +142,22 @@ namespace Demo
 				firstPersonMainStateDrivenCamera.MoveToTopOfPrioritySubqueue();
 				
 			}
+			
+			
 
+		}
+
+		private void SwitchCharacter()
+		{
+			if (firstPersonParent.active)
+			{
+				SetThirdPerson();
+			}
+
+			if (thirdPersonParent.active)
+			{
+				SetFirstPerson();
+			}
 		}
 
 		private void SetupThirdPerson()
