@@ -498,13 +498,13 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			normalizedLateralSpeed = 0;
 			
-			actionAverageForwardInput.Add(characterInput.moveInput.magnitude + (sprint && characterInput.hasMovementInput
+			actionAverageForwardInput.Add(characterInput.moveInput.normalized.magnitude + (sprint && characterInput.hasMovementInput
 											  ? configuration.sprintNormalizedForwardSpeedIncrease : 0));
 			
 			normalizedForwardSpeed = actionAverageForwardInput.average;
 			
 			// TODO HACK TO INCREASE SPRINT SPEED
-			if (normalizedForwardSpeed > 1)
+			if (sprint && normalizedForwardSpeed > 1)
 			{
 				animationController.unityAnimator.speed = sprintAnimatorSpeed;
 			}
@@ -605,7 +605,6 @@ namespace StandardAssets.Characters.ThirdPerson
 				return Mathf.Abs(angle) > configuration.stationaryAngleRapidTurn;
 			}
 
-			Debug.Log(previousInputs.Count);
 			foreach (Vector2 previousInputsValue in previousInputs.values)
 			{
 				angle = Vector2.Angle(characterInput.moveInput, previousInputsValue);
