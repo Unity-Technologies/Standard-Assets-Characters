@@ -28,6 +28,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected InputResponse strafeInput;
 		
 		[SerializeField]
+		protected InputResponse sprintInput;
+		
+		[SerializeField]
 		protected CharacterRotator rotator;
 
 		//Properties
@@ -179,6 +182,11 @@ namespace StandardAssets.Characters.ThirdPerson
 				strafeInput.Init();
 			}
 
+			if (sprintInput != null)
+			{
+				sprintInput.Init();
+			}
+
 			OnStrafeEnded();
 		}
 
@@ -199,12 +207,33 @@ namespace StandardAssets.Characters.ThirdPerson
 				strafeInput.started += OnStrafeStarted;
 				strafeInput.ended += OnStrafeEnded;
 			}
+			
+			if (sprintInput != null)
+			{
+				sprintInput.started += OnSprintStarted;
+				sprintInput.ended += OnSprintEnded;
+			}
 
 			//Turnaround subscription for runtime support
 			foreach (TurnaroundBehaviour turnaroundBehaviour in thirdPersonBrain.turnaroundOptions)
 			{
 				turnaroundBehaviour.turnaroundComplete += TurnaroundComplete;
 			}
+		}
+
+		[SerializeField]
+		protected float sprintAnimatorSpeed = 1.1f;
+
+		public bool sprint { get; private set; }
+
+		private void OnSprintStarted()
+		{
+			sprint = true;
+		}
+		
+		private void OnSprintEnded()
+		{
+			sprint = false;
 		}
 
 		/// <summary>
@@ -229,6 +258,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				strafeInput.started -= OnStrafeStarted;
 				strafeInput.ended -= OnStrafeEnded;
+			}
+			
+			if (sprintInput != null)
+			{
+				sprintInput.started -= OnSprintStarted;
+				sprintInput.ended -= OnSprintEnded;
 			}
 
 			//Turnaround un-subscription for runtime support
@@ -387,7 +422,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			Quaternion newRotation =
 				Quaternion.RotateTowards(transform.rotation, targetRotation,
-				                         configuration.turningYSpeed * Time.deltaTime);
+										 configuration.turningYSpeed * Time.deltaTime);
 
 			SetTurningSpeed(transform.rotation, newRotation);
 
@@ -437,7 +472,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 			Quaternion newRotation = Quaternion.RotateTowards(transform.rotation, targetRotation,
-			                                                  configuration.turningYSpeed * Time.deltaTime);
+															  configuration.turningYSpeed * Time.deltaTime);
 			SetTurningSpeed(transform.rotation, newRotation);
 
 			if (transform.rotation == targetRotation)
@@ -459,8 +494,20 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			normalizedLateralSpeed = 0;
 			
-			actionAverageForwardInput.Add(characterInput.moveInput.magnitude);
+			actionAverageForwardInput.Add(characterInput.moveInput.magnitude + (sprint && characterInput.hasMovementInput
+											  ? configuration.sprintNormalizedForwardSpeedIncrease : 0));
+			
 			normalizedForwardSpeed = actionAverageForwardInput.average;
+			
+			// TODO HACK TO INCREASE SPRINT SPEED
+			if (normalizedForwardSpeed > 1)
+			{
+				animationController.unityAnimator.speed = sprintAnimatorSpeed;
+			}
+			else
+			{
+				animationController.unityAnimator.speed = 1;
+			}
 
 			if (characterPhysics.isGrounded)
 			{
@@ -484,7 +531,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			normalizedForwardSpeed =
 				Mathf.Clamp((Mathf.Approximately(averageForwardInput, 0f) ? 0f : averageForwardInput),
-				            -configuration.normalizedBackwardStrafeSpeed, configuration.normalizedForwardStrafeSpeed);
+							-configuration.normalizedBackwardStrafeSpeed, configuration.normalizedForwardStrafeSpeed);
 			normalizedLateralSpeed = Mathf.Approximately(averageLateralInput, 0f)
 				? 0f : averageLateralInput * configuration.normalizedLateralStrafeSpeed;
 		}
@@ -510,10 +557,10 @@ namespace StandardAssets.Characters.ThirdPerson
 			float difference = (MathUtilities.Wrap180(newY) - MathUtilities.Wrap180(currentY)) / Time.deltaTime;
 
 			normalizedTurningSpeed = Mathf.Lerp(normalizedTurningSpeed,
-			                                    Mathf.Clamp(
-				                                    difference / configuration.turningYSpeed *
-				                                    configuration.turningSpeedScaleVisual, -1, 1),
-			                                    Time.deltaTime * configuration.turningLerpFactor);
+												Mathf.Clamp(
+													difference / configuration.turningYSpeed *
+													configuration.turningSpeedScaleVisual, -1, 1),
+												Time.deltaTime * configuration.turningLerpFactor);
 		}
 
 		protected virtual void TurnaroundComplete()

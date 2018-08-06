@@ -184,6 +184,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			GUI.Label(new Rect(Screen.width * 0.8f, 0, Screen.width * 0.2f, Screen.height * 0.1f), 
 				string.Format("Turn around: {0}\nPress T to cycle", turnaroundType));
+			
+			
+			GUI.Label(new Rect(Screen.width * 0.8f, Screen.height * 0.1f, Screen.width * 0.2f, Screen.height * 0.1f), 
+				string.Format("Sprint: {0}", rootMotionMotor.sprint));
 		}
 		
 		#if UNITY_EDITOR
