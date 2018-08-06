@@ -41,10 +41,7 @@ namespace StandardAssets.Characters.CharacterInput
 				axis = gamePadAxisName;
 			}
 			
-			GameObject gameObject = new GameObject();
-			gameObject.name = string.Format("LegacyInput_{0}_Poller", name);
-			LegacyInputResponsePoller poller = gameObject.AddComponent<LegacyInputResponsePoller>();
-			poller.Init(this, behaviour, axis,useAxisAsButton);
+			LegacyInputResponsePollerManager.instance.InitPoller(this, behaviour, axis, useAxisAsButton);
 		}
 
 		/// <summary>
