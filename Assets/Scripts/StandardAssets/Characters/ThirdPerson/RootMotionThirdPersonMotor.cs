@@ -80,6 +80,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected float turnaroundMovementTime;
 
+		protected CharacterRotator rotator;
+
 		protected bool isStrafing
 		{
 			get { return movementMode == ThirdPersonMotorMovementMode.Strafe; }
@@ -163,7 +165,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			actionAverageForwardInput = new SlidingAverage(configuration.forwardInputWindowSize);
 			strafeAverageForwardInput = new SlidingAverage(configuration.strafeInputWindowSize);
 			strafeAverageLateralInput = new SlidingAverage(configuration.strafeInputWindowSize);
-
+			rotator.Init(characterInput);
+			
 			if (cameraTransform == null)
 			{
 				cameraTransform = Camera.main.transform;
@@ -408,10 +411,10 @@ namespace StandardAssets.Characters.ThirdPerson
 			float turnSpeed = characterPhysics.isGrounded
 				? configuration.turningYSpeed
 				: configuration.jumpTurningYSpeed;
+			
+			rotator.Tick();
 
-			Quaternion newRotation =
-				Quaternion.RotateTowards(transform.rotation, targetRotation,
-				                         turnSpeed * Time.deltaTime);
+			Quaternion newRotation = rotator.GetNewRotation(transform, targetRotation, turnSpeed);
 
 			SetTurningSpeed(transform.rotation, newRotation);
 

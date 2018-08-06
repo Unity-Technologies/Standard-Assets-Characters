@@ -44,5 +44,11 @@ namespace StandardAssets.Characters.ThirdPerson
 				Debug.Log(direction);
 			}
 		}
+
+		public Quaternion GetNewRotation(Transform toRotate, Quaternion targetRotation, float turnSpeed)
+		{
+			return Quaternion.RotateTowards(toRotate.rotation, targetRotation,
+			                         turnSpeed * Time.deltaTime);
+		}
 	}
 }
