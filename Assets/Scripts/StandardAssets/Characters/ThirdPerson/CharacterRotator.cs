@@ -12,8 +12,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected float angleThreshold = 10f, changeThreshold = 270f;
 
 		[SerializeField]
-		protected Vector2 zeroAngleAxis = new Vector2(0,1);
-		
+		protected Vector2 zeroAngleAxis = new Vector2(0, 1);
+
 		private float previousInputAngle;
 
 		private ICharacterInput input;
@@ -46,6 +46,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public Quaternion GetNewRotation(Transform toRotate, Quaternion targetRotation, float turnSpeed)
 		{
+			return Quaternion.RotateTowards(toRotate.rotation, targetRotation, turnSpeed * Time.deltaTime);
 			Quaternion originalRotation = toRotate.rotation;
 			Vector3 euler = toRotate.eulerAngles;
 			float rotationAmount = Time.deltaTime * turnSpeed;
