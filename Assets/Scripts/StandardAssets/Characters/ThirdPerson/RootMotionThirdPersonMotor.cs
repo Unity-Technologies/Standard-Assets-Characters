@@ -497,8 +497,13 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			
 			normalizedLateralSpeed = 0;
-			
-			actionAverageForwardInput.Add(characterInput.moveInput.normalized.magnitude + (sprint && characterInput.hasMovementInput
+
+			var inputVector = characterInput.moveInput;
+			if (inputVector.magnitude > 1)
+			{
+				inputVector.Normalize();
+			}
+			actionAverageForwardInput.Add(inputVector.magnitude + (sprint && characterInput.hasMovementInput
 											  ? configuration.sprintNormalizedForwardSpeedIncrease : 0));
 			
 			normalizedForwardSpeed = actionAverageForwardInput.average;
