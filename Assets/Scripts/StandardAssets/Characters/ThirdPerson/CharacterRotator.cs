@@ -41,14 +41,22 @@ namespace StandardAssets.Characters.ThirdPerson
 						direction = newDirection;
 					}
 				}
-				Debug.Log(direction);
 			}
 		}
 
 		public Quaternion GetNewRotation(Transform toRotate, Quaternion targetRotation, float turnSpeed)
 		{
-			return Quaternion.RotateTowards(toRotate.rotation, targetRotation,
-			                         turnSpeed * Time.deltaTime);
+			Quaternion originalRotation = toRotate.rotation;
+			Vector3 euler = toRotate.eulerAngles;
+			float rotationAmount = Time.deltaTime * turnSpeed;
+			euler.y = euler.y + rotationAmount * direction;
+			Quaternion newRotation = Quaternion.Euler(euler);
+			if (Quaternion.Angle(originalRotation, newRotation) > Quaternion.Angle(originalRotation, targetRotation))
+			{
+				return targetRotation;
+			}
+
+			return newRotation;
 		}
 	}
 }

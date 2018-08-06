@@ -19,6 +19,11 @@ namespace Util
 			return toWrap;
 		}
 
+		public static float Wrap360(float toWrap)
+		{
+			return WrapX(toWrap, 360);
+		}
+
 		public static float Wrap1(float toWrap)
 		{
 			return WrapX(toWrap, 1);

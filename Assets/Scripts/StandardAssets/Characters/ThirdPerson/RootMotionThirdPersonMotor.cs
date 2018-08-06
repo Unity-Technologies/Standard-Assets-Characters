@@ -26,6 +26,9 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[SerializeField]
 		protected InputResponse strafeInput;
+		
+		[SerializeField]
+		protected CharacterRotator rotator;
 
 		//Properties
 		public float normalizedTurningSpeed { get; private set; }
@@ -80,7 +83,6 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected float turnaroundMovementTime;
 
-		protected CharacterRotator rotator;
 
 		protected bool isStrafing
 		{
