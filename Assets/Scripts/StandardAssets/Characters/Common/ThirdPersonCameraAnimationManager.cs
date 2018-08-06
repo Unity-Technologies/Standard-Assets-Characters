@@ -63,6 +63,7 @@ namespace StandardAssets.Characters.Common
 		{
 			//SetChildrenToRecenter(actionStateDrivenCameraOne);
 			RecenterFreeLookCam(idleFreelook);
+			RecenterFreeLookCam(runFreelook);
 		}
 
 		private void Update()
@@ -72,12 +73,23 @@ namespace StandardAssets.Characters.Common
 			
 			//TODO
 			//Add in recenter for run and idle cameras 
+			
+			//The idle cam will turn off recenter if there is any movement on left or 
+			//Right sticks. 
 			if (characterInput.hasMovementInput
 			    |characterInput.lookInput != Vector2.zero)
 			{
 				TurnOffFreeLookCamRecenter(idleFreelook);
 				//UnsetChildrenToRecenter(actionStateDrivenCameraOne);
 			}
+			
+			//The run cam will turn off recenter only if there is movmement on the right stick (look)
+			if (characterInput.lookInput != Vector2.zero)
+			{
+				TurnOffFreeLookCamRecenter(runFreelook);
+			}
+
+			
 	}
 
 		public void StrafeStarted()
@@ -109,7 +121,12 @@ namespace StandardAssets.Characters.Common
 				childCamera.GetComponentInChildren<CinemachineFreeLook>().m_YAxisRecentering.m_enabled = false;
 			}
 		}
-
+	
+		/// <summary>
+		/// Sets the given Freelook Cinemachine camera
+		/// to recenter for X/Y axis
+		/// </summary>
+		/// <param name="freeLook"></param>
 		void RecenterFreeLookCam(CinemachineFreeLook freeLook)
 		{
 			freeLook.m_RecenterToTargetHeading.m_enabled = true;
