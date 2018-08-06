@@ -6,13 +6,13 @@ using UnityEngine.UI;
 
 namespace StandardAssets.Characters.Common
 {
-	public class ThirdPersonCameraAnimationManager: CameraAnimationManager
+	public class ThirdPersonCameraAnimationManager : CameraAnimationManager
 	{
 		private string[] actionCameraMode = {"Action Mode 1", "Action Mode 2"};
 		private int currentActionModeIndex = 0;
 
 		private string strafeState = "Strafe";
-		
+
 		[SerializeField]
 		protected InputResponse changeCameraModeInputResponse;
 
@@ -24,7 +24,7 @@ namespace StandardAssets.Characters.Common
 
 		//[SerializeField]
 		//protected CinemachineStateDrivenCamera actionStateDrivenCameraOne;
-		
+
 		[SerializeField]
 		protected Text currentCameraText;
 
@@ -33,16 +33,16 @@ namespace StandardAssets.Characters.Common
 
 		[SerializeField]
 		protected CinemachineFreeLook idleFreelook;
-		
-		
+
+
 		private void Awake()
 		{
-			
+
 			//currentCameraText.text = actionCameraMode[currentActionModeIndex];
-			
+
 			changeCameraModeInputResponse.Init();
 			recenterCameraInputResponse.Init();
-			
+
 		}
 
 		private void OnEnable()
@@ -50,13 +50,15 @@ namespace StandardAssets.Characters.Common
 			changeCameraModeInputResponse.started += SwitchActionMode;
 			recenterCameraInputResponse.started += RecenterCamera;
 
+			changeCameraModeInputResponse.ended += TestEdnded;
+
 		}
 
 		private void OnDisable()
 		{
 			changeCameraModeInputResponse.started -= SwitchActionMode;
 			recenterCameraInputResponse.started -= RecenterCamera;
-			
+
 		}
 
 		void RecenterCamera()
@@ -67,30 +69,30 @@ namespace StandardAssets.Characters.Common
 		}
 
 		private void Update()
-		{ 
+		{
 			//TODO
 			//Add threshold for slight movements 
-			
+
 			//TODO
 			//Add in recenter for run and idle cameras 
-			
+
 			//The idle cam will turn off recenter if there is any movement on left or 
 			//Right sticks. 
 			if (characterInput.hasMovementInput
-			    |characterInput.lookInput != Vector2.zero)
+			    | characterInput.lookInput != Vector2.zero)
 			{
 				TurnOffFreeLookCamRecenter(idleFreelook);
 				//UnsetChildrenToRecenter(actionStateDrivenCameraOne);
 			}
-			
+
 			//The run cam will turn off recenter only if there is movmement on the right stick (look)
 			if (characterInput.lookInput != Vector2.zero)
 			{
 				TurnOffFreeLookCamRecenter(runFreelook);
 			}
 
-			
-	}
+
+		}
 
 		public void StrafeStarted()
 		{
@@ -121,7 +123,7 @@ namespace StandardAssets.Characters.Common
 				childCamera.GetComponentInChildren<CinemachineFreeLook>().m_YAxisRecentering.m_enabled = false;
 			}
 		}
-	
+
 		/// <summary>
 		/// Sets the given Freelook Cinemachine camera
 		/// to recenter for X/Y axis
@@ -138,10 +140,15 @@ namespace StandardAssets.Characters.Common
 			freeLook.m_RecenterToTargetHeading.m_enabled = false;
 			freeLook.m_YAxisRecentering.m_enabled = false;
 		}
-		
-		
-		void SwitchActionMode()
+
+		void TestEdnded()
 		{
+			Debug.Log("Ended");
+		}
+
+	void SwitchActionMode()
+		{
+			Debug.Log("Switch Camer aMode");
 			if (currentActionModeIndex == 0)
 			{
 				currentActionModeIndex = 1;
