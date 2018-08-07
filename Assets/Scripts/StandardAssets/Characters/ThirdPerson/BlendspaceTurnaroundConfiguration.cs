@@ -25,7 +25,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected float turnClassificationAngle = 150f;
 
 		[SerializeField]
-		protected AnimationCurve movementDuring180Turn = AnimationCurve.Linear(0, -1, 1, -1);
+		protected AnimationCurve movementDuring180Turn = AnimationCurve.Linear(0, 1, 1, 1);
 		
 		[SerializeField]
 		protected AnimationCurve movementDuring90Turn = AnimationCurve.Linear(0, 1, 1, 1);

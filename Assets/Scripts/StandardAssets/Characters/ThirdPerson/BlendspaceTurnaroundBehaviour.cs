@@ -32,7 +32,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private AnimationCurve defaultForwardCurve = AnimationCurve.Linear(0, 0.1f, 1, 0.1f);
 
-		private AnimationCurve defaultTurn180MovementCurve = AnimationCurve.Linear(0, -1, 1, -1);
+		private AnimationCurve defaultTurn180MovementCurve = AnimationCurve.Linear(0, 1, 1, 1);
 
 		private AnimationCurve defaultTurn90MovementCurve = AnimationCurve.Linear(0, 1, 1, 1);
 
@@ -213,7 +213,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			RootMotionThirdPersonMotor motor = thirdPersonBrain.CurrentMotor as RootMotionThirdPersonMotor;
 			if (motor != null)
 			{
-				movementVector = transform.forward * motor.cachedForwardMovement;
+				Vector3 rotatedVector = Quaternion.AngleAxis(angle, Vector3.up) * transform.forward;
+				movementVector = rotatedVector * motor.cachedForwardMovement;
 				movementVector.y = 0;
 			}
 		}
