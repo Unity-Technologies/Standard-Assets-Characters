@@ -35,6 +35,11 @@ namespace StandardAssets.Characters.Common
 		[SerializeField]
 		protected CinemachineFreeLook defaultWorldFreelookCam;
 
+		[SerializeField]
+		protected CinemachineStateDrivenCamera hybridStateDrivenCamera;
+
+		private bool recetnerHybridIdle;
+
 
 		private void Awake()
 		{
@@ -69,12 +74,22 @@ namespace StandardAssets.Characters.Common
 			//To Follow mode. 
 			if (characterInput.hasMovementInput)
 			{
+				Debug.Log("Has Movement Set To Follow");
 				cameraAnimationManager.SetAnimation("Follow",1);
+
 			}
+			else
+			{
+				cameraAnimationManager.SetAnimation("FollowWithDelay",1);
+			}
+			
 			
 			//Set hybrid idle freelook cam to recenter 
 			RecenterFreeLookCam(hybridIdleCamera);
-			
+	
+
+
+
 		}
 
 		private void Update()
