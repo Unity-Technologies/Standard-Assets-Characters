@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Attributes;
 using Attributes.Types;
 using StandardAssets.Characters.CharacterInput;
@@ -26,6 +27,9 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[SerializeField]
 		protected InputResponse strafeInput;
+		
+		[SerializeField]
+		protected InputResponse sprintInput;
 		
 		[SerializeField]
 		protected CharacterRotator rotator;
@@ -83,6 +87,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected float turnaroundMovementTime;
 
+		protected SizedQueue<Vector2> previousInputs;
 
 		protected bool isStrafing
 		{
@@ -168,6 +173,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			strafeAverageForwardInput = new SlidingAverage(configuration.strafeInputWindowSize);
 			strafeAverageLateralInput = new SlidingAverage(configuration.strafeInputWindowSize);
 			rotator.Init(characterInput);
+			previousInputs = new SizedQueue<Vector2>(configuration.bufferSizeInput);
 			
 			if (cameraTransform == null)
 			{
@@ -177,6 +183,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (strafeInput != null)
 			{
 				strafeInput.Init();
+			}
+
+			if (sprintInput != null)
+			{
+				sprintInput.Init();
 			}
 
 			OnStrafeEnded();
@@ -199,12 +210,33 @@ namespace StandardAssets.Characters.ThirdPerson
 				strafeInput.started += OnStrafeStarted;
 				strafeInput.ended += OnStrafeEnded;
 			}
+			
+			if (sprintInput != null)
+			{
+				sprintInput.started += OnSprintStarted;
+				sprintInput.ended += OnSprintEnded;
+			}
 
 			//Turnaround subscription for runtime support
 			foreach (TurnaroundBehaviour turnaroundBehaviour in thirdPersonBrain.turnaroundOptions)
 			{
 				turnaroundBehaviour.turnaroundComplete += TurnaroundComplete;
 			}
+		}
+
+		[SerializeField]
+		protected float sprintAnimatorSpeed = 1.1f;
+
+		public bool sprint { get; private set; }
+
+		private void OnSprintStarted()
+		{
+			sprint = true;
+		}
+		
+		private void OnSprintEnded()
+		{
+			sprint = false;
 		}
 
 		/// <summary>
@@ -230,6 +262,12 @@ namespace StandardAssets.Characters.ThirdPerson
 				strafeInput.started -= OnStrafeStarted;
 				strafeInput.ended -= OnStrafeEnded;
 			}
+			
+			if (sprintInput != null)
+			{
+				sprintInput.started -= OnSprintStarted;
+				sprintInput.ended -= OnSprintEnded;
+			}
 
 			//Turnaround un-subscription for runtime support
 			foreach (TurnaroundBehaviour turnaroundBehaviour in thirdPersonBrain.turnaroundOptions)
@@ -241,6 +279,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		public void Update()
 		{
 			HandleMovement();
+			previousInputs.Add(characterInput.moveInput);
 		}
 
 		//Protected Methods
@@ -387,7 +426,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			Quaternion newRotation =
 				Quaternion.RotateTowards(transform.rotation, targetRotation,
-				                         configuration.turningYSpeed * Time.deltaTime);
+										 configuration.turningYSpeed * Time.deltaTime);
 
 			SetTurningSpeed(transform.rotation, newRotation);
 
@@ -437,7 +476,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 			Quaternion newRotation = Quaternion.RotateTowards(transform.rotation, targetRotation,
-			                                                  configuration.turningYSpeed * Time.deltaTime);
+															  configuration.turningYSpeed * Time.deltaTime);
 			SetTurningSpeed(transform.rotation, newRotation);
 
 			if (transform.rotation == targetRotation)
@@ -458,9 +497,36 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			
 			normalizedLateralSpeed = 0;
+
+			var inputVector = characterInput.moveInput;
+			if (inputVector.magnitude > 1)
+			{
+				inputVector.Normalize();
+			}
+			actionAverageForwardInput.Add(inputVector.magnitude + (sprint && characterInput.hasMovementInput
+											  ? configuration.sprintNormalizedForwardSpeedIncrease : 0));
 			
-			actionAverageForwardInput.Add(characterInput.moveInput.magnitude);
 			normalizedForwardSpeed = actionAverageForwardInput.average;
+			
+			// TODO HACK TO INCREASE SPRINT SPEED
+			if (sprint && normalizedForwardSpeed > 1)
+			{
+				animationController.unityAnimator.speed = sprintAnimatorSpeed;
+			}
+			else
+			{
+				float speed = 1;
+				// check if we are performing an animation turnaround as this also changes animator speed
+				if (movementState == ThirdPersonGroundMovementState.TurningAround)
+				{
+					var t = thirdPersonBrain.turnaround as AnimationTurnaroundBehaviour;
+					if (t != null)
+					{
+						speed = t.currentAnimatorSpeed;
+					}
+				}
+				animationController.unityAnimator.speed = speed;
+			}
 
 			if (characterPhysics.isGrounded)
 			{
@@ -484,7 +550,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			normalizedForwardSpeed =
 				Mathf.Clamp((Mathf.Approximately(averageForwardInput, 0f) ? 0f : averageForwardInput),
-				            -configuration.normalizedBackwardStrafeSpeed, configuration.normalizedForwardStrafeSpeed);
+							-configuration.normalizedBackwardStrafeSpeed, configuration.normalizedForwardStrafeSpeed);
 			normalizedLateralSpeed = Mathf.Approximately(averageLateralInput, 0f)
 				? 0f : averageLateralInput * configuration.normalizedLateralStrafeSpeed;
 		}
@@ -510,10 +576,10 @@ namespace StandardAssets.Characters.ThirdPerson
 			float difference = (MathUtilities.Wrap180(newY) - MathUtilities.Wrap180(currentY)) / Time.deltaTime;
 
 			normalizedTurningSpeed = Mathf.Lerp(normalizedTurningSpeed,
-			                                    Mathf.Clamp(
-				                                    difference / configuration.turningYSpeed *
-				                                    configuration.turningSpeedScaleVisual, -1, 1),
-			                                    Time.deltaTime * configuration.turningLerpFactor);
+												Mathf.Clamp(
+													difference / configuration.turningYSpeed *
+													configuration.turningSpeedScaleVisual, -1, 1),
+												Time.deltaTime * configuration.turningLerpFactor);
 		}
 
 		protected virtual void TurnaroundComplete()
@@ -548,14 +614,24 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			if (Mathf.Approximately(normalizedForwardSpeed, 0))
 			{
+				previousInputs.Clear();
 				float currentY = transform.eulerAngles.y;
 				float newY = target.eulerAngles.y;
 				angle = MathUtilities.Wrap180(newY - currentY);
 				return Mathf.Abs(angle) > configuration.stationaryAngleRapidTurn;
 			}
 
-			angle = Vector2.Angle(characterInput.moveInput, characterInput.previousNonZeroMoveInput);
-			return angle  > configuration.inputAngleRapidTurn;
+			foreach (Vector2 previousInputsValue in previousInputs.values)
+			{
+				angle = MathUtilities.Wrap180(Vector2Utilities.Angle(previousInputsValue, characterInput.moveInput));
+				if (Mathf.Abs(angle) > configuration.inputAngleRapidTurn)
+				{
+					previousInputs.Clear();
+					return true;
+				}
+			}
+			angle = 0;
+			return false;
 		}
 	}
 }

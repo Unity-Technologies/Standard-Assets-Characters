@@ -4,7 +4,7 @@ namespace Util
 {
 	public class SlidingAverage
 	{
-		private Queue<float> values;
+		private SizedQueue<float> values;
 
 		private readonly int windowSize;
 
@@ -19,7 +19,7 @@ namespace Util
 				}
 
 				float sum = 0f;
-				foreach (float value in values)
+				foreach (float value in values.values)
 				{
 					sum += value;
 				}
@@ -30,23 +30,12 @@ namespace Util
 
 		public SlidingAverage(int setWindowSize)
 		{
-			values = new Queue<float>();
-
-			if (setWindowSize <= 0)
-			{
-				setWindowSize = 1;
-			}
-
-			windowSize = setWindowSize;
+			values = new SizedQueue<float>(setWindowSize);
 		}
 
 		public void Add(float newValue)
 		{
-			values.Enqueue(newValue);
-			if (values.Count > windowSize)
-			{
-				values.Dequeue();
-			}
+			values.Add(newValue);
 		}
 	}
 }

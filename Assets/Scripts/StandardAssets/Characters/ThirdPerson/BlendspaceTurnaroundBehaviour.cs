@@ -9,16 +9,16 @@ namespace StandardAssets.Characters.ThirdPerson
 	public class BlendspaceTurnaroundBehaviour : TurnaroundBehaviour
 	{
 		private const float k_DefaultTurnTime = 0.2f, k_DefaultTurnSpeed = 0f;
-		
+
 		[SerializeField]
 		protected bool configureBlendspace;
-		
+
 		[ConditionalInclude("configureBlendspace")]
 		[SerializeField]
 		protected BlendspaceTurnaroundConfiguration configuration;
 
 		private Vector3 startRotation;
-		
+
 		private Vector3 movementVector;
 		private float turningTime = 0f;
 		private float currentForwardSpeed;
@@ -27,12 +27,18 @@ namespace StandardAssets.Characters.ThirdPerson
 		private ThirdPersonBrain thirdPersonBrain;
 		private ThirdPersonAnimationController animationController;
 		private Transform transform;
-		
-		private AnimationCurve defaultRotationCurve = AnimationCurve.Linear(0,0,1,1);
-		
+
+		private AnimationCurve defaultRotationCurve = AnimationCurve.Linear(0, 0, 1, 1);
+
 		private AnimationCurve defaultForwardCurve = AnimationCurve.Linear(0, 0.1f, 1, 0.1f);
-		
-		private AnimationCurve defaultTurnMovementCurve = AnimationCurve.Linear(0,-1,1,-1);
+
+		private AnimationCurve defaultTurn180MovementCurve = AnimationCurve.Linear(0, -1, 1, -1);
+
+		private AnimationCurve defaultTurn90MovementCurve = AnimationCurve.Linear(0, 1, 1, 1);
+
+		private float defaultTurnClassificationAngle = 150f;
+
+		private bool isSmallTurn;
 
 		private float timeToTurn
 		{
@@ -86,16 +92,41 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
-		private AnimationCurve turnMovementOverTime
+		private float classificationAngle
 		{
 			get
 			{
 				if (configureBlendspace)
 				{
-					return configuration.turnMovementOverTime;
+					return configuration.classificationAngle;
 				}
 
-				return defaultTurnMovementCurve;
+				return defaultTurnClassificationAngle;
+			}
+		}
+
+		private AnimationCurve turnMovementOverTime
+		{
+			get
+			{
+				if (isSmallTurn)
+				{
+					if (configureBlendspace)
+					{
+						return configuration.turn90MovementOverTime;
+					}
+
+					return defaultTurn90MovementCurve;
+				}
+				else
+				{
+					if (configureBlendspace)
+					{
+						return configuration.turn180MovementOverTime;
+					}
+
+					return defaultTurn180MovementCurve;
+				}	
 			}
 		}
 
@@ -118,7 +149,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			transform = brain.transform;
 			thirdPersonBrain = brain;
 		}
-		
+
 		public override void Update()
 		{
 			if (isTurningAround)
@@ -154,8 +185,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 			animationController.UpdateForwardSpeed(Mathf.Clamp(forwardSpeedValue, -1, 1), Time.deltaTime);
-			
-			Vector3 newRotation = startRotation + new Vector3(0, rotationOverTime.Evaluate(normalizedTime) * targetAngle, 0);
+
+			Vector3 newRotation =
+				startRotation + new Vector3(0, rotationOverTime.Evaluate(normalizedTime) * targetAngle, 0);
 			transform.rotation = Quaternion.Euler(newRotation);
 		}
 
@@ -169,11 +201,13 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected override void StartTurningAround(float angle)
 		{
+			isSmallTurn = Mathf.Abs(angle) < classificationAngle;
+			Debug.Log(isSmallTurn);
 			targetAngle = MathUtilities.Wrap180(angle);
 			turningTime = 0f;
 			currentForwardSpeed = animationController.animatorForwardSpeed;
 			currentTurningSpeed = animationController.animatorTurningSpeed;
-			
+
 			startRotation = transform.eulerAngles;
 
 			RootMotionThirdPersonMotor motor = thirdPersonBrain.CurrentMotor as RootMotionThirdPersonMotor;
@@ -182,7 +216,6 @@ namespace StandardAssets.Characters.ThirdPerson
 				movementVector = transform.forward * motor.cachedForwardMovement;
 				movementVector.y = 0;
 			}
-			
 		}
 	}
 

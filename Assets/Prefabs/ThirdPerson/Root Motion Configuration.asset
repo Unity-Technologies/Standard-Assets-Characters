@@ -16,6 +16,7 @@ MonoBehaviour:
   action:
     forwardInputSamples: 5
   useCustomStrafeParameters: 1
+  sprintNormalizedSpeedIncrease: 0.5
   strafing:
     strafeInputSamples: 5
     strafeForwardSpeed: 0.9
@@ -33,5 +34,6 @@ MonoBehaviour:
   rapidTurnInputAngle: 110
   stationaryRapidTurnAngle: 89
   rapidTurnIgnoreInputTime: 0.1
+  inputBufferSize: 5
   strafeLookInputScale: 250
   maxFallDistance: 1
