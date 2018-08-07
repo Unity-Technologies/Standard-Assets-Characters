@@ -39,6 +39,8 @@ namespace StandardAssets.Characters.FirstPerson
 			inputs.Init();
 			inputs.started += OnStateChange;
 			inputs.ended += OnStateReset;
+			
+			
 		}
 
 		private void OnStateChange()
@@ -49,6 +51,7 @@ namespace StandardAssets.Characters.FirstPerson
 		private void OnStateReset()
 		{
 			brain.ResetState();
+		
 		}
 		
 		
@@ -60,6 +63,16 @@ namespace StandardAssets.Characters.FirstPerson
 		public FirstPersonMovementProperties GetMovementProperty()
 		{
 			return movementProperties;
+		}
+		
+		public void Pause()
+		{
+			inputs.PauseResponse();
+		}
+		
+		public void Resume()
+		{
+			inputs.ResumeResponse();
 		}
 	}
 }

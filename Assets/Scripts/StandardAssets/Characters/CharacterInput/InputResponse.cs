@@ -9,6 +9,8 @@ namespace StandardAssets.Characters.CharacterInput
 	/// </summary>
 	public abstract class InputResponse : ScriptableObject
 	{
+
+		private bool paused;
 		/// <summary>
 		/// Events when the input starts (enabled) and stops (disabled)
 		/// </summary>
@@ -24,6 +26,10 @@ namespace StandardAssets.Characters.CharacterInput
 		/// </summary>
 		protected virtual void OnInputStarted()
 		{
+			if (paused)
+			{
+				return;
+			}
 			if (started == null)
 			{
 				return;
@@ -36,11 +42,25 @@ namespace StandardAssets.Characters.CharacterInput
 		/// </summary>
 		protected virtual void OnInputEnded()
 		{
+			if (paused)
+			{
+				return;
+			}
 			if (ended == null)
 			{
 				return;
 			}
 			ended();
+		}
+
+		public void PauseResponse()
+		{
+			paused = true;
+		}
+
+		public void ResumeResponse()
+		{
+			paused = false;
 		}
 	}
 }
