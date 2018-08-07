@@ -623,8 +623,10 @@ namespace StandardAssets.Characters.ThirdPerson
 			foreach (Vector2 previousInputsValue in previousInputs.values)
 			{
 				angle = MathUtilities.Wrap180(Vector2Utilities.Angle(previousInputsValue, characterInput.moveInput));
-				if (Mathf.Abs(angle) > configuration.inputAngleRapidTurn)
+				var deltaMagnitude = Mathf.Abs(previousInputsValue.magnitude - characterInput.moveInput.magnitude);
+				if (Mathf.Abs(angle) > configuration.inputAngleRapidTurn && deltaMagnitude < 0.25f)
 				{
+					Debug.Log(deltaMagnitude);
 					previousInputs.Clear();
 					return true;
 				}
