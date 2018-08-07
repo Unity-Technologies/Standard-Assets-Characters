@@ -91,11 +91,16 @@ namespace Demo
 
 		private void SetThirdPerson()
 		{
+			
 			//Set Third Person
 			thirdPersonParent.SetActive(true);
 			thirdPersonBrain.transform.position = firstPersonBrain.transform.position + positionOffset;
 			thirdPersonBrain.transform.rotation = firstPersonBrain.transform.rotation;
+
+			
+			
 			firstPersonParent.SetActive(false);
+			
 
 			if (thirdPersonCameraModeText !=null)
 			{
@@ -124,6 +129,7 @@ namespace Demo
 			firstPersonBrain.transform.position = thirdPersonBrain.transform.position - positionOffset;
 			firstPersonBrain.transform.rotation = thirdPersonBrain.transform.rotation;
 			firstPersonParent.SetActive(true);
+			
 			
 			if (thirdPersonCameraModeText !=null)
 			{
