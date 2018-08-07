@@ -44,8 +44,6 @@ namespace Demo
 		[SerializeField] 
 		protected bool parentObjects = true;
 
-		private string lastActiveFreeLookCamera;
-
 		private void Awake()
 		{
 			
@@ -117,7 +115,7 @@ namespace Demo
 			//Set FPS
 			
 			//If first person already set, then go to SetThirdPerson. 
-			if (firstPersonParent!=null & firstPersonParent.active)
+			if (firstPersonParent != null && firstPersonParent.activeSelf)
 			{
 				SetThirdPerson();
 				return;
@@ -149,12 +147,12 @@ namespace Demo
 
 		private void SwitchCharacter()
 		{
-			if (firstPersonParent.active)
+			if (firstPersonParent.activeSelf)
 			{
 				SetThirdPerson();
 			}
 
-			if (thirdPersonParent.active)
+			if (thirdPersonParent.activeSelf)
 			{
 				SetFirstPerson();
 			}
@@ -200,7 +198,6 @@ namespace Demo
 					{
 						if (childCamera.ParentCamera.IsLiveChild(childCamera))
 						{
-							lastActiveFreeLookCamera = childCamera.GetComponent<CinemachineFreeLook>().name;
 							return childCamera.GetComponent<CinemachineFreeLook>().m_XAxis.Value;
 							
 						}
