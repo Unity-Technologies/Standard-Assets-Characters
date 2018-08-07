@@ -515,7 +515,17 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			else
 			{
-				animationController.unityAnimator.speed = 1;
+				float speed = 1;
+				// check if we are performing an animation turnaround as this also changes animator speed
+				if (movementState == ThirdPersonGroundMovementState.TurningAround)
+				{
+					var t = thirdPersonBrain.turnaround as AnimationTurnaroundBehaviour;
+					if (t != null)
+					{
+						speed = t.currentAnimatorSpeed;
+					}
+				}
+				animationController.unityAnimator.speed = speed;
 			}
 
 			if (characterPhysics.isGrounded)

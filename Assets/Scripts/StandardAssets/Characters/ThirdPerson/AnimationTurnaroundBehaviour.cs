@@ -50,6 +50,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		private ThirdPersonAnimationController animationController;
 		private Transform transform;
 
+		public float currentAnimatorSpeed
+		{
+			get { return current == null ? 1 : current.speed; }
+		}
+
 		public override void Init(ThirdPersonBrain brain)
 		{
 			animationController = brain.animationControl;
