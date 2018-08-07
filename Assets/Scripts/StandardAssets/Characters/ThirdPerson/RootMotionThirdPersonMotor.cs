@@ -612,7 +612,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected virtual bool ShouldTurnAround(out float angle, Quaternion target)
 		{
-			if (Mathf.Approximately(normalizedForwardSpeed, 0))
+			var forwardSpeed = averageForwardMovement.average;
+			if (Mathf.Approximately(forwardSpeed, 0))
 			{
 				float currentY = transform.eulerAngles.y;
 				float newY = target.eulerAngles.y;
