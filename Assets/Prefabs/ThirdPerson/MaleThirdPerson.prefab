@@ -2981,20 +2981,20 @@ MonoBehaviour:
   animationTurnaroundBehaviour:
     runLeftTurn:
       name: RunForwardTurnLeft180
-      speed: 1.5
-      duration: 1.0666667
+      speed: 1.25
+      duration: 1.1333334
     runRightTurn:
       name: RunForwardTurnRight180_Mirror
+      speed: 1.25
+      duration: 1.1333334
+    sprintLeftTurn:
+      name: RunForwardTurnLeft180
       speed: 1.5
-      duration: 1.0666667
-    walkLeftTurn:
-      name: WalkForwardTurnLeft180
-      speed: 1
-      duration: 0.99999994
-    walkRightTurn:
-      name: WalkForwardTurnRight180_Mirror
-      speed: 1
-      duration: 0.99999994
+      duration: 1.1333334
+    sprintRightTurn:
+      name: RunForwardTurnRight180_Mirror
+      speed: 1.5
+      duration: 1.1333334
     idleLeftTurn:
       name: IdleTurnLeft180
       speed: 10

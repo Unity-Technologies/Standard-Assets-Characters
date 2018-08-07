@@ -62,6 +62,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected float headLookAtMaxRotation = 60f;
 
+		[SerializeField]
+		protected float headLookAtRotationSpeed = 90f;
+
 		public float floatInterpolationTime
 		{
 			get { return floatInterpolation; }
@@ -160,6 +163,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		public float lookAtMaxRotation
 		{
 			get { return headLookAtMaxRotation; }
+		}
+
+		public float lookAtRotationSpeed
+		{
+			get { return headLookAtRotationSpeed; }
 		}
 	}
 }

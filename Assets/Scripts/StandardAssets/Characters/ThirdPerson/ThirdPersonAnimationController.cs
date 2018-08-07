@@ -48,6 +48,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private bool isGrounded;
 
+		private float headAngle;
+
 		public Animator unityAnimator
 		{
 			get { return animator; }
@@ -95,12 +97,12 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			get { return shouldUseRootMotion && !isLanding && isGrounded; }
 		}
-		
+
 		public void OnLandAnimationExit()
 		{
 			isLanding = false;
 		}
-		
+
 		public void OnLandAnimationEnter()
 		{
 			isLanding = true;
@@ -110,11 +112,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			shouldUseRootMotion = true;
 		}
-		
+
 		public void OnPhysicsJumpAnimationEnter()
 		{
 			// check if we are entering into a root movement jump
-			if (!isGrounded && motor.normalizedForwardSpeed > 0 && 
+			if (!isGrounded && motor.normalizedForwardSpeed > 0 &&
 			    Mathf.Approximately(Mathf.Abs(motor.normalizedLateralSpeed), 0))
 			{
 				shouldUseRootMotion = false;
@@ -171,7 +173,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			animator.SetBool(hashHasInput,
 			                 CheckHasSpeed(motor.normalizedForwardSpeed) ||
 			                 CheckHasSpeed(motor.normalizedLateralSpeed));
-			
+
 			UpdateForwardSpeed(motor.normalizedForwardSpeed, Time.deltaTime);
 			UpdateLateralSpeed(motor.normalizedLateralSpeed, Time.deltaTime);
 
@@ -191,11 +193,15 @@ namespace StandardAssets.Characters.ThirdPerson
 		public void HeadTurn()
 		{
 			animator.SetLookAtWeight(configuration.lookAtWeight);
-			float angle = Mathf.Clamp(MathUtilities.Wrap180(motor.targetYRotation - animator.transform.eulerAngles.y),
-			                          -configuration.lookAtMaxRotation, configuration.lookAtMaxRotation);
+			float targetHeadAngle = Mathf.Clamp(
+				MathUtilities.Wrap180(motor.targetYRotation - animator.transform.eulerAngles.y),
+				-configuration.lookAtMaxRotation, configuration.lookAtMaxRotation);
+
+			headAngle = Mathf.LerpAngle(headAngle, targetHeadAngle, Time.deltaTime * configuration.lookAtRotationSpeed);
+			Debug.LogFormat("targetHeadAngle = {0} headAngle = {1}", targetHeadAngle, headAngle);
 
 			Vector3 lookAtPos = animator.transform.position +
-			                    Quaternion.AngleAxis(angle, Vector3.up) * animator.transform.forward * 100f;
+			                    Quaternion.AngleAxis(headAngle, Vector3.up) * animator.transform.forward * 100f;
 			animator.SetLookAtPosition(lookAtPos);
 		}
 
@@ -269,7 +275,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				return;
 			}
-			
+
 			isGrounded = false;
 
 			if (Mathf.Abs(motor.normalizedLateralSpeed) < Mathf.Abs(motor.normalizedForwardSpeed))
@@ -282,7 +288,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				animator.SetFloat(hashJumpedForwardSpeed, 0);
 				animator.SetFloat(hashJumpedLateralSpeed, motor.normalizedLateralSpeed);
 			}
-			
+
 			animator.SetTrigger(hashJumped);
 			animator.SetFloat(hashFallingTime, 0);
 			animator.SetBool(hashGrounded, false);
