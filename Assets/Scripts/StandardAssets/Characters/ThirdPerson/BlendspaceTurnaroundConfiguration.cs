@@ -22,7 +22,13 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected Calculation forwardSpeedCalculation = Calculation.Multiplicative;
 
 		[SerializeField]
-		protected AnimationCurve movementDuringTurn = AnimationCurve.Linear(0, -1, 1, -1);
+		protected float turnClassificationAngle = 150f;
+
+		[SerializeField]
+		protected AnimationCurve movementDuring180Turn = AnimationCurve.Linear(0, 1, 1, 1);
+		
+		[SerializeField]
+		protected AnimationCurve movementDuring90Turn = AnimationCurve.Linear(0, 1, 1, 1);
 		
 		public float turnTime
 		{
@@ -44,9 +50,19 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return forwardSpeedCalculation; }
 		}
 
-		public AnimationCurve turnMovementOverTime
+		public float classificationAngle
 		{
-			get { return movementDuringTurn; }
+			get { return turnClassificationAngle; }
+		}
+
+		public AnimationCurve turn180MovementOverTime
+		{
+			get { return movementDuring180Turn; }
+		}
+		
+		public AnimationCurve turn90MovementOverTime
+		{
+			get { return movementDuring90Turn; }
 		}
 
 		public AnimationCurve rotationOverTime

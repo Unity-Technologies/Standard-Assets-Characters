@@ -173,7 +173,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			strafeAverageForwardInput = new SlidingAverage(configuration.strafeInputWindowSize);
 			strafeAverageLateralInput = new SlidingAverage(configuration.strafeInputWindowSize);
 			rotator.Init(characterInput);
-			previousInputs = new SizedQueue<Vector2>(10);
+			previousInputs = new SizedQueue<Vector2>(configuration.bufferSizeInput);
 			
 			if (cameraTransform == null)
 			{
@@ -614,6 +614,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			if (Mathf.Approximately(normalizedForwardSpeed, 0))
 			{
+				previousInputs.Clear();
 				float currentY = transform.eulerAngles.y;
 				float newY = target.eulerAngles.y;
 				angle = MathUtilities.Wrap180(newY - currentY);
