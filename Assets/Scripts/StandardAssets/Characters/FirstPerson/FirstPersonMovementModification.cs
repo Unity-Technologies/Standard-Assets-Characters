@@ -65,14 +65,6 @@ namespace StandardAssets.Characters.FirstPerson
 			return movementProperties;
 		}
 		
-		public void Pause()
-		{
-			inputs.PauseResponse();
-		}
 		
-		public void Resume()
-		{
-			inputs.ResumeResponse();
-		}
 	}
 }

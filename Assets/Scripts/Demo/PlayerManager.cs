@@ -97,10 +97,7 @@ namespace Demo
 			thirdPersonBrain.transform.position = firstPersonBrain.transform.position + positionOffset;
 			thirdPersonBrain.transform.rotation = firstPersonBrain.transform.rotation;
 
-			foreach (var movementProperty in firstPersonBrain.exposedMovementModifiers)
-			{
-				movementProperty.Pause();
-			}
+			
 			
 			firstPersonParent.SetActive(false);
 			
@@ -132,11 +129,7 @@ namespace Demo
 			firstPersonBrain.transform.position = thirdPersonBrain.transform.position - positionOffset;
 			firstPersonBrain.transform.rotation = thirdPersonBrain.transform.rotation;
 			firstPersonParent.SetActive(true);
-			foreach (var movementProperty in firstPersonBrain.exposedMovementModifiers)
-			{
-				movementProperty.Resume();
-				
-			}
+			
 			
 			if (thirdPersonCameraModeText !=null)
 			{
