@@ -346,6 +346,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		protected virtual void OnStrafeStarted()
 		{
+			if (movementMode == ThirdPersonMotorMovementMode.Strafe)
+			{
+				return;
+			}
+			
 			if (startStrafeMode != null)
 			{
 				startStrafeMode();
@@ -627,7 +632,6 @@ namespace StandardAssets.Characters.ThirdPerson
 				var deltaMagnitude = Mathf.Abs(previousInputsValue.magnitude - characterInput.moveInput.magnitude);
 				if (Mathf.Abs(angle) > configuration.inputAngleRapidTurn && deltaMagnitude < 0.25f)
 				{
-					Debug.Log(deltaMagnitude);
 					previousInputs.Clear();
 					return true;
 				}
