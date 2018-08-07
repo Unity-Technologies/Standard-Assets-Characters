@@ -8,10 +8,10 @@ namespace StandardAssets.Characters.Common
 {
 	public class ThirdPersonCameraAnimationManager : CameraAnimationManager
 	{
-		private string[] actionCameraMode = {"Action Mode 1", "Action Mode 2"};
-		private int currentActionModeIndex = 0;
+		private string[] actionCameraMode = {"World Camera", "FreeLook Camera", "Hyrbid Camera"};
+		private int currentCameraModeIndex = 0;
 
-		private string strafeState = "Strafe";
+		private string strafeStateName = "Strafe";
 
 		[SerializeField]
 		protected InputResponse changeCameraModeInputResponse;
@@ -22,73 +22,77 @@ namespace StandardAssets.Characters.Common
 		[SerializeField]
 		protected LegacyCharacterInput characterInput;
 
-		//[SerializeField]
-		//protected CinemachineStateDrivenCamera actionStateDrivenCameraOne;
 
 		[SerializeField]
 		protected Text currentCameraText;
 
 		[SerializeField]
-		protected CinemachineFreeLook runFreelook;
+		protected CinemachineFreeLook hybridIdleCamera;
 
 		[SerializeField]
-		protected CinemachineFreeLook idleFreelook;
+		protected CameraAnimationManager cameraAnimationManager;
+
+		[SerializeField]
+		protected CinemachineFreeLook defaultWorldFreelookCam;
 
 
 		private void Awake()
 		{
-
 			//currentCameraText.text = actionCameraMode[currentActionModeIndex];
-
 			changeCameraModeInputResponse.Init();
 			recenterCameraInputResponse.Init();
-
 		}
 
 		private void OnEnable()
 		{
 			changeCameraModeInputResponse.started += SwitchActionMode;
 			recenterCameraInputResponse.started += RecenterCamera;
-
-			changeCameraModeInputResponse.ended += TestEdnded;
-
 		}
 
 		private void OnDisable()
 		{
 			changeCameraModeInputResponse.started -= SwitchActionMode;
 			recenterCameraInputResponse.started -= RecenterCamera;
-
 		}
 
 		void RecenterCamera()
 		{
-			//SetChildrenToRecenter(actionStateDrivenCameraOne);
-			RecenterFreeLookCam(idleFreelook);
-			RecenterFreeLookCam(runFreelook);
+			
+			//Recenter default world camera freelook if character is not moving
+			if (!characterInput.hasMovementInput)
+			{
+				RecenterFreeLookCam(defaultWorldFreelookCam);
+			}
+			
+			
+			//For hybrid camera, if the player is moving then the camera will change
+			//To Follow mode. 
+			if (characterInput.hasMovementInput)
+			{
+				cameraAnimationManager.SetAnimation("Follow",1);
+			}
+			
+			//Set hybrid idle freelook cam to recenter 
+			RecenterFreeLookCam(hybridIdleCamera);
+			
 		}
 
 		private void Update()
 		{
-			//TODO
-			//Add threshold for slight movements 
-
-			//TODO
-			//Add in recenter for run and idle cameras 
-
-			//The idle cam will turn off recenter if there is any movement on left or 
+			//All idle cameras will turn off recenter if there is any movement on left or 
 			//Right sticks. 
 			if (characterInput.hasMovementInput
 			    | characterInput.lookInput != Vector2.zero)
 			{
-				TurnOffFreeLookCamRecenter(idleFreelook);
-				//UnsetChildrenToRecenter(actionStateDrivenCameraOne);
+				TurnOffFreeLookCamRecenter(hybridIdleCamera);
+				TurnOffFreeLookCamRecenter(defaultWorldFreelookCam);
 			}
 
 			//The run cam will turn off recenter only if there is movmement on the right stick (look)
-			if (characterInput.lookInput != Vector2.zero)
+			// In the case of hybrid camera (running) 
+			if (characterInput.lookInput.x > 0.1 || characterInput.lookInput.x < -0.1)
 			{
-				TurnOffFreeLookCamRecenter(runFreelook);
+				cameraAnimationManager.SetAnimation("World", 1);
 			}
 
 
@@ -96,37 +100,20 @@ namespace StandardAssets.Characters.Common
 
 		public void StrafeStarted()
 		{
-			SetAnimation(strafeState);
-			currentCameraText.text = strafeState;
+			SetAnimation(strafeStateName);
+			currentCameraText.text = strafeStateName;
 		}
 
 		public void StrafeEnded()
 		{
-			SetAnimation(actionCameraMode[currentActionModeIndex]);
-			currentCameraText.text = actionCameraMode[currentActionModeIndex];
+			SetAnimation(actionCameraMode[currentCameraModeIndex]);
+			currentCameraText.text = actionCameraMode[currentCameraModeIndex];
 		}
 
-		void SetChildrenToRecenter(CinemachineStateDrivenCamera stateDrivenCamera)
-		{
-			foreach (var childCamera in stateDrivenCamera.ChildCameras)
-			{
-				childCamera.GetComponentInChildren<CinemachineFreeLook>().m_RecenterToTargetHeading.m_enabled = true;
-				childCamera.GetComponentInChildren<CinemachineFreeLook>().m_YAxisRecentering.m_enabled = true;
-			}
-		}
-
-		void UnsetChildrenToRecenter(CinemachineStateDrivenCamera stateDrivenCamera)
-		{
-			foreach (var childCamera in stateDrivenCamera.ChildCameras)
-			{
-				childCamera.GetComponentInChildren<CinemachineFreeLook>().m_RecenterToTargetHeading.m_enabled = false;
-				childCamera.GetComponentInChildren<CinemachineFreeLook>().m_YAxisRecentering.m_enabled = false;
-			}
-		}
 
 		/// <summary>
 		/// Sets the given Freelook Cinemachine camera
-		/// to recenter for X/Y axis
+		/// to recenter for X/Y axis On/Off
 		/// </summary>
 		/// <param name="freeLook"></param>
 		void RecenterFreeLookCam(CinemachineFreeLook freeLook)
@@ -141,25 +128,25 @@ namespace StandardAssets.Characters.Common
 			freeLook.m_YAxisRecentering.m_enabled = false;
 		}
 
-		void TestEdnded()
-		{
-			Debug.Log("Ended");
-		}
+		
 
-	void SwitchActionMode()
+		void SwitchActionMode()
 		{
-			Debug.Log("Switch Camer aMode");
-			if (currentActionModeIndex == 0)
+			//Index 0 - WorldCamera Mode
+			//Index 1 - FreelookCamera Mode
+			//Index 2 - HybridCamera Mode
+			if (currentCameraModeIndex == 0 || currentCameraModeIndex == 1)
 			{
-				currentActionModeIndex = 1;
+				currentCameraModeIndex++;
 			}
-			else if (currentActionModeIndex == 1)
+			else if (currentCameraModeIndex == 2)
 			{
-				currentActionModeIndex = 0;
+				currentCameraModeIndex = 0;
 			}
 
-			currentCameraText.text = actionCameraMode[currentActionModeIndex];
-			SetAnimation(actionCameraMode[currentActionModeIndex]);
+			currentCameraText.text = actionCameraMode[currentCameraModeIndex];
+			
+			SetAnimation(actionCameraMode[currentCameraModeIndex]);
 		}
 
 	}
