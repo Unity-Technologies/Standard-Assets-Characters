@@ -68,6 +68,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected float rapidTurnIgnoreInputTime = 0.05f;
 
+		[SerializeField]
+		protected int inputBufferSize = 5;
+
 		[Header("Camera")]
 		[SerializeField]
 		protected float strafeLookInputScale = 20f;
@@ -178,6 +181,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		public float sprintNormalizedForwardSpeedIncrease
 		{
 			get { return sprintNormalizedSpeedIncrease; }
+		}
+
+		public int bufferSizeInput
+		{
+			get { return inputBufferSize; }
 		}
 	}
 }
