@@ -2896,7 +2896,7 @@ MonoBehaviour:
       angleThreshold: 10
       changeThreshold: 270
       zeroAngleAxis: {x: 0, y: 1}
-    sprintAnimatorSpeed: 1.1
+    sprintAnimatorSpeed: 1.25
   animationController:
     configuration: {fileID: 11400000, guid: 16861f506e03f4b39a1b25e1bb3e307f, type: 2}
   turnaroundType: 1
@@ -2954,12 +2954,13 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
       forwardSpeedCalculation: 1
-      movementDuringTurn:
+      turnClassificationAngle: 150
+      movementDuring180Turn:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: -1
+          value: 1
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -2968,7 +2969,31 @@ MonoBehaviour:
           outWeight: 0
         - serializedVersion: 3
           time: 1
-          value: -1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      movementDuring90Turn:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
           inSlope: 0
           outSlope: 0
           tangentMode: 0
