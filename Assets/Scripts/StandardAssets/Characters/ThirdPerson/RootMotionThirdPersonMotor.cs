@@ -612,8 +612,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected virtual bool ShouldTurnAround(out float angle, Quaternion target)
 		{
-			var forwardSpeed = averageForwardMovement.average;
-			if (Mathf.Approximately(forwardSpeed, 0))
+			if (Mathf.Approximately(normalizedForwardSpeed, 0))
 			{
 				float currentY = transform.eulerAngles.y;
 				float newY = target.eulerAngles.y;
@@ -623,14 +622,13 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			foreach (Vector2 previousInputsValue in previousInputs.values)
 			{
-				angle = Vector2.Angle(characterInput.moveInput, previousInputsValue);
-				if (angle > configuration.inputAngleRapidTurn)
+				angle = MathUtilities.Wrap180(Vector2Utilities.Angle(previousInputsValue, characterInput.moveInput));
+				if (Mathf.Abs(angle) > configuration.inputAngleRapidTurn)
 				{
 					previousInputs.Clear();
 					return true;
 				}
 			}
-
 			angle = 0;
 			return false;
 		}

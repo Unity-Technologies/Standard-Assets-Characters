@@ -112,13 +112,17 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			if (forwardSpeed >= normalizedRunSpeedThreshold)
 			{
-				// 180 turns should be based on footedness
-				targetAngle = Mathf.Abs(targetAngle); 
-				if (!leftPlanted) 
-				{ 
-					targetAngle *= -1; 
-				} 
-				return leftPlanted ? runRightTurn : runLeftTurn;
+				if (targetAngle >= 170 && targetAngle <= 190)
+				{
+					// 180 turns should be based on footedness
+					targetAngle = Mathf.Abs(targetAngle); 
+					if (!leftPlanted) 
+					{ 
+						targetAngle *= -1; 
+					} 
+					return leftPlanted ? runRightTurn : runLeftTurn;
+				}
+				return turningRight ? runRightTurn : runLeftTurn;
 			}
 			return turningRight ? idleRightTurn : idleLeftTurn;
 		}
