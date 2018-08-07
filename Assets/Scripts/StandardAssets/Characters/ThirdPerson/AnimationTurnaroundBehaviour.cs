@@ -26,9 +26,9 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[SerializeField] 
 		protected AnimationInfo runLeftTurn = new AnimationInfo("RunForwardTurnLeft180"),
-		                 runRightTurn = new AnimationInfo("RunForwardTurnRight180_Mirror"),
-		                 walkLeftTurn = new AnimationInfo("WalkForwardTurnLeft180"),
-		                 walkRightTurn = new AnimationInfo("WalkForwardTurnRight180_Mirror"),
+						 runRightTurn = new AnimationInfo("RunForwardTurnRight180_Mirror"),
+						 sprintLeftTurn = new AnimationInfo("RunForwardTurnLeft180"),
+						 sprintRightTurn = new AnimationInfo("RunForwardTurnRight180_Mirror"),
 						idleLeftTurn = new AnimationInfo("IdleTurnLeft180"),
 						idleRightTurn = new AnimationInfo("IdleTurnRight180_Mirror");
 
@@ -49,10 +49,19 @@ namespace StandardAssets.Characters.ThirdPerson
 		private Vector3 startRotation;
 		private ThirdPersonAnimationController animationController;
 		private Transform transform;
-
+		
 		public float currentAnimatorSpeed
 		{
 			get { return current == null ? 1 : current.speed; }
+		}
+
+		private AnimationInfo CurrentRun(bool rightTurn, float forwardSpeed)
+		{
+			if (rightTurn)
+			{
+				return forwardSpeed <= 1 ? runRightTurn : sprintRightTurn;
+			}
+			return forwardSpeed <= 1 ? runLeftTurn : sprintLeftTurn;
 		}
 
 		public override void Init(ThirdPersonBrain brain)
@@ -67,12 +76,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				return;
 			}
+			animationTime += Time.deltaTime / normalizedCompletionTime * current.speed;
 
 			var rotation = rotationCurve.Evaluate(animationTime / current.duration);
 			Vector3 newRotation = startRotation + new Vector3(0, rotation * targetAngle, 0);
 			transform.rotation = Quaternion.Euler(newRotation);
 
-			animationTime += Time.deltaTime / normalizedCompletionTime * current.speed;
 			if(animationTime >= current.duration)
 			{
 				EndTurnAround();
@@ -102,7 +111,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			startRotation = transform.eulerAngles;
 			var time = Mathf.Clamp(animationController.footednessNormalizedProgress, 0, maxNormalizedTime);
 			animationController.unityAnimator.CrossFade(current.name, crossfadeDuration, 0, 0);
-			animationTime = time;
+			animationTime = 0;
 
 			cachedAnimatorSpeed = animationController.unityAnimator.speed;
 			animationController.unityAnimator.speed = current.speed;
@@ -110,21 +119,25 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private AnimationInfo GetCurrent(float forwardSpeed, bool turningRight, bool leftPlanted)
 		{
-			if (forwardSpeed >= normalizedRunSpeedThreshold)
+			// idle turn
+			if (forwardSpeed < normalizedRunSpeedThreshold)
 			{
-				if (targetAngle >= 170 && targetAngle <= 190)
-				{
-					// 180 turns should be based on footedness
-					targetAngle = Mathf.Abs(targetAngle); 
-					if (!leftPlanted) 
-					{ 
-						targetAngle *= -1; 
-					} 
-					return leftPlanted ? runRightTurn : runLeftTurn;
-				}
-				return turningRight ? runRightTurn : runLeftTurn;
+				return turningRight ? idleRightTurn : idleLeftTurn;
 			}
-			return turningRight ? idleRightTurn : idleLeftTurn;
+
+			// < 180 turn
+			if (targetAngle < 170 || targetAngle > 190)
+			{
+				return CurrentRun(turningRight, forwardSpeed);
+			}
+			
+			// 180 turns should be based on footedness
+			targetAngle = Mathf.Abs(targetAngle); 
+			if (!leftPlanted) 
+			{ 
+				targetAngle *= -1; 
+			} 
+			return CurrentRun(leftPlanted, forwardSpeed);
 		}
 		
 #if UNITY_EDITOR
@@ -178,14 +191,14 @@ namespace StandardAssets.Characters.ThirdPerson
 				runRightTurn.duration = state.motion.averageDuration;
 				turnsFound++;
 			}
-			if (state.name == walkLeftTurn.name)
+			if (state.name == sprintLeftTurn.name)
 			{
-				walkLeftTurn.duration = state.motion.averageDuration;
+				sprintLeftTurn.duration = state.motion.averageDuration;
 				turnsFound++;
 			}
-			if (state.name == walkRightTurn.name)
+			if (state.name == sprintRightTurn.name)
 			{
-				walkRightTurn.duration = state.motion.averageDuration;
+				sprintRightTurn.duration = state.motion.averageDuration;
 				turnsFound++;
 			}
 			if (state.name == idleLeftTurn.name)
