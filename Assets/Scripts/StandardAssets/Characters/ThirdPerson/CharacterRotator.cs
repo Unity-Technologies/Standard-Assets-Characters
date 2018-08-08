@@ -14,25 +14,17 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected Vector2 zeroAngleAxis = new Vector2(0, 1);
 
-		private float previousInputAngle;
-
-		private ICharacterInput input;
+		private float previousTargetAngle;
 
 		private float direction;
 
-		public void Init(ICharacterInput inputToUse)
+		protected float CalculateSign(float angle)
 		{
-			input = inputToUse;
-		}
-
-		public void Tick()
-		{
-			float angle = Vector2Utilities.Angle(zeroAngleAxis, input.moveInput);
-			float angleDifference = angle - previousInputAngle;
+			float angleDifference = angle - previousTargetAngle;
 			float absoluteAngleDifference = Mathf.Abs(angleDifference);
 			if (absoluteAngleDifference > angleThreshold)
 			{
-				previousInputAngle = angle;
+				previousTargetAngle = angle;
 				float newDirection = Mathf.Sign(angleDifference);
 				if (Math.Abs(direction - newDirection) > Mathf.Epsilon)
 				{
@@ -42,11 +34,13 @@ namespace StandardAssets.Characters.ThirdPerson
 					}
 				}
 			}
-		}
 
+			return direction;
+		}
+		
 		public Quaternion GetNewRotation(Transform toRotate, Quaternion targetRotation, float turnSpeed)
 		{
-			return Quaternion.RotateTowards(toRotate.rotation, targetRotation, turnSpeed * Time.deltaTime);
+			float direction = CalculateSign(targetRotation.eulerAngles.y);
 			Quaternion originalRotation = toRotate.rotation;
 			Vector3 euler = toRotate.eulerAngles;
 			float rotationAmount = Time.deltaTime * turnSpeed;
