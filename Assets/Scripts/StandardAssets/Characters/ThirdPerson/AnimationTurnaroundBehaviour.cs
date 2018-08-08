@@ -55,11 +55,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			get { return animationController.unityAnimator; }
 		}
-		
-		public float currentAnimatorSpeed
-		{
-			get { return current == null ? 1 : current.speed; }
-		}
 
 		private AnimationInfo CurrentRun(bool rightTurn, float forwardSpeed)
 		{

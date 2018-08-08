@@ -103,6 +103,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			get { return configuration; }
 		}
+		
+		public bool sprint { get; private set; }
 
 		public void OnJumpAnimationComplete()
 		{
@@ -222,11 +224,6 @@ namespace StandardAssets.Characters.ThirdPerson
 				turnaroundBehaviour.turnaroundComplete += TurnaroundComplete;
 			}
 		}
-
-		[SerializeField]
-		protected float sprintAnimatorSpeed = 1.1f;
-
-		public bool sprint { get; private set; }
 
 		private void OnSprintStarted()
 		{
@@ -510,26 +507,6 @@ namespace StandardAssets.Characters.ThirdPerson
 											  ? configuration.sprintNormalizedForwardSpeedIncrease : 0));
 			
 			normalizedForwardSpeed = actionAverageForwardInput.average;
-			
-			// TODO HACK TO INCREASE SPRINT SPEED
-			if (sprint && normalizedForwardSpeed > 1)
-			{
-				animationController.unityAnimator.speed = sprintAnimatorSpeed;
-			}
-			else
-			{
-				float speed = 1;
-				// check if we are performing an animation turnaround as this also changes animator speed
-				if (movementState == ThirdPersonGroundMovementState.TurningAround)
-				{
-					var t = thirdPersonBrain.turnaround as AnimationTurnaroundBehaviour;
-					if (t != null)
-					{
-						speed = t.currentAnimatorSpeed;
-					}
-				}
-				animationController.unityAnimator.speed = speed;
-			}
 
 			if (characterPhysics.isGrounded)
 			{
