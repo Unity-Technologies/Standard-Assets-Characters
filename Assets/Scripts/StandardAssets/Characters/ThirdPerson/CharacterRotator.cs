@@ -37,10 +37,14 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			return direction;
 		}
+
+		public void Tick(float angle)
+		{
+			direction = CalculateSign(angle);
+		}
 		
 		public Quaternion GetNewRotation(Transform toRotate, Quaternion targetRotation, float turnSpeed)
 		{
-			float direction = CalculateSign(targetRotation.eulerAngles.y);
 			Quaternion originalRotation = toRotate.rotation;
 			Vector3 euler = toRotate.eulerAngles;
 			float rotationAmount = Time.deltaTime * turnSpeed;

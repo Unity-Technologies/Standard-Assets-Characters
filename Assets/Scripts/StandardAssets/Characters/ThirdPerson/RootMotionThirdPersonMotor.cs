@@ -277,6 +277,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public void Update()
 		{
+			rotator.Tick(targetYRotation);
 			HandleMovement();
 			previousInputs.Add(characterInput.moveInput);
 		}
