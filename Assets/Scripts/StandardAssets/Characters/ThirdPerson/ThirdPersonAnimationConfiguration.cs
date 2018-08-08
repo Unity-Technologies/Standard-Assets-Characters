@@ -36,6 +36,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected string jumpedParameter = "Jumped";
 		
 		[SerializeField]
+		protected string physicsJumpParameter = "PhysicsJump";
+		
+		[SerializeField]
 		protected string jumpedLateralSpeedParameter = "JumpedLateralSpeed";
 		
 		[SerializeField]
@@ -47,9 +50,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected string rapidTurnParameter = "RapidTurn";
 
-		[SerializeField]
-		protected string isStrafingParameter = "IsStrafing";
-		
 		[SerializeField]
 		protected bool invertFootedness;
 
@@ -135,11 +135,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return rapidTurnParameter; }
 		}
 
-		public string isStrafingParameterName
-		{
-			get { return isStrafingParameter; }
-		}
-
 		public bool invertFoot
 		{
 			get { return invertFootedness; }
@@ -168,6 +163,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		public float lookAtRotationSpeed
 		{
 			get { return headLookAtRotationSpeed; }
+		}
+
+		public string physicsJump
+		{
+			get { return physicsJumpParameter; }
 		}
 	}
 }

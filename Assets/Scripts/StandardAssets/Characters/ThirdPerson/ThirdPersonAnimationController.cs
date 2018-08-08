@@ -44,7 +44,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private int hashJumpedLateralSpeed;
 		private int hashPredictedFallDistance;
 		private int hashRapidTurn;
-		private int hashIsStrafing;
+		private int hashPhysicsJump;
 
 		private bool isGrounded;
 
@@ -157,7 +157,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			hashJumpedLateralSpeed = Animator.StringToHash(configuration.jumpedLateralSpeedParameterName);
 			hashPredictedFallDistance = Animator.StringToHash(configuration.predictedFallDistanceParameterName);
 			hashRapidTurn = Animator.StringToHash(configuration.rapidTurnParameterName);
-			hashIsStrafing = Animator.StringToHash(configuration.isStrafingParameterName);
+			hashPhysicsJump = Animator.StringToHash(configuration.physicsJump);
 			motor = motorToUse;
 			animator = gameObject.GetComponent<Animator>();
 			shouldUseRootMotion = true;
@@ -185,7 +185,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			else
 			{
-				animator.SetBool(hashIsStrafing, Mathf.Abs(motor.normalizedLateralSpeed) > 0);
 				UpdateFoot();
 			}
 		}
@@ -277,15 +276,18 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			isGrounded = false;
 
-			if (Mathf.Abs(motor.normalizedLateralSpeed) < Mathf.Abs(motor.normalizedForwardSpeed))
+			if (Mathf.Abs(motor.normalizedLateralSpeed) <= Mathf.Abs(motor.normalizedForwardSpeed)
+			    && motor.normalizedForwardSpeed >=0)
 			{
 				animator.SetFloat(hashJumpedLateralSpeed, 0);
 				animator.SetFloat(hashJumpedForwardSpeed, motor.normalizedForwardSpeed);
+				animator.SetBool(hashPhysicsJump, true);
 			}
 			else
 			{
-				animator.SetFloat(hashJumpedForwardSpeed, 0);
+				animator.SetFloat(hashJumpedForwardSpeed, motor.normalizedForwardSpeed);
 				animator.SetFloat(hashJumpedLateralSpeed, motor.normalizedLateralSpeed);
+				animator.SetBool(hashPhysicsJump, false);
 			}
 
 			animator.SetTrigger(hashJumped);

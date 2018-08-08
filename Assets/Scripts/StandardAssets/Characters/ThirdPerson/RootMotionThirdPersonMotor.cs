@@ -334,7 +334,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				jumpStarted();
 			}
 
-			if (Mathf.Abs(normalizedLateralSpeed) < normalizedForwardSpeed)
+			if (Mathf.Abs(normalizedLateralSpeed) <= normalizedForwardSpeed && normalizedForwardSpeed >=0)
 			{
 				characterPhysics.SetJumpVelocity(configuration.initialJumpVelocity);
 				cachedForwardMovement = averageForwardMovement.average;
