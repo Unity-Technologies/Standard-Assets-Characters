@@ -184,7 +184,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				forwardSpeedValue = forwardSpeedValue + currentForwardSpeed;
 			}
 
-			animationController.UpdateForwardSpeed(Mathf.Clamp(forwardSpeedValue, -1, 1), Time.deltaTime);
+			animationController.UpdateForwardSpeed(forwardSpeedValue, Time.deltaTime);
 
 			Vector3 newRotation =
 				startRotation + new Vector3(0, rotationOverTime.Evaluate(normalizedTime) * targetAngle, 0);

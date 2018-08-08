@@ -198,7 +198,6 @@ namespace StandardAssets.Characters.ThirdPerson
 				-configuration.lookAtMaxRotation, configuration.lookAtMaxRotation);
 
 			headAngle = Mathf.LerpAngle(headAngle, targetHeadAngle, Time.deltaTime * configuration.lookAtRotationSpeed);
-			Debug.LogFormat("targetHeadAngle = {0} headAngle = {1}", targetHeadAngle, headAngle);
 
 			Vector3 lookAtPos = animator.transform.position +
 			                    Quaternion.AngleAxis(headAngle, Vector3.up) * animator.transform.forward * 100f;
