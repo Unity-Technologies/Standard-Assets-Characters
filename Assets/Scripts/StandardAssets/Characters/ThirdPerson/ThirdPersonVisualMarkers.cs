@@ -3,6 +3,7 @@ using System.Security.Permissions;
 using UnityEngine;
 using StandardAssets.Characters.Physics;
 using StandardAssets.Characters.CharacterInput;
+using StandardAssets.GizmosHelpers;
 using Util;
 
 
@@ -97,6 +98,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			        
 			        //Draw the line to the intended rotation
 			        Debug.DrawLine(transform.position, targetPoint, Color.red);
+			        
 		        }
 	        }
         }

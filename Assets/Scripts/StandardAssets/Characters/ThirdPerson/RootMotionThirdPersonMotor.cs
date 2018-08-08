@@ -103,6 +103,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			get { return configuration; }
 		}
+		
+		public bool sprint { get; private set; }
 
 		public void OnJumpAnimationComplete()
 		{
@@ -172,7 +174,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			actionAverageForwardInput = new SlidingAverage(configuration.forwardInputWindowSize);
 			strafeAverageForwardInput = new SlidingAverage(configuration.strafeInputWindowSize);
 			strafeAverageLateralInput = new SlidingAverage(configuration.strafeInputWindowSize);
-			rotator.Init(characterInput);
 			previousInputs = new SizedQueue<Vector2>(configuration.bufferSizeInput);
 			
 			if (cameraTransform == null)
@@ -224,11 +225,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
-		[SerializeField]
-		protected float sprintAnimatorSpeed = 1.1f;
-
-		public bool sprint { get; private set; }
-
 		private void OnSprintStarted()
 		{
 			sprint = true;
@@ -278,6 +274,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public void Update()
 		{
+			rotator.Tick(targetYRotation);
 			HandleMovement();
 			previousInputs.Add(characterInput.moveInput);
 		}
@@ -334,7 +331,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				jumpStarted();
 			}
 
-			if (Mathf.Abs(normalizedLateralSpeed) < normalizedForwardSpeed)
+			if (Mathf.Abs(normalizedLateralSpeed) <= normalizedForwardSpeed && normalizedForwardSpeed >=0)
 			{
 				characterPhysics.SetJumpVelocity(configuration.initialJumpVelocity);
 				cachedForwardMovement = averageForwardMovement.average;
@@ -457,8 +454,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			float turnSpeed = characterPhysics.isGrounded
 				? configuration.turningYSpeed
 				: configuration.jumpTurningYSpeed;
-			
-			rotator.Tick();
 
 			Quaternion newRotation = rotator.GetNewRotation(transform, targetRotation, turnSpeed);
 
@@ -512,26 +507,6 @@ namespace StandardAssets.Characters.ThirdPerson
 											  ? configuration.sprintNormalizedForwardSpeedIncrease : 0));
 			
 			normalizedForwardSpeed = actionAverageForwardInput.average;
-			
-			// TODO HACK TO INCREASE SPRINT SPEED
-			if (sprint && normalizedForwardSpeed > 1)
-			{
-				animationController.unityAnimator.speed = sprintAnimatorSpeed;
-			}
-			else
-			{
-				float speed = 1;
-				// check if we are performing an animation turnaround as this also changes animator speed
-				if (movementState == ThirdPersonGroundMovementState.TurningAround)
-				{
-					var t = thirdPersonBrain.turnaround as AnimationTurnaroundBehaviour;
-					if (t != null)
-					{
-						speed = t.currentAnimatorSpeed;
-					}
-				}
-				animationController.unityAnimator.speed = speed;
-			}
 
 			if (characterPhysics.isGrounded)
 			{
