@@ -172,7 +172,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			actionAverageForwardInput = new SlidingAverage(configuration.forwardInputWindowSize);
 			strafeAverageForwardInput = new SlidingAverage(configuration.strafeInputWindowSize);
 			strafeAverageLateralInput = new SlidingAverage(configuration.strafeInputWindowSize);
-			rotator.Init(characterInput);
 			previousInputs = new SizedQueue<Vector2>(configuration.bufferSizeInput);
 			
 			if (cameraTransform == null)
@@ -278,6 +277,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public void Update()
 		{
+			rotator.Tick(targetYRotation);
 			HandleMovement();
 			previousInputs.Add(characterInput.moveInput);
 		}
@@ -457,8 +457,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			float turnSpeed = characterPhysics.isGrounded
 				? configuration.turningYSpeed
 				: configuration.jumpTurningYSpeed;
-			
-			rotator.Tick();
 
 			Quaternion newRotation = rotator.GetNewRotation(transform, targetRotation, turnSpeed);
 
