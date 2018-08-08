@@ -346,6 +346,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		protected virtual void OnStrafeStarted()
 		{
+			if (movementMode == ThirdPersonMotorMovementMode.Strafe)
+			{
+				return;
+			}
+			
 			if (startStrafeMode != null)
 			{
 				startStrafeMode();
@@ -624,7 +629,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			foreach (Vector2 previousInputsValue in previousInputs.values)
 			{
 				angle = MathUtilities.Wrap180(Vector2Utilities.Angle(previousInputsValue, characterInput.moveInput));
-				if (Mathf.Abs(angle) > configuration.inputAngleRapidTurn)
+				var deltaMagnitude = Mathf.Abs(previousInputsValue.magnitude - characterInput.moveInput.magnitude);
+				if (Mathf.Abs(angle) > configuration.inputAngleRapidTurn && deltaMagnitude < 0.25f)
 				{
 					previousInputs.Clear();
 					return true;
