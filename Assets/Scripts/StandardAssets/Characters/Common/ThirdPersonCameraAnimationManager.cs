@@ -8,7 +8,7 @@ namespace StandardAssets.Characters.Common
 {
 	public class ThirdPersonCameraAnimationManager : CameraAnimationManager
 	{
-		private string[] actionCameraMode = {"World Camera", "FreeLook Camera", "Hyrbid Camera"};
+		private string[] actionCameraMode = {"World Camera", "FreeLook Camera", "Hyrid Camera"};
 		private int currentCameraModeIndex = 0;
 		private string strafeStateName = "Strafe";
 
