@@ -17,7 +17,7 @@ namespace Demo.MovementController
         protected CapsuleMovementProperties startingMovementProperties;
 
 	    [SerializeField] 
-	    protected float turnSpeed = 5f;
+	    protected float turnSpeed = 300f;
             
         /// <summary>
         /// The current motor state - controls how the character moves in different states
