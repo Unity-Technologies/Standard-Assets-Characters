@@ -10,7 +10,6 @@ namespace StandardAssets.Characters.Common
 	{
 		private string[] actionCameraMode = {"World Camera", "FreeLook Camera", "Hyrbid Camera"};
 		private int currentCameraModeIndex = 0;
-
 		private string strafeStateName = "Strafe";
 
 		[SerializeField]
@@ -21,7 +20,6 @@ namespace StandardAssets.Characters.Common
 
 		[SerializeField]
 		protected LegacyCharacterInput characterInput;
-
 
 		[SerializeField]
 		protected Text currentCameraText;
@@ -34,9 +32,6 @@ namespace StandardAssets.Characters.Common
 
 		[SerializeField]
 		protected CinemachineFreeLook defaultWorldFreelookCam;
-
-		[SerializeField]
-		protected CinemachineStateDrivenCamera hybridStateDrivenCamera;
 
 		private bool recetnerHybridIdle;
 
@@ -69,37 +64,40 @@ namespace StandardAssets.Characters.Common
 				RecenterFreeLookCam(defaultWorldFreelookCam);
 			}
 			
-			
 			//For hybrid camera, if the player is moving then the camera will change
 			//To Follow mode. 
 			if (characterInput.hasMovementInput)
 			{
-				Debug.Log("Has Movement Set To Follow");
 				cameraAnimationManager.SetAnimation("Follow",1);
-
 			}
 			else
 			{
-				cameraAnimationManager.SetAnimation("FollowWithDelay",1);
+				//if the character is not moving, and the state is in world, and the player presses recenter
+				//The camera should recenter and return to world state. 
+				if (cameraAnimationManager.ActiveState("Follow", 1))
+				{
+					cameraAnimationManager.SetAnimation("World",1);
+				}
+				RecenterFreeLookCam(hybridIdleCamera);
+				recetnerHybridIdle = true;
 			}
-			
-			
-			//Set hybrid idle freelook cam to recenter 
-			RecenterFreeLookCam(hybridIdleCamera);
-	
-
-
-
 		}
 
 		private void Update()
 		{
-			//All idle cameras will turn off recenter if there is any movement on left or 
+			if (recetnerHybridIdle && characterInput.hasMovementInput)
+			{
+				cameraAnimationManager.SetAnimation("Follow",1);
+			}
+			
+			//Idle cameras will turn off recenter if there is any movement on left or 
 			//Right sticks. 
 			if (characterInput.hasMovementInput
 			    | characterInput.lookInput != Vector2.zero)
 			{
 				TurnOffFreeLookCamRecenter(hybridIdleCamera);
+				recetnerHybridIdle = false;
+				
 				TurnOffFreeLookCamRecenter(defaultWorldFreelookCam);
 			}
 
@@ -109,8 +107,6 @@ namespace StandardAssets.Characters.Common
 			{
 				cameraAnimationManager.SetAnimation("World", 1);
 			}
-
-
 		}
 
 		public void StrafeStarted()
@@ -124,7 +120,6 @@ namespace StandardAssets.Characters.Common
 			SetAnimation(actionCameraMode[currentCameraModeIndex]);
 			currentCameraText.text = actionCameraMode[currentCameraModeIndex];
 		}
-
 
 		/// <summary>
 		/// Sets the given Freelook Cinemachine camera
@@ -142,8 +137,6 @@ namespace StandardAssets.Characters.Common
 			freeLook.m_RecenterToTargetHeading.m_enabled = false;
 			freeLook.m_YAxisRecentering.m_enabled = false;
 		}
-
-		
 
 		void SwitchActionMode()
 		{
@@ -163,6 +156,5 @@ namespace StandardAssets.Characters.Common
 			
 			SetAnimation(actionCameraMode[currentCameraModeIndex]);
 		}
-
 	}
 }

@@ -13,6 +13,9 @@ namespace StandardAssets.Characters.Common
 		/// </summary>
 		private Animator animator;
 
+		private string currentState;
+		private int currentLayer;
+
 		/// <summary>
 		/// Cache the animator
 		/// </summary>
@@ -42,6 +45,13 @@ namespace StandardAssets.Characters.Common
 		{
 			LazyLoadAnimator();
 			animator.Play(state,layer);
+			currentLayer = layer;
+			currentState = state;
+		}
+
+		public bool ActiveState(string state, int layer = 0)
+		{
+			return (currentState == state && currentLayer == layer);
 		}
 	}
 }
