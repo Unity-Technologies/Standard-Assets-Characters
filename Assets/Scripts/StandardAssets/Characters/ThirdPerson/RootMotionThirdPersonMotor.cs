@@ -23,9 +23,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected bool useRapidTurnForStrafeTransition = true;
 
 		[SerializeField]
-		protected Transform cameraTransform;
-
-		[SerializeField]
 		protected InputResponse strafeInput;
 		
 		[SerializeField]
@@ -84,7 +81,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected Transform transform;
 		protected GameObject gameObject;
 		protected ThirdPersonBrain thirdPersonBrain;
-
 		protected float turnaroundMovementTime;
 
 		protected SizedQueue<Vector2> previousInputs;
@@ -175,11 +171,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			strafeAverageForwardInput = new SlidingAverage(configuration.strafeInputWindowSize);
 			strafeAverageLateralInput = new SlidingAverage(configuration.strafeInputWindowSize);
 			previousInputs = new SizedQueue<Vector2>(configuration.bufferSizeInput);
-			
-			if (cameraTransform == null)
-			{
-				cameraTransform = Camera.main.transform;
-			}
 
 			if (strafeInput != null)
 			{
@@ -464,8 +455,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected virtual void SetStartStrafeLookDirection()
 		{
-			var cameraForward = Camera.main.transform.forward;
-			cameraForward.y = 0;
+			Vector3 cameraForward = thirdPersonBrain.bearingOfCharacter.CalculateCharacterBearing();
 
 			Quaternion targetRotation = Quaternion.LookRotation(cameraForward);
 			targetYRotation = MathUtilities.Wrap180(targetRotation.eulerAngles.y);
@@ -537,9 +527,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected virtual Quaternion CalculateTargetRotation()
 		{
-			Vector3 flatForward = cameraTransform.forward;
-			flatForward.y = 0f;
-			flatForward.Normalize();
+			Vector3 flatForward = thirdPersonBrain.bearingOfCharacter.CalculateCharacterBearing();
 
 			Vector3 localMovementDirection =
 				new Vector3(characterInput.moveInput.x, 0f, characterInput.moveInput.y);

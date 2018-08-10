@@ -24,6 +24,9 @@ namespace StandardAssets.Characters.Common
 		/// </summary>
 		protected ICharacterInput characterInput;
 
+		
+		protected CharacterBearing characterBearing;
+
 		public ICharacterPhysics physicsForCharacter
 		{
 			get { return characterPhysics; }
@@ -34,6 +37,11 @@ namespace StandardAssets.Characters.Common
 			get { return characterInput; }
 		}
 
+		public CharacterBearing bearingOfCharacter
+		{
+			get { return characterBearing; }
+		} 
+			
 		public abstract MovementEventHandler movementEventHandler { get; }
 
 		/// <summary>

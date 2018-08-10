@@ -87,7 +87,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected override void Awake()
 		{
 			base.Awake();
-			
+			characterBearing = new ThirdPersonCharacterBearing();
 			blendspaceTurnaroundBehaviour.Init(this);
 			animationTurnaroundBehaviour.Init(this);
 			currentTurnaroundBehaviour = GetCurrentTurnaroundBehaviour();
