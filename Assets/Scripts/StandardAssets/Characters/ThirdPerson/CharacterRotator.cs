@@ -45,12 +45,19 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		public Quaternion GetNewRotation(Transform toRotate, Quaternion targetRotation, float turnSpeed)
 		{
+			return Quaternion.RotateTowards(toRotate.rotation, targetRotation, turnSpeed * Time.deltaTime);
 			Quaternion originalRotation = toRotate.rotation;
 			Vector3 euler = toRotate.eulerAngles;
 			float rotationAmount = Time.deltaTime * turnSpeed;
 			euler.y = euler.y + rotationAmount * direction;
 			Quaternion newRotation = Quaternion.Euler(euler);
-			if (Quaternion.Angle(originalRotation, newRotation) > Quaternion.Angle(originalRotation, targetRotation))
+
+			float angleToNew = Quaternion.Angle(originalRotation, newRotation);
+			float angleToTarget = Quaternion.Angle(originalRotation, targetRotation);
+			
+			Debug.LogFormat("angleToNew = {0}, angleToTarget = {1}", angleToNew, angleToTarget);
+			
+			if (angleToNew > angleToTarget)
 			{
 				return targetRotation;
 			}

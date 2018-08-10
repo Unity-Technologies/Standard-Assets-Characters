@@ -274,7 +274,6 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public void Update()
 		{
-			rotator.Tick(targetYRotation);
 			HandleMovement();
 			previousInputs.Add(characterInput.moveInput);
 		}
@@ -455,6 +454,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				? configuration.turningYSpeed
 				: configuration.jumpTurningYSpeed;
 
+			rotator.Tick(targetYRotation);
 			Quaternion newRotation = rotator.GetNewRotation(transform, targetRotation, turnSpeed);
 
 			SetTurningSpeed(transform.rotation, newRotation);
