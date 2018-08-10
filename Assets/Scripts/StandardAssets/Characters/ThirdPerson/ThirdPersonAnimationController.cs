@@ -179,8 +179,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			if (!isGrounded)
 			{
-				animator.SetFloat(hashVerticalSpeed, motor.normalizedVerticalSpeed,
-				                  configuration.floatInterpolationTime, Time.deltaTime);
+				animator.SetFloat(hashVerticalSpeed, motor.normalizedVerticalSpeed);
 				animator.SetFloat(hashFallingTime, motor.fallTime);
 			}
 			else
