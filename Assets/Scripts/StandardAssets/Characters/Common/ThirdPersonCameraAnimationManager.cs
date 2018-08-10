@@ -71,8 +71,8 @@ namespace StandardAssets.Characters.Common
 
 		public void StrafeEnded()
 		{
-			SetAnimation("World Camera");
-			currentCameraText.text = "World Camera";
+			SetAnimation("FreeLook Camera");
+			currentCameraText.text = "FreeLook Camera";
 		}
 
 		/// <summary>
