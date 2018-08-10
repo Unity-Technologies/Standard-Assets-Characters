@@ -22,6 +22,9 @@ namespace StandardAssets.Characters.Common
 		[SerializeField]
 		protected CinemachineFreeLook defaultWorldFreelookCam;
 
+		[SerializeField]
+		protected Image crosshairImage;
+
 		private bool recetnerHybridIdle;
 
 
@@ -65,12 +68,14 @@ namespace StandardAssets.Characters.Common
 
 		public void StrafeStarted()
 		{
+			crosshairImage.enabled = true;
 			SetAnimation(strafeStateName);
 			currentCameraText.text = strafeStateName;
 		}
 
 		public void StrafeEnded()
 		{
+			crosshairImage.enabled = false;
 			SetAnimation("FreeLook Camera");
 			currentCameraText.text = "FreeLook Camera";
 		}
