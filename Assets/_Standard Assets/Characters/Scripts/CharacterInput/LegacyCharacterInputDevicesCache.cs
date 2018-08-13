@@ -9,6 +9,7 @@ namespace StandardAssets.Characters.CharacterInput
 		private static LegacyCharacterInputDevices s_CharacterInputDevices;
 
 		private static bool xBoneActive; //XBox One
+		private static bool xBoneWirelessActive; //XBox One Wireless
 		private static bool xBoxActive; //XBox 360
 		private static bool ps4Active; //PS4
 
@@ -41,9 +42,15 @@ namespace StandardAssets.Characters.CharacterInput
 
 		private static void SetActiveGamepad()
 		{
+			foreach (var joystick in Input.GetJoystickNames())
+			{
+				Debug.Log(joystick);
+			}
+
 			xBoneActive = IsXboxOne();
 			xBoxActive = IsXbox360();
 			ps4Active = IsPS4();
+			xBoneWirelessActive = IsXboxOneWireless();
 		}
 
 		public static string ResolveControl(string control)
@@ -59,6 +66,10 @@ namespace StandardAssets.Characters.CharacterInput
 			if (xBoneActive)
 			{
 				controllerId = s_CharacterInputDevices.xboxOneControllerIdentifier;
+			}
+			else if (xBoneWirelessActive)
+			{
+				controllerId = s_CharacterInputDevices.xboxOneWirelessControllerId1;
 			}
 			else if (xBoxActive)
 			{
@@ -81,14 +92,30 @@ namespace StandardAssets.Characters.CharacterInput
 		{
 			foreach (var joystick in Input.GetJoystickNames())
 			{
-				if (joystick.ToLower().Contains("xbox") & !joystick.ToLower().Contains("360"))
+				if (joystick.ToLower().Contains("xbox") && !joystick.ToLower().Contains("360")&& !joystick.ToLower().Contains("wireless"))
 				{
+					Debug.Log("XBone Wires");
 					return true;
 				}
 			}
 
 			return false;
 		}
+		
+		private static bool IsXboxOneWireless()
+		{
+			foreach (var joystick in Input.GetJoystickNames())
+			{
+				if (joystick.ToLower().Contains("xbox")&& joystick.ToLower().Contains("wireless") && !joystick.ToLower().Contains("360"))
+				{
+					Debug.Log("XBone Wireless");
+					return true;
+				}
+			}
+
+			return false;
+		}
+		
 
 		private static bool IsXbox360()
 		{
