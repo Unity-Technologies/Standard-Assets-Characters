@@ -5,7 +5,7 @@ namespace StandardAssets.Characters.ThirdPerson
 {
 	public abstract class TurnaroundBehaviour
 	{
-		public Action turnaroundComplete;
+		public event Action turnaroundComplete;
 		
 		protected bool isTurningAround;
 
