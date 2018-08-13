@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using Attributes;
-using Attributes.Types;
-using Cinemachine;
 using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
-using UnityEngine.Experimental.PlayerLoop;
 using Util;
 
 namespace StandardAssets.Characters.ThirdPerson
@@ -14,11 +9,6 @@ namespace StandardAssets.Characters.ThirdPerson
 	[Serializable]
 	public class RootMotionThirdPersonMotor : IThirdPersonMotor
 	{
-		
-		//TEST
-		[SerializeField]
-		protected CinemachineFreeLook strafeCamera;
-		
 		//Events
 		public event Action startActionMode, startStrafeMode;
 
@@ -84,7 +74,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected SlidingAverage actionAverageForwardInput, strafeAverageForwardInput, strafeAverageLateralInput;
 
-		private bool isTurningIntoStrafe;
+		private bool isTurningIntoStrafe,
+					 jumpQueued;
 		protected Transform transform;
 		protected GameObject gameObject;
 		protected ThirdPersonBrain thirdPersonBrain;
@@ -274,6 +265,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			HandleMovement();
 			previousInputs.Add(characterInput.moveInput);
+			if (jumpQueued)
+			{
+				jumpQueued = TryJump();
+			}
 		}
 
 		//Protected Methods
@@ -315,24 +310,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		protected virtual void OnJumpPressed()
 		{
-			if (!characterPhysics.isGrounded || characterPhysics.startedSlide || !animationController.CanJump ||
-				movementState == ThirdPersonGroundMovementState.TurningAround)
-			{
-				return;
-			}
-
-			aerialState = ThirdPersonAerialMovementState.Jumping;
-
-			if (Mathf.Abs(normalizedLateralSpeed) <= normalizedForwardSpeed && normalizedForwardSpeed >=0)
-			{
-				characterPhysics.SetJumpVelocity(configuration.initialJumpVelocity);
-				cachedForwardMovement = averageForwardMovement.average;
-			}
-			
-			if (jumpStarted != null)
-			{
-				jumpStarted();
-			}
+			jumpQueued = true;
 		}
 
 		/// <summary>
@@ -365,7 +343,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				startActionMode();
 			}
 
-			thirdPersonBrain.thirdPersonCameraAnimationManager.StrafeEnded();
+			thirdPersonBrain.legacyThirdPersonCameraAnimationManager.StrafeEnded();
 			movementMode = ThirdPersonMotorMovementMode.Action;
 		}
 
@@ -413,18 +391,14 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected virtual void SetStrafeLookDirection()
 		{
-
-			float strafeCameraHorizontal = strafeCamera.m_XAxis.m_InputAxisValue* Time.deltaTime * configuration.scaleStrafeLook;
-			
 			Vector3 lookForwardY = transform.rotation.eulerAngles;
 
 			lookForwardY.x = 0;
 			lookForwardY.z = 0;
-			//lookForwardY.y -= characterInput.lookInput.x * Time.deltaTime * configuration.scaleStrafeLook;
-			lookForwardY.y -= strafeCameraHorizontal;
-			Debug.Log("Strafe Input: "+characterInput.lookInput.x);
+			lookForwardY.y -= characterInput.lookInput.x * Time.deltaTime * configuration.scaleStrafeLook;
+
 			Quaternion targetRotation = Quaternion.Euler(lookForwardY);
-			
+
 			targetYRotation = targetRotation.eulerAngles.y;
 
 			Quaternion newRotation =
@@ -434,8 +408,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			SetTurningSpeed(transform.rotation, newRotation);
 
 			transform.rotation = newRotation;
-
-			
 		}
 
 		protected virtual void SetLookDirection()
@@ -485,7 +457,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (transform.rotation == targetRotation)
 			{
 				isTurningIntoStrafe = false;
-				thirdPersonBrain.thirdPersonCameraAnimationManager.StrafeStarted();
+				thirdPersonBrain.legacyThirdPersonCameraAnimationManager.StrafeStarted();
 			}
 
 			transform.rotation = newRotation;
@@ -515,23 +487,14 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			if (characterPhysics.isGrounded && animationController.CanJump)
 			{
-				//Debug.LogFormat("Root motion: {0}", animator.rootPosition);
 				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
 				groundMovementVector.y = 0;
 	
 				float value = groundMovementVector.GetMagnitudeOnAxis(transform.forward);
-				if (value > 0.11f)
-				{
-					
-				}
 				if (value > 0)
 				{
 					averageForwardMovement.Add(value);
 				}
-			}
-			else
-			{
-				//Debug.LogFormat("Root movement: {0}", animator.rootPosition);
 			}
 		}
 
@@ -624,6 +587,36 @@ namespace StandardAssets.Characters.ThirdPerson
 				}
 			}
 			angle = 0;
+			return false;
+		}
+		
+		/// <summary>
+		/// Attempts a jump
+		/// </summary>
+		/// <returns>True if a jump should be re-attempted</returns>
+		private bool TryJump()
+		{
+			if (movementState == ThirdPersonGroundMovementState.TurningAround)
+			{
+				return true;
+			}
+			if (!characterPhysics.isGrounded || characterPhysics.startedSlide || !animationController.CanJump)
+			{
+				return false;
+			}
+			
+			aerialState = ThirdPersonAerialMovementState.Jumping;
+			
+			if (Mathf.Abs(normalizedLateralSpeed) <= normalizedForwardSpeed && normalizedForwardSpeed >=0)
+			{
+				characterPhysics.SetJumpVelocity(configuration.initialJumpVelocity);
+				cachedForwardMovement = averageForwardMovement.average;
+			}
+			
+			if (jumpStarted != null)
+			{
+				jumpStarted();
+			}
 			return false;
 		}
 	}
