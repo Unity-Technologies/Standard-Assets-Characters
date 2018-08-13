@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace StandardAssets.Characters.Common
 {
-	public class ThirdPersonCameraAnimationManager : CameraAnimationManager
+	public class LegacyThirdPersonCameraAnimationManager : CameraAnimationManager
 	{
 		private string strafeStateName = "Strafe";
 

@@ -343,7 +343,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				startActionMode();
 			}
 
-			thirdPersonBrain.thirdPersonCameraAnimationManager.StrafeEnded();
+			thirdPersonBrain.legacyThirdPersonCameraAnimationManager.StrafeEnded();
 			movementMode = ThirdPersonMotorMovementMode.Action;
 		}
 
@@ -457,7 +457,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (transform.rotation == targetRotation)
 			{
 				isTurningIntoStrafe = false;
-				thirdPersonBrain.thirdPersonCameraAnimationManager.StrafeStarted();
+				thirdPersonBrain.legacyThirdPersonCameraAnimationManager.StrafeStarted();
 			}
 
 			transform.rotation = newRotation;
