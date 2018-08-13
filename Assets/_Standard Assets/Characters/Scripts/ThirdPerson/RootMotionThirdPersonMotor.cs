@@ -1,4 +1,5 @@
 ﻿using System;
+using Cinemachine;
 using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
@@ -9,6 +10,11 @@ namespace StandardAssets.Characters.ThirdPerson
 	[Serializable]
 	public class RootMotionThirdPersonMotor : IThirdPersonMotor
 	{
+		
+		//Strafe Camera
+		[SerializeField]
+		protected CinemachineFreeLook strafeFreeLookCamera;
+		
 		//Events
 		public event Action startActionMode, startStrafeMode;
 
@@ -386,7 +392,11 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			lookForwardY.x = 0;
 			lookForwardY.z = 0;
-			lookForwardY.y -= characterInput.lookInput.x * Time.deltaTime * configuration.scaleStrafeLook;
+			//lookForwardY.y -= characterInput.lookInput.x * Time.deltaTime * configuration.scaleStrafeLook;
+			
+			//Strafe camera input driving the character
+			lookForwardY.y -= strafeFreeLookCamera.m_XAxis.m_InputAxisValue * Time.deltaTime * configuration.scaleStrafeLook;
+
 
 			Quaternion targetRotation = Quaternion.Euler(lookForwardY);
 
