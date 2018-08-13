@@ -1,3 +1,4 @@
+
 using UnityEngine;
 using UnityEditor;
 
@@ -6,15 +7,14 @@ namespace TFBGames.Editor
     /// <summary>
     /// Editor Styles
     /// </summary>
-    static class TBFEditorStyles
+    internal static class TBFEditorStyles
     {
-        static bool isInitialized;
+        private static bool s_IsInitialized;
 
-        static GUIStyle
-            deleteArrayItemButtonStyle,
-            panelHeader,
-            panelContent,
-            panelItem;
+        private static GUIStyle s_DeleteArrayItemButtonStyle,
+                                s_PanelHeader,
+                                s_PanelContent,
+                                s_PanelItem;
 
 
 
@@ -27,7 +27,7 @@ namespace TFBGames.Editor
         {
             get
             {
-                return PassCheckInitialized(deleteArrayItemButtonStyle);
+                return PassCheckInitialized(s_DeleteArrayItemButtonStyle);
             }
         }
 
@@ -38,32 +38,29 @@ namespace TFBGames.Editor
         {
             get 
             {
-                return PassCheckInitialized(panelItem);
+                return PassCheckInitialized(s_PanelItem);
             }
         }
 
-
-
-
-        static GUIStyle PassCheckInitialized(GUIStyle style)
+        private static GUIStyle PassCheckInitialized(GUIStyle style)
         {
-            if(!isInitialized)
+            if(!s_IsInitialized)
             {
-                isInitialized = true;
+                s_IsInitialized = true;
 
                 // a new copy is needed if the style is modified, otherwise you can break unity's internal styles.
-                deleteArrayItemButtonStyle = new GUIStyle("button");
-                deleteArrayItemButtonStyle.fixedWidth = 24;
-                deleteArrayItemButtonStyle.alignment = TextAnchor.MiddleCenter;
-                deleteArrayItemButtonStyle.stretchWidth = false;
+                s_DeleteArrayItemButtonStyle = new GUIStyle("button");
+                s_DeleteArrayItemButtonStyle.fixedWidth = 24;
+                s_DeleteArrayItemButtonStyle.alignment = TextAnchor.MiddleCenter;
+                s_DeleteArrayItemButtonStyle.stretchWidth = false;
 
                 // RL prefixed style elements are the kind used by UnityEvent inspectors and some list inspectors.
                 // we are using it to construct panels in the same style.
-                panelHeader     = "RL Header";
-                panelContent    = new GUIStyle( "RL Background");
-                panelContent.fixedHeight = 0;
-                panelContent.stretchHeight = false;
-                panelItem       = "RL Element"; 
+                s_PanelHeader     = "RL Header";
+                s_PanelContent    = new GUIStyle( "RL Background");
+                s_PanelContent.fixedHeight = 0;
+                s_PanelContent.stretchHeight = false;
+                s_PanelItem       = "RL Element"; 
             }
             return style;
         }
@@ -71,20 +68,22 @@ namespace TFBGames.Editor
 
         public static void DrawPanel(GUIContent title, System.Action content)
         {
-            if (!isInitialized)
+            if (!s_IsInitialized)
+            {
                 PassCheckInitialized(null);
-            
+            }
+
             // container for entire panel
             EditorGUILayout.BeginVertical();
             { // braces for readability
 
                 // Header:
-                EditorGUILayout.BeginHorizontal(panelHeader);
+                EditorGUILayout.BeginHorizontal(s_PanelHeader);
                 EditorGUILayout.LabelField(title);
                 // we can add things to header here if needed.
                 EditorGUILayout.EndHorizontal();
                 // Content:
-                EditorGUILayout.BeginVertical(panelContent);
+                EditorGUILayout.BeginVertical(s_PanelContent);
                 EditorGUILayout.BeginVertical();
                 content();
                 EditorGUILayout.Space();
