@@ -434,6 +434,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			Vector3 cameraForward = thirdPersonBrain.bearingOfCharacter.CalculateCharacterBearing();
 
 			Quaternion targetRotation = Quaternion.LookRotation(cameraForward);
+			
+			// TODO hack to fix camera spin
+			transform.rotation = targetRotation;
+			isTurningIntoStrafe = false;
+			//
+			
 			targetYRotation = MathUtilities.Wrap180(targetRotation.eulerAngles.y);
 
 			if (useRapidTurnForStrafeTransition && CheckForAndHandleRapidTurn(targetRotation))
