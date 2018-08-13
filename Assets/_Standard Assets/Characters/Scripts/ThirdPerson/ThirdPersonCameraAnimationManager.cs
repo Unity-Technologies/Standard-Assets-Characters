@@ -28,10 +28,6 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private void Awake()
 		{
-			isForwardUnlocked = defaultModeIsForwardUnlocked;
-			SetForwardModeArray();
-			SetAnimation(currentCameraModeStateNames[cameraIndex]);
-
 			if (cameraModeInput != null)
 			{
 				cameraModeInput.Init();
@@ -41,6 +37,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				cameraToggleInput.Init();
 			}
+			
+			isForwardUnlocked = defaultModeIsForwardUnlocked;
+			SetForwardModeArray();
+			SetAnimation(currentCameraModeStateNames[cameraIndex]);
+			PlayForwardModeEvent();
 		}
 
 		private void OnEnable()
@@ -70,6 +71,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			SetForwardModeArray();
 			cameraIndex = -1;
 			SetCameraState();
+			PlayForwardModeEvent();
 		}
 
 		private void SetForwardModeArray()

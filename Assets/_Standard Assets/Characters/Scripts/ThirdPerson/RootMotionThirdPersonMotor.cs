@@ -18,9 +18,6 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[SerializeField]
 		protected bool useRapidTurnForStrafeTransition = true;
-
-		[SerializeField]
-		protected InputResponse strafeInput;
 		
 		[SerializeField]
 		protected InputResponse sprintInput;
@@ -170,11 +167,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			strafeAverageLateralInput = new SlidingAverage(configuration.strafeInputWindowSize);
 			previousInputs = new SizedQueue<Vector2>(configuration.bufferSizeInput);
 
-			if (strafeInput != null)
-			{
-				strafeInput.Init();
-			}
-
 			if (sprintInput != null)
 			{
 				sprintInput.Init();
@@ -194,11 +186,11 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			//Input subscriptions
 			characterInput.jumpPressed += OnJumpPressed;
-
-			if (strafeInput != null)
+			
+			if (thirdPersonBrain.thirdPersonCameraAnimationManager != null)
 			{
-				strafeInput.started += OnStrafeStarted;
-				strafeInput.ended += OnStrafeEnded;
+				thirdPersonBrain.thirdPersonCameraAnimationManager.forwardLockedModeStarted += OnStrafeStarted;
+				thirdPersonBrain.thirdPersonCameraAnimationManager.forwardUnlockedModeStarted += OnStrafeEnded;
 			}
 			
 			if (sprintInput != null)
@@ -242,10 +234,10 @@ namespace StandardAssets.Characters.ThirdPerson
 				characterInput.jumpPressed -= OnJumpPressed;
 			}
 
-			if (strafeInput != null)
+			if (thirdPersonBrain.thirdPersonCameraAnimationManager != null)
 			{
-				strafeInput.started -= OnStrafeStarted;
-				strafeInput.ended -= OnStrafeEnded;
+				thirdPersonBrain.thirdPersonCameraAnimationManager.forwardLockedModeStarted -= OnStrafeStarted;
+				thirdPersonBrain.thirdPersonCameraAnimationManager.forwardUnlockedModeStarted -= OnStrafeEnded;
 			}
 			
 			if (sprintInput != null)
@@ -343,7 +335,6 @@ namespace StandardAssets.Characters.ThirdPerson
 				startActionMode();
 			}
 
-			thirdPersonBrain.legacyThirdPersonCameraAnimationManager.StrafeEnded();
 			movementMode = ThirdPersonMotorMovementMode.Action;
 		}
 
@@ -457,7 +448,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (transform.rotation == targetRotation)
 			{
 				isTurningIntoStrafe = false;
-				thirdPersonBrain.legacyThirdPersonCameraAnimationManager.StrafeStarted();
 			}
 
 			transform.rotation = newRotation;

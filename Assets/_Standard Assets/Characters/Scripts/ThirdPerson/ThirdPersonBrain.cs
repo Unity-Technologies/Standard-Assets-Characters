@@ -12,7 +12,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		[HelperBox(HelperType.Info,
 			"Configurations are separate assets (ScriptableObjects). Click on the associated configuration to locate it in the Project View. Values can be edited here during runtime and not be lost. It also allows one to create different settings and swap between them. To create a new setting Right click -> Create -> Standard Assets -> Characters -> ...")]
 		[SerializeField]
-		protected LegacyThirdPersonCameraAnimationManager cameraAnimationManager;
+		protected ThirdPersonCameraAnimationManager cameraAnimationManager;
 		
 		[SerializeField, Tooltip("Properties of the root motion motor")]
 		protected RootMotionThirdPersonMotor rootMotionMotor;
@@ -76,14 +76,14 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public IThirdPersonMotor CurrentMotor { get; private set; }
 
-		public LegacyThirdPersonCameraAnimationManager legacyThirdPersonCameraAnimationManager
+		public ThirdPersonCameraAnimationManager thirdPersonCameraAnimationManager
 		{
 			get
 			{
 				return cameraAnimationManager;
 			}
 		}
-
+		
 		protected override void Awake()
 		{
 			base.Awake();
