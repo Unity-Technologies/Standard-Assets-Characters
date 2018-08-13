@@ -10,7 +10,7 @@ namespace StandardAssets.Characters.CharacterInput
 		protected string macPlatformId = "OSX", windowsPlatformId = "Windows";
 
 		[SerializeField]
-		protected string xboxOneControllerId = "XBone", xbox360ControllerId = "XBox360", ps4ControllerId = "PS4";
+		protected string xboxOneControllerId = "XBone", xbox360ControllerId = "XBox360", ps4ControllerId = "PS4", xboxOneWirelessControllerId = "XBoneWireless";
 
 		[SerializeField]
 		protected string controlConvention = "{control}{controller}{platform}";
@@ -28,6 +28,11 @@ namespace StandardAssets.Characters.CharacterInput
 		public string xboxOneControllerIdentifier
 		{
 			get { return xboxOneControllerId; }
+		}
+
+		public string xboxOneWirelessControllerId1
+		{
+			get { return xboxOneWirelessControllerId; }
 		}
 
 		public string xbox360ControllerIdentifier
