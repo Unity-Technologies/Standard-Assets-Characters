@@ -316,15 +316,15 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			aerialState = ThirdPersonAerialMovementState.Jumping;
 
-			if (jumpStarted != null)
-			{
-				jumpStarted();
-			}
-
 			if (Mathf.Abs(normalizedLateralSpeed) <= normalizedForwardSpeed && normalizedForwardSpeed >=0)
 			{
 				characterPhysics.SetJumpVelocity(configuration.initialJumpVelocity);
 				cachedForwardMovement = averageForwardMovement.average;
+			}
+			
+			if (jumpStarted != null)
+			{
+				jumpStarted();
 			}
 		}
 
@@ -498,16 +498,27 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			normalizedForwardSpeed = actionAverageForwardInput.average;
 
-			if (characterPhysics.isGrounded)
+			
+			
+			if (characterPhysics.isGrounded && animationController.CanJump)
 			{
+				//Debug.LogFormat("Root motion: {0}", animator.rootPosition);
 				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
 				groundMovementVector.y = 0;
 	
 				float value = groundMovementVector.GetMagnitudeOnAxis(transform.forward);
+				if (value > 0.11f)
+				{
+					
+				}
 				if (value > 0)
 				{
 					averageForwardMovement.Add(value);
 				}
+			}
+			else
+			{
+				//Debug.LogFormat("Root movement: {0}", animator.rootPosition);
 			}
 		}
 

@@ -115,12 +115,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public void OnPhysicsJumpAnimationEnter()
 		{
-			// check if we are entering into a root movement jump
-			if (!isGrounded && motor.normalizedForwardSpeed > 0 &&
-			    Mathf.Approximately(Mathf.Abs(motor.normalizedLateralSpeed), 0))
-			{
-				shouldUseRootMotion = false;
-			}
+			shouldUseRootMotion = false;
 		}
 
 		public void UpdateForwardSpeed(float newSpeed, float deltaTime)
