@@ -37,7 +37,10 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				cameraToggleInput.Init();
 			}
-			
+		}
+
+		private void Start()
+		{
 			isForwardUnlocked = defaultModeIsForwardUnlocked;
 			SetForwardModeArray();
 			SetAnimation(currentCameraModeStateNames[cameraIndex]);
