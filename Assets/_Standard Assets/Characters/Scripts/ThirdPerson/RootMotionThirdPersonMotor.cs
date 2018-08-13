@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using Attributes;
 using Attributes.Types;
+using Cinemachine;
 using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
+using UnityEngine.Experimental.PlayerLoop;
 using Util;
 
 namespace StandardAssets.Characters.ThirdPerson
@@ -12,6 +14,11 @@ namespace StandardAssets.Characters.ThirdPerson
 	[Serializable]
 	public class RootMotionThirdPersonMotor : IThirdPersonMotor
 	{
+		
+		//TEST
+		[SerializeField]
+		protected CinemachineFreeLook strafeCamera;
+		
 		//Events
 		public event Action startActionMode, startStrafeMode;
 
@@ -406,14 +413,18 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected virtual void SetStrafeLookDirection()
 		{
+
+			float strafeCameraHorizontal = strafeCamera.m_XAxis.m_InputAxisValue* Time.deltaTime * configuration.scaleStrafeLook;
+			
 			Vector3 lookForwardY = transform.rotation.eulerAngles;
 
 			lookForwardY.x = 0;
 			lookForwardY.z = 0;
-			lookForwardY.y -= characterInput.lookInput.x * Time.deltaTime * configuration.scaleStrafeLook;
-
+			//lookForwardY.y -= characterInput.lookInput.x * Time.deltaTime * configuration.scaleStrafeLook;
+			lookForwardY.y -= strafeCameraHorizontal;
+			Debug.Log("Strafe Input: "+characterInput.lookInput.x);
 			Quaternion targetRotation = Quaternion.Euler(lookForwardY);
-
+			
 			targetYRotation = targetRotation.eulerAngles.y;
 
 			Quaternion newRotation =
@@ -423,6 +434,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			SetTurningSpeed(transform.rotation, newRotation);
 
 			transform.rotation = newRotation;
+
+			
 		}
 
 		protected virtual void SetLookDirection()

@@ -10,11 +10,13 @@ namespace StandardAssets.Characters.Common
 	{
 		private string strafeStateName = "Strafe";
 
+		private string freeLookCameraStateName = "FreeLook Camera";
+
 		[SerializeField]
 		protected InputResponse recenterCameraInputResponse;
 
 		[SerializeField]
-		protected LegacyCharacterInput characterInput;
+		protected LegacyCharacterInputBase characterInput;
 
 		[SerializeField]
 		protected Text currentCameraText;
@@ -69,15 +71,20 @@ namespace StandardAssets.Characters.Common
 		public void StrafeStarted()
 		{
 			crosshairImage.enabled = true;
-			SetAnimation(strafeStateName);
-			currentCameraText.text = strafeStateName;
+			SetState(strafeStateName);
 		}
 
 		public void StrafeEnded()
 		{
+			//defaultWorldFreelookCam.m_XAxis.Value = 0;
 			crosshairImage.enabled = false;
-			SetAnimation("FreeLook Camera");
-			currentCameraText.text = "FreeLook Camera";
+			SetState(freeLookCameraStateName);
+		}
+
+		private void SetState(String state)
+		{
+			SetAnimation(state);
+			currentCameraText.text = state;
 		}
 
 		/// <summary>
