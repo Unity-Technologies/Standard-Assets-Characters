@@ -125,17 +125,17 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public void UpdateForwardSpeed(float newSpeed, float deltaTime)
 		{
-			animator.SetFloat(hashForwardSpeed, newSpeed, configuration.floatInterpolationTime, deltaTime);
+			animator.SetFloat(hashForwardSpeed, newSpeed, configuration.forwardSpeed.interpolation, deltaTime);
 		}
 
 		public void UpdateLateralSpeed(float newSpeed, float deltaTime)
 		{
-			animator.SetFloat(hashLateralSpeed, newSpeed, configuration.floatInterpolationTime, deltaTime);
+			animator.SetFloat(hashLateralSpeed, newSpeed, configuration.lateralSpeed.interpolation, deltaTime);
 		}
 
 		public void UpdateTurningSpeed(float newSpeed, float deltaTime)
 		{
-			animator.SetFloat(hashTurningSpeed, newSpeed, configuration.floatInterpolationTime, deltaTime);
+			animator.SetFloat(hashTurningSpeed, newSpeed, configuration.turningSpeed.interpolation, deltaTime);
 		}
 
 		/// <summary>
@@ -144,9 +144,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		public void Init(ThirdPersonBrain brain, IThirdPersonMotor motorToUse)
 		{
 			gameObject = brain.gameObject;
-			hashForwardSpeed = Animator.StringToHash(configuration.forwardSpeedParameterName);
-			hashLateralSpeed = Animator.StringToHash(configuration.lateralSpeedParameterName);
-			hashTurningSpeed = Animator.StringToHash(configuration.turningSpeedParameterName);
+			hashForwardSpeed = Animator.StringToHash(configuration.forwardSpeed.parameter);
+			hashLateralSpeed = Animator.StringToHash(configuration.lateralSpeed.parameter);
+			hashTurningSpeed = Animator.StringToHash(configuration.turningSpeed.parameter);
 			hashVerticalSpeed = Animator.StringToHash(configuration.verticalSpeedParameterName);
 			hashGrounded = Animator.StringToHash(configuration.groundedParameterName);
 			hashHasInput = Animator.StringToHash(configuration.hasInputParameterName);
