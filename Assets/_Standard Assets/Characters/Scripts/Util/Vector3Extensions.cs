@@ -6,9 +6,9 @@ namespace Util
 	{
 		public static float GetMagnitudeOnAxis(this Vector3 vector, Vector3 axis)
 		{
-			float dot = Vector3.Dot(axis, vector.normalized);
-			float val = dot * vector.magnitude;
-			
+			float vectorMagnitude = vector.magnitude;
+			float dot = Vector3.Dot(axis, vector / vectorMagnitude);
+			float val = dot * vectorMagnitude;
 			return val;
 		}
 		

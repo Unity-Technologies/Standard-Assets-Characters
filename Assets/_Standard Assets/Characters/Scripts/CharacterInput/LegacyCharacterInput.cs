@@ -71,7 +71,7 @@ namespace StandardAssets.Characters.CharacterInput
 			{
 				previousMoveInputVector.Set(moveInputVector.x, moveInputVector.y);
 			}
-			moveInputVector.Set(Input.GetAxis(horizontalAxisName), Input.GetAxis(verticalAxisName));
+			moveInputVector.Set(Input.GetAxisRaw(horizontalAxisName), Input.GetAxisRaw(verticalAxisName));
 		}
 
 		private void UpdateJump()

@@ -6,17 +6,14 @@ namespace StandardAssets.Characters.ThirdPerson
 	public class ThirdPersonAnimationConfiguration : ScriptableObject
 	{
 		[SerializeField]
-		protected float floatInterpolation = 0.05f;
+		protected AnimationFloatParameter forwardSpeedParameter = new AnimationFloatParameter("ForwardSpeed", 0.05f, 0.15f);
 		
 		[SerializeField]
-		protected string forwardSpeedParameter = "ForwardSpeed";
-		
-		[SerializeField]
-		protected string lateralSpeedParameter = "LateralSpeed";
-		
-		[SerializeField]
-		protected string turningSpeedParameter = "TurningSpeed";
+		protected AnimationFloatParameter lateralSpeedParameter = new AnimationFloatParameter("LateralSpeed", 0.01f, 0.05f);
 
+		[SerializeField]
+		protected AnimationFloatParameter turningSpeedParameter = new AnimationFloatParameter("TurningSpeed", 0.01f, 0.05f);
+		
 		[SerializeField]
 		protected string verticalSpeedParameter = "VerticalSpeed";
 		
@@ -31,12 +28,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		[SerializeField]
 		protected string footednessParameter = "OnRightFoot";
-		
-		[SerializeField]
-		protected string jumpedParameter = "Jumped";
-		
-		[SerializeField]
-		protected string physicsJumpParameter = "PhysicsJump";
 		
 		[SerializeField]
 		protected string jumpedLateralSpeedParameter = "JumpedLateralSpeed";
@@ -65,22 +56,27 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected float headLookAtRotationSpeed = 90f;
 
-		public float floatInterpolationTime
-		{
-			get { return floatInterpolation; }
-		}
+		[Header("Jump Transitions")]
+		[SerializeField]
+		protected float jumpTransitionDuration = 0.15f;
 
-		public string forwardSpeedParameterName
+		[SerializeField]
+		protected float rightFootPhysicsJumpLandAnimationTimeOffset = 0.1f,
+		                leftFootPhysicsJumpLandAnimationTimeOffset = 0.6f;
+		[SerializeField]
+		protected AnimationCurve jumpEndTransitionDurationByForwardSpeed = AnimationCurve.Linear(0,0,1,0.125f);
+
+		public AnimationFloatParameter forwardSpeed
 		{
 			get { return forwardSpeedParameter; }
 		}
 
-		public string lateralSpeedParameterName
+		public AnimationFloatParameter lateralSpeed
 		{
 			get { return lateralSpeedParameter; }
 		}
 
-		public string turningSpeedParameterName
+		public AnimationFloatParameter turningSpeed
 		{
 			get { return turningSpeedParameter; }
 		}
@@ -108,11 +104,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		public string footednessParameterName
 		{
 			get { return footednessParameter; }
-		}
-
-		public string jumpedParameterName
-		{
-			get { return jumpedParameter; }
 		}
 
 		public string jumpedLateralSpeedParameterName
@@ -165,9 +156,24 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return headLookAtRotationSpeed; }
 		}
 
-		public string physicsJump
+		public AnimationCurve jumpTransitionDurationByForwardSpeed
 		{
-			get { return physicsJumpParameter; }
+			get { return jumpEndTransitionDurationByForwardSpeed; }
+		}
+
+		public float jumpTransitionTime
+		{
+			get { return jumpTransitionDuration; }
+		}
+
+		public float rightFootPhysicsJumpLandAnimationOffset
+		{
+			get { return rightFootPhysicsJumpLandAnimationTimeOffset; }
+		}
+
+		public float leftFootPhysicsJumpLandAnimationOffset
+		{
+			get { return leftFootPhysicsJumpLandAnimationTimeOffset; }
 		}
 	}
 }

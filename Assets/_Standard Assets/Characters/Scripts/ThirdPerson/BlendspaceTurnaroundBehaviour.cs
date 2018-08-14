@@ -202,7 +202,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected override void StartTurningAround(float angle)
 		{
 			isSmallTurn = Mathf.Abs(angle) < classificationAngle;
-			Debug.Log(isSmallTurn);
 			targetAngle = MathUtilities.Wrap180(angle);
 			turningTime = 0f;
 			currentForwardSpeed = animationController.animatorForwardSpeed;
