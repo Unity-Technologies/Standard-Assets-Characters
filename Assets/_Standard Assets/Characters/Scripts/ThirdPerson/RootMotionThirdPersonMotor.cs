@@ -481,7 +481,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			
 			
-			if (characterPhysics.isGrounded && animationController.CanJump)
+			if (characterPhysics.isGrounded && animationController.canJump)
 			{
 				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
 				groundMovementVector.y = 0;
@@ -596,7 +596,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				return true;
 			}
-			if (!characterPhysics.isGrounded || characterPhysics.startedSlide || !animationController.CanJump)
+			if (!characterPhysics.isGrounded || characterPhysics.startedSlide || !animationController.canJump)
 			{
 				return false;
 			}
