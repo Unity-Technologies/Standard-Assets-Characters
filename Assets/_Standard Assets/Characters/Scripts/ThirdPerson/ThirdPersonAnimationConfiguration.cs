@@ -6,17 +6,14 @@ namespace StandardAssets.Characters.ThirdPerson
 	public class ThirdPersonAnimationConfiguration : ScriptableObject
 	{
 		[SerializeField]
-		protected float floatInterpolation = 0.05f;
+		protected AnimationFloatParameter forwardSpeedParameter = new AnimationFloatParameter("ForwardSpeed", 0.15f);
 		
 		[SerializeField]
-		protected string forwardSpeedParameter = "ForwardSpeed";
-		
-		[SerializeField]
-		protected string lateralSpeedParameter = "LateralSpeed";
-		
-		[SerializeField]
-		protected string turningSpeedParameter = "TurningSpeed";
+		protected AnimationFloatParameter lateralSpeedParameter = new AnimationFloatParameter("LateralSpeed", 0.05f);
 
+		[SerializeField]
+		protected AnimationFloatParameter turningSpeedParameter = new AnimationFloatParameter("TurningSpeed", 0.05f);
+		
 		[SerializeField]
 		protected string verticalSpeedParameter = "VerticalSpeed";
 		
@@ -69,22 +66,17 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected AnimationCurve jumpEndTransitionDurationByForwardSpeed = AnimationCurve.Linear(0,0,1,0.125f);
 
-		public float floatInterpolationTime
-		{
-			get { return floatInterpolation; }
-		}
-
-		public string forwardSpeedParameterName
+		public AnimationFloatParameter forwardSpeed
 		{
 			get { return forwardSpeedParameter; }
 		}
 
-		public string lateralSpeedParameterName
+		public AnimationFloatParameter lateralSpeed
 		{
 			get { return lateralSpeedParameter; }
 		}
 
-		public string turningSpeedParameterName
+		public AnimationFloatParameter turningSpeed
 		{
 			get { return turningSpeedParameter; }
 		}
