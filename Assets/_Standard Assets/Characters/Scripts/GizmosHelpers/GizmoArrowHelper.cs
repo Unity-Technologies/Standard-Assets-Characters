@@ -1,60 +1,117 @@
-﻿using UnityEngine;
+﻿using System.Runtime.InteropServices;
+using StandardAssets.Characters.CharacterInput;
+using StandardAssets.Characters.Common;
+using UnityEngine;
 
 namespace StandardAssets.GizmosHelpers
 {
-    public static class GizmoArrowHelper
+    public class GizmoArrowHelper : MonoBehaviour
     {
-        public static void ForGizmo(Vector3 pos, Vector3 direction, float arrowHeadLength = 0.25f, float arrowHeadAngle = 20.0f)
+        private GameObject cylinderPrefab;
+        
+        
+        public bool enablePowerDebug;
+	    
+        /// <summary>
+        /// The Input implementation to be used
+        /// e.g. Default unity input or (in future) the new new input system
+        /// </summary>
+        protected ICharacterInput characterInput;
+
+
+        protected CharacterBrain characterMotor;
+
+        public ICharacterInput inputForCharacter
         {
-            Gizmos.DrawRay(pos, direction);
-       
-            Vector3 right = Quaternion.LookRotation(direction) * Quaternion.Euler(0,180+arrowHeadAngle,0) * new Vector3(0,0,1);
-            Vector3 left = Quaternion.LookRotation(direction) * Quaternion.Euler(0,180-arrowHeadAngle,0) * new Vector3(0,0,1);
-            Gizmos.DrawRay(pos + direction, right * arrowHeadLength);
-            Gizmos.DrawRay(pos + direction, left * arrowHeadLength);
+            get { return characterInput; }
         }
- 
-        public static void ForGizmo(Vector3 pos, Vector3 direction, Color color, float arrowHeadLength = 0.25f, float arrowHeadAngle = 20.0f)
+	    
+        public CharacterBrain motorForCharacter
         {
-            Gizmos.color = color;
-            Gizmos.DrawRay(pos, direction);
-       
-            Vector3 right = Quaternion.LookRotation(direction) * Quaternion.Euler(0,180+arrowHeadAngle,0) * new Vector3(0,0,1);
-            Vector3 left = Quaternion.LookRotation(direction) * Quaternion.Euler(0,180-arrowHeadAngle,0) * new Vector3(0,0,1);
-            Gizmos.DrawRay(pos + direction, right * arrowHeadLength);
-            Gizmos.DrawRay(pos + direction, left * arrowHeadLength);
+            get { return characterMotor; }
         }
- 
-        public static void ForDebug(Vector3 pos, Vector3 direction, float arrowHeadLength = 0.25f, float arrowHeadAngle = 20.0f)
+	    
+        /// <summary>
+        /// Get physics and input on Awake
+        /// </summary>
+        protected virtual void Awake()
         {
-            Debug.DrawRay(pos, direction);
-       
-            Vector3 right = Quaternion.LookRotation(direction) * Quaternion.Euler(0,180+arrowHeadAngle,0) * new Vector3(0,0,1);
-            Vector3 left = Quaternion.LookRotation(direction) * Quaternion.Euler(0,180-arrowHeadAngle,0) * new Vector3(0,0,1);
-            Debug.DrawRay(pos + direction, right * arrowHeadLength);
-            Debug.DrawRay(pos + direction, left * arrowHeadLength);
+            characterInput = GetComponent<ICharacterInput>();
+            characterMotor = GetComponent<CharacterBrain>();
         }
-        public static void ForDebug(Vector3 pos, Vector3 direction, Color color, float arrowHeadLength = 0.25f, float arrowHeadAngle = 20.0f)
+	    
+        /// <summary>
+        /// Rotate around an implied circle to give the vector at a certain point along the circumference 
+        /// </summary>
+        public Vector3 rotateByDegrees(Vector3 centre, float radius, float angle)
         {
-            Debug.DrawRay(pos, direction, color);
-       
-            Vector3 right = Quaternion.LookRotation(direction) * Quaternion.Euler(0,180+arrowHeadAngle,0) * new Vector3(0,0,1);
-            Vector3 left = Quaternion.LookRotation(direction) * Quaternion.Euler(0,180-arrowHeadAngle,0) * new Vector3(0,0,1);
-            Debug.DrawRay(pos + direction, right * arrowHeadLength, color);
-            Debug.DrawRay(pos + direction, left * arrowHeadLength, color);
+            var centreX = centre.x;
+            var centreY = centre.z;
+
+            angle = angle * Mathf.Deg2Rad;
+		    
+            var rotationPoint = new Vector3();
+            rotationPoint.x = (Mathf.Sin(angle) * radius) + centreX;
+            rotationPoint.y = centre.y;
+            rotationPoint.z = (Mathf.Cos(angle) * radius) + centreY;
+		    
+            return rotationPoint;
+        }
+        
+        //Testing Code for arrow models
+        private GameObject forwardDirection;
+        
+        //Testing Code for arrow models
+        private void Start()
+        {
+            cylinderPrefab = GameObject.Find("GizmoArrow");
+            CreateCylinderBetweenPoints(transform.position, transform.position + transform.forward * 5, 0.5f, Color.cyan, out forwardDirection);
         }
 
-        public static void ArrowForLine(Vector3 start, Vector3 end, Color color, float arrowHeadLength = 0.25f,
-            float arrowHeadAngle = 20.0f)
+        
+        //Testing Code for arrow models
+        void CreateCylinderBetweenPoints(Vector3 start, Vector3 end, float width, Color color, out GameObject cylinderObject)
         {
-            Debug.DrawLine(start, end, color);
-            
-            Vector3 right = Quaternion.LookRotation(end) * Quaternion.Euler(0,180+arrowHeadAngle,0) * new Vector3(0,0,1);
-            Vector3 left = Quaternion.LookRotation(end) * Quaternion.Euler(0,180-arrowHeadAngle,0) * new Vector3(0,0,1);
-            Debug.DrawLine(end, end + right * arrowHeadLength, color);
-            Debug.DrawLine(end, end + left * arrowHeadLength, color);
-            
-            
+            var offset = end - start;
+            var scale = new Vector3(width, offset.magnitude / 2.0f, width);
+            var position = start + (offset / 2.0f);
+            cylinderObject = Instantiate(cylinderPrefab);
+            cylinderObject.transform.forward = offset;
+            cylinderObject.transform.position = position;
         }
+
+
+
+#if UNITY_EDITOR
+        private void OnDrawGizmos()
+        {
+            if (enablePowerDebug)
+            {
+                if (Application.isPlaying)
+                {
+                    //Forward direction of the character transform
+                    Debug.DrawLine(transform.position, transform.position + transform.forward * 5, Color.green);
+                    forwardDirection.transform.position = transform.position + transform.forward * 5;
+                    
+			        
+                    //Translate move input from vector2 into 3D space
+                    var translatedMoveInput = new Vector3(characterInput.moveInput.x, 0, characterInput.moveInput.y);
+			        
+                    //Find the direction of input relative to both the character and the main camera
+                    Debug.DrawLine(transform.position, transform.position + Camera.main.transform.TransformDirection(translatedMoveInput) * 10, Color.blue);
+			        
+                    //Intended rotation by degrees
+                    float angle = characterMotor.targetYRotation;
+			        
+                    //Find vector rotated by given degrees
+                    Vector3 targetPoint = rotateByDegrees(transform.position, 1, angle);
+			        
+                    //Draw the line to the intended rotation
+                    Debug.DrawLine(transform.position, targetPoint, Color.red);
+			        
+                }
+            }
+        }
+#endif
     }
 }

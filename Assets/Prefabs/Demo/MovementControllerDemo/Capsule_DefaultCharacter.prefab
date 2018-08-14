@@ -60,7 +60,7 @@ GameObject:
   - component: {fileID: 23033913543870552}
   - component: {fileID: 65168414488074274}
   m_Layer: 11
-  m_Name: LookDirection
+  m_Name: Face
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -311,7 +311,6 @@ MonoBehaviour:
   startingMovementProperties: {fileID: 11400000, guid: d412b2493e9e746aabb1838f1a9e6cc6,
     type: 2}
   turnSpeed: 300
-  mainCamera: {fileID: 0}
 --- !u!143 &143417532114150374
 CharacterController:
   m_ObjectHideFlags: 1

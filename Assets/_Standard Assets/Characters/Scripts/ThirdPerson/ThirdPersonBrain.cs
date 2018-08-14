@@ -74,6 +74,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return thirdPersonMovementEventHandler; }
 		}
 
+		public override float targetYRotation { get; set; }
+
 		public IThirdPersonMotor CurrentMotor { get; private set; }
 
 		public ThirdPersonCameraAnimationManager thirdPersonCameraAnimationManager
@@ -158,6 +160,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				currentTurnaroundBehaviour.Update();
 			}
+			
+			targetYRotation = CurrentMotor.targetYRotation;
 		
 			//Just for build testing
 			if (Input.GetKeyDown(KeyCode.T))

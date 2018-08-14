@@ -44,6 +44,8 @@ namespace StandardAssets.Characters.Common
 			
 		public abstract MovementEventHandler movementEventHandler { get; }
 
+		public abstract float targetYRotation { get; set; }
+
 		/// <summary>
 		/// Get physics and input on Awake
 		/// </summary>

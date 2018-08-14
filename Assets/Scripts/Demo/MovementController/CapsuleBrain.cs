@@ -47,6 +47,8 @@ namespace Demo.MovementController
 		    get { return _movementEventHandler; }
 	    }
 
+	    public override float targetYRotation { get; set; }
+
 	    protected override void Awake()
         {
             base.Awake();
@@ -78,6 +80,8 @@ namespace Demo.MovementController
 		{
 			Quaternion targetRotation = CalculateTargetRotation();
 			transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
+
+			targetYRotation = targetRotation.eulerAngles.y;
 		}
 	    
 	    

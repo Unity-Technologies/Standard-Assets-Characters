@@ -78,6 +78,8 @@ namespace StandardAssets.Characters.FirstPerson
 			get { return firstPersonMovementEventHandler; }
 		}
 
+		public override float targetYRotation { get; set; }
+
 		public FirstPersonMovementProperties[] allMovementProperties
 		{
 			get
