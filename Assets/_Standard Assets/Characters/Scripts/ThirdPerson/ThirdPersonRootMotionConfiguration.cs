@@ -42,6 +42,12 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected float jumpTurningSpeedScale = 0.5f;
 
+		[Header("Standing Jump")]
+		[SerializeField]
+		protected float standingJumpForwardSpeed = 0.1f,
+						minInputThreshold = 0.5f,
+						maxMovementThreshold = 0.01f;
+
 		[Header("Falling")]
 		[SerializeField]
 		protected float fallingMaxForwardSpeed = 5;
@@ -186,6 +192,21 @@ namespace StandardAssets.Characters.ThirdPerson
 		public int bufferSizeInput
 		{
 			get { return inputBufferSize; }
+		}
+
+		public float standingJumpSpeed
+		{
+			get { return standingJumpForwardSpeed; }
+		}
+
+		public float standingJumpMinInputThreshold
+		{
+			get { return minInputThreshold; }
+		}
+
+		public float standingJumpMaxMovementThreshold
+		{
+			get { return maxMovementThreshold; }
 		}
 	}
 }

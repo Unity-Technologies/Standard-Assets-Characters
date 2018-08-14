@@ -89,7 +89,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public bool isRootMovement { get; private set; }
 
-		private bool isLanding;
+		private bool isLanding,
+		             didPhysicsJump;
 
 		public bool canJump
 		{
@@ -260,14 +261,14 @@ namespace StandardAssets.Characters.ThirdPerson
 			animator.SetBool(hashGrounded, true);
 			
 			// if coming from a physics jump handle animation transition
-			if (Mathf.Abs(motor.normalizedLateralSpeed) <= Mathf.Abs(motor.normalizedForwardSpeed)
-			    && motor.normalizedForwardSpeed >= 0)
+			if (didPhysicsJump)
 			{
 				bool rightFoot = animator.GetBool(hashFootedness);
-				animator.CrossFade("Locomotion Blend",
-						 configuration.jumpTransitionDurationByForwardSpeed.Evaluate(motor.normalizedForwardSpeed),
-								   0, rightFoot ? configuration.rightFootPhysicsJumpLandAnimationOffset : 
-												  configuration.leftFootPhysicsJumpLandAnimationOffset);
+				animator.CrossFade("Locomotion Blend", configuration.jumpTransitionDurationByForwardSpeed.Evaluate(
+										Mathf.Abs(animator.GetFloat(configuration.jumpedForwardSpeedParameterName))),
+										0, rightFoot ? configuration.rightFootPhysicsJumpLandAnimationOffset :
+										configuration.leftFootPhysicsJumpLandAnimationOffset);
+				didPhysicsJump = false;
 			}
 		}
 
@@ -291,6 +292,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				animator.SetFloat(hashJumpedLateralSpeed, 0);
 				animator.CrossFade(rightFoot ? "OnRightFootBlend" : "OnLeftFootBlend", 
 				                   configuration.jumpTransitionTime);
+				didPhysicsJump = true;
 			}
 			else
 			{

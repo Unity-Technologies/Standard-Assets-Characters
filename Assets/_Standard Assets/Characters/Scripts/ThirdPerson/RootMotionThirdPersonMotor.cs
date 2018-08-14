@@ -155,7 +155,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private bool ShouldApplyRootMotion()
 		{
-			return characterPhysics.isGrounded && animationController.shouldUseRootMotion;
+			return characterPhysics.isGrounded && animationController.shouldUseRootMotion &&
+					!animationController.isRootMovement;
 		}
 
 		public void Init(ThirdPersonBrain brain)
@@ -610,8 +611,16 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			if (Mathf.Abs(normalizedLateralSpeed) <= normalizedForwardSpeed && normalizedForwardSpeed >=0)
 			{
+				if (characterInput.moveInput.magnitude > configuration.standingJumpMinInputThreshold && 
+				    animator.deltaPosition.magnitude <= configuration.standingJumpMaxMovementThreshold)
+				{
+					cachedForwardMovement = configuration.standingJumpSpeed;
+				}
+				else
+				{
+					cachedForwardMovement = averageForwardMovement.average;
+				}
 				characterPhysics.SetJumpVelocity(configuration.initialJumpVelocity);
-				cachedForwardMovement = averageForwardMovement.average;
 			}
 			
 			if (jumpStarted != null)
