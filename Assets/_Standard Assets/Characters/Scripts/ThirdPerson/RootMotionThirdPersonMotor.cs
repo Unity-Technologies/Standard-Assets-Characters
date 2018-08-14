@@ -481,7 +481,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			
 			
-			if (characterPhysics.isGrounded && animationController.canJump)
+			if (characterPhysics.isGrounded && !animationController.isRootMovement)
 			{
 				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
 				groundMovementVector.y = 0;
