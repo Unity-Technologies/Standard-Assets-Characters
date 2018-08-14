@@ -41,6 +41,14 @@ namespace Demo
 		[SerializeField]
 		protected bool parentObjects = true;
 
+		[SerializeField]
+		protected Transform[] warpPositions;
+
+		private int warpPositionIndex = 0;
+
+		[SerializeField]
+		protected InputResponse warpPlayerInput;
+
 		private void Awake()
 		{
 			// TODO remove this when this stops getting nulled
@@ -56,6 +64,8 @@ namespace Demo
 			}
 
 			changeViews.Init();
+			warpPlayerInput.Init();
+			
 		}
 
 		private void Start()
@@ -70,6 +80,11 @@ namespace Demo
 				changeViews.started += SetFirstPerson;
 				changeViews.ended += SetThirdPerson;
 			}
+
+			if (warpPlayerInput != null)
+			{
+				warpPlayerInput.started += WarpToNextPoint;
+			}
 		}
 
 		private void OnDisable()
@@ -78,6 +93,11 @@ namespace Demo
 			{
 				changeViews.started -= SetFirstPerson;
 				changeViews.ended -= SetThirdPerson;
+			}
+			
+			if (warpPlayerInput != null)
+			{
+				warpPlayerInput.started -= WarpToNextPoint;
 			}
 		}
 
@@ -207,6 +227,16 @@ namespace Demo
 			}
 
 			return 0;
+		}
+
+		void WarpToNextPoint()
+		{
+			if (warpPositionIndex >= warpPositions.Length)
+			{
+				warpPositionIndex = 0;
+			}
+
+			thirdPersonBrain.transform.position = warpPositions[warpPositionIndex++].position;
 		}
 	}
 }
