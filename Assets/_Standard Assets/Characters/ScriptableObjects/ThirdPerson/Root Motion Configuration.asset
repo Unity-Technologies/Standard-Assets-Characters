@@ -26,6 +26,9 @@ MonoBehaviour:
   jumpGroundVelocitySamples: 5
   jumpGroundVelocityScale: 1
   jumpTurningSpeedScale: 0.25
+  standingJumpForwardSpeed: 0.08
+  minInputThreshold: 0.5
+  maxMovementThreshold: 0.04
   fallingMaxForwardSpeed: 5
   fallForwardSpeedLerp: 0.05
   turningSpeed: 300
