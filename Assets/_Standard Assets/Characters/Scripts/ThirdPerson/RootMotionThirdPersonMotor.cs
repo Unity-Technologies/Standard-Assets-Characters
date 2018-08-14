@@ -518,7 +518,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			Vector3 flatForward = thirdPersonBrain.bearingOfCharacter.CalculateCharacterBearing();
 
 			Vector3 localMovementDirection =
-				new Vector3(x, 0f, x);
+				new Vector3(x, 0f, y);
 			Quaternion cameraToInputOffset = Quaternion.FromToRotation(Vector3.forward, localMovementDirection);
 			cameraToInputOffset.eulerAngles = new Vector3(0f, cameraToInputOffset.eulerAngles.y, 0f);
 
