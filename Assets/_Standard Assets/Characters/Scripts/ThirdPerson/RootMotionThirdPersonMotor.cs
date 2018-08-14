@@ -155,7 +155,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private bool ShouldApplyRootMotion()
 		{
-			return characterPhysics.isGrounded && animationController.shouldUseRootMotion;
+			return characterPhysics.isGrounded && animationController.shouldUseRootMotion &&
+					!animationController.isRootMovement;
 		}
 
 		public void Init(ThirdPersonBrain brain)
