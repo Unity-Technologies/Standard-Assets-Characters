@@ -1,4 +1,5 @@
 ﻿using System;
+using Cinemachine;
 using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
@@ -9,6 +10,11 @@ namespace StandardAssets.Characters.ThirdPerson
 	[Serializable]
 	public class RootMotionThirdPersonMotor : IThirdPersonMotor
 	{
+		
+		//Strafe Camera
+		[SerializeField]
+		protected CinemachineFreeLook strafeFreeLookCamera;
+		
 		//Events
 		public event Action startActionMode, startStrafeMode;
 
@@ -382,13 +388,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected virtual void SetStrafeLookDirection()
 		{
-			Vector3 lookForwardY = transform.rotation.eulerAngles;
-
-			lookForwardY.x = 0;
-			lookForwardY.z = 0;
-			lookForwardY.y -= characterInput.lookInput.x * Time.deltaTime * configuration.scaleStrafeLook;
-
-			Quaternion targetRotation = Quaternion.Euler(lookForwardY);
+			Quaternion targetRotation = CalculateTargetRotation(0, 1);
 
 			targetYRotation = targetRotation.eulerAngles.y;
 
@@ -510,10 +510,15 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected virtual Quaternion CalculateTargetRotation()
 		{
+			return CalculateTargetRotation(characterInput.moveInput.x, characterInput.moveInput.y);
+		}
+
+		protected virtual Quaternion CalculateTargetRotation(float x, float y)
+		{
 			Vector3 flatForward = thirdPersonBrain.bearingOfCharacter.CalculateCharacterBearing();
 
 			Vector3 localMovementDirection =
-				new Vector3(characterInput.moveInput.x, 0f, characterInput.moveInput.y);
+				new Vector3(x, 0f, y);
 			Quaternion cameraToInputOffset = Quaternion.FromToRotation(Vector3.forward, localMovementDirection);
 			cameraToInputOffset.eulerAngles = new Vector3(0f, cameraToInputOffset.eulerAngles.y, 0f);
 
