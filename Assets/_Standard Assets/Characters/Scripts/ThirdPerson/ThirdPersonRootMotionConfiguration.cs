@@ -44,8 +44,9 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[Header("Standing Jump")]
 		[SerializeField]
-		protected float standingJumpForwardSpeed = 0.1f,
-						minInputThreshold = 0.5f,
+		protected float standingJumpForwardSpeed = 0.1f;
+		[SerializeField]
+		protected float minInputThreshold = 0.5f,
 						maxMovementThreshold = 0.01f;
 
 		[Header("Falling")]
