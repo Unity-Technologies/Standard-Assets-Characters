@@ -1,6 +1,4 @@
 ﻿using System;
-using Attributes;
-using Attributes.Types;
 using UnityEngine;
 using Util;
 
@@ -39,12 +37,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		private int hashHasInput;
 		private int hashFallingTime;
 		private int hashFootedness;
-		private int hashJumped;
 		private int hashJumpedForwardSpeed;
 		private int hashJumpedLateralSpeed;
 		private int hashPredictedFallDistance;
 		private int hashRapidTurn;
-		private int hashPhysicsJump;
 
 		private bool isGrounded;
 
@@ -91,9 +87,11 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public bool shouldUseRootMotion { get; private set; }
 
+		public bool isRootMovement { get; private set; }
+
 		private bool isLanding;
 
-		public bool CanJump
+		public bool canJump
 		{
 			get { return shouldUseRootMotion && !isLanding && isGrounded; }
 		}
@@ -110,12 +108,18 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public void OnPhysicsJumpAnimationExit()
 		{
-			shouldUseRootMotion = true;
+			isRootMovement = false;
 		}
 
 		public void OnPhysicsJumpAnimationEnter()
 		{
 			shouldUseRootMotion = false;
+			isRootMovement = true;
+		}
+		
+		public void OnLocomotionAnimationEnter()
+		{
+			shouldUseRootMotion = true;
 		}
 
 		public void UpdateForwardSpeed(float newSpeed, float deltaTime)
@@ -147,12 +151,10 @@ namespace StandardAssets.Characters.ThirdPerson
 			hashHasInput = Animator.StringToHash(configuration.hasInputParameterName);
 			hashFallingTime = Animator.StringToHash(configuration.fallingTimeParameterName);
 			hashFootedness = Animator.StringToHash(configuration.footednessParameterName);
-			hashJumped = Animator.StringToHash(configuration.jumpedParameterName);
 			hashJumpedForwardSpeed = Animator.StringToHash(configuration.jumpedForwardSpeedParameterName);
 			hashJumpedLateralSpeed = Animator.StringToHash(configuration.jumpedLateralSpeedParameterName);
 			hashPredictedFallDistance = Animator.StringToHash(configuration.predictedFallDistanceParameterName);
 			hashRapidTurn = Animator.StringToHash(configuration.rapidTurnParameterName);
-			hashPhysicsJump = Animator.StringToHash(configuration.physicsJump);
 			motor = motorToUse;
 			animator = gameObject.GetComponent<Animator>();
 			shouldUseRootMotion = true;
@@ -256,6 +258,17 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			isGrounded = true;
 			animator.SetBool(hashGrounded, true);
+			
+			// if coming from a physics jump handle animation transition
+			if (Mathf.Abs(motor.normalizedLateralSpeed) <= Mathf.Abs(motor.normalizedForwardSpeed)
+			    && motor.normalizedForwardSpeed >= 0)
+			{
+				bool rightFoot = animator.GetBool(hashFootedness);
+				animator.CrossFade("Locomotion Blend",
+						 configuration.jumpTransitionDurationByForwardSpeed.Evaluate(motor.normalizedForwardSpeed),
+								   0, rightFoot ? configuration.rightFootPhysicsJumpLandAnimationOffset : 
+												  configuration.leftFootPhysicsJumpLandAnimationOffset);
+			}
 		}
 
 		/// <summary>
@@ -267,24 +280,25 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				return;
 			}
-
 			isGrounded = false;
-
+			
+			animator.SetFloat(hashJumpedForwardSpeed, motor.normalizedForwardSpeed);
+			
+			bool rightFoot = animator.GetBool(hashFootedness);
 			if (Mathf.Abs(motor.normalizedLateralSpeed) <= Mathf.Abs(motor.normalizedForwardSpeed)
-			    && motor.normalizedForwardSpeed >=0)
+			    && motor.normalizedForwardSpeed >= 0)
 			{
 				animator.SetFloat(hashJumpedLateralSpeed, 0);
-				animator.SetFloat(hashJumpedForwardSpeed, motor.normalizedForwardSpeed);
-				animator.SetBool(hashPhysicsJump, true);
+				animator.CrossFade(rightFoot ? "OnRightFootBlend" : "OnLeftFootBlend", 
+				                   configuration.jumpTransitionTime);
 			}
 			else
 			{
-				animator.SetFloat(hashJumpedForwardSpeed, motor.normalizedForwardSpeed);
 				animator.SetFloat(hashJumpedLateralSpeed, motor.normalizedLateralSpeed);
-				animator.SetBool(hashPhysicsJump, false);
+				animator.CrossFade(rightFoot ? "OnRightFoot" : "OnLeftFoot", 
+				                   configuration.jumpTransitionTime);
 			}
 
-			animator.SetTrigger(hashJumped);
 			animator.SetFloat(hashFallingTime, 0);
 			animator.SetBool(hashGrounded, false);
 		}
@@ -306,24 +320,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			SetFootednessBool(configuration.invertFoot);
 		}
 
-		private bool CheckHasSpeed(float speed)
+		private static bool CheckHasSpeed(float speed)
 		{
 			return Mathf.Abs(speed) > 0;
-		}
-
-		/// <summary>
-		/// Helper function to get the component of velocity along an axis
-		/// </summary>
-		/// <param name="axis"></param>
-		/// <param name="velocity"></param>
-		/// <returns></returns>
-		private float GetVectorOnAxis(Vector3 axis, Vector3 vector)
-		{
-			float dot = Vector3.Dot(axis, vector.normalized);
-			float val = dot * vector.magnitude;
-
-			Debug.Log(val);
-			return val;
 		}
 	}
 }
