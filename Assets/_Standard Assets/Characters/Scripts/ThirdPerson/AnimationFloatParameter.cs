@@ -11,22 +11,28 @@ namespace StandardAssets.Characters.ThirdPerson
 
 
 		[SerializeField]
-		protected float interpolationTime;
+		protected float minInterpolationTime;
+
+		[SerializeField]
+		protected float maxInterpolationTime;
 		
 		public string parameter
 		{
 			get { return parameterName; }
 		}
 
-		public float interpolation
-		{
-			get { return interpolationTime; }
-		}
-
-		public AnimationFloatParameter(string newParameterName, float newInterpolationTime)
+		public AnimationFloatParameter(string newParameterName, float newMinInterpolationTime, float newMaxInterpolationTime)
 		{
 			parameterName = newParameterName;
-			interpolationTime = newInterpolationTime;
+			minInterpolationTime = newMinInterpolationTime;
+			maxInterpolationTime = newMaxInterpolationTime;
+		}
+
+		public float GetInterpolationTime(float oldValue, float newValue)
+		{
+			float valueDifference = Mathf.Clamp(Mathf.Abs(oldValue - newValue), 0, 1);
+			float interpolationDifference = maxInterpolationTime - minInterpolationTime;
+			return maxInterpolationTime - (valueDifference * interpolationDifference);
 		}
 	}
 }

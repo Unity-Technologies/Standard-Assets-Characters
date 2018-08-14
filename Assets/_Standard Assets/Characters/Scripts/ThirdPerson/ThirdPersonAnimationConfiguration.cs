@@ -6,13 +6,13 @@ namespace StandardAssets.Characters.ThirdPerson
 	public class ThirdPersonAnimationConfiguration : ScriptableObject
 	{
 		[SerializeField]
-		protected AnimationFloatParameter forwardSpeedParameter = new AnimationFloatParameter("ForwardSpeed", 0.15f);
+		protected AnimationFloatParameter forwardSpeedParameter = new AnimationFloatParameter("ForwardSpeed", 0.05f, 0.15f);
 		
 		[SerializeField]
-		protected AnimationFloatParameter lateralSpeedParameter = new AnimationFloatParameter("LateralSpeed", 0.05f);
+		protected AnimationFloatParameter lateralSpeedParameter = new AnimationFloatParameter("LateralSpeed", 0.01f, 0.05f);
 
 		[SerializeField]
-		protected AnimationFloatParameter turningSpeedParameter = new AnimationFloatParameter("TurningSpeed", 0.05f);
+		protected AnimationFloatParameter turningSpeedParameter = new AnimationFloatParameter("TurningSpeed", 0.01f, 0.05f);
 		
 		[SerializeField]
 		protected string verticalSpeedParameter = "VerticalSpeed";

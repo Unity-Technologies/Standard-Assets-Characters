@@ -125,17 +125,17 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public void UpdateForwardSpeed(float newSpeed, float deltaTime)
 		{
-			animator.SetFloat(hashForwardSpeed, newSpeed, configuration.forwardSpeed.interpolation, deltaTime);
+			animator.SetFloat(hashForwardSpeed, newSpeed, configuration.forwardSpeed.GetInterpolationTime(animatorForwardSpeed, newSpeed), deltaTime);
 		}
 
 		public void UpdateLateralSpeed(float newSpeed, float deltaTime)
 		{
-			animator.SetFloat(hashLateralSpeed, newSpeed, configuration.lateralSpeed.interpolation, deltaTime);
+			animator.SetFloat(hashLateralSpeed, newSpeed, configuration.lateralSpeed.GetInterpolationTime(animatorLateralSpeed, newSpeed), deltaTime);
 		}
 
 		public void UpdateTurningSpeed(float newSpeed, float deltaTime)
 		{
-			animator.SetFloat(hashTurningSpeed, newSpeed, configuration.turningSpeed.interpolation, deltaTime);
+			animator.SetFloat(hashTurningSpeed, newSpeed, configuration.turningSpeed.GetInterpolationTime(animatorTurningSpeed, newSpeed), deltaTime);
 		}
 
 		/// <summary>
