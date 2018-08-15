@@ -20,6 +20,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected string[] freeLookCameraStates, strafeCameraStates;
 
+		[SerializeField]
+		protected GameObject[] freeLookCameraObjects, strafeCameraObjects;
+
 		private string[] currentCameraModeStateNames;
 
 		private int cameraIndex;
@@ -88,6 +91,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			if (isForwardUnlocked)
 			{
+				SetCameraObjectsActive(freeLookCameraObjects);
+				SetCameraObjectsActive(strafeCameraObjects, false);
 				if (forwardUnlockedModeStarted != null)
 				{
 					forwardUnlockedModeStarted();
@@ -95,6 +100,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			else
 			{
+				SetCameraObjectsActive(freeLookCameraObjects, false);
+				SetCameraObjectsActive(strafeCameraObjects);
 				if (forwardLockedModeStarted != null)
 				{
 					forwardLockedModeStarted();
@@ -111,6 +118,14 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			
 			SetAnimation(currentCameraModeStateNames[cameraIndex]);
+		}
+
+		private void SetCameraObjectsActive(GameObject[] cameraObjects, bool isActive = true)
+		{
+			foreach (GameObject cameraObject in cameraObjects)
+			{
+				cameraObject.SetActive(isActive);
+			}
 		}
 	}
 }
