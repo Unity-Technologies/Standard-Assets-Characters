@@ -112,7 +112,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		public void OnPhysicsJumpAnimationExit()
 		{
 			isRootMovement = false;
-			didPhysicsJump = false;
 		}
 
 		public void OnPhysicsJumpAnimationEnter()
@@ -123,6 +122,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		public void OnLocomotionAnimationEnter()
 		{
+			didPhysicsJump = false;
 			shouldUseRootMotion = true;
 		}
 
