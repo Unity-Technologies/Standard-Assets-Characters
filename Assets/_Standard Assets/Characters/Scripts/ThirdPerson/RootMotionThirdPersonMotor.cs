@@ -277,7 +277,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected virtual void OnLanding()
 		{
 			aerialState = ThirdPersonAerialMovementState.Grounded;
-			//cachedForwardMovement = 0f;
+
+			if (!characterInput.hasMovementInput)
+			{
+				averageForwardMovement.Clear();
+			}
 
 			if (landed != null)
 			{
