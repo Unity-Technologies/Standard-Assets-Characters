@@ -2451,7 +2451,7 @@ Animator:
   m_Avatar: {fileID: 9000000, guid: 20d97ea0953936148b25caa82b5e14f9, type: 3}
   m_Controller: {fileID: 9100000, guid: 9250483fadc19a444bcc66715ab615e9, type: 2}
   m_CullingMode: 1
-  m_UpdateMode: 1
+  m_UpdateMode: 0
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
@@ -2784,11 +2784,11 @@ MonoBehaviour:
       zeroAngleAxis: {x: 0, y: 1}
   animationController:
     configuration: {fileID: 11400000, guid: 16861f506e03f4b39a1b25e1bb3e307f, type: 2}
-  turnaroundType: 1
+  turnaroundType: 2
   blendspaceTurnaroundBehaviour:
     configureBlendspace: 0
     configuration:
-      timeToTurn: 0.2
+      timeToTurn: 1
       rotationDuringTurn:
         serializedVersion: 2
         m_Curve:
@@ -2908,11 +2908,11 @@ MonoBehaviour:
     idleLeftTurn:
       name: IdleTurnLeft180
       speed: 10
-      duration: 1.6333334
+      duration: 1.8000001
     idleRightTurn:
       name: IdleTurnRight180_Mirror
       speed: 10
-      duration: 1.6333334
+      duration: 1.8000001
     rotationCurve:
       serializedVersion: 2
       m_Curve:
