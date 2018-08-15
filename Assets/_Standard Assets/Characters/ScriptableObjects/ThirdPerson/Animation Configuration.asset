@@ -35,7 +35,7 @@ MonoBehaviour:
   invertFootedness: 0
   footednessThreshold: 0.25
   footednessThresholdOffset: 0.25
-  headLookAtWeight: 0.5
+  headLookAtWeight: 1
   headLookAtMaxRotation: 75
   headLookAtRotationSpeed: 15
   jumpTransitionDuration: 0.15
@@ -65,3 +65,4 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  skipJumpLandWindow: 0.25

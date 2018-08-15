@@ -10,6 +10,8 @@ namespace StandardAssets.Characters.ThirdPerson
 	[Serializable]
 	public class ThirdPersonAnimationController
 	{
+		private const float k_HeadTurnSnapBackScale = 10f;
+		
 		[SerializeField]
 		protected ThirdPersonAnimationConfiguration configuration;
 
@@ -42,9 +44,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		private int hashPredictedFallDistance;
 		private int hashRapidTurn;
 
-		private bool isGrounded;
+		private bool isGrounded,
+		             lastPhysicsJumpRightRoot;
 
 		private float headAngle;
+		private DateTime timeSinceLastPhysicsJumpLand;
 
 		public Animator unityAnimator
 		{
@@ -89,8 +93,9 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public bool isRootMovement { get; private set; }
 
-		private bool isLanding,
-		             didPhysicsJump;
+		public bool isLanding { get; private set; }
+
+		private bool didPhysicsJump;
 
 		public bool canJump
 		{
@@ -117,25 +122,37 @@ namespace StandardAssets.Characters.ThirdPerson
 			shouldUseRootMotion = false;
 			isRootMovement = true;
 		}
-		
+
 		public void OnLocomotionAnimationEnter()
 		{
+			didPhysicsJump = false;
 			shouldUseRootMotion = true;
+		}
+		
+		public void OnFallingLoopAnimationEnter()
+		{
+			didPhysicsJump = false;
 		}
 
 		public void UpdateForwardSpeed(float newSpeed, float deltaTime)
 		{
-			animator.SetFloat(hashForwardSpeed, newSpeed, configuration.forwardSpeed.GetInterpolationTime(animatorForwardSpeed, newSpeed), deltaTime);
+			animator.SetFloat(hashForwardSpeed, newSpeed,
+			                  configuration.forwardSpeed.GetInterpolationTime(animatorForwardSpeed, newSpeed),
+			                  deltaTime);
 		}
 
 		public void UpdateLateralSpeed(float newSpeed, float deltaTime)
 		{
-			animator.SetFloat(hashLateralSpeed, newSpeed, configuration.lateralSpeed.GetInterpolationTime(animatorLateralSpeed, newSpeed), deltaTime);
+			animator.SetFloat(hashLateralSpeed, newSpeed,
+			                  configuration.lateralSpeed.GetInterpolationTime(animatorLateralSpeed, newSpeed),
+			                  deltaTime);
 		}
 
 		public void UpdateTurningSpeed(float newSpeed, float deltaTime)
 		{
-			animator.SetFloat(hashTurningSpeed, newSpeed, configuration.turningSpeed.GetInterpolationTime(animatorTurningSpeed, newSpeed), deltaTime);
+			animator.SetFloat(hashTurningSpeed, newSpeed,
+			                  configuration.turningSpeed.GetInterpolationTime(animatorTurningSpeed, newSpeed),
+			                  deltaTime);
 		}
 
 		/// <summary>
@@ -190,10 +207,17 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			animator.SetLookAtWeight(configuration.lookAtWeight);
 			float targetHeadAngle = Mathf.Clamp(
-				MathUtilities.Wrap180(motor.targetYRotation - animator.transform.eulerAngles.y),
+				MathUtilities.Wrap180(motor.targetYRotation - gameObject.transform.eulerAngles.y),
 				-configuration.lookAtMaxRotation, configuration.lookAtMaxRotation);
+			
+			float headTurn = Time.deltaTime * configuration.lookAtRotationSpeed;
 
-			headAngle = Mathf.LerpAngle(headAngle, targetHeadAngle, Time.deltaTime * configuration.lookAtRotationSpeed);
+			if (Mathf.Abs(targetHeadAngle) < Mathf.Abs(headAngle))
+			{
+				headTurn *= k_HeadTurnSnapBackScale;
+			}
+				
+			headAngle = Mathf.LerpAngle(headAngle, targetHeadAngle, headTurn);
 
 			Vector3 lookAtPos = animator.transform.position +
 			                    Quaternion.AngleAxis(headAngle, Vector3.up) * animator.transform.forward * 100f;
@@ -259,16 +283,22 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			isGrounded = true;
 			animator.SetBool(hashGrounded, true);
-			
+
 			// if coming from a physics jump handle animation transition
 			if (didPhysicsJump)
 			{
 				bool rightFoot = animator.GetBool(hashFootedness);
 				animator.CrossFade("Locomotion Blend", configuration.jumpTransitionDurationByForwardSpeed.Evaluate(
-										Mathf.Abs(animator.GetFloat(configuration.jumpedForwardSpeedParameterName))),
-										0, rightFoot ? configuration.rightFootPhysicsJumpLandAnimationOffset :
-										configuration.leftFootPhysicsJumpLandAnimationOffset);
+					                   Mathf.Abs(animator.GetFloat(
+						                             configuration
+							                             .jumpedForwardSpeedParameterName))),
+				                   0,
+				                   rightFoot
+					                   ? configuration.rightFootPhysicsJumpLandAnimationOffset
+					                   : configuration.leftFootPhysicsJumpLandAnimationOffset);
 				didPhysicsJump = false;
+
+				timeSinceLastPhysicsJumpLand = DateTime.Now;
 			}
 		}
 
@@ -281,23 +311,31 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				return;
 			}
+
 			isGrounded = false;
-			
+
 			animator.SetFloat(hashJumpedForwardSpeed, motor.normalizedForwardSpeed);
-			
+
 			bool rightFoot = animator.GetBool(hashFootedness);
+
+			if (timeSinceLastPhysicsJumpLand.AddSeconds(configuration.skipJumpWindow) >= DateTime.Now)
+			{
+				rightFoot = !lastPhysicsJumpRightRoot;
+			}
+
 			if (Mathf.Abs(motor.normalizedLateralSpeed) <= Mathf.Abs(motor.normalizedForwardSpeed)
 			    && motor.normalizedForwardSpeed >= 0)
 			{
 				animator.SetFloat(hashJumpedLateralSpeed, 0);
-				animator.CrossFade(rightFoot ? "OnRightFootBlend" : "OnLeftFootBlend", 
+				animator.CrossFade(rightFoot ? "OnRightFootBlend" : "OnLeftFootBlend",
 				                   configuration.jumpTransitionTime);
 				didPhysicsJump = true;
+				lastPhysicsJumpRightRoot = rightFoot;
 			}
 			else
 			{
 				animator.SetFloat(hashJumpedLateralSpeed, motor.normalizedLateralSpeed);
-				animator.CrossFade(rightFoot ? "OnRightFoot" : "OnLeftFoot", 
+				animator.CrossFade(rightFoot ? "OnRightFoot" : "OnLeftFoot",
 				                   configuration.jumpTransitionTime);
 			}
 

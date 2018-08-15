@@ -10,14 +10,6 @@ namespace StandardAssets.Characters.ThirdPerson
 	[Serializable]
 	public class RootMotionThirdPersonMotor : IThirdPersonMotor
 	{
-		
-		//Strafe Camera
-		[SerializeField]
-		protected CinemachineFreeLook strafeFreeLookCamera;
-		
-		//Events
-		public event Action startActionMode, startStrafeMode;
-
 		//Serialized Fields
 		[SerializeField]
 		protected ThirdPersonRootMotionConfiguration configuration;
@@ -77,19 +69,14 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected SlidingAverage actionAverageForwardInput, strafeAverageForwardInput, strafeAverageLateralInput;
 
+		private float turnaroundMovementTime;
+		private int postLandFramesToIgnore;
 		private bool isTurningIntoStrafe,
 					 jumpQueued;
-		protected Transform transform;
-		protected GameObject gameObject;
-		protected ThirdPersonBrain thirdPersonBrain;
-		protected float turnaroundMovementTime;
-
-		protected SizedQueue<Vector2> previousInputs;
-
-		protected bool isStrafing
-		{
-			get { return movementMode == ThirdPersonMotorMovementMode.Strafe; }
-		}
+		private Transform transform;
+		private GameObject gameObject;
+		private ThirdPersonBrain thirdPersonBrain;
+		private SizedQueue<Vector2> previousInputs;
 
 		public float normalizedVerticalSpeed
 		{
@@ -295,13 +282,19 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <param name="predictedFallDistance"></param>
 		protected virtual void OnStartedFalling(float predictedFallDistance)
 		{
+			// check if far enough from ground to enter fall state
+			if (predictedFallDistance < configuration.maxFallDistanceToLand)
+			{
+				return;
+			}
+			
 			if (aerialState == ThirdPersonAerialMovementState.Grounded)
 			{
 				cachedForwardMovement = averageForwardMovement.average;
 			}
-
+			
 			aerialState = ThirdPersonAerialMovementState.Falling;
-
+			
 			if (fallStarted != null)
 			{
 				fallStarted(predictedFallDistance);
@@ -326,13 +319,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				return;
 			}
 			
-			if (startStrafeMode != null)
-			{
-				startStrafeMode();
-			}
-
 			movementMode = ThirdPersonMotorMovementMode.Strafe;
-
 			isTurningIntoStrafe = true;
 		}
 
@@ -341,11 +328,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		protected virtual void OnStrafeEnded()
 		{
-			if (startActionMode != null)
-			{
-				startActionMode();
-			}
-
 			movementMode = ThirdPersonMotorMovementMode.Action;
 		}
 
@@ -411,6 +393,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (!characterInput.hasMovementInput)
 			{
 				normalizedTurningSpeed = 0;
+				targetYRotation = transform.eulerAngles.y;
 				return;
 			}
 
@@ -484,9 +467,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			normalizedForwardSpeed = actionAverageForwardInput.average;
 
-			
-			
-			if (characterPhysics.isGrounded && !animationController.isRootMovement)
+			if (postLandFramesToIgnore <= 0 && characterPhysics.isGrounded && !animationController.isRootMovement)
 			{
 				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
 				groundMovementVector.y = 0;
@@ -497,6 +478,7 @@ namespace StandardAssets.Characters.ThirdPerson
 					averageForwardMovement.Add(value);
 				}
 			}
+			postLandFramesToIgnore--;
 		}
 
 		protected virtual void CalculateStrafeMovement()
@@ -602,7 +584,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <returns>True if a jump should be re-attempted</returns>
 		private bool TryJump()
 		{
-			if (movementState == ThirdPersonGroundMovementState.TurningAround)
+			if (movementState == ThirdPersonGroundMovementState.TurningAround || animationController.isLanding)
 			{
 				return true;
 			}
@@ -623,6 +605,11 @@ namespace StandardAssets.Characters.ThirdPerson
 				else
 				{
 					cachedForwardMovement = averageForwardMovement.average;
+				}
+
+				if (!Mathf.Approximately(cachedForwardMovement, 0) && !Mathf.Approximately(normalizedForwardSpeed, 0))
+				{
+					postLandFramesToIgnore = configuration.postPhyicsJumpFramesToIgnoreForward;
 				}
 				characterPhysics.SetJumpVelocity(configuration.initialJumpVelocity);
 			}

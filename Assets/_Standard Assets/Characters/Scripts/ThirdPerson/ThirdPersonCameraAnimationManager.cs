@@ -12,13 +12,16 @@ namespace StandardAssets.Characters.ThirdPerson
 		public event Action forwardUnlockedModeStarted, forwardLockedModeStarted;
 		
 		[SerializeField]
-		protected bool defaultModeIsForwardUnlocked = true;
+		protected bool defaultToFreeLook = true;
 
 		[SerializeField]
 		protected InputResponse cameraModeInput, cameraToggleInput;
 
 		[SerializeField]
-		protected string[] forwardUnlockedCameraToggleStateNames, forwardLockedCameraToggleStateNames;
+		protected string[] freeLookCameraStates, strafeCameraStates;
+
+		[SerializeField]
+		protected GameObject[] freeLookCameraObjects, strafeCameraObjects;
 
 		private string[] currentCameraModeStateNames;
 
@@ -41,7 +44,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private void Start()
 		{
-			isForwardUnlocked = defaultModeIsForwardUnlocked;
+			isForwardUnlocked = defaultToFreeLook;
 			SetForwardModeArray();
 			SetAnimation(currentCameraModeStateNames[cameraIndex]);
 			PlayForwardModeEvent();
@@ -80,14 +83,16 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void SetForwardModeArray()
 		{
 			currentCameraModeStateNames = isForwardUnlocked
-				? forwardUnlockedCameraToggleStateNames
-				: forwardLockedCameraToggleStateNames;
+				? freeLookCameraStates
+				: strafeCameraStates;
 		}
 
 		private void PlayForwardModeEvent()
 		{
 			if (isForwardUnlocked)
 			{
+				SetCameraObjectsActive(freeLookCameraObjects);
+				SetCameraObjectsActive(strafeCameraObjects, false);
 				if (forwardUnlockedModeStarted != null)
 				{
 					forwardUnlockedModeStarted();
@@ -95,6 +100,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			else
 			{
+				SetCameraObjectsActive(freeLookCameraObjects, false);
+				SetCameraObjectsActive(strafeCameraObjects);
 				if (forwardLockedModeStarted != null)
 				{
 					forwardLockedModeStarted();
@@ -111,6 +118,14 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			
 			SetAnimation(currentCameraModeStateNames[cameraIndex]);
+		}
+
+		private void SetCameraObjectsActive(GameObject[] cameraObjects, bool isActive = true)
+		{
+			foreach (GameObject cameraObject in cameraObjects)
+			{
+				cameraObject.SetActive(isActive);
+			}
 		}
 	}
 }
