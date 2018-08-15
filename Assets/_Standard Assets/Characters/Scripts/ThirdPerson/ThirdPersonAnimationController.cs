@@ -230,6 +230,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void OnFallStarted(float predictedFallDistance)
 		{
 			isGrounded = false;
+			didPhysicsJump = false;
 			animator.SetFloat(hashFallingTime, 0);
 			animator.SetBool(hashGrounded, false);
 			animator.SetFloat(hashPredictedFallDistance, predictedFallDistance);
