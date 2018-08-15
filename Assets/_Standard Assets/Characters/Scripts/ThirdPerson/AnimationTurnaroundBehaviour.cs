@@ -42,9 +42,10 @@ namespace StandardAssets.Characters.ThirdPerson
 						crossfadeDuration = 0.125f;
 
 		private bool isTransitioning;
+
 		private float animationTime,
-					targetAngle,
-					cachedAnimatorSpeed;
+			targetAngle,
+			cachedAnimatorSpeed;
 		private Quaternion startRotation;
 		
 		private AnimationInfo current;
@@ -77,6 +78,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				return;
 			}
+
+			if (current == idleLeftTurn || current == idleRightTurn)
+			{
+				animationController.UpdateForwardSpeed(0, Time.deltaTime);
+			}
+
 			if (isTransitioning)
 			{
 				var transitionTime = animator.GetAnimatorTransitionInfo(0).duration;
@@ -108,6 +115,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected override void FinishedTurning()
 		{
+
 		}
 
 		protected override void StartTurningAround(float angle)
