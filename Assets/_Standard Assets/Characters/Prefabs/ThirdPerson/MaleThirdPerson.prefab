@@ -2896,7 +2896,7 @@ MonoBehaviour:
       zeroAngleAxis: {x: 0, y: 1}
   animationController:
     configuration: {fileID: 11400000, guid: 16861f506e03f4b39a1b25e1bb3e307f, type: 2}
-  turnaroundType: 2
+  turnaroundType: 1
   blendspaceTurnaroundBehaviour:
     configureBlendspace: 0
     configuration:
@@ -3019,11 +3019,11 @@ MonoBehaviour:
       duration: 1.1333334
     idleLeftTurn:
       name: IdleTurnLeft180
-      speed: 10
+      speed: 3
       duration: 1.8000001
     idleRightTurn:
       name: IdleTurnRight180_Mirror
-      speed: 10
+      speed: 3
       duration: 1.8000001
     rotationCurve:
       serializedVersion: 2
