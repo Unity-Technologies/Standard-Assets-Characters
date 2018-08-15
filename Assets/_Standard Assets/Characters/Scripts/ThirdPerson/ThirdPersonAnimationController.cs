@@ -112,6 +112,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		public void OnPhysicsJumpAnimationExit()
 		{
 			isRootMovement = false;
+			didPhysicsJump = false;
 		}
 
 		public void OnPhysicsJumpAnimationEnter()
@@ -230,7 +231,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void OnFallStarted(float predictedFallDistance)
 		{
 			isGrounded = false;
-			didPhysicsJump = false;
 			animator.SetFloat(hashFallingTime, 0);
 			animator.SetBool(hashGrounded, false);
 			animator.SetFloat(hashPredictedFallDistance, predictedFallDistance);
