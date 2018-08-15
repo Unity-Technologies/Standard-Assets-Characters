@@ -6,10 +6,10 @@ using UnityEditor.Animations;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace TFBGames.Editor
+namespace StandardAssets.TFBGames.Editor
 {
 	public class AnimationControllerTool : EditorWindow
-	{ 
+	{
 		private struct AnimationControllerToolConfig
 		{
 			public string newName;
@@ -26,8 +26,6 @@ namespace TFBGames.Editor
 			public string
 				find,
 				replace;
-
-	 
 		}
 
 		private struct ClipResult
@@ -59,6 +57,8 @@ namespace TFBGames.Editor
 		/// </summary>
 		private static SerializedObject s_SerializedWindow;
 
+		private readonly List<ClipResult> lastResults = new List<ClipResult>();
+
 		[SerializeField]
 		private AnimationControllerToolConfig config;
 
@@ -85,8 +85,6 @@ namespace TFBGames.Editor
 		private SerializedProperty rulesProperty;
 
 		private EditorMode mode;
-
-		private readonly List<ClipResult> lastResults = new List<ClipResult>();
 
 		[MenuItem("24 Bit Games/Animation Duplication Tool")]
 		public static AnimationControllerTool ShowWindow()
@@ -124,7 +122,7 @@ namespace TFBGames.Editor
 
 				// helper to wrap a block of content in a "RL" prefixed GUI Panel.
 				s_RulesTitle.text = mode.ToString();
-				TBFEditorStyles.DrawPanel(s_RulesTitle, DrawMainPanel);
+				TfbEditorStyles.DrawPanel(s_RulesTitle, DrawMainPanel);
 
 				s_SerializedWindow.ApplyModifiedProperties();
 
@@ -164,16 +162,16 @@ namespace TFBGames.Editor
 		/// <summary>
 		/// Entry point for processing the entire controller graph.
 		/// </summary>
-		private void Process(AnimatorController src)
+		private void Process(AnimatorController source)
 		{
 			lastResults.Clear();
 
-			string name = config.newName;
+			string newName = config.newName;
 
 			string
 				// destination:
-				srcPath = AssetDatabase.GetAssetPath(src),
-				dstPath = ApplyRulesToString(srcPath.Replace(selectedController.name, name));
+				srcPath = AssetDatabase.GetAssetPath(source),
+				dstPath = ApplyRulesToString(srcPath.Replace(selectedController.name, newName));
 
 			var file = new FileInfo(dstPath);
 			if (!file.Directory.Exists)
@@ -183,97 +181,89 @@ namespace TFBGames.Editor
 
 			AssetDatabase.Refresh();
 
-			AssetDatabase.CopyAsset(AssetDatabase.GetAssetPath(src), dstPath);
-			var dst = AssetDatabase.LoadAssetAtPath<AnimatorController>(dstPath);
-			lastResultController = dst;
-			lastSourceController = src;
-
-			// Passing both the original and new controller so we can compare motion states later
-			// so we can handle missing states in the new controller for those defined in original
-			// (only when clip is found in replacement path, as they would be a perfect match otherwise).
-			int i = 0;
-			AnimatorControllerLayer[] dstLayers = dst.layers;
-			//AnimatorControllerLayer[] srcLayers = src.layers;
-			while (i < dstLayers.Length)
+			AssetDatabase.CopyAsset(AssetDatabase.GetAssetPath(source), dstPath);
+			var output = AssetDatabase.LoadAssetAtPath<AnimatorController>(dstPath);
+			lastResultController = output;
+			lastSourceController = source;
+ 
+			foreach (AnimatorControllerLayer layer in output.layers)
 			{
-				TraverseStates(dstLayers[i].stateMachine);
-				i++;
-			}
+				TraverseStates(layer.stateMachine);
+			} 
 		}
 
-		private void TraverseStates(AnimatorStateMachine dstMachine)
+		private void TraverseStates(AnimatorStateMachine machine)
 		{
-			if (dstMachine == null)
+			if (machine == null)
 			{
 				return;
 			}
 
-			ChildAnimatorState[] dstStates = dstMachine.states;
+			ChildAnimatorState[] targetStates = machine.states;
 
-			if ((dstStates.Length < 1) && (dstMachine.stateMachines.Length < 1))
+			if ((targetStates.Length < 1) && (machine.stateMachines.Length < 1))
 			{
-				AddResult(string.Format("State Machine \"{0}\" is empty", dstMachine.name), MessageType.Warning);
+				AddResult(string.Format("State Machine \"{0}\" is empty", machine.name), MessageType.Warning);
 			}
 
-			ChildAnimatorState dstState;
-			for (int i = 0; i < dstStates.Length; i++)
+			for (int i = 0; i < targetStates.Length; i++)
 			{
-				dstState = dstStates[i];
-				var clip = dstState.state.motion as AnimationClip;
+				ChildAnimatorState target = targetStates[i];
+				var clip = target.state.motion as AnimationClip;
 				if (clip != null)
 				{
 					// animation clip in root? 
 					// original implementation did nothing here (shouldnt this also be attempting to replace clip?). 
-					dstState.state.motion = TryGetReplacementClip(clip, dstState.state);
+					target.state.motion = TryGetReplacementClip(clip, target.state);
 					continue;
 				}
 
-				TraverseClips(dstState.state.motion as BlendTree);
+				TraverseClips(target.state.motion as BlendTree);
 			}
 
-			ChildAnimatorStateMachine[] subStates = dstMachine.stateMachines;
+			ChildAnimatorStateMachine[] subStates = machine.stateMachines;
 			for (int i = 0; i < subStates.Length; i++)
 			{
 				TraverseStates(subStates[i].stateMachine);
 			}
 		}
 
-		private void TraverseClips(BlendTree dstTree)
+		private void TraverseClips(BlendTree output)
 		{
-			if ((dstTree == null) || (dstTree.children.Length < 1))
+			if ((output == null) || (output.children.Length < 1))
 			{
 				return;
 			}
 
-			ChildMotion[] dstChildren = dstTree.children;
+			ChildMotion[] dstChildren = output.children;
 
 			AnimationClip clip;
 
 			// Let user know of empty blend trees..
 			if (dstChildren.Length < 1)
 			{
-				AddResult(string.Format("BlendTree \"{0}\" is empty.", dstTree.name), MessageType.Error);
+				AddResult(string.Format("BlendTree \"{0}\" is empty.", output.name), MessageType.Error);
 			}
 
 			for (int i = 0; i < dstChildren.Length; i++)
 			{
-				ChildMotion dst = dstChildren[i];
+				ChildMotion child = dstChildren[i];
 
-				if (dst.motion is AnimationClip)
+				if (child.motion is AnimationClip)
 				{
-					clip = TryGetReplacementClip(dst.motion as AnimationClip, dstTree);
+					clip = TryGetReplacementClip(child.motion as AnimationClip, output);
 
-					dst.motion = clip;
-					dstChildren[i] = dst; // because struct, 
+					child.motion = clip;
+					dstChildren[i] = child; // because struct, 
 				}
 				else
 				{
 					// blend tree has seeds
-					TraverseClips(dst.motion as BlendTree);
+					TraverseClips(child.motion as BlendTree);
 				}
 			}
 
-			dstTree.children = dstChildren;
+			output.children = dstChildren;
 		}
 
 		/// <summary>
@@ -321,14 +311,14 @@ namespace TFBGames.Editor
 
 		// Checks animation clips in target asset to verify we actually have a clip by it's name, 
 		// with the side effect of also being able to check if we have the wrong clip (probably).
-		private void CheckClipAssetFile(AnimationClip src, ref AnimationClip target, Motion parent = null)
+		private void CheckClipAssetFile(AnimationClip source, ref AnimationClip target, Motion parent = null)
 		{
-			string srcPath = AssetDatabase.GetAssetPath(src);
-			string tgtPath = ApplyRulesToString(srcPath); //AssetDatabase.GetAssetPath(target);
+			string sourcePath = AssetDatabase.GetAssetPath(source);
+			string tgtPath = ApplyRulesToString(sourcePath); //AssetDatabase.GetAssetPath(target);
 
 			// applies if animation names contain strings modified by rules, so we also have a fallback below to also check for original name
 			// as a file might have the right name, but the clips inside it might not contain expected "new" names, but rather the original name.
-			string expectedName = ApplyRulesToString(src.name);
+			string expectedName = ApplyRulesToString(source.name);
 
 			AnimationClip matched;
 
@@ -339,65 +329,68 @@ namespace TFBGames.Editor
 			if (ContainsObject(expectedName, tgtObjects, out matched))
 			{
 				AddResult(
-					string.Format("Match Success \"{0}\" for \"{1}\" in \"{2}\"", expectedName, src.name, tgtPath),
+					string.Format("Match Success \"{0}\" for \"{1}\" in \"{2}\"", expectedName, source.name, tgtPath),
 					MessageType.Info, matched);
 			}
-			else if (ContainsObject(src.name, tgtObjects, out matched))
+			else if (ContainsObject(source.name, tgtObjects, out matched))
 			{
 				AddResult(
 					string.Format("Match Success [Original Name] \"{0}\" for \"{1}\" in \"{2}\"", expectedName,
-					              src.name, tgtPath), MessageType.Info, matched);
+					              source.name, tgtPath), MessageType.Info, matched);
 			}
 			else
 			{
 				AddResult(
-					string.Format("Expected Animationnot found: \"{0}\" for \"{1}\" in \"{2}\"", expectedName, src.name,
-					              srcPath), MessageType.Info, src);
+					string.Format("Expected Animationnot found: \"{0}\" for \"{1}\" in \"{2}\"", expectedName, source.name,
+					              sourcePath), MessageType.Info, source);
 			}
 
 			if ((matched != null) && (matched.name != target.name))
 			{
 				AddResult(
 					string.Format("Possible Incorrect Reference: \"{0}\" for \"{1}\", Expected \"{3}\", in \"{2}\"",
-					              target.name, src.name, parent == null ? srcPath : parent.name, matched.name),
+					              target.name, source.name, parent == null ? sourcePath : parent.name, matched.name),
 					MessageType.Warning, target);
 
 				// this might be the way to automatically replace incorrect clips gathered from GetAssetAtPath 
 				// in multi clip assets where teh first clip is always returned.
 				// commented out for now as I am not sure if it will break non-broken results yet however:
-				if (config.solveInvalidReferences)
+				if (!config.solveInvalidReferences)
 				{
-					target = matched;
-					AddResult("Replaced previous clip reference with matched reference.", MessageType.None, matched);
+					return;
 				}
+
+				target = matched;
+				AddResult("Replaced previous clip reference with matched reference.", MessageType.None, matched);
 			}
 		}
 
 		// check if asset of type with name exists in the array.
-		private bool ContainsObject<T>(string name, Object[] inArray, out T result) where T : Object
+		private static bool ContainsObject<T>(string name, Object[] inArray, out T result) where T : Object
 		{
-			for (int i = 0; i < inArray.Length; i++)
+			foreach (Object current in inArray)
 			{
-				Object current = inArray[i];
 				var variable = current as T;
-				if (variable != null && (variable.name == name))
+				if ((variable == null) || (variable.name != name))
 				{
-					// TODO: should probably check case-insensitive names in event of a typo.
-					result = variable;
-					return true;
+					continue;
 				}
+
+				// TODO: should probably check case-insensitive names in event of a typo.
+				result = variable;
+				return true;
 			}
 
 			result = null;
 			return false;
 		}
 
-		private string ApplyRulesToString(string str)
+		private string ApplyRulesToString(string value)
 		{
 			int i = 0;
 			if (rules == null)
 			{
-				return str;
+				return value;
 			}
 
 			while (i < rules.Length)
@@ -407,11 +400,11 @@ namespace TFBGames.Editor
 
 				if (!string.IsNullOrEmpty(current.find.Trim()))
 				{
-					str = str.Replace(current.find, current.replace);
+					value = value.Replace(current.find, current.replace);
 				}
 			}
 
-			return str;
+			return value;
 		}
 
 		private void AddResult(string message, MessageType type, Object context = null)
@@ -428,16 +421,17 @@ namespace TFBGames.Editor
 
 			string dumpFile = AssetDatabase.GetAssetPath(lastResultController).Replace(".controller", "_Missing.txt");
 
-			List<string> result = new List<string>();
-
-			result.Add("Animation Controller Duplicator Tool Result");
-			result.Add(string.Format("Source Controller: {0}", lastSourceController.name));
-			result.Add(string.Format("Output Controller: {0}", lastResultController.name));
-			result.Add(string.Empty);
-
-			for (int i = 0; i < lastResults.Count; i++)
+			List<string> result = new List<string>
 			{
-				ClipResult curr = lastResults[i];
+				"Animation Controller Duplicator Tool Result",
+				string.Format("Source Controller: {0}", lastSourceController.name),
+				string.Format("Output Controller: {0}", lastResultController.name),
+				string.Empty
+			};
+
+
+			foreach (ClipResult curr in lastResults)
+			{
 				result.Add(curr.message);
 			}
 
@@ -458,7 +452,6 @@ namespace TFBGames.Editor
 			switch (mode)
 			{
 				default:
-				case EditorMode.Rules:
 					DrawRules();
 					break;
 
@@ -477,8 +470,8 @@ namespace TFBGames.Editor
 		{
 			if (selectedController)
 			{
-				string 	path = AssetDatabase.GetAssetPath(selectedController),
-						newPath = ApplyRulesToString(path);
+				string path = AssetDatabase.GetAssetPath(selectedController),
+				       newPath = ApplyRulesToString(path);
 
 				EditorGUI.BeginDisabledGroup(true);
 
@@ -507,13 +500,13 @@ namespace TFBGames.Editor
 					DumpResults();
 				}
 
-				ClipResult curr;
+				ClipResult clip;
 				for (int i = 0; i < lastResults.Count; i++)
 				{
-					curr = lastResults[i];
+					clip = lastResults[i];
 
 					Color color;
-					switch (curr.type)
+					switch (clip.type)
 					{
 						default:
 							color = new Color(0, 1, 1, 0.1f);
@@ -532,17 +525,17 @@ namespace TFBGames.Editor
 							break;
 					}
 
-					bool isAsset = (curr.Object != null) && AssetDatabase.Contains(curr.Object);
+					bool isAsset = (clip.Object != null) && AssetDatabase.Contains(clip.Object);
 
 					EditorGUILayout.BeginHorizontal("box");
-					EditorGUILayout.LabelField(curr.message);
+					EditorGUILayout.LabelField(clip.message);
 					if (isAsset && GUILayout.Button("Select", GUILayout.ExpandWidth(false)))
 					{
-						Selection.activeObject = curr.Object;
+						Selection.activeObject = clip.Object;
 					}
 
 					EditorGUILayout.EndHorizontal();
-					if (curr.type != MessageType.None)
+					if (clip.type != MessageType.None)
 					{
 						Rect rect = GUILayoutUtility.GetLastRect();
 						EditorGUI.DrawRect(rect, color);
@@ -599,8 +592,8 @@ namespace TFBGames.Editor
 		{
 			bool changed = false;
 			EditorGUI.BeginChangeCheck();
-			selectedController = (AnimatorController) 
-				EditorGUILayout.ObjectField("Source", selectedController,typeof(AnimatorController), false);
+			selectedController = (AnimatorController)
+				EditorGUILayout.ObjectField("Source", selectedController, typeof(AnimatorController), false);
 
 			if (EditorGUI.EndChangeCheck())
 			{
@@ -655,7 +648,7 @@ namespace TFBGames.Editor
 				rulesProperty.arraySize++;
 			}
 
-			for (int i = 0; i < rulesProperty.arraySize; )
+			for (int i = 0; i < rulesProperty.arraySize;)
 			{
 				bool deleted = false;
 				// note: incrementor otherwise infinate:
@@ -671,7 +664,7 @@ namespace TFBGames.Editor
 					find.stringValue = EditorGUILayout.TextField(find.stringValue).Trim();
 					replace.stringValue = EditorGUILayout.TextField(replace.stringValue).Trim();
 					EditorGUI.BeginDisabledGroup(!canDelete);
-					if (GUILayout.Button("X", TBFEditorStyles.DeletArrayItemButton))
+					if (GUILayout.Button("X", TfbEditorStyles.DeletArrayItemButton))
 					{
 						s_SerializedWindow.ApplyModifiedProperties();
 						s_SerializedWindow.UpdateIfRequiredOrScript();
