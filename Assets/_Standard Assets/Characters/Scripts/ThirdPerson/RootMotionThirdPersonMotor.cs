@@ -602,7 +602,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <returns>True if a jump should be re-attempted</returns>
 		private bool TryJump()
 		{
-			if (movementState == ThirdPersonGroundMovementState.TurningAround)
+			if (movementState == ThirdPersonGroundMovementState.TurningAround || animationController.isLanding)
 			{
 				return true;
 			}
