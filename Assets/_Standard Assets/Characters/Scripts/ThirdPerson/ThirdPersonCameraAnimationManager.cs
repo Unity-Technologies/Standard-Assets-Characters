@@ -29,6 +29,9 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private bool isForwardUnlocked;
 
+		[SerializeField]
+		protected CinemachineStateDrivenCamera thirdPersonStateDrivenCamera;
+
 		private void Awake()
 		{
 			if (cameraModeInput != null)
@@ -92,7 +95,10 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (isForwardUnlocked)
 			{
 				SetCameraObjectsActive(freeLookCameraObjects);
+				
 				SetCameraObjectsActive(strafeCameraObjects, false);
+					
+				
 				if (forwardUnlockedModeStarted != null)
 				{
 					forwardUnlockedModeStarted();
@@ -101,12 +107,26 @@ namespace StandardAssets.Characters.ThirdPerson
 			else
 			{
 				SetCameraObjectsActive(freeLookCameraObjects, false);
-				SetCameraObjectsActive(strafeCameraObjects);
+				
+
 				if (forwardLockedModeStarted != null)
 				{
 					forwardLockedModeStarted();
 				}
 			}
+		}
+		
+		//TEMP TO SWITCH CROSSHAIR ON ONCE BLEND IS FINISHED 
+		private void Update()
+		{
+			if (!isForwardUnlocked)
+			{
+				if (!thirdPersonStateDrivenCamera.IsBlending)
+				{
+					SetCameraObjectsActive(strafeCameraObjects);
+				}
+			}
+			
 		}
 		
 		private void SetCameraState()
@@ -118,6 +138,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			
 			SetAnimation(currentCameraModeStateNames[cameraIndex]);
+			
 		}
 
 		private void SetCameraObjectsActive(GameObject[] cameraObjects, bool isActive = true)
