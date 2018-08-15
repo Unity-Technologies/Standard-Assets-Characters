@@ -42,10 +42,11 @@ namespace StandardAssets.Characters.ThirdPerson
 						crossfadeDuration = 0.125f;
 
 		private bool isTransitioning;
+
 		private float animationTime,
-					targetAngle,
-					cachedAnimatorSpeed;
-		private Vector3 startRotation;
+			targetAngle,
+			cachedAnimatorSpeed;
+		private Quaternion startRotation;
 		
 		private AnimationInfo current;
 		private ThirdPersonAnimationController animationController;
@@ -77,6 +78,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				return;
 			}
+
+			if (current == idleLeftTurn || current == idleRightTurn)
+			{
+				animationController.UpdateForwardSpeed(0, Time.deltaTime);
+			}
+
 			if (isTransitioning)
 			{
 				var transitionTime = animator.GetAnimatorTransitionInfo(0).duration;
@@ -86,12 +93,9 @@ namespace StandardAssets.Characters.ThirdPerson
 				}
 				return;
 			}
-			
 			animationTime += Time.deltaTime * current.speed;
-			var rotation = rotationCurve.Evaluate(animationTime / current.duration);
-			Vector3 newRotation = startRotation + new Vector3(0, rotation * targetAngle, 0);
-			transform.rotation = Quaternion.Euler(newRotation);
-
+			var rotationProgress = rotationCurve.Evaluate(animationTime / current.duration);
+			transform.rotation = Quaternion.AngleAxis(rotationProgress * targetAngle, Vector3.up) * startRotation;
 			// animation complete, blending to locomotion
 			if(animationTime >= current.duration)
 			{
@@ -111,6 +115,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected override void FinishedTurning()
 		{
+
 		}
 
 		protected override void StartTurningAround(float angle)
@@ -119,7 +124,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			current = GetCurrent(animationController.animatorForwardSpeed, angle > 0,
 				!animationController.isRightFootPlanted);
 
-			startRotation = transform.eulerAngles;
+			startRotation = transform.rotation;
 			animator.CrossFade(current.name, crossfadeDuration, 0, 0);
 			animationTime = 0;
 
