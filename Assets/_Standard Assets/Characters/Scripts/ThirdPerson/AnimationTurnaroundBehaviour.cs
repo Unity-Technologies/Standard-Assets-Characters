@@ -45,7 +45,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private float animationTime,
 					targetAngle,
 					cachedAnimatorSpeed;
-		private Vector3 startRotation;
+		private Quaternion startRotation;
 		
 		private AnimationInfo current;
 		private ThirdPersonAnimationController animationController;
@@ -86,12 +86,9 @@ namespace StandardAssets.Characters.ThirdPerson
 				}
 				return;
 			}
-			
 			animationTime += Time.deltaTime * current.speed;
-			var rotation = rotationCurve.Evaluate(animationTime / current.duration);
-			Vector3 newRotation = startRotation + new Vector3(0, rotation * targetAngle, 0);
-			transform.rotation = Quaternion.Euler(newRotation);
-
+			var rotationProgress = rotationCurve.Evaluate(animationTime / current.duration);
+			transform.rotation = Quaternion.AngleAxis(rotationProgress * targetAngle, Vector3.up) * startRotation;
 			// animation complete, blending to locomotion
 			if(animationTime >= current.duration)
 			{
@@ -119,7 +116,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			current = GetCurrent(animationController.animatorForwardSpeed, angle > 0,
 				!animationController.isRightFootPlanted);
 
-			startRotation = transform.eulerAngles;
+			startRotation = transform.rotation;
 			animator.CrossFade(current.name, crossfadeDuration, 0, 0);
 			animationTime = 0;
 
