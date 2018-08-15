@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Cinemachine;
 using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.FirstPerson;
@@ -12,6 +13,18 @@ namespace Demo
 {
 	public class PlayerManager : MonoBehaviour
 	{
+		
+		
+
+		/*
+		 *
+		 
+		 [SerializeField, FormerlySerializedAs("firstPersonController")]
+		protected FirstPersonBrain firstPersonBrain;
+
+		//[SerializeField]
+		//protected GameObject[] firstPersonGameObjects, thirdPersonGameObjects;
+		
 		[SerializeField]
 		protected Text thirdPersonCameraModeText;
 
@@ -19,27 +32,22 @@ namespace Demo
 		protected InputResponse changeViews;
 
 		[SerializeField]
-		protected ThirdPersonBrain thirdPersonBrain;
-
-		[SerializeField, FormerlySerializedAs("firstPersonController")]
-		protected FirstPersonBrain firstPersonBrain;
-
-		[SerializeField]
-		protected GameObject[] firstPersonGameObjects, thirdPersonGameObjects;
-
-		[SerializeField]
 		protected Vector3 positionOffset;
+		
+		[SerializeField]
+		protected bool parentObjects = true;
 
 		private GameObject firstPersonParent, thirdPersonParent;
+
+		 */
+		[SerializeField]
+		protected ThirdPersonBrain thirdPersonBrain;
 
 		[SerializeField]
 		protected CinemachineStateDrivenCamera thirdPersonMainStateDrivenCamera;
 
 		[SerializeField]
 		protected CinemachineStateDrivenCamera firstPersonMainStateDrivenCamera;
-
-		[SerializeField]
-		protected bool parentObjects = true;
 
 		[SerializeField]
 		protected Transform[] warpPositions;
@@ -49,9 +57,38 @@ namespace Demo
 		[SerializeField]
 		protected InputResponse warpPlayerInput;
 
+		[SerializeField]
+		protected GameObject thirdPersonGameObject;
+
+		[SerializeField]
+		protected GameObject firstPersonGameObject;
+
+		[SerializeField]
+		protected Boolean thirdPersonMode = true;
+
 		private void Awake()
 		{
-			// TODO remove this when this stops getting nulled
+			warpPlayerInput.Init();
+			
+			if (thirdPersonMode)
+			{
+				firstPersonGameObject.active = false;
+				thirdPersonGameObject.active = true;
+				thirdPersonMainStateDrivenCamera.Priority = 10;
+				firstPersonMainStateDrivenCamera.Priority = 0;
+			}
+			else
+			{
+				firstPersonGameObject.active = true;
+				thirdPersonGameObject.active = false;
+				thirdPersonMainStateDrivenCamera.Priority = 0;
+				firstPersonMainStateDrivenCamera.Priority = 10;
+					
+				
+			}
+			
+			/*
+			 * 
 			if (thirdPersonBrain == null)
 			{
 				thirdPersonBrain = FindObjectOfType<ThirdPersonBrain>();
@@ -59,28 +96,18 @@ namespace Demo
 
 			if (parentObjects)
 			{
-				SetupThirdPerson();
-				SetupFirstPerson();
+				//SetupThirdPerson();
+				//SetupFirstPerson();
 			}
-
-			changeViews.Init();
-			warpPlayerInput.Init();
+			 */
+			
 			
 		}
 
-		private void Start()
-		{
-			SetThirdPerson(false);
-		}
+		
 
 		private void OnEnable()
 		{
-			if (changeViews != null)
-			{
-				changeViews.started += SetFirstPerson;
-				changeViews.ended += SetThirdPerson;
-			}
-
 			if (warpPlayerInput != null)
 			{
 				warpPlayerInput.started += WarpToNextPoint;
@@ -89,19 +116,38 @@ namespace Demo
 
 		private void OnDisable()
 		{
-			if (changeViews != null)
-			{
-				changeViews.started -= SetFirstPerson;
-				changeViews.ended -= SetThirdPerson;
-			}
-			
 			if (warpPlayerInput != null)
 			{
 				warpPlayerInput.started -= WarpToNextPoint;
 			}
 		}
+		
+		void WarpToNextPoint()
+		{
+			if (warpPositionIndex >= warpPositions.Length)
+			{
+				warpPositionIndex = 0;
+			}
 
-		private void SetThirdPerson()
+			thirdPersonBrain.transform.position = warpPositions[warpPositionIndex++].position;
+		}
+		
+
+		/*
+		 void PrioritiseCamera(CinemachineStateDrivenCamera camera)
+		{
+			if (camera != null)
+			{
+				camera.MoveToTopOfPrioritySubqueue();
+			}
+		}
+
+		private void Start()
+		{
+			//SetThirdPerson(false);
+		}
+		
+		 private void SetThirdPerson()
 		{
 			SetThirdPerson(true);
 		}
@@ -177,8 +223,7 @@ namespace Demo
 				SetFirstPerson();
 			}
 		}
-
-		private void SetupThirdPerson()
+		 * private void SetupThirdPerson()
 		{
 			thirdPersonParent = SetupUnderParent("THIRD PERSON", thirdPersonGameObjects);
 		}
@@ -187,6 +232,7 @@ namespace Demo
 		{
 			firstPersonParent = SetupUnderParent("FIRST PERSON", firstPersonGameObjects);
 		}
+		 
 
 		private GameObject SetupUnderParent(string parentName, IEnumerable<GameObject> gameObjects)
 		{
@@ -228,15 +274,7 @@ namespace Demo
 
 			return 0;
 		}
-
-		void WarpToNextPoint()
-		{
-			if (warpPositionIndex >= warpPositions.Length)
-			{
-				warpPositionIndex = 0;
-			}
-
-			thirdPersonBrain.transform.position = warpPositions[warpPositionIndex++].position;
-		}
+	*/
+		
 	}
 }
