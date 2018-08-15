@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a968cd77fa044ffdaab9a7f295931436, type: 3}
+  m_Name: Animation Configuration
+  m_EditorClassIdentifier: 
+  forwardSpeedParameter:
+    parameterName: ForwardSpeed
+    minInterpolationTime: 0.05
+    maxInterpolationTime: 0.15
+  lateralSpeedParameter:
+    parameterName: LateralSpeed
+    minInterpolationTime: 0.01
+    maxInterpolationTime: 0.05
+  turningSpeedParameter:
+    parameterName: TurningSpeed
+    minInterpolationTime: 0.01
+    maxInterpolationTime: 0.05
+  verticalSpeedParameter: VerticalSpeed
+  groundedParameter: Grounded
+  hasInputParameter: HasInput
+  fallingTimeParameter: FallTime
+  footednessParameter: OnRightFoot
+  jumpedLateralSpeedParameter: JumpedLateralSpeed
+  jumpedForwardSpeedParameter: JumpedForwardSpeed
+  predictedFallDistanceParameter: PredictedFallDistance
+  rapidTurnParameter: RapidTurn
+  invertFootedness: 0
+  footednessThreshold: 0.25
+  footednessThresholdOffset: 0.25
+  headLookAtWeight: 0.5
+  headLookAtMaxRotation: 75
+  headLookAtRotationSpeed: 15
+  jumpTransitionDuration: 0.15
+  rightFootPhysicsJumpLandAnimationTimeOffset: 0.1
+  leftFootPhysicsJumpLandAnimationTimeOffset: 0.6
+  jumpEndTransitionDurationByForwardSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0.125
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0.125
+      inSlope: 0.125
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d70839d074c4aaf8d6d3e6c7b3cfbc7, type: 3}
+  m_Name: Root Motion Configuration
+  m_EditorClassIdentifier: 
+  rootMotionMovementScale: 1
+  useCustomActionParameters: 1
+  action:
+    forwardInputSamples: 5
+  useCustomStrafeParameters: 1
+  sprintNormalizedSpeedIncrease: 0.5
+  strafing:
+    strafeInputSamples: 5
+    strafeForwardSpeed: 0.9
+    strafeBackwardSpeed: 1
+    strafeLateralSpeed: 1
+  jumpSpeed: 4
+  jumpGroundVelocitySamples: 5
+  jumpGroundVelocityScale: 1
+  jumpTurningSpeedScale: 0.25
+  standingJumpForwardSpeed: 0.08
+  minInputThreshold: 0.5
+  maxMovementThreshold: 0.04
+  fallingMaxForwardSpeed: 5
+  fallForwardSpeedLerp: 0.05
+  turningSpeed: 300
+  turningSpeedVisualScale: 0.4
+  turningLerp: 2
+  rapidTurnInputAngle: 110
+  stationaryRapidTurnAngle: 89
+  rapidTurnIgnoreInputTime: 0.1
+  inputBufferSize: 5
+  strafeLookInputScale: 250
+  maxFallDistance: 1
