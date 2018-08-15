@@ -42,9 +42,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		private int hashPredictedFallDistance;
 		private int hashRapidTurn;
 
-		private bool isGrounded;
-
+		private bool isGrounded,
+		             lastPhysicsJumpRightRoot;
 		private float headAngle;
+		private DateTime timeSinceLastPhysicsJumpLand;
 
 		public Animator unityAnimator
 		{
@@ -89,8 +90,9 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public bool isRootMovement { get; private set; }
 
-		private bool isLanding,
-		             didPhysicsJump;
+		public bool isLanding { get; private set; }
+
+		private bool didPhysicsJump;
 
 		public bool canJump
 		{
@@ -269,6 +271,8 @@ namespace StandardAssets.Characters.ThirdPerson
 										0, rightFoot ? configuration.rightFootPhysicsJumpLandAnimationOffset :
 										configuration.leftFootPhysicsJumpLandAnimationOffset);
 				didPhysicsJump = false;
+				
+				timeSinceLastPhysicsJumpLand = DateTime.Now;
 			}
 		}
 
@@ -286,6 +290,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			animator.SetFloat(hashJumpedForwardSpeed, motor.normalizedForwardSpeed);
 			
 			bool rightFoot = animator.GetBool(hashFootedness);
+			
+			if (timeSinceLastPhysicsJumpLand.AddSeconds(configuration.skipJumpWindow) >= DateTime.Now)
+			{
+				rightFoot = !lastPhysicsJumpRightRoot;
+			}
 			if (Mathf.Abs(motor.normalizedLateralSpeed) <= Mathf.Abs(motor.normalizedForwardSpeed)
 			    && motor.normalizedForwardSpeed >= 0)
 			{
@@ -293,6 +302,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				animator.CrossFade(rightFoot ? "OnRightFootBlend" : "OnLeftFootBlend", 
 				                   configuration.jumpTransitionTime);
 				didPhysicsJump = true;
+				lastPhysicsJumpRightRoot = rightFoot;
 			}
 			else
 			{

@@ -65,6 +65,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		                leftFootPhysicsJumpLandAnimationTimeOffset = 0.6f;
 		[SerializeField]
 		protected AnimationCurve jumpEndTransitionDurationByForwardSpeed = AnimationCurve.Linear(0,0,1,0.125f);
+		
+		[SerializeField]
+		protected float skipJumpLandWindow = 0.25f;
 
 		public AnimationFloatParameter forwardSpeed
 		{
@@ -174,6 +177,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		public float leftFootPhysicsJumpLandAnimationOffset
 		{
 			get { return leftFootPhysicsJumpLandAnimationTimeOffset; }
+		}
+		
+		public float skipJumpWindow
+		{
+			get { return skipJumpLandWindow; }
 		}
 	}
 }
