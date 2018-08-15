@@ -128,6 +128,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			didPhysicsJump = false;
 			shouldUseRootMotion = true;
 		}
+		
+		public void OnFallingLoopAnimationEnter()
+		{
+			didPhysicsJump = false;
+		}
 
 		public void UpdateForwardSpeed(float newSpeed, float deltaTime)
 		{
