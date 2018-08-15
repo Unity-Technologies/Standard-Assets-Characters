@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using StandardAssets.Characters.ThirdPerson;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
+using EditorHelpers = StandardAssets.Editor.EditorHelpers;
 
 namespace StandardAssets._Standard_Assets.Characters.Scripts.Editor
 {
@@ -45,8 +47,11 @@ namespace StandardAssets._Standard_Assets.Characters.Scripts.Editor
 			EditorGUILayout.Space();
 
 			// the two properties we are drawing manually:
-			DrawStateNamesProperty(serializedObject.FindProperty(s_Exclude[0]));
-			DrawStateNamesProperty(serializedObject.FindProperty(s_Exclude[1]));
+			//DrawStateNamesProperty(serializedObject.FindProperty(s_Exclude[0]));
+			//DrawStateNamesProperty(serializedObject.FindProperty(s_Exclude[1]));
+
+			DrawStateProperty(serializedObject.FindProperty(s_Exclude[0]));
+			DrawStateProperty(serializedObject.FindProperty(s_Exclude[1]));
 
 			bool b = EditorGUI.EndChangeCheck();
 			if (b)
@@ -70,6 +75,14 @@ namespace StandardAssets._Standard_Assets.Characters.Scripts.Editor
 			controller = animator == null ? null : animator.runtimeAnimatorController as AnimatorController;
 		}
 
+		private void DrawStateProperty(SerializedProperty property)
+		{
+			FindStateNames(controllerStatesNames, controller); 
+			EditorHelpers.DrawArrayPropertyPanel(
+				property, item => { item.stringValue = DrawNextStatePopup(item.stringValue); });
+		}
+
+		[Obsolete("Replaced by DrawStateProperty (remove after test)")]
 		private void DrawStateNamesProperty(SerializedProperty array)
 		{
 			FindStateNames(controllerStatesNames, controller);
@@ -88,7 +101,7 @@ namespace StandardAssets._Standard_Assets.Characters.Scripts.Editor
 
 						SerializedProperty current = array.GetArrayElementAtIndex(i);
 						//current.stringValue = DrawNextStatePopup(current.displayName, current.stringValue);
-						current.stringValue = DrawNextStatePopup((i + 1).ToString(), current.stringValue);
+						current.stringValue = DrawNextStatePopup(current.stringValue);
 						if (GUILayout.Button("Remove", "minibutton", GUILayout.ExpandWidth(false)))
 						{
 							array.DeleteArrayElementAtIndex(i);
@@ -106,7 +119,7 @@ namespace StandardAssets._Standard_Assets.Characters.Scripts.Editor
 				{
 					// Brace for IMGUI readbility
 
-					newItem = DrawNextStatePopup("*", newItem);
+					newItem = DrawNextStatePopup(newItem);
 					if (!string.IsNullOrEmpty(newItem))
 					{
 						array.arraySize++;
@@ -122,10 +135,10 @@ namespace StandardAssets._Standard_Assets.Characters.Scripts.Editor
 			EditorGUILayout.EndVertical();
 		}
 
-		private string DrawNextStatePopup(string displayName, string selected)
+		private string DrawNextStatePopup(string selected)
 		{
 			// manual label here because we do not want it to expand
-			EditorGUILayout.LabelField(displayName, GUILayout.ExpandWidth(false), GUILayout.MaxWidth(24));
+			//EditorGUILayout.LabelField(displayName, GUILayout.ExpandWidth(false)/*, GUILayout.MaxWidth(24)*/);
 			if (controllerStatesNames.Count < 1)
 			{
 				// We have no popup values, so we will just show a delayed text field instead:
@@ -145,7 +158,7 @@ namespace StandardAssets._Standard_Assets.Characters.Scripts.Editor
 			selected = controllerStatesNames[sel];
 
 			// Remove selected string so it cannot be selected twice in followup popups.
-			controllerStatesNames.Remove(selected);
+			//controllerStatesNames.Remove(selected);
 
 			return selected;
 		}
@@ -181,9 +194,9 @@ namespace StandardAssets._Standard_Assets.Characters.Scripts.Editor
 		private void FindStateNames(List<string> result, AnimatorStateMachine machine)
 		{
 			ChildAnimatorState[] states = machine.states;
-			for (int i = 0; i < states.Length; i++)
+			foreach (ChildAnimatorState childState in states)
 			{
-				AnimatorState state = states[i].state;
+				AnimatorState state = childState.state;
 				if (!result.Contains(state.name))
 				{
 					result.Add(state.name);
