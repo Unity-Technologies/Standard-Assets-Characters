@@ -11,8 +11,8 @@ namespace StandardAssets._Standard_Assets.Characters.Scripts.Editor
 	{
 		private static readonly string[] s_Exclude =
 		{
-			"forwardUnlockedCameraToggleStateNames",
-			"forwardLockedCameraToggleStateNames"
+			"freeLookCameraStates",
+			"strafeCameraStates"
 		};
 
 		private readonly List<string> controllerStatesNames = new List<string>();
