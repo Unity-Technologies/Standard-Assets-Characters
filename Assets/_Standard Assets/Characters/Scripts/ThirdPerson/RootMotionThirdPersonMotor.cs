@@ -306,7 +306,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			if (aerialState == ThirdPersonAerialMovementState.Grounded)
 			{
-				cachedForwardMovement = averageForwardMovement.average;
+				cachedForwardMovement = averageForwardMovement.average * Time.timeScale;
 			}
 			
 			aerialState = ThirdPersonAerialMovementState.Falling;
@@ -559,7 +559,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (ShouldTurnAround(out angle, target))
 			{
 				turnaroundMovementTime = 0f;
-				cachedForwardMovement = averageForwardMovement.average;
+				cachedForwardMovement = averageForwardMovement.average * Time.timeScale;
 				preTurnMovementState = movementState;
 				movementState = ThirdPersonGroundMovementState.TurningAround;
 				thirdPersonBrain.turnaround.TurnAround(angle);
@@ -616,11 +616,11 @@ namespace StandardAssets.Characters.ThirdPerson
 				if (characterInput.moveInput.magnitude > configuration.standingJumpMinInputThreshold && 
 				    animator.deltaPosition.magnitude <= configuration.standingJumpMaxMovementThreshold)
 				{
-					cachedForwardMovement = configuration.standingJumpSpeed;
+					cachedForwardMovement = configuration.standingJumpSpeed * Time.timeScale;
 				}
 				else
 				{
-					cachedForwardMovement = averageForwardMovement.average;
+					cachedForwardMovement = averageForwardMovement.average * Time.timeScale;
 				}
 
 				if (!Mathf.Approximately(cachedForwardMovement, 0) && !Mathf.Approximately(normalizedForwardSpeed, 0))
