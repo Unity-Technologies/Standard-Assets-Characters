@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Timers;
 using Cinemachine;
 using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Physics;
@@ -78,6 +79,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		private ThirdPersonBrain thirdPersonBrain;
 		private SizedQueue<Vector2> previousInputs;
 
+		public TurnaroundBehaviour currentTurnaroundBehaviour
+		{
+			get { return thirdPersonBrain.turnaround; }
+		}
+
 		public float normalizedVerticalSpeed
 		{
 			get { return characterPhysics.normalizedVerticalSpeed; }
@@ -128,7 +134,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			if (movementState == ThirdPersonGroundMovementState.TurningAround)
 			{
-				characterPhysics.Move(thirdPersonBrain.turnaround.GetMovement());
+				characterPhysics.Move(thirdPersonBrain.turnaround.GetMovement(), Time.deltaTime);
 				return;
 			}
 
@@ -136,7 +142,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
 				groundMovementVector.y = 0;
-				characterPhysics.Move(groundMovementVector);
+				characterPhysics.Move(groundMovementVector, Time.deltaTime);
 			}
 			else
 			{
@@ -146,7 +152,7 @@ namespace StandardAssets.Characters.ThirdPerson
 														Time.deltaTime * characterInput.moveInput.normalized.magnitude, 
 														configuration.fallSpeedLerp);
 				}
-				characterPhysics.Move(cachedForwardMovement * transform.forward * configuration.scaledGroundVelocity);
+				characterPhysics.Move(cachedForwardMovement * transform.forward * configuration.scaledGroundVelocity, Time.deltaTime);
 			}
 		}
 
@@ -300,7 +306,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			if (aerialState == ThirdPersonAerialMovementState.Grounded)
 			{
-				cachedForwardMovement = averageForwardMovement.average;
+				cachedForwardMovement = averageForwardMovement.average * Time.timeScale;
 			}
 			
 			aerialState = ThirdPersonAerialMovementState.Falling;
@@ -553,7 +559,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (ShouldTurnAround(out angle, target))
 			{
 				turnaroundMovementTime = 0f;
-				cachedForwardMovement = averageForwardMovement.average;
+				cachedForwardMovement = averageForwardMovement.average * Time.timeScale;
 				preTurnMovementState = movementState;
 				movementState = ThirdPersonGroundMovementState.TurningAround;
 				thirdPersonBrain.turnaround.TurnAround(angle);
@@ -610,11 +616,12 @@ namespace StandardAssets.Characters.ThirdPerson
 				if (characterInput.moveInput.magnitude > configuration.standingJumpMinInputThreshold && 
 				    animator.deltaPosition.magnitude <= configuration.standingJumpMaxMovementThreshold)
 				{
-					cachedForwardMovement = configuration.standingJumpSpeed;
+					cachedForwardMovement = configuration.standingJumpSpeed * Time.timeScale;
+					normalizedForwardSpeed = 1;
 				}
 				else
 				{
-					cachedForwardMovement = averageForwardMovement.average;
+					cachedForwardMovement = averageForwardMovement.average * Time.timeScale;
 				}
 
 				if (!Mathf.Approximately(cachedForwardMovement, 0) && !Mathf.Approximately(normalizedForwardSpeed, 0))

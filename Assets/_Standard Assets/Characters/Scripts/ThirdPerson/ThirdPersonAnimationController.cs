@@ -127,6 +127,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			didPhysicsJump = false;
 			shouldUseRootMotion = true;
+			animator.SetFloat(configuration.predictedFallDistanceParameterName, 0);
 		}
 
 		public void OnFallingLoopAnimationEnter()
@@ -232,10 +233,16 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			float headTurn = Time.deltaTime * configuration.lookAtRotationSpeed;
 
-			if (motor.currentGroundMovementState == ThirdPersonGroundMovementState.TurningAround &&
-			    Mathf.Abs(targetHeadAngle) < Mathf.Abs(headAngle))
+			if (motor.currentGroundMovementState == ThirdPersonGroundMovementState.TurningAround)
 			{
-				headTurn *= k_HeadTurnSnapBackScale;
+				if (Mathf.Abs(targetHeadAngle) < Mathf.Abs(headAngle))
+				{
+					headTurn *= k_HeadTurnSnapBackScale;
+				}
+				else
+				{
+					headTurn *= motor.currentTurnaroundBehaviour.headTurnScale;
+				}
 			}
 
 			headAngle = Mathf.LerpAngle(headAngle, targetHeadAngle, headTurn);
@@ -310,15 +317,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				bool rightFoot = animator.GetBool(hashFootedness);
 				animator.CrossFade("Locomotion Blend", configuration.jumpTransitionDurationByForwardSpeed.Evaluate(
-					                   Mathf.Abs(animator.GetFloat(
-						                             configuration
-							                             .jumpedForwardSpeedParameterName))),
-				                   0,
-				                   rightFoot
-					                   ? configuration.rightFootPhysicsJumpLandAnimationOffset
-					                   : configuration.leftFootPhysicsJumpLandAnimationOffset);
+						Mathf.Abs(animator.GetFloat(configuration.jumpedForwardSpeedParameterName))), 0,
+					rightFoot
+						? configuration.rightFootPhysicsJumpLandAnimationOffset
+						: configuration.leftFootPhysicsJumpLandAnimationOffset);
 				didPhysicsJump = false;
-
 				timeSinceLastPhysicsJumpLand = DateTime.Now;
 			}
 		}

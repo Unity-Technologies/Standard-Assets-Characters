@@ -12,6 +12,8 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		[SerializeField]
 		protected float terminalVelocity = 10f;
+
+		protected bool hasMovedBeenCalled;
 		
 		public bool isGrounded { get; private set; }
 		public abstract bool startedSlide { get; }
@@ -51,8 +53,10 @@ namespace StandardAssets.Characters.Physics
 		private Vector3 verticalVector = Vector3.zero;
 
 		/// <inheritdoc />
-		public void Move(Vector3 moveVector)
+		public void Move(Vector3 moveVector, float deltaTime)
 		{
+			hasMovedBeenCalled = true;
+			AerialMovement(deltaTime);
 			MoveCharacter(moveVector + verticalVector);
 		}
 
@@ -84,23 +88,29 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		private void FixedUpdate()
 		{
-			AerialMovement();
+			if (!hasMovedBeenCalled)
+			{
+				AerialMovement(Time.fixedDeltaTime);
+				MoveCharacter(verticalVector);
+			}
+
+			hasMovedBeenCalled = false;
 		}
 		
 		/// <summary>
 		/// Handles Jumping and Falling
 		/// </summary>
-		private void AerialMovement()
+		private void AerialMovement(float deltaTime)
 		{
 			isGrounded = CheckGrounded();
 			
-			airTime += Time.fixedDeltaTime;
+			airTime += deltaTime;
 			currentVerticalVelocity = Mathf.Clamp(initialJumpVelocity + gravity * airTime, terminalVelocity, Mathf.Infinity);
 			float previousFallTime = fallTime;
 
 			if (currentVerticalVelocity < 0)
 			{
-				fallTime += Time.fixedDeltaTime;
+				fallTime += deltaTime;
 			}
 			
 			if (currentVerticalVelocity < 0f && isGrounded)
@@ -109,7 +119,7 @@ namespace StandardAssets.Characters.Physics
 				verticalVector = Vector3.zero;
 				
 				//Play the moment that the character lands and only at that moment
-				if (Math.Abs(airTime - Time.fixedDeltaTime) > Mathf.Epsilon)
+				if (Math.Abs(airTime - deltaTime) > Mathf.Epsilon)
 				{
 					if (landed != null)
 					{
@@ -130,7 +140,7 @@ namespace StandardAssets.Characters.Physics
 				}
 			}
 			
-			verticalVector = new Vector3(0, currentVerticalVelocity * Time.fixedDeltaTime, 0);
+			verticalVector = new Vector3(0, currentVerticalVelocity * deltaTime, 0);
 		}
 
 		public abstract float GetPredicitedFallDistance();
