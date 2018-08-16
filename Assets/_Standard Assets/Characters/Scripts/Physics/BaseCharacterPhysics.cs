@@ -90,8 +90,8 @@ namespace StandardAssets.Characters.Physics
 		{
 			if (!hasMovedBeenCalled)
 			{
-				//AerialMovement(Time.fixedDeltaTime);
-				//MoveCharacter(verticalVector);
+				AerialMovement(Time.fixedDeltaTime);
+				MoveCharacter(verticalVector);
 			}
 
 			hasMovedBeenCalled = false;
@@ -119,7 +119,7 @@ namespace StandardAssets.Characters.Physics
 				verticalVector = Vector3.zero;
 				
 				//Play the moment that the character lands and only at that moment
-				if (Math.Abs(airTime - Time.fixedDeltaTime) > Mathf.Epsilon)
+				if (Math.Abs(airTime - deltaTime) > Mathf.Epsilon)
 				{
 					if (landed != null)
 					{
