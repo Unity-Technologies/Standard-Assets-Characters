@@ -29,11 +29,12 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private bool isForwardUnlocked;
 
-		[SerializeField]
-		protected CinemachineStateDrivenCamera thirdPersonStateDrivenCamera;
+		private CinemachineStateDrivenCamera thirdPersonStateDrivenCamera;
 
 		private void Awake()
 		{
+			thirdPersonStateDrivenCamera = GetComponent<CinemachineStateDrivenCamera>();
+			
 			if (cameraModeInput != null)
 			{
 				cameraModeInput.Init();
