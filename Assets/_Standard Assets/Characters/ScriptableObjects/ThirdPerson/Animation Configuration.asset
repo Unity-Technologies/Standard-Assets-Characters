@@ -63,9 +63,10 @@ MonoBehaviour:
   invertFootedness: 0
   footednessThreshold: 0.25
   footednessThresholdOffset: 0.25
-  disableHeadLook: 0
-  headLookAtWeight: 1
-  headLookAtMaxRotation: 75
-  headLookAtRotationSpeed: 15
-  adjustHeadLookAtWhileAerial: 0
-  adjustHeadLookAtDuringTurnaround: 0
+  disableHeadTurn: 0
+  headTurnProperties:
+    headLookAtWeight: 1
+    headLookAtMaxRotation: 75
+    headLookAtRotationSpeed: 15
+    adjustHeadLookAtWhileAerial: 1
+    adjustHeadLookAtDuringTurnaround: 1

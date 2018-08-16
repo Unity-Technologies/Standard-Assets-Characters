@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Attributes;
+using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
@@ -65,22 +66,11 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[Header("Head Movement")]
 		[SerializeField]
-		protected bool disableHeadLook;
-		
-		[SerializeField]
-		protected float headLookAtWeight = 1f;
+		protected bool disableHeadTurn;
 
+		[ConditionalInclude("disableHeadTurn",false)]
 		[SerializeField]
-		protected float headLookAtMaxRotation = 60f;
-
-		[SerializeField]
-		protected float headLookAtRotationSpeed = 90f;
-
-		[SerializeField]
-		protected bool adjustHeadLookAtWhileAerial = true;
-		
-		[SerializeField]
-		protected bool adjustHeadLookAtDuringTurnaround = true;
+		protected HeadTurnProperties headTurnProperties;
 
 		public AnimationFloatParameter forwardSpeed
 		{
@@ -159,32 +149,32 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public bool disableHeadLookAt
 		{
-			get { return disableHeadLook; }
+			get { return disableHeadTurn; }
 		}
 
 		public float lookAtWeight
 		{
-			get { return headLookAtWeight; }
+			get { return headTurnProperties.lookAtWeight; }
 		}
 
 		public float lookAtMaxRotation
 		{
-			get { return headLookAtMaxRotation; }
+			get { return headTurnProperties.lookAtMaxRotation; }
 		}
 
 		public float lookAtRotationSpeed
 		{
-			get { return headLookAtRotationSpeed; }
+			get { return headTurnProperties.lookAtRotationSpeed; }
 		}
 
 		public bool lookAtWhileAerial
 		{
-			get { return adjustHeadLookAtWhileAerial; }
+			get { return headTurnProperties.lookAtWhileAerial; }
 		}
 
 		public bool lookAtWhileTurnaround
 		{
-			get { return adjustHeadLookAtDuringTurnaround; }
+			get { return headTurnProperties.lookAtWhileTurnaround; }
 		}
 
 		public AnimationCurve jumpTransitionDurationByForwardSpeed
