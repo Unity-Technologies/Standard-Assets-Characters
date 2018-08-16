@@ -617,6 +617,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				    animator.deltaPosition.magnitude <= configuration.standingJumpMaxMovementThreshold)
 				{
 					cachedForwardMovement = configuration.standingJumpSpeed * Time.timeScale;
+					normalizedForwardSpeed = 1;
 				}
 				else
 				{
