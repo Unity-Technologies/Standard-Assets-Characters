@@ -155,7 +155,7 @@ namespace Demo.MovementController
 			Vector3 forward = transform.forward * input.magnitude;
 			Vector3 sideways = Vector3.zero;
 			
-			characterPhysics.Move((forward + sideways) * currentSpeed * Time.deltaTime);
+			characterPhysics.Move((forward + sideways) * currentSpeed * Time.fixedDeltaTime, Time.fixedDeltaTime);
 
 			previouslyHasInput = characterInput.hasMovementInput;
 		}	

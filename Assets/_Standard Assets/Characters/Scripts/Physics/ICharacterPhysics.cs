@@ -52,7 +52,7 @@ namespace StandardAssets.Characters.Physics
 		/// Handles movement
 		/// </summary>
 		/// <param name="moveVector"></param>
-		void Move(Vector3 moveVector);
+		void Move(Vector3 moveVector, float deltaTime);
 		
 
 		/// <summary>

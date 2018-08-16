@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Timers;
 using Cinemachine;
 using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Physics;
@@ -133,7 +134,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			if (movementState == ThirdPersonGroundMovementState.TurningAround)
 			{
-				characterPhysics.Move(thirdPersonBrain.turnaround.GetMovement());
+				characterPhysics.Move(thirdPersonBrain.turnaround.GetMovement(), Time.deltaTime);
 				return;
 			}
 
@@ -141,7 +142,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
 				groundMovementVector.y = 0;
-				characterPhysics.Move(groundMovementVector);
+				characterPhysics.Move(groundMovementVector, Time.deltaTime);
 			}
 			else
 			{
@@ -151,7 +152,7 @@ namespace StandardAssets.Characters.ThirdPerson
 														Time.deltaTime * characterInput.moveInput.normalized.magnitude, 
 														configuration.fallSpeedLerp);
 				}
-				characterPhysics.Move(cachedForwardMovement * transform.forward * configuration.scaledGroundVelocity);
+				characterPhysics.Move(cachedForwardMovement * transform.forward * configuration.scaledGroundVelocity, Time.deltaTime);
 			}
 		}
 

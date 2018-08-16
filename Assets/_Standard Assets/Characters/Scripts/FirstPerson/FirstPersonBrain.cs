@@ -226,7 +226,7 @@ namespace StandardAssets.Characters.FirstPerson
 			Vector3 forward = transform.forward * input.y;
 			Vector3 sideways = transform.right * input.x;
 			
-			characterPhysics.Move((forward + sideways) * currentSpeed * Time.deltaTime);
+			characterPhysics.Move((forward + sideways) * currentSpeed * Time.fixedDeltaTime, Time.fixedDeltaTime);
 
 			previouslyHasInput = characterInput.hasMovementInput;
 		}	
