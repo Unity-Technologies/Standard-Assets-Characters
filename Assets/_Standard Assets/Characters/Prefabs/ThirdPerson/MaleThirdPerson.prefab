@@ -458,7 +458,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1299745678761576
 GameObject:
   m_ObjectHideFlags: 1
@@ -2888,30 +2888,37 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+      headTurnMultiplier: 1
   animationTurnaroundBehaviour:
     runLeftTurn:
       name: RunForwardTurnLeft180
       speed: 1.25
+      headTurnScale: 1
       duration: 1.1333334
     runRightTurn:
       name: RunForwardTurnRight180_Mirror
       speed: 1.25
+      headTurnScale: 1
       duration: 1.1333334
     sprintLeftTurn:
       name: RunForwardTurnLeft180
       speed: 1.5
+      headTurnScale: 1
       duration: 1.1333334
     sprintRightTurn:
       name: RunForwardTurnRight180_Mirror
       speed: 1.5
+      headTurnScale: 1
       duration: 1.1333334
     idleLeftTurn:
       name: IdleTurnLeft180
       speed: 3
+      headTurnScale: 1
       duration: 1.8000001
     idleRightTurn:
       name: IdleTurnRight180_Mirror
       speed: 3
+      headTurnScale: 1
       duration: 1.8000001
     rotationCurve:
       serializedVersion: 2
@@ -2937,7 +2944,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    normalizedRunSpeedThreshold: 0.1
+    normalizedRunSpeedThreshold: 0.4
     crossfadeDuration: 0.5
   thirdPersonMovementEventHandler:
     startingMovementEventLibrary: {fileID: 0}

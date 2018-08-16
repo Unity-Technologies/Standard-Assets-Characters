@@ -15,6 +15,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			public string name;
 			public float speed = 1;
+			public float headTurnScale = 1;
 			[HideInInspector]
 			public float duration;
 
@@ -26,13 +27,11 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[SerializeField] 
 		protected AnimationInfo runLeftTurn = new AnimationInfo("RunForwardTurnLeft180"),
-								runRightTurn = new AnimationInfo("RunForwardTurnRight180_Mirror"),
-								sprintLeftTurn = new AnimationInfo("RunForwardTurnLeft180"),
-								sprintRightTurn = new AnimationInfo("RunForwardTurnRight180_Mirror"),
-								idleLeftTurn = new AnimationInfo("IdleTurnLeft180"),
-								idleRightTurn = new AnimationInfo("IdleTurnRight180_Mirror");
-
-		private const int k_AnimationCount = 6;
+			runRightTurn = new AnimationInfo("RunForwardTurnRight180_Mirror"),
+			sprintLeftTurn = new AnimationInfo("RunForwardTurnLeft180"),
+			sprintRightTurn = new AnimationInfo("RunForwardTurnRight180_Mirror"),
+			idleLeftTurn = new AnimationInfo("IdleTurnLeft180"),
+			idleRightTurn = new AnimationInfo("IdleTurnRight180_Mirror");
 
 		[SerializeField] 
 		protected AnimationCurve rotationCurve = AnimationCurve.Linear(0, 0, 1, 1);
@@ -45,9 +44,10 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private float animationTime,
 			targetAngle,
-			cachedAnimatorSpeed;
-		private Quaternion startRotation;
+			cachedAnimatorSpeed,
+			cacheForwardSpeed;
 		
+		private Quaternion startRotation;
 		private AnimationInfo current;
 		private ThirdPersonAnimationController animationController;
 		private Transform transform;
@@ -66,10 +66,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			return forwardSpeed <= 1 ? runLeftTurn : sprintLeftTurn;
 		}
 
-		//TODO kev
 		public override float headTurnScale
 		{
-			get { return 0f; }
+			get { return current.headTurnScale; }
 		}
 
 		public override void Init(ThirdPersonBrain brain)
@@ -85,11 +84,6 @@ namespace StandardAssets.Characters.ThirdPerson
 				return;
 			}
 
-			if (current == idleLeftTurn || current == idleRightTurn)
-			{
-				animationController.UpdateForwardSpeed(0, Time.deltaTime);
-			}
-
 			if (isTransitioning)
 			{
 				var transitionTime = animator.GetAnimatorTransitionInfo(0).duration;
@@ -99,6 +93,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				}
 				return;
 			}
+			animationController.UpdateForwardSpeed(cacheForwardSpeed, float.MaxValue);
 			animationTime += Time.deltaTime * current.speed;
 			var rotationProgress = rotationCurve.Evaluate(animationTime / current.duration);
 			transform.rotation = Quaternion.AngleAxis(rotationProgress * targetAngle, Vector3.up) * startRotation;
@@ -112,7 +107,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public override Vector3 GetMovement()
 		{
-			if (current == idleLeftTurn || current == idleRightTurn)
+			if (!isTransitioning && (current == idleLeftTurn || current == idleRightTurn))
 			{
 				return Vector3.zero;
 			}
@@ -138,6 +133,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			animator.speed = current.speed;
 
 			isTransitioning = false;
+			cacheForwardSpeed = animationController.animatorForwardSpeed;
 		}
 
 		private AnimationInfo GetCurrent(float forwardSpeed, bool turningRight, bool leftPlanted)
@@ -164,6 +160,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 		
 #if UNITY_EDITOR
+		private const int k_AnimationCount = 6;
 		private int turnsFound;
 
 		// Validate the durations of the turn animations
