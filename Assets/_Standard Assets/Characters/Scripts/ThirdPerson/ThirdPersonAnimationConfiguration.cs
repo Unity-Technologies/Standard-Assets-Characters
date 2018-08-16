@@ -6,6 +6,10 @@ namespace StandardAssets.Characters.ThirdPerson
 	public class ThirdPersonAnimationConfiguration : ScriptableObject
 	{
 		[SerializeField]
+		protected string hasInputParameter = "HasInput";
+		
+		[Header("Ground Movement")]
+		[SerializeField]
 		protected AnimationFloatParameter forwardSpeedParameter = new AnimationFloatParameter("ForwardSpeed", 0.05f, 0.15f);
 		
 		[SerializeField]
@@ -15,19 +19,23 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected AnimationFloatParameter turningSpeedParameter = new AnimationFloatParameter("TurningSpeed", 0.01f, 0.05f);
 		
 		[SerializeField]
-		protected string verticalSpeedParameter = "VerticalSpeed";
-		
-		[SerializeField]
 		protected string groundedParameter = "Grounded";
 		
+		[Header("Jumping")]
 		[SerializeField]
-		protected string hasInputParameter = "HasInput";
+		protected string verticalSpeedParameter = "VerticalSpeed";
 		
 		[SerializeField]
 		protected string fallingTimeParameter = "FallTime";
 		
 		[SerializeField]
-		protected string footednessParameter = "OnRightFoot";
+		protected float jumpTransitionDuration = 0.15f;
+
+		[SerializeField]
+		protected float rightFootPhysicsJumpLandAnimationTimeOffset = 0.1f,
+		                leftFootPhysicsJumpLandAnimationTimeOffset = 0.6f;
+		[SerializeField]
+		protected AnimationCurve jumpEndTransitionDurationByForwardSpeed = AnimationCurve.Linear(0,0,1,0.125f);
 		
 		[SerializeField]
 		protected string jumpedLateralSpeedParameter = "JumpedLateralSpeed";
@@ -39,14 +47,26 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected string predictedFallDistanceParameter = "PredictedFallDistance";
 		
 		[SerializeField]
+		protected float skipJumpLandWindow = 0.25f;
+		
+		[Header("Turning")]
+		[SerializeField]
 		protected string rapidTurnParameter = "RapidTurn";
 
+		[Header("Footedness")]
+		[SerializeField]
+		protected string footednessParameter = "OnRightFoot";
+		
 		[SerializeField]
 		protected bool invertFootedness;
 
 		[SerializeField]
 		protected float footednessThreshold = 0.25f, footednessThresholdOffset = 0.25f;
 
+		[Header("Head Movement")]
+		[SerializeField]
+		protected bool disableHeadLook;
+		
 		[SerializeField]
 		protected float headLookAtWeight = 1f;
 
@@ -56,18 +76,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected float headLookAtRotationSpeed = 90f;
 
-		[Header("Jump Transitions")]
 		[SerializeField]
-		protected float jumpTransitionDuration = 0.15f;
-
-		[SerializeField]
-		protected float rightFootPhysicsJumpLandAnimationTimeOffset = 0.1f,
-		                leftFootPhysicsJumpLandAnimationTimeOffset = 0.6f;
-		[SerializeField]
-		protected AnimationCurve jumpEndTransitionDurationByForwardSpeed = AnimationCurve.Linear(0,0,1,0.125f);
+		protected bool adjustHeadLookAtWhileAerial = true;
 		
 		[SerializeField]
-		protected float skipJumpLandWindow = 0.25f;
+		protected bool adjustHeadLookAtDuringTurnaround = true;
 
 		public AnimationFloatParameter forwardSpeed
 		{
@@ -144,6 +157,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return footednessThresholdOffset; }
 		}
 
+		public bool disableHeadLookAt
+		{
+			get { return disableHeadLook; }
+		}
+
 		public float lookAtWeight
 		{
 			get { return headLookAtWeight; }
@@ -157,6 +175,16 @@ namespace StandardAssets.Characters.ThirdPerson
 		public float lookAtRotationSpeed
 		{
 			get { return headLookAtRotationSpeed; }
+		}
+
+		public bool lookAtWhileAerial
+		{
+			get { return adjustHeadLookAtWhileAerial; }
+		}
+
+		public bool lookAtWhileTurnaround
+		{
+			get { return adjustHeadLookAtDuringTurnaround; }
 		}
 
 		public AnimationCurve jumpTransitionDurationByForwardSpeed
