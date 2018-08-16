@@ -42,9 +42,10 @@ namespace StandardAssets.Characters.ThirdPerson
 						crossfadeDuration = 0.125f;
 
 		private bool isTransitioning;
+
 		private float animationTime,
-					targetAngle,
-					cachedAnimatorSpeed;
+			targetAngle,
+			cachedAnimatorSpeed;
 		private Quaternion startRotation;
 		
 		private AnimationInfo current;
@@ -65,6 +66,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			return forwardSpeed <= 1 ? runLeftTurn : sprintLeftTurn;
 		}
 
+		//TODO kev
+		public override float headTurnScale
+		{
+			get { return 0f; }
+		}
+
 		public override void Init(ThirdPersonBrain brain)
 		{
 			animationController = brain.animationControl;
@@ -77,6 +84,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				return;
 			}
+
+			if (current == idleLeftTurn || current == idleRightTurn)
+			{
+				animationController.UpdateForwardSpeed(0, Time.deltaTime);
+			}
+
 			if (isTransitioning)
 			{
 				var transitionTime = animator.GetAnimatorTransitionInfo(0).duration;
@@ -108,6 +121,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected override void FinishedTurning()
 		{
+
 		}
 
 		protected override void StartTurningAround(float angle)
@@ -151,6 +165,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 #if UNITY_EDITOR
 		private int turnsFound;
+
 		// Validate the durations of the turn animations
 		public void OnValidate(Animator animator)
 		{

@@ -90,6 +90,16 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		public bool sprint { get; private set; }
 
+		public ThirdPersonGroundMovementState currentGroundMovementState
+		{
+			get { return movementState; }
+		}
+
+		public ThirdPersonAerialMovementState currentAerialMovementState
+		{
+			get { return aerialState; }
+		}
+
 		public void OnJumpAnimationComplete()
 		{
 			var baseCharacterPhysics = characterPhysics as BaseCharacterPhysics;

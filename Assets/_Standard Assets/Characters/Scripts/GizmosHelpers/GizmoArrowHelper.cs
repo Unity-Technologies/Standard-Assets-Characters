@@ -73,7 +73,7 @@ namespace StandardAssets.GizmosHelpers
         void CreateCylinderBetweenPoints(Vector3 start, Vector3 end, float width, Color color, out GameObject cylinderObject)
         {
             var offset = end - start;
-            var scale = new Vector3(width, offset.magnitude / 2.0f, width);
+            // var scale = new Vector3(width, offset.magnitude / 2.0f, width);
             var position = start + (offset / 2.0f);
             cylinderObject = Instantiate(cylinderPrefab);
             cylinderObject.transform.forward = offset;
