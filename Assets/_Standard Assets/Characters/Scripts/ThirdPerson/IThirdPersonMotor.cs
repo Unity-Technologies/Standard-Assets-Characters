@@ -52,6 +52,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		ThirdPersonGroundMovementState currentGroundMovementState { get; }
 		
 		ThirdPersonAerialMovementState currentAerialMovementState { get; }
+		
+		TurnaroundBehaviour currentTurnaroundBehaviour { get; }
 
 		float normalizedVerticalSpeed { get; }
 

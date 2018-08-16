@@ -78,6 +78,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		private ThirdPersonBrain thirdPersonBrain;
 		private SizedQueue<Vector2> previousInputs;
 
+		public TurnaroundBehaviour currentTurnaroundBehaviour
+		{
+			get { return thirdPersonBrain.turnaround; }
+		}
+
 		public float normalizedVerticalSpeed
 		{
 			get { return characterPhysics.normalizedVerticalSpeed; }

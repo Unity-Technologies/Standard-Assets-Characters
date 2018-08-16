@@ -232,10 +232,16 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			float headTurn = Time.deltaTime * configuration.lookAtRotationSpeed;
 
-			if (motor.currentGroundMovementState == ThirdPersonGroundMovementState.TurningAround &&
-			    Mathf.Abs(targetHeadAngle) < Mathf.Abs(headAngle))
+			if (motor.currentGroundMovementState == ThirdPersonGroundMovementState.TurningAround)
 			{
-				headTurn *= k_HeadTurnSnapBackScale;
+				if (Mathf.Abs(targetHeadAngle) < Mathf.Abs(headAngle))
+				{
+					headTurn *= k_HeadTurnSnapBackScale;
+				}
+				else
+				{
+					headTurn *= motor.currentTurnaroundBehaviour.headTurnScale;
+				}
 			}
 
 			headAngle = Mathf.LerpAngle(headAngle, targetHeadAngle, headTurn);

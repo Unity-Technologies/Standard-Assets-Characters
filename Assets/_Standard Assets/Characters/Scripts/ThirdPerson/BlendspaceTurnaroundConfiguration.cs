@@ -29,6 +29,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		[SerializeField]
 		protected AnimationCurve movementDuring90Turn = AnimationCurve.Linear(0, 1, 1, 1);
+
+		[SerializeField]
+		protected float headTurnMultiplier = 1f;
 		
 		public float turnTime
 		{
@@ -68,6 +71,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		public AnimationCurve rotationOverTime
 		{
 			get { return rotationDuringTurn; }
+		}
+
+		public float headTurnScale
+		{
+			get { return headTurnMultiplier; }
 		}
 	}
 }

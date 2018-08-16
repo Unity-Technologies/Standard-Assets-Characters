@@ -149,7 +149,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				if (configureBlendspace)
 				{
-					//return headTurnMultiplier;
+					return configuration.headTurnScale;
 				}
 
 				return k_DefaultHeadTurnScale;
