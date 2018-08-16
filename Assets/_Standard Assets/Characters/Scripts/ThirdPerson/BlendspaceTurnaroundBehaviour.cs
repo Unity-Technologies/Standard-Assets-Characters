@@ -8,7 +8,7 @@ namespace StandardAssets.Characters.ThirdPerson
 	[Serializable]
 	public class BlendspaceTurnaroundBehaviour : TurnaroundBehaviour
 	{
-		private const float k_DefaultTurnTime = 0.2f, k_DefaultTurnSpeed = 0f;
+		private const float k_DefaultTurnTime = 0.2f, k_DefaultTurnSpeed = 0f, k_DefaultHeadTurnScale = 1f;
 
 		[SerializeField]
 		protected bool configureBlendspace;
@@ -140,6 +140,19 @@ namespace StandardAssets.Characters.ThirdPerson
 				}
 
 				return defaultRotationCurve;
+			}
+		}
+
+		public override float headTurnScale
+		{
+			get
+			{
+				if (configureBlendspace)
+				{
+					//return headTurnMultiplier;
+				}
+
+				return k_DefaultHeadTurnScale;
 			}
 		}
 

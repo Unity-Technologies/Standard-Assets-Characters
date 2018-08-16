@@ -66,6 +66,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			return forwardSpeed <= 1 ? runLeftTurn : sprintLeftTurn;
 		}
 
+		//TODO kev
+		public override float headTurnScale
+		{
+			get { return 0f; }
+		}
+
 		public override void Init(ThirdPersonBrain brain)
 		{
 			animationController = brain.animationControl;
@@ -159,6 +165,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 #if UNITY_EDITOR
 		private int turnsFound;
+
 		// Validate the durations of the turn animations
 		public void OnValidate(Animator animator)
 		{
