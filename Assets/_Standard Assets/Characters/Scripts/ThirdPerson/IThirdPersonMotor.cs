@@ -48,6 +48,12 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// Fired for a rapid turn
 		/// </summary>
 		Action<float> rapidlyTurned { get; set; }
+		
+		ThirdPersonGroundMovementState currentGroundMovementState { get; }
+		
+		ThirdPersonAerialMovementState currentAerialMovementState { get; }
+		
+		TurnaroundBehaviour currentTurnaroundBehaviour { get; }
 
 		float normalizedVerticalSpeed { get; }
 

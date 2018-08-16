@@ -10,8 +10,8 @@ namespace StandardAssets.Characters.ThirdPerson
 	[Serializable]
 	public class ThirdPersonAnimationController
 	{
-		private const float k_HeadTurnSnapBackScale = 10f;
-		
+		private const float k_HeadTurnSnapBackScale = 100f;
+
 		[SerializeField]
 		protected ThirdPersonAnimationConfiguration configuration;
 
@@ -128,7 +128,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			didPhysicsJump = false;
 			shouldUseRootMotion = true;
 		}
-		
+
 		public void OnFallingLoopAnimationEnter()
 		{
 			didPhysicsJump = false;
@@ -203,20 +203,47 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
+		/// <summary>
+		/// Handles the head turning
+		/// </summary>
 		public void HeadTurn()
 		{
+			if (configuration.disableHeadLookAt)
+			{
+				return;
+			}
+
+			if (motor.currentAerialMovementState != ThirdPersonAerialMovementState.Grounded &&
+			    !configuration.lookAtWhileAerial)
+			{
+				return;
+			}
+
+			if (motor.currentGroundMovementState == ThirdPersonGroundMovementState.TurningAround &&
+			    !configuration.lookAtWhileTurnaround)
+			{
+				return;
+			}
+
 			animator.SetLookAtWeight(configuration.lookAtWeight);
 			float targetHeadAngle = Mathf.Clamp(
 				MathUtilities.Wrap180(motor.targetYRotation - gameObject.transform.eulerAngles.y),
 				-configuration.lookAtMaxRotation, configuration.lookAtMaxRotation);
-			
+
 			float headTurn = Time.deltaTime * configuration.lookAtRotationSpeed;
 
-			if (Mathf.Abs(targetHeadAngle) < Mathf.Abs(headAngle))
+			if (motor.currentGroundMovementState == ThirdPersonGroundMovementState.TurningAround)
 			{
-				headTurn *= k_HeadTurnSnapBackScale;
+				if (Mathf.Abs(targetHeadAngle) < Mathf.Abs(headAngle))
+				{
+					headTurn *= k_HeadTurnSnapBackScale;
+				}
+				else
+				{
+					headTurn *= motor.currentTurnaroundBehaviour.headTurnScale;
+				}
 			}
-				
+
 			headAngle = Mathf.LerpAngle(headAngle, targetHeadAngle, headTurn);
 
 			Vector3 lookAtPos = animator.transform.position +

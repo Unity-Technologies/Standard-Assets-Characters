@@ -11,6 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a968cd77fa044ffdaab9a7f295931436, type: 3}
   m_Name: Animation Configuration
   m_EditorClassIdentifier: 
+  hasInputParameter: HasInput
   forwardSpeedParameter:
     parameterName: ForwardSpeed
     minInterpolationTime: 0.05
@@ -23,21 +24,9 @@ MonoBehaviour:
     parameterName: TurningSpeed
     minInterpolationTime: 0.01
     maxInterpolationTime: 0.05
-  verticalSpeedParameter: VerticalSpeed
   groundedParameter: Grounded
-  hasInputParameter: HasInput
+  verticalSpeedParameter: VerticalSpeed
   fallingTimeParameter: FallTime
-  footednessParameter: OnRightFoot
-  jumpedLateralSpeedParameter: JumpedLateralSpeed
-  jumpedForwardSpeedParameter: JumpedForwardSpeed
-  predictedFallDistanceParameter: PredictedFallDistance
-  rapidTurnParameter: RapidTurn
-  invertFootedness: 0
-  footednessThreshold: 0.25
-  footednessThresholdOffset: 0.25
-  headLookAtWeight: 1
-  headLookAtMaxRotation: 75
-  headLookAtRotationSpeed: 15
   jumpTransitionDuration: 0.15
   rightFootPhysicsJumpLandAnimationTimeOffset: 0.1
   leftFootPhysicsJumpLandAnimationTimeOffset: 0.6
@@ -65,4 +54,19 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  jumpedLateralSpeedParameter: JumpedLateralSpeed
+  jumpedForwardSpeedParameter: JumpedForwardSpeed
+  predictedFallDistanceParameter: PredictedFallDistance
   skipJumpLandWindow: 0.25
+  rapidTurnParameter: RapidTurn
+  footednessParameter: OnRightFoot
+  invertFootedness: 0
+  footednessThreshold: 0.25
+  footednessThresholdOffset: 0.25
+  disableHeadTurn: 0
+  headTurnProperties:
+    headLookAtWeight: 1
+    headLookAtMaxRotation: 75
+    headLookAtRotationSpeed: 15
+    adjustHeadLookAtWhileAerial: 1
+    adjustHeadLookAtDuringTurnaround: 1

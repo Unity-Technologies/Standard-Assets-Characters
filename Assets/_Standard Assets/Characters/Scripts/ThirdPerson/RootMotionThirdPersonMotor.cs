@@ -78,6 +78,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		private ThirdPersonBrain thirdPersonBrain;
 		private SizedQueue<Vector2> previousInputs;
 
+		public TurnaroundBehaviour currentTurnaroundBehaviour
+		{
+			get { return thirdPersonBrain.turnaround; }
+		}
+
 		public float normalizedVerticalSpeed
 		{
 			get { return characterPhysics.normalizedVerticalSpeed; }
@@ -89,6 +94,16 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 		
 		public bool sprint { get; private set; }
+
+		public ThirdPersonGroundMovementState currentGroundMovementState
+		{
+			get { return movementState; }
+		}
+
+		public ThirdPersonAerialMovementState currentAerialMovementState
+		{
+			get { return aerialState; }
+		}
 
 		public void OnJumpAnimationComplete()
 		{
