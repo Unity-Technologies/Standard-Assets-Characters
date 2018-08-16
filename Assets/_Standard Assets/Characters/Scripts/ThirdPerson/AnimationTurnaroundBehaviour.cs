@@ -68,7 +68,10 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public override float headTurnScale
 		{
-			get { return current.headTurnScale; }
+			get
+			{
+				return current == null ? 1 : current.headTurnScale;
+			}
 		}
 
 		public override void Init(ThirdPersonBrain brain)
