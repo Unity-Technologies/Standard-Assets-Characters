@@ -127,6 +127,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			didPhysicsJump = false;
 			shouldUseRootMotion = true;
+			animator.SetFloat(configuration.predictedFallDistanceParameterName, 0);
 		}
 
 		public void OnFallingLoopAnimationEnter()
