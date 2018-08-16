@@ -317,15 +317,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				bool rightFoot = animator.GetBool(hashFootedness);
 				animator.CrossFade("Locomotion Blend", configuration.jumpTransitionDurationByForwardSpeed.Evaluate(
-					                   Mathf.Abs(animator.GetFloat(
-						                             configuration
-							                             .jumpedForwardSpeedParameterName))),
-				                   0,
-				                   rightFoot
-					                   ? configuration.rightFootPhysicsJumpLandAnimationOffset
-					                   : configuration.leftFootPhysicsJumpLandAnimationOffset);
+						Mathf.Abs(animator.GetFloat(configuration.jumpedForwardSpeedParameterName))), 0,
+					rightFoot
+						? configuration.rightFootPhysicsJumpLandAnimationOffset
+						: configuration.leftFootPhysicsJumpLandAnimationOffset);
 				didPhysicsJump = false;
-
 				timeSinceLastPhysicsJumpLand = DateTime.Now;
 			}
 		}
