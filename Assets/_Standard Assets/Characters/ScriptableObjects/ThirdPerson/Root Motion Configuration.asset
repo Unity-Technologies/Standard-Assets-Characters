@@ -22,14 +22,46 @@ MonoBehaviour:
     strafeForwardSpeed: 0.9
     strafeBackwardSpeed: 1
     strafeLateralSpeed: 1
-  jumpSpeed: 4
+  jumpHeightAsAFactorOfForwardSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 4
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.1
+      value: 3
+      inSlope: 3.3408613
+      outSlope: 3.3408613
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.122293845
+    - serializedVersion: 3
+      time: 1
+      value: 4
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   jumpGroundVelocitySamples: 10
   jumpGroundVelocityScale: 1
   jumpTurningSpeedScale: 0.25
   postPhyicsJumpFramesToIgnoreForwardSpeed: 10
   standingJumpForwardSpeed: 3.5
   minInputThreshold: 0.05
-  maxMovementThreshold: 0.04
+  maxMovementThreshold: 0.5
   fallingMaxForwardSpeed: 5
   fallForwardSpeedLerp: 0.0025
   maxFallDistance: 1

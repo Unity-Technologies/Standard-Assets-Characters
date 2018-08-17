@@ -622,7 +622,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (Mathf.Abs(normalizedLateralSpeed) <= normalizedForwardSpeed && normalizedForwardSpeed >=0)
 			{
 				if (characterInput.moveInput.magnitude > configuration.standingJumpMinInputThreshold && 
-				    animator.deltaPosition.magnitude <= configuration.standingJumpMaxMovementThreshold)
+				    animator.deltaPosition.magnitude <= configuration.standingJumpMaxMovementThreshold * Time.deltaTime)
 				{
 					cachedForwardMovement = configuration.standingJumpSpeed * Time.deltaTime * Time.timeScale;
 					normalizedForwardSpeed = 1;
@@ -637,7 +637,8 @@ namespace StandardAssets.Characters.ThirdPerson
 				{
  					postLandFramesToIgnore = configuration.postPhyicsJumpFramesToIgnoreForward;
 				}
-				characterPhysics.SetJumpVelocity(configuration.initialJumpVelocity);
+				characterPhysics.SetJumpVelocity(
+					configuration.JumpHeightAsAFactorOfForwardSpeedAsAFactorOfSpeed.Evaluate(normalizedForwardSpeed));
 			}
 			
 			if (jumpStarted != null)
