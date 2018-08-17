@@ -470,7 +470,7 @@ GameObject:
   - component: {fileID: 114359955190375270}
   - component: {fileID: 222002705234345360}
   m_Layer: 5
-  m_Name: StrafeToggle
+  m_Name: SprintToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1183,7 +1183,7 @@ GameObject:
   - component: {fileID: 222059544971557944}
   - component: {fileID: 114078896814632302}
   m_Layer: 5
-  m_Name: Strafe
+  m_Name: Sprint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2538,7 +2538,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Strafe
+  m_Text: Sprint
 --- !u!114 &114100576119759630
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2721,7 +2721,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11400000, guid: 808211f540ce1444389835ac078c6fd2, type: 2}
+      - m_Target: {fileID: 11400000, guid: 0fef3a694f462443fa490c815ba24d9c, type: 2}
         m_MethodName: TouchToggle
         m_Mode: 0
         m_Arguments:
