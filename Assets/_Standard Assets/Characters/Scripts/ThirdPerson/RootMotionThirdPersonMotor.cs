@@ -306,7 +306,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			if (aerialState == ThirdPersonAerialMovementState.Grounded)
 			{
-				cachedForwardMovement = averageForwardMovement.average * Time.timeScale;
+				cachedForwardMovement = averageForwardMovement.average;
 			}
 			
 			aerialState = ThirdPersonAerialMovementState.Falling;
@@ -483,18 +483,25 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			normalizedForwardSpeed = actionAverageForwardInput.average;
 
-			if (postLandFramesToIgnore <= 0 && characterPhysics.isGrounded && !animationController.isRootMovement)
+			// evaluate if current forward speed should be recorded for jump speed
+			if (!characterPhysics.isGrounded || !animationController.canJump)
 			{
-				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
-				groundMovementVector.y = 0;
-	
-				float value = groundMovementVector.GetMagnitudeOnAxis(transform.forward);
+				return;
+			}
+			Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
+			groundMovementVector.y = 0;
+			if (postLandFramesToIgnore <= 0)
+			{
+				float value = groundMovementVector.GetMagnitudeOnAxis(transform.forward) * Time.timeScale;
 				if (value > 0)
 				{
 					averageForwardMovement.Add(value);
 				}
 			}
-			postLandFramesToIgnore--;
+			else
+			{
+				postLandFramesToIgnore--;
+			}
 		}
 
 		protected virtual void CalculateStrafeMovement()
@@ -559,7 +566,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (ShouldTurnAround(out angle, target))
 			{
 				turnaroundMovementTime = 0f;
-				cachedForwardMovement = averageForwardMovement.average * Time.timeScale;
+				cachedForwardMovement = averageForwardMovement.average;
 				preTurnMovementState = movementState;
 				movementState = ThirdPersonGroundMovementState.TurningAround;
 				thirdPersonBrain.turnaround.TurnAround(angle);
@@ -621,12 +628,12 @@ namespace StandardAssets.Characters.ThirdPerson
 				}
 				else
 				{
-					cachedForwardMovement = averageForwardMovement.average * Time.timeScale;
+					cachedForwardMovement = averageForwardMovement.average;
 				}
 
 				if (!Mathf.Approximately(cachedForwardMovement, 0) && !Mathf.Approximately(normalizedForwardSpeed, 0))
 				{
-					postLandFramesToIgnore = configuration.postPhyicsJumpFramesToIgnoreForward;
+ 					postLandFramesToIgnore = configuration.postPhyicsJumpFramesToIgnoreForward;
 				}
 				characterPhysics.SetJumpVelocity(configuration.initialJumpVelocity);
 			}

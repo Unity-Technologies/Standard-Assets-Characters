@@ -23,10 +23,10 @@ MonoBehaviour:
     strafeBackwardSpeed: 1
     strafeLateralSpeed: 1
   jumpSpeed: 4
-  jumpGroundVelocitySamples: 5
+  jumpGroundVelocitySamples: 20
   jumpGroundVelocityScale: 1
   jumpTurningSpeedScale: 0.25
-  postPhyicsJumpFramesToIgnoreForwardSpeed: 10
+  postPhyicsJumpFramesToIgnoreForwardSpeed: 5
   standingJumpForwardSpeed: 0.08
   minInputThreshold: 0.5
   maxMovementThreshold: 0.04
