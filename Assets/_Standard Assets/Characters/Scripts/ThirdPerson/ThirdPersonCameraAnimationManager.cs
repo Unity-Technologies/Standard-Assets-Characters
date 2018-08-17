@@ -13,16 +13,16 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[DisableAtRuntime()]
 		[SerializeField]
-		protected ThirdPersonCameraType startingCameraMode = ThirdPersonCameraType.FreeLook;
+		protected ThirdPersonCameraType startingCameraMode = ThirdPersonCameraType.Exploration;
 		
 		[SerializeField]
 		protected InputResponse cameraModeInput, cameraToggleInput;
 
 		[SerializeField]
-		protected string[] freeLookCameraStates, strafeCameraStates;
+		protected string[] explorationCameraStates, strafeCameraStates;
 
 		[SerializeField]
-		protected GameObject[] freeLookCameraObjects, strafeCameraObjects;
+		protected GameObject[] explorationCameraObjects, strafeCameraObjects;
 
 		private string[] currentCameraModeStateNames;
 
@@ -49,7 +49,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private void Start()
 		{
-			isForwardUnlocked = startingCameraMode == ThirdPersonCameraType.FreeLook;
+			isForwardUnlocked = startingCameraMode == ThirdPersonCameraType.Exploration;
 			SetForwardModeArray();
 			SetAnimation(currentCameraModeStateNames[cameraIndex]);
 			PlayForwardModeEvent();
@@ -102,7 +102,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void SetForwardModeArray()
 		{
 			currentCameraModeStateNames = isForwardUnlocked
-				? freeLookCameraStates
+				? explorationCameraStates
 				: strafeCameraStates;
 		}
 
@@ -110,7 +110,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			if (isForwardUnlocked)
 			{
-				SetCameraObjectsActive(freeLookCameraObjects);
+				SetCameraObjectsActive(explorationCameraObjects);
 				
 				SetCameraObjectsActive(strafeCameraObjects, false);
 					
@@ -122,7 +122,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			else
 			{
-				SetCameraObjectsActive(freeLookCameraObjects, false);
+				SetCameraObjectsActive(explorationCameraObjects, false);
 				
 
 				if (forwardLockedModeStarted != null)
@@ -168,7 +168,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 	public enum ThirdPersonCameraType
 	{
-		FreeLook,
+		Exploration,
 		Strafe
 	}
 }
