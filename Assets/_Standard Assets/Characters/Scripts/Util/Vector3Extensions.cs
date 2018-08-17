@@ -7,6 +7,10 @@ namespace Util
 		public static float GetMagnitudeOnAxis(this Vector3 vector, Vector3 axis)
 		{
 			float vectorMagnitude = vector.magnitude;
+			if (vectorMagnitude <= 0)
+			{
+				return 0;
+			}
 			float dot = Vector3.Dot(axis, vector / vectorMagnitude);
 			float val = dot * vectorMagnitude;
 			return val;
