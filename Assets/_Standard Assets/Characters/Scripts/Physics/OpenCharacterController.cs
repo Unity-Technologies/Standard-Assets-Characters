@@ -36,6 +36,11 @@ namespace StandardAssets.Characters.Physics
 		/// Slight delay before we stop sliding down slopes. To handle cases where sliding test fails for a few frames.
 		/// </summary>
 		private const float k_StopSlideDownSlopeDelay = 0.5f;
+		
+		/// <summary>
+		/// Minimum distance to use when checking ahead for steep slopes, when checking if it's safe to do the step offset.
+		/// </summary>
+		private const float k_MinCheckSteepSlopeAheadDistance = 0.2f;
 
 		/// <summary>
 		/// Min skin width.
@@ -1052,7 +1057,8 @@ namespace StandardAssets.Characters.Physics
 			
 			if (!CapsuleCast(direction, distance,
 			                 out smallRadiusHit, out bigRadiusHit,
-			                 out smallRadiusHitInfo, out bigRadiusHitInfo))
+			                 out smallRadiusHitInfo, out bigRadiusHitInfo,
+			                 Vector3.zero))
 			{
 				// No collision, so move to the position
 				MovePosition(moveVector, null, null);
@@ -1100,10 +1106,35 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Returns true if there's a steep slope ahead.
 		/// </summary>
-		private bool CheckSteepSlopeAhead(Vector3 moveVector)
+		/// <param name="moveVector">The movement vector.</param>
+		/// <param name="alsoCheckForStepOffset">Do a second test where the step offset will move the player to?</param>
+		/// <returns></returns>
+		private bool CheckSteepSlopeAhead(Vector3 moveVector, bool alsoCheckForStepOffset = true)
 		{
 			Vector3 direction = moveVector.normalized;
 			float distance = moveVector.magnitude;
+
+			if (CheckSteepSlopAhead(direction, distance, Vector3.zero))
+			{
+				return true;
+			}
+
+			// Only need to do the second test for human controlled character
+			if (!alsoCheckForStepOffset ||
+			    !localHumanControlled)
+			{
+				return false;
+			}
+			
+			// Check above where the step offset will move the player to
+			return CheckSteepSlopAhead(direction, Mathf.Max(distance, k_MinCheckSteepSlopeAheadDistance), Vector3.up * GetStepOffset());
+		}
+
+		/// <summary>
+		/// Returns true if there's a steep slope ahead.
+		/// </summary>
+		private bool CheckSteepSlopAhead(Vector3 direction, float distance, Vector3 offsetPosition)
+		{
 			RaycastHit bigRadiusHitInfo;
 			RaycastHit smallRadiusHitInfo;
 			bool smallRadiusHit;
@@ -1111,7 +1142,8 @@ namespace StandardAssets.Characters.Physics
 			
 			if (!CapsuleCast(direction, distance,
 			                 out smallRadiusHit, out bigRadiusHit,
-			                 out smallRadiusHitInfo, out bigRadiusHitInfo))
+			                 out smallRadiusHitInfo, out bigRadiusHitInfo,
+			                 offsetPosition))
 			{
 				// No collision
 				return false;
@@ -1140,7 +1172,7 @@ namespace StandardAssets.Characters.Physics
 			}
 			
 			RaycastHit hitInfoRay;
-			Vector3 rayOrigin = GetCapsuleWorldPosition();
+			Vector3 rayOrigin = GetCapsuleWorldPosition() + offsetPosition;
 			Vector3 rayDirection = hitInfoCapsule.point - rayOrigin;
 			
 			// Raycast returns a more accurate normal than SphereCast/CapsuleCast
@@ -1336,16 +1368,17 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="bigRadiusHit">Did hit, including the skin width?</param>
 		/// <param name="smallRadiusHitInfo">Hit info for cast exlucing the skin width.</param>
 		/// <param name="bigRadiusHitInfo">Hit info for cast including the skin width.</param>
-		/// <returns></returns>
+		/// <param name="offsetPosition">Position offset. If we want to do a cast not at the capsule's current position.</param>
 		private bool CapsuleCast(Vector3 direction, float distance, 
 		                         out bool smallRadiusHit, out bool bigRadiusHit,
-		                         out RaycastHit smallRadiusHitInfo, out RaycastHit bigRadiusHitInfo)
+		                         out RaycastHit smallRadiusHitInfo, out RaycastHit bigRadiusHitInfo,
+		                         Vector3 offsetPosition)
 		{
 			// Exclude the skin width in the test
-			smallRadiusHit = SmallCapsuleCast(direction, distance, out smallRadiusHitInfo, Vector3.zero);
+			smallRadiusHit = SmallCapsuleCast(direction, distance, out smallRadiusHitInfo, offsetPosition);
 			
 			// Include the skin width in the test
-			bigRadiusHit = BigCapsuleCast(direction, distance, out bigRadiusHitInfo, Vector3.zero);
+			bigRadiusHit = BigCapsuleCast(direction, distance, out bigRadiusHitInfo, offsetPosition);
 
 			return smallRadiusHit ||
 			       bigRadiusHit;
@@ -1358,7 +1391,6 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="distance">Distance to cast.</param>
 		/// <param name="smallRadiusHitInfo">Hit info.</param>
 		/// <param name="offsetPosition">Position offset. If we want to do a cast not at the capsule's current position.</param>
-		/// <returns></returns>
 		private bool SmallCapsuleCast(Vector3 direction, float distance,
 									  out RaycastHit smallRadiusHitInfo,
 		                              Vector3 offsetPosition)
