@@ -190,17 +190,17 @@ namespace StandardAssets.Characters.ThirdPerson
 			                 CheckHasSpeed(motor.normalizedForwardSpeed) ||
 			                 CheckHasSpeed(motor.normalizedLateralSpeed));
 
-			UpdateForwardSpeed(motor.normalizedForwardSpeed, Time.deltaTime);
-			UpdateLateralSpeed(motor.normalizedLateralSpeed, Time.deltaTime);
 
-			if (!isGrounded)
+			if (isGrounded)
 			{
-				animator.SetFloat(hashVerticalSpeed, motor.normalizedVerticalSpeed);
-				animator.SetFloat(hashFallingTime, motor.fallTime);
+				UpdateForwardSpeed(motor.normalizedForwardSpeed, Time.deltaTime);
+				UpdateLateralSpeed(motor.normalizedLateralSpeed, Time.deltaTime);
+				UpdateFoot();
 			}
 			else
 			{
-				UpdateFoot();
+				animator.SetFloat(hashVerticalSpeed, motor.normalizedVerticalSpeed);
+				animator.SetFloat(hashFallingTime, motor.fallTime);
 			}
 		}
 

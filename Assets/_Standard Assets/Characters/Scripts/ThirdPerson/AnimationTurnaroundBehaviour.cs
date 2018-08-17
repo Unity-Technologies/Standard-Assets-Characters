@@ -40,8 +40,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected float normalizedRunSpeedThreshold = 0.1f,
 						crossfadeDuration = 0.125f;
 
-		private bool isTransitioning;
-
 		private float animationTime,
 			targetAngle,
 			cachedAnimatorSpeed,
@@ -87,15 +85,6 @@ namespace StandardAssets.Characters.ThirdPerson
 				return;
 			}
 
-			if (isTransitioning)
-			{
-				var transitionTime = animator.GetAnimatorTransitionInfo(0).duration;
-				if (transitionTime <= 0)
-				{
-					EndTurnAround();
-				}
-				return;
-			}
 			animationController.UpdateForwardSpeed(cacheForwardSpeed, float.MaxValue);
 			animationTime += Time.deltaTime * current.speed;
 			var rotationProgress = rotationCurve.Evaluate(animationTime / current.duration);
@@ -104,13 +93,14 @@ namespace StandardAssets.Characters.ThirdPerson
 			if(animationTime >= current.duration)
 			{
 				animator.speed = cachedAnimatorSpeed;
-				isTransitioning = true;
+				
+				EndTurnAround();
 			}
 		}
 
 		public override Vector3 GetMovement()
 		{
-			if (!isTransitioning && (current == idleLeftTurn || current == idleRightTurn))
+			if (current == idleLeftTurn || current == idleRightTurn)
 			{
 				return Vector3.zero;
 			}
@@ -135,7 +125,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			cachedAnimatorSpeed = animator.speed;
 			animator.speed = current.speed;
 
-			isTransitioning = false;
 			cacheForwardSpeed = animationController.animatorForwardSpeed;
 		}
 

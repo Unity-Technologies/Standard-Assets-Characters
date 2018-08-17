@@ -499,7 +499,7 @@ GameObject:
   - component: {fileID: 114676693933027276}
   - component: {fileID: 114815493507019952}
   m_Layer: 0
-  m_Name: FreeLook Camera
+  m_Name: Exploration
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -703,8 +703,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1192928361917510}
-  m_LocalRotation: {x: -0.000000059604645, y: 0.000000025555284, z: -0.000000015333171,
-    w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -790,8 +789,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1784275661457400}
-  m_LocalRotation: {x: -0.000000059604645, y: -0.000000025555286, z: 6.0715313e-18,
-    w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -861,8 +859,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1120486087132888}
-  m_LocalRotation: {x: 0.26693362, y: 4.48709e-11, z: -1.6200102e-10, w: 0.96371496}
-  m_LocalPosition: {x: 10.497017, y: 2.0926857, z: -18.72462}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -22.502983, y: 0.0926857, z: -25.534622}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4427530343479044}
@@ -933,8 +931,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1186158382073052}
-  m_LocalRotation: {x: -0.000000059604645, y: 0.000000025555284, z: -0.000000015333171,
-    w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1322,11 +1319,11 @@ MonoBehaviour:
   startingCameraMode: 0
   cameraModeInput: {fileID: 0}
   cameraToggleInput: {fileID: 0}
-  freeLookCameraStates:
-  - FreeLook Camera
+  explorationCameraStates:
+  - Exploration
   strafeCameraStates:
   - Strafe
-  freeLookCameraObjects: []
+  explorationCameraObjects: []
   strafeCameraObjects:
   - {fileID: 1504451468462078}
 --- !u!114 &114151692478588784
@@ -2524,7 +2521,10 @@ MonoBehaviour:
   m_AnimatedTarget: {fileID: 0}
   m_LayerIndex: 0
   m_ShowDebugText: 1
-  m_ChildCameras: []
+  m_ChildCameras:
+  - {fileID: 114315799969201444}
+  - {fileID: 114875541010807592}
+  - {fileID: 114626115066085994}
   m_Instructions:
   - m_FullHash: -438428448
     m_VirtualCamera: {fileID: 114626115066085994}

@@ -13,7 +13,7 @@ namespace StandardAssets._Standard_Assets.Characters.Scripts.Editor
 	{
 		private static readonly string[] s_Exclude =
 		{
-			"freeLookCameraStates",
+			"explorationCameraStates",
 			"strafeCameraStates"
 		};
 
