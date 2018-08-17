@@ -485,7 +485,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			normalizedForwardSpeed = actionAverageForwardInput.average;
 
 			// evaluate if current forward speed should be recorded for jump speed
-			if (!characterPhysics.isGrounded || !animationController.canJump)
+			if (!characterPhysics.isGrounded || !animationController.canJump || 
+			    movementState == ThirdPersonGroundMovementState.TurningAround)
 			{
 				return;
 			}
