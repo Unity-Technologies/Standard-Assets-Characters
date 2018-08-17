@@ -74,6 +74,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private int postLandFramesToIgnore;
 		private bool isTurningIntoStrafe,
 					 jumpQueued;
+
 		private Transform transform;
 		private GameObject gameObject;
 		private ThirdPersonBrain thirdPersonBrain;
@@ -488,11 +489,10 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				return;
 			}
-			Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
-			groundMovementVector.y = 0;
+
 			if (postLandFramesToIgnore <= 0)
 			{
-				float value = groundMovementVector.GetMagnitudeOnAxis(transform.forward) * Time.timeScale;
+				var value = GetCurrentGroundForwardMovementSpeed();
 				if (value > 0)
 				{
 					averageForwardMovement.Add(value);
@@ -623,12 +623,13 @@ namespace StandardAssets.Characters.ThirdPerson
 				if (characterInput.moveInput.magnitude > configuration.standingJumpMinInputThreshold && 
 				    animator.deltaPosition.magnitude <= configuration.standingJumpMaxMovementThreshold)
 				{
-					cachedForwardMovement = configuration.standingJumpSpeed * Time.timeScale;
+					cachedForwardMovement = configuration.standingJumpSpeed * Time.deltaTime * Time.timeScale;
 					normalizedForwardSpeed = 1;
 				}
 				else
 				{
-					cachedForwardMovement = averageForwardMovement.average;
+					cachedForwardMovement =  Mathf.Min(averageForwardMovement.average, 
+						GetCurrentGroundForwardMovementSpeed());
 				}
 
 				if (!Mathf.Approximately(cachedForwardMovement, 0) && !Mathf.Approximately(normalizedForwardSpeed, 0))
@@ -643,6 +644,12 @@ namespace StandardAssets.Characters.ThirdPerson
 				jumpStarted();
 			}
 			return false;
+		}
+
+		private float GetCurrentGroundForwardMovementSpeed()
+		{
+			return (animator.deltaPosition * configuration.scaleRootMovement).
+				GetMagnitudeOnAxis(transform.forward) * Time.timeScale;
 		}
 	}
 }
