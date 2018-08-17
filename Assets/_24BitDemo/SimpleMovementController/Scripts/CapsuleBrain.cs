@@ -4,7 +4,7 @@ using StandardAssets.Characters.Effects;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
 
-namespace Demo.MovementController
+namespace StandardAssets.Characters.Examples.SimpleMovementController
 {
     [RequireComponent(typeof(ICharacterPhysics))]
     [RequireComponent(typeof(ICharacterInput))]

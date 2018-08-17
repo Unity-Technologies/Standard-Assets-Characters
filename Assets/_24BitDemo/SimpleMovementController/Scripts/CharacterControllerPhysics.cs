@@ -1,7 +1,7 @@
 ﻿using StandardAssets.Characters.Physics;
 using UnityEngine;
 
-namespace Demo.MovementController
+namespace StandardAssets.Characters.Examples.SimpleMovementController
 {
 	/// <summary>
 	/// A physic implementation that uses the default Unity character controller

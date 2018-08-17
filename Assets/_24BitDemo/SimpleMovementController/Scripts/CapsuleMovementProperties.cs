@@ -2,7 +2,7 @@
 using UnityEngine;
 using Util;
 
-namespace Demo.MovementController
+namespace StandardAssets.Characters.Examples.SimpleMovementController
 {
     [CreateAssetMenu(fileName = "Capsule Movement Properties",
         menuName = "Standard Assets/Characters/Create Capsule Movement", order = 1)]

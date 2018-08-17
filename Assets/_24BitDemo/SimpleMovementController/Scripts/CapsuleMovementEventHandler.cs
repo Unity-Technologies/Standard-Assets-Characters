@@ -3,7 +3,7 @@ using StandardAssets.Characters.Effects;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
 
-namespace Demo.MovementController
+namespace StandardAssets.Characters.Examples.SimpleMovementController
 {
     [Serializable]
     public class CapsuleMovementEventHandler : MovementEventHandler
