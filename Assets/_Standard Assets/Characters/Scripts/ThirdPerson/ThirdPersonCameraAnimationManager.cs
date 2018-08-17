@@ -10,10 +10,11 @@ namespace StandardAssets.Characters.ThirdPerson
 	public class ThirdPersonCameraAnimationManager : CameraAnimationManager
 	{
 		public event Action forwardUnlockedModeStarted, forwardLockedModeStarted;
-		
-		[SerializeField]
-		protected bool defaultToFreeLook = true;
 
+		[DisableAtRuntime()]
+		[SerializeField]
+		protected ThirdPersonCameraType startingCameraMode = ThirdPersonCameraType.FreeLook;
+		
 		[SerializeField]
 		protected InputResponse cameraModeInput, cameraToggleInput;
 
@@ -48,7 +49,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private void Start()
 		{
-			isForwardUnlocked = defaultToFreeLook;
+			isForwardUnlocked = startingCameraMode == ThirdPersonCameraType.FreeLook;
 			SetForwardModeArray();
 			SetAnimation(currentCameraModeStateNames[cameraIndex]);
 			PlayForwardModeEvent();
@@ -56,18 +57,32 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private void OnEnable()
 		{
-			cameraModeInput.started += ChangeCameraMode;
-			cameraModeInput.ended += ChangeCameraMode;
-			cameraToggleInput.started += ChangeCameraToggle;
-			cameraToggleInput.ended += ChangeCameraToggle;
+			if (cameraModeInput != null)
+			{
+				cameraModeInput.started += ChangeCameraMode;
+				cameraModeInput.ended += ChangeCameraMode;
+			}
+
+			if (cameraToggleInput != null)
+			{
+				cameraToggleInput.started += ChangeCameraToggle;
+				cameraToggleInput.ended += ChangeCameraToggle;
+			}
 		}
 		
 		private void OnDisable()
 		{
-			cameraModeInput.started -= ChangeCameraMode;
-			cameraModeInput.ended -= ChangeCameraMode;
-			cameraToggleInput.started -= ChangeCameraToggle;
-			cameraToggleInput.ended -= ChangeCameraToggle;
+			if (cameraModeInput != null)
+			{
+				cameraModeInput.started -= ChangeCameraMode;
+				cameraModeInput.ended -= ChangeCameraMode;
+			}
+
+			if (cameraToggleInput != null)
+			{
+				cameraToggleInput.started -= ChangeCameraToggle;
+				cameraToggleInput.ended -= ChangeCameraToggle;
+			}
 		}
 
 		private void ChangeCameraToggle()
@@ -149,5 +164,11 @@ namespace StandardAssets.Characters.ThirdPerson
 				cameraObject.SetActive(isActive);
 			}
 		}
+	}
+
+	public enum ThirdPersonCameraType
+	{
+		FreeLook,
+		Strafe
 	}
 }

@@ -88,12 +88,12 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		private void FixedUpdate()
 		{
+			isGrounded = CheckGrounded();
 			if (!hasMovedBeenCalled)
 			{
 				AerialMovement(Time.fixedDeltaTime);
 				MoveCharacter(verticalVector);
 			}
-
 			hasMovedBeenCalled = false;
 		}
 		
@@ -102,35 +102,31 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		private void AerialMovement(float deltaTime)
 		{
-			isGrounded = CheckGrounded();
-			
 			airTime += deltaTime;
-			currentVerticalVelocity = Mathf.Clamp(initialJumpVelocity + gravity * airTime, terminalVelocity, Mathf.Infinity);
+			currentVerticalVelocity = Mathf.Clamp(initialJumpVelocity + gravity * airTime, terminalVelocity, 
+				Mathf.Infinity);
 			float previousFallTime = fallTime;
 
 			if (currentVerticalVelocity < 0)
 			{
 				fallTime += deltaTime;
-			}
-			
-			if (currentVerticalVelocity < 0f && isGrounded)
-			{
-				initialJumpVelocity = 0f;
-				verticalVector = Vector3.zero;
-				
-				//Play the moment that the character lands and only at that moment
-				if (Math.Abs(airTime - deltaTime) > Mathf.Epsilon)
+				if (isGrounded)
 				{
-					if (landed != null)
+					initialJumpVelocity = 0f;
+					verticalVector = Vector3.zero;
+					
+					//Play the moment that the character lands and only at that moment
+					if (Math.Abs(airTime - deltaTime) > Mathf.Epsilon && landed != null)
 					{
 						landed();
 					}
+					
+					fallTime = 0f;
+					airTime = 0f;
+					return;
 				}
-
-				fallTime = 0f;
-				airTime = 0f;
-				return;
 			}
+			
 			
 			if (previousFallTime < Mathf.Epsilon && fallTime > Mathf.Epsilon)
 			{

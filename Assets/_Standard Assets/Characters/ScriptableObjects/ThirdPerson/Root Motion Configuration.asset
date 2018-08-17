@@ -27,11 +27,11 @@ MonoBehaviour:
   jumpGroundVelocityScale: 1
   jumpTurningSpeedScale: 0.25
   postPhyicsJumpFramesToIgnoreForwardSpeed: 10
-  standingJumpForwardSpeed: 3
-  minInputThreshold: 0.5
+  standingJumpForwardSpeed: 3.5
+  minInputThreshold: 0.05
   maxMovementThreshold: 0.04
   fallingMaxForwardSpeed: 5
-  fallForwardSpeedLerp: 0.05
+  fallForwardSpeedLerp: 0.0025
   maxFallDistance: 1
   turningSpeed: 300
   turningSpeedVisualScale: 0.4
