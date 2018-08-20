@@ -157,7 +157,6 @@ namespace StandardAssets.Characters.Physics
 				return gravity * fallGravityMultiplier;
 			}
 
-			Debug.Log(characterInput.isJumping);
 			return characterInput.isJumping ? gravity : gravity * minJumpHeightMultiplier;
 		}
 
