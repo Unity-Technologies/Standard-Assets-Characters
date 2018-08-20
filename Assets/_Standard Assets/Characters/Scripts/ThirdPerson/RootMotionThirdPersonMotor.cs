@@ -436,32 +436,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected virtual void SetStartStrafeLookDirection()
 		{
-			Vector3 cameraForward = thirdPersonBrain.bearingOfCharacter.CalculateCharacterBearing();
-
-			Quaternion targetRotation = Quaternion.LookRotation(cameraForward);
-			
-			// TODO hack to fix camera spin
-			transform.rotation = targetRotation;
-			isTurningIntoStrafe = false;
-			//
-			
-			targetYRotation = MathUtilities.Wrap180(targetRotation.eulerAngles.y);
-
-			if (useRapidTurnForStrafeTransition && CheckForAndHandleRapidTurn(targetRotation))
-			{
-				return;
-			}
-
-			Quaternion newRotation = Quaternion.RotateTowards(transform.rotation, targetRotation,
-															  configuration.turningYSpeed * Time.deltaTime);
-			SetTurningSpeed(transform.rotation, newRotation);
-
-			if (transform.rotation == targetRotation)
-			{
-				isTurningIntoStrafe = false;
-			}
-
-			transform.rotation = newRotation;
+			SetStrafeLookDirection();
 		}
 
 		protected virtual void CalculateForwardMovement()
