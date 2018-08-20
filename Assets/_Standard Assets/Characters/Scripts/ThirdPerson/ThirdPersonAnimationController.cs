@@ -54,11 +54,12 @@ namespace StandardAssets.Characters.ThirdPerson
 		private int hashRapidTurn;
 
 		private bool isGrounded,
-		             lastPhysicsJumpRightRoot;
+					 lastPhysicsJumpRightRoot;
 
 		private float headAngle;
-		private DateTime timeSinceLastPhysicsJumpLand;
 		private float animationNormalizedProgress;
+		private float cachedAnimatorSpeed = 1;
+		private DateTime timeSinceLastPhysicsJumpLand;
 
 		public AnimationState state { get; private set; }
 
@@ -92,6 +93,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		public void OnLandAnimationExit()
 		{
 			state = AnimationState.Locomotion;
+			animator.speed = cachedAnimatorSpeed;
 		}
 
 		public void OnLandAnimationEnter()
@@ -129,22 +131,22 @@ namespace StandardAssets.Characters.ThirdPerson
 		public void UpdateForwardSpeed(float newSpeed, float deltaTime)
 		{
 			animator.SetFloat(hashForwardSpeed, newSpeed,
-			                  configuration.forwardSpeed.GetInterpolationTime(animatorForwardSpeed, newSpeed),
-			                  deltaTime);
+							  configuration.forwardSpeed.GetInterpolationTime(animatorForwardSpeed, newSpeed),
+							  deltaTime);
 		}
 
 		public void UpdateLateralSpeed(float newSpeed, float deltaTime)
 		{
 			animator.SetFloat(hashLateralSpeed, newSpeed,
-			                  configuration.lateralSpeed.GetInterpolationTime(animatorLateralSpeed, newSpeed),
-			                  deltaTime);
+							  configuration.lateralSpeed.GetInterpolationTime(animatorLateralSpeed, newSpeed),
+							  deltaTime);
 		}
 
 		public void UpdateTurningSpeed(float newSpeed, float deltaTime)
 		{
 			animator.SetFloat(hashTurningSpeed, newSpeed,
-			                  configuration.turningSpeed.GetInterpolationTime(animatorTurningSpeed, newSpeed),
-			                  deltaTime);
+							  configuration.turningSpeed.GetInterpolationTime(animatorTurningSpeed, newSpeed),
+							  deltaTime);
 		}
 
 		/// <summary>
@@ -177,8 +179,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			UpdateTurningSpeed(motor.normalizedTurningSpeed, Time.deltaTime);
 
 			animator.SetBool(hashHasInput,
-			                 CheckHasSpeed(motor.normalizedForwardSpeed) ||
-			                 CheckHasSpeed(motor.normalizedLateralSpeed));
+							 CheckHasSpeed(motor.normalizedForwardSpeed) ||
+							 CheckHasSpeed(motor.normalizedLateralSpeed));
 
 
 			if (isGrounded || state == AnimationState.Falling)
@@ -205,13 +207,13 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 			if (motor.currentAerialMovementState != ThirdPersonAerialMovementState.Grounded &&
-			    !configuration.lookAtWhileAerial)
+				!configuration.lookAtWhileAerial)
 			{
 				return;
 			}
 
 			if (motor.currentGroundMovementState == ThirdPersonGroundMovementState.TurningAround &&
-			    !configuration.lookAtWhileTurnaround)
+				!configuration.lookAtWhileTurnaround)
 			{
 				return;
 			}
@@ -238,7 +240,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			headAngle = Mathf.LerpAngle(headAngle, targetHeadAngle, headTurn);
 
 			Vector3 lookAtPos = animator.transform.position +
-			                    Quaternion.AngleAxis(headAngle, Vector3.up) * animator.transform.forward * 100f;
+								Quaternion.AngleAxis(headAngle, Vector3.up) * animator.transform.forward * 100f;
 			animator.SetLookAtPosition(lookAtPos);
 		}
 
@@ -301,16 +303,22 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			isGrounded = true;
 
-			// if coming from a physics jump handle animation transition
-			if (state == AnimationState.PhysicsJump)
+			switch (state)
 			{
-				bool rightFoot = animator.GetBool(hashFootedness);
-				animator.CrossFade("Locomotion Blend", configuration.jumpTransitionDurationByForwardSpeed.Evaluate(
-						Mathf.Abs(animator.GetFloat(configuration.jumpedForwardSpeedParameterName))), 0,
-					rightFoot
-						? configuration.rightFootPhysicsJumpLandAnimationOffset
-						: configuration.leftFootPhysicsJumpLandAnimationOffset);
-				timeSinceLastPhysicsJumpLand = DateTime.Now;
+				// if coming from a physics jump handle animation transition
+				case AnimationState.PhysicsJump:
+					bool rightFoot = animator.GetBool(hashFootedness);
+					animator.CrossFade("Locomotion Blend", configuration.jumpTransitionDurationByForwardSpeed.Evaluate(
+										Mathf.Abs(animator.GetFloat(configuration.jumpedForwardSpeedParameterName))),
+										0, rightFoot ? configuration.rightFootPhysicsJumpLandAnimationOffset
+										: configuration.leftFootPhysicsJumpLandAnimationOffset);
+					timeSinceLastPhysicsJumpLand = DateTime.Now;
+					break;
+				// if falling set speed of land animation based on forward speed
+				case AnimationState.Falling:
+					cachedAnimatorSpeed = animator.speed;
+					animator.speed = configuration.landSpeedAsAFactorSpeed.Evaluate(motor.normalizedForwardSpeed);
+					break;
 			}
 			animator.SetBool(hashGrounded, true);
 		}
@@ -337,18 +345,18 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 			if (Mathf.Abs(motor.normalizedLateralSpeed) <= Mathf.Abs(motor.normalizedForwardSpeed)
-			    && motor.normalizedForwardSpeed >= 0)
+				&& motor.normalizedForwardSpeed >= 0)
 			{
 				animator.SetFloat(hashJumpedLateralSpeed, 0);
 				animator.CrossFade(rightFoot ? "OnRightFootBlend" : "OnLeftFootBlend",
-				                   configuration.jumpTransitionTime);
+								   configuration.jumpTransitionTime);
 				lastPhysicsJumpRightRoot = rightFoot;
 			}
 			else
 			{
 				animator.SetFloat(hashJumpedLateralSpeed, motor.normalizedLateralSpeed);
 				animator.CrossFade(rightFoot ? "OnRightFoot" : "OnLeftFoot",
-				                   configuration.jumpTransitionTime);
+								   configuration.jumpTransitionTime);
 				state = AnimationState.RootMotionJump;
 			}
 
@@ -362,9 +370,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			animationNormalizedProgress = MathUtilities.GetFraction(stateInfo.normalizedTime);
 			//TODO: remove zero index
 			if (MathUtilities.Wrap1(animationNormalizedProgress +
-			                        configuration.footednessThresholdOffsetValue) >
-			    MathUtilities.Wrap1(configuration.footednessThresholdValue +
-			                        configuration.footednessThresholdOffsetValue))
+									configuration.footednessThresholdOffsetValue) >
+				MathUtilities.Wrap1(configuration.footednessThresholdValue +
+									configuration.footednessThresholdOffsetValue))
 			{
 				SetFootednessBool(!configuration.invertFoot);
 				return;
