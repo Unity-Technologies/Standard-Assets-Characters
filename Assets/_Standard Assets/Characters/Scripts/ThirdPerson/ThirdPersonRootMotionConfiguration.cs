@@ -31,7 +31,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[Header("Jumping")]
 		[SerializeField]
-		protected float jumpSpeed = 10f;
+		protected AnimationCurve jumpHeightAsAFactorOfForwardSpeed = AnimationCurve.Constant(0,1,4);
 
 		[SerializeField]
 		protected int jumpGroundVelocitySamples = 1;
@@ -88,9 +88,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected float strafeLookInputScale = 20f;
 
-		public float initialJumpVelocity
+		public AnimationCurve JumpHeightAsAFactorOfForwardSpeedAsAFactorOfSpeed
 		{
-			get { return jumpSpeed; }
+			get { return jumpHeightAsAFactorOfForwardSpeed; }
 		}
 
 		public float scaledGroundVelocity
