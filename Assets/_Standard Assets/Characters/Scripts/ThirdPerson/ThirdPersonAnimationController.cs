@@ -4,12 +4,21 @@ using Util;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
+	public enum AnimationState
+	{
+		Locomotion,
+		PhysicsJump,
+		RootMotionJump,
+		Falling,
+		Landing
+	}
 	/// <summary>
 	/// Class that sends Third Person locomotion to the Animator 
 	/// </summary>
 	[Serializable]
 	public class ThirdPersonAnimationController
 	{
+		
 		private const float k_HeadTurnSnapBackScale = 100f;
 
 		[SerializeField]
@@ -49,6 +58,9 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private float headAngle;
 		private DateTime timeSinceLastPhysicsJumpLand;
+		private float animationNormalizedProgress;
+
+		public AnimationState state { get; private set; }
 
 		public Animator unityAnimator
 		{
@@ -60,7 +72,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return animator.GetFloat(hashForwardSpeed); }
 		}
 
-		public float animatorLateralSpeed
+		private float animatorLateralSpeed
 		{
 			get { return animator.GetFloat(hashLateralSpeed); }
 		}
@@ -70,69 +82,48 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return animator.GetFloat(hashTurningSpeed); }
 		}
 
-		public float animationNormalizedProgress { get; private set; }
-
-		public float footednessNormalizedProgress
-		{
-			get
-			{
-				if (isRightFootPlanted)
-				{
-					return MathUtilities.Wrap1(
-						animationNormalizedProgress - configuration.footednessThresholdOffsetValue -
-						configuration.footednessThresholdValue);
-				}
-
-				return animationNormalizedProgress;
-			}
-		}
-
 		public bool isRightFootPlanted { get; private set; }
-
-		public bool shouldUseRootMotion { get; private set; }
-
-		public bool isRootMovement { get; private set; }
-
-		public bool isLanding { get; private set; }
-
-		private bool didPhysicsJump;
 
 		public bool canJump
 		{
-			get { return shouldUseRootMotion && !isLanding && isGrounded; }
+			get { return state == AnimationState.Locomotion && isGrounded; }
 		}
 
 		public void OnLandAnimationExit()
 		{
-			isLanding = false;
+			state = AnimationState.Locomotion;
 		}
 
 		public void OnLandAnimationEnter()
 		{
-			isLanding = true;
+			state = AnimationState.Landing;
 		}
 
 		public void OnPhysicsJumpAnimationExit()
 		{
-			isRootMovement = false;
+			if (state == AnimationState.PhysicsJump)
+			{
+				state = AnimationState.Locomotion;
+			}
 		}
 
 		public void OnPhysicsJumpAnimationEnter()
 		{
-			shouldUseRootMotion = false;
-			isRootMovement = true;
+			state = AnimationState.PhysicsJump;
 		}
 
 		public void OnLocomotionAnimationEnter()
 		{
-			didPhysicsJump = false;
-			shouldUseRootMotion = true;
+			if (state == AnimationState.RootMotionJump)
+			{
+				state = AnimationState.Locomotion;
+			}
 			animator.SetFloat(configuration.predictedFallDistanceParameterName, 0);
 		}
 
 		public void OnFallingLoopAnimationEnter()
 		{
-			didPhysicsJump = false;
+			state = AnimationState.Falling;
 		}
 
 		public void UpdateForwardSpeed(float newSpeed, float deltaTime)
@@ -176,7 +167,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			hashRapidTurn = Animator.StringToHash(configuration.rapidTurnParameterName);
 			motor = motorToUse;
 			animator = gameObject.GetComponent<Animator>();
-			shouldUseRootMotion = true;
 		}
 
 		/// <summary>
@@ -191,7 +181,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			                 CheckHasSpeed(motor.normalizedLateralSpeed));
 
 
-			if (isGrounded)
+			if (isGrounded || state == AnimationState.Falling)
 			{
 				UpdateForwardSpeed(motor.normalizedForwardSpeed, Time.deltaTime);
 				UpdateLateralSpeed(motor.normalizedLateralSpeed, Time.deltaTime);
@@ -310,10 +300,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void OnLanding()
 		{
 			isGrounded = true;
-			animator.SetBool(hashGrounded, true);
 
 			// if coming from a physics jump handle animation transition
-			if (didPhysicsJump)
+			if (state == AnimationState.PhysicsJump)
 			{
 				bool rightFoot = animator.GetBool(hashFootedness);
 				animator.CrossFade("Locomotion Blend", configuration.jumpTransitionDurationByForwardSpeed.Evaluate(
@@ -321,9 +310,9 @@ namespace StandardAssets.Characters.ThirdPerson
 					rightFoot
 						? configuration.rightFootPhysicsJumpLandAnimationOffset
 						: configuration.leftFootPhysicsJumpLandAnimationOffset);
-				didPhysicsJump = false;
 				timeSinceLastPhysicsJumpLand = DateTime.Now;
 			}
+			animator.SetBool(hashGrounded, true);
 		}
 
 		/// <summary>
@@ -353,7 +342,6 @@ namespace StandardAssets.Characters.ThirdPerson
 				animator.SetFloat(hashJumpedLateralSpeed, 0);
 				animator.CrossFade(rightFoot ? "OnRightFootBlend" : "OnLeftFootBlend",
 				                   configuration.jumpTransitionTime);
-				didPhysicsJump = true;
 				lastPhysicsJumpRightRoot = rightFoot;
 			}
 			else
@@ -361,6 +349,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				animator.SetFloat(hashJumpedLateralSpeed, motor.normalizedLateralSpeed);
 				animator.CrossFade(rightFoot ? "OnRightFoot" : "OnLeftFoot",
 				                   configuration.jumpTransitionTime);
+				state = AnimationState.RootMotionJump;
 			}
 
 			animator.SetFloat(hashFallingTime, 0);

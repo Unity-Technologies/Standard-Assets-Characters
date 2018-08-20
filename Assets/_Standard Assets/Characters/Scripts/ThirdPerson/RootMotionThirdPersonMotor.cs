@@ -149,18 +149,19 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				if (aerialState == ThirdPersonAerialMovementState.Falling)
 				{
-					cachedForwardMovement = Mathf.Lerp(cachedForwardMovement, configuration.fallingForwardSpeed *
-														Time.deltaTime * characterInput.moveInput.normalized.magnitude, 
-														configuration.fallSpeedLerp);
+					var maxFallForward = configuration.fallingForwardSpeed * Time.deltaTime;
+					cachedForwardMovement = Mathf.Lerp(cachedForwardMovement, maxFallForward * 
+					                      characterInput.moveInput.normalized.magnitude, configuration.fallSpeedLerp);
+					normalizedForwardSpeed = cachedForwardMovement / maxFallForward;
 				}
-				characterPhysics.Move(cachedForwardMovement * transform.forward * configuration.scaledGroundVelocity, Time.deltaTime);
+				characterPhysics.Move(cachedForwardMovement * transform.forward * configuration.scaledGroundVelocity, 
+					Time.deltaTime);
 			}
 		}
 
 		private bool ShouldApplyRootMotion()
 		{
-			return characterPhysics.isGrounded && animationController.shouldUseRootMotion &&
-					!animationController.isRootMovement;
+			return characterPhysics.isGrounded && animationController.state != AnimationState.PhysicsJump;
 		}
 
 		public void Init(ThirdPersonBrain brain)
@@ -583,7 +584,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <returns>True if a jump should be re-attempted</returns>
 		private bool TryJump()
 		{
-			if (movementState == ThirdPersonGroundMovementState.TurningAround || animationController.isLanding)
+			if (movementState == ThirdPersonGroundMovementState.TurningAround || 
+			    animationController.state == AnimationState.Landing)
 			{
 				return true;
 			}
