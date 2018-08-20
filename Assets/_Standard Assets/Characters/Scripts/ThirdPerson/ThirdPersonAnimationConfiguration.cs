@@ -50,6 +50,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected float skipJumpLandWindow = 0.25f;
 		
+		[Header("Landing")]
+		[SerializeField]
+		protected AnimationCurve landSpeedAsAFactorOfSpeed = AnimationCurve.Linear(0,1,1,2);
+		
 		[Header("Turning")]
 		[SerializeField]
 		protected string rapidTurnParameter = "RapidTurn";
@@ -200,6 +204,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		public float skipJumpWindow
 		{
 			get { return skipJumpLandWindow; }
+		}
+
+		public AnimationCurve landSpeedAsAFactorSpeed
+		{
+			get { return landSpeedAsAFactorOfSpeed; }
 		}
 	}
 }
