@@ -13,33 +13,6 @@ namespace Demo
 {
 	public class PlayerManager : MonoBehaviour
 	{
-		
-		
-
-		/*
-		 *
-		 
-		 [SerializeField, FormerlySerializedAs("firstPersonController")]
-		protected FirstPersonBrain firstPersonBrain;
-
-		//[SerializeField]
-		//protected GameObject[] firstPersonGameObjects, thirdPersonGameObjects;
-		
-		[SerializeField]
-		protected Text thirdPersonCameraModeText;
-
-		[SerializeField]
-		protected InputResponse changeViews;
-
-		[SerializeField]
-		protected Vector3 positionOffset;
-		
-		[SerializeField]
-		protected bool parentObjects = true;
-
-		private GameObject firstPersonParent, thirdPersonParent;
-
-		 */
 		[SerializeField]
 		protected ThirdPersonBrain thirdPersonBrain;
 
@@ -54,8 +27,8 @@ namespace Demo
 
 		private int warpPositionIndex = 0;
 
-		[SerializeField]
-		protected InputResponse warpPlayerInput;
+		[SerializeField] protected InputResponse warpPlayerInput,
+			warpPlayerPreviousInput;
 
 		[SerializeField]
 		protected GameObject thirdPersonGameObject;
@@ -69,48 +42,35 @@ namespace Demo
 		private void Awake()
 		{
 			warpPlayerInput.Init();
+			warpPlayerPreviousInput.Init();
 			
 			if (thirdPersonMode)
 			{
-				firstPersonGameObject.active = false;
-				thirdPersonGameObject.active = true;
+				firstPersonGameObject.SetActive(false);
+				thirdPersonGameObject.SetActive(true);
 				thirdPersonMainStateDrivenCamera.Priority = 10;
 				firstPersonMainStateDrivenCamera.Priority = 0;
 			}
 			else
 			{
-				firstPersonGameObject.active = true;
-				thirdPersonGameObject.active = false;
+				firstPersonGameObject.SetActive(true);
+				thirdPersonGameObject.SetActive(false);
 				thirdPersonMainStateDrivenCamera.Priority = 0;
 				firstPersonMainStateDrivenCamera.Priority = 10;
 					
 				
 			}
-			
-			/*
-			 * 
-			if (thirdPersonBrain == null)
-			{
-				thirdPersonBrain = FindObjectOfType<ThirdPersonBrain>();
-			}
-
-			if (parentObjects)
-			{
-				//SetupThirdPerson();
-				//SetupFirstPerson();
-			}
-			 */
-			
-			
 		}
-
-		
 
 		private void OnEnable()
 		{
 			if (warpPlayerInput != null)
 			{
 				warpPlayerInput.started += WarpToNextPoint;
+			}
+			if (warpPlayerPreviousInput != null)
+			{
+				warpPlayerPreviousInput.started += WarpToPreviousPoint;
 			}
 		}
 
@@ -120,161 +80,31 @@ namespace Demo
 			{
 				warpPlayerInput.started -= WarpToNextPoint;
 			}
+			if (warpPlayerPreviousInput != null)
+			{
+				warpPlayerPreviousInput.started -= WarpToPreviousPoint;
+			}
 		}
-		
+
 		void WarpToNextPoint()
 		{
-			if (warpPositionIndex >= warpPositions.Length)
+			if (++warpPositionIndex >= warpPositions.Length)
 			{
 				warpPositionIndex = 0;
 			}
-
-			thirdPersonBrain.transform.position = warpPositions[warpPositionIndex++].position;
+			thirdPersonBrain.transform.position = warpPositions[warpPositionIndex].position;
 		}
 		
-
-		/*
-		 void PrioritiseCamera(CinemachineStateDrivenCamera camera)
+		void WarpToPreviousPoint()
 		{
-			if (camera != null)
+			if (thirdPersonBrain.transform.position == warpPositions[warpPositionIndex].position)
 			{
-				camera.MoveToTopOfPrioritySubqueue();
-			}
-		}
-
-		private void Start()
-		{
-			//SetThirdPerson(false);
-		}
-		
-		 private void SetThirdPerson()
-		{
-			SetThirdPerson(true);
-		}
-
-		private void SetThirdPerson(bool setPosition)
-		{
-			//Set Third Person
-			thirdPersonParent.SetActive(true);
-			if (setPosition)
-			{
-				thirdPersonBrain.transform.position = firstPersonBrain.transform.position + positionOffset;
-				thirdPersonBrain.transform.rotation = firstPersonBrain.transform.rotation;
-			}
-
-			firstPersonParent.SetActive(false);
-
-			if (thirdPersonCameraModeText != null)
-			{
-				thirdPersonCameraModeText.gameObject.SetActive(true);
-			}
-
-			if (thirdPersonMainStateDrivenCamera != null)
-			{
-				thirdPersonMainStateDrivenCamera.MoveToTopOfPrioritySubqueue();
-			}
-		}
-
-		private void SetFirstPerson()
-		{
-			SetFirstPerson(true);
-		}
-
-		private void SetFirstPerson(bool setPosition)
-		{
-			//Set FPS
-
-			//If first person already set, then go to SetThirdPerson. 
-			if (firstPersonParent != null && firstPersonParent.activeSelf)
-			{
-				SetThirdPerson();
-				return;
-			}
-
-			thirdPersonParent.SetActive(false);
-			if (setPosition)
-			{
-				firstPersonBrain.transform.position = thirdPersonBrain.transform.position - positionOffset;
-				firstPersonBrain.transform.rotation = thirdPersonBrain.transform.rotation;
-			}
-
-			firstPersonParent.SetActive(true);
-
-			if (thirdPersonCameraModeText != null)
-			{
-				thirdPersonCameraModeText.gameObject.SetActive(false);
-			}
-
-			if (firstPersonMainStateDrivenCamera != null)
-			{
-				firstPersonMainStateDrivenCamera.MoveToTopOfPrioritySubqueue();
-			}
-		}
-
-		private void SwitchCharacter()
-		{
-			if (firstPersonParent.activeSelf)
-			{
-				SetThirdPerson();
-			}
-
-			if (thirdPersonParent.activeSelf)
-			{
-				SetFirstPerson();
-			}
-		}
-		 * private void SetupThirdPerson()
-		{
-			thirdPersonParent = SetupUnderParent("THIRD PERSON", thirdPersonGameObjects);
-		}
-
-		private void SetupFirstPerson()
-		{
-			firstPersonParent = SetupUnderParent("FIRST PERSON", firstPersonGameObjects);
-		}
-		 
-
-		private GameObject SetupUnderParent(string parentName, IEnumerable<GameObject> gameObjects)
-		{
-			var parent = new GameObject(parentName);
-			parent.transform.SetParent(transform, false);
-
-			foreach (var go in gameObjects)
-			{
-				if (go != null)
+				if (--warpPositionIndex <= 0)
 				{
-					go.transform.SetParent(parent.transform, true);
+					warpPositionIndex = warpPositions.Length - 1;
 				}
 			}
-
-			return parent;
+			thirdPersonBrain.transform.position = warpPositions[warpPositionIndex].position;
 		}
-
-		/// <summary>
-		/// This method will return the last Horizontal axis value for the
-		/// Freelook camera that was active before player changed to Frist person
-		/// </summary>
-		/// <returns></returns>
-		private float LastKnownFreeLookCamPoisition()
-		{
-			foreach (var childStateCamera in thirdPersonMainStateDrivenCamera.ChildCameras)
-			{
-				if (childStateCamera.ParentCamera.IsLiveChild(childStateCamera))
-				{
-					foreach (var childCamera in childStateCamera
-					                            .GetComponent<CinemachineStateDrivenCamera>().ChildCameras)
-					{
-						if (childCamera.ParentCamera.IsLiveChild(childCamera))
-						{
-							return childCamera.GetComponent<CinemachineFreeLook>().m_XAxis.Value;
-						}
-					}
-				}
-			}
-
-			return 0;
-		}
-	*/
-		
 	}
 }
