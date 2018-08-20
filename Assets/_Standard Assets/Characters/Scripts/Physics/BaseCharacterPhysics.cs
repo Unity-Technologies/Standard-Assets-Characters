@@ -1,8 +1,10 @@
 ﻿using System;
+using StandardAssets.Characters.CharacterInput;
 using UnityEngine;
 
 namespace StandardAssets.Characters.Physics
 {
+	[RequireComponent(typeof(ICharacterInput))]
 	public abstract class BaseCharacterPhysics : MonoBehaviour, ICharacterPhysics
 	{
 		private float gravity;
@@ -12,6 +14,12 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		[SerializeField]
 		protected float terminalVelocity = 10f;
+
+		[SerializeField, Range(1, 10)]
+		protected float fallGravityMultiplier = 2.5f;
+
+		[SerializeField, Range(1, 10)]
+		protected float minJumpHeightMultiplier = 2f;
 
 		protected bool hasMovedBeenCalled;
 		
@@ -52,6 +60,8 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		private Vector3 verticalVector = Vector3.zero;
 
+		private ICharacterInput characterInput;
+
 		/// <inheritdoc />
 		public void Move(Vector3 moveVector, float deltaTime)
 		{
@@ -75,6 +85,7 @@ namespace StandardAssets.Characters.Physics
 		
 		protected virtual void Awake()
 		{
+			characterInput = GetComponent<ICharacterInput>();
 			gravity = UnityEngine.Physics.gravity.y;
 
 			if (terminalVelocity > 0)
@@ -103,7 +114,7 @@ namespace StandardAssets.Characters.Physics
 		private void AerialMovement(float deltaTime)
 		{
 			airTime += deltaTime;
-			currentVerticalVelocity = Mathf.Clamp(initialJumpVelocity + gravity * airTime, terminalVelocity, 
+			currentVerticalVelocity = Mathf.Clamp(initialJumpVelocity + CalculateGravity() * airTime, terminalVelocity, 
 				Mathf.Infinity);
 			float previousFallTime = fallTime;
 
@@ -137,6 +148,17 @@ namespace StandardAssets.Characters.Physics
 			}
 			
 			verticalVector = new Vector3(0, currentVerticalVelocity * deltaTime, 0);
+		}
+
+		private float CalculateGravity()
+		{
+			if (currentVerticalVelocity < 0)
+			{
+				return gravity * fallGravityMultiplier;
+			}
+
+			Debug.Log(characterInput.isJumping);
+			return characterInput.isJumping ? gravity : gravity * minJumpHeightMultiplier;
 		}
 
 		public abstract float GetPredicitedFallDistance();

@@ -12,17 +12,16 @@ namespace StandardAssets.Characters.CharacterInput
 
 		[SerializeField]
 		protected string lookYAxisName = "LookY";
-		
+
 		[SerializeField]
 		protected bool useMouseLookOnly = false;
-		
+
 		public bool toggleMouseLookOnly
 		{
-			get { return useMouseLookOnly;}
+			get { return useMouseLookOnly; }
 			set { useMouseLookOnly = value; }
 		}
 
-		
 		[Header("Movement Input Axes")]
 		[SerializeField]
 		protected string horizontalAxisName = "Horizontal";
@@ -49,20 +48,18 @@ namespace StandardAssets.Characters.CharacterInput
 		/// </summary>
 		protected override void UpdateLookVector()
 		{
-			
 			if (useMouseLookOnly)
 			{
 				lookInputVector.x = Input.GetAxis(lookXAxisName);
 				lookInputVector.y = Input.GetAxis(lookYAxisName);
 				return;
 			}
-			
+
 			string lookX = LegacyCharacterInputDevicesCache.ResolveControl(lookXAxisName);
 			string lookY = LegacyCharacterInputDevicesCache.ResolveControl(lookYAxisName);
 
 			lookInputVector.x = Input.GetAxis(lookX);
 			lookInputVector.y = Input.GetAxis(lookY);
-			
 		}
 
 		protected override void UpdateMoveVector()
@@ -71,12 +68,15 @@ namespace StandardAssets.Characters.CharacterInput
 			{
 				previousMoveInputVector.Set(moveInputVector.x, moveInputVector.y);
 			}
+
 			moveInputVector.Set(Input.GetAxisRaw(horizontalAxisName), Input.GetAxisRaw(verticalAxisName));
 		}
 
 		private void UpdateJump()
 		{
-			if (Input.GetButtonDown(LegacyCharacterInputDevicesCache.ResolveControl(keyboardJumpName)) ||
+			string resolvedJumpControl = LegacyCharacterInputDevicesCache.ResolveControl(keyboardJumpName);
+
+			if (Input.GetButtonDown(resolvedJumpControl) ||
 			    Input.GetButtonDown("Jump"))
 			{
 				if (jumpPressed != null)
@@ -84,6 +84,8 @@ namespace StandardAssets.Characters.CharacterInput
 					jumpPressed();
 				}
 			}
+
+			isJumping = (Input.GetButton(resolvedJumpControl) || Input.GetButton("Jump"));
 		}
 	}
 }

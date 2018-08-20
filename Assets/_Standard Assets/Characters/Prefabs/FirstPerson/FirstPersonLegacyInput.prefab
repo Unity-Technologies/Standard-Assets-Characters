@@ -394,6 +394,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terminalVelocity: -60
+  fallGravityMultiplier: 2
+  minJumpHeightMultiplier: 1.5
   characterController:
     playerRootTransform: {fileID: 0}
     rootTransformOffset: {x: 0, y: -0.85, z: 0}
@@ -698,7 +700,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   standaloneInput: {fileID: 114864940878007130}
   mobileInput: {fileID: 114343272933886148}
-  debugOnScreenControls: 1
+  debugOnScreenControls: 0
 --- !u!114 &114501385933726858
 MonoBehaviour:
   m_ObjectHideFlags: 1
