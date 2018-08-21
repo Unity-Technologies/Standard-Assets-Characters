@@ -195,7 +195,7 @@ GameObject:
   - component: {fileID: 114373860247929458}
   - component: {fileID: 114501385933726858}
   m_Layer: 11
-  m_Name: FirstPersonLegacyInput
+  m_Name: FirstPerson
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -405,7 +405,7 @@ MonoBehaviour:
     minMoveDistance: 0
     center: {x: 0, y: 0, z: 0}
     radius: 0.2
-    height: 1
+    height: 2
     addKinematicRigidbody: 1
     addColliderAsAChild: 1
     colliderLayer: 
@@ -726,10 +726,10 @@ MonoBehaviour:
     startingMovementEventLibrary: {fileID: 0}
     walkDistanceThreshold: 0.7
     footIds:
-    - leftfoot
-    - rightfoot
-    jumpId: jumping
-    landingId: landing
+    - firstperson_leftfoot
+    - firstperson_rightfoot
+    jumpId: firstperson_jumping
+    landingId: firstperson_landing
   cameraAnimations: {fileID: 0}
 --- !u!114 &114511472910135796
 MonoBehaviour:

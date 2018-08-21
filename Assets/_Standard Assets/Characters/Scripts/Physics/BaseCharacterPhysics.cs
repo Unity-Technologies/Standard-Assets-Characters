@@ -66,6 +66,7 @@ namespace StandardAssets.Characters.Physics
 		public void Move(Vector3 moveVector, float deltaTime)
 		{
 			hasMovedBeenCalled = true;
+			isGrounded = CheckGrounded();
 			AerialMovement(deltaTime);
 			MoveCharacter(moveVector + verticalVector);
 		}
@@ -138,8 +139,7 @@ namespace StandardAssets.Characters.Physics
 				}
 			}
 			
-			
-			if (previousFallTime < Mathf.Epsilon && fallTime > Mathf.Epsilon)
+			if (Mathf.Approximately(previousFallTime, 0.0f) && fallTime > Mathf.Epsilon)
 			{
 				if (startedFalling != null)
 				{
