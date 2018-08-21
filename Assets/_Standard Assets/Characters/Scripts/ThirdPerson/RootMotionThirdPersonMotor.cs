@@ -176,7 +176,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private bool ShouldApplyRootMotion()
 		{
-			return characterPhysics.isGrounded && animationController.state != AnimationState.PhysicsJump;
+			return IsGrounded && animationController.state != AnimationState.PhysicsJump;
 		}
 
 		public void Init(ThirdPersonBrain brain)
