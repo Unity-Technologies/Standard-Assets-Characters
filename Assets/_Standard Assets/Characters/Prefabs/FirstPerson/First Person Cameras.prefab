@@ -342,6 +342,12 @@ MonoBehaviour:
     m_MinValue: -90
     m_MaxValue: 90
     m_Wrap: 0
+    m_Recentering:
+      m_enabled: 0
+      m_WaitTime: 1
+      m_RecenteringTime: 2
+      m_LegacyHeadingDefinition: -1
+      m_LegacyVelocityFilterStrength: -1
   m_VerticalRecentering:
     m_enabled: 0
     m_WaitTime: 1
@@ -359,6 +365,12 @@ MonoBehaviour:
     m_MinValue: -180
     m_MaxValue: 180
     m_Wrap: 1
+    m_Recentering:
+      m_enabled: 0
+      m_WaitTime: 1
+      m_RecenteringTime: 2
+      m_LegacyHeadingDefinition: -1
+      m_LegacyVelocityFilterStrength: -1
   m_HorizontalRecentering:
     m_enabled: 0
     m_WaitTime: 1
@@ -423,6 +435,12 @@ MonoBehaviour:
     m_MinValue: -90
     m_MaxValue: 90
     m_Wrap: 0
+    m_Recentering:
+      m_enabled: 0
+      m_WaitTime: 1
+      m_RecenteringTime: 2
+      m_LegacyHeadingDefinition: -1
+      m_LegacyVelocityFilterStrength: -1
   m_VerticalRecentering:
     m_enabled: 0
     m_WaitTime: 1
@@ -440,6 +458,12 @@ MonoBehaviour:
     m_MinValue: -180
     m_MaxValue: 180
     m_Wrap: 1
+    m_Recentering:
+      m_enabled: 0
+      m_WaitTime: 1
+      m_RecenteringTime: 2
+      m_LegacyHeadingDefinition: -1
+      m_LegacyVelocityFilterStrength: -1
   m_HorizontalRecentering:
     m_enabled: 0
     m_WaitTime: 1
@@ -488,6 +512,14 @@ MonoBehaviour:
     m_VirtualCamera: {fileID: 114235209446783920}
     m_ActivateAfter: 0
     m_MinDuration: 0
+  - m_FullHash: -2065082259
+    m_VirtualCamera: {fileID: 114315841940656950}
+    m_ActivateAfter: 0
+    m_MinDuration: 0
+  - m_FullHash: -350224702
+    m_VirtualCamera: {fileID: 114744966150285354}
+    m_ActivateAfter: 0
+    m_MinDuration: 0
   m_DefaultBlend:
     m_Style: 1
     m_Time: 0.5
@@ -525,7 +557,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 55
+    FieldOfView: 60
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -593,6 +625,12 @@ MonoBehaviour:
     m_MinValue: -90
     m_MaxValue: 90
     m_Wrap: 0
+    m_Recentering:
+      m_enabled: 0
+      m_WaitTime: 1
+      m_RecenteringTime: 2
+      m_LegacyHeadingDefinition: -1
+      m_LegacyVelocityFilterStrength: -1
   m_VerticalRecentering:
     m_enabled: 0
     m_WaitTime: 1
@@ -610,6 +648,12 @@ MonoBehaviour:
     m_MinValue: -180
     m_MaxValue: 180
     m_Wrap: 1
+    m_Recentering:
+      m_enabled: 0
+      m_WaitTime: 1
+      m_RecenteringTime: 2
+      m_LegacyHeadingDefinition: -1
+      m_LegacyVelocityFilterStrength: -1
   m_HorizontalRecentering:
     m_enabled: 0
     m_WaitTime: 1
