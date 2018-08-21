@@ -93,7 +93,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		public void OnLandAnimationExit()
 		{
 			state = AnimationState.Locomotion;
-			animator.speed = cachedAnimatorSpeed;
 		}
 
 		public void OnLandAnimationEnter()
@@ -121,6 +120,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				state = AnimationState.Locomotion;
 			}
 			animator.SetFloat(configuration.predictedFallDistanceParameterName, 0);
+			animator.speed = cachedAnimatorSpeed;
 		}
 
 		public void OnFallingLoopAnimationEnter()
@@ -183,7 +183,7 @@ namespace StandardAssets.Characters.ThirdPerson
 							 CheckHasSpeed(motor.normalizedLateralSpeed));
 
 
-			if (isGrounded || state == AnimationState.Falling)
+			if ((isGrounded || state == AnimationState.Falling) && state != AnimationState.Landing)
 			{
 				UpdateForwardSpeed(motor.normalizedForwardSpeed, Time.deltaTime);
 				UpdateLateralSpeed(motor.normalizedLateralSpeed, Time.deltaTime);

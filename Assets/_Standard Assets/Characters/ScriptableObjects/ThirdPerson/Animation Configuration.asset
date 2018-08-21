@@ -58,6 +58,30 @@ MonoBehaviour:
   jumpedForwardSpeedParameter: JumpedForwardSpeed
   predictedFallDistanceParameter: PredictedFallDistance
   skipJumpLandWindow: 0.25
+  landSpeedAsAFactorOfSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.25
+      inSlope: 1.1152011
+      outSlope: 1.1152011
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.2603272
+    - serializedVersion: 3
+      time: 1
+      value: 1.8
+      inSlope: 0.060443066
+      outSlope: 0.060443066
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.52030915
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   rapidTurnParameter: RapidTurn
   footednessParameter: OnRightFoot
   invertFootedness: 0
