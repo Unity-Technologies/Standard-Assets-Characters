@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Timers;
 using Cinemachine;
 using StandardAssets.Characters.CharacterInput;
@@ -11,6 +11,11 @@ namespace StandardAssets.Characters.ThirdPerson
 	[Serializable]
 	public class RootMotionThirdPersonMotor : IThirdPersonMotor
 	{
+		/// <summary>
+		/// Track distance above the ground at these frame intervals (to prevent checking every frame)
+		/// </summary>
+		private const int k_TrackGroundFrameIntervals = 5;
+		
 		//Serialized Fields
 		[SerializeField]
 		protected ThirdPersonRootMotionConfiguration configuration;
@@ -79,6 +84,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		private GameObject gameObject;
 		private ThirdPersonBrain thirdPersonBrain;
 		private SizedQueue<Vector2> previousInputs;
+		
+		/// <summary>
+		/// Track height above the ground?
+		/// </summary>
+		private bool trackGroundHeight;
 
 		public TurnaroundBehaviour currentTurnaroundBehaviour
 		{
@@ -128,6 +138,11 @@ namespace StandardAssets.Characters.ThirdPerson
 					fallStarted(distance);
 				}
 			}
+		}
+
+		private bool IsGrounded
+		{
+			get { return aerialState == ThirdPersonAerialMovementState.Grounded; }
 		}
 
 		//Unity Messages
@@ -273,6 +288,42 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				jumpQueued = TryJump();
 			}
+
+			if (trackGroundHeight)
+			{
+				UpdateTrackGroundHeight();
+			}
+		}
+
+		/// <summary>
+		/// Track height above ground when the physics character is in the air, but the animation has not yet changed to the fall animation.
+		/// </summary>
+		private void UpdateTrackGroundHeight()
+		{
+			if (aerialState == ThirdPersonAerialMovementState.Grounded && 
+			    !characterPhysics.isGrounded)
+			{
+				if (Time.frameCount % k_TrackGroundFrameIntervals == 0)
+				{
+					var baseCharacterPhysics = characterPhysics as BaseCharacterPhysics;
+					if (baseCharacterPhysics != null)
+					{
+						float distance = baseCharacterPhysics.GetPredicitedFallDistance();
+						if (distance > configuration.maxFallDistanceToLand)
+						{
+							OnStartedFalling(distance);
+						}
+					}
+					else
+					{
+						trackGroundHeight = false;
+					}
+				}
+			}
+			else
+			{
+				trackGroundHeight = false;
+			}
 		}
 
 		//Protected Methods
@@ -303,8 +354,10 @@ namespace StandardAssets.Characters.ThirdPerson
 			// check if far enough from ground to enter fall state
 			if (predictedFallDistance < configuration.maxFallDistanceToLand)
 			{
+				trackGroundHeight = true;
 				return;
 			}
+			trackGroundHeight = false;
 			
 			if (aerialState == ThirdPersonAerialMovementState.Grounded)
 			{
@@ -418,12 +471,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			Quaternion targetRotation = CalculateTargetRotation();
 			targetYRotation = targetRotation.eulerAngles.y;
 
-			if (characterPhysics.isGrounded && CheckForAndHandleRapidTurn(targetRotation))
+			if (IsGrounded && CheckForAndHandleRapidTurn(targetRotation))
 			{
 				return;
 			}
 
-			float turnSpeed = characterPhysics.isGrounded
+			float turnSpeed = IsGrounded
 				? configuration.turningYSpeed
 				: configuration.jumpTurningYSpeed;
 
@@ -461,7 +514,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			normalizedForwardSpeed = actionAverageForwardInput.average;
 
 			// evaluate if current forward speed should be recorded for jump speed
-			if (!characterPhysics.isGrounded || !animationController.canJump || 
+			if (!IsGrounded || !animationController.canJump || 
 			    movementState == ThirdPersonGroundMovementState.TurningAround)
 			{
 				return;
@@ -589,7 +642,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				return true;
 			}
-			if (!characterPhysics.isGrounded || characterPhysics.startedSlide || !animationController.canJump)
+			if (!IsGrounded || characterPhysics.startedSlide || !animationController.canJump)
 			{
 				return false;
 			}

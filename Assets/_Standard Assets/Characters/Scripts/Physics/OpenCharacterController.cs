@@ -417,12 +417,41 @@ namespace StandardAssets.Characters.Physics
 		public float GetPredicitedFallDistance()
 		{
 			RaycastHit groundHit;
-			bool hit = UnityEngine.Physics.Raycast(GetFootWorldPosition(),
-			                                       Vector3.down,
-			                                       out groundHit,
-			                                       float.MaxValue,
-			                                       GetCollisionLayerMask());
-			return hit? groundHit.distance : float.MaxValue;
+			float distance = float.MaxValue;
+			
+			if (localHumanControlled)
+			{
+				// More accurate cast for human controlled character
+				if (SmallSphereCast(Vector3.down,
+				                    float.MaxValue,
+				                    out groundHit,
+				                    Vector3.zero,
+				                    true))
+				{
+					distance = Mathf.Max(groundHit.distance - GetSkinWidth(), 0.0f);
+				}
+				else if (BigSphereCast(Vector3.down,
+				                         float.MaxValue,
+				                         out groundHit,
+				                         Vector3.up * k_CollisionOffset,
+				                         true))
+				{
+					distance = Mathf.Max(groundHit.distance - k_CollisionOffset, 0.0f);
+				}
+			}
+			else
+			{
+				if (UnityEngine.Physics.Raycast(GetFootWorldPosition(),
+				                                Vector3.down,
+				                                out groundHit,
+				                                float.MaxValue,
+				                                GetCollisionLayerMask()))
+				{
+					distance = groundHit.distance;
+				}
+			}
+			
+			return distance;
 		}
 
 		/// <summary>
@@ -741,6 +770,13 @@ namespace StandardAssets.Characters.Physics
 			Gizmos.DrawLine(footPosition + Vector3.back * scaledRadius,
 			                footPosition + Vector3.forward * scaledRadius);
 
+			if (enableDebug)
+			{
+				// Big capsule collider
+				GizmosHelper.DrawCapsule(GetTopSphereWorldPosition(), GetBottomSphereWorldPosition(), 
+				                         scaledRadius + skinWidth, new Color(1.0f, 1.0f, 0.0f, 0.2f));
+			}
+
 			CapsuleCollider tempCapsuleCollider = capsuleCollider;
 			if (tempCapsuleCollider == null)
 			{
@@ -756,10 +792,6 @@ namespace StandardAssets.Characters.Physics
 			// Draw capsule collider
 			GizmosHelper.DrawCapsule(GetTopSphereWorldPosition(), GetBottomSphereWorldPosition(), 
 			                         scaledRadius, Color.green);
-			
-			// Big capsule collider
-			GizmosHelper.DrawCapsule(GetTopSphereWorldPosition(), GetBottomSphereWorldPosition(), 
-			                         scaledRadius + skinWidth, new Color(1.0f, 1.0f, 0.0f, 0.1f));
 		}
 		#endif
 		
@@ -960,6 +992,16 @@ namespace StandardAssets.Characters.Physics
 				                             out hitinfo,
 				                             Vector3.zero, 
 				                             true);
+				// Extra test for human controlled character
+				if (!isGrounded &&
+				    localHumanControlled)
+				{
+					isGrounded = BigSphereCast(Vector3.down, 
+					                             GetSkinWidth() + k_GroundedTestDistance + k_CollisionOffset, 
+					                             out hitinfo,
+					                             Vector3.up * k_CollisionOffset, 
+					                             true);
+				}
 			}
 			
 			if (onGroundedChanged != null &&
@@ -1146,18 +1188,10 @@ namespace StandardAssets.Characters.Physics
 			}
 			
 			float tempStepOffset = GetStepOffset();
-			
-			// Any obstacles above?
 			float upDistance = Mathf.Max(tempStepOffset, k_MinStepOffsetHeight);
-			if (SmallSphereCast(Vector3.up, GetSkinWidth() + upDistance, out hitInfo, Vector3.zero, false) ||
-			    BigSphereCast(Vector3.up, upDistance, out hitInfo, Vector3.zero, false))
-			{
-				return false;
-			}
 			
-			// We only step over obstacles if we can fully fit on it (i.e. the capsule's diameter)
-			float diameter = scaledRadius * 2.0f;
-			Vector3 horizontal = moveVector * diameter;
+			// We only step over obstacles if we can partially fit on it (i.e. fit the capsule's radius)
+			Vector3 horizontal = moveVector * scaledRadius;
 			float horizontalSize = horizontal.magnitude;
 			horizontal.Normalize();
 			
