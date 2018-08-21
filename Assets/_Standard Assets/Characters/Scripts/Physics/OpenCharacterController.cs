@@ -661,7 +661,7 @@ namespace StandardAssets.Characters.Physics
 		/// <returns></returns>
 		public Vector3 GetFootWorldPosition()
 		{
-			return cachedTransform.position + scaledCenter + (Vector3.down * (scaledHeight / 2.0f + skinWidth));
+			return cachedTransform.position + scaledCenter + (Vector3.down * (scaledHeight * 0.5f + skinWidth));
 		}
 
 		/// <summary>
