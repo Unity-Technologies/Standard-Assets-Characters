@@ -31,6 +31,18 @@ namespace StandardAssets.Characters.Physics
 		public float airTime { get; private set; }
 		public float fallTime { get; private set; }
 
+		protected abstract Vector3 footWorldPosition { get; }
+		protected abstract LayerMask collisionLayerMask { get; }
+		
+		private const int k_TranjectorySteps = 60;
+		private readonly Collider[] trajectoryPredicitonColliders = new Collider[1];
+		
+		protected Vector3? predictedLandingPosition;
+#if UNITY_EDITOR
+		private readonly Vector3[] jumpSteps = new Vector3[k_TranjectorySteps];
+		private int jumpStepCount;
+#endif
+
 		public float normalizedVerticalSpeed
 		{
 			get
@@ -54,6 +66,8 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		/// <returns></returns>
 		protected float currentVerticalVelocity;
+
+		protected Vector3 cachedMoveVector;
 		
 		/// <summary>
 		/// The current vertical vector
@@ -69,6 +83,17 @@ namespace StandardAssets.Characters.Physics
 			isGrounded = CheckGrounded();
 			AerialMovement(deltaTime);
 			MoveCharacter(moveVector + verticalVector);
+			cachedMoveVector = moveVector;
+		}
+		
+		/// <summary>
+		/// Calculates the current predicted fall distance based on the predicted landing position
+		/// </summary>
+		/// <returns>The predicted fall distance</returns>
+		public float GetPredicitedFallDistance()
+		{
+			return predictedLandingPosition == null ? float.MaxValue : 
+				footWorldPosition.y - ((Vector3)predictedLandingPosition).y;
 		}
 
 		/// <summary>
@@ -95,6 +120,40 @@ namespace StandardAssets.Characters.Physics
 			}
 		}
 		
+		protected void UpdatePredictedLandingPosition(float deltaTime)
+		{
+			Vector3 currentPosition = footWorldPosition;
+			Vector3 currentVelocity = cachedMoveVector;
+			float currentAirTime = airTime;
+			for (int i = 0; i < k_TranjectorySteps; i++)
+			{
+				currentVelocity.y = Mathf.Clamp(initialJumpVelocity + CalculateGravity() * currentAirTime,
+												terminalVelocity, Mathf.Infinity) * deltaTime;
+				currentPosition += currentVelocity;
+				currentAirTime += deltaTime;
+#if UNITY_EDITOR
+				jumpSteps[i] = currentPosition;
+#endif
+				// check for collision
+				int colliderCount = UnityEngine.Physics.OverlapSphereNonAlloc(currentPosition, 0.05f,
+																			  trajectoryPredicitonColliders,
+																			  collisionLayerMask);
+				if (colliderCount > 0)
+				{
+#if UNITY_EDITOR
+					// for gizmos
+					jumpStepCount = i;
+#endif
+					predictedLandingPosition = currentPosition;
+					return;
+				}
+			}
+#if UNITY_EDITOR
+			jumpStepCount = k_TranjectorySteps;
+#endif
+			predictedLandingPosition = null;
+		}
+		
 		/// <summary>
 		/// Handle falling physics
 		/// </summary>
@@ -107,6 +166,13 @@ namespace StandardAssets.Characters.Physics
 				MoveCharacter(verticalVector);
 			}
 			hasMovedBeenCalled = false;
+
+			// TODO currently this is not required to be called every update. It is only required as fall is started.
+			// If (When?) a better judgement of landing is required it would need to be here.
+			if (!isGrounded)
+			{
+				UpdatePredictedLandingPosition(Time.fixedDeltaTime);
+			}
 		}
 		
 		/// <summary>
@@ -159,11 +225,24 @@ namespace StandardAssets.Characters.Physics
 
 			return characterInput.isJumping ? gravity : gravity * minJumpHeightMultiplier;
 		}
-
-		public abstract float GetPredicitedFallDistance();
 		
 		protected abstract bool CheckGrounded();
 
 		protected abstract void MoveCharacter(Vector3 movement);
+		
+#if UNITY_EDITOR
+		protected virtual void OnDrawGizmosSelected()
+		{
+			for (int index = 0; index < jumpStepCount - 1; index++)
+			{
+				Gizmos.DrawLine(jumpSteps[index], jumpSteps[index+1]);
+			}
+			Gizmos.color = Color.green;
+			if (predictedLandingPosition != null)
+			{
+				Gizmos.DrawSphere((Vector3)predictedLandingPosition, 0.05f);
+			}
+		}
+#endif
 	}
 }

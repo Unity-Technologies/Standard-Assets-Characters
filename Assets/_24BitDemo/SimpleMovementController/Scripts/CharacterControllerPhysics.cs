@@ -33,19 +33,25 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 			get { return false; }
 		}
 
+		protected override Vector3 footWorldPosition
+		{
+			get
+			{
+				return transform.position + characterController.center -
+					   new Vector3(0, characterController.height * 0.5f);
+			}
+		}
+
+		protected override LayerMask collisionLayerMask
+		{
+			get { return groundCheckMask; }
+		}
+
 		protected override void Awake()
 		{
 			//Gets the attached character controller
 			characterController = GetComponent<CharacterController>();
 			base.Awake();
-		}
-
-		public override float GetPredicitedFallDistance()
-		{
-			RaycastHit rayCaseHit;
-			return UnityEngine.Physics.Raycast( transform.position + characterController.center, -transform.up, 
-												out rayCaseHit, float.MaxValue, groundCheckMask) 
-				? rayCaseHit.distance : float.MaxValue;
 		}
 
 		/// <summary>
