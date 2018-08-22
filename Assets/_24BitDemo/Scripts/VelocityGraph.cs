@@ -6,6 +6,17 @@ namespace Demo
 {
 	public class VelocityGraph : MonoBehaviour
 	{
+		protected enum Velocity
+		{
+			Movement,
+			Forward,
+			Vertical,
+			Lateral
+		}
+
+		[SerializeField]
+		protected Velocity direction;
+		
 		[SerializeField]
 		protected int numberBars = 240;
 
@@ -34,8 +45,23 @@ namespace Demo
 		private void Update()
 		{
 			Vector3 currentPosition = transform.position;
-			deltaPosition = lastPosition - currentPosition;
-			speed = deltaPosition.magnitude / Time.deltaTime;
+			deltaPosition = currentPosition - lastPosition;
+			switch (direction)
+			{
+				case Velocity.Movement:
+					speed = deltaPosition.magnitude;
+					break;
+				case Velocity.Forward:
+					speed = deltaPosition.GetMagnitudeOnAxis(transform.forward);
+					break;
+				case Velocity.Vertical:
+					speed = deltaPosition.GetMagnitudeOnAxis(transform.up);
+					break;
+				case Velocity.Lateral:
+					speed = deltaPosition.GetMagnitudeOnAxis(transform.right);
+					break;
+			}
+			speed /= Time.deltaTime;
 			deltas.Add(speed);
 			if (deltas.Count >= numberBars)
 			{
