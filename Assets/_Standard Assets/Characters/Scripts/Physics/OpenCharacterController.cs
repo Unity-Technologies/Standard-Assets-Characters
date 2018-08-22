@@ -413,47 +413,6 @@ namespace StandardAssets.Characters.Physics
 			}
 		}
 
-		/// <inheritdoc />
-		public float GetPredicitedFallDistance()
-		{
-			RaycastHit groundHit;
-			float distance = float.MaxValue;
-			
-			if (localHumanControlled)
-			{
-				// More accurate cast for human controlled character
-				if (SmallSphereCast(Vector3.down,
-				                    float.MaxValue,
-				                    out groundHit,
-				                    Vector3.zero,
-				                    true))
-				{
-					distance = Mathf.Max(groundHit.distance - GetSkinWidth(), 0.0f);
-				}
-				else if (BigSphereCast(Vector3.down,
-				                         float.MaxValue,
-				                         out groundHit,
-				                         Vector3.up * k_CollisionOffset,
-				                         true))
-				{
-					distance = Mathf.Max(groundHit.distance - k_CollisionOffset, 0.0f);
-				}
-			}
-			else
-			{
-				if (UnityEngine.Physics.Raycast(GetFootWorldPosition(),
-				                                Vector3.down,
-				                                out groundHit,
-				                                float.MaxValue,
-				                                GetCollisionLayerMask()))
-				{
-					distance = groundHit.distance;
-				}
-			}
-			
-			return distance;
-		}
-
 		/// <summary>
 		/// Move the character. This function does not apply any gravity.
 		/// </summary>

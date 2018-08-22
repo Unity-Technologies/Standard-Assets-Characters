@@ -33,6 +33,11 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 			get { return false; }
 		}
 
+		public override float radius
+		{
+			get { return characterController.radius; }
+		}
+
 		protected override Vector3 footWorldPosition
 		{
 			get

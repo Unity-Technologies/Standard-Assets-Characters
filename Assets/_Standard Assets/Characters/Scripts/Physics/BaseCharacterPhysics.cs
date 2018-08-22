@@ -25,6 +25,7 @@ namespace StandardAssets.Characters.Physics
 		
 		public bool isGrounded { get; private set; }
 		public abstract bool startedSlide { get; }
+		public abstract float radius { get; }
 		public Action landed { get; set; }
 		public Action jumpVelocitySet { get; set; }
 		public Action<float> startedFalling { get; set; }
@@ -134,11 +135,7 @@ namespace StandardAssets.Characters.Physics
 #if UNITY_EDITOR
 				jumpSteps[i] = currentPosition;
 #endif
-				// check for collision
-				int colliderCount = UnityEngine.Physics.OverlapSphereNonAlloc(currentPosition, 0.05f,
-																			  trajectoryPredicitonColliders,
-																			  collisionLayerMask);
-				if (colliderCount > 0)
+				if (IsGroundCollision(currentPosition))
 				{
 #if UNITY_EDITOR
 					// for gizmos
@@ -152,6 +149,15 @@ namespace StandardAssets.Characters.Physics
 			jumpStepCount = k_TranjectorySteps;
 #endif
 			predictedLandingPosition = null;
+		}
+
+		private bool IsGroundCollision(Vector3 position)
+		{
+			// move sphere but to match bottom of character's capsule collider
+			int colliderCount = UnityEngine.Physics.OverlapSphereNonAlloc(position + new Vector3(0, radius, 0),
+																		  radius, trajectoryPredicitonColliders,
+																		  collisionLayerMask);
+			return colliderCount > 0;
 		}
 		
 		/// <summary>
