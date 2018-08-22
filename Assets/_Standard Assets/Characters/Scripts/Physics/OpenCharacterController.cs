@@ -320,11 +320,6 @@ namespace StandardAssets.Characters.Physics
 		/// Surface normal of the last collision while moving down.
 		/// </summary>
 		private Vector3? downCollisionNormal;
-
-		/// <summary>
-		/// Collider of the last collision while moving down.
-		/// </summary>
-		private Collider downCollisionCollider;
 		
 		/// <summary>
 		/// Stuck info.
@@ -876,7 +871,6 @@ namespace StandardAssets.Characters.Physics
 			collisionFlags = CollisionFlags.None;
 			collisionInfoDictionary.Clear();
 			downCollisionNormal = null;
-			downCollisionCollider = null;
 			
 			// Stop sliding down slopes when character jumps
 			if (moveVector.y > 0.0f &&
@@ -1280,6 +1274,7 @@ namespace StandardAssets.Characters.Physics
 
 			if (vertical.y > 0.0f)
 			{
+				// Up
 				if (horizontal.x.NotEqualToZero() || 
 				    horizontal.z.NotEqualToZero())
 				{
@@ -1295,6 +1290,7 @@ namespace StandardAssets.Characters.Physics
 			}
 			else if (vertical.y < 0.0f)
 			{
+				// Down
 				if (horizontal.x.NotEqualToZero() || 
 				    horizontal.z.NotEqualToZero())
 				{
@@ -1329,6 +1325,7 @@ namespace StandardAssets.Characters.Physics
 			}
 			else
 			{
+				// Horizontal
 				if (doStepOffset &&
 				    CanStepOffset(horizontal))
 				{
@@ -1705,7 +1702,6 @@ namespace StandardAssets.Characters.Physics
 			{
 				// This is used by the sliding down slopes
 				downCollisionNormal = hitNormal;
-				downCollisionCollider = hitCollider;
 			}
 		}
 		
