@@ -39,6 +39,8 @@ namespace StandardAssets.Characters.CharacterInput
 			get { return moveInput != Vector2.zero; }
 		}
 
+		public bool isJumping { get; protected set; }
+
 		public Action jumpPressed
 		{
 			get { return jumped; }
@@ -48,7 +50,6 @@ namespace StandardAssets.Characters.CharacterInput
 		private void OnEnable()
 		{
 			CinemachineCore.GetInputAxis = LookInputOverride;
-			
 		}
 		
 		/// <summary>

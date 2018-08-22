@@ -142,7 +142,7 @@ InputManager:
     altNegativeButton: 
     altPositiveButton: 
     gravity: 0
-    dead: 0.25
+    dead: 0.15
     sensitivity: 1
     snap: 0
     invert: 0
@@ -158,7 +158,7 @@ InputManager:
     altNegativeButton: 
     altPositiveButton: 
     gravity: 0
-    dead: 0.25
+    dead: 0.15
     sensitivity: 1
     snap: 0
     invert: 1
@@ -1547,6 +1547,22 @@ InputManager:
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: m
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 1000
+    dead: 0.2
+    sensitivity: 1000
+    snap: 0
+    invert: 0
+    type: 0
+    axis: 0
+    joyNum: 0
+  - serializedVersion: 3
+    m_Name: WarpPlayerPrevious
+    descriptiveName: Warp Player to previous transform
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: n
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1000

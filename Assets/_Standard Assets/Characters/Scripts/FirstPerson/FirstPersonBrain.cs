@@ -68,6 +68,8 @@ namespace StandardAssets.Characters.FirstPerson
 
 		protected FirstPersonMovementProperties[] allMovement;
 
+		public FirstPersonMovementProperties newMovementProperties;
+
 		/// <summary>
 		/// The current motor state - controls how the character moves in different states
 		/// </summary>
@@ -138,6 +140,8 @@ namespace StandardAssets.Characters.FirstPerson
 			{
 				movementProperties.enterState += SetAnimation;
 			}
+
+			characterPhysics.landed += OnLanded;
 		}
 
 		/// <summary>
@@ -156,7 +160,25 @@ namespace StandardAssets.Characters.FirstPerson
 			foreach (FirstPersonMovementProperties movementProperties in allMovementProperties)
 			{
 				movementProperties.enterState -= SetAnimation;
-			}	
+			}
+			
+			characterPhysics.landed -= OnLanded;
+		}
+		
+		private void OnLanded()
+		{
+			SetNewMovementProperties();
+		}
+
+		private void SetNewMovementProperties()
+		{
+			if (currentMovementProperties != null)
+			{
+				currentMovementProperties.ExitState();
+			}
+
+			currentMovementProperties = newMovementProperties;
+			currentMovementProperties.EnterState();
 		}
 
 		/// <summary>
@@ -226,7 +248,7 @@ namespace StandardAssets.Characters.FirstPerson
 			Vector3 forward = transform.forward * input.y;
 			Vector3 sideways = transform.right * input.x;
 			
-			characterPhysics.Move((forward + sideways) * currentSpeed * Time.deltaTime);
+			characterPhysics.Move((forward + sideways) * currentSpeed * Time.fixedDeltaTime, Time.fixedDeltaTime);
 
 			previouslyHasInput = characterInput.hasMovementInput;
 		}	
@@ -267,14 +289,13 @@ namespace StandardAssets.Characters.FirstPerson
 			{
 				return;
 			}
-			
-			if (currentMovementProperties != null)
-			{
-				currentMovementProperties.ExitState();
-			}
 
-			currentMovementProperties = newState;
-			currentMovementProperties.EnterState();
+			newMovementProperties = newState;
+			
+			if (characterPhysics.isGrounded)
+			{
+				SetNewMovementProperties();
+			}
 		}
 
 		/// <summary>

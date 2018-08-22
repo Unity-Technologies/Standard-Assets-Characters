@@ -31,7 +31,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[Header("Jumping")]
 		[SerializeField]
-		protected float jumpSpeed = 10f;
+		protected AnimationCurve jumpHeightAsAFactorOfForwardSpeed = AnimationCurve.Constant(0,1,4);
 
 		[SerializeField]
 		protected int jumpGroundVelocitySamples = 1;
@@ -41,6 +41,9 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[SerializeField]
 		protected float jumpTurningSpeedScale = 0.5f;
+		
+		[SerializeField]
+		protected int postPhyicsJumpFramesToIgnoreForwardSpeed = 10;
 
 		[Header("Standing Jump")]
 		[SerializeField]
@@ -55,6 +58,9 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[SerializeField]
 		protected float fallForwardSpeedLerp = 0.05f;
+		
+		[SerializeField, Tooltip("A fall distance higher than this will trigger a fall animation")]
+		protected float maxFallDistance = 1;
 
 		[Header("Turning")]
 		[SerializeField]
@@ -82,12 +88,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected float strafeLookInputScale = 20f;
 
-		[SerializeField, Tooltip("A fall distance higher than this will trigger a fall animation")]
-		protected float maxFallDistance = 1;
-
-		public float initialJumpVelocity
+		public AnimationCurve JumpHeightAsAFactorOfForwardSpeedAsAFactorOfSpeed
 		{
-			get { return jumpSpeed; }
+			get { return jumpHeightAsAFactorOfForwardSpeed; }
 		}
 
 		public float scaledGroundVelocity
@@ -208,6 +211,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		public float standingJumpMaxMovementThreshold
 		{
 			get { return maxMovementThreshold; }
+		}
+
+		public int postPhyicsJumpFramesToIgnoreForward
+		{
+			get { return postPhyicsJumpFramesToIgnoreForwardSpeed; }
 		}
 	}
 }

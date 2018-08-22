@@ -15,6 +15,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			public string name;
 			public float speed = 1;
+			public float headTurnScale = 1;
 			[HideInInspector]
 			public float duration;
 
@@ -26,13 +27,11 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[SerializeField] 
 		protected AnimationInfo runLeftTurn = new AnimationInfo("RunForwardTurnLeft180"),
-								runRightTurn = new AnimationInfo("RunForwardTurnRight180_Mirror"),
-								sprintLeftTurn = new AnimationInfo("RunForwardTurnLeft180"),
-								sprintRightTurn = new AnimationInfo("RunForwardTurnRight180_Mirror"),
-								idleLeftTurn = new AnimationInfo("IdleTurnLeft180"),
-								idleRightTurn = new AnimationInfo("IdleTurnRight180_Mirror");
-
-		private const int k_AnimationCount = 6;
+			runRightTurn = new AnimationInfo("RunForwardTurnRight180_Mirror"),
+			sprintLeftTurn = new AnimationInfo("RunForwardTurnLeft180"),
+			sprintRightTurn = new AnimationInfo("RunForwardTurnRight180_Mirror"),
+			idleLeftTurn = new AnimationInfo("IdleTurnLeft180"),
+			idleRightTurn = new AnimationInfo("IdleTurnRight180_Mirror");
 
 		[SerializeField] 
 		protected AnimationCurve rotationCurve = AnimationCurve.Linear(0, 0, 1, 1);
@@ -41,12 +40,12 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected float normalizedRunSpeedThreshold = 0.1f,
 						crossfadeDuration = 0.125f;
 
-		private bool isTransitioning;
 		private float animationTime,
-					targetAngle,
-					cachedAnimatorSpeed;
-		private Vector3 startRotation;
+			targetAngle,
+			cachedAnimatorSpeed,
+			cacheForwardSpeed;
 		
+		private Quaternion startRotation;
 		private AnimationInfo current;
 		private ThirdPersonAnimationController animationController;
 		private Transform transform;
@@ -65,6 +64,14 @@ namespace StandardAssets.Characters.ThirdPerson
 			return forwardSpeed <= 1 ? runLeftTurn : sprintLeftTurn;
 		}
 
+		public override float headTurnScale
+		{
+			get
+			{
+				return current == null ? 1 : current.headTurnScale;
+			}
+		}
+
 		public override void Init(ThirdPersonBrain brain)
 		{
 			animationController = brain.animationControl;
@@ -77,26 +84,17 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				return;
 			}
-			if (isTransitioning)
-			{
-				var transitionTime = animator.GetAnimatorTransitionInfo(0).duration;
-				if (transitionTime <= 0)
-				{
-					EndTurnAround();
-				}
-				return;
-			}
-			
-			animationTime += Time.deltaTime * current.speed;
-			var rotation = rotationCurve.Evaluate(animationTime / current.duration);
-			Vector3 newRotation = startRotation + new Vector3(0, rotation * targetAngle, 0);
-			transform.rotation = Quaternion.Euler(newRotation);
 
+			animationController.UpdateForwardSpeed(cacheForwardSpeed, float.MaxValue);
+			animationTime += Time.deltaTime * current.speed;
+			var rotationProgress = rotationCurve.Evaluate(animationTime / current.duration);
+			transform.rotation = Quaternion.AngleAxis(rotationProgress * targetAngle, Vector3.up) * startRotation;
 			// animation complete, blending to locomotion
 			if(animationTime >= current.duration)
 			{
 				animator.speed = cachedAnimatorSpeed;
-				isTransitioning = true;
+				
+				EndTurnAround();
 			}
 		}
 
@@ -111,6 +109,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected override void FinishedTurning()
 		{
+
 		}
 
 		protected override void StartTurningAround(float angle)
@@ -119,14 +118,14 @@ namespace StandardAssets.Characters.ThirdPerson
 			current = GetCurrent(animationController.animatorForwardSpeed, angle > 0,
 				!animationController.isRightFootPlanted);
 
-			startRotation = transform.eulerAngles;
+			startRotation = transform.rotation;
 			animator.CrossFade(current.name, crossfadeDuration, 0, 0);
 			animationTime = 0;
 
 			cachedAnimatorSpeed = animator.speed;
 			animator.speed = current.speed;
 
-			isTransitioning = false;
+			cacheForwardSpeed = animationController.animatorForwardSpeed;
 		}
 
 		private AnimationInfo GetCurrent(float forwardSpeed, bool turningRight, bool leftPlanted)
@@ -153,7 +152,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 		
 #if UNITY_EDITOR
+		private const int k_AnimationCount = 6;
 		private int turnsFound;
+
 		// Validate the durations of the turn animations
 		public void OnValidate(Animator animator)
 		{

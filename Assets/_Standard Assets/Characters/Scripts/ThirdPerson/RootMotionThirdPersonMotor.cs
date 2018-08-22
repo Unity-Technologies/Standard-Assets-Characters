@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Timers;
 using Cinemachine;
 using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Physics;
@@ -10,14 +11,11 @@ namespace StandardAssets.Characters.ThirdPerson
 	[Serializable]
 	public class RootMotionThirdPersonMotor : IThirdPersonMotor
 	{
+		/// <summary>
+		/// Track distance above the ground at these frame intervals (to prevent checking every frame)
+		/// </summary>
+		private const int k_TrackGroundFrameIntervals = 5;
 		
-		//Strafe Camera
-		[SerializeField]
-		protected CinemachineFreeLook strafeFreeLookCamera;
-		
-		//Events
-		public event Action startActionMode, startStrafeMode;
-
 		//Serialized Fields
 		[SerializeField]
 		protected ThirdPersonRootMotionConfiguration configuration;
@@ -77,18 +75,24 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected SlidingAverage actionAverageForwardInput, strafeAverageForwardInput, strafeAverageLateralInput;
 
+		private float turnaroundMovementTime;
+		private int postLandFramesToIgnore;
 		private bool isTurningIntoStrafe,
 					 jumpQueued;
-		protected Transform transform;
-		protected GameObject gameObject;
-		protected ThirdPersonBrain thirdPersonBrain;
-		protected float turnaroundMovementTime;
 
-		protected SizedQueue<Vector2> previousInputs;
+		private Transform transform;
+		private GameObject gameObject;
+		private ThirdPersonBrain thirdPersonBrain;
+		private SizedQueue<Vector2> previousInputs;
+		
+		/// <summary>
+		/// Track height above the ground?
+		/// </summary>
+		private bool trackGroundHeight;
 
-		protected bool isStrafing
+		public TurnaroundBehaviour currentTurnaroundBehaviour
 		{
-			get { return movementMode == ThirdPersonMotorMovementMode.Strafe; }
+			get { return thirdPersonBrain.turnaround; }
 		}
 
 		public float normalizedVerticalSpeed
@@ -102,6 +106,16 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 		
 		public bool sprint { get; private set; }
+
+		public ThirdPersonGroundMovementState currentGroundMovementState
+		{
+			get { return movementState; }
+		}
+
+		public ThirdPersonAerialMovementState currentAerialMovementState
+		{
+			get { return aerialState; }
+		}
 
 		public void OnJumpAnimationComplete()
 		{
@@ -126,12 +140,17 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
+		private bool IsGrounded
+		{
+			get { return aerialState == ThirdPersonAerialMovementState.Grounded; }
+		}
+
 		//Unity Messages
 		public void OnAnimatorMove()
 		{
 			if (movementState == ThirdPersonGroundMovementState.TurningAround)
 			{
-				characterPhysics.Move(thirdPersonBrain.turnaround.GetMovement());
+				characterPhysics.Move(thirdPersonBrain.turnaround.GetMovement(), Time.deltaTime);
 				return;
 			}
 
@@ -139,24 +158,25 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
 				groundMovementVector.y = 0;
-				characterPhysics.Move(groundMovementVector);
+				characterPhysics.Move(groundMovementVector, Time.deltaTime);
 			}
 			else
 			{
 				if (aerialState == ThirdPersonAerialMovementState.Falling)
 				{
-					cachedForwardMovement = Mathf.Lerp(cachedForwardMovement, configuration.fallingForwardSpeed *
-														Time.deltaTime * characterInput.moveInput.normalized.magnitude, 
-														configuration.fallSpeedLerp);
+					var maxFallForward = configuration.fallingForwardSpeed * Time.deltaTime;
+					cachedForwardMovement = Mathf.Lerp(cachedForwardMovement, maxFallForward * 
+					                      characterInput.moveInput.normalized.magnitude, configuration.fallSpeedLerp);
+					normalizedForwardSpeed = cachedForwardMovement / maxFallForward;
 				}
-				characterPhysics.Move(cachedForwardMovement * transform.forward * configuration.scaledGroundVelocity);
+				characterPhysics.Move(cachedForwardMovement * transform.forward * configuration.scaledGroundVelocity, 
+					Time.deltaTime);
 			}
 		}
 
 		private bool ShouldApplyRootMotion()
 		{
-			return characterPhysics.isGrounded && animationController.shouldUseRootMotion &&
-					!animationController.isRootMovement;
+			return IsGrounded && animationController.state != AnimationState.PhysicsJump;
 		}
 
 		public void Init(ThirdPersonBrain brain)
@@ -268,6 +288,42 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				jumpQueued = TryJump();
 			}
+
+			if (trackGroundHeight)
+			{
+				UpdateTrackGroundHeight();
+			}
+		}
+
+		/// <summary>
+		/// Track height above ground when the physics character is in the air, but the animation has not yet changed to the fall animation.
+		/// </summary>
+		private void UpdateTrackGroundHeight()
+		{
+			if (aerialState == ThirdPersonAerialMovementState.Grounded && 
+			    !characterPhysics.isGrounded)
+			{
+				if (Time.frameCount % k_TrackGroundFrameIntervals == 0)
+				{
+					var baseCharacterPhysics = characterPhysics as BaseCharacterPhysics;
+					if (baseCharacterPhysics != null)
+					{
+						float distance = baseCharacterPhysics.GetPredicitedFallDistance();
+						if (distance > configuration.maxFallDistanceToLand)
+						{
+							OnStartedFalling(distance);
+						}
+					}
+					else
+					{
+						trackGroundHeight = false;
+					}
+				}
+			}
+			else
+			{
+				trackGroundHeight = false;
+			}
 		}
 
 		//Protected Methods
@@ -277,7 +333,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected virtual void OnLanding()
 		{
 			aerialState = ThirdPersonAerialMovementState.Grounded;
-			//cachedForwardMovement = 0f;
+
+			if (!characterInput.hasMovementInput)
+			{
+				averageForwardMovement.Clear();
+			}
 
 			if (landed != null)
 			{
@@ -291,13 +351,21 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <param name="predictedFallDistance"></param>
 		protected virtual void OnStartedFalling(float predictedFallDistance)
 		{
+			// check if far enough from ground to enter fall state
+			if (predictedFallDistance < configuration.maxFallDistanceToLand)
+			{
+				trackGroundHeight = true;
+				return;
+			}
+			trackGroundHeight = false;
+			
 			if (aerialState == ThirdPersonAerialMovementState.Grounded)
 			{
 				cachedForwardMovement = averageForwardMovement.average;
 			}
-
+			
 			aerialState = ThirdPersonAerialMovementState.Falling;
-
+			
 			if (fallStarted != null)
 			{
 				fallStarted(predictedFallDistance);
@@ -322,13 +390,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				return;
 			}
 			
-			if (startStrafeMode != null)
-			{
-				startStrafeMode();
-			}
-
 			movementMode = ThirdPersonMotorMovementMode.Strafe;
-
 			isTurningIntoStrafe = true;
 		}
 
@@ -337,11 +399,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		protected virtual void OnStrafeEnded()
 		{
-			if (startActionMode != null)
-			{
-				startActionMode();
-			}
-
 			movementMode = ThirdPersonMotorMovementMode.Action;
 		}
 
@@ -407,18 +464,19 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (!characterInput.hasMovementInput)
 			{
 				normalizedTurningSpeed = 0;
+				targetYRotation = transform.eulerAngles.y;
 				return;
 			}
 
 			Quaternion targetRotation = CalculateTargetRotation();
 			targetYRotation = targetRotation.eulerAngles.y;
 
-			if (characterPhysics.isGrounded && CheckForAndHandleRapidTurn(targetRotation))
+			if (IsGrounded && CheckForAndHandleRapidTurn(targetRotation))
 			{
 				return;
 			}
 
-			float turnSpeed = characterPhysics.isGrounded
+			float turnSpeed = IsGrounded
 				? configuration.turningYSpeed
 				: configuration.jumpTurningYSpeed;
 
@@ -432,32 +490,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected virtual void SetStartStrafeLookDirection()
 		{
-			Vector3 cameraForward = thirdPersonBrain.bearingOfCharacter.CalculateCharacterBearing();
-
-			Quaternion targetRotation = Quaternion.LookRotation(cameraForward);
-			
-			// TODO hack to fix camera spin
-			transform.rotation = targetRotation;
-			isTurningIntoStrafe = false;
-			//
-			
-			targetYRotation = MathUtilities.Wrap180(targetRotation.eulerAngles.y);
-
-			if (useRapidTurnForStrafeTransition && CheckForAndHandleRapidTurn(targetRotation))
-			{
-				return;
-			}
-
-			Quaternion newRotation = Quaternion.RotateTowards(transform.rotation, targetRotation,
-															  configuration.turningYSpeed * Time.deltaTime);
-			SetTurningSpeed(transform.rotation, newRotation);
-
-			if (transform.rotation == targetRotation)
-			{
-				isTurningIntoStrafe = false;
-			}
-
-			transform.rotation = newRotation;
+			SetStrafeLookDirection();
 		}
 
 		protected virtual void CalculateForwardMovement()
@@ -480,18 +513,24 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			normalizedForwardSpeed = actionAverageForwardInput.average;
 
-			
-			
-			if (characterPhysics.isGrounded && !animationController.isRootMovement)
+			// evaluate if current forward speed should be recorded for jump speed
+			if (!IsGrounded || !animationController.canJump || 
+			    movementState == ThirdPersonGroundMovementState.TurningAround)
 			{
-				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
-				groundMovementVector.y = 0;
-	
-				float value = groundMovementVector.GetMagnitudeOnAxis(transform.forward);
+				return;
+			}
+
+			if (postLandFramesToIgnore <= 0)
+			{
+				var value = GetCurrentGroundForwardMovementSpeed();
 				if (value > 0)
 				{
 					averageForwardMovement.Add(value);
 				}
+			}
+			else
+			{
+				postLandFramesToIgnore--;
 			}
 		}
 
@@ -598,11 +637,12 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <returns>True if a jump should be re-attempted</returns>
 		private bool TryJump()
 		{
-			if (movementState == ThirdPersonGroundMovementState.TurningAround)
+			if (movementState == ThirdPersonGroundMovementState.TurningAround || 
+			    animationController.state == AnimationState.Landing)
 			{
 				return true;
 			}
-			if (!characterPhysics.isGrounded || characterPhysics.startedSlide || !animationController.canJump)
+			if (!IsGrounded || characterPhysics.startedSlide || !animationController.canJump)
 			{
 				return false;
 			}
@@ -612,15 +652,23 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (Mathf.Abs(normalizedLateralSpeed) <= normalizedForwardSpeed && normalizedForwardSpeed >=0)
 			{
 				if (characterInput.moveInput.magnitude > configuration.standingJumpMinInputThreshold && 
-				    animator.deltaPosition.magnitude <= configuration.standingJumpMaxMovementThreshold)
+				    animator.deltaPosition.magnitude <= configuration.standingJumpMaxMovementThreshold * Time.deltaTime)
 				{
-					cachedForwardMovement = configuration.standingJumpSpeed;
+					cachedForwardMovement = configuration.standingJumpSpeed * Time.deltaTime * Time.timeScale;
+					normalizedForwardSpeed = 1;
 				}
 				else
 				{
-					cachedForwardMovement = averageForwardMovement.average;
+					cachedForwardMovement =  Mathf.Min(averageForwardMovement.average, 
+						GetCurrentGroundForwardMovementSpeed());
 				}
-				characterPhysics.SetJumpVelocity(configuration.initialJumpVelocity);
+
+				if (!Mathf.Approximately(cachedForwardMovement, 0) && !Mathf.Approximately(normalizedForwardSpeed, 0))
+				{
+ 					postLandFramesToIgnore = configuration.postPhyicsJumpFramesToIgnoreForward;
+				}
+				characterPhysics.SetJumpVelocity(
+					configuration.JumpHeightAsAFactorOfForwardSpeedAsAFactorOfSpeed.Evaluate(normalizedForwardSpeed));
 			}
 			
 			if (jumpStarted != null)
@@ -628,6 +676,12 @@ namespace StandardAssets.Characters.ThirdPerson
 				jumpStarted();
 			}
 			return false;
+		}
+
+		private float GetCurrentGroundForwardMovementSpeed()
+		{
+			return (animator.deltaPosition * configuration.scaleRootMovement).
+				GetMagnitudeOnAxis(transform.forward) * Time.timeScale;
 		}
 	}
 }

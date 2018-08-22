@@ -37,5 +37,10 @@ namespace Util
 		{
 			values.Add(newValue);
 		}
+
+		public void Clear()
+		{
+			values.Clear();
+		}
 	}
 }

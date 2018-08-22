@@ -12,6 +12,7 @@ namespace StandardAssets.Characters.CharacterInput
 		Vector2 moveInput { get; }
 		Vector2 previousNonZeroMoveInput { get; }
 		bool hasMovementInput { get; }
+		bool isJumping { get; }
 		Action jumpPressed { get; set; }
 	}
 }

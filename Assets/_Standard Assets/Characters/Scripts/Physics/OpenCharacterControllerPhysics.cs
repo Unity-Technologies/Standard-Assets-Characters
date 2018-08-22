@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace StandardAssets.Characters.Physics
 {
@@ -6,11 +6,6 @@ namespace StandardAssets.Characters.Physics
 	{
 		[SerializeField]
 		protected OpenCharacterController characterController;
-		
-		public override float GetPredicitedFallDistance()
-		{
-			return characterController.GetPredicitedFallDistance();
-		}
 
 		public OpenCharacterController GetOpenCharacterController()
 		{
@@ -20,6 +15,16 @@ namespace StandardAssets.Characters.Physics
 		public override bool startedSlide
 		{
 			get { return characterController.startedSlide; }
+		}
+
+		protected override Vector3 footWorldPosition
+		{
+			get { return characterController.GetFootWorldPosition(); }
+		}
+
+		protected override LayerMask collisionLayerMask
+		{
+			get { return characterController.GetCollisionLayerMask(); }
 		}
 
 		protected override void Awake()
@@ -61,8 +66,9 @@ namespace StandardAssets.Characters.Physics
 		}
 		
 		#if UNITY_EDITOR
-		private void OnDrawGizmosSelected()
+		protected override void OnDrawGizmosSelected()
 		{
+			base.OnDrawGizmosSelected();
 			characterController.OnDrawGizmosSelected(transform);
 		}
 		#endif

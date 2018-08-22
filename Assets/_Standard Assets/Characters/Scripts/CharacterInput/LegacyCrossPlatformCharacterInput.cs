@@ -51,6 +51,11 @@ namespace StandardAssets.Characters.CharacterInput
 			get { return currentInput.hasMovementInput; }
 		}
 
+		public bool isJumping
+		{
+			get { return currentInput.isJumping; }
+		}
+
 		public Action jumpPressed
 		{
 			get { return currentInput.jumpPressed; }
