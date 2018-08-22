@@ -1,31 +1,112 @@
-///Scenes:
-* ThirdPersonLegacy: testbed for setting up the third person character
-* FirstPersonLegacy: testbed for setting up the first person character
-* ProbuilderScene00: the prototype environment
 
-///Third Person Setup:
-ThirdPersonAnimationController: dependency of IThirdPersonMotor. Sends normalized values exposed on IThirdPersonMotor to the Animator via configurable named paramaters. Allows the animation setup to be agnostic of who is controlling the character:
-* ThirdPersonMotor: player controlled
-* NavMeshThirdPersonMotor: AI controlled
+# Standard Assets: Character Package
 
-Can switch out the physics and input components:
-* ThirdPersonMotor - implements IThirdPersonMotor, the main controller which maps inputs (dependency of ICharacterInput) to physical movement (dependency on ICharacterPhysics) via root motion (OnAnimatorMove). There is an optional dependency on TurnaroundBehaviour which allows us to swap out realistic animation turnarounds, blendspace turnarounds or responsive animation turnarounds.
-* Physics:
-	- OpenCharacterController: a C# functional analog of the Unity C++ CharacterController. Requires CharacterCapsule and CharacterCapsuleMover components.
-	- OpenCharacterControllerPhysics: the implementation of ICharacterPhysics that uses the OpenCharacterController
-* Input:
-	- LegacyCrossPlatformCharacterInput: the implementation of ICharacterInput that selects and setups onscreen controls for mobile, and mouse/keyboard/gamepad inputs for PC/OSX builds.
-* TurnaroundBehaviour:
-	- BlendspaceTurnaroundBehaviour: turns the character 180 (or the angle it receives from the ThirdPersonMotor) around over a specified time, while conditioning the values of turning speed and forward speed in the ThirdPersonAnimationController.
-	- AnimationTurnaroundBehaviour: WIP. turns the character using the animation and crossfade..
+## Overview
 
-Movement Event Components:
-For more detail on movement events see below.
-* MovementEventListener: uses the footfall events to play particles for footfalls
-* ColliderMovementEventBroadcaster: sends events for each footfall using colliders on the feet. an example implementation of the generic MovementEventBroadcaster
+This repository contains the new **Standard Assets Character Controller Package**, consisting of both code to drive a more advanced version of First and Third Person Characters than the old Standard Assets Character, as well as a demo scene and setup for Character prototyping purposes and example setup of First and Third Person Characters.
 
-//Movement Events:
-A system for broadcasting various 
+For more detailed documentation, please see the WIP Google Doc:  
+	***ALEC TO LINK TO***
 
 
+
+## Notable Content
+
+	/Assets/_24BitDemo/
+	
+* Contains test / throwaway assets for use during the development phase of the project
+
+#
+
+	/Assets/_Standard Assets/Characters/
+	
+* Contains all code, models, and animation assets and related items for the logic of the First and Third Person Character Controllers
+
+#
+
+	/Assets/_Standard Assets/Prototyping/
+	
+* Contains the assets for the Pro Builder protoyping environment built to demonstrate the Character Controllers in
+
+#
+
+	/Assets/_Standard Assets/Characters/Exmpales/SimpleMovementController
+	
+* Contains an example scene and demonstration scripts for setting up a simple custom Third Person Movement Controller using both the Default Unity Character Controller as well as the new C# Open Character Controller
+
+#
+
+
+
+## Scenes
+
+	/Assets/_Standard Assets/Prototyping/Scenes/Protoland
+
+* Main prototyping and demo scene for the Character Controller project
+
+#
+
+	/Assets/_Standard Assets/Characters/Exmpales/SimpleMovementController/Scenes/SimpleMovementController
+
+* Example scene to demonstrate a simple custom character controller using both the Default Unity Character Controller as well as the new C# Open Character Controller
+
+
+
+## Character Controller Setup Instructions
+
+### Base Setup:
+	1) Drag in InputManager prefab
+	2) Drag in Main Camera prefab
+
+
+### First Person Controller:
+	1) Drag in First Person Cameras prefab
+	2) Drag in FirstPerson prefab
+	3) Select First Person Cameras
+		a) On the Cinemachine State Driven Camera, drag FirstPerson onto the Follow property		
+	4) Select FirstPerson
+		a) On the First Person Brain, drag First Person Cameras onto the Camera Animations property
+
+
+### Third Person Controller:
+	1) Drag in Third Person Cameras prefab
+	2) Drag in MaleThirdPerson prefab
+	3) Select Third Person Cameras
+		a) On the Cinemachine State Driven Camera, drag MaleThirdPerson onto the Follow and Look At properties
+	4) Select FreeLook Camera under Third Person Cameras
+		a) On the Cinemachine State Driven Camera, drag MaleThirdPerson to the Animated Target property
+	5) Repeat above step for Strafe under MaleThirdPerson
+	6) Select MaleThirdPerson
+		a) On the Third Person Brain, drag Third Person Cameras onto the Camera Animation Manager property
+
+
+### Demo Scene (optional, for dev testing purposes):
+	1) Drag in PlayerManager and Select it
+		a) Drag Current Camera Text onto the Third Person Camera Mode Text property
+		b) Drag MaleThirdPerson onto the Third Person Brain property, as well as under the List of Third Person Game Objects
+		c) Drag FirstPersonLegacyInput onto the First Person Brain property, as well as under the List of First Person Game Objects
+		d) Drag Third Person Camaeras onto the Third Person Main State Driven Camera property
+		e) Drag Third Person Camaeras onto the Third Person Main State Driven Camera property
+
+
+
+## Camera Setup Overview
+
+	1) It is all located in the Protoland scene under:
+		* Characters -> ThirdPerson -> Third Person Cameras
+	2) There are 2 State Driven Camera camera setups:
+		* Forward-Unlocked Transposing, called *Exploration* for ESL understanding
+			* This has Freelook Cameras set up for Idle, Run, and Sprint states
+		* Forward-Locked Rectilinear, called *Strafe* for ESL understanding
+			* This only has a single Freelook Camera set up for the Strafe state
+	3) A simple *Third Person Camera Animation Manager* component exists on the *Third Person Cameras* GameObject.  
+		* It is designd to control how the cameras recieve input as well as for tracking all of the various cameras in the scene that the character controller can use (as well as the starting one), with the idea that this can also help handle any potential additional logic with the transitions between the cameras.
+	4) A quick overview of the properties on this Camera Manager is as follows:
+		* Starting Camera Mode:  Use this change whether you start is free look or strafe
+		* Camera Mode Input:  Will be used to change from Free Look to Strafe and vice versa, at run-time
+		* Camera Toggle Input:  Used to switch between cameras in a specific mode (Strafe: strafe to aim)
+		* Free Look Camera Objects:  GameObjects that are enabled when switching to Free Look mode. e.g. custom UI
+		* Strafe Camera Objects:  GameObjects that are enabled when switching to Strafe mode. e.g. crosshair
+		* Free Look Camera States:  States on the animator for the different Free Look Camera modes.
+		* Strafe Camera States:  States on the animator for the different Strafe Camera modes (e.g. rectilinear aiming, orbiting target)
 
