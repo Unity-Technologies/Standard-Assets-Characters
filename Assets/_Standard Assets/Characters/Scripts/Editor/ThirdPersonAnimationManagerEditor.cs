@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using StandardAssets.Characters.ThirdPerson;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
-using EditorHelpers = StandardAssets.Editor.EditorHelpers;
 
-namespace StandardAssets._Standard_Assets.Characters.Scripts.Editor
+namespace Editor
 {
 	[CustomEditor(typeof(ThirdPersonCameraAnimationManager))]
 	public class ThirdPersonAnimationManagerEditor : UnityEditor.Editor
@@ -22,9 +20,6 @@ namespace StandardAssets._Standard_Assets.Characters.Scripts.Editor
 		private ThirdPersonCameraAnimationManager manager;
 		private Animator animator;
 		private AnimatorController controller;
-
-		// used for NewItem popup:
-		private string newItem = string.Empty;
 
 		public override void OnInspectorGUI()
 		{

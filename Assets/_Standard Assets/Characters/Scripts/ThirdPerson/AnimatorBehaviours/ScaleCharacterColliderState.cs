@@ -26,7 +26,7 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 	{
 		// If true, use the current state's normalizeTime value (ideally, not looped animations),
 		// otherwise, we will use our own time.
-		[SerializeField] bool normalizeTime = false;
+		[SerializeField] bool useNormalizedTime = false;
 		
 		/// <summary>
 		/// Adjusts the speed in which the collider changes size.
@@ -34,13 +34,12 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 		/// a speed of 2 takes half a second.
 		/// </summary>
 		// Speed is is used when we are not using animation's time.
-		[SerializeField, ConditionalInclude("normalizeTime", false)]
+		[SerializeField, ConditionalInclude("useNormalizedTime", false)]
 		private float speed = 2;
 		 
 		// We are using curve only for normalized time from the animation,
 		// but for looping animations it is useless (looping collider size...).
-		[HelperBox(HelperType.Info, "TEST TEST")]
-		[SerializeField, ConditionalInclude("normalizeTime", true)]
+		[SerializeField, ConditionalInclude("useNormalizedTime", true)]
 		private AnimationCurve curve = new AnimationCurve()
 		{ 
 			keys = new Keyframe[]
@@ -67,9 +66,6 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 		// (allows another state behavior to use the last state of the collider)
 		[SerializeField] bool resetOnExit = true;
 		
-	
-		
-	
 		/// <summary>
 		/// Using own time as normalized time seems to be looping.
 		/// </summary>
@@ -121,13 +117,13 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 				return;
 			}
 	  
-			time = normalizeTime 
+			time = useNormalizedTime 
 				? stateInfo.normalizedTime
 				: Mathf.Clamp01(time + (Time.deltaTime * speed));
 	
 			currentScale 		= Mathf.Lerp(entryScale, heightScale, curve.Evaluate(time));
 			float height 		= currentScale * controller.GetHeight();
-			float offset 		= Mathf.Lerp(entryOffset, Center(height), normalizeTime ? curve.Evaluate(time) : time);
+			float offset 		= Mathf.Lerp(entryOffset, Center(height), useNormalizedTime ? curve.Evaluate(time) : time);
 			bodyCollider.center = new Vector3(0, offset, 0);
 			bodyCollider.height = height; 
 		}
