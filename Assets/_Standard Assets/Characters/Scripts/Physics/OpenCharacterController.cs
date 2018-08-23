@@ -182,9 +182,9 @@ namespace StandardAssets.Characters.Physics
 		private float minMoveDistance = 0.0f;
 
 		/// <summary>
-		/// This will offset the Capsule Collider in world space, and won’t affect how the Character pivots.
+		/// This will offset the Capsule Collider in world space, and won’t affect how the Character pivots. Ideally, x and z should be zero.
 		/// </summary>
-		[Tooltip("This will offset the Capsule Collider in world space, and won’t affect how the Character pivots.")]
+		[Tooltip("This will offset the Capsule Collider in world space, and won’t affect how the Character pivots. Ideally, x and z should be zero.")]
 		[DisableAtRuntime]
 		[SerializeField]
 		public Vector3 center;
@@ -371,17 +371,13 @@ namespace StandardAssets.Characters.Physics
 		/// How long has character been sliding down a steep slope? (Zero means not busy sliding.)
 		/// </summary>
 		public float slidingDownSlopeTime { get; private set; }
-		
+
 		/// <summary>
-		/// The capsule center with the relevant scaling applied (e.g. if object scale is not 1,1,1)
+		/// The capsule center with scaling and rotation applied (e.g. if object scale is not 1,1,1)
 		/// </summary>
-		public Vector3 scaledCenter
+		public Vector3 transformedCenter
 		{
-			get
-			{
-				Vector3 scale = cachedTransform.lossyScale;
-				return new Vector3(center.x * scale.x, center.y * scale.y, center.z * scale.z);
-			}
+			get { return cachedTransform.TransformVector(center); }
 		}
 
 		/// <summary>
@@ -615,7 +611,7 @@ namespace StandardAssets.Characters.Physics
 		/// <returns></returns>
 		public Vector3 GetFootWorldPosition()
 		{
-			return cachedTransform.position + scaledCenter + (Vector3.down * (scaledHeight * 0.5f + skinWidth));
+			return cachedTransform.position + transformedCenter + (Vector3.down * (scaledHeight * 0.5f + skinWidth));
 		}
 
 		/// <summary>
@@ -645,7 +641,7 @@ namespace StandardAssets.Characters.Physics
 		public Vector3 GetTopSphereWorldPosition()
 		{
 			Vector3 sphereOffsetY = Vector3.up * (scaledHeight / 2.0f - scaledRadius);
-			return cachedTransform.position + scaledCenter + sphereOffsetY;
+			return cachedTransform.position + transformedCenter + sphereOffsetY;
 		}
 
 		/// <summary>
@@ -655,7 +651,7 @@ namespace StandardAssets.Characters.Physics
 		public Vector3 GetBottomSphereWorldPosition()
 		{
 			Vector3 sphereOffsetY = Vector3.up * (scaledHeight / 2.0f - scaledRadius);
-			return cachedTransform.position + scaledCenter - sphereOffsetY;
+			return cachedTransform.position + transformedCenter - sphereOffsetY;
 		}
 
 		/// <summary>
@@ -664,7 +660,7 @@ namespace StandardAssets.Characters.Physics
 		/// <returns></returns>
 		public Vector3 GetCapsuleWorldPosition()
 		{
-			return cachedTransform.position + scaledCenter;
+			return cachedTransform.position + transformedCenter;
 		}
 		
 		/// <summary>
