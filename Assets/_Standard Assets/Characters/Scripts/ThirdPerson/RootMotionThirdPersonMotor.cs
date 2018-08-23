@@ -41,7 +41,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public float targetYRotation { get; private set; }
 		
-		public float cachedForwardMovement { get; protected set; }
+		public float cachedForwardVelocity { get; protected set; }
 
 		public Action jumpStarted { get; set; }
 		public Action landed { get; set; }
@@ -71,7 +71,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected ThirdPersonAerialMovementState aerialState = ThirdPersonAerialMovementState.Grounded;
 
-		protected SlidingAverage averageForwardMovement;
+		protected SlidingAverage averageForwardVelocity;
 
 		protected SlidingAverage actionAverageForwardInput, strafeAverageForwardInput, strafeAverageLateralInput;
 
@@ -164,14 +164,22 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				if (aerialState == ThirdPersonAerialMovementState.Falling)
 				{
-					var maxFallForward = configuration.fallingForwardSpeed * Time.deltaTime;
-					cachedForwardMovement = Mathf.Lerp(cachedForwardMovement, maxFallForward * 
-					                      characterInput.moveInput.normalized.magnitude, configuration.fallSpeedLerp);
-					normalizedForwardSpeed = cachedForwardMovement / maxFallForward;
+					CalculateFallForwardSpeed();
 				}
-				characterPhysics.Move(cachedForwardMovement * transform.forward * configuration.scaledGroundVelocity, 
+				characterPhysics.Move(cachedForwardVelocity * Time.deltaTime * transform.forward * configuration.scaledGroundVelocity, 
 					Time.deltaTime);
 			}
+		}
+
+		private void CalculateFallForwardSpeed()
+		{
+			float maxFallForward = configuration.fallingForwardSpeed;
+			float target = maxFallForward * Mathf.Clamp01(characterInput.moveInput.magnitude);
+			float time = cachedForwardVelocity > target
+				? configuration.fallSpeedDeceleration
+				: configuration.fallSpeedAcceleration;
+			cachedForwardVelocity = Mathf.Lerp(cachedForwardVelocity, target, time);
+			normalizedForwardSpeed = cachedForwardVelocity / maxFallForward;
 		}
 
 		private bool ShouldApplyRootMotion()
@@ -188,7 +196,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			characterPhysics = brain.physicsForCharacter;
 			animator = gameObject.GetComponent<Animator>();
 			animationController = brain.animationControl;
-			averageForwardMovement = new SlidingAverage(configuration.jumpGroundVelocityWindowSize);
+			averageForwardVelocity = new SlidingAverage(configuration.jumpGroundVelocityWindowSize);
 			actionAverageForwardInput = new SlidingAverage(configuration.forwardInputWindowSize);
 			strafeAverageForwardInput = new SlidingAverage(configuration.strafeInputWindowSize);
 			strafeAverageLateralInput = new SlidingAverage(configuration.strafeInputWindowSize);
@@ -336,7 +344,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			if (!characterInput.hasMovementInput)
 			{
-				averageForwardMovement.Clear();
+				averageForwardVelocity.Clear();
 			}
 
 			if (landed != null)
@@ -361,7 +369,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			if (aerialState == ThirdPersonAerialMovementState.Grounded)
 			{
-				cachedForwardMovement = averageForwardMovement.average;
+				cachedForwardVelocity = averageForwardVelocity.average;
 			}
 			
 			aerialState = ThirdPersonAerialMovementState.Falling;
@@ -522,10 +530,10 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			if (postLandFramesToIgnore <= 0)
 			{
-				var value = GetCurrentGroundForwardMovementSpeed();
-				if (value > 0)
+				float movementVelocity = GetCurrentGroundForwardMovementSpeed();
+				if (movementVelocity > 0)
 				{
-					averageForwardMovement.Add(value);
+					averageForwardVelocity.Add(movementVelocity);
 				}
 			}
 			else
@@ -596,7 +604,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (ShouldTurnAround(out angle, target))
 			{
 				turnaroundMovementTime = 0f;
-				cachedForwardMovement = averageForwardMovement.average;
+				cachedForwardVelocity = averageForwardVelocity.average;
 				preTurnMovementState = movementState;
 				movementState = ThirdPersonGroundMovementState.TurningAround;
 				thirdPersonBrain.turnaround.TurnAround(angle);
@@ -620,7 +628,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			foreach (Vector2 previousInputsValue in previousInputs.values)
 			{
 				angle = MathUtilities.Wrap180(Vector2Utilities.Angle(previousInputsValue, characterInput.moveInput));
-				var deltaMagnitude = Mathf.Abs(previousInputsValue.magnitude - characterInput.moveInput.magnitude);
+				float deltaMagnitude = Mathf.Abs(previousInputsValue.magnitude - characterInput.moveInput.magnitude);
 				if (Mathf.Abs(angle) > configuration.inputAngleRapidTurn && deltaMagnitude < 0.25f)
 				{
 					previousInputs.Clear();
@@ -652,18 +660,21 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (Mathf.Abs(normalizedLateralSpeed) <= normalizedForwardSpeed && normalizedForwardSpeed >=0)
 			{
 				if (characterInput.moveInput.magnitude > configuration.standingJumpMinInputThreshold && 
-				    animator.deltaPosition.magnitude <= configuration.standingJumpMaxMovementThreshold * Time.deltaTime)
+				    animator.deltaPosition.GetMagnitudeOnAxis(transform.forward) <= 
+				    configuration.standingJumpMaxMovementThreshold * Time.deltaTime)
 				{
-					cachedForwardMovement = configuration.standingJumpSpeed * Time.deltaTime * Time.timeScale;
+					cachedForwardVelocity = configuration.standingJumpSpeed;
 					normalizedForwardSpeed = 1;
+					
+					Debug.Log(cachedForwardVelocity);
 				}
 				else
 				{
-					cachedForwardMovement =  Mathf.Min(averageForwardMovement.average, 
+					cachedForwardVelocity =  Mathf.Min(averageForwardVelocity.average, 
 						GetCurrentGroundForwardMovementSpeed());
 				}
 
-				if (!Mathf.Approximately(cachedForwardMovement, 0) && !Mathf.Approximately(normalizedForwardSpeed, 0))
+				if (!Mathf.Approximately(cachedForwardVelocity, 0) && !Mathf.Approximately(normalizedForwardSpeed, 0))
 				{
  					postLandFramesToIgnore = configuration.postPhyicsJumpFramesToIgnoreForward;
 				}
@@ -681,7 +692,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private float GetCurrentGroundForwardMovementSpeed()
 		{
 			return (animator.deltaPosition * configuration.scaleRootMovement).
-				GetMagnitudeOnAxis(transform.forward) * Time.timeScale;
+				GetMagnitudeOnAxis(transform.forward)/Time.deltaTime;
 		}
 	}
 }

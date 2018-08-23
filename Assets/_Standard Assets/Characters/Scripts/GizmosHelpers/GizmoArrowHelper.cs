@@ -91,8 +91,10 @@ namespace StandardAssets.GizmosHelpers
                 {
                     //Forward direction of the character transform
                     Debug.DrawLine(transform.position, transform.position + transform.forward * 5, Color.green);
-                    forwardDirection.transform.position = transform.position + transform.forward * 5;
-                    
+                    if (forwardDirection != null)
+                    {
+                        forwardDirection.transform.position = transform.position + transform.forward * 5;   
+                    }
 			        
                     //Translate move input from vector2 into 3D space
                     var translatedMoveInput = new Vector3(characterInput.moveInput.x, 0, characterInput.moveInput.y);

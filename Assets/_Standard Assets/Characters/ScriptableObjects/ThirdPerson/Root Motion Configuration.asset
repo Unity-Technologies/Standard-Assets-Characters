@@ -35,6 +35,15 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
+      time: 0.099
+      value: 4
+      inSlope: -0
+      outSlope: -13.377428
+      tangentMode: 5
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
       time: 0.1
       value: 3
       inSlope: 3.3408613
@@ -61,9 +70,10 @@ MonoBehaviour:
   postPhyicsJumpFramesToIgnoreForwardSpeed: 10
   standingJumpForwardSpeed: 3.5
   minInputThreshold: 0.05
-  maxMovementThreshold: 0.5
+  maxMovementThreshold: 0.75
   fallingMaxForwardSpeed: 5
-  fallForwardSpeedLerp: 0.0025
+  fallForwardSpeedDeceleration: 0.0025
+  fallForwardSpeedAcceleration: 0.05
   maxFallDistance: 1
   turningSpeed: 300
   turningSpeedVisualScale: 0.4

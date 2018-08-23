@@ -233,9 +233,9 @@ namespace StandardAssets.Characters.Physics
 		private LayerMask collisionLayerMask = ~0;	// ~0 sets it to Everything
 
 		/// <summary>
-		/// Is the character controlled by a local human? If true then more caluclations are done for more accurate movement.
+		/// Is the character controlled by a local human? If true then more calculations are done for more accurate movement.
 		/// </summary>
-		[Tooltip("Is the character controlled by a local human? If true then more caluclations are done for more " +
+		[Tooltip("Is the character controlled by a local human? If true then more calculations are done for more " +
 		         "accurate movement.")]
 		[SerializeField]
 		private bool localHumanControlled = true;

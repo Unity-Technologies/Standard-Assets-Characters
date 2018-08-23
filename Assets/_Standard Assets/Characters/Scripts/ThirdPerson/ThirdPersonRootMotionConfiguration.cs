@@ -57,7 +57,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected float fallingMaxForwardSpeed = 5;
 
 		[SerializeField]
-		protected float fallForwardSpeedLerp = 0.05f;
+		protected float fallForwardSpeedDeceleration = 0.0025f;
+		
+		[SerializeField]
+		protected float fallForwardSpeedAcceleration = 0.05f;
 		
 		[SerializeField, Tooltip("A fall distance higher than this will trigger a fall animation")]
 		protected float maxFallDistance = 1;
@@ -183,9 +186,14 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return fallingMaxForwardSpeed; }
 		}
 
-		public float fallSpeedLerp
+		public float fallSpeedDeceleration
 		{
-			get { return fallForwardSpeedLerp; }
+			get { return fallForwardSpeedDeceleration; }
+		}
+
+		public float fallSpeedAcceleration
+		{
+			get { return fallForwardSpeedAcceleration; }
 		}
 
 		public float sprintNormalizedForwardSpeedIncrease

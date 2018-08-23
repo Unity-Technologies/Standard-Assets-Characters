@@ -11,25 +11,18 @@ namespace StandardAssets.Characters.CharacterInput
 	public class NavMeshAgentInput : MonoBehaviour, ICharacterInput
 	{
 		/// <summary>
-		/// Left/right turn speed.
+		/// Make input relative to the camera.
 		/// </summary>
-		[Tooltip("Left/right turn speed.")]
+		[Tooltip("Make input relative to the camera.")]
 		[SerializeField]
-		private float turnSpeed = 200.0f;
-
-		/// <summary>
-		/// Walk towards the agent if it is within this angle in front of the character
-		/// </summary>
-		[Tooltip("Walk towards the agent if it is within this angle in front of the character")]
-		[SerializeField]
-		private float walkAngle = 2.0f;
+		private bool inputRelativeToCamera = true;
 
 		/// <summary>
 		/// Character stops moving when it is this close to the agent.
 		/// </summary>
 		[Tooltip("Character stops moving when it is this close to the agent.")]
 		[SerializeField]
-		private float nearDistance = 0.1f;
+		private float nearDistance = 0.2f;
 		
 		/// <summary>
 		/// Agent pauses movement when it is this distance away, to wait for the character
@@ -69,21 +62,34 @@ namespace StandardAssets.Characters.CharacterInput
 		private NavMeshAgent navMeshAgent;
 		private Transform cachedTransform;
 		private bool movingToSimulatedPoint;
-		private Vector3? lastDirection;
 		private float dynamicFarDistance;
 		private int lastCornerCount;
 		private float stuckTime;
+		private Camera camera;
 
 		public Vector2 lookInput { get; private set; }
 		public Vector2 moveInput { get; private set; }
 		public Vector2 previousNonZeroMoveInput { get; private set; }
-		public bool hasMovementInput { get; private set; }
+		public bool hasMovementInput
+		{
+			get { return moveInput != Vector2.zero; }
+		}
 		public bool isJumping { get; private set; }
 		public Action jumpPressed { get; set; }
+
+		/// <summary>
+		/// Set the camera to use, for making input relative to the camera. 
+		/// </summary>
+		public void SetCamera(Camera newCamera)
+		{
+			camera = newCamera;
+		}
 		
 		private void Awake()
 		{
 			cachedTransform = transform;
+			
+			camera = Camera.main;
 			
 			navMeshAgent = GetComponent<NavMeshAgent>();
 			navMeshAgent.updatePosition = false;
@@ -93,16 +99,18 @@ namespace StandardAssets.Characters.CharacterInput
 
 		private void Update()
 		{
-			if (!UpdateInput(Time.deltaTime))
+			if (hasMovementInput)
 			{
-				lastDirection = null;
+				previousNonZeroMoveInput = moveInput;
 			}
+			
+			UpdateInput(Time.deltaTime);
 		}
 
 		/// <summary>
-		/// Update the move input. Returns true if busy moving towards the simulated position.
+		/// Update the move input.
 		/// </summary>
-		private bool UpdateInput(float dt)
+		private void UpdateInput(float dt)
 		{
 			moveInput = Vector3.zero;
 
@@ -110,7 +118,7 @@ namespace StandardAssets.Characters.CharacterInput
 			    BusyCalculatingPath())
 			{
 				movingToSimulatedPoint = false;
-				return false;
+				return;
 			}
 
 			// Started following a new path?
@@ -118,7 +126,6 @@ namespace StandardAssets.Characters.CharacterInput
 			    navMeshAgent.hasPath)
 			{
 				movingToSimulatedPoint = true;
-				lastDirection = null;
 				dynamicFarDistance = farDistance;
 				lastCornerCount = navMeshAgent.path.corners.Length;
 				stuckTime = 0.0f;
@@ -126,22 +133,21 @@ namespace StandardAssets.Characters.CharacterInput
 
 			if (movingToSimulatedPoint)
 			{
-				return UpdateMoveToSimulatedPoint(dt);
+				UpdateMoveToSimulatedPoint(dt);
+				return;
 			}
 
 			CheckResetDistance();
-
-			return false;
 		}
 
 		/// <summary>
-		/// Update the move input to move towards the agent. Returns true if busy moving towards the simulated position.
+		/// Update the move input to move towards the agent.
 		/// </summary>
-		private bool UpdateMoveToSimulatedPoint(float dt)
+		private void UpdateMoveToSimulatedPoint(float dt)
 		{
 			if (CheckResetDistance())
 			{
-				return false;
+				return;
 			}
 			
 			// Reached a corner?
@@ -168,8 +174,7 @@ namespace StandardAssets.Characters.CharacterInput
 					movingToSimulatedPoint = false;
 					ResetAgent();
 				}
-				
-				return !simulationReachedEndOfPath;
+				return;
 			}
 
 			if (IsAgentMovingToCharacter(direction))
@@ -180,7 +185,7 @@ namespace StandardAssets.Characters.CharacterInput
 					// Make sure agent is moving
 					navMeshAgent.isStopped = false;
 				}
-				return false;
+				return;
 			}
 
 			bool checkStuck = false;
@@ -199,29 +204,13 @@ namespace StandardAssets.Characters.CharacterInput
 				dynamicFarDistance = farDistance;
 			}
 
-			// Far away, or end of path, or moving in the same direction as before?
-			if (isTooFar ||
-			    lastDirection == null ||
-			    simulationReachedEndOfPath ||
-			    Vector3.Dot(direction, lastDirection.Value) > 0.0f)
+			if (camera != null &&
+			    inputRelativeToCamera)
 			{
-				if (isTooFar || 
-				    lastDirection == null ||
-				    simulationReachedEndOfPath)
-				{
-					lastDirection = direction;
-				}
-				
-				// Turn towards the agent, because root motion expects forward input to be the same as the transform's forward direction
-				cachedTransform.rotation = Quaternion.RotateTowards(cachedTransform.rotation,
-				                                                    Quaternion.LookRotation(direction, Vector3.up),
-				                                                    turnSpeed * dt);
-				Vector3 forwardNoY = new Vector3(cachedTransform.forward.x, 0.0f, cachedTransform.forward.z);
-				if (Vector3.Angle(direction, forwardNoY) < walkAngle)
-				{
-					moveInput = new Vector2(direction.x, direction.z);
-				}
+				// To local, relative to camera
+				direction = camera.transform.InverseTransformDirection(direction);
 			}
+			moveInput = new Vector2(direction.x, direction.z);
 			
 			if (checkStuck)
 			{
@@ -231,15 +220,12 @@ namespace StandardAssets.Characters.CharacterInput
 					stuckTime = 0.0f;
 					movingToSimulatedPoint = false;
 					ResetAgent();
-					return false;
 				}
 			}
 			else
 			{
 				stuckTime = 0.0f;
 			}
-
-			return true;
 		}
 		
 		/// <summary>

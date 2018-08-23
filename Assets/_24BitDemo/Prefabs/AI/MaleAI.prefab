@@ -3137,9 +3137,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b8500b6ace747acb5571d90fe7cdb4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnSpeed: 200
-  walkAngle: 2
-  nearDistance: 0.1
+  inputRelativeToCamera: 1
+  nearDistance: 0.2
   farDistance: 1.5
   cornerFarDistance: 0.5
   resetDistance: 3

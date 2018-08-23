@@ -2,8 +2,11 @@
 
 namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 {
-    public class LandAnimatorState : StateMachineBehaviour 
+    public class LandAnimatorState : StateMachineBehaviour
     {
+        [SerializeField]
+        protected bool adjustAnimationSpeedBasedOnForwardSpeed;
+        
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             var animationController = animator.GetComponent<ThirdPersonBrain>().animationControl;
@@ -18,7 +21,7 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
             var animationController = animator.GetComponent<ThirdPersonBrain>().animationControl;
             if (animationController != null)
             {
-                animationController.OnLandAnimationEnter();
+                animationController.OnLandAnimationEnter(adjustAnimationSpeedBasedOnForwardSpeed);
             }
         }
     }
