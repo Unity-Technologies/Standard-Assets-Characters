@@ -164,14 +164,22 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				if (aerialState == ThirdPersonAerialMovementState.Falling)
 				{
-					var maxFallForward = configuration.fallingForwardSpeed * Time.deltaTime;
-					cachedForwardVelocity = Mathf.Lerp(cachedForwardVelocity, maxFallForward * 
-					                      characterInput.moveInput.normalized.magnitude, configuration.fallSpeedLerp);
-					normalizedForwardSpeed = cachedForwardVelocity * Time.deltaTime / maxFallForward;
+					CalculateFallForwardSpeed();
 				}
 				characterPhysics.Move(cachedForwardVelocity * Time.deltaTime * transform.forward * configuration.scaledGroundVelocity, 
 					Time.deltaTime);
 			}
+		}
+
+		private void CalculateFallForwardSpeed()
+		{
+			float maxFallForward = configuration.fallingForwardSpeed;
+			float target = maxFallForward * characterInput.moveInput.normalized.magnitude;
+			float time = cachedForwardVelocity > target
+				? configuration.fallSpeedDeceleration
+				: configuration.fallSpeedAcceleration;
+			cachedForwardVelocity = Mathf.Lerp(cachedForwardVelocity, target, time);
+			normalizedForwardSpeed = cachedForwardVelocity / maxFallForward;
 		}
 
 		private bool ShouldApplyRootMotion()
