@@ -7,7 +7,7 @@ namespace Editor
     [CustomPropertyDrawer(typeof(IndentAttribute))]
     public class IndentPropertyDrawer : PropertyDrawer
     {
-        private IndentAttribute indentAttribute
+        private IndentAttribute IndentAttribute
         {
             get { return (IndentAttribute) attribute;  }
         }
@@ -15,11 +15,11 @@ namespace Editor
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
 
-            EditorGUI.indentLevel += indentAttribute.indentLevel;
+            EditorGUI.indentLevel += IndentAttribute.indentLevel;
             
             EditorGUI.PropertyField(position, property, label, true);
             
-            EditorGUI.indentLevel -= indentAttribute.indentLevel;
+            EditorGUI.indentLevel -= IndentAttribute.indentLevel;
         }
     }
 }
