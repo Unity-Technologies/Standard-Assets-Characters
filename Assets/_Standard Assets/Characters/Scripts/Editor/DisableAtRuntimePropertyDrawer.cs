@@ -14,11 +14,8 @@ namespace Editor
             get { return (DisableAtRuntimeAttribute) attribute; }
         }
         
-        
-
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-
             var noEntrySign = Resources.Load<Texture2D>("Texture set/Texture/Editor/NoEntry");
             
             if (Application.isPlaying)
