@@ -506,6 +506,17 @@ namespace StandardAssets.Characters.Physics
 			return result;
 		}
 
+
+		/// <summary>
+		/// [Temporary?] Added by Codie to expose collider to
+		/// ScaleCharacterColliderState to transition capsule collider states.
+		/// </summary>
+		/// <returns></returns>
+		public CapsuleCollider GetCapsuleCollider()
+		{
+			return capsuleCollider;
+		}
+
 		/// <summary>
 		/// Get the slope limit.
 		/// </summary>

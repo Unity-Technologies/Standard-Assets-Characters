@@ -81,60 +81,7 @@ namespace StandardAssets._Standard_Assets.Characters.Scripts.Editor
 			EditorHelpers.DrawArrayPropertyPanel(
 				property, item => { item.stringValue = DrawNextStatePopup(item.stringValue); });
 		}
-
-		[Obsolete("Replaced by DrawStateProperty (remove after test)")]
-		private void DrawStateNamesProperty(SerializedProperty array)
-		{
-			FindStateNames(controllerStatesNames, controller);
-
-			EditorGUILayout.BeginVertical();
-			{
-				// Brace for IMGUI readbility
-				EditorGUILayout.HelpBox(array.displayName, MessageType.None);
-				// Avoid errors when deleting 
-				for (int i = 0; i < array.arraySize; i++)
-				{
-					// item is a string value.
-					EditorGUILayout.BeginHorizontal();
-					{
-						// Brace for IMGUI readbility
-
-						SerializedProperty current = array.GetArrayElementAtIndex(i);
-						//current.stringValue = DrawNextStatePopup(current.displayName, current.stringValue);
-						current.stringValue = DrawNextStatePopup(current.stringValue);
-						if (GUILayout.Button("Remove", "minibutton", GUILayout.ExpandWidth(false)))
-						{
-							array.DeleteArrayElementAtIndex(i);
-							serializedObject.ApplyModifiedProperties();
-							serializedObject.UpdateIfRequiredOrScript();
-						}
-					}
-					EditorGUILayout.EndHorizontal();
-				}
-
-				EditorGUILayout.Separator();
-
-				// Selector to add new item:
-				EditorGUILayout.BeginHorizontal();
-				{
-					// Brace for IMGUI readbility
-
-					newItem = DrawNextStatePopup(newItem);
-					if (!string.IsNullOrEmpty(newItem))
-					{
-						array.arraySize++;
-						serializedObject.ApplyModifiedProperties();
-						serializedObject.UpdateIfRequiredOrScript();
-						array.GetArrayElementAtIndex(array.arraySize - 1).stringValue = newItem;
-						newItem = string.Empty;
-					}
-				}
-				EditorGUILayout.EndHorizontal();
-				EditorGUILayout.Space();
-			}
-			EditorGUILayout.EndVertical();
-		}
-
+	
 		private string DrawNextStatePopup(string selected)
 		{
 			// manual label here because we do not want it to expand
