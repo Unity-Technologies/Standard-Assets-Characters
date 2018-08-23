@@ -85,6 +85,11 @@ namespace StandardAssets.Characters.Physics
 			AerialMovement(deltaTime);
 			MoveCharacter(moveVector + verticalVector);
 			cachedMoveVector = moveVector;
+			
+			if (!isGrounded)
+			{
+				UpdatePredictedLandingPosition(deltaTime);
+			}
 		}
 		
 		/// <summary>
@@ -172,13 +177,6 @@ namespace StandardAssets.Characters.Physics
 				MoveCharacter(verticalVector);
 			}
 			hasMovedBeenCalled = false;
-
-			// TODO currently this is not required to be called every update. It is only required as fall is started.
-			// If (When?) a better judgement of landing is required it would need to be here.
-			if (!isGrounded)
-			{
-				UpdatePredictedLandingPosition(Time.fixedDeltaTime);
-			}
 		}
 		
 		/// <summary>

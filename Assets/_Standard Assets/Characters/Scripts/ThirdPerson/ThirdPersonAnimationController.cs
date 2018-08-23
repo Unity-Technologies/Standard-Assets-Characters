@@ -1,4 +1,5 @@
 ﻿using System;
+using StandardAssets.Characters.Physics;
 using UnityEngine;
 using Util;
 
@@ -93,6 +94,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		public void OnLandAnimationExit()
 		{
 			state = AnimationState.Locomotion;
+			animator.speed = cachedAnimatorSpeed;
 		}
 
 		public void OnLandAnimationEnter(bool adjustAnimationSpeedBasedOnForwardSpeed)
@@ -124,7 +126,6 @@ namespace StandardAssets.Characters.ThirdPerson
 				state = AnimationState.Locomotion;
 			}
 			animator.SetFloat(configuration.predictedFallDistanceParameterName, 0);
-			animator.speed = cachedAnimatorSpeed;
 		}
 
 		public void OnFallingLoopAnimationEnter()

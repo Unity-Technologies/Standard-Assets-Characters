@@ -665,8 +665,6 @@ namespace StandardAssets.Characters.ThirdPerson
 				{
 					cachedForwardVelocity = configuration.standingJumpSpeed;
 					normalizedForwardSpeed = 1;
-					
-					Debug.Log(cachedForwardVelocity);
 				}
 				else
 				{
