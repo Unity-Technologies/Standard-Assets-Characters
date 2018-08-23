@@ -169,6 +169,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			hashRapidTurn = Animator.StringToHash(configuration.rapidTurnParameterName);
 			motor = motorToUse;
 			animator = gameObject.GetComponent<Animator>();
+			cachedAnimatorSpeed = animator.speed;
 		}
 
 		/// <summary>
@@ -316,7 +317,6 @@ namespace StandardAssets.Characters.ThirdPerson
 					break;
 				// if falling set speed of land animation based on forward speed
 				case AnimationState.Falling:
-					cachedAnimatorSpeed = animator.speed;
 					animator.speed = configuration.landSpeedAsAFactorSpeed.Evaluate(motor.normalizedForwardSpeed);
 					break;
 			}

@@ -43,6 +43,8 @@ namespace StandardAssets.Characters.ThirdPerson
 	    {
 		    characterInput = GetComponent<ICharacterInput>();
 		    characterMotor = GetComponent<CharacterBrain>();
+		    
+		    
 	    }
 	    
 	    /// <summary>
