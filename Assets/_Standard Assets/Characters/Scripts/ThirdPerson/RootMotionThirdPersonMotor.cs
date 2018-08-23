@@ -174,7 +174,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void CalculateFallForwardSpeed()
 		{
 			float maxFallForward = configuration.fallingForwardSpeed;
-			float target = maxFallForward * characterInput.moveInput.normalized.magnitude;
+			float target = maxFallForward * Mathf.Clamp01(characterInput.moveInput.magnitude);
 			float time = cachedForwardVelocity > target
 				? configuration.fallSpeedDeceleration
 				: configuration.fallSpeedAcceleration;
