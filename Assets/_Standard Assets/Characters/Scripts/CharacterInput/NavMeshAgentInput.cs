@@ -5,11 +5,15 @@ using UnityEngine.AI;
 namespace StandardAssets.Characters.CharacterInput
 {
 	/// <summary>
-	/// NavMeshAgent input.
+	/// Makes a character controller follow a NavMeshAgent. It sets input to move the character.
 	/// </summary>
 	[RequireComponent(typeof(NavMeshAgent))]
 	public class NavMeshAgentInput : MonoBehaviour, ICharacterInput
 	{
+		/// <summary>
+		/// Left/right turn speed.
+		/// </summary>
+		[Tooltip("Left/right turn speed.")]
 		[SerializeField]
 		private float turnSpeed = 200.0f;
 
@@ -277,13 +281,16 @@ namespace StandardAssets.Characters.CharacterInput
 			navMeshAgent.nextPosition = cachedTransform.position;
 		}
 		
+		/// <summary>
+		/// Is the agent busy calculating a path?
+		/// </summary>
 		private bool BusyCalculatingPath()
 		{
 			return navMeshAgent.pathPending;
 		}
 
 		/// <summary>
-		/// Has the NavMeshAgent simulation reached the end of the path?
+		/// Has the agent reached the end of the path?
 		/// </summary>
 		private bool ReachedEndOfPath()
 		{		
