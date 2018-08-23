@@ -18,13 +18,14 @@ namespace Editor
 
         private bool toShow = true;
 
+        /*
+         * (Codie) BugFix: All visibility and heights must be calculated in GetPropertyHeight, always called before OnGUI,
+         *     or it breaks layout rectangles. Previous logic set visibility in OnGUI,
+         *     causing GUILayout Rects to be one frame behind (GUI Overlapped draw).
+         */ 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return toShow ? EditorGUI.GetPropertyHeight(property) : 0;
-        }
-
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-        {
+            toShow = true;
             if (!string.IsNullOrEmpty(includeAttribute.conditionField))
             {
                 var conditionProperty = FindPropertyRelative(property, includeAttribute.conditionField);
@@ -39,15 +40,22 @@ namespace Editor
 
                     if (!isBoolMatch && !objectMatch)
                     {
-                        toShow = false;
-                        return;
-                    }
+                        toShow = false; 
+                    } 
                 }
-            }
-
-            toShow = true;
-            EditorGUI.PropertyField(position, property, label, true);
+            } 
+            return toShow ? EditorGUI.GetPropertyHeight(property) : 0;
         }
+
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        {
+            if (toShow)
+            {
+                EditorGUI.PropertyField(position, property, label, true);
+            } 
+        }
+ 
+        
 
         private SerializedProperty FindPropertyRelative(SerializedProperty property, string propertyName)
         {
