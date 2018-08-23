@@ -95,9 +95,13 @@ namespace StandardAssets.Characters.ThirdPerson
 			state = AnimationState.Locomotion;
 		}
 
-		public void OnLandAnimationEnter()
+		public void OnLandAnimationEnter(bool adjustAnimationSpeedBasedOnForwardSpeed)
 		{
 			state = AnimationState.Landing;
+			if (adjustAnimationSpeedBasedOnForwardSpeed)
+			{
+				animator.speed = configuration.landSpeedAsAFactorSpeed.Evaluate(motor.normalizedForwardSpeed);
+			}
 		}
 
 		public void OnPhysicsJumpAnimationExit()
@@ -169,6 +173,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			hashRapidTurn = Animator.StringToHash(configuration.rapidTurnParameterName);
 			motor = motorToUse;
 			animator = gameObject.GetComponent<Animator>();
+			cachedAnimatorSpeed = animator.speed;
 		}
 
 		/// <summary>
@@ -313,11 +318,6 @@ namespace StandardAssets.Characters.ThirdPerson
 										0, rightFoot ? configuration.rightFootPhysicsJumpLandAnimationOffset
 										: configuration.leftFootPhysicsJumpLandAnimationOffset);
 					timeSinceLastPhysicsJumpLand = DateTime.Now;
-					break;
-				// if falling set speed of land animation based on forward speed
-				case AnimationState.Falling:
-					cachedAnimatorSpeed = animator.speed;
-					animator.speed = configuration.landSpeedAsAFactorSpeed.Evaluate(motor.normalizedForwardSpeed);
 					break;
 			}
 			animator.SetBool(hashGrounded, true);

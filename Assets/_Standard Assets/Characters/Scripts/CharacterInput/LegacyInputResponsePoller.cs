@@ -5,10 +5,21 @@ using UnityEngine;
 namespace StandardAssets.Characters.CharacterInput
 {
 	/// <summary>
+	/// Enum to define if an input axis will be treated as a button
+	/// </summary>
+	public enum AxisAsButton
+	{
+		None,
+		Positive,
+		Negative
+	}
+	
+	/// <summary>
 	/// Simply polls on behalf of the LegacyUnityInputResponse
 	/// </summary>
 	public class LegacyInputResponsePoller : MonoBehaviour
 	{
+		
 		private static List<LegacyInputResponsePoller> s_Pollers;
 		
 		/// <summary>
@@ -28,9 +39,10 @@ namespace StandardAssets.Characters.CharacterInput
 
 		private string axisRaw;
 
-		//This is to enable the ability to use an axis as a button. XBone Left Trigger is a -1->1 axis,
-		// If the player wishes to use the left/right triggers on an xBone controller on OSX as a "button" type response. 
-		private bool useAxisAsButton; 
+		/// <summary>
+		/// Whether the axis will be treated as raw or a button when negative or positive
+		/// </summary>
+		private AxisAsButton useAxisAsButton; 
 
 		/// <summary>
 		/// Called by the LegacyInputResponse
@@ -38,11 +50,11 @@ namespace StandardAssets.Characters.CharacterInput
 		/// <param name="newResponse"></param>
 		/// <param name="newBehaviour"></param>
 		/// <param name="axisRaw"></param>
-		public void Init(LegacyInputResponse newResponse, DefaultInputResponseBehaviour newBehaviour, String axisString,bool axisAsButton)
+		public void Init(LegacyInputResponse newResponse, DefaultInputResponseBehaviour newBehaviour, String axisString,AxisAsButton axisAsButton)
 		{
 			response = newResponse;
 			behaviour = newBehaviour;
-			axisRaw = axisString;
+			axisRaw = axisString;	
 			useAxisAsButton = axisAsButton;
 
 			if (s_Pollers == null)
@@ -78,13 +90,13 @@ namespace StandardAssets.Characters.CharacterInput
 		private void Hold()
 		{
 			bool isAxis;
-			if (useAxisAsButton)
+			if (useAxisAsButton == AxisAsButton.None)
 			{
-				isAxis = checkAxisAsButton();
+				isAxis = Input.GetButton(axisRaw);
 			}
 			else
 			{
-				isAxis = Input.GetButton(axisRaw);
+				isAxis = checkAxisAsButton();
 			}
 			
 			
@@ -107,13 +119,13 @@ namespace StandardAssets.Characters.CharacterInput
 		private void Toggle()
 		{
 			bool buttonDown;
-			if (useAxisAsButton)
+			if (useAxisAsButton == AxisAsButton.None)
 			{
-				buttonDown = checkAxisAsButton();
+				buttonDown = Input.GetButtonDown(axisRaw);
 			}
 			else
 			{
-				buttonDown = Input.GetButtonDown(axisRaw);
+				buttonDown = checkAxisAsButton();
 			}
 			
 			if (buttonDown)
@@ -132,14 +144,21 @@ namespace StandardAssets.Characters.CharacterInput
 
 		private bool checkAxisAsButton()
 		{
-			if (useAxisAsButton)
+			switch (useAxisAsButton)
 			{
-				if (Input.GetAxis(axisRaw)==1) //If axis is 1, "button is pushed" 
-				{
-					return true;
-				}
+				case AxisAsButton.Positive:
+					if (Mathf.Approximately(Input.GetAxis(axisRaw), 1)) // positive button pressed
+					{
+						return true;
+					}
+					break;
+				case AxisAsButton.Negative:
+					if (Mathf.Approximately(Input.GetAxis(axisRaw), -1)) // negative button pressed
+					{
+						return true;
+					}
+					break;
 			}
-
 			return false;
 		}
 		

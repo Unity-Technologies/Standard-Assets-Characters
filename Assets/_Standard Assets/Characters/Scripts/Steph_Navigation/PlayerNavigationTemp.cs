@@ -10,7 +10,10 @@ public class PlayerNavigationTemp : MonoBehaviour {
   
 
 	void Start () {
-        Cam = Camera.main;
+	    if (Cam == null)
+	    {
+		    Cam = Camera.main;   
+	    }
         navMesh = GetComponent < NavMeshAgent> ();
  
     }
@@ -18,7 +21,7 @@ public class PlayerNavigationTemp : MonoBehaviour {
 
     void Update() {
         if (Input.GetKeyDown(KeyCode.Mouse0)){
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = Cam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
             if (Physics.Raycast ( ray, out hit)) {

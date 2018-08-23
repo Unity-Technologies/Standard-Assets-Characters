@@ -33,6 +33,11 @@ namespace StandardAssets.Characters.Physics
 			characterController.Awake(transform);
 		}
 
+		public override float radius
+		{
+			get { return characterController.scaledRadius + characterController.GetSkinWidth(); }
+		}
+
 		protected override bool CheckGrounded()
 		{
 			return characterController.isGrounded;

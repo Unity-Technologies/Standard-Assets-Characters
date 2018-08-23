@@ -233,9 +233,9 @@ namespace StandardAssets.Characters.Physics
 		private LayerMask collisionLayerMask = ~0;	// ~0 sets it to Everything
 
 		/// <summary>
-		/// Is the character controlled by a local human? If true then more caluclations are done for more accurate movement.
+		/// Is the character controlled by a local human? If true then more calculations are done for more accurate movement.
 		/// </summary>
-		[Tooltip("Is the character controlled by a local human? If true then more caluclations are done for more " +
+		[Tooltip("Is the character controlled by a local human? If true then more calculations are done for more " +
 		         "accurate movement.")]
 		[SerializeField]
 		private bool localHumanControlled = true;
@@ -320,11 +320,6 @@ namespace StandardAssets.Characters.Physics
 		/// Surface normal of the last collision while moving down.
 		/// </summary>
 		private Vector3? downCollisionNormal;
-
-		/// <summary>
-		/// Collider of the last collision while moving down.
-		/// </summary>
-		private Collider downCollisionCollider;
 		
 		/// <summary>
 		/// Stuck info.
@@ -411,47 +406,6 @@ namespace StandardAssets.Characters.Physics
 			{
 				return height * cachedTransform.lossyScale.y;
 			}
-		}
-
-		/// <inheritdoc />
-		public float GetPredicitedFallDistance()
-		{
-			RaycastHit groundHit;
-			float distance = float.MaxValue;
-			
-			if (localHumanControlled)
-			{
-				// More accurate cast for human controlled character
-				if (SmallSphereCast(Vector3.down,
-				                    float.MaxValue,
-				                    out groundHit,
-				                    Vector3.zero,
-				                    true))
-				{
-					distance = Mathf.Max(groundHit.distance - GetSkinWidth(), 0.0f);
-				}
-				else if (BigSphereCast(Vector3.down,
-				                         float.MaxValue,
-				                         out groundHit,
-				                         Vector3.up * k_CollisionOffset,
-				                         true))
-				{
-					distance = Mathf.Max(groundHit.distance - k_CollisionOffset, 0.0f);
-				}
-			}
-			else
-			{
-				if (UnityEngine.Physics.Raycast(GetFootWorldPosition(),
-				                                Vector3.down,
-				                                out groundHit,
-				                                float.MaxValue,
-				                                GetCollisionLayerMask()))
-				{
-					distance = groundHit.distance;
-				}
-			}
-			
-			return distance;
 		}
 
 		/// <summary>
@@ -917,7 +871,6 @@ namespace StandardAssets.Characters.Physics
 			collisionFlags = CollisionFlags.None;
 			collisionInfoDictionary.Clear();
 			downCollisionNormal = null;
-			downCollisionCollider = null;
 			
 			// Stop sliding down slopes when character jumps
 			if (moveVector.y > 0.0f &&
@@ -1321,6 +1274,7 @@ namespace StandardAssets.Characters.Physics
 
 			if (vertical.y > 0.0f)
 			{
+				// Up
 				if (horizontal.x.NotEqualToZero() || 
 				    horizontal.z.NotEqualToZero())
 				{
@@ -1336,6 +1290,7 @@ namespace StandardAssets.Characters.Physics
 			}
 			else if (vertical.y < 0.0f)
 			{
+				// Down
 				if (horizontal.x.NotEqualToZero() || 
 				    horizontal.z.NotEqualToZero())
 				{
@@ -1370,6 +1325,7 @@ namespace StandardAssets.Characters.Physics
 			}
 			else
 			{
+				// Horizontal
 				if (doStepOffset &&
 				    CanStepOffset(horizontal))
 				{
@@ -1746,7 +1702,6 @@ namespace StandardAssets.Characters.Physics
 			{
 				// This is used by the sliding down slopes
 				downCollisionNormal = hitNormal;
-				downCollisionCollider = hitCollider;
 			}
 		}
 		

@@ -21,7 +21,7 @@ namespace StandardAssets.Characters.CharacterInput
             }
         }
 
-        public void InitPoller(LegacyInputResponse inputResponse, DefaultInputResponseBehaviour behaviour, string axis, bool useAxisAsButton)
+        public void InitPoller(LegacyInputResponse inputResponse, DefaultInputResponseBehaviour behaviour, string axis, AxisAsButton useAxisAsButton)
         {
             if (pollers.ContainsKey(inputResponse))
             {
