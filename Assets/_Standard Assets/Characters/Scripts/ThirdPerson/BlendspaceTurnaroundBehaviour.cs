@@ -179,7 +179,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		public override Vector3 GetMovement()
 		{
 			float normalizedTime = turningTime / timeToTurn;
-			return movementVector * turnMovementOverTime.Evaluate(normalizedTime);
+			return movementVector * turnMovementOverTime.Evaluate(normalizedTime) * Time.deltaTime;
 		}
 
 		private void EvaluateTurn()
@@ -226,7 +226,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (motor != null)
 			{
 				Vector3 rotatedVector = Quaternion.AngleAxis(angle, Vector3.up) * transform.forward;
-				movementVector = rotatedVector * motor.cachedForwardMovement;
+				movementVector = rotatedVector * motor.cachedForwardVelocity;
 				movementVector.y = 0;
 			}
 		}
