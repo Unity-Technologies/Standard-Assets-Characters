@@ -22,7 +22,7 @@ namespace StandardAssets.Characters.CharacterInput
 		protected bool isGamepad;
 
 		[SerializeField]
-		protected bool useAxisAsButton;
+		protected AxisAsButton useAxisAsButton;
 		
 		/// <summary>
 		/// Initializes the polling behaviour for the legacy input system
