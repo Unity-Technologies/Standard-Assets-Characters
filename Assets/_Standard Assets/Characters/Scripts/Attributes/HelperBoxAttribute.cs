@@ -12,6 +12,8 @@ namespace Attributes
 
         public HelperBoxAttribute(HelperType type,string text)
         {
+            // we want this attribute to take priority over ConditionalInclude.
+            base.order = 1000;
             this.type = type;
             this.text = text;
         }

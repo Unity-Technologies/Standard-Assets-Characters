@@ -21,6 +21,7 @@ For more detailed documentation, please see the WIP Google Doc:
 	/Assets/_Standard Assets/Characters/
 	
 * Contains all code, models, and animation assets and related items for the logic of the First and Third Person Character Controllers
+	* NOTE: The Input Manager setup for the Character Controllers is dependent on the mappings set up on ** InputManager.asset **
 
 #
 
@@ -109,4 +110,70 @@ For more detailed documentation, please see the WIP Google Doc:
 		* Strafe Camera Objects:  GameObjects that are enabled when switching to Strafe mode. e.g. crosshair
 		* Free Look Camera States:  States on the animator for the different Free Look Camera modes.
 		* Strafe Camera States:  States on the animator for the different Strafe Camera modes (e.g. rectilinear aiming, orbiting target)
+
+
+
+## Project Status Overview: Phase 1
+
+### Ready for Review and Feedback:
+	* Input Manager (Legacy)
+		** Code and Design Structure
+		** Keyboard & Mouse, Gamepad (PS4, Xbox360, XboxOne), Mobile Touch Screen Support
+	
+	* Open Character Controller
+		** Code and Design Structure
+		** Behaviour and Functionality
+
+	* First Person Controller
+		** Code and Design Structure
+		** Behaviour and Functionality
+
+	* Third Person Controller 
+		** Code and Design Structure
+		** Behaviour and Functionality for Idle, Walk, Run, Sprint, Turning Locomotion
+		** Behaviour and Functionality for Falling and Landing
+		** Nav Mesh Input Controller
+		** Animation State Machine
+
+	* Simple Movement Controller Example
+		** Demo scene to test out Legacy Character Controller and Open Character Controller controlled Cylinders
+
+
+### Currently Being Worked On:
+	* Input Manager (Legacy)
+		** Inspector UX
+		** Code Comments
+	
+	* Open Character Controller
+		** Inspector UX
+		** Code Comments
+
+	* First Person Controller
+		** Inspector UX
+		** Code Comments
+
+	* Third Person Controller 
+		** Inspector UX
+		** Code Comments
+		** New Standing and Running Jump Animations
+		** Standing-Forward Jump Behaviour
+		** New Animation Curve Feel
+		** Effects Detection System for Character Feet
+	
+	* Cinemachine Camera Setups
+		** First Person Cameras
+		** Third Person Cameras
+
+	* General Internal commenting and code review pass
+
+
+### Still Requires Work:
+	* Third Person Controller Behaviour and Functionality for the following areas:
+		** Strafing Locomotion Behaviour and Animations
+		** Camera Mode Lerping (ie. Exploration to Strafe) 
+		** Collision Capsule Resizing Based on Animation Frames
+
+	* First Pass Documentation of the Systems and Behaviours
+	* Garbage Generation and Optimation Pass
+	* Addition of Female Avatar & Aniamtion Set
 
