@@ -65,7 +65,7 @@ namespace StandardAssets.Characters.CharacterInput
 		private float dynamicFarDistance;
 		private int lastCornerCount;
 		private float stuckTime;
-		private Camera camera;
+		private Camera currentCamera;
 
 		public Vector2 lookInput { get; private set; }
 		public Vector2 moveInput { get; private set; }
@@ -82,14 +82,14 @@ namespace StandardAssets.Characters.CharacterInput
 		/// </summary>
 		public void SetCamera(Camera newCamera)
 		{
-			camera = newCamera;
+			currentCamera = newCamera;
 		}
 		
 		private void Awake()
 		{
 			cachedTransform = transform;
 			
-			camera = Camera.main;
+			currentCamera = Camera.main;
 			
 			navMeshAgent = GetComponent<NavMeshAgent>();
 			navMeshAgent.updatePosition = false;
@@ -204,11 +204,11 @@ namespace StandardAssets.Characters.CharacterInput
 				dynamicFarDistance = farDistance;
 			}
 
-			if (camera != null &&
+			if (currentCamera != null &&
 			    inputRelativeToCamera)
 			{
 				// To local, relative to camera
-				direction = camera.transform.InverseTransformDirection(direction);
+				direction = currentCamera.transform.InverseTransformDirection(direction);
 			}
 			moveInput = new Vector2(direction.x, direction.z);
 			
