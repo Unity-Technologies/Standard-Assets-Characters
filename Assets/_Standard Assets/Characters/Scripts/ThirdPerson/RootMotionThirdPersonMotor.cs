@@ -533,7 +533,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				float movementVelocity = GetCurrentGroundForwardMovementSpeed();
 				if (movementVelocity > 0)
 				{
-					averageForwardVelocity.Add(movementVelocity);
+					averageForwardVelocity.Add(movementVelocity, HandleNegative.Absolute);
 				}
 			}
 			else

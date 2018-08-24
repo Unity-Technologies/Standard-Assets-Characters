@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace Util
 {
@@ -33,14 +35,38 @@ namespace Util
 			values = new SizedQueue<float>(setWindowSize);
 		}
 
-		public void Add(float newValue)
+		public void Add(float newValue, HandleNegative handleNegative = HandleNegative.Add)
 		{
-			values.Add(newValue);
+			switch (handleNegative)
+			{
+				case HandleNegative.Add:
+					values.Add(newValue);
+					break;
+				case HandleNegative.Absolute:
+					values.Add(Mathf.Abs(newValue));
+					break;
+				case HandleNegative.Ignore:
+					if (newValue >= 0)
+					{
+						values.Add(newValue);
+					}
+
+					break;
+				default:
+					throw new ArgumentOutOfRangeException("handleNegative", handleNegative, null);
+			}
 		}
 
 		public void Clear()
 		{
 			values.Clear();
 		}
+	}
+
+	public enum HandleNegative
+	{
+		Add,
+		Ignore,
+		Absolute
 	}
 }
