@@ -316,6 +316,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59b37f83990f6449e9aafe99d60eeb25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114911769219752332
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59b37f83990f6449e9aafe99d60eeb25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114975491119777084
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -388,7 +399,7 @@ BlendTree:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Blend Tree
+  m_Name: RightFootJump
   m_Childs:
   - serializedVersion: 2
     m_Motion: {fileID: 7400002, guid: 8fb1c917d2e0a4aa7a12546e12b0cd65, type: 3}
@@ -2823,7 +2834,7 @@ AnimatorStateTransition:
     m_EventTreshold: 2
   - m_ConditionMode: 3
     m_ConditionEvent: FallTime
-    m_EventTreshold: 0.2
+    m_EventTreshold: 0.4
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102647195463982988}
   m_Solo: 0
@@ -2876,7 +2887,7 @@ AnimatorStateTransition:
   m_IsExit: 0
   serializedVersion: 3
   m_TransitionDuration: 0.15
-  m_TransitionOffset: 0.2
+  m_TransitionOffset: 0
   m_ExitTime: 0.7472922
   m_HasExitTime: 0
   m_HasFixedDuration: 1
@@ -3207,7 +3218,7 @@ AnimatorStateTransition:
     m_EventTreshold: 2
   - m_ConditionMode: 3
     m_ConditionEvent: FallTime
-    m_EventTreshold: 0.2
+    m_EventTreshold: 0.4
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102071361165544938}
   m_Solo: 0
@@ -3353,7 +3364,7 @@ AnimatorStateTransition:
   m_IsExit: 0
   serializedVersion: 3
   m_TransitionDuration: 0.15
-  m_TransitionOffset: 0.2
+  m_TransitionOffset: 0
   m_ExitTime: 0.7472922
   m_HasExitTime: 0
   m_HasFixedDuration: 1
@@ -3693,7 +3704,8 @@ AnimatorState:
   m_Transitions:
   - {fileID: 1101312868306736240}
   - {fileID: 1101137565482945524}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: 114911769219752332}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
