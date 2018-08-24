@@ -159,6 +159,21 @@ namespace StandardAssets.Characters.ThirdPerson
 				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
 				groundMovementVector.y = 0;
 				characterPhysics.Move(groundMovementVector, Time.deltaTime);
+				
+				//Update the average movement speed
+				if (postLandFramesToIgnore <= 0)
+				{
+					float movementVelocity = groundMovementVector.
+					                         GetMagnitudeOnAxis(transform.forward)/Time.deltaTime;
+					if (movementVelocity > 0)
+					{
+						averageForwardVelocity.Add(movementVelocity, HandleNegative.Absolute);
+					}
+				}
+				else
+				{
+					postLandFramesToIgnore--;
+				}
 			}
 			else
 			{
@@ -527,19 +542,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				return;
 			}
-
-			if (postLandFramesToIgnore <= 0)
-			{
-				float movementVelocity = GetCurrentGroundForwardMovementSpeed();
-				if (movementVelocity > 0)
-				{
-					averageForwardVelocity.Add(movementVelocity, HandleNegative.Absolute);
-				}
-			}
-			else
-			{
-				postLandFramesToIgnore--;
-			}
 		}
 
 		protected virtual void CalculateStrafeMovement()
@@ -668,8 +670,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				}
 				else
 				{
-					cachedForwardVelocity =  Mathf.Min(averageForwardVelocity.average, 
-						GetCurrentGroundForwardMovementSpeed());
+					cachedForwardVelocity = averageForwardVelocity.average;
 				}
 
 				if (!Mathf.Approximately(cachedForwardVelocity, 0) && !Mathf.Approximately(normalizedForwardSpeed, 0))
@@ -685,12 +686,6 @@ namespace StandardAssets.Characters.ThirdPerson
 				jumpStarted();
 			}
 			return false;
-		}
-
-		private float GetCurrentGroundForwardMovementSpeed()
-		{
-			return (animator.deltaPosition * configuration.scaleRootMovement).
-				GetMagnitudeOnAxis(transform.forward)/Time.deltaTime;
 		}
 	}
 }
