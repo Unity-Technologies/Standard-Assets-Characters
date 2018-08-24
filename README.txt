@@ -37,6 +37,12 @@ For more detailed documentation, please see the WIP Google Doc:
 
 #
 
+	/Assets/_Standard Assets/Characters/Exmpales/SimpleNavMeshInputController
+	
+* Contains an example scene and and script setup to demonstrate a simple point-and-click-to-move a character whose input is controlled by NavMesh navigation
+
+#
+
 
 
 ## Scenes
@@ -51,6 +57,12 @@ For more detailed documentation, please see the WIP Google Doc:
 
 * Example scene to demonstrate a simple custom character controller using both the Default Unity Character Controller as well as the new C# Open Character Controller
 
+#
+
+	/Assets/_Standard Assets/Characters/Exmpales/SimpleMovementController/Scenes/SimpleNavMeshInputController
+
+* Example scene to demonstrate a simple NavMesh input driven character controller
+
 
 
 ## Character Controller Setup Instructions
@@ -62,23 +74,29 @@ For more detailed documentation, please see the WIP Google Doc:
 
 ### First Person Controller:
 	1) Drag in First Person Cameras prefab
-	2) Drag in FirstPerson prefab
-	3) Select First Person Cameras
+	2) Drag in FirstPersonInput prefab
+	3) Drag in FirstPerson prefab
+	4) Select First Person Cameras
 		a) On the Cinemachine State Driven Camera, drag FirstPerson onto the Follow property		
-	4) Select FirstPerson
+	5) Select FirstPerson
 		a) On the First Person Brain, drag First Person Cameras onto the Camera Animations property
+		b) On the Legacy Cross Platform Character Input, drag StandaloneInput (located under FirstPersonInput) onto the Standalone Input property
+		c) Repeat for MobileInput and the Mobile Input property
 
 
 ### Third Person Controller:
 	1) Drag in Third Person Cameras prefab
-	2) Drag in MaleThirdPerson prefab
-	3) Select Third Person Cameras
+	2) Drag in ThirdPersonInput prefab
+	3) Drag in MaleThirdPerson prefab
+	4) Select Third Person Cameras
 		a) On the Cinemachine State Driven Camera, drag MaleThirdPerson onto the Follow and Look At properties
-	4) Select FreeLook Camera under Third Person Cameras
+	5) Select FreeLook Camera under Third Person Cameras
 		a) On the Cinemachine State Driven Camera, drag MaleThirdPerson to the Animated Target property
-	5) Repeat above step for Strafe under MaleThirdPerson
-	6) Select MaleThirdPerson
+	6) Repeat above step for Strafe under MaleThirdPerson
+	7) Select MaleThirdPerson
 		a) On the Third Person Brain, drag Third Person Cameras onto the Camera Animation Manager property
+		b) On the Legacy Cross Platform Character Input, drag StandaloneInput (located under ThirdPersonInput) onto the Standalone Input property
+		c) Repeat for MobileInput and the Mobile Input property
 
 
 ### Demo Scene (optional, for dev testing purposes):
