@@ -21,8 +21,6 @@ namespace StandardAssets.Characters.Physics
 		[SerializeField, Range(1, 10)]
 		protected float minJumpHeightMultiplier = 2f;
 
-		protected bool hasMovedBeenCalled;
-		
 		public bool isGrounded { get; private set; }
 		public abstract bool startedSlide { get; }
 		public abstract float radius { get; }
@@ -80,7 +78,6 @@ namespace StandardAssets.Characters.Physics
 		/// <inheritdoc />
 		public void Move(Vector3 moveVector, float deltaTime)
 		{
-			hasMovedBeenCalled = true;
 			isGrounded = CheckGrounded();
 			AerialMovement(deltaTime);
 			MoveCharacter(moveVector + verticalVector);
@@ -163,20 +160,6 @@ namespace StandardAssets.Characters.Physics
 																		  radius, trajectoryPredicitonColliders,
 																		  collisionLayerMask);
 			return colliderCount > 0;
-		}
-		
-		/// <summary>
-		/// Handle falling physics
-		/// </summary>
-		private void FixedUpdate()
-		{
-			isGrounded = CheckGrounded();
-			if (!hasMovedBeenCalled)
-			{
-				AerialMovement(Time.fixedDeltaTime);
-				MoveCharacter(verticalVector);
-			}
-			hasMovedBeenCalled = false;
 		}
 		
 		/// <summary>
