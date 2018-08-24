@@ -27,7 +27,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected string verticalSpeedParameter = "VerticalSpeed";
 		
 		[SerializeField]
-		protected string fallingTimeParameter = "FallTime";
+		protected string fallParameter = "Fall";
 		
 		[SerializeField]
 		protected float jumpTransitionDuration = 0.15f;
@@ -44,9 +44,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected string jumpedForwardSpeedParameter = "JumpedForwardSpeed";
 
-		[SerializeField]
-		protected string predictedFallDistanceParameter = "PredictedFallDistance";
-		
 		[SerializeField]
 		protected float skipJumpLandWindow = 0.25f;
 		
@@ -101,14 +98,14 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return groundedParameter; }
 		}
 
+		public string fallParameterName
+		{
+			get { return fallParameter; }
+		}
+
 		public string hasInputParameterName
 		{
 			get { return hasInputParameter; }
-		}
-
-		public string fallingTimeParameterName
-		{
-			get { return fallingTimeParameter; }
 		}
 
 		public string footednessParameterName
@@ -124,11 +121,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		public string jumpedForwardSpeedParameterName
 		{
 			get { return jumpedForwardSpeedParameter; }
-		}
-
-		public string predictedFallDistanceParameterName
-		{
-			get { return predictedFallDistanceParameter; }
 		}
 
 		public string rapidTurnParameterName

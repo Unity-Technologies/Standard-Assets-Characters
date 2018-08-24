@@ -47,12 +47,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		private int hashVerticalSpeed;
 		private int hashGrounded;
 		private int hashHasInput;
-		private int hashFallingTime;
 		private int hashFootedness;
 		private int hashJumpedForwardSpeed;
 		private int hashJumpedLateralSpeed;
-		private int hashPredictedFallDistance;
 		private int hashRapidTurn;
+		private int hashFall;
 
 		private bool isGrounded,
 					 lastPhysicsJumpRightRoot;
@@ -125,7 +124,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				state = AnimationState.Locomotion;
 			}
-			animator.SetFloat(configuration.predictedFallDistanceParameterName, 0);
 		}
 
 		public void OnFallingLoopAnimationEnter()
@@ -166,12 +164,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			hashVerticalSpeed = Animator.StringToHash(configuration.verticalSpeedParameterName);
 			hashGrounded = Animator.StringToHash(configuration.groundedParameterName);
 			hashHasInput = Animator.StringToHash(configuration.hasInputParameterName);
-			hashFallingTime = Animator.StringToHash(configuration.fallingTimeParameterName);
 			hashFootedness = Animator.StringToHash(configuration.footednessParameterName);
 			hashJumpedForwardSpeed = Animator.StringToHash(configuration.jumpedForwardSpeedParameterName);
 			hashJumpedLateralSpeed = Animator.StringToHash(configuration.jumpedLateralSpeedParameterName);
-			hashPredictedFallDistance = Animator.StringToHash(configuration.predictedFallDistanceParameterName);
 			hashRapidTurn = Animator.StringToHash(configuration.rapidTurnParameterName);
+			hashFall = Animator.StringToHash(configuration.fallParameterName);
 			motor = motorToUse;
 			animator = gameObject.GetComponent<Animator>();
 			cachedAnimatorSpeed = animator.speed;
@@ -198,7 +195,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			else
 			{
 				animator.SetFloat(hashVerticalSpeed, motor.normalizedVerticalSpeed);
-				animator.SetFloat(hashFallingTime, motor.fallTime);
 			}
 		}
 
@@ -278,9 +274,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void OnFallStarted(float predictedFallDistance)
 		{
 			isGrounded = false;
-			animator.SetFloat(hashFallingTime, 0);
 			animator.SetBool(hashGrounded, false);
-			animator.SetFloat(hashPredictedFallDistance, predictedFallDistance);
+			animator.SetTrigger(hashFall);
 		}
 
 		private void SetFootednessBool(bool value)
@@ -361,7 +356,6 @@ namespace StandardAssets.Characters.ThirdPerson
 				state = AnimationState.RootMotionJump;
 			}
 
-			animator.SetFloat(hashFallingTime, 0);
 			animator.SetBool(hashGrounded, false);
 		}
 
