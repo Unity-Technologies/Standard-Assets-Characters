@@ -7,7 +7,7 @@ namespace StandardAssets.GizmosHelpers
 {
     public class GizmoArrowHelper : MonoBehaviour
     {
-        private GameObject cylinderPrefab;
+        public GameObject cylinderPrefab;
         
         
         public bool enablePowerDebug;
@@ -64,7 +64,6 @@ namespace StandardAssets.GizmosHelpers
         //Testing Code for arrow models
         private void Start()
         {
-            cylinderPrefab = GameObject.Find("GizmoArrow");
             CreateCylinderBetweenPoints(transform.position, transform.position + transform.forward * 5, 0.5f, Color.cyan, out forwardDirection);
         }
 
@@ -76,6 +75,7 @@ namespace StandardAssets.GizmosHelpers
             // var scale = new Vector3(width, offset.magnitude / 2.0f, width);
             var position = start + (offset / 2.0f);
             cylinderObject = Instantiate(cylinderPrefab);
+            cylinderObject.transform.SetParent(transform);
             cylinderObject.transform.forward = offset;
             cylinderObject.transform.position = position;
         }
