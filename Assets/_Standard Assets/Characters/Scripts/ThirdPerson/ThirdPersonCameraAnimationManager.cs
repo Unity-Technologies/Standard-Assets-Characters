@@ -161,7 +161,9 @@ namespace StandardAssets.Characters.ThirdPerson
 				cameraIndex = 0;
 			}
 
-			if (currentCameraModeStateNames[cameraIndex] == "Strafe")
+			var switchingCameraTo = currentCameraModeStateNames[cameraIndex];
+			
+			if (switchingCameraTo== "Strafe")
 			{
 				foreach (var camera in explorationStateDrivenCamera.ChildCameras)
 				{
@@ -175,7 +177,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				}
 			}
 			
-			else if (currentCameraModeStateNames[cameraIndex] == "Exploration")
+			else if (switchingCameraTo == "Exploration")
 			{
 				var cameraX = strafeStateDrivenCamera
 			               .ChildCameras[0].GetComponent<CinemachineFreeLook>().m_XAxis.Value;
