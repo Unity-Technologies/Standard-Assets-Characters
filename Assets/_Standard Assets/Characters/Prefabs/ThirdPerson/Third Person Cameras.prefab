@@ -703,7 +703,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1192928361917510}
-  m_LocalRotation: {x: -0, y: -3.5527137e-15, z: 1.7763568e-15, w: 1}
+  m_LocalRotation: {x: 0.000000029802322, y: 0.000000025555284, z: -0.000000015333168,
+    w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -789,8 +790,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1784275661457400}
-  m_LocalRotation: {x: 0.000000029802322, y: -0.000000025555286, z: 0.000000015333171,
-    w: 1}
+  m_LocalRotation: {x: -0, y: 0.000000051110568, z: -0.000000030666335, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -860,7 +860,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1120486087132888}
-  m_LocalRotation: {x: 0.26693356, y: 0.000000028720947, z: -0.000000007955243, w: 0.96371496}
+  m_LocalRotation: {x: 0.26693356, y: -0.000000028720947, z: 0.000000007955251, w: 0.96371496}
   m_LocalPosition: {x: 10.497017, y: 1.9729375, z: -18.72462}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -932,7 +932,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1186158382073052}
-  m_LocalRotation: {x: -0, y: -3.5527137e-15, z: 1.7763568e-15, w: 1}
+  m_LocalRotation: {x: 0.000000029802322, y: 0.000000025555284, z: -0.000000015333168,
+    w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1339,6 +1340,8 @@ MonoBehaviour:
   explorationCameraObjects: []
   strafeCameraObjects:
   - {fileID: 1504451468462078}
+  explorationStateDrivenCamera: {fileID: 114676693933027276}
+  strafeStateDrivenCamera: {fileID: 114543724509008454}
 --- !u!114 &114151692478588784
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2896,13 +2899,13 @@ MonoBehaviour:
     m_ParentHash: -577605460
   - m_Hash: 1931957523
     m_ParentHash: -1729304434
-  - m_Hash: -2036564316
+  - m_Hash: 486345207
     m_ParentHash: 1931957523
   - m_Hash: -1016951084
     m_ParentHash: 1931957523
-  - m_Hash: 1931914000
+  - m_Hash: -1138345225
     m_ParentHash: 1931957523
-  - m_Hash: -700561025
+  - m_Hash: 1931914000
     m_ParentHash: 1931957523
   - m_Hash: 2090170590
     m_ParentHash: 1931957523

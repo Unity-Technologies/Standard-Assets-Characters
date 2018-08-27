@@ -33,7 +33,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 			get { return false; }
 		}
 
-		public override float radius
+		protected override float radius
 		{
 			get { return characterController.radius; }
 		}

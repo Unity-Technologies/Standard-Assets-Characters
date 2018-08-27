@@ -197,10 +197,9 @@ namespace StandardAssets.Characters.Physics
 		private float radius = 0.5f;
 
 		/// <summary>
-		/// The Character’s Capsule Collider height. Changing this will scale the collider along the Y axis in both positive and negative directions.
+		/// The Character’s Capsule Collider height. It should be at least double the radius.
 		/// </summary>
-		[Tooltip("The Character’s Capsule Collider height. Changing this will scale the collider along the Y axis in both " +
-		         "positive and negative directions.")]
+		[Tooltip("The Character’s Capsule Collider height. It should be at least double the radius.")]
 		[SerializeField]
 		private float height = 2.0f;
 
@@ -253,6 +252,13 @@ namespace StandardAssets.Characters.Physics
 		[Tooltip("Send \"OnOpenCharacterControllerHit\" messages to game objects? Messages are sent when the character hits a collider while performing a move.")]
 		[SerializeField]
 		private bool sendColliderHitMessages = true;
+
+		/// <summary>
+		/// Should casts hit trigger colliders?
+		/// </summary>
+		[Tooltip("Should casts hit trigger colliders?")]
+		[SerializeField]
+		private QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.Ignore;
 		
 		/// <summary>
 		/// Slide down slopes when their angle is more than the slope limit?
@@ -290,6 +296,13 @@ namespace StandardAssets.Characters.Physics
 		[Tooltip("Enable additional debugging info and visuals in the editor")]
 		[SerializeField]
 		private bool enableDebug;
+
+		/// <summary>
+		/// Draw the movement vector?
+		/// </summary>
+		[Tooltip("Draw the movement vector?")]
+		[SerializeField]
+		private bool debugDrawMoveVector;
 		
 		/// <summary>
 		/// The capsule collider.
@@ -350,6 +363,16 @@ namespace StandardAssets.Characters.Physics
 		/// Velocity of the last movement. It's the new position minus the old position.
 		/// </summary>
 		public Vector3 velocity { get; private set; }
+		
+		/// <summary>
+		/// Default height of the capsule (e.g. for resetting it).
+		/// </summary>
+		public float defaultHeight { get; private set; }
+		
+		/// <summary>
+		/// Default center of the capsule (e.g. for resetting it).
+		/// </summary>
+		public Vector3 defaultCenter { get; private set; }
 
 		/// <summary>
 		/// Is character busy sliding down a steep slope?
@@ -414,7 +437,8 @@ namespace StandardAssets.Characters.Physics
 			MoveInternal(moveVector, true);
 
 			#if UNITY_EDITOR
-			if (enableDebug)
+			if (enableDebug &&
+			    debugDrawMoveVector)
 			{
 				Debug.DrawRay(cachedTransform.position + rootTransformOffset, moveVector, Color.green, 1f);
 			}
@@ -427,7 +451,7 @@ namespace StandardAssets.Characters.Physics
 		/// Move the character. Velocity along the y-axis is ignored. Speed is in units/s. Gravity is automatically applied.
 		/// Returns true if the character is grounded. The method will also apply delta time to the speed.
 		/// </summary>
-		/// <param name="speed">Move along this vector.</param>
+		/// <param name="speed">Move with this speed.</param>
 		/// <returns>Whether the character is grounded.</returns>
 		public bool SimpleMove(Vector3 speed)
 		{
@@ -437,7 +461,8 @@ namespace StandardAssets.Characters.Physics
 			MoveInternal(moveVector, false);
 
 			#if UNITY_EDITOR
-			if (enableDebug)
+			if (enableDebug &&
+			    debugDrawMoveVector)
 			{
 				Debug.DrawRay(cachedTransform.position + rootTransformOffset, moveVector, Color.green, 1f);
 			}
@@ -471,7 +496,7 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="direction">Direction along which the translation required to separate the colliders apart is minimal.</param>
 		/// <param name="distance">The distance along direction that is required to separate the colliders apart.</param>
 		/// <param name="includeSkinWidth">Include the skin width in the test?</param>
-		/// <returns></returns>
+		/// <returns>True if found penetration.</returns>
 		public bool ComputePenetration(Vector3 positionOffset,
 									   Collider collider, Vector3 colliderPosition, Quaternion colliderRotation, 
 		                               out Vector3 direction, out float distance,
@@ -494,7 +519,7 @@ namespace StandardAssets.Characters.Physics
 			// Note: Physics.ComputePenetration does not always return values when the colliders overlap.
 			bool result = UnityEngine.Physics.ComputePenetration(capsuleCollider,
 			                                              		 cachedTransform.position + positionOffset,
-			                                              		 cachedTransform.rotation,
+			                                                     Quaternion.identity,
 			                                              		 collider, colliderPosition, colliderRotation,
 																 out direction, out distance);
 			if (includeSkinWidth)
@@ -506,12 +531,133 @@ namespace StandardAssets.Characters.Physics
 			return result;
 		}
 
+		/// <summary>
+		/// Check for collision below the character, using a ray or sphere cast.
+		/// </summary>
+		/// <param name="distance">Distance to check.</param>
+		/// <param name="hitInfo">Get the hit info.</param>
+		/// <param name="offsetPosition">Position offset. If we want to do a cast not at the character's current position.</param>
+		/// <param name="useSphereCast">Use a sphere cast? If false then use a ray cast.</param>
+		/// <param name="useSecondSphereCast">The second cast includes the skin width. Ideally only needed for human controlled player, for more accuracy.</param>
+		/// <param name="adjustPositionSlightly">Adjust position slightly up, in case it's already inside an obstacle.</param>
+		/// <returns>True if collision occured.</returns>
+		public bool CheckCollisionBelow(float distance, out RaycastHit hitInfo, 
+		                                Vector3 offsetPosition,
+		                                bool useSphereCast = false, 
+		                                bool useSecondSphereCast = false,
+		                                bool adjustPositionSlightly = false)
+		{
+			bool didCollide = false;
+			float extraDistance = adjustPositionSlightly
+				? k_CollisionOffset
+				: 0.0f;
+			if (!useSphereCast)
+			{
+				if (UnityEngine.Physics.Raycast(GetFootWorldPosition() + offsetPosition + Vector3.up * extraDistance,
+				                                Vector3.down,
+				                                out hitInfo,
+				                                distance + extraDistance,
+				                                GetCollisionLayerMask(),
+				                                queryTriggerInteraction))
+				{
+					didCollide = true;
+					hitInfo.distance = Mathf.Max(0.0f, hitInfo.distance - extraDistance);
+				}
+			}
+			else
+			{
+				if (SmallSphereCast(Vector3.down,
+				                    GetSkinWidth() + distance,
+				                    out hitInfo,
+				                    offsetPosition,
+				                    true))
+				{
+					didCollide = true;
+					hitInfo.distance = Mathf.Max(0.0f, hitInfo.distance - GetSkinWidth());
+				}
+				if (!didCollide &&
+				    useSecondSphereCast)
+				{
+					if (BigSphereCast(Vector3.down,
+					                  distance + extraDistance,
+					                  out hitInfo,
+					                  offsetPosition + Vector3.up * extraDistance,
+					                  true))
+					{
+						didCollide = true;
+						hitInfo.distance = Mathf.Max(0.0f, hitInfo.distance - extraDistance);
+					}
+				}
+			}
+
+			return didCollide;
+		}
+		
+		/// <summary>
+		/// Check for collision above the character, using a ray or sphere cast.
+		/// </summary>
+		/// <param name="distance">Distance to check.</param>
+		/// <param name="hitInfo">Get the hit info.</param>
+		/// <param name="offsetPosition">Position offset. If we want to do a cast not at the character's current position.</param>
+		/// <param name="useSphereCast">Use a sphere cast? If false then use a ray cast.</param>
+		/// <param name="useSecondSphereCast">The second cast includes the skin width. Ideally only needed for human controlled player, for more accuracy.</param>
+		/// <param name="adjustPositionSlightly">Adjust position slightly down, in case it's already inside an obstacle.</param>
+		/// <returns>True if collision occured.</returns>
+		public bool CheckCollisionAbove(float distance, out RaycastHit hitInfo, 
+		                                Vector3 offsetPosition,
+		                                bool useSphereCast = false, 
+		                                bool useSecondSphereCast = false,
+		                                bool adjustPositionSlightly = false)
+		{
+			bool didCollide = false;
+			float extraDistance = adjustPositionSlightly
+				? k_CollisionOffset
+				: 0.0f;
+			if (!useSphereCast)
+			{
+				if (UnityEngine.Physics.Raycast(GetHeadWorldPosition() + offsetPosition + Vector3.down * extraDistance,
+				                                Vector3.up,
+				                                out hitInfo,
+				                                distance + extraDistance,
+				                                GetCollisionLayerMask(),
+				                                queryTriggerInteraction))
+				{
+					didCollide = true;
+					hitInfo.distance = Mathf.Max(0.0f, hitInfo.distance - extraDistance);
+				}
+			}
+			else
+			{
+				if (SmallSphereCast(Vector3.up,
+				                    GetSkinWidth() + distance,
+				                    out hitInfo,
+				                    offsetPosition,
+				                    false))
+				{
+					didCollide = true;
+					hitInfo.distance = Mathf.Max(0.0f, hitInfo.distance - GetSkinWidth());
+				}
+				if (!didCollide &&
+				    useSecondSphereCast)
+				{
+					if (BigSphereCast(Vector3.up,
+					                  distance + extraDistance,
+					                  out hitInfo,
+					                  offsetPosition + Vector3.down * extraDistance,
+					                  false))
+					{
+						didCollide = true;
+						hitInfo.distance = Mathf.Max(0.0f, hitInfo.distance - extraDistance);
+					}
+				}
+			}
+
+			return didCollide;
+		}
 
 		/// <summary>
-		/// [Temporary?] Added by Codie to expose collider to
-		/// ScaleCharacterColliderState to transition capsule collider states.
+		/// Get the CspsuleCollider.
 		/// </summary>
-		/// <returns></returns>
 		public CapsuleCollider GetCapsuleCollider()
 		{
 			return capsuleCollider;
@@ -520,7 +666,6 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Get the slope limit.
 		/// </summary>
-		/// <returns></returns>
 		public float GetSlopeLimit()
 		{
 			return slopeLimit;
@@ -529,7 +674,6 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Get the step offset.
 		/// </summary>
-		/// <returns></returns>
 		public float GetStepOffset()
 		{
 			return stepOffset;
@@ -538,7 +682,6 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Get the skin width.
 		/// </summary>
-		/// <returns></returns>
 		public float GetSkinWidth()
 		{
 			return skinWidth;
@@ -547,7 +690,6 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Get the minimum move distance.
 		/// </summary>
-		/// <returns></returns>
 		public float GetMinMoveDistance()
 		{
 			return minMoveDistance;
@@ -556,43 +698,157 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Get the minimum move sqr distance.
 		/// </summary>
-		/// <returns></returns>
 		public float GetMinMoveSqrDistance()
 		{
 			return minMoveDistance * minMoveDistance;
 		}
 
 		/// <summary>
-		/// Get the center (local).
+		/// Reset the capsule's height and center to the default values.
 		/// </summary>
-		/// <returns></returns>
+		/// <param name="checkForPenetration">Check for collision, and then depenetrate if there's collision?</param>
+		/// <param name="updateGrounded">Update the grounded state? This uses a cast, so only set it to true if you need it.</param>
+		public void ResetHeightAndCenter(bool checkForPenetration, bool updateGrounded)
+		{
+			SetCenter(defaultCenter, false, false);
+			SetHeight(defaultHeight, false, checkForPenetration, updateGrounded);
+		}
+
+		/// <summary>
+		/// Get the capsule's center (local).
+		/// </summary>
 		public Vector3 GetCenter()
 		{
 			return center;
 		}
+
+		/// <summary>
+		/// Set the capsule's center (local).
+		/// </summary>
+		/// <param name="newCenter">New center.</param>
+		/// <param name="checkForPenetration">Check for collision, and then depenetrate if there's collision?</param>
+		/// <param name="updateGrounded">Update the grounded state? This uses a cast, so only set it to true if you need it.</param>
+		public void SetCenter(Vector3 newCenter, bool checkForPenetration, bool updateGrounded)
+		{
+			center = newCenter;
+			ValidateCapsule(true, checkForPenetration, updateGrounded);
+		}
+
+		/// <summary>
+		/// Reset the capsule's center to the default value.
+		/// </summary>
+		/// <param name="checkForPenetration">Check for collision, and then depenetrate if there's collision?</param>
+		/// <param name="updateGrounded">Update the grounded state? This uses a cast, so only set it to true if you need it.</param>
+		public void ResetCenter(bool checkForPenetration, bool updateGrounded)
+		{
+			SetCenter(defaultCenter, checkForPenetration, updateGrounded);
+		}
 		
 		/// <summary>
-		/// Get the radius (local).
+		/// Get the capsule's radius (local).
 		/// </summary>
-		/// <returns></returns>
 		public float GetRadius()
 		{
 			return radius;
 		}
 
 		/// <summary>
-		/// Get the height (local).
+		/// Get the capsule's height (local).
 		/// </summary>
-		/// <returns></returns>
 		public float GetHeight()
 		{
 			return height;
 		}
 
 		/// <summary>
+		/// Set the capsule's height (local). Minimum limit is double the capsule radius size.
+		/// Call CanSetHeight if you want to test if height can change, e.g. when changing from crouch to stand.
+		/// </summary>
+		/// <param name="newHeight">New height.</param>
+		/// <param name="preserveFootPosition">Adjust the capsule's centre to preserve the foot position?</param>
+		/// <param name="checkForPenetration">Check for collision, and then depenetrate if there's collision?</param>
+		/// <param name="updateGrounded">Update the grounded state? This uses a cast, so only set it to true if you need it.</param>
+		public void SetHeight(float newHeight, bool preserveFootPosition, bool checkForPenetration, bool updateGrounded)
+		{
+			newHeight = ValidateHeight(newHeight);
+			if (Mathf.Approximately(height, newHeight))
+			{
+				return;
+			}
+			
+			if (preserveFootPosition)
+			{
+				center = CalculateCenterWithSameFootPosition(newHeight);
+			}
+			height = newHeight;
+			ValidateCapsule(true, checkForPenetration, updateGrounded);
+		}
+
+		/// <summary>
+		/// Reset the capsule's height to the default value.
+		/// </summary>
+		/// <param name="preserveFootPosition">Adjust the capsule's centre to preserve the foot position?</param>
+		/// <param name="checkForPenetration">Check for collision, and then depenetrate if there's collision?</param>
+		/// <param name="updateGrounded">Update the grounded state? This uses a cast, so only set it to true if you need it.</param>
+		public void ResetHeight(bool preserveFootPosition, bool checkForPenetration, bool updateGrounded)
+		{
+			SetHeight(defaultHeight, preserveFootPosition, checkForPenetration, updateGrounded);
+		}
+
+		/// <summary>
+		/// Can the capsule's height be changed to the specified height (i.e. no collision will occur)?
+		/// </summary>
+		/// <param name="newHeight">Height we want to set to.</param>
+		/// <param name="preserveFootPosition">Adjust the capsule's centre to preserve the foot position?</param>
+		public bool CanSetHeight(float newHeight, bool preserveFootPosition)
+		{
+			if (newHeight <= height)
+			{
+				// Don't need to check for collision when height gets smaller
+				return true;
+			}
+
+			newHeight = ValidateHeight(newHeight);
+			bool collided = false;
+			RaycastHit hitInfo;
+			float distance = newHeight - height;
+			if (preserveFootPosition)
+			{				
+				// Check for collision above
+				collided = CheckCollisionAbove(distance,
+				                               out hitInfo,
+				                               Vector3.zero,
+				                               true,
+				                               localHumanControlled,
+				                               localHumanControlled);
+			}
+			else
+			{
+				// Check for collision above
+				collided = CheckCollisionAbove(distance / 2.0f,
+				                               out hitInfo,
+				                               Vector3.zero,
+				                               true,
+				                               localHumanControlled,
+				                               localHumanControlled);
+				if (!collided)
+				{
+					// Check for collision below
+					collided = CheckCollisionBelow(distance / 2.0f,
+					                               out hitInfo,
+					                               Vector3.zero,
+					                               true,
+					                               localHumanControlled,
+					                               localHumanControlled);
+				}
+			}
+			
+			return !collided;
+		}
+
+		/// <summary>
 		/// Get the layers to test for collision.
 		/// </summary>
-		/// <returns></returns>
 		public LayerMask GetCollisionLayerMask()
 		{
 			return collisionLayerMask;
@@ -601,16 +857,23 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Get if the character is controlled by a local human.
 		/// </summary>
-		/// <returns></returns>
 		public bool GetLocalHumanControlled()
 		{
 			return localHumanControlled;
 		}
 
 		/// <summary>
-		/// Get the foot local position.
+		/// Get whether casts should hit trigger colliders.
 		/// </summary>
 		/// <returns></returns>
+		public QueryTriggerInteraction GetQueryTriggerInteraction()
+		{
+			return queryTriggerInteraction;
+		}
+
+		/// <summary>
+		/// Get the foot local position.
+		/// </summary>
 		public Vector3 GetFootLocalPosition()
 		{
 			return center + (Vector3.down * (height / 2.0f + skinWidth));
@@ -619,16 +882,30 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Get the foot world position.
 		/// </summary>
-		/// <returns></returns>
 		public Vector3 GetFootWorldPosition()
 		{
-			return cachedTransform.position + transformedCenter + (Vector3.down * (scaledHeight * 0.5f + skinWidth));
+			return cachedTransform.position + transformedCenter + (Vector3.down * (scaledHeight / 2.0f + skinWidth));
+		}
+		
+		/// <summary>
+		/// Get top of head local position.
+		/// </summary>
+		public Vector3 GetHeadLocalPosition()
+		{
+			return center + (Vector3.up * (height / 2.0f + skinWidth));
+		}
+
+		/// <summary>
+		/// Get top of head world position.
+		/// </summary>
+		public Vector3 GetHeadWorldPosition()
+		{
+			return cachedTransform.position + transformedCenter + (Vector3.up * (scaledHeight / 2.0f + skinWidth));
 		}
 
 		/// <summary>
 		/// Get the top sphere's local position.
 		/// </summary>
-		/// <returns></returns>
 		public Vector3 GetTopSphereLocalPosition()
 		{
 			Vector3 sphereOffsetY = Vector3.up * (height / 2.0f - radius);
@@ -638,7 +915,6 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Get the bottom sphere's local position.
 		/// </summary>
-		/// <returns></returns>
 		public Vector3 GetBottomSphereLocalPosition()
 		{
 			Vector3 sphereOffsetY = Vector3.up * (height / 2.0f - radius);
@@ -648,7 +924,6 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Get the top sphere's world position.
 		/// </summary>
-		/// <returns></returns>
 		public Vector3 GetTopSphereWorldPosition()
 		{
 			Vector3 sphereOffsetY = Vector3.up * (scaledHeight / 2.0f - scaledRadius);
@@ -658,7 +933,6 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Get the bottom sphere's world position.
 		/// </summary>
-		/// <returns></returns>
 		public Vector3 GetBottomSphereWorldPosition()
 		{
 			Vector3 sphereOffsetY = Vector3.up * (scaledHeight / 2.0f - scaledRadius);
@@ -668,7 +942,6 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Get the capsule's world position.
 		/// </summary>
-		/// <returns></returns>
 		public Vector3 GetCapsuleWorldPosition()
 		{
 			return cachedTransform.position + transformedCenter;
@@ -678,7 +951,6 @@ namespace StandardAssets.Characters.Physics
 		/// Returns a point on the capsule collider that is closest to a given location.
 		/// </summary>
 		/// <param name="position"></param>
-		/// <returns></returns>
 		public Vector3 GetClosestPointOnCapsule(Vector3 position)
 		{
 			return capsuleCollider.ClosestPoint(position);
@@ -735,12 +1007,19 @@ namespace StandardAssets.Characters.Physics
 			                footPosition + Vector3.right * scaledRadius);
 			Gizmos.DrawLine(footPosition + Vector3.back * scaledRadius,
 			                footPosition + Vector3.forward * scaledRadius);
-
+			
 			if (enableDebug)
 			{
 				// Big capsule collider
 				GizmosHelper.DrawCapsule(GetTopSphereWorldPosition(), GetBottomSphereWorldPosition(), 
 				                         scaledRadius + skinWidth, new Color(1.0f, 1.0f, 0.0f, 0.2f));
+				
+				// Top of head
+				Vector3 headPosition = GetHeadWorldPosition();
+				Gizmos.DrawLine(headPosition + Vector3.left * scaledRadius,
+				                headPosition + Vector3.right * scaledRadius);
+				Gizmos.DrawLine(headPosition + Vector3.back * scaledRadius,
+				                headPosition + Vector3.forward * scaledRadius);
 			}
 
 			CapsuleCollider tempCapsuleCollider = capsuleCollider;
@@ -827,25 +1106,70 @@ namespace StandardAssets.Characters.Physics
 			}
 
 			ValidateCapsule(addCapsule);
+			
+			defaultHeight = height;
+			defaultCenter = center;
+		}
+
+		/// <summary>
+		/// Validate the height. It must be at least double the radius size.
+		/// </summary>
+		private float ValidateHeight(float newHeight)
+		{
+			return Mathf.Clamp(newHeight, radius * 2.0f, float.MaxValue);
 		}
 
 		/// <summary>
 		/// Call this when the capsule's values change.
 		/// </summary>
-		/// <param name="addedCapsuleCollider">Was the capsule collider automatically added?</param>
-		private void ValidateCapsule(bool addedCapsuleCollider)
+		/// <param name="updateCapsuleCollider">Update the capsule collider's values (e.g. center, height, radius)?</param>
+		/// <param name="checkForPenetration">Check for collision, and then depenetrate if there's collision?</param>
+		/// <param name="updateGrounded">Update the grounded state? This uses a cast, so only set it to true if you need it.</param>
+		private void ValidateCapsule(bool updateCapsuleCollider, 
+		                             bool checkForPenetration = false, 
+		                             bool updateGrounded = false)
 		{
 			slopeLimit = Mathf.Clamp(slopeLimit, 0.0f, k_MaxSlopeLimit);
 			skinWidth = Mathf.Clamp(skinWidth, k_MinSkinWidth, float.MaxValue);
+			float oldHeight = height;
+			height = ValidateHeight(height);
 			
-			if (addedCapsuleCollider && 
-			    capsuleCollider != null)
+			if (capsuleCollider != null)
 			{
-				// Copy settings to the capsule collider
-				capsuleCollider.center = center;
-				capsuleCollider.radius = radius;
-				capsuleCollider.height = height;
+				if (updateCapsuleCollider)
+				{
+					// Copy settings to the capsule collider
+					capsuleCollider.center = center;
+					capsuleCollider.radius = radius;
+					capsuleCollider.height = height;
+				}
+				else if (!Mathf.Approximately(height, oldHeight))
+				{
+					// Height changed
+					capsuleCollider.height = height;
+				}
 			}
+			
+			if (checkForPenetration)
+			{
+				Depenetrate();
+			}
+			
+			if (updateGrounded)
+			{
+				UpdateGrounded(CollisionFlags.None);
+			}
+		}
+		
+		/// <summary>
+		/// Calculate a new center if the height changes and preserve the foot position.
+		/// </summary>
+		/// <param name="newHeight">New height.</param>
+		private Vector3 CalculateCenterWithSameFootPosition(float newHeight)
+		{
+			float localFootY = center.y - (height / 2.0f + skinWidth);
+			float newCenterY = localFootY + (newHeight / 2.0f + skinWidth);
+			return new Vector3(center.x, newCenterY, center.z);
 		}
 		
 		/// <summary>
@@ -952,21 +1276,12 @@ namespace StandardAssets.Characters.Physics
 			else
 			{
 				RaycastHit hitinfo;
-				isGrounded = SmallSphereCast(Vector3.down, 
-				                             GetSkinWidth() + k_GroundedTestDistance, 
-				                             out hitinfo,
-				                             Vector3.zero, 
-				                             true);
-				// Extra test for human controlled character
-				if (!isGrounded &&
-				    localHumanControlled)
-				{
-					isGrounded = BigSphereCast(Vector3.down, 
-					                             GetSkinWidth() + k_GroundedTestDistance + k_CollisionOffset, 
-					                             out hitinfo,
-					                             Vector3.up * k_CollisionOffset, 
-					                             true);
-				}
+				isGrounded = CheckCollisionBelow(k_GroundedTestDistance,
+				                                 out hitinfo,
+				                                 Vector3.zero,
+				                                 true,
+				                                 localHumanControlled,
+				                                 localHumanControlled);
 			}
 			
 			if (onGroundedChanged != null &&
@@ -1067,7 +1382,6 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="moveVector">The move vector.</param>
 		/// <param name="canSlide">Can slide against obsyacles?</param>
 		/// <param name="tryGrounding">Try grounding the player?</param>
-		/// <returns>True when there is collision.</returns>
 		private bool MoveMajorStep(ref Vector3 moveVector, bool canSlide, bool tryGrounding)
 		{
 			Vector3 direction = moveVector.normalized;
@@ -1139,7 +1453,6 @@ namespace StandardAssets.Characters.Physics
 		/// Can the character perform a step offset?
 		/// </summary>
 		/// <param name="moveVector">Horizontal movement vector.</param>
-		/// <returns></returns>
 		private bool CanStepOffset(Vector3 moveVector)
 		{			
 			float moveVectorMagnitude = moveVector.magnitude;
@@ -1176,7 +1489,6 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		/// <param name="moveVector">The movement vector.</param>
 		/// <param name="alsoCheckForStepOffset">Do a second test where the step offset will move the player to?</param>
-		/// <returns></returns>
 		private bool CheckSteepSlopeAhead(Vector3 moveVector, bool alsoCheckForStepOffset = true)
 		{
 			Vector3 direction = moveVector.normalized;
@@ -1250,7 +1562,8 @@ namespace StandardAssets.Characters.Physics
 			                                rayDirection,
 			                                out hitInfoRay,
 			                                rayDirection.magnitude * k_RaycastScaleDistance,
-			                                GetCollisionLayerMask()) &&
+			                                GetCollisionLayerMask(),
+			                                queryTriggerInteraction) &&
 			    hitInfoRay.collider == hitInfoCapsule.collider)
 			{
 				hitInfoCapsule = hitInfoRay;
@@ -1275,7 +1588,7 @@ namespace StandardAssets.Characters.Physics
 		{
 			Vector3 horizontal = new Vector3(moveVector.x, 0.0f, moveVector.z);
 			Vector3 vertical = new Vector3(0.0f, moveVector.y, 0.0f);
-			bool horizontalIsAlmostZero = IsMoveVectorAlmostZero(moveVector);
+			bool horizontalIsAlmostZero = IsMoveVectorAlmostZero(horizontal);
 			float tempStepOffset = GetStepOffset();
 			bool doStepOffset = isGrounded && 
 			                    !doNotStepOffset &&
@@ -1391,7 +1704,6 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Is the move loop on the final move vector?
 		/// </summary>
-		/// <returns></returns>
 		private bool IsFinalMoveVector()
 		{
 			return moveVectors.Count == 0 ||
@@ -1417,7 +1729,6 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		/// <param name="moveVector">The original movement vector.</param>
 		/// <param name="getDownVector">Get the down vector.</param>
-		/// <returns></returns>
 		private bool CanStickToGround(Vector3 moveVector, out OpenCharacterControllerVector getDownVector)
 		{
 			Vector3 moveVectorNoY = new Vector3(moveVector.x, 0.0f, moveVector.z);
@@ -1483,7 +1794,8 @@ namespace StandardAssets.Characters.Physics
 			                                    direction,
 			                                    out smallRadiusHitInfo,
 			                                    distance + extraDistance,
-			                                    GetCollisionLayerMask()))
+			                                    GetCollisionLayerMask(),
+			                                    queryTriggerInteraction))
 			{
 				return smallRadiusHitInfo.distance <= distance;
 			}
@@ -1492,13 +1804,12 @@ namespace StandardAssets.Characters.Physics
 		}
 
 		/// <summary>
-		/// Do a capsule cast, including the skin width.
+		/// Do a capsule cast, includes the skin width.
 		/// </summary>
 		/// <param name="direction">Direction to cast.</param>
 		/// <param name="distance">Distance to cast.</param>
 		/// <param name="bigRadiusHitInfo">Hit info.</param>
 		/// <param name="offsetPosition">Position offset. If we want to do a cast not at the capsule's current position.</param>
-		/// <returns></returns>
 		private bool BigCapsuleCast(Vector3 direction, float distance,
 									out RaycastHit bigRadiusHitInfo,
 		                            Vector3 offsetPosition)
@@ -1513,7 +1824,8 @@ namespace StandardAssets.Characters.Physics
 			                                    direction,
 			                                    out bigRadiusHitInfo,
 			                                    distance + extraDistance,
-			                                    GetCollisionLayerMask()))
+			                                    GetCollisionLayerMask(),
+			                                    queryTriggerInteraction))
 			{
 				return bigRadiusHitInfo.distance <= distance;
 			}
@@ -1522,14 +1834,13 @@ namespace StandardAssets.Characters.Physics
 		}
 		
 		/// <summary>
-		/// Do a sphere cast, exlucliding the skin width. Sphere position is at the top or bottom of the capsule.
+		/// Do a sphere cast, excludes the skin width. Sphere position is at the top or bottom of the capsule.
 		/// </summary>
 		/// <param name="direction">Direction to cast.</param>
 		/// <param name="distance">Distance to cast.</param>
 		/// <param name="smallRadiusHitInfo">Hit info.</param>
 		/// <param name="offsetPosition">Position offset. If we want to do a cast not at the capsule's current position.</param>
 		/// <param name="useBottomSphere">Use the sphere at the bottom of the capsule? If false then use the top sphere.</param>
-		/// <returns></returns>
 		private bool SmallSphereCast(Vector3 direction, float distance,
 		                             out RaycastHit smallRadiusHitInfo,
 		                             Vector3 offsetPosition,
@@ -1543,11 +1854,12 @@ namespace StandardAssets.Characters.Physics
 				? GetBottomSphereWorldPosition() + offsetPosition
 				: GetTopSphereWorldPosition() + offsetPosition;
 			if (UnityEngine.Physics.SphereCast(spherePosition,
-			                                    scaledRadius,
-			                                    direction,
-			                                    out smallRadiusHitInfo,
-			                                    distance + extraDistance,
-			                                    GetCollisionLayerMask()))
+			                                   scaledRadius,
+			                                   direction,
+			                                   out smallRadiusHitInfo,
+			                                   distance + extraDistance,
+			                                   GetCollisionLayerMask(),
+			                                   queryTriggerInteraction))
 			{
 				return smallRadiusHitInfo.distance <= distance;
 			}
@@ -1563,7 +1875,6 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="bigRadiusHitInfo">Hit info.</param>
 		/// <param name="offsetPosition">Position offset. If we want to do a cast not at the capsule's current position.</param>
 		/// <param name="useBottomSphere">Use the sphere at the bottom of the capsule? If false then use the top sphere.</param>
-		/// <returns></returns>
 		private bool BigSphereCast(Vector3 direction, float distance,
 		                           out RaycastHit bigRadiusHitInfo,
 		                           Vector3 offsetPosition,
@@ -1577,11 +1888,12 @@ namespace StandardAssets.Characters.Physics
 				? GetBottomSphereWorldPosition() + offsetPosition
 				: GetTopSphereWorldPosition() + offsetPosition;
 			if (UnityEngine.Physics.SphereCast(spherePosition,
-			                                    scaledRadius + GetSkinWidth(),
-			                                    direction,
-			                                    out bigRadiusHitInfo,
-			                                    distance + extraDistance,
-			                                    GetCollisionLayerMask()))
+			                                   scaledRadius + GetSkinWidth(),
+			                                   direction,
+			                                   out bigRadiusHitInfo,
+			                                   distance + extraDistance,
+			                                   GetCollisionLayerMask(),
+			                                   queryTriggerInteraction))
 			{
 				return bigRadiusHitInfo.distance <= distance;
 			}
@@ -1621,7 +1933,6 @@ namespace StandardAssets.Characters.Physics
 			MovePosition(direction * hitDistance, direction, hitInfoCapsule);
 			
 			Vector3 hitNormal;
-			Collider hitCollider;
 			RaycastHit hitInfoRay;
 			Vector3 rayOrigin = GetCapsuleWorldPosition();
 			Vector3 rayDirection = hitInfoCapsule.point - rayOrigin;
@@ -1632,17 +1943,16 @@ namespace StandardAssets.Characters.Physics
 			                                rayDirection,
 			                                out hitInfoRay,
 			                                rayDirection.magnitude * k_RaycastScaleDistance,
-			                                GetCollisionLayerMask()) &&
+			                                GetCollisionLayerMask(),
+			                                queryTriggerInteraction) &&
 			    hitInfoRay.collider == hitInfoCapsule.collider &&
 			    Vector3.Angle(hitInfoCapsule.normal, hitInfoRay.normal) <= k_MaxAngleToUseRaycastNormal)
 			{
 				hitNormal = hitInfoRay.normal;
-				hitCollider = hitInfoRay.collider;
 			}
 			else
 			{
 				hitNormal = hitInfoCapsule.normal;
-				hitCollider = hitInfoCapsule.collider;
 			}
 
 			float penetrationDistance;
@@ -1716,6 +2026,19 @@ namespace StandardAssets.Characters.Physics
 				downCollisionNormal = hitNormal;
 			}
 		}
+
+		/// <summary>
+		/// Check for collision penetration, then try to depenetrate of there is collision.
+		/// </summary>
+		private void Depenetrate()
+		{
+			float distance;
+			Vector3 direction;
+			if (GetPenetrationInfo(out distance, out direction))
+			{
+				MovePosition(direction * distance, null, null);
+			}
+		}
 		
 		/// <summary>
 		/// Get direction and distance to move out of the obstacle.
@@ -1744,7 +2067,8 @@ namespace StandardAssets.Characters.Physics
 			                                                              GetBottomSphereWorldPosition() + offset,
 			                                                              scaledRadius + tempSkinWidth,
 			                                                              colliders,
-			                                                              GetCollisionLayerMask());
+			                                                              GetCollisionLayerMask(),
+			                                                              queryTriggerInteraction);
 			if (overlapCount <= 0 ||
 			    colliders.Length <= 0)
 			{
@@ -1931,7 +2255,8 @@ namespace StandardAssets.Characters.Physics
 				                                rayDirection,
 				                                out hitInfoRay,
 				                                rayDirection.magnitude * k_RaycastScaleDistance,
-				                                GetCollisionLayerMask()) &&
+				                                GetCollisionLayerMask(),
+				                                queryTriggerInteraction) &&
 				    hitInfoRay.collider == hitInfoSphere.collider)
 				{
 					hitNormal = hitInfoRay.normal;

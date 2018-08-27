@@ -1,6 +1,4 @@
 using System;
-using System.Timers;
-using Cinemachine;
 using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
@@ -125,18 +123,10 @@ namespace StandardAssets.Characters.ThirdPerson
 				return;
 			}
 
-			var distance = baseCharacterPhysics.GetPredicitedFallDistance();
+			var distance = baseCharacterPhysics.GetPredictedFallDistance();
 			if (distance <= configuration.maxFallDistanceToLand)
 			{
 				OnLanding();
-			}
-			else
-			{
-				aerialState = ThirdPersonAerialMovementState.Falling;
-				if (fallStarted != null)
-				{
-					fallStarted(distance);
-				}
 			}
 		}
 
@@ -154,7 +144,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				return;
 			}
 
-			if (ShouldApplyRootMotion())
+			if (animationController.isRootMotionState)
 			{
 				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
 				groundMovementVector.y = 0;
@@ -164,7 +154,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				if (postLandFramesToIgnore <= 0)
 				{
 					float movementVelocity = groundMovementVector.
-					                         GetMagnitudeOnAxis(transform.forward)/Time.deltaTime;
+											 GetMagnitudeOnAxis(transform.forward)/Time.deltaTime;
 					if (movementVelocity > 0)
 					{
 						averageForwardVelocity.Add(movementVelocity, HandleNegative.Absolute);
@@ -181,8 +171,12 @@ namespace StandardAssets.Characters.ThirdPerson
 				{
 					CalculateFallForwardSpeed();
 				}
-				characterPhysics.Move(cachedForwardVelocity * Time.deltaTime * transform.forward * configuration.scaledGroundVelocity, 
-					Time.deltaTime);
+
+				//var movementDirection = transform.forward;
+				var movementDirection = Quaternion.AngleAxis(Camera.main.transform.eulerAngles.y, Vector3.up) * 
+				                        new Vector3(characterInput.moveInput.x, 0, characterInput.moveInput.y);
+				characterPhysics.Move(cachedForwardVelocity * Time.deltaTime * movementDirection * 
+									  configuration.scaledGroundVelocity, Time.deltaTime);
 			}
 		}
 
@@ -195,11 +189,6 @@ namespace StandardAssets.Characters.ThirdPerson
 				: configuration.fallSpeedAcceleration;
 			cachedForwardVelocity = Mathf.Lerp(cachedForwardVelocity, target, time);
 			normalizedForwardSpeed = cachedForwardVelocity / maxFallForward;
-		}
-
-		private bool ShouldApplyRootMotion()
-		{
-			return IsGrounded && animationController.state != AnimationState.PhysicsJump;
 		}
 
 		public void Init(ThirdPersonBrain brain)
@@ -324,14 +313,14 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void UpdateTrackGroundHeight()
 		{
 			if (aerialState == ThirdPersonAerialMovementState.Grounded && 
-			    !characterPhysics.isGrounded)
+				!characterPhysics.isGrounded)
 			{
 				if (Time.frameCount % k_TrackGroundFrameIntervals == 0)
 				{
 					var baseCharacterPhysics = characterPhysics as BaseCharacterPhysics;
 					if (baseCharacterPhysics != null)
 					{
-						float distance = baseCharacterPhysics.GetPredicitedFallDistance();
+						float distance = baseCharacterPhysics.GetPredictedFallDistance();
 						if (distance > configuration.maxFallDistanceToLand)
 						{
 							OnStartedFalling(distance);
@@ -537,8 +526,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			normalizedForwardSpeed = actionAverageForwardInput.average;
 
 			// evaluate if current forward speed should be recorded for jump speed
-			if (!IsGrounded || !animationController.canJump || 
-			    movementState == ThirdPersonGroundMovementState.TurningAround)
+			if (!IsGrounded || !animationController.isRootMotionState || 
+				movementState == ThirdPersonGroundMovementState.TurningAround)
 			{
 				return;
 			}
@@ -648,11 +637,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		private bool TryJump()
 		{
 			if (movementState == ThirdPersonGroundMovementState.TurningAround || 
-			    animationController.state == AnimationState.Landing)
+				animationController.state == AnimationState.Landing)
 			{
 				return true;
 			}
-			if (!IsGrounded || characterPhysics.startedSlide || !animationController.canJump)
+			if (!IsGrounded || characterPhysics.startedSlide || !animationController.isRootMotionState)
 			{
 				return false;
 			}
@@ -662,8 +651,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (Mathf.Abs(normalizedLateralSpeed) <= normalizedForwardSpeed && normalizedForwardSpeed >=0)
 			{
 				if (characterInput.moveInput.magnitude > configuration.standingJumpMinInputThreshold && 
-				    animator.deltaPosition.GetMagnitudeOnAxis(transform.forward) <= 
-				    configuration.standingJumpMaxMovementThreshold * Time.deltaTime)
+					animator.deltaPosition.GetMagnitudeOnAxis(transform.forward) <= 
+					configuration.standingJumpMaxMovementThreshold * Time.deltaTime)
 				{
 					cachedForwardVelocity = configuration.standingJumpSpeed;
 					normalizedForwardSpeed = 1;
@@ -675,7 +664,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 				if (!Mathf.Approximately(cachedForwardVelocity, 0) && !Mathf.Approximately(normalizedForwardSpeed, 0))
 				{
- 					postLandFramesToIgnore = configuration.postPhyicsJumpFramesToIgnoreForward;
+					postLandFramesToIgnore = configuration.postPhyicsJumpFramesToIgnoreForward;
 				}
 				characterPhysics.SetJumpVelocity(
 					configuration.JumpHeightAsAFactorOfForwardSpeedAsAFactorOfSpeed.Evaluate(normalizedForwardSpeed));

@@ -1219,7 +1219,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1294013925418394}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 33, y: 0, z: 9.31}
+  m_LocalPosition: {x: 33, y: -0.1197482, z: 9.31}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4373934692070628}
@@ -2088,8 +2088,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.039348602, y: 0.3109932, z: 0.11848581}
-  m_Center: {x: -0.07071495, y: -0.07111931, z: 0.0066191554}
+  m_Size: {x: 0.04, y: 0.1, z: 0.1}
+  m_Center: {x: -0.07, y: -0.16, z: 0}
 --- !u!65 &65763725577463722
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -2100,8 +2100,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.06700516, y: 0.30491638, z: 0.1038934}
-  m_Center: {x: 0.056497574, y: 0.07752991, z: -0.008598268}
+  m_Size: {x: 0.04, y: 0.1, z: 0.1}
+  m_Center: {x: 0.07, y: 0.16, z: 0}
 --- !u!95 &95372130055387216
 Animator:
   serializedVersion: 3
@@ -2334,10 +2334,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcb74f21ba404856bb13390a1b5f29ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: leftfoot
+  id: thirdPerson_leftFoot
   layerMask:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 256
 --- !u!114 &114449538320415148
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2349,10 +2349,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcb74f21ba404856bb13390a1b5f29ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: rightfoot
+  id: thirdPerson_rightFoot
   layerMask:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 256
 --- !u!114 &114484545000245226
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2382,7 +2382,7 @@ MonoBehaviour:
     colliderLayer: 
     collisionLayerMask:
       serializedVersion: 2
-      m_Bits: 257
+      m_Bits: 1281
     localHumanControlled: 1
     canSlideAgainstCeiling: 1
     sendColliderHitMessages: 1
