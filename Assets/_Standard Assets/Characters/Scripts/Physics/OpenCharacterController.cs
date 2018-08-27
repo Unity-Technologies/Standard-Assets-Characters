@@ -689,6 +689,11 @@ namespace StandardAssets.Characters.Physics
 		{			
 			cachedTransform = transform;
 			InitCapsuleCollider();
+			
+			if (playerRootTransform != null)
+			{
+				playerRootTransform.localPosition = rootTransformOffset;
+			}
 		}
 		
 		#if UNITY_EDITOR
