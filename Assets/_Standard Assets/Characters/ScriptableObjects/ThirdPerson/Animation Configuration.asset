@@ -26,7 +26,7 @@ MonoBehaviour:
     maxInterpolationTime: 0.05
   groundedParameter: Grounded
   verticalSpeedParameter: VerticalSpeed
-  fallingTimeParameter: FallTime
+  fallParameter: Fall
   jumpTransitionDuration: 0.2
   rightFootPhysicsJumpLandAnimationTimeOffset: 0.1
   leftFootPhysicsJumpLandAnimationTimeOffset: 0.6
@@ -34,8 +34,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.00205544
-      value: 0.04732189
+      time: 0
+      value: 2.5
       inSlope: 0.15353931
       outSlope: 0.15353931
       tangentMode: 0
@@ -56,7 +56,6 @@ MonoBehaviour:
     m_RotationOrder: 4
   jumpedLateralSpeedParameter: JumpedLateralSpeed
   jumpedForwardSpeedParameter: JumpedForwardSpeed
-  predictedFallDistanceParameter: PredictedFallDistance
   skipJumpLandWindow: 0.25
   landSpeedAsAFactorOfSpeed:
     serializedVersion: 2

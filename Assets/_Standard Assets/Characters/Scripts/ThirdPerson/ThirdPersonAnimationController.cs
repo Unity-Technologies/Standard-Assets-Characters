@@ -280,6 +280,12 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private void SetFootednessBool(bool value)
 		{
+			if (Mathf.Abs(motor.normalizedForwardSpeed) < Mathf.Epsilon)
+			{
+				animator.SetBool(hashFootedness, false);
+				return;
+			}
+
 			if (Mathf.Abs(motor.normalizedLateralSpeed) < Mathf.Epsilon)
 			{
 				animator.SetBool(hashFootedness, value);
