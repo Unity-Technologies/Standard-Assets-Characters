@@ -14,7 +14,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		[DisableAtRuntime()]
 		[SerializeField]
 		protected ThirdPersonCameraType startingCameraMode = ThirdPersonCameraType.Exploration;
-		
+
 		[SerializeField]
 		protected InputResponse cameraModeInput, cameraToggleInput;
 
@@ -41,7 +41,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void Awake()
 		{
 			thirdPersonStateDrivenCamera = GetComponent<CinemachineStateDrivenCamera>();
-			
+
 			if (cameraModeInput != null)
 			{
 				cameraModeInput.Init();
@@ -75,7 +75,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				cameraToggleInput.ended += ChangeCameraToggle;
 			}
 		}
-		
+
 		private void OnDisable()
 		{
 			if (cameraModeInput != null)
@@ -98,7 +98,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private void ChangeCameraMode()
 		{
-			isForwardUnlocked = !isForwardUnlocked;		
+			isForwardUnlocked = !isForwardUnlocked;
 			SetForwardModeArray();
 			cameraIndex = -1;
 			SetCameraState();
@@ -117,10 +117,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (isForwardUnlocked)
 			{
 				SetCameraObjectsActive(explorationCameraObjects);
-				
+
 				SetCameraObjectsActive(strafeCameraObjects, false);
-					
-				
+
 				if (forwardUnlockedModeStarted != null)
 				{
 					forwardUnlockedModeStarted();
@@ -129,7 +128,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			else
 			{
 				SetCameraObjectsActive(explorationCameraObjects, false);
-				
 
 				if (forwardLockedModeStarted != null)
 				{
@@ -137,7 +135,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				}
 			}
 		}
-		
+
 		//TEMP TO SWITCH CROSSHAIR ON ONCE BLEND IS FINISHED 
 		private void Update()
 		{
@@ -148,11 +146,8 @@ namespace StandardAssets.Characters.ThirdPerson
 					SetCameraObjectsActive(strafeCameraObjects);
 				}
 			}
-
-			
-			
 		}
-		
+
 		private void SetCameraState()
 		{
 			cameraIndex++;
@@ -161,40 +156,35 @@ namespace StandardAssets.Characters.ThirdPerson
 				cameraIndex = 0;
 			}
 
-			var switchingCameraTo = currentCameraModeStateNames[cameraIndex];
-			
-			if (switchingCameraTo== "Strafe")
+			if (isForwardUnlocked)
 			{
-				foreach (var camera in explorationStateDrivenCamera.ChildCameras)
+				SetCameraAxes(strafeStateDrivenCamera, explorationStateDrivenCamera);
+			}
+			else
+			{
+				SetCameraAxes(explorationStateDrivenCamera, strafeStateDrivenCamera);
+			}
+
+			SetAnimation(currentCameraModeStateNames[cameraIndex]);
+		}
+
+		private void SetCameraAxes(CinemachineStateDrivenCamera sourceStateDrivenCamera,
+		                           CinemachineStateDrivenCamera destinationStateDrivenCamera)
+		{
+			foreach (CinemachineVirtualCameraBase camera in sourceStateDrivenCamera.ChildCameras)
+			{
+				if (sourceStateDrivenCamera.IsLiveChild(camera))
 				{
-					if (explorationStateDrivenCamera.IsLiveChild(camera))
-					{
-						var cameraX = camera.GetComponent<CinemachineFreeLook>().m_XAxis.Value;
-						var cameraY = camera.GetComponent<CinemachineFreeLook>().m_YAxis.Value;
-						SetChildCamerasAxis(strafeStateDrivenCamera, cameraX, cameraY);
-						
-					}
+					float cameraX = camera.GetComponent<CinemachineFreeLook>().m_XAxis.Value;
+					float cameraY = camera.GetComponent<CinemachineFreeLook>().m_YAxis.Value;
+					SetChildCamerasAxis(destinationStateDrivenCamera, cameraX, cameraY);
 				}
 			}
-			
-			else if (switchingCameraTo == "Exploration")
-			{
-				var cameraX = strafeStateDrivenCamera
-			               .ChildCameras[0].GetComponent<CinemachineFreeLook>().m_XAxis.Value;
-				var cameraY = strafeStateDrivenCamera
-				              .ChildCameras[0].GetComponent<CinemachineFreeLook>().m_YAxis.Value;
-				SetChildCamerasAxis(explorationStateDrivenCamera, cameraX, cameraY);
-				
-			}
-			
-			
-			SetAnimation(currentCameraModeStateNames[cameraIndex]);
-			
 		}
 
 		private void SetChildCamerasAxis(CinemachineStateDrivenCamera stateDrivenCamera, float xAxis, float yAxis)
 		{
-			foreach (var childCamera in stateDrivenCamera.ChildCameras)
+			foreach (CinemachineVirtualCameraBase childCamera in stateDrivenCamera.ChildCameras)
 			{
 				childCamera.GetComponent<CinemachineFreeLook>().m_XAxis.Value = xAxis;
 				childCamera.GetComponent<CinemachineFreeLook>().m_YAxis.Value = yAxis;
