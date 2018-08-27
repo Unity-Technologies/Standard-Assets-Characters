@@ -455,7 +455,7 @@ GameObject:
   - component: {fileID: 195816505962418592}
   - component: {fileID: 114548180063953972}
   m_Layer: 11
-  m_Name: MaleAI
+  m_Name: MaleNavMeshAgentAI
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3049,11 +3049,13 @@ MonoBehaviour:
     localHumanControlled: 1
     canSlideAgainstCeiling: 1
     sendColliderHitMessages: 1
+    queryTriggerInteraction: 1
     slideDownSlopes: 1
     slideDownTerminalVelocity: 10
     slideDownGravityScale: 1
     slideDownStartDuration: 0.25
     enableDebug: 0
+    debugDrawMoveVector: 0
 --- !u!114 &114510433931792404
 MonoBehaviour:
   m_ObjectHideFlags: 1
