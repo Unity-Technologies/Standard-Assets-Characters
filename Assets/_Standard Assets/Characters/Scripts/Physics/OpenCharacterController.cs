@@ -182,9 +182,11 @@ namespace StandardAssets.Characters.Physics
 		private float minMoveDistance = 0.0f;
 
 		/// <summary>
-		/// This will offset the Capsule Collider in world space, and won’t affect how the Character pivots. Ideally, x and z should be zero.
+		/// This will offset the Capsule Collider in world space, and won’t affect how the Character pivots.
+		/// Ideally, x and z should be zero to avoid rotating into another collider.
 		/// </summary>
-		[Tooltip("This will offset the Capsule Collider in world space, and won’t affect how the Character pivots. Ideally, x and z should be zero.")]
+		[Tooltip("This will offset the Capsule Collider in world space, and won’t affect how the Character pivots. " +
+		         "Ideally, x and z should be zero to avoid rotating into another collider.")]
 		[DisableAtRuntime]
 		[SerializeField]
 		public Vector3 center;
@@ -204,16 +206,16 @@ namespace StandardAssets.Characters.Physics
 		private float height = 2.0f;
 
 		/// <summary>
-		/// Add a kinematic Rigidbody? (Only if no Rigidbody is already attached.) Physics works better when moving Colliders have a kinematic Rigidbody.
+		/// Add a kinematic Rigidbody? This is ignored if there is already a Rigidbody attached to the character.
 		/// </summary>
-		[Tooltip("Add a kinematic Rigidbody? (Only if no Rigidbody is already attached.) Physics works better when moving Colliders have a kinematic Rigidbody.")]
+		[Tooltip("Add a kinematic Rigidbody? This is ignored if there is already a Rigidbody attached to the character.")]
 		[SerializeField]
 		private bool addKinematicRigidbody = true;
 
 		/// <summary>
-		/// Add the collider (and Rigidbody) to a child object? (Only if no collider or Rigidbody are already attached.) It will create a new child object.
+		/// Add the collider (and Rigidbody) to a child object? This is ignored if there is already a CapsuleCollider attached to the character. It will create a new child object.
 		/// </summary>
-		[Tooltip("Add the collider (and Rigidbody) to a child object? (Only if no collider or Rigidbody are already attached.) It will create a new child object.")]
+		[Tooltip("Add the collider (and Rigidbody) to a child object? This is ignored if there is already a CapsuleCollider attached to the character. It will create a new child object.")]
 		[SerializeField]
 		private bool addColliderAsAChild = true;
 		
@@ -240,9 +242,9 @@ namespace StandardAssets.Characters.Physics
 		private bool localHumanControlled = true;
 
 		/// <summary>
-		/// Can character slide vertically when touching the ceiling?
+		/// Can character slide vertically when touching the ceiling? (For example, if ceiling is sloped.)
 		/// </summary>
-		[Tooltip("Can character slide vertically when touching the ceiling?")]
+		[Tooltip("Can character slide vertically when touching the ceiling? (For example, if ceiling is sloped.)")]
 		[SerializeField]
 		private bool canSlideAgainstCeiling = true;
 
@@ -254,9 +256,9 @@ namespace StandardAssets.Characters.Physics
 		private bool sendColliderHitMessages = true;
 
 		/// <summary>
-		/// Should casts hit trigger colliders?
+		/// Should cast queries hit trigger colliders?
 		/// </summary>
-		[Tooltip("Should casts hit trigger colliders?")]
+		[Tooltip("Should cast queries hit trigger colliders?")]
 		[SerializeField]
 		private QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.Ignore;
 		
@@ -396,7 +398,7 @@ namespace StandardAssets.Characters.Physics
 		public float slidingDownSlopeTime { get; private set; }
 
 		/// <summary>
-		/// The capsule center with scaling and rotation applied (e.g. if object scale is not 1,1,1)
+		/// The capsule center with scaling and rotation applied.
 		/// </summary>
 		public Vector3 transformedCenter
 		{
@@ -656,7 +658,7 @@ namespace StandardAssets.Characters.Physics
 		}
 
 		/// <summary>
-		/// Get the CspsuleCollider.
+		/// Get the CapsuleCollider.
 		/// </summary>
 		public CapsuleCollider GetCapsuleCollider()
 		{
@@ -706,7 +708,7 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Reset the capsule's height and center to the default values.
 		/// </summary>
-		/// <param name="checkForPenetration">Check for collision, and then depenetrate if there's collision?</param>
+		/// <param name="checkForPenetration">Check for collision, and then de-penetrate if there's collision?</param>
 		/// <param name="updateGrounded">Update the grounded state? This uses a cast, so only set it to true if you need it.</param>
 		public void ResetHeightAndCenter(bool checkForPenetration, bool updateGrounded)
 		{
@@ -725,8 +727,8 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Set the capsule's center (local).
 		/// </summary>
-		/// <param name="newCenter">New center.</param>
-		/// <param name="checkForPenetration">Check for collision, and then depenetrate if there's collision?</param>
+		/// <param name="newCenter">The new center.</param>
+		/// <param name="checkForPenetration">Check for collision, and then de-penetrate if there's collision?</param>
 		/// <param name="updateGrounded">Update the grounded state? This uses a cast, so only set it to true if you need it.</param>
 		public void SetCenter(Vector3 newCenter, bool checkForPenetration, bool updateGrounded)
 		{
@@ -737,7 +739,7 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Reset the capsule's center to the default value.
 		/// </summary>
-		/// <param name="checkForPenetration">Check for collision, and then depenetrate if there's collision?</param>
+		/// <param name="checkForPenetration">Check for collision, and then de-penetrate if there's collision?</param>
 		/// <param name="updateGrounded">Update the grounded state? This uses a cast, so only set it to true if you need it.</param>
 		public void ResetCenter(bool checkForPenetration, bool updateGrounded)
 		{
@@ -764,9 +766,9 @@ namespace StandardAssets.Characters.Physics
 		/// Set the capsule's height (local). Minimum limit is double the capsule radius size.
 		/// Call CanSetHeight if you want to test if height can change, e.g. when changing from crouch to stand.
 		/// </summary>
-		/// <param name="newHeight">New height.</param>
-		/// <param name="preserveFootPosition">Adjust the capsule's centre to preserve the foot position?</param>
-		/// <param name="checkForPenetration">Check for collision, and then depenetrate if there's collision?</param>
+		/// <param name="newHeight">The new height.</param>
+		/// <param name="preserveFootPosition">Adjust the capsule's center to preserve the foot position?</param>
+		/// <param name="checkForPenetration">Check for collision, and then de-penetrate if there's collision?</param>
 		/// <param name="updateGrounded">Update the grounded state? This uses a cast, so only set it to true if you need it.</param>
 		public void SetHeight(float newHeight, bool preserveFootPosition, bool checkForPenetration, bool updateGrounded)
 		{
@@ -787,8 +789,8 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Reset the capsule's height to the default value.
 		/// </summary>
-		/// <param name="preserveFootPosition">Adjust the capsule's centre to preserve the foot position?</param>
-		/// <param name="checkForPenetration">Check for collision, and then depenetrate if there's collision?</param>
+		/// <param name="preserveFootPosition">Adjust the capsule's center to preserve the foot position?</param>
+		/// <param name="checkForPenetration">Check for collision, and then de-penetrate if there's collision?</param>
 		/// <param name="updateGrounded">Update the grounded state? This uses a cast, so only set it to true if you need it.</param>
 		public void ResetHeight(bool preserveFootPosition, bool checkForPenetration, bool updateGrounded)
 		{
@@ -797,9 +799,10 @@ namespace StandardAssets.Characters.Physics
 
 		/// <summary>
 		/// Can the capsule's height be changed to the specified height (i.e. no collision will occur)?
+		/// For example, check if character can stand up from a crouch.
 		/// </summary>
-		/// <param name="newHeight">Height we want to set to.</param>
-		/// <param name="preserveFootPosition">Adjust the capsule's centre to preserve the foot position?</param>
+		/// <param name="newHeight">The height we want to set to.</param>
+		/// <param name="preserveFootPosition">Adjust the capsule's center to preserve the foot position?</param>
 		public bool CanSetHeight(float newHeight, bool preserveFootPosition)
 		{
 			if (newHeight <= height)
@@ -1123,7 +1126,7 @@ namespace StandardAssets.Characters.Physics
 		/// Call this when the capsule's values change.
 		/// </summary>
 		/// <param name="updateCapsuleCollider">Update the capsule collider's values (e.g. center, height, radius)?</param>
-		/// <param name="checkForPenetration">Check for collision, and then depenetrate if there's collision?</param>
+		/// <param name="checkForPenetration">Check for collision, and then de-penetrate if there's collision?</param>
 		/// <param name="updateGrounded">Update the grounded state? This uses a cast, so only set it to true if you need it.</param>
 		private void ValidateCapsule(bool updateCapsuleCollider, 
 		                             bool checkForPenetration = false, 
@@ -2028,7 +2031,7 @@ namespace StandardAssets.Characters.Physics
 		}
 
 		/// <summary>
-		/// Check for collision penetration, then try to depenetrate of there is collision.
+		/// Check for collision penetration, then try to de-penetrate if there is collision.
 		/// </summary>
 		private void Depenetrate()
 		{
