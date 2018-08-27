@@ -1405,10 +1405,9 @@ namespace StandardAssets.Characters.Physics
 				// Check for penetration
 				float penetrationDistance;
 				Vector3 penetrationDirection;
-				if (GetPenetrationInfo(out penetrationDistance, out penetrationDirection) &&
-				    penetrationDistance <= GetSkinWidth())
+				if (GetPenetrationInfo(out penetrationDistance, out penetrationDirection))
 				{
-					// Push away from the obstacle
+					// Push away from obstacles
 					MovePosition(penetrationDirection * penetrationDistance, null, null);
 				}
 				
@@ -1961,10 +1960,11 @@ namespace StandardAssets.Characters.Physics
 			float penetrationDistance;
 			Vector3 penetrationDirection;
 
-			GetPenetrationInfo(out penetrationDistance, out penetrationDirection, true, null, hitInfoCapsule);
-			
-			// Push away from the obstacle
-			MovePosition(penetrationDirection * penetrationDistance, null, null);
+			if (GetPenetrationInfo(out penetrationDistance, out penetrationDirection, true, null, hitInfoCapsule))
+			{
+				// Push away from the obstacle
+				MovePosition(penetrationDirection * penetrationDistance, null, null);
+			}
 
 			bool slopeIsSteep = false;
 			if (tryGrounding ||
