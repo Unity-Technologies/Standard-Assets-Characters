@@ -32,6 +32,12 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private CinemachineStateDrivenCamera thirdPersonStateDrivenCamera;
 
+		[SerializeField]
+		protected CinemachineStateDrivenCamera explorationStateDrivenCamera;
+
+		[SerializeField]
+		protected CinemachineStateDrivenCamera strafeStateDrivenCamera;
+
 		private void Awake()
 		{
 			thirdPersonStateDrivenCamera = GetComponent<CinemachineStateDrivenCamera>();
@@ -142,6 +148,8 @@ namespace StandardAssets.Characters.ThirdPerson
 					SetCameraObjectsActive(strafeCameraObjects);
 				}
 			}
+
+			
 			
 		}
 		
@@ -152,9 +160,43 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				cameraIndex = 0;
 			}
+
+			if (currentCameraModeStateNames[cameraIndex] == "Strafe")
+			{
+				foreach (var camera in explorationStateDrivenCamera.ChildCameras)
+				{
+					if (explorationStateDrivenCamera.IsLiveChild(camera))
+					{
+						var cameraX = camera.GetComponent<CinemachineFreeLook>().m_XAxis.Value;
+						var cameraY = camera.GetComponent<CinemachineFreeLook>().m_YAxis.Value;
+						SetChildCamerasAxis(strafeStateDrivenCamera, cameraX, cameraY);
+						
+					}
+				}
+			}
+			
+			else if (currentCameraModeStateNames[cameraIndex] == "Exploration")
+			{
+				var cameraX = strafeStateDrivenCamera
+			               .ChildCameras[0].GetComponent<CinemachineFreeLook>().m_XAxis.Value;
+				var cameraY = strafeStateDrivenCamera
+				              .ChildCameras[0].GetComponent<CinemachineFreeLook>().m_YAxis.Value;
+				SetChildCamerasAxis(explorationStateDrivenCamera, cameraX, cameraY);
+				
+			}
+			
 			
 			SetAnimation(currentCameraModeStateNames[cameraIndex]);
 			
+		}
+
+		private void SetChildCamerasAxis(CinemachineStateDrivenCamera stateDrivenCamera, float xAxis, float yAxis)
+		{
+			foreach (var childCamera in stateDrivenCamera.ChildCameras)
+			{
+				childCamera.GetComponent<CinemachineFreeLook>().m_XAxis.Value = xAxis;
+				childCamera.GetComponent<CinemachineFreeLook>().m_YAxis.Value = yAxis;
+			}
 		}
 
 		private void SetCameraObjectsActive(GameObject[] cameraObjects, bool isActive = true)

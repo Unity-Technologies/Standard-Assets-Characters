@@ -703,7 +703,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1192928361917510}
-  m_LocalRotation: {x: -0, y: -1.7763568e-15, z: 2.6645353e-15, w: 1}
+  m_LocalRotation: {x: 0.000000029802322, y: 0.000000025555284, z: -0.000000015333168,
+    w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -789,7 +790,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1784275661457400}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: 0.000000051110568, z: -0.000000030666335, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -859,8 +860,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1120486087132888}
-  m_LocalRotation: {x: 0.2579034, y: -0.000000027705983, z: 0.000000007529607, w: 0.96617067}
-  m_LocalPosition: {x: -22.502983, y: 0.0926857, z: -25.534622}
+  m_LocalRotation: {x: 0.26693356, y: -0.000000028720947, z: 0.000000007955251, w: 0.96371496}
+  m_LocalPosition: {x: 10.497017, y: 1.9729375, z: -18.72462}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4427530343479044}
@@ -931,7 +932,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1186158382073052}
-  m_LocalRotation: {x: -0, y: -1.7763568e-15, z: 2.6645353e-15, w: 1}
+  m_LocalRotation: {x: 0.000000029802322, y: 0.000000025555284, z: -0.000000015333168,
+    w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1104,9 +1106,11 @@ MonoBehaviour:
   m_AnimatedTarget: {fileID: 95584844864332318}
   m_LayerIndex: 0
   m_ShowDebugText: 1
-  m_ChildCameras: []
+  m_ChildCameras:
+  - {fileID: 114676693933027276}
+  - {fileID: 114543724509008454}
   m_Instructions:
-  - m_FullHash: -654802566
+  - m_FullHash: 2061192742
     m_VirtualCamera: {fileID: 114676693933027276}
     m_ActivateAfter: 0
     m_MinDuration: 0
@@ -1125,7 +1129,7 @@ MonoBehaviour:
       m_RotationOrder: 4
   m_CustomBlends: {fileID: 0}
   m_ParentHash:
-  - m_Hash: -654802566
+  - m_Hash: 2061192742
     m_ParentHash: -1311372029
   - m_Hash: 754424666
     m_ParentHash: -1311372029
@@ -1327,7 +1331,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingCameraMode: 0
-  cameraModeInput: {fileID: 0}
+  cameraModeInput: {fileID: 11400000, guid: f7e824638922944d5b76347cc85e8952, type: 2}
   cameraToggleInput: {fileID: 0}
   explorationCameraStates:
   - Exploration
@@ -1336,6 +1340,8 @@ MonoBehaviour:
   explorationCameraObjects: []
   strafeCameraObjects:
   - {fileID: 1504451468462078}
+  explorationStateDrivenCamera: {fileID: 114676693933027276}
+  strafeStateDrivenCamera: {fileID: 114543724509008454}
 --- !u!114 &114151692478588784
 MonoBehaviour:
   m_ObjectHideFlags: 1
