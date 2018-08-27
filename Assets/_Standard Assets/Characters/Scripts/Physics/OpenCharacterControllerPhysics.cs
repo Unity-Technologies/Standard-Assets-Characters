@@ -33,7 +33,7 @@ namespace StandardAssets.Characters.Physics
 			characterController.Awake(transform);
 		}
 
-		public override float radius
+		protected override float radius
 		{
 			get { return characterController.scaledRadius + characterController.GetSkinWidth(); }
 		}

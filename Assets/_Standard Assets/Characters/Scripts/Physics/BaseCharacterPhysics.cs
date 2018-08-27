@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using StandardAssets.Characters.CharacterInput;
 using UnityEngine;
 
@@ -23,22 +23,23 @@ namespace StandardAssets.Characters.Physics
 
 		public bool isGrounded { get; private set; }
 		public abstract bool startedSlide { get; }
-		public abstract float radius { get; }
 		public Action landed { get; set; }
 		public Action jumpVelocitySet { get; set; }
 		public Action<float> startedFalling { get; set; }
 		public float airTime { get; private set; }
 		public float fallTime { get; private set; }
 
+		protected abstract float radius { get; }
 		protected abstract Vector3 footWorldPosition { get; }
 		protected abstract LayerMask collisionLayerMask { get; }
 		
-		private const int k_TranjectorySteps = 60;
-		private readonly Collider[] trajectoryPredicitonColliders = new Collider[1];
+		private const int k_TrajectorySteps = 60;
+		private const float k_TrajectoryPredictionTimeStep = 0.016f;
+		private readonly Collider[] trajectoryPredictionColliders = new Collider[1];
 		
 		protected Vector3? predictedLandingPosition;
 #if UNITY_EDITOR
-		private readonly Vector3[] jumpSteps = new Vector3[k_TranjectorySteps];
+		private readonly Vector3[] jumpSteps = new Vector3[k_TrajectorySteps];
 		private int jumpStepCount;
 #endif
 
@@ -66,7 +67,10 @@ namespace StandardAssets.Characters.Physics
 		/// <returns></returns>
 		protected float currentVerticalVelocity;
 
-		protected Vector3 cachedMoveVector;
+		/// <summary>
+		/// The last used ground (vertical velocity excluded ie 0) velocity
+		/// </summary>
+		private Vector3 cachedGroundVelocity;
 		
 		/// <summary>
 		/// The current vertical vector
@@ -81,20 +85,16 @@ namespace StandardAssets.Characters.Physics
 			isGrounded = CheckGrounded();
 			AerialMovement(deltaTime);
 			MoveCharacter(moveVector + verticalVector);
-			cachedMoveVector = moveVector;
-			
-			if (!isGrounded)
-			{
-				UpdatePredictedLandingPosition(deltaTime);
-			}
+			cachedGroundVelocity = moveVector / deltaTime;
 		}
 		
 		/// <summary>
 		/// Calculates the current predicted fall distance based on the predicted landing position
 		/// </summary>
 		/// <returns>The predicted fall distance</returns>
-		public float GetPredicitedFallDistance()
+		public float GetPredictedFallDistance()
 		{
+			UpdatePredictedLandingPosition();
 			return predictedLandingPosition == null ? float.MaxValue : 
 				footWorldPosition.y - ((Vector3)predictedLandingPosition).y;
 		}
@@ -122,18 +122,21 @@ namespace StandardAssets.Characters.Physics
 				terminalVelocity = -terminalVelocity;
 			}
 		}
-		
-		protected void UpdatePredictedLandingPosition(float deltaTime)
+
+		/// <summary>
+		/// Updates the predicted landing position by stepping through the fall trajectory
+		/// </summary>
+		private void UpdatePredictedLandingPosition()
 		{
 			Vector3 currentPosition = footWorldPosition;
-			Vector3 currentVelocity = cachedMoveVector;
-			float currentAirTime = airTime;
-			for (int i = 0; i < k_TranjectorySteps; i++)
+			Vector3 moveVector = cachedGroundVelocity;
+			float currentAirTime = 0;
+			for (int i = 0; i < k_TrajectorySteps; i++)
 			{
-				currentVelocity.y = Mathf.Clamp(initialJumpVelocity + CalculateGravity() * currentAirTime,
-												terminalVelocity, Mathf.Infinity) * deltaTime;
-				currentPosition += currentVelocity;
-				currentAirTime += deltaTime;
+				moveVector.y = Mathf.Clamp(gravity * fallGravityMultiplier * currentAirTime,
+												terminalVelocity, Mathf.Infinity) ;
+				currentPosition += moveVector * k_TrajectoryPredictionTimeStep;
+				currentAirTime += k_TrajectoryPredictionTimeStep;
 #if UNITY_EDITOR
 				jumpSteps[i] = currentPosition;
 #endif
@@ -148,16 +151,20 @@ namespace StandardAssets.Characters.Physics
 				}
 			}
 #if UNITY_EDITOR
-			jumpStepCount = k_TranjectorySteps;
+			jumpStepCount = k_TrajectorySteps;
 #endif
 			predictedLandingPosition = null;
 		}
 
+		/// <summary>
+		/// Checks if the given position would collide with the ground collision layer
+		/// </summary>
+		/// <param name="position">Position to check</param>
 		private bool IsGroundCollision(Vector3 position)
 		{
 			// move sphere but to match bottom of character's capsule collider
 			int colliderCount = UnityEngine.Physics.OverlapSphereNonAlloc(position + new Vector3(0, radius, 0),
-																		  radius, trajectoryPredicitonColliders,
+																		  radius, trajectoryPredictionColliders,
 																		  collisionLayerMask);
 			return colliderCount > 0;
 		}
@@ -196,13 +203,16 @@ namespace StandardAssets.Characters.Physics
 			{
 				if (startedFalling != null)
 				{
-					startedFalling(GetPredicitedFallDistance());
+					startedFalling(GetPredictedFallDistance());
 				}
 			}
 			
 			verticalVector = new Vector3(0, currentVerticalVelocity * deltaTime, 0);
 		}
 
+		/// <summary>
+		/// Calculates the current gravity modified based on current vertical velocity
+		/// </summary>
 		private float CalculateGravity()
 		{
 			if (currentVerticalVelocity < 0)
