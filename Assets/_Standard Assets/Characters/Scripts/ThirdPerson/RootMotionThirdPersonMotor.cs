@@ -128,14 +128,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				OnLanding();
 			}
-			else
-			{
-				aerialState = ThirdPersonAerialMovementState.Falling;
-				if (fallStarted != null)
-				{
-					fallStarted(distance);
-				}
-			}
 		}
 
 		private bool IsGrounded
@@ -152,7 +144,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				return;
 			}
 
-			if (ShouldApplyRootMotion())
+			if (animationController.isRootMotionState)
 			{
 				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
 				groundMovementVector.y = 0;
@@ -179,7 +171,11 @@ namespace StandardAssets.Characters.ThirdPerson
 				{
 					CalculateFallForwardSpeed();
 				}
-				characterPhysics.Move(cachedForwardVelocity * Time.deltaTime * transform.forward * 
+
+				//var movementDirection = transform.forward;
+				var movementDirection = Quaternion.AngleAxis(Camera.main.transform.eulerAngles.y, Vector3.up) * 
+				                        new Vector3(characterInput.moveInput.x, 0, characterInput.moveInput.y);
+				characterPhysics.Move(cachedForwardVelocity * Time.deltaTime * movementDirection * 
 									  configuration.scaledGroundVelocity, Time.deltaTime);
 			}
 		}
@@ -193,11 +189,6 @@ namespace StandardAssets.Characters.ThirdPerson
 				: configuration.fallSpeedAcceleration;
 			cachedForwardVelocity = Mathf.Lerp(cachedForwardVelocity, target, time);
 			normalizedForwardSpeed = cachedForwardVelocity / maxFallForward;
-		}
-
-		private bool ShouldApplyRootMotion()
-		{
-			return IsGrounded && animationController.isRootMotionState;
 		}
 
 		public void Init(ThirdPersonBrain brain)
