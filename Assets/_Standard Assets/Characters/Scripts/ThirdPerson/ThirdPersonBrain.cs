@@ -103,6 +103,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			
 			thirdPersonMovementEventHandler.Init();
+			
+			
 		}
 
 		private TurnaroundBehaviour GetCurrentTurnaroundBehaviour()
@@ -127,6 +129,11 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private void OnEnable()
 		{
+
+			physicsForCharacter.jumpVelocitySet += thirdPersonMovementEventHandler.Jumped;
+			physicsForCharacter.landed += thirdPersonMovementEventHandler.Landed;
+				
+				
 			if (animationController != null)
 			{
 				animationController.Subscribe();
@@ -138,6 +145,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		private void OnDisable()
 		{
+			
+			
 			if (animationController != null)
 			{
 				animationController.Unsubscribe();
@@ -145,10 +154,13 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			CurrentMotor.Unsubscribe();
 			thirdPersonMovementEventHandler.Unsubscribe();
+			
 		}
 
 		private void Update()
 		{
+			//Debug.Log("Animation State"+animationControl.state=="Locomotion");
+			
 			if (animationController != null)
 			{
 				animationController.Update();

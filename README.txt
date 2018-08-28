@@ -1,12 +1,16 @@
-
 # Standard Assets: Character Package
 
 ## Overview
 
 This repository contains the new **Standard Assets Character Controller Package**, consisting of both code to drive a more advanced version of First and Third Person Characters than the old Standard Assets Character, as well as a demo scene and setup for Character prototyping purposes and example setup of First and Third Person Characters.
 
-For more detailed documentation, please see the WIP Google Doc:  
-	***ALEC TO LINK TO***
+For more detailed documentation, please see the WIP Google Docs:  
+* Open Character Controller:
+	
+	https://docs.google.com/document/d/1TAodMmM8OlbFibyWvOKEU-zj-HI-yI4YJJx45S-hwTo/edit?usp=sharing
+#
+
+	***ALEC TO LINK MORE TO***
 
 
 
@@ -144,12 +148,13 @@ For more detailed documentation, please see the WIP Google Doc:
 
 	* First Person Controller
 		** Code and Design Structure
-		** Behaviour and Functionality
+		** Behaviour and Functionality for Walk, Sprint, Crouch, Jump
 
 	* Third Person Controller 
 		** Code and Design Structure
 		** Behaviour and Functionality for Idle, Walk, Run, Sprint, Turning Locomotion
 		** Behaviour and Functionality for Falling and Landing
+		** Standing-Forward Jump Behaviour
 		** Nav Mesh Input Controller
 		** Animation State Machine
 
@@ -160,38 +165,45 @@ For more detailed documentation, please see the WIP Google Doc:
 ### Currently Being Worked On:
 	* Input Manager (Legacy)
 		** Inspector UX
-		** Code Comments
 	
 	* Open Character Controller
 		** Inspector UX
-		** Code Comments
 
 	* First Person Controller
 		** Inspector UX
-		** Code Comments
+		** Cinemachine Camera Change Bug
 
 	* Third Person Controller 
 		** Inspector UX
-		** Code Comments
 		** New Standing and Running Jump Animations
-		** Standing-Forward Jump Behaviour
-		** New Animation Curve Feel
+		** Tweaks to Jump Motion Curve Feel
+		** Strafing Locomotion Behaviour
 		** Effects Detection System for Character Feet
+		** Collision Capsule Resizing Based on Animation Frames
 	
 	* Cinemachine Camera Setups
 		** First Person Cameras
 		** Third Person Cameras
 
-	* General Internal commenting and code review pass
+	* First Pass Documentation of the Systems and Behaviours
 
 
 ### Still Requires Work:
-	* Third Person Controller Behaviour and Functionality for the following areas:
-		** Strafing Locomotion Behaviour and Animations
-		** Camera Mode Lerping (ie. Exploration to Strafe) 
-		** Collision Capsule Resizing Based on Animation Frames
+	* Input Manager (Legacy)
+		** Code Comments
+	
+	* Open Character Controller
+		** Code Comments
 
-	* First Pass Documentation of the Systems and Behaviours
+	* First Person Controller
+		** Code Comments
+
+	* Third Person Controller 
+		** Code Comments
+		** Strafing Locomotion Animation Updates
+			*** Requires Feedback Brief
+
+	* General Internal commenting and code review pass
 	* Garbage Generation and Optimation Pass
 	* Addition of Female Avatar & Aniamtion Set
 

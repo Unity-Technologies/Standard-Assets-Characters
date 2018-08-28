@@ -24,13 +24,13 @@ namespace StandardAssets.Characters.FirstPerson
 		/// Id of Jumping event
 		/// </summary>
 		[SerializeField]
-		protected string jumpId = "jumping";
+		protected string jumpSoundId = "jumpingSound";
 
 		/// <summary>
 		/// Id of Landing event
 		/// </summary>
 		[SerializeField]
-		protected string landingId = "landing";
+		protected string landSoundId = "landingSound";
 
 		/// <summary>
 		/// The current index of the 
@@ -133,7 +133,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		void Jumped()
 		{
-			BroadcastMovementEvent(jumpId);
+			BroadcastMovementEvent(jumpSoundId);
 		}
         
 		/// <summary>
@@ -141,7 +141,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		void Landed()
 		{
-			BroadcastMovementEvent(landingId);
+			BroadcastMovementEvent(landSoundId);
 		}  
 	}
 }
