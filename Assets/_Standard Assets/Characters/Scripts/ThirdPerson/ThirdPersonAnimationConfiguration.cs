@@ -6,7 +6,19 @@ namespace StandardAssets.Characters.ThirdPerson
 	[CreateAssetMenu(fileName = "Third Person Animation Configuration", menuName = "Standard Assets/Characters/Third Person Animation Configuration", order = 1)]
 	public class ThirdPersonAnimationConfiguration : ScriptableObject
 	{
+		[Header("State Names")]
 		[SerializeField]
+		protected string locomotion = "Locomotion Blend";
+		
+		[SerializeField]
+		protected string rightFootRootMotionJump = "OnRightFoot",
+						 leftFootRootMotionJump = "OnLeftFoot",
+						 rightFootJump = "OnRightFootBlend",
+						 leftFootJump = "OnLeftFootBlend",
+						 rollLand = "RollLand",
+						 land = "Land";
+		
+		[Space, SerializeField]
 		protected string hasInputParameter = "HasInput";
 		
 		[Header("Ground Movement")]
@@ -34,7 +46,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[SerializeField]
 		protected float rightFootPhysicsJumpLandAnimationTimeOffset = 0.1f,
-		                leftFootPhysicsJumpLandAnimationTimeOffset = 0.6f;
+						leftFootPhysicsJumpLandAnimationTimeOffset = 0.6f;
 		[SerializeField]
 		protected AnimationCurve jumpEndTransitionDurationByForwardSpeed = AnimationCurve.Linear(0,0,1,0.125f);
 		
@@ -50,6 +62,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		[Header("Landing")]
 		[SerializeField]
 		protected AnimationCurve landSpeedAsAFactorOfSpeed = AnimationCurve.Linear(0,1,1,2);
+
+		[SerializeField]
+		protected float normalizedForwardSpeedToRoll = 0.3f,
+						rollAnimationBlendTime = 0.15f,
+						landAnimationBlendTime = 0.11f;
 		
 		[Header("Turning")]
 		[SerializeField]
@@ -201,6 +218,56 @@ namespace StandardAssets.Characters.ThirdPerson
 		public AnimationCurve landSpeedAsAFactorSpeed
 		{
 			get { return landSpeedAsAFactorOfSpeed; }
+		}
+
+		public float forwardSpeedToRoll
+		{
+			get { return normalizedForwardSpeedToRoll; }
+		}
+
+		public float landAnimationBlendDuration
+		{
+			get { return landAnimationBlendTime; }
+		}
+
+		public float rollAnimationBlendDuration
+		{
+			get { return rollAnimationBlendTime; }
+		}
+
+		public string locomotionStateName
+		{
+			get { return locomotion; }
+		}
+
+		public string leftFootJumpStateName
+		{
+			get { return leftFootJump; }
+		}
+		
+		public string rightFootJumpStateName
+		{
+			get { return rightFootJump; }
+		}
+		
+		public string leftFootRootMotionJumpStateName
+		{
+			get { return leftFootRootMotionJump; }
+		}
+		
+		public string rightFootRootMotionJumpStateName
+		{
+			get { return rightFootRootMotionJump; }
+		}
+
+		public string rollLandStateName
+		{
+			get { return rollLand; }
+		}
+		
+		public string landStateName
+		{
+			get { return land; }
 		}
 	}
 }
