@@ -52,7 +52,7 @@ namespace StandardAssets.Characters.Physics
 					return 0f;
 				}
 				
-				return currentVerticalVelocity / initialJumpVelocity;
+				return Mathf.Clamp(currentVerticalVelocity / (initialJumpVelocity * fallGravityMultiplier), -1f, 1f);
 			}
 		}
 		
