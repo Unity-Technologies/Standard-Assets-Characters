@@ -965,10 +965,7 @@ namespace StandardAssets.Characters.Physics
 			cachedTransform = transform;
 			InitCapsuleCollider();
 			
-			if (playerRootTransform != null)
-			{
-				playerRootTransform.localPosition = rootTransformOffset;
-			}
+			SetRootToOffset();
 		}
 		
 		#if UNITY_EDITOR
@@ -976,16 +973,14 @@ namespace StandardAssets.Characters.Physics
 		public void OnValidate()
 		{
 			ValidateCapsule(false);
+			SetRootToOffset();
 		}
 		#endif
 
 		/// <inheritdoc />
 		public void LateUpdate()
 		{
-			if (playerRootTransform != null)
-			{
-				playerRootTransform.localPosition = rootTransformOffset;
-			}
+			SetRootToOffset();
 		}
 
 		/// <inheritdoc />
@@ -2310,6 +2305,17 @@ namespace StandardAssets.Characters.Physics
 			velocity = oldVelocity;
 
 			return didSlide;
+		}
+
+		/// <summary>
+		/// Sets the playerRootTransform's localPosition to the rootTransformOffset
+		/// </summary>
+		private void SetRootToOffset()
+		{
+			if (playerRootTransform != null)
+			{
+				playerRootTransform.localPosition = rootTransformOffset;
+			}
 		}
 	}
 }
