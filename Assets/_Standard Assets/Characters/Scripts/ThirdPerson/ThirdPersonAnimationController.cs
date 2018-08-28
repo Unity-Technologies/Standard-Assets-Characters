@@ -311,11 +311,21 @@ namespace StandardAssets.Characters.ThirdPerson
 				// if coming from a physics jump handle animation transition
 				case AnimationState.PhysicsJump:
 					bool rightFoot = animator.GetBool(hashFootedness);
-					animator.CrossFade("Locomotion Blend", configuration.jumpTransitionDurationByForwardSpeed.Evaluate(
+					animator.CrossFade(configuration.locomotionStateName, configuration.jumpTransitionDurationByForwardSpeed.Evaluate(
 										Mathf.Abs(animator.GetFloat(configuration.jumpedForwardSpeedParameterName))),
 										0, rightFoot ? configuration.rightFootPhysicsJumpLandAnimationOffset
 										: configuration.leftFootPhysicsJumpLandAnimationOffset);
 					timeSinceLastPhysicsJumpLand = DateTime.Now;
+					break;
+				case AnimationState.Falling:
+					if (motor.normalizedForwardSpeed > configuration.forwardSpeedToRoll) // play roll
+					{
+						animator.CrossFade(configuration.rollLandStateName, configuration.rollAnimationBlendDuration);
+					}
+					else
+					{
+						animator.CrossFade(configuration.landStateName, configuration.landAnimationBlendDuration);
+					}
 					break;
 			}
 			animator.SetBool(hashGrounded, true);
@@ -346,14 +356,15 @@ namespace StandardAssets.Characters.ThirdPerson
 				&& motor.normalizedForwardSpeed >= 0)
 			{
 				animator.SetFloat(hashJumpedLateralSpeed, 0);
-				animator.CrossFade(rightFoot ? "OnRightFootBlend" : "OnLeftFootBlend",
+				animator.CrossFade(rightFoot ? configuration.rightFootJumpStateName : configuration.leftFootJumpStateName,
 								   configuration.jumpTransitionTime);
 				lastPhysicsJumpRightRoot = rightFoot;
 			}
 			else
 			{
 				animator.SetFloat(hashJumpedLateralSpeed, motor.normalizedLateralSpeed);
-				animator.CrossFade(rightFoot ? "OnRightFoot" : "OnLeftFoot",
+				animator.CrossFade(rightFoot ? configuration.rightFootRootMotionJumpStateName : 
+					                   configuration.leftFootRootMotionJumpStateName,
 								   configuration.jumpTransitionTime);
 				state = AnimationState.RootMotionJump;
 			}
