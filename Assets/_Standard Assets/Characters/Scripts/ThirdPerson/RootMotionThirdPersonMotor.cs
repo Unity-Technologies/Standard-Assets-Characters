@@ -172,9 +172,7 @@ namespace StandardAssets.Characters.ThirdPerson
 					CalculateFallForwardSpeed();
 				}
 
-				//var movementDirection = transform.forward;
-				var movementDirection = Quaternion.AngleAxis(Camera.main.transform.eulerAngles.y, Vector3.up) * 
-				                        new Vector3(characterInput.moveInput.x, 0, characterInput.moveInput.y);
+				var movementDirection = transform.forward;
 				characterPhysics.Move(cachedForwardVelocity * Time.deltaTime * movementDirection * 
 									  configuration.scaledGroundVelocity, Time.deltaTime);
 			}
