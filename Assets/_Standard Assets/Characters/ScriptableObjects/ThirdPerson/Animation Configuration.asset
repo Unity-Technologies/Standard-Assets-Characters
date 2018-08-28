@@ -27,7 +27,7 @@ MonoBehaviour:
   groundedParameter: Grounded
   verticalSpeedParameter: VerticalSpeed
   fallParameter: Fall
-  jumpTransitionDuration: 0.2
+  jumpTransitionDuration: 0.05
   rightFootPhysicsJumpLandAnimationTimeOffset: 0.1
   leftFootPhysicsJumpLandAnimationTimeOffset: 0.6
   jumpEndTransitionDurationByForwardSpeed:
@@ -35,7 +35,7 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 2.5
+      value: 2
       inSlope: 0.15353931
       outSlope: 0.15353931
       tangentMode: 0
@@ -43,13 +43,31 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.104166664
     - serializedVersion: 3
-      time: 1
-      value: 0.125
-      inSlope: 0.14716052
-      outSlope: 0.14716052
+      time: 0.049
+      value: 2
+      inSlope: -0
+      outSlope: -0.95986706
+      tangentMode: 5
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 1
+    - serializedVersion: 3
+      time: 0.05
+      value: 0.3
+      inSlope: -0.23566853
+      outSlope: -0.23566853
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.22173604
+      inWeight: 0.33333334
+      outWeight: 0.23390631
+    - serializedVersion: 3
+      time: 1
+      value: 0.125
+      inSlope: -0.08249299
+      outSlope: -0.08249299
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.22228737
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -86,7 +104,7 @@ MonoBehaviour:
   invertFootedness: 0
   footednessThreshold: 0.25
   footednessThresholdOffset: 0.25
-  disableHeadTurn: 0
+  disableHeadTurn: 1
   headTurnProperties:
     headLookAtWeight: 1
     headLookAtMaxRotation: 75
