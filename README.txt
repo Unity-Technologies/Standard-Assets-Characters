@@ -177,7 +177,7 @@ For more detailed documentation, please see the WIP Google Docs:
 		** Inspector UX
 		** New Standing and Running Jump Animations
 		** Tweaks to Jump Motion Curve Feel
-		** Strafing Locomotion Behaviour and Animations
+		** Strafing Locomotion Behaviour
 		** Effects Detection System for Character Feet
 		** Collision Capsule Resizing Based on Animation Frames
 	
@@ -186,7 +186,6 @@ For more detailed documentation, please see the WIP Google Docs:
 		** Third Person Cameras
 
 	* First Pass Documentation of the Systems and Behaviours
-	* General Internal commenting and code review pass
 
 
 ### Still Requires Work:
@@ -201,7 +200,10 @@ For more detailed documentation, please see the WIP Google Docs:
 
 	* Third Person Controller 
 		** Code Comments
+		** Strafing Locomotion Animation Updates
+			*** Requires Feedback Brief
 
+	* General Internal commenting and code review pass
 	* Garbage Generation and Optimation Pass
 	* Addition of Female Avatar & Aniamtion Set
 
