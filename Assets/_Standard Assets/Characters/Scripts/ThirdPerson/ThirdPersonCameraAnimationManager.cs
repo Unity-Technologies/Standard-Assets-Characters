@@ -3,6 +3,7 @@ using Attributes;
 using Cinemachine;
 using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Common;
+using StandardAssets.Characters.Physics;
 using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson
@@ -11,6 +12,9 @@ namespace StandardAssets.Characters.ThirdPerson
 	{
 		public event Action forwardUnlockedModeStarted, forwardLockedModeStarted;
 
+		[SerializeField]
+		protected ThirdPersonBrain brain;
+		
 		[DisableAtRuntime()]
 		[SerializeField]
 		protected ThirdPersonCameraType startingCameraMode = ThirdPersonCameraType.Exploration;
@@ -24,6 +28,12 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected GameObject[] explorationCameraObjects, strafeCameraObjects;
 
+		[SerializeField]
+		protected CinemachineStateDrivenCamera explorationStateDrivenCamera;
+
+		[SerializeField]
+		protected CinemachineStateDrivenCamera strafeStateDrivenCamera;
+		
 		private string[] currentCameraModeStateNames;
 
 		private int cameraIndex;
@@ -32,15 +42,14 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private CinemachineStateDrivenCamera thirdPersonStateDrivenCamera;
 
-		[SerializeField]
-		protected CinemachineStateDrivenCamera explorationStateDrivenCamera;
+		private bool isChangingMode;
 
-		[SerializeField]
-		protected CinemachineStateDrivenCamera strafeStateDrivenCamera;
 
 		private void Awake()
 		{
 			thirdPersonStateDrivenCamera = GetComponent<CinemachineStateDrivenCamera>();
+
+			
 
 			if (cameraModeInput != null)
 			{
@@ -55,6 +64,11 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private void Start()
 		{
+			if (brain != null)
+			{
+				brain.CurrentMotor.landed += OnLanded;
+			}
+			
 			isForwardUnlocked = startingCameraMode == ThirdPersonCameraType.Exploration;
 			SetForwardModeArray();
 			SetAnimation(currentCameraModeStateNames[cameraIndex]);
@@ -98,11 +112,30 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private void ChangeCameraMode()
 		{
+			isChangingMode = true;
+
+			if (brain.physicsForCharacter != null && brain.physicsForCharacter.isGrounded)
+			{
+				PerformCameraModeChange();
+			}
+		}
+		
+		private void OnLanded()
+		{
+			if (isChangingMode)
+			{
+				PerformCameraModeChange();
+			}
+		}
+
+		private void PerformCameraModeChange()
+		{
 			isForwardUnlocked = !isForwardUnlocked;
 			SetForwardModeArray();
 			cameraIndex = -1;
 			SetCameraState();
 			PlayForwardModeEvent();
+			isChangingMode = false;
 		}
 
 		private void SetForwardModeArray()
