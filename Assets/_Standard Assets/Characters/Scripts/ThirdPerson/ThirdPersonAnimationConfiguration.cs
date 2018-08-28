@@ -6,6 +6,9 @@ namespace StandardAssets.Characters.ThirdPerson
 	[CreateAssetMenu(fileName = "Third Person Animation Configuration", menuName = "Standard Assets/Characters/Third Person Animation Configuration", order = 1)]
 	public class ThirdPersonAnimationConfiguration : ScriptableObject
 	{
+		[SerializeField]
+		protected RuntimeAnimatorController thirdPersonAnimator;
+		
 		[Header("State Names")]
 		[SerializeField]
 		protected string locomotion = "Locomotion Blend";
@@ -244,17 +247,17 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			get { return leftFootJump; }
 		}
-		
+
 		public string rightFootJumpStateName
 		{
 			get { return rightFootJump; }
 		}
-		
+
 		public string leftFootRootMotionJumpStateName
 		{
 			get { return leftFootRootMotionJump; }
 		}
-		
+
 		public string rightFootRootMotionJumpStateName
 		{
 			get { return rightFootRootMotionJump; }
@@ -264,10 +267,15 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			get { return rollLand; }
 		}
-		
+
 		public string landStateName
 		{
 			get { return land; }
+		}
+
+		public RuntimeAnimatorController animator
+		{
+			get { return thirdPersonAnimator; }
 		}
 	}
 }
