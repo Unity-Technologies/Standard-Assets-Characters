@@ -4,8 +4,8 @@ namespace StandardAssets.Characters.Common
 {
 	public abstract class CharacterBearing
 	{
-		protected Transform cameraMain;
-		
+		public Transform cameraMain { get; private set; }
+
 		protected Transform mainCamera
 		{
 			get
