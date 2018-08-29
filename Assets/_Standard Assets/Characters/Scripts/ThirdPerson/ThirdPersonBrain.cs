@@ -159,7 +159,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private void Update()
 		{
-			//Debug.Log("Animation State"+animationControl.state=="Locomotion");
+			
 			
 			if (animationController != null)
 			{

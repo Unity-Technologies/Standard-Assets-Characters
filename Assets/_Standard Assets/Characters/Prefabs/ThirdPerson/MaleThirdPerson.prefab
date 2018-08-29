@@ -126,7 +126,6 @@ GameObject:
   - component: {fileID: 4036498303539776}
   - component: {fileID: 65244173496618208}
   - component: {fileID: 114447118663720106}
-  - component: {fileID: 114368923683883442}
   m_Layer: 9
   m_Name: LeftFoot
   m_TagString: Untagged
@@ -204,7 +203,6 @@ GameObject:
   - component: {fileID: 4435197676432380}
   - component: {fileID: 65763725577463722}
   - component: {fileID: 114449538320415148}
-  - component: {fileID: 114803789034824160}
   m_Layer: 9
   m_Name: RightFoot
   m_TagString: Untagged
@@ -2122,21 +2120,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114368923683883442
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1127383005414138}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcb74f21ba404856bb13390a1b5f29ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: footstep Particle
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 256
 --- !u!114 &114403526203746496
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2353,7 +2336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcb74f21ba404856bb13390a1b5f29ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: leftfoot Sound
+  id: thirdPerson leftfoot colider
   layerMask:
     serializedVersion: 2
     m_Bits: 256
@@ -2368,7 +2351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcb74f21ba404856bb13390a1b5f29ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: rightfoot Sound
+  id: thirdPerson rightfoot colider
   layerMask:
     serializedVersion: 2
     m_Bits: 256
@@ -2412,21 +2395,6 @@ MonoBehaviour:
     slideDownStartDuration: 0.25
     enableDebug: 0
     debugDrawMoveVector: 0
---- !u!114 &114803789034824160
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1147503794107644}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcb74f21ba404856bb13390a1b5f29ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: footstep Particle
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 256
 --- !u!137 &137464820802569840
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
