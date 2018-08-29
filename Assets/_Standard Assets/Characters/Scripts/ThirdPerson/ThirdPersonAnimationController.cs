@@ -311,7 +311,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				// if coming from a physics jump handle animation transition
 				case AnimationState.PhysicsJump:
 					bool rightFoot = animator.GetBool(hashFootedness);
-					animator.CrossFade(configuration.locomotionStateName, configuration.jumpTransitionDurationByForwardSpeed.Evaluate(
+					animator.CrossFade(configuration.locomotionStateName, configuration.jumpEndTransitionByForwardSpeed.Evaluate(
 										Mathf.Abs(animator.GetFloat(configuration.jumpedForwardSpeedParameterName))),
 										0, rightFoot ? configuration.rightFootPhysicsJumpLandAnimationOffset
 										: configuration.leftFootPhysicsJumpLandAnimationOffset);
@@ -360,20 +360,20 @@ namespace StandardAssets.Characters.ThirdPerson
 				rightFoot = !lastPhysicsJumpRightRoot;
 			}
 
+			float duration = configuration.jumpTransitionDurationFactorOfSpeed.Evaluate(motor.normalizedForwardSpeed);
 			if (Mathf.Abs(motor.normalizedLateralSpeed) <= Mathf.Abs(motor.normalizedForwardSpeed)
 				&& motor.normalizedForwardSpeed >= 0)
 			{
 				animator.SetFloat(hashJumpedLateralSpeed, 0);
-				animator.CrossFade(rightFoot ? configuration.rightFootJumpStateName : configuration.leftFootJumpStateName,
-								   configuration.jumpTransitionTime);
+				animator.CrossFade(rightFoot ? configuration.rightFootJumpStateName :
+											   configuration.leftFootJumpStateName, duration);
 				lastPhysicsJumpRightRoot = rightFoot;
 			}
 			else
 			{
 				animator.SetFloat(hashJumpedLateralSpeed, motor.normalizedLateralSpeed);
-				animator.CrossFade(rightFoot ? configuration.rightFootRootMotionJumpStateName : 
-					                   configuration.leftFootRootMotionJumpStateName,
-								   configuration.jumpTransitionTime);
+				animator.CrossFade(rightFoot ? configuration.rightFootRootMotionJumpStateName 
+											 : configuration.leftFootRootMotionJumpStateName, duration);
 				state = AnimationState.RootMotionJump;
 			}
 
