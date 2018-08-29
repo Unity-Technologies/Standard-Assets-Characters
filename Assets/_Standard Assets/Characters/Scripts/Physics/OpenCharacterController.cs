@@ -187,7 +187,7 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		[Tooltip("This will offset the Capsule Collider in world space, and won’t affect how the Character pivots. " +
 		         "Ideally, x and z should be zero to avoid rotating into another collider.")]
-		[DisableAtRuntime]
+		[DisableEditAtRuntime]
 		[SerializeField]
 		public Vector3 center;
 

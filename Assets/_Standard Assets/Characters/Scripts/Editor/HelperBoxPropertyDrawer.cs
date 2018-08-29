@@ -1,6 +1,7 @@
 ﻿using StandardAssets.Characters.Attributes;
 using UnityEditor;
 using UnityEngine; 
+
 namespace Editor
 {
 #if UNITY_EDITOR
@@ -25,7 +26,7 @@ namespace Editor
 			{ 
 				// if Height is zero, then this property is hidden.
 				float h =
-					ConditionalIncludePropertyDrawer.GetConditionalPropertyDrawerHeight(compat, prop, label);
+					VisibleIfPropertyDrawer.GetConditionalPropertyDrawerHeight(compat, prop, label);
 				if (h < 1)
 				{
 					return 0;

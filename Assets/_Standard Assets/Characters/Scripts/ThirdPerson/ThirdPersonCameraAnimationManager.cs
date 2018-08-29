@@ -15,7 +15,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected ThirdPersonBrain brain;
 		
-		[DisableAtRuntime()]
+		[DisableEditAtRuntime()]
 		[SerializeField]
 		protected ThirdPersonCameraType startingCameraMode = ThirdPersonCameraType.Exploration;
 

@@ -5,13 +5,13 @@ using UnityEngine;
 
 namespace Editor
 {
-	[CustomPropertyDrawer(typeof(DisableAtRuntimeAttribute))]
-	public class DisableAtRuntimePropertyDrawer : PropertyDrawer
+	[CustomPropertyDrawer(typeof(DisableEditAtRuntimeAttribute))]
+	public class DisableEditAtRuntimePropertyDrawer : PropertyDrawer
 	{
 
-		private DisableAtRuntimeAttribute disableAtRuntimeAttribute
+		private DisableEditAtRuntimeAttribute DisableEditAtRuntimeAttribute
 		{
-			get { return (DisableAtRuntimeAttribute) attribute; }
+			get { return (DisableEditAtRuntimeAttribute) attribute; }
 		}
 		
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)

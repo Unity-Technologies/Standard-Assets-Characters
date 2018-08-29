@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Editor
 {
 	[CustomPropertyDrawer(typeof(VisibleIfAttribute))]
-	public class ConditionalIncludePropertyDrawer : PropertyDrawer
+	public class VisibleIfPropertyDrawer : PropertyDrawer
 	{
 		/*
 		 * (Codie) BugFix: All visibility and heights must be calculated in GetPropertyHeight, always called before OnGUI,
