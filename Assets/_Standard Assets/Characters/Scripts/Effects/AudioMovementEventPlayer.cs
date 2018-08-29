@@ -27,11 +27,14 @@ namespace StandardAssets.Characters.Effects
 		[SerializeField]
 		protected bool cycleThroughSources = false;
 
+		
+
 		private Random rand;
 
 		private void Awake()
 		{
 			rand = new Random();
+			
 			
 		}
 
@@ -40,10 +43,19 @@ namespace StandardAssets.Characters.Effects
 		{
 			if (cycleThroughSources && sources!=null)
 			{
-				source.clip = sources[rand.Next(0, sources.Length)];
+				if (!source.isPlaying)
+				{
+					source.clip = sources[rand.Next(0, sources.Length)];
+				}
+				
 			}
-			
-			source.Play();
+
+			if (!source.isPlaying)
+			{
+
+				source.Play();
+			}
+
 		}
 		
 	}
