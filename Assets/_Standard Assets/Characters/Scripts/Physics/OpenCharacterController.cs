@@ -965,10 +965,7 @@ namespace StandardAssets.Characters.Physics
 			cachedTransform = transform;
 			InitCapsuleCollider();
 			
-			if (playerRootTransform != null)
-			{
-				playerRootTransform.localPosition = rootTransformOffset;
-			}
+			SetRootToOffset();
 		}
 		
 		#if UNITY_EDITOR
@@ -976,16 +973,14 @@ namespace StandardAssets.Characters.Physics
 		public void OnValidate()
 		{
 			ValidateCapsule(false);
+			SetRootToOffset();
 		}
 		#endif
 
 		/// <inheritdoc />
 		public void LateUpdate()
 		{
-			if (playerRootTransform != null)
-			{
-				playerRootTransform.localPosition = rootTransformOffset;
-			}
+			SetRootToOffset();
 		}
 
 		/// <inheritdoc />
@@ -1220,8 +1215,10 @@ namespace StandardAssets.Characters.Physics
 
 			// Do the move loop
 			MoveLoop(moveVector, tryToStickToGround, slideWhenMovingDown, doNotStepOffset);
-			
-			UpdateGrounded(collisionFlags);
+
+			bool doDownCast = tryToStickToGround ||
+			                  moveVector.y <= 0.0f;
+			UpdateGrounded(collisionFlags, doDownCast);
 			velocity = cachedTransform.position - startPosition;
 
 			// Check is the changed events should be fired
@@ -1268,7 +1265,8 @@ namespace StandardAssets.Characters.Physics
 		/// Determine if the character is grounded.
 		/// </summary>
 		/// <param name="movedCollisionFlags">Moved collision flags of the current move. Set to None if not moving.</param>
-		private void UpdateGrounded(CollisionFlags movedCollisionFlags)
+		/// <param name="doDownCast">Do a down cast? We want to avoid this when the character is jumping upwards.</param>
+		private void UpdateGrounded(CollisionFlags movedCollisionFlags, bool doDownCast = true)
 		{
 			bool wasGrounded = isGrounded;
 			
@@ -1276,7 +1274,7 @@ namespace StandardAssets.Characters.Physics
 			{
 				isGrounded = true;
 			}
-			else
+			else if (doDownCast)
 			{
 				RaycastHit hitinfo;
 				isGrounded = CheckCollisionBelow(k_GroundedTestDistance,
@@ -1285,6 +1283,10 @@ namespace StandardAssets.Characters.Physics
 				                                 true,
 				                                 localHumanControlled,
 				                                 localHumanControlled);
+			}
+			else
+			{
+				isGrounded = false;
 			}
 			
 			if (onGroundedChanged != null &&
@@ -1998,8 +2000,6 @@ namespace StandardAssets.Characters.Physics
 				}
 				
 				// Vector to slide along the obstacle
-				//Vector3 project = Vector3.ProjectOnPlane(direction, slideNormal);
-				
 				Vector3 project = Vector3.Cross(direction, slideNormal);
 				project = Vector3.Cross(slideNormal, project);
 
@@ -2310,6 +2310,17 @@ namespace StandardAssets.Characters.Physics
 			velocity = oldVelocity;
 
 			return didSlide;
+		}
+
+		/// <summary>
+		/// Sets the playerRootTransform's localPosition to the rootTransformOffset
+		/// </summary>
+		private void SetRootToOffset()
+		{
+			if (playerRootTransform != null)
+			{
+				playerRootTransform.localPosition = rootTransformOffset;
+			}
 		}
 	}
 }
