@@ -26,5 +26,19 @@ namespace StandardAssets.Characters.Effects
 			
 			handler.SetCurrentMovementEventLibrary(library);
 		}
+		
+		/// <summary>
+		/// Triggering movement event that resets event library to default 
+		/// </summary>
+		/// <param name="handler"></param>
+		protected void ExitTrigger(MovementEventHandler handler)
+		{
+			if (handler == null)
+			{
+				return;
+			}
+			
+			handler.SetStartingMovementEventLibrary();
+		}
 	}
 }

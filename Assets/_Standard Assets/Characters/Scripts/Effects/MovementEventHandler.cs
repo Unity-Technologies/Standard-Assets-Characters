@@ -22,6 +22,14 @@ namespace StandardAssets.Characters.Effects
 		{
 			movementEventLibrary = newMovementEventLibrary;
 		}
+		
+		/// <summary>
+		/// Sets the movement event library back to starting default
+		/// </summary>
+		public void SetStartingMovementEventLibrary()
+		{
+			movementEventLibrary = startingMovementEventLibrary;
+		}
 
 		public void Init()
 		{
