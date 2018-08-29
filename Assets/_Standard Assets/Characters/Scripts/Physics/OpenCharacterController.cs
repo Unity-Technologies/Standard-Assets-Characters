@@ -770,12 +770,13 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="preserveFootPosition">Adjust the capsule's center to preserve the foot position?</param>
 		/// <param name="checkForPenetration">Check for collision, and then de-penetrate if there's collision?</param>
 		/// <param name="updateGrounded">Update the grounded state? This uses a cast, so only set it to true if you need it.</param>
-		public void SetHeight(float newHeight, bool preserveFootPosition, bool checkForPenetration, bool updateGrounded)
+		/// <returns>Returns the height that was set, which may be different to newHeight because of validation.</returns>
+		public float SetHeight(float newHeight, bool preserveFootPosition, bool checkForPenetration, bool updateGrounded)
 		{
 			newHeight = ValidateHeight(newHeight);
 			if (Mathf.Approximately(height, newHeight))
 			{
-				return;
+				return height;
 			}
 			
 			if (preserveFootPosition)
@@ -784,6 +785,7 @@ namespace StandardAssets.Characters.Physics
 			}
 			height = newHeight;
 			ValidateCapsule(true, checkForPenetration, updateGrounded);
+			return height;
 		}
 
 		/// <summary>
@@ -792,9 +794,10 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="preserveFootPosition">Adjust the capsule's center to preserve the foot position?</param>
 		/// <param name="checkForPenetration">Check for collision, and then de-penetrate if there's collision?</param>
 		/// <param name="updateGrounded">Update the grounded state? This uses a cast, so only set it to true if you need it.</param>
-		public void ResetHeight(bool preserveFootPosition, bool checkForPenetration, bool updateGrounded)
+		/// <returns>Returns the reset height.</returns>
+		public float ResetHeight(bool preserveFootPosition, bool checkForPenetration, bool updateGrounded)
 		{
-			SetHeight(defaultHeight, preserveFootPosition, checkForPenetration, updateGrounded);
+			return SetHeight(defaultHeight, preserveFootPosition, checkForPenetration, updateGrounded);
 		}
 
 		/// <summary>
@@ -803,6 +806,7 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		/// <param name="newHeight">The height we want to set to.</param>
 		/// <param name="preserveFootPosition">Adjust the capsule's center to preserve the foot position?</param>
+		/// <returns>True if the height can be set without any collision occurring.</returns>
 		public bool CanSetHeight(float newHeight, bool preserveFootPosition)
 		{
 			if (newHeight <= height)
@@ -812,7 +816,7 @@ namespace StandardAssets.Characters.Physics
 			}
 
 			newHeight = ValidateHeight(newHeight);
-			bool collided = false;
+			bool collided;
 			RaycastHit hitInfo;
 			float distance = newHeight - height;
 			if (preserveFootPosition)
@@ -868,7 +872,6 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Get whether casts should hit trigger colliders.
 		/// </summary>
-		/// <returns></returns>
 		public QueryTriggerInteraction GetQueryTriggerInteraction()
 		{
 			return queryTriggerInteraction;
@@ -1018,6 +1021,13 @@ namespace StandardAssets.Characters.Physics
 				                headPosition + Vector3.right * scaledRadius);
 				Gizmos.DrawLine(headPosition + Vector3.back * scaledRadius,
 				                headPosition + Vector3.forward * scaledRadius);
+				
+				// Center position
+				Vector3 centerPosition = GetCapsuleWorldPosition();
+				Gizmos.DrawLine(centerPosition + Vector3.left * scaledRadius,
+				                centerPosition + Vector3.right * scaledRadius);
+				Gizmos.DrawLine(centerPosition + Vector3.back * scaledRadius,
+				                centerPosition + Vector3.forward * scaledRadius);
 			}
 
 			CapsuleCollider tempCapsuleCollider = capsuleCollider;
