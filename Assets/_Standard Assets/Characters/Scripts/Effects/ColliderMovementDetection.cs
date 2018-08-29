@@ -28,6 +28,11 @@ namespace StandardAssets.Characters.Effects
 		/// Whether or not the attached collider is a trigger
 		/// </summary>
 		private bool isTrigger;
+		
+		[SerializeField]
+		protected float minimumTimeInterval = 0.5f;
+
+		private float timeSinceLastTrigger;
 
 		private void Awake()
 		{
@@ -89,7 +94,11 @@ namespace StandardAssets.Characters.Effects
 		{
 			if (detection != null)
 			{
-				detection(movementEvent);
+				if (Time.time - timeSinceLastTrigger >= minimumTimeInterval)
+				{
+					detection(movementEvent);
+				}
+				
 			}
 		}
 	}
