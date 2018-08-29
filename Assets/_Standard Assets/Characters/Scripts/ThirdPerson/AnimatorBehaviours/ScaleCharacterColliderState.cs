@@ -3,22 +3,7 @@ using UnityEngine;
 using Attributes;
 using Attributes.Types;
 
-/*
- * To Implement this, I added GetBodyCollider() to OpenCharacterController.
- * It seems controller doesnt adjust it's collider once initialized, making animation of collider safe and easy.
- * The only risk is two animator states fighting over each other to manipulate the character's collider.
- *
- * TODOs: (OpenCharacterController needs...), can update here later.
- *  -- p
- *  TODO: OpenCharacterController.GetCapsuleColliderSize() or GetColliderHeight()
- *  TODO: OpenCharacterController.SetCapsuleColliderSize() or SetColliderHight()
- *  TODO: OpenCharacterController.GetCapsuleColliderOffset() 
- *  TODO: OpenCharacterController.SetCapsuleColliderOffset()
- *  TODO: OpenCharacterController.ResetCapsuleCollider() (reset collider back to character size)
- *
- *  TODO: We can create a simple ResetCharacterCollider behaviour which just resets character's collider on entry.
- *  
- */
+
 namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 {
 
@@ -77,7 +62,7 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 		
 		private OpenCharacterControllerPhysics physics;
 		private OpenCharacterController controller;
-		private CapsuleCollider bodyCollider;
+		//private CapsuleCollider bodyCollider;
 	 
 		
 		// OnStateEnter is called before OnStateEnter is called on any state inside this state machine
@@ -92,27 +77,20 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 					return;
 				} 
 				controller   = physics.GetOpenCharacterController();
-				bodyCollider = physics != null ? controller.GetCapsuleCollider() : null;
-	
-				if (bodyCollider == null)
+				if (controller == null)
 				{
-					// Codie: Is this possible, or character not fully initialized?
-					// I am just guessing here, I don't know how this whole package works.
-					// - assuming someone didn't add a collider or has not done it yet.
-					// TODO: if this can happen, a warning in inspector?
 					return;
-				}
-	 
+				}  
 				// if another state does not reset the collider on exit, we can blend collider from it's existing state:
-				currentScale  	= entryScale  = bodyCollider.height / controller.GetHeight();
-				entryOffset 	= bodyCollider.center.y;
+				currentScale  	= entryScale  = controller.GetHeight() / controller.defaultHeight;
+				entryOffset 	= controller.GetCenter().y;
 			} 
 		}
 	
 		
 		public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			if (bodyCollider == null)
+			if (controller == null)
 			{
 				return;
 			}
@@ -122,10 +100,11 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 				: Mathf.Clamp01(time + (Time.deltaTime * speed));
 	
 			currentScale 		= Mathf.Lerp(entryScale, heightScale, curve.Evaluate(time));
-			float height 		= currentScale * controller.GetHeight();
+			float height 		= currentScale * controller.defaultHeight;
 			float offset 		= Mathf.Lerp(entryOffset, Center(height), useNormalizedTime ? curve.Evaluate(time) : time);
-			bodyCollider.center = new Vector3(0, offset, 0);
-			bodyCollider.height = height; 
+
+			controller.SetHeight(height, false, false, false);
+			controller.SetCenter(new Vector3(0, offset, 0), true, false);
 		}
 	
 	
@@ -138,32 +117,27 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 	
 		public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			if (bodyCollider == null)
+			if (controller == null)
 			{
 				return;
 			} 
-			// Attempting to restore by animation doesnt work.
-			//bodyCollider.height = Mathf  .Lerp(currentHeight, preserveHeight, stateInfo.normalizedTime);
-			//bodyCollider.center = Vector3.Lerp(currentCenter, preserveCenter, stateInfo.normalizedTime); 
 			if (resetOnExit)
 			{
-				bodyCollider.height = controller.GetHeight();
-				bodyCollider.center = bodyCollider.center = default(Vector3); 
+				controller.ResetHeightAndCenter(true, false);
 			}
 			time = 0;
 		}
 	 
 		public override void OnStateMachineExit(Animator animator, int stateMachinePathHash)
 		{ 		
-			if (bodyCollider == null)
+			if (controller == null)
 			{
 				return;
 			}
 	
 			if (resetOnExit)
 			{
-				bodyCollider.height = controller.GetHeight();
-				bodyCollider.center = bodyCollider.center = default(Vector3); 
+				controller.ResetHeightAndCenter(true, false);
 			}
 	
 			time = 0;
