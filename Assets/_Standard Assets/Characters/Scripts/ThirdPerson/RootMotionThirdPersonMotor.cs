@@ -64,6 +64,11 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected ThirdPersonMotorMovementMode movementMode = ThirdPersonMotorMovementMode.Action;
 
+		public ThirdPersonMotorMovementMode currentMovementMode
+		{
+			get { return movementMode; }
+		}
+
 		protected ThirdPersonGroundMovementState preTurnMovementState;
 		protected ThirdPersonGroundMovementState movementState = ThirdPersonGroundMovementState.Walking;
 
