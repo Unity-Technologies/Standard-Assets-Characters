@@ -1,4 +1,5 @@
 ﻿using Attributes;
+using StandardAssets.Characters.Attributes;
 using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson
@@ -10,10 +11,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected RuntimeAnimatorController thirdPersonAnimator;
 		
 		[Header("State Names")]
-		[SerializeField]
+		[SerializeField, AnimatorStateName("thirdPersonAnimator")]
 		protected string locomotion = "Locomotion Blend";
 		
-		[SerializeField]
+		[SerializeField, AnimatorStateName("thirdPersonAnimator")]
 		protected string rightFootRootMotionJump = "OnRightFoot",
 						 leftFootRootMotionJump = "OnLeftFoot",
 						 rightFootJump = "OnRightFootBlend",
