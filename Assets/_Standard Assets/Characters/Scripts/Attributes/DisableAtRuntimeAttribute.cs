@@ -2,13 +2,13 @@
 
 namespace Attributes
 {
-    public class DisableAtRuntimeAttribute : PropertyAttribute
-    {
-        public readonly bool enableIcon;
+	public class DisableAtRuntimeAttribute : PropertyAttribute
+	{
+		public readonly bool enableIcon;
 
-        public DisableAtRuntimeAttribute(bool enableIcon = true)
-        {
-            this.enableIcon = enableIcon;
-        }
-    }
+		public DisableAtRuntimeAttribute(bool enableIcon = true)
+		{
+			this.enableIcon = enableIcon;
+		}
+	}
 }

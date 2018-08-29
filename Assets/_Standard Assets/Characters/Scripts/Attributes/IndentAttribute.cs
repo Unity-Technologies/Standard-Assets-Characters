@@ -2,14 +2,14 @@
 
 namespace Attributes
 {
-    public class IndentAttribute : PropertyAttribute
-    {
-        public readonly int indentLevel;
+	public class IndentAttribute : PropertyAttribute
+	{
+		public readonly int indentLevel;
 
-        public IndentAttribute(int indentLevel)
-        {
-            this.indentLevel = indentLevel;
-        }
+		public IndentAttribute(int indentLevel)
+		{
+			this.indentLevel = indentLevel;
+		}
 
-    }
+	}
 }
