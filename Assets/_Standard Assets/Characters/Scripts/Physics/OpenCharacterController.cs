@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Attributes;
+using StandardAssets.Characters.Attributes;
 using UnityEngine;
 using Util;
 

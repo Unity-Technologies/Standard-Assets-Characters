@@ -1,6 +1,6 @@
 ﻿using System;
-using Attributes;
 using Cinemachine;
+using StandardAssets.Characters.Attributes;
 using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Common;
 using StandardAssets.Characters.Physics;

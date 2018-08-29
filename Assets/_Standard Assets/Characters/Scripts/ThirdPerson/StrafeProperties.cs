@@ -1,6 +1,5 @@
 ﻿using System;
-using Attributes;
-using Attributes.Types;
+using StandardAssets.Characters.Attributes;
 using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson

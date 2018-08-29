@@ -1,5 +1,5 @@
 ﻿using System;
-using Attributes;
+using StandardAssets.Characters.Attributes;
 using UnityEngine;
 using Util;
 
@@ -13,7 +13,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected bool configureBlendspace;
 
-		[ConditionalInclude("configureBlendspace")]
+		[VisibleIf("configureBlendspace")]
 		[SerializeField]
 		protected BlendspaceTurnaroundConfiguration configuration;
 

@@ -1,7 +1,6 @@
-﻿using StandardAssets.Characters.Physics; 
-using UnityEngine; 
-using Attributes;
-using Attributes.Types;
+﻿using StandardAssets.Characters.Attributes;
+using StandardAssets.Characters.Physics; 
+using UnityEngine;
 
 
 namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
@@ -19,12 +18,12 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 		/// a speed of 2 takes half a second.
 		/// </summary>
 		// Speed is is used when we are not using animation's time.
-		[SerializeField, ConditionalInclude("useNormalizedTime", false)]
+		[SerializeField, VisibleIf("useNormalizedTime", false)]
 		private float speed = 2;
 		 
 		// We are using curve only for normalized time from the animation,
 		// but for looping animations it is useless (looping collider size...).
-		[SerializeField, ConditionalInclude("useNormalizedTime", true)]
+		[SerializeField, VisibleIf("useNormalizedTime", true)]
 		private AnimationCurve curve = new AnimationCurve()
 		{ 
 			keys = new Keyframe[]

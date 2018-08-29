@@ -1,5 +1,4 @@
-﻿using Attributes;
-using StandardAssets.Characters.Attributes;
+﻿using StandardAssets.Characters.Attributes;
 using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson
@@ -90,7 +89,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected bool disableHeadTurn;
 
-		[ConditionalInclude("disableHeadTurn",false)]
+		[VisibleIf("disableHeadTurn",false)]
 		[SerializeField]
 		protected HeadTurnProperties headTurnProperties;
 

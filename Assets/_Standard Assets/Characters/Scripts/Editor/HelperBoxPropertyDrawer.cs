@@ -1,4 +1,4 @@
-﻿using Attributes;
+﻿using StandardAssets.Characters.Attributes;
 using UnityEditor;
 using UnityEngine; 
 namespace Editor
@@ -20,7 +20,7 @@ namespace Editor
 		public override float GetPropertyHeight(SerializedProperty prop, GUIContent label)
 		{
 			// check for Conditional (custom extension).
-			ConditionalIncludeAttribute compat = this.TryGetAttribute<ConditionalIncludeAttribute>();
+			VisibleIfAttribute compat = this.TryGetAttribute<VisibleIfAttribute>();
 			if (compat != null)
 			{ 
 				// if Height is zero, then this property is hidden.

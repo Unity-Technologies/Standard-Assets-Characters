@@ -1,10 +1,10 @@
-﻿using Attributes;
+﻿using StandardAssets.Characters.Attributes;
 using UnityEditor;
 using UnityEngine;
+
 namespace Editor
 {
-
-	[CustomPropertyDrawer(typeof(ConditionalIncludeAttribute))]
+	[CustomPropertyDrawer(typeof(VisibleIfAttribute))]
 	public class ConditionalIncludePropertyDrawer : PropertyDrawer
 	{
 		/*
@@ -16,7 +16,7 @@ namespace Editor
 		{
 			return GetConditionalPropertyDrawerHeight
 				(
-					attribute as ConditionalIncludeAttribute,
+					attribute as VisibleIfAttribute,
 					property,
 					label
 				);
@@ -35,7 +35,7 @@ namespace Editor
 		/// Static GetHeight implementation for compatibility with HelperBoxAttribute and possibly others.
 		/// Returns 0 if hidden.
 		/// </summary> 
-		internal static float GetConditionalPropertyDrawerHeight(ConditionalIncludeAttribute attribute,
+		internal static float GetConditionalPropertyDrawerHeight(VisibleIfAttribute attribute,
 																 SerializedProperty property, GUIContent label)
 		{
 			if (attribute == null)
@@ -73,4 +73,3 @@ namespace Editor
 	} 
 }
 
-	

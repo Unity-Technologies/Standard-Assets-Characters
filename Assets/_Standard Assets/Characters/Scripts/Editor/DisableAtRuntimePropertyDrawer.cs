@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Attributes;
+using StandardAssets.Characters.Attributes;
 using UnityEditor;
 using UnityEngine;
 
