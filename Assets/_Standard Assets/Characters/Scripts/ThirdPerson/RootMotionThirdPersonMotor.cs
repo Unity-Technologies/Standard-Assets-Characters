@@ -64,6 +64,11 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected ThirdPersonMotorMovementMode movementMode = ThirdPersonMotorMovementMode.Action;
 
+		public ThirdPersonMotorMovementMode currentMovementMode
+		{
+			get { return movementMode; }
+		}
+
 		protected ThirdPersonGroundMovementState preTurnMovementState;
 		protected ThirdPersonGroundMovementState movementState = ThirdPersonGroundMovementState.Walking;
 
@@ -165,14 +170,15 @@ namespace StandardAssets.Characters.ThirdPerson
 					postLandFramesToIgnore--;
 				}
 			}
-			else
+			else //airborne
 			{
 				if (aerialState == ThirdPersonAerialMovementState.Falling)
 				{
 					CalculateFallForwardSpeed();
 				}
 
-				var movementDirection = transform.forward;
+				var movementDirection = movementMode == ThirdPersonMotorMovementMode.Action ? transform.forward :
+					CalculateLocalInputDirection() ;
 				characterPhysics.Move(cachedForwardVelocity * Time.deltaTime * movementDirection * 
 									  configuration.scaledGroundVelocity, Time.deltaTime);
 			}
@@ -550,12 +556,18 @@ namespace StandardAssets.Characters.ThirdPerson
 			return CalculateTargetRotation(characterInput.moveInput.x, characterInput.moveInput.y);
 		}
 
+		protected virtual Vector3 CalculateLocalInputDirection()
+		{
+			var localMovementDirection = new Vector3(characterInput.moveInput.x, 0f, characterInput.moveInput.y);
+			var angle = Vector3.Angle(thirdPersonBrain.bearingOfCharacter.CalculateCharacterBearing(), Vector3.forward);
+			return Quaternion.AngleAxis(angle, Vector3.up) * localMovementDirection.normalized;
+		}
+
 		protected virtual Quaternion CalculateTargetRotation(float x, float y)
 		{
 			Vector3 flatForward = thirdPersonBrain.bearingOfCharacter.CalculateCharacterBearing();
-
-			Vector3 localMovementDirection =
-				new Vector3(x, 0f, y);
+			Vector3 localMovementDirection = new Vector3(x, 0f, y);
+			
 			Quaternion cameraToInputOffset = Quaternion.FromToRotation(Vector3.forward, localMovementDirection);
 			cameraToInputOffset.eulerAngles = new Vector3(0f, cameraToInputOffset.eulerAngles.y, 0f);
 

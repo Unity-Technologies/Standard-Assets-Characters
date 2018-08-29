@@ -122,7 +122,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public void OnLocomotionAnimationEnter()
 		{
-			if (state == AnimationState.RootMotionJump)
+			if (state == AnimationState.RootMotionJump || state == AnimationState.Falling)
 			{
 				state = AnimationState.Locomotion;
 			}
@@ -318,13 +318,21 @@ namespace StandardAssets.Characters.ThirdPerson
 					timeSinceLastPhysicsJumpLand = DateTime.Now;
 					break;
 				case AnimationState.Falling:
-					if (motor.normalizedForwardSpeed > configuration.forwardSpeedToRoll) // play roll
+					var rootMotionMotor = motor as RootMotionThirdPersonMotor;
+					if (rootMotionMotor != null && rootMotionMotor.currentMovementMode == ThirdPersonMotorMovementMode.Strafe)
 					{
-						animator.CrossFade(configuration.rollLandStateName, configuration.rollAnimationBlendDuration);
+						animator.CrossFade(configuration.locomotionStateName, configuration.landAnimationBlendDuration);
 					}
 					else
 					{
-						animator.CrossFade(configuration.landStateName, configuration.landAnimationBlendDuration);
+						if (motor.normalizedForwardSpeed > configuration.forwardSpeedToRoll) // play roll
+						{
+							animator.CrossFade(configuration.rollLandStateName, configuration.rollAnimationBlendDuration);
+						}
+						else
+						{
+							animator.CrossFade(configuration.landStateName, configuration.landAnimationBlendDuration);
+						}
 					}
 					break;
 			}
