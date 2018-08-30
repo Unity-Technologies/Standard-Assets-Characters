@@ -63,9 +63,9 @@ namespace StandardAssets.Characters.CharacterInput
 	/// </summary>
 	public enum DefaultInputResponseBehaviour
 	{
-		Button,
 		Toggle,
-		Hold
+		Hold,
+		Button
 	}
 	
 	/// <summary>
