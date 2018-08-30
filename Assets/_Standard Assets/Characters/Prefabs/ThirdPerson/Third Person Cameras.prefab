@@ -715,7 +715,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1192928361917510}
-  m_LocalRotation: {x: 0.000000029802322, y: 0.000000025555286, z: -0.00000001533317,
+  m_LocalRotation: {x: -0.00000008940697, y: 0.000000025555282, z: -0.000000015333175,
     w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -858,7 +858,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1120486087132888}
-  m_LocalRotation: {x: 0.26693356, y: -0.000000028720953, z: 0.000000007955264, w: 0.96371496}
+  m_LocalRotation: {x: 0.26693368, y: -0, z: -0, w: 0.9637149}
   m_LocalPosition: {x: 10.497017, y: 1.9729375, z: -18.72462}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -944,7 +944,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1186158382073052}
-  m_LocalRotation: {x: 0.000000029802322, y: 0.000000025555286, z: -0.00000001533317,
+  m_LocalRotation: {x: -0.00000008940697, y: 0.000000025555282, z: -0.000000015333175,
     w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -1387,6 +1387,9 @@ MonoBehaviour:
   startingCameraMode: 0
   cameraModeInput: {fileID: 11400000, guid: f7e824638922944d5b76347cc85e8952, type: 2}
   cameraToggleInput: {fileID: 0}
+  recenterCameraInput: {fileID: 11400000, guid: 6aeee65efea4f459082a66316cf93dd4,
+    type: 2}
+  characterInput: {fileID: 0}
   explorationCameraStates:
   - Exploration
   strafeCameraStates:
@@ -1396,6 +1399,7 @@ MonoBehaviour:
   - {fileID: 1504451468462078}
   explorationStateDrivenCamera: {fileID: 114676693933027276}
   strafeStateDrivenCamera: {fileID: 114543724509008454}
+  idleCamera: {fileID: 114626115066085994}
 --- !u!114 &114177270074831250
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1799,7 +1803,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2027,7 +2031,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 1920, y: 1080}
+  m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -2424,7 +2428,10 @@ MonoBehaviour:
   m_AnimatedTarget: {fileID: 0}
   m_LayerIndex: 0
   m_ShowDebugText: 1
-  m_ChildCameras: []
+  m_ChildCameras:
+  - {fileID: 114315799969201444}
+  - {fileID: 114875541010807592}
+  - {fileID: 114626115066085994}
   m_Instructions:
   - m_FullHash: -438428448
     m_VirtualCamera: {fileID: 114626115066085994}
