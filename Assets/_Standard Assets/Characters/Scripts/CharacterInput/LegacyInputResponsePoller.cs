@@ -1,25 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace StandardAssets.Characters.CharacterInput
 {
-	/// <summary>
-	/// Enum to define if an input axis will be treated as a button
-	/// </summary>
-	public enum AxisAsButton
-	{
-		None,
-		Positive,
-		Negative
-	}
-	
 	/// <summary>
 	/// Simply polls on behalf of the LegacyUnityInputResponse
 	/// </summary>
 	public class LegacyInputResponsePoller : MonoBehaviour
 	{
-		
+		/// <summary>
+		/// Static list of pollers
+		/// </summary>
 		private static List<LegacyInputResponsePoller> s_Pollers;
 		
 		/// <summary>
@@ -79,11 +72,14 @@ namespace StandardAssets.Characters.CharacterInput
 				case DefaultInputResponseBehaviour.Toggle:
 					Toggle();
 					break;
+				case DefaultInputResponseBehaviour.Button:
+					Press();
+					break;
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
 		}
-		
+
 		/// <summary>
 		/// Logic for Holds
 		/// </summary>
@@ -96,7 +92,7 @@ namespace StandardAssets.Characters.CharacterInput
 			}
 			else
 			{
-				isAxis = checkAxisAsButton();
+				isAxis = CheckAxisAsButton();
 			}
 			
 			
@@ -125,7 +121,7 @@ namespace StandardAssets.Characters.CharacterInput
 			}
 			else
 			{
-				buttonDown = checkAxisAsButton();
+				buttonDown = CheckAxisAsButton();
 			}
 			
 			if (buttonDown)
@@ -141,8 +137,33 @@ namespace StandardAssets.Characters.CharacterInput
 				check = !check;
 			}
 		}
+		
+		/// <summary>
+		/// Logic for button
+		/// </summary>
+		private void Press()
+		{
+			bool buttonDown;
+			if (useAxisAsButton == AxisAsButton.None)
+			{
+				buttonDown = Input.GetButtonDown(axisRaw);
+			}
+			else
+			{
+				buttonDown = CheckAxisAsButton();
+			}
 
-		private bool checkAxisAsButton()
+			if (buttonDown)
+			{
+				OnStart();
+			}
+		}
+
+		/// <summary>
+		/// Converts specific axis to a button press
+		/// </summary>
+		/// <returns></returns>
+		private bool CheckAxisAsButton()
 		{
 			switch (useAxisAsButton)
 			{
@@ -182,11 +203,17 @@ namespace StandardAssets.Characters.CharacterInput
 			response.BroadcastStart();
 		}
 
+		/// <summary>
+		/// Broadcasts the end
+		/// </summary>
 		private void OnEnd()
 		{
 			response.BroadcastEnd();
 		}
 
+		/// <summary>
+		/// Helper for mobile controls 
+		/// </summary>
 		public void TouchScreenButtonToggle()
 		{
 			if (!check)

@@ -220,7 +220,7 @@ namespace StandardAssets.Characters.Physics
 				return gravity * fallGravityMultiplier;
 			}
 
-			return characterInput.isJumping ? gravity : gravity * minJumpHeightMultiplier;
+			return characterInput.hasJumpInput ? gravity : gravity * minJumpHeightMultiplier;
 		}
 		
 		protected abstract bool CheckGrounded();

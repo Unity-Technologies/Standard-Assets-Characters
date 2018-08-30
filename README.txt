@@ -13,6 +13,44 @@ For more detailed documentation, please see the WIP Google Docs:
 	***ALEC TO LINK MORE TO***
 
 
+## Quick Start
+
+* Pull the repository and open the project in the relevant version of Unity
+* Open the Protoland Scene
+* Pres Play
+* Select First or Third Person modes
+
+
+## Controls
+
+* First Person
+	* Keyboard + Mouse
+		* Movement:	WASD / Arrow Keys
+		* Look:		Mouse Cursor
+		* Sprint:		Left Shift [HOLD]
+		* Jump:		Spacebar
+		* Crouch:		Left Ctrl [HOLD]
+	* Gamepad
+		* Movement:	Left Thumbstick
+		* Look:		Right Thumbstick
+		* Sprint:		Left Thumbstick Click [TOGGLE]
+		* Jump:		PS4 [X]  Xbox [A]
+		* Crouch:		Right Thumbstick Click [TOGGLE]
+* Third Person
+	* Keyboard + Mouse
+		* Movement:	WASD / Arrow Keys
+		* Camera:		Mouse Cursor
+		* Sprint:		Left Shift [HOLD]
+		* Jump:		Spacebar
+		* Strafe:		F Key [TOGGLE]
+	* Gamepad
+		* Movement:	Left Thumbstick
+		* Camera:		Right Thumbstick
+		* Sprint:		Left Thumbstick Click [TOGGLE]
+		* Jump:		PS4 [X]  Xbox [A]
+		* Strafe:		Left Bumper [TOGGLE]
+
+
 
 ## Notable Content
 

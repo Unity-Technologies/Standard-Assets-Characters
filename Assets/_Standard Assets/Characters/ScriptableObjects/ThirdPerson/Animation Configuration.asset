@@ -35,36 +35,59 @@ MonoBehaviour:
   groundedParameter: Grounded
   verticalSpeedParameter: VerticalSpeed
   fallParameter: Fall
-  jumpTransitionDuration: 0.2
-  rightFootPhysicsJumpLandAnimationTimeOffset: 0.1
-  leftFootPhysicsJumpLandAnimationTimeOffset: 0.6
+  jumpTransitionAsAFactorOfSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.05
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0.25
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  rightFootPhysicsJumpLandAnimationTimeOffset: 0
+  leftFootPhysicsJumpLandAnimationTimeOffset: 0.45
   jumpEndTransitionDurationByForwardSpeed:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: -0.00205544
-      value: 0.04732189
-      inSlope: 0.15353931
-      outSlope: 0.15353931
+      value: 0.125
+      inSlope: 0.0017899871
+      outSlope: 0.0017899871
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.104166664
+      outWeight: 0.50416666
     - serializedVersion: 3
       time: 1
-      value: 0.125
-      inSlope: 0.14716052
-      outSlope: 0.14716052
+      value: 0.2
+      inSlope: 0.0038748302
+      outSlope: 0.0038748302
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.22173604
+      inWeight: 0.25000006
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   jumpedLateralSpeedParameter: JumpedLateralSpeed
   jumpedForwardSpeedParameter: JumpedForwardSpeed
-  skipJumpLandWindow: 0.25
+  skipJumpLandWindow: 0.38
   landSpeedAsAFactorOfSpeed:
     serializedVersion: 2
     m_Curve:
@@ -102,5 +125,5 @@ MonoBehaviour:
     headLookAtWeight: 1
     headLookAtMaxRotation: 75
     headLookAtRotationSpeed: 15
-    adjustHeadLookAtWhileAerial: 1
+    adjustHeadLookAtWhileAerial: 0
     adjustHeadLookAtDuringTurnaround: 1

@@ -314,9 +314,10 @@ namespace StandardAssets.Characters.ThirdPerson
 				// if coming from a physics jump handle animation transition
 				case AnimationState.PhysicsJump:
 					bool rightFoot = animator.GetBool(hashFootedness);
-					animator.CrossFade(configuration.locomotionStateName, configuration.jumpEndTransitionByForwardSpeed.Evaluate(
-										Mathf.Abs(animator.GetFloat(configuration.jumpedForwardSpeedParameterName))),
-										0, rightFoot ? configuration.rightFootPhysicsJumpLandAnimationOffset
+					float duration = configuration.jumpEndTransitionByForwardSpeed.Evaluate(
+						Mathf.Abs(animator.GetFloat(configuration.jumpedForwardSpeedParameterName)));
+					animator.CrossFadeInFixedTime(configuration.locomotionStateName, duration, 0, rightFoot ? 
+										  configuration.rightFootPhysicsJumpLandAnimationOffset
 										: configuration.leftFootPhysicsJumpLandAnimationOffset);
 					timeSinceLastPhysicsJumpLand = DateTime.Now;
 					break;
@@ -354,7 +355,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			isGrounded = false;
 
-			animator.SetFloat(hashJumpedForwardSpeed, motor.normalizedForwardSpeed);
+			animator.SetFloat(hashJumpedForwardSpeed, animator.GetFloat(hashForwardSpeed));
 
 			bool rightFoot = animator.GetBool(hashFootedness);
 

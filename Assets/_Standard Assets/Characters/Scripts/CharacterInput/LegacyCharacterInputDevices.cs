@@ -2,7 +2,10 @@
 
 namespace StandardAssets.Characters.CharacterInput
 {
-	[CreateAssetMenu(fileName = "LegacyCharacterInputDevices", menuName = "LegacyInput/Create Input Device Mapping",
+	/// <summary>
+	/// A configuration of the platform and controller IDs
+	/// </summary>
+	[CreateAssetMenu(fileName = "LegacyCharacterInputDevices", menuName = "Standard Assets/Characters/Input/Create Input Device Mapping",
 		order = 1)]
 	public class LegacyCharacterInputDevices : ScriptableObject
 	{
@@ -12,6 +15,10 @@ namespace StandardAssets.Characters.CharacterInput
 		[SerializeField]
 		protected string xboxOneControllerId = "XBone", xbox360ControllerId = "XBox360", ps4ControllerId = "PS4", xboxOneWirelessControllerId = "XBoneWireless";
 
+		/// <summary>
+		/// Axis naming convention
+		/// e.g. SprintXBoneOSX from the control convention below
+		/// </summary>
 		[SerializeField]
 		protected string controlConvention = "{control}{controller}{platform}";
 
@@ -30,7 +37,7 @@ namespace StandardAssets.Characters.CharacterInput
 			get { return xboxOneControllerId; }
 		}
 
-		public string xboxOneWirelessControllerId1
+		public string xboxOneWirelessControllerIdentifier
 		{
 			get { return xboxOneWirelessControllerId; }
 		}
