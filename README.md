@@ -210,20 +210,26 @@ For more detailed documentation, please see the WIP Google Docs:
 	* Simple Movement Controller Example
 		** Demo scene to test out Legacy Character Controller and Open Character Controller controlled Cylinders
 
+	* Simple NavMesh Input Controller Example
+		** Demo scene to show NavMesh driven Character Controller Input
+
 
 ### Currently Being Worked On:
 	* Input Manager (Legacy)
 		** Inspector UX
+		** Code Review and Commenting
 	
 	* Open Character Controller
 		** Inspector UX
+		** Code Review and Commenting
 
 	* First Person Controller
 		** Inspector UX
-		** Cinemachine Camera Change Bug
+		** Code Review and Commenting
 
 	* Third Person Controller 
 		** Inspector UX
+		** Code Review and Commenting
 		** New Standing and Running Jump Animations
 		** Tweaks to Jump Motion Curve Feel
 		** Strafing Locomotion Behaviour
@@ -235,24 +241,15 @@ For more detailed documentation, please see the WIP Google Docs:
 		** Third Person Cameras
 
 	* First Pass Documentation of the Systems and Behaviours
+	* General Internal commenting and code review pass
 
 
 ### Still Requires Work:
-	* Input Manager (Legacy)
-		** Code Comments
-	
-	* Open Character Controller
-		** Code Comments
-
-	* First Person Controller
-		** Code Comments
 
 	* Third Person Controller 
-		** Code Comments
 		** Strafing Locomotion Animation Updates
 			*** Requires Feedback Brief
 
-	* General Internal commenting and code review pass
 	* Garbage Generation and Optimation Pass
 	* Addition of Female Avatar & Aniamtion Set
 
