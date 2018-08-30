@@ -88,7 +88,7 @@ namespace Editor
 		/// Helper for manual draw unity style array/list editor using RL prefixed internal styles.
 		/// </summary>
 		public static void DrawArrayPropertyPanel(SerializedProperty array, Action<SerializedProperty> drawItem,
-		                                          int minItems = 0, int maxItems = 0)
+												  int minItems = 0, int maxItems = 0)
 		{
 			s_SharedContent.text = array.displayName;
 			s_SharedContent.tooltip = array.tooltip;
@@ -203,7 +203,7 @@ namespace Editor
 		}
 
 		private static GUIStyle Lazy(ref GUIStyle field, GUIStyle src, Action<GUIStyle> initAction = null,
-		                             bool isCopy = false)
+									 bool isCopy = false)
 		{
 			if (field == null)
 			{
@@ -237,10 +237,10 @@ namespace Editor
 			}
 			return null;
 		}
-        
-        /// <summary>
-        /// Returns a string representation of a property. 
-        /// </summary> 
+		
+		/// <summary>
+		/// Returns a string representation of a property. 
+		/// </summary> 
 		public static string AsStringValue(this SerializedProperty property)
 		{
 			// Moved from CondtionalIncludePropertyDrawer.cs
@@ -296,7 +296,7 @@ namespace Editor
 
 			return parent.FindPropertyRelative(propertyName);
 		}
-        
+		
 	}  
 } 
 

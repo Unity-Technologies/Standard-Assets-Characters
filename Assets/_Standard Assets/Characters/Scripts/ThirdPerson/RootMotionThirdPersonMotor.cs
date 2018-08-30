@@ -83,6 +83,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		private bool isTurningIntoStrafe,
 					 jumpQueued;
 
+		private Vector3 fallDirection;
+
 		private Transform transform;
 		private GameObject gameObject;
 		private ThirdPersonBrain thirdPersonBrain;
@@ -172,14 +174,15 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			else //airborne
 			{
-				if (aerialState == ThirdPersonAerialMovementState.Falling)
+				if (normalizedVerticalSpeed <= 0 || aerialState != ThirdPersonAerialMovementState.Grounded)
 				{
 					CalculateFallForwardSpeed();
 				}
 
 				var movementDirection = movementMode == ThirdPersonMotorMovementMode.Action ? transform.forward :
 					CalculateLocalInputDirection() ;
-				characterPhysics.Move(cachedForwardVelocity * Time.deltaTime * movementDirection * 
+				fallDirection = Vector3.Lerp(fallDirection, movementDirection, configuration.fallDirectionChange);
+				characterPhysics.Move(cachedForwardVelocity * Time.deltaTime * fallDirection * 
 									  configuration.scaledGroundVelocity, Time.deltaTime);
 			}
 		}
@@ -559,8 +562,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected virtual Vector3 CalculateLocalInputDirection()
 		{
 			var localMovementDirection = new Vector3(characterInput.moveInput.x, 0f, characterInput.moveInput.y);
-			var angle = Vector3.Angle(thirdPersonBrain.bearingOfCharacter.CalculateCharacterBearing(), Vector3.forward);
-			return Quaternion.AngleAxis(angle, Vector3.up) * localMovementDirection.normalized;
+			return Quaternion.AngleAxis(thirdPersonBrain.bearingOfCharacter.cameraMain.eulerAngles.y, Vector3.up) * 
+			       localMovementDirection.normalized;
 		}
 
 		protected virtual Quaternion CalculateTargetRotation(float x, float y)
@@ -678,6 +681,8 @@ namespace StandardAssets.Characters.ThirdPerson
 				}
 				characterPhysics.SetJumpVelocity(
 					configuration.JumpHeightAsAFactorOfForwardSpeedAsAFactorOfSpeed.Evaluate(normalizedForwardSpeed));
+				
+				fallDirection = transform.forward;
 			}
 			
 			if (jumpStarted != null)

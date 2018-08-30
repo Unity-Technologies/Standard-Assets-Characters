@@ -74,7 +74,7 @@ namespace StandardAssets.Characters.CharacterInput
 		{
 			get { return moveInput != Vector2.zero; }
 		}
-		public bool isJumping { get; private set; }
+		public bool hasJumpInput { get; private set; }
 		public Action jumpPressed { get; set; }
 
 		/// <summary>
@@ -98,12 +98,7 @@ namespace StandardAssets.Characters.CharacterInput
 		}
 
 		private void Update()
-		{
-			if (hasMovementInput)
-			{
-				previousNonZeroMoveInput = moveInput;
-			}
-			
+		{		
 			UpdateInput(Time.deltaTime);
 		}
 

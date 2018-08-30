@@ -1,4 +1,4 @@
-﻿using Attributes;
+﻿using StandardAssets.Characters.Attributes;
 using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson
@@ -10,10 +10,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected RuntimeAnimatorController thirdPersonAnimator;
 		
 		[Header("State Names")]
-		[SerializeField]
+		[SerializeField, AnimatorStateName("thirdPersonAnimator")]
 		protected string locomotion = "Locomotion Blend";
 		
-		[SerializeField]
+		[SerializeField, AnimatorStateName("thirdPersonAnimator")]
 		protected string rightFootRootMotionJump = "OnRightFoot",
 						 leftFootRootMotionJump = "OnLeftFoot",
 						 rightFootJump = "OnRightFootBlend",
@@ -43,9 +43,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		[SerializeField]
 		protected string fallParameter = "Fall";
-		
+
 		[SerializeField]
-		protected float jumpTransitionDuration = 0.15f;
+		protected AnimationCurve jumpTransitionAsAFactorOfSpeed = AnimationCurve.Constant(0, 1, 0.15f);
 
 		[SerializeField]
 		protected float rightFootPhysicsJumpLandAnimationTimeOffset = 0.1f,
@@ -89,7 +89,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected bool disableHeadTurn;
 
-		[ConditionalInclude("disableHeadTurn",false)]
+		[VisibleIf("disableHeadTurn",false)]
 		[SerializeField]
 		protected HeadTurnProperties headTurnProperties;
 
@@ -193,14 +193,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return headTurnProperties.lookAtWhileTurnaround; }
 		}
 
-		public AnimationCurve jumpTransitionDurationByForwardSpeed
+		public AnimationCurve jumpEndTransitionByForwardSpeed
 		{
 			get { return jumpEndTransitionDurationByForwardSpeed; }
-		}
-
-		public float jumpTransitionTime
-		{
-			get { return jumpTransitionDuration; }
 		}
 
 		public float rightFootPhysicsJumpLandAnimationOffset
@@ -276,6 +271,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		public RuntimeAnimatorController animator
 		{
 			get { return thirdPersonAnimator; }
+		}
+
+		public AnimationCurve jumpTransitionDurationFactorOfSpeed
+		{
+			get { return jumpTransitionAsAFactorOfSpeed; }
 		}
 	}
 }

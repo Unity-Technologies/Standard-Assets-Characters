@@ -6,74 +6,74 @@ using UnityEngine;
 
 namespace StandardAssets.Characters.Examples.SimpleMovementController
 {
-    [RequireComponent(typeof(ICharacterPhysics))]
-    [RequireComponent(typeof(ICharacterInput))]
-    public class CapsuleBrain : CharacterBrain
-    {
-        /// <summary>
-        /// The state that first person motor starts in
-        /// </summary>
-        [SerializeField]
-        protected CapsuleMovementProperties startingMovementProperties;
+	[RequireComponent(typeof(ICharacterPhysics))]
+	[RequireComponent(typeof(ICharacterInput))]
+	public class CapsuleBrain : CharacterBrain
+	{
+		/// <summary>
+		/// The state that first person motor starts in
+		/// </summary>
+		[SerializeField]
+		protected CapsuleMovementProperties startingMovementProperties;
 
-	    [SerializeField] 
-	    protected float turnSpeed = 300f;
-            
-        /// <summary>
-        /// The current motor state - controls how the character moves in different states
-        /// </summary>
-        public CapsuleMovementProperties currentMovementProperties { get; protected set; }
-       
-	    
-	    /// <summary>
-	    /// The current movement properties
-	    /// </summary>
-	    private float currentSpeed;
-
-	    /// <summary>
-	    /// The current movement properties
-	    /// </summary>
-	    private float movementTime;
-
-	    /// <summary>
-	    /// A check to see if input was previous being applied
-	    /// </summary>
-	    private bool previouslyHasInput;
-
-	    private MovementEventHandler _movementEventHandler;
-
-	    public override MovementEventHandler movementEventHandler
-	    {
-		    get { return _movementEventHandler; }
-	    }
-
-	    public override float targetYRotation { get; set; }
-
-	    protected override void Awake()
-        {
-            base.Awake();
-	        ChangeState(startingMovementProperties);
-        }
-
-        private void OnEnable()
-        {
-            characterInput.jumpPressed += OnJumpPressed;
-        }
-        
-        /// <summary>
-        /// Unsubscribe
-        /// </summary>
-        private void OnDisable()
-        {
-            if (characterInput == null)
-            {
-                return;
-            }
+		[SerializeField] 
+		protected float turnSpeed = 300f;
 			
-            characterInput.jumpPressed -= OnJumpPressed;
-        }
-        
-        /// <summary>
+		/// <summary>
+		/// The current motor state - controls how the character moves in different states
+		/// </summary>
+		public CapsuleMovementProperties currentMovementProperties { get; protected set; }
+	   
+		
+		/// <summary>
+		/// The current movement properties
+		/// </summary>
+		private float currentSpeed;
+
+		/// <summary>
+		/// The current movement properties
+		/// </summary>
+		private float movementTime;
+
+		/// <summary>
+		/// A check to see if input was previous being applied
+		/// </summary>
+		private bool previouslyHasInput;
+
+		private MovementEventHandler _movementEventHandler;
+
+		public override MovementEventHandler movementEventHandler
+		{
+			get { return _movementEventHandler; }
+		}
+
+		public override float targetYRotation { get; set; }
+
+		protected override void Awake()
+		{
+			base.Awake();
+			ChangeState(startingMovementProperties);
+		}
+
+		private void OnEnable()
+		{
+			characterInput.jumpPressed += OnJumpPressed;
+		}
+		
+		/// <summary>
+		/// Unsubscribe
+		/// </summary>
+		private void OnDisable()
+		{
+			if (characterInput == null)
+			{
+				return;
+			}
+			
+			characterInput.jumpPressed -= OnJumpPressed;
+		}
+		
+		/// <summary>
 		/// Handles camera rotation
 		/// </summary>
 		private void Update()
@@ -83,21 +83,21 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 
 			targetYRotation = targetRotation.eulerAngles.y;
 		}
-	    
-	    
-	    protected virtual Quaternion CalculateTargetRotation()
-	    {
-		    Vector3 flatForward = Camera.main.transform.forward;
-		    flatForward.y = 0f;
-		    flatForward.Normalize();
+		
+		
+		protected virtual Quaternion CalculateTargetRotation()
+		{
+			Vector3 flatForward = Camera.main.transform.forward;
+			flatForward.y = 0f;
+			flatForward.Normalize();
 
-		    Vector3 localMovementDirection =
-			    new Vector3(characterInput.moveInput.x, 0f, characterInput.moveInput.y);
-		    Quaternion cameraToInputOffset = Quaternion.FromToRotation(Vector3.forward, localMovementDirection);
-		    cameraToInputOffset.eulerAngles = new Vector3(0f, cameraToInputOffset.eulerAngles.y, 0f);
+			Vector3 localMovementDirection =
+				new Vector3(characterInput.moveInput.x, 0f, characterInput.moveInput.y);
+			Quaternion cameraToInputOffset = Quaternion.FromToRotation(Vector3.forward, localMovementDirection);
+			cameraToInputOffset.eulerAngles = new Vector3(0f, cameraToInputOffset.eulerAngles.y, 0f);
 
-		    return Quaternion.LookRotation(cameraToInputOffset * flatForward);
-	    }
+			return Quaternion.LookRotation(cameraToInputOffset * flatForward);
+		}
 
 		/// <summary>
 		/// Handles jumping
@@ -223,5 +223,5 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 			ChangeState(startingMovementProperties);
 			
 		}
-    }
+	}
 }

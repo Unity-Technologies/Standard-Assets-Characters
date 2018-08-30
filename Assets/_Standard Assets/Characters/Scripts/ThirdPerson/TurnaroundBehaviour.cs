@@ -3,20 +3,44 @@ using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
+	/// <summary>
+	/// Class to handle rapid turns
+	/// </summary>
 	public abstract class TurnaroundBehaviour
 	{
+		/// <summary>
+		/// Value multiplicatively applied to the head look at turn angle
+		/// </summary>
 		public abstract float headTurnScale { get; }
 		
+		/// <summary>
+		/// Event fired on completion of turnaround
+		/// </summary>
 		public event Action turnaroundComplete;
 		
+		/// <summary>
+		/// Is this behaviour using with turnaround logic
+		/// </summary>
 		protected bool isTurningAround;
 
+		/// <summary>
+		/// Initialization logic
+		/// </summary>
+		/// <param name="brain">The ThirdPersonBrain</param>
 		public abstract void Init(ThirdPersonBrain brain);
 
 		public abstract void Update();
 
+		/// <summary>
+		/// Gets the movement of the character
+		/// </summary>
+		/// <returns>Movement to apply to the character</returns>
 		public abstract Vector3 GetMovement();
 
+		/// <summary>
+		/// Starts a turnaround
+		/// </summary>
+		/// <param name="angle">Target y rotation in degrees</param>
 		public void TurnAround(float angle)
 		{
 			if (isTurningAround)
@@ -28,6 +52,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			StartTurningAround(angle);
 		}
 
+		/// <summary>
+		/// Called on completion of turnaround. Fires turnaroundComplete event.
+		/// </summary>
 		protected void EndTurnAround()
 		{
 			isTurningAround = false;

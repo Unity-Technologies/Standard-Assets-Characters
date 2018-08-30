@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace StandardAssets.Characters.Examples.SimpleMovementController
 {
-    [Serializable]
-    public class CapsuleMovementEventHandler : MovementEventHandler
-    {
-        /// <summary>
+	[Serializable]
+	public class CapsuleMovementEventHandler : MovementEventHandler
+	{
+		/// <summary>
 		/// Distance travelled between movement events
 		/// </summary>
 		[SerializeField]
@@ -135,7 +135,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		{
 			BroadcastMovementEvent(jumpId);
 		}
-        
+		
 		/// <summary>
 		/// Calls PlayEvent on the landing ID
 		/// </summary>
@@ -143,5 +143,5 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		{
 			BroadcastMovementEvent(landingId);
 		}  
-    }
+	}
 }

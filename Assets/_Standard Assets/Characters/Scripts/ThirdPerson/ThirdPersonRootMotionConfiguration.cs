@@ -1,5 +1,4 @@
-﻿using Attributes;
-using Attributes.Types;
+﻿using StandardAssets.Characters.Attributes;
 using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson
@@ -15,7 +14,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected bool useCustomActionParameters = true;
 
-		[ConditionalInclude("useCustomActionParameters")]
+		[VisibleIf("useCustomActionParameters")]
 		[SerializeField]
 		protected ActionProperties action;
 
@@ -25,7 +24,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected float sprintNormalizedSpeedIncrease = 0.5f;
 
-		[ConditionalInclude("useCustomStrafeParameters")]
+		[VisibleIf("useCustomStrafeParameters")]
 		[SerializeField]
 		protected StrafeProperties strafing;
 
@@ -65,6 +64,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField, Tooltip("A fall distance higher than this will trigger a fall animation")]
 		protected float maxFallDistance = 1;
 
+		[SerializeField] 
+		protected float fallDirectionChangeSpeed = 0.025f;
+
 		[Header("Turning")]
 		[SerializeField]
 		protected float turningSpeed = 500f;
@@ -90,6 +92,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		[Header("Camera")]
 		[SerializeField]
 		protected float strafeLookInputScale = 20f;
+
+		public float fallDirectionChange
+		{
+			get { return fallDirectionChangeSpeed; }
+		}
 
 		public AnimationCurve JumpHeightAsAFactorOfForwardSpeedAsAFactorOfSpeed
 		{

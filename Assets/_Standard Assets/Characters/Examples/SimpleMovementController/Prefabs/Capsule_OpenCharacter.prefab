@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 114816713393816442}
   - component: {fileID: 114984393507249552}
   - component: {fileID: 114733511240769224}
+  - component: {fileID: 114029035248450258}
   m_Layer: 11
   m_Name: Capsule_OpenCharacter
   m_TagString: Untagged
@@ -232,6 +233,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114029035248450258
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1942727258898328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ba03f3575494390a170eaa10483b92f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enablePowerDebug: 1
 --- !u!114 &114733511240769224
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -277,6 +290,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terminalVelocity: 10
+  fallGravityMultiplier: 2.5
+  minJumpHeightMultiplier: 2
   characterController:
     playerRootTransform: {fileID: 0}
     rootTransformOffset: {x: 0, y: 0, z: 0}
@@ -296,11 +311,13 @@ MonoBehaviour:
     localHumanControlled: 1
     canSlideAgainstCeiling: 1
     sendColliderHitMessages: 1
+    queryTriggerInteraction: 1
     slideDownSlopes: 1
     slideDownTerminalVelocity: 10
     slideDownGravityScale: 1
     slideDownStartDuration: 0.25
     enableDebug: 0
+    debugDrawMoveVector: 0
 --- !u!114 &114936610752964274
 MonoBehaviour:
   m_ObjectHideFlags: 1

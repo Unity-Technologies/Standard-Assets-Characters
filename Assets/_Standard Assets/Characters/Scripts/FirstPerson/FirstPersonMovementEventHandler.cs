@@ -135,7 +135,7 @@ namespace StandardAssets.Characters.FirstPerson
 		{
 			BroadcastMovementEvent(jumpSoundId);
 		}
-        
+		
 		/// <summary>
 		/// Calls PlayEvent on the landing ID
 		/// </summary>

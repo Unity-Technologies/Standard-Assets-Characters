@@ -1,6 +1,6 @@
 ﻿using System;
-using Attributes;
 using Cinemachine;
+using StandardAssets.Characters.Attributes;
 using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Common;
 using StandardAssets.Characters.Physics;
@@ -15,7 +15,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected ThirdPersonBrain brain;
 		
-		[DisableAtRuntime()]
+		[DisableEditAtRuntime()]
 		[SerializeField]
 		protected ThirdPersonCameraType startingCameraMode = ThirdPersonCameraType.Exploration;
 

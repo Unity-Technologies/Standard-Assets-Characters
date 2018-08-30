@@ -5,23 +5,20 @@ namespace StandardAssets.Characters.CharacterInput
 	/// <summary>
 	/// Default Unity Input System implementation of the InputResponse
 	/// </summary>
-	[CreateAssetMenu(fileName = "InputResponse", menuName = "Input Response/Create Default Unity Input Response",
+	[CreateAssetMenu(fileName = "InputResponse", menuName = "Standard Assets/Characters/Input/Create Legacy Input Response",
 		order = 1)]
 	public class LegacyInputResponse : InputResponse
 	{
-		/// <summary>
-		/// Classification of the type of response
-		/// </summary>
-		[SerializeField]
+		[SerializeField, Tooltip("Determines how the Input Response behaves")]
 		protected DefaultInputResponseBehaviour behaviour;
 
-		[SerializeField] 
+		[SerializeField, Tooltip("The Input Manager axis name")] 
 		protected string axisRaw;
 		
-		[SerializeField]
+		[SerializeField, Tooltip("Is the input response for a gamepad - allows separate the behaviour for gamepads")]
 		protected bool isGamepad;
 
-		[SerializeField]
+		[SerializeField, Tooltip("Allows axis to be specified as buttons (i.e. mapping analog input to a digital input)")]
 		protected AxisAsButton useAxisAsButton;
 		
 		/// <summary>
@@ -67,6 +64,17 @@ namespace StandardAssets.Characters.CharacterInput
 	public enum DefaultInputResponseBehaviour
 	{
 		Toggle,
-		Hold
+		Hold,
+		Button
+	}
+	
+	/// <summary>
+	/// Enum to define if an input axis will be treated as a button
+	/// </summary>
+	public enum AxisAsButton
+	{
+		None,
+		Positive,
+		Negative
 	}
 }
