@@ -64,11 +64,6 @@ namespace StandardAssets.Characters.CharacterInput
 
 		protected override void UpdateMoveVector()
 		{
-			if (hasMovementInput)
-			{
-				previousMoveInputVector.Set(moveInputVector.x, moveInputVector.y);
-			}
-
 			moveInputVector.Set(Input.GetAxisRaw(horizontalAxisName), Input.GetAxisRaw(verticalAxisName));
 		}
 
@@ -85,7 +80,7 @@ namespace StandardAssets.Characters.CharacterInput
 				}
 			}
 
-			isJumping = (Input.GetButton(resolvedJumpControl) || Input.GetButton("Jump"));
+			hasJumpInput = (Input.GetButton(resolvedJumpControl) || Input.GetButton("Jump"));
 		}
 	}
 }

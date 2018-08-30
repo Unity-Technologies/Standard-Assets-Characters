@@ -2,15 +2,21 @@
 
 namespace StandardAssets.Characters.CharacterInput
 {
-	[CreateAssetMenu(fileName = "InputResponse", menuName = "Input Response/Create Compound Input Response",
+	/// <summary>
+	/// An input response that reacts to multiple input responses and forwards on their callbacks
+	/// Used for supporting multiple platforms
+	/// </summary>
+	[CreateAssetMenu(fileName = "InputResponse", menuName = "Standard Assets/Characters/Input/Create Compound Input Response",
 		order = 1)]
 	public class CompoundInputResponse : InputResponse
 	{
-		[SerializeField]
+		[SerializeField, Tooltip("Collection of different input responses - used for supporting multiple platforms")]
 		protected InputResponse[] inputs;
 		
+		/// <inheritdoc />
 		public override void Init()
 		{
+			//Iterate through all of the Input Responses and subscribe to their callbacks
 			foreach (InputResponse inputResponse in inputs)
 			{
 				inputResponse.Init();

@@ -18,12 +18,7 @@ namespace StandardAssets.Characters.CharacterInput
 
 		protected override void UpdateMoveVector()
 		{
-			Vector2 leftStickVector = leftOnScreenJoystick.GetStickVector();
-			if (hasMovementInput)
-			{
-				previousMoveInputVector.Set(moveInputVector.x, moveInputVector.y);
-			}
-			
+			Vector2 leftStickVector = leftOnScreenJoystick.GetStickVector();		
 			moveInputVector.Set(leftStickVector.x, leftStickVector.y);
 		}
 		

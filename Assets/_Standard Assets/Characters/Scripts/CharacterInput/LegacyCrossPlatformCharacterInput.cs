@@ -4,20 +4,26 @@ using UnityEngine;
 
 namespace StandardAssets.Characters.CharacterInput
 {
+	/// <summary>
+	/// ICharacterInput implementation that automatically chooses between Standalone and Mobile inputs based on the platform
+	/// </summary>
 	public class LegacyCrossPlatformCharacterInput : MonoBehaviour, ICharacterInput
 	{
-		[SerializeField]
+		[SerializeField, Tooltip("Input to use for standalone platforms (OSX/Windows/Editor)")]
 		protected LegacyCharacterInput standaloneInput;
 
-		[SerializeField]
+		[SerializeField, Tooltip("Input to use for mobile platforms (Android/iOS)")]
 		protected LegacyOnScreenCharacterInput mobileInput;
 
-		[SerializeField]
+		[SerializeField, Tooltip("Allows developers to view and debug the Mobile controls in Editor")]
 		protected bool debugOnScreenControls;
 
+		//The current input system being used
 		private LegacyCharacterInputBase currentInputSystem;
 		
-
+		/// <summary>
+		/// The current input system being used
+		/// </summary>
 		private LegacyCharacterInputBase currentInput
 		{
 			get
@@ -31,37 +37,40 @@ namespace StandardAssets.Characters.CharacterInput
 			}
 		}
 
+		/// <inheritdoc />
 		public Vector2 lookInput
 		{
 			get { return currentInput.lookInput; }
 		}
 
+		/// <inheritdoc />
 		public Vector2 moveInput
 		{
 			get { return currentInput.moveInput; }
 		}
-
-		public Vector2 previousNonZeroMoveInput
-		{
-			get { return currentInput.previousNonZeroMoveInput; }
-		}
-
+		
+		/// <inheritdoc />
 		public bool hasMovementInput
 		{
 			get { return currentInput.hasMovementInput; }
 		}
 
-		public bool isJumping
+		/// <inheritdoc />
+		public bool hasJumpInput
 		{
-			get { return currentInput.isJumping; }
+			get { return currentInput.hasJumpInput; }
 		}
 
+		/// <inheritdoc />
 		public Action jumpPressed
 		{
 			get { return currentInput.jumpPressed; }
 			set { currentInput.jumpPressed = value; }
 		}
 
+		/// <summary>
+		/// Sets the current control based on the Platform
+		/// </summary>
 		private void SetControls()
 		{
 			if (debugOnScreenControls)
@@ -77,6 +86,9 @@ namespace StandardAssets.Characters.CharacterInput
 			#endif
 		}
 
+		/// <summary>
+		/// Sets up the mobile controls
+		/// </summary>
 		private void SetMobileControls()
 		{
 			currentInputSystem = mobileInput;
@@ -84,6 +96,9 @@ namespace StandardAssets.Characters.CharacterInput
 			standaloneInput.gameObject.SetActive(false);
 		}
 
+		/// <summary>
+		/// Sets up the standalone controls
+		/// </summary>
 		private void SetStandaloneControls()
 		{
 			currentInputSystem = standaloneInput;
