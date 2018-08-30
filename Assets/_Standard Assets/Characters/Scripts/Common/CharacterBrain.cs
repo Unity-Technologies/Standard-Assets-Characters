@@ -53,6 +53,7 @@ namespace StandardAssets.Characters.Common
 		{
 			characterPhysics = GetComponent<ICharacterPhysics>();
 			characterInput = GetComponent<ICharacterInput>();
+			Cursor.lockState = CursorLockMode.Locked;
 		}
 	}
 }
