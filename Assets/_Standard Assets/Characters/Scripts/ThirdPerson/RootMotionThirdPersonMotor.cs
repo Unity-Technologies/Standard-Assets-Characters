@@ -301,6 +301,11 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public void Update()
 		{
+			if (sprint && !characterInput.hasMovementInput)
+			{
+				sprint = false;
+			}
+			
 			HandleMovement();
 			previousInputs.Add(characterInput.moveInput);
 			if (jumpQueued)
