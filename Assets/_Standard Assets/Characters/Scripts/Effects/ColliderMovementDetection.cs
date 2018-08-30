@@ -94,12 +94,23 @@ namespace StandardAssets.Characters.Effects
 		{
 			if (detection != null)
 			{
-				if (Time.time - timeSinceLastTrigger >= minimumTimeInterval)
+				if (CheckTimeIntervalLimit())
 				{
+					Debug.Log("Movement Event: " + movementEvent.id);
 					detection(movementEvent);
-				}
-				
+				}	
 			}
+		}
+
+		private bool CheckTimeIntervalLimit()
+		{
+			if (Time.time - timeSinceLastTrigger >= minimumTimeInterval)
+			{
+				timeSinceLastTrigger = Time.time;
+				return true;
+			}
+
+			return false;
 		}
 	}
 }

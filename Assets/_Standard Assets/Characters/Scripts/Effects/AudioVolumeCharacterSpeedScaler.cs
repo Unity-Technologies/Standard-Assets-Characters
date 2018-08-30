@@ -24,7 +24,7 @@ namespace StandardAssets.Characters.Effects
 		void Update()
 		{
 			
-			if (thirdPersonBrain != null)
+			if (thirdPersonBrain != null && thirdPersonBrain.isActiveAndEnabled)
 			{
 				ScaleVolumeToSpeed();
 			}

@@ -28,7 +28,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1024616932005224
 GameObject:
   m_ObjectHideFlags: 1
@@ -246,6 +246,7 @@ GameObject:
   - component: {fileID: 4515171478398038}
   - component: {fileID: 82816127568170090}
   - component: {fileID: 114622797650068930}
+  - component: {fileID: 114131883685197168}
   m_Layer: 11
   m_Name: Right Foot
   m_TagString: Untagged
@@ -313,6 +314,7 @@ GameObject:
   - component: {fileID: 4809323353005204}
   - component: {fileID: 82031709974400794}
   - component: {fileID: 114784904795202732}
+  - component: {fileID: 114975905131148320}
   m_Layer: 11
   m_Name: Left Foot
   m_TagString: Untagged
@@ -1422,10 +1424,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementEvents:
-  - id: thirdPerson leftfoot colider
+  - id: thirdPerson_leftfoot
     movementEventPlayers:
     - {fileID: 114936745800307588}
-  - id: thirdPerson rightfoot colider
+  - id: thirdPerson_rightfoot
     movementEventPlayers:
     - {fileID: 114611809758985554}
   - id: jumping Sound
@@ -1446,6 +1448,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   source: {fileID: 82870357802353172}
+  thirdPersonBrain: {fileID: 0}
+--- !u!114 &114131883685197168
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1455084172916128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e912a2b5305451187f0bffb43aebf3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  source: {fileID: 82816127568170090}
   thirdPersonBrain: {fileID: 0}
 --- !u!114 &114156288923457914
 MonoBehaviour:
@@ -1609,22 +1624,33 @@ MonoBehaviour:
   - id: landing Sound
     movementEventPlayers:
     - {fileID: 114365784695089414}
-  - id: leftfoot Sound
+  - id: firstPerson_leftfoot
+    movementEventPlayers:
+    - {fileID: 114784904795202732}
+  - id: firstPerson_rightfoot
+    movementEventPlayers:
+    - {fileID: 114622797650068930}
+  - id: thirdPerson_leftfoot
     movementEventPlayers:
     - {fileID: 114784904795202732}
     - {fileID: 114454600131165316}
-  - id: rightfoot Sound
+  - id: thirdPerson_rightfoot
     movementEventPlayers:
     - {fileID: 114622797650068930}
     - {fileID: 114774502518617130}
-  - id: thirdPerson leftfoot colider
-    movementEventPlayers:
-    - {fileID: 114784904795202732}
-    - {fileID: 114454600131165316}
-  - id: thirdPerson rightfoot colider
-    movementEventPlayers:
-    - {fileID: 114622797650068930}
-    - {fileID: 114774502518617130}
+--- !u!114 &114975905131148320
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1563986647254860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e912a2b5305451187f0bffb43aebf3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  source: {fileID: 82031709974400794}
+  thirdPersonBrain: {fileID: 0}
 --- !u!167 &167178244105134748
 AudioReverbZone:
   m_ObjectHideFlags: 1

@@ -2088,8 +2088,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.04, y: 0.1, z: 0.1}
-  m_Center: {x: -0.07, y: -0.16, z: 0}
+  m_Size: {x: 0.035, y: 0.26, z: 0.1}
+  m_Center: {x: -0.07, y: -0.07, z: 0}
 --- !u!65 &65763725577463722
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -2100,8 +2100,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.04, y: 0.1, z: 0.1}
-  m_Center: {x: 0.07, y: 0.16, z: 0}
+  m_Size: {x: 0.035, y: 0.26, z: 0.1}
+  m_Center: {x: 0.07, y: 0.07, z: 0}
 --- !u!95 &95372130055387216
 Animator:
   serializedVersion: 3
@@ -2336,7 +2336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcb74f21ba404856bb13390a1b5f29ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: thirdPerson leftfoot colider
+  id: thirdPerson_leftfoot
   layerMask:
     serializedVersion: 2
     m_Bits: 256
@@ -2352,7 +2352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcb74f21ba404856bb13390a1b5f29ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: thirdPerson rightfoot colider
+  id: thirdPerson_rightfoot
   layerMask:
     serializedVersion: 2
     m_Bits: 256
