@@ -1,17 +1,22 @@
-﻿using System.Runtime.InteropServices;
-using StandardAssets.Characters.CharacterInput;
+﻿using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Common;
 using UnityEngine;
 
-namespace StandardAssets.GizmosHelpers
+namespace StandardAssets.Characters.GizmosHelpers
 {
+	/// <summary>
+	/// Renders directional gizmos as well as arrows to determine 3 distinct directional vectors, namely:
+	/// Forward Direction
+	/// Intended rotational direction
+	/// Input Direction
+	/// </summary>
 	public class GizmoArrowHelper : MonoBehaviour
 	{
-		public GameObject cylinderPrefab;
-		
-		
+		private GameObject cylinderPrefab;
+		private const string k_ArrowGizmoPath = "Gizmos/GizmoArrow";
+
 		public bool enablePowerDebug;
-		
+
 		/// <summary>
 		/// The Input implementation to be used
 		/// e.g. Default unity input or (in future) the new new input system
@@ -25,12 +30,12 @@ namespace StandardAssets.GizmosHelpers
 		{
 			get { return characterInput; }
 		}
-		
+
 		public CharacterBrain motorForCharacter
 		{
 			get { return characterMotor; }
 		}
-		
+
 		/// <summary>
 		/// Get physics and input on Awake
 		/// </summary>
@@ -40,47 +45,43 @@ namespace StandardAssets.GizmosHelpers
 			characterMotor = GetComponent<CharacterBrain>();
 		}
 		
-		/// <summary>
-		/// Rotate around an implied circle to give the vector at a certain point along the circumference 
-		/// </summary>
-		public Vector3 rotateByDegrees(Vector3 centre, float radius, float angle)
-		{
-			var centreX = centre.x;
-			var centreY = centre.z;
-
-			angle = angle * Mathf.Deg2Rad;
-			
-			var rotationPoint = new Vector3();
-			rotationPoint.x = (Mathf.Sin(angle) * radius) + centreX;
-			rotationPoint.y = centre.y;
-			rotationPoint.z = (Mathf.Cos(angle) * radius) + centreY;
-			
-			return rotationPoint;
-		}
-		
-		//Testing Code for arrow models
+		//Instances of arrow models
 		private GameObject forwardDirection;
+		private GameObject intendedRotation;
+		private GameObject inputDirection;
 		
-		//Testing Code for arrow models
+		//Create arrows on start, if in editor
 		private void Start()
 		{
-			CreateCylinderBetweenPoints(transform.position, transform.position + transform.forward * 5, 0.5f, Color.cyan, out forwardDirection);
+#if UNITY_EDITOR
+			CreateGizmoArrow(transform.position, transform.position + transform.forward * 5, 0.5f, Color.green, "ForwardDirection", out forwardDirection);
+			CreateGizmoArrow(transform.position, transform.position + transform.forward * 5, 0.5f, Color.blue, "InputDirection", out inputDirection);
+			CreateGizmoArrow(transform.position, transform.position + transform.forward * 5, 0.5f, Color.red, "TargetRotation", out intendedRotation);
+#endif
 		}
 
-		
 		//Testing Code for arrow models
-		void CreateCylinderBetweenPoints(Vector3 start, Vector3 end, float width, Color color, out GameObject cylinderObject)
+		void CreateGizmoArrow(Vector3 start, Vector3 end, float width, Color color, string name, out GameObject cylinderObject)
 		{
 			var offset = end - start;
-			// var scale = new Vector3(width, offset.magnitude / 2.0f, width);
+			//var scale = new Vector3(width, offset.magnitude / 2.0f, width);
 			var position = start + (offset / 2.0f);
-			cylinderObject = Instantiate(cylinderPrefab);
-			cylinderObject.transform.SetParent(transform);
-			cylinderObject.transform.forward = offset;
-			cylinderObject.transform.position = position;
+			cylinderObject = Instantiate(Resources.Load(k_ArrowGizmoPath)) as GameObject;
+
+			if (cylinderObject != null)
+			{
+				cylinderObject.transform.forward = offset;
+				cylinderObject.transform.position = position;
+				cylinderObject.name = name;
+				cylinderObject.transform.parent = transform;
+				ArrowColorSelect arrowColorSelect = cylinderObject.GetComponentInChildren<ArrowColorSelect>();
+				if (arrowColorSelect != null)
+				{
+					arrowColorSelect.Color = color;
+					arrowColorSelect.OnValidate();
+				}
+			}
 		}
-
-
 
 #if UNITY_EDITOR
 		private void OnDrawGizmos()
@@ -91,26 +92,36 @@ namespace StandardAssets.GizmosHelpers
 				{
 					//Forward direction of the character transform
 					Debug.DrawLine(transform.position, transform.position + transform.forward * 5, Color.green);
-					if (forwardDirection != null)
-					{
-						forwardDirection.transform.position = transform.position + transform.forward * 5;   
-					}
-					
+					forwardDirection.transform.localRotation = Quaternion.LookRotation(Vector3.forward);
+
 					//Translate move input from vector2 into 3D space
 					var translatedMoveInput = new Vector3(characterInput.moveInput.x, 0, characterInput.moveInput.y);
-					
+					if (translatedMoveInput.magnitude < 0.0001f)
+					{
+						translatedMoveInput = Vector3.forward;
+					}
+
 					//Find the direction of input relative to both the character and the main camera
 					Debug.DrawLine(transform.position, transform.position + Camera.main.transform.TransformDirection(translatedMoveInput) * 10, Color.blue);
-					
+
+					//ArrowDrawer position for Input Direction
+					Quaternion inputRotationQuaternion =
+						Quaternion.LookRotation(Vector3.Scale(Camera.main.transform.forward , new Vector3(1,0,1)  ));
+
+					inputDirection.transform.rotation = Quaternion.LookRotation( inputRotationQuaternion * translatedMoveInput.normalized);
+
 					//Intended rotation by degrees
 					float angle = characterMotor.targetYRotation;
-					
+
 					//Find vector rotated by given degrees
-					Vector3 targetPoint = rotateByDegrees(transform.position, 1, angle);
-					
+					Quaternion intendedRotationQuaternion = Quaternion.Euler(0, angle, 0); 
+					Vector3 targetPoint = transform.position + (intendedRotationQuaternion * Vector3.forward);
+
 					//Draw the line to the intended rotation
 					Debug.DrawLine(transform.position, targetPoint, Color.red);
-					
+
+					//Arrow Drawer position for intended direction
+					intendedRotation.transform.rotation = intendedRotationQuaternion;
 				}
 			}
 		}
