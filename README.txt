@@ -25,30 +25,32 @@ For more detailed documentation, please see the WIP Google Docs:
 
 * First Person
 	* Keyboard + Mouse
-		* Movement:	WASD / Arrow Keys
-		* Look:		Mouse Cursor
+		* Movement:		WASD / Arrow Keys
+		* Look:			Mouse Cursor
 		* Sprint:		Left Shift [HOLD]
-		* Jump:		Spacebar
+		* Jump:			Spacebar
 		* Crouch:		Left Ctrl [HOLD]
 	* Gamepad
-		* Movement:	Left Thumbstick
-		* Look:		Right Thumbstick
+		* Movement:		Left Thumbstick
+		* Look:			Right Thumbstick
 		* Sprint:		Left Thumbstick Click [TOGGLE]
-		* Jump:		PS4 [X]  Xbox [A]
+		* Jump:			PS4 [X]  Xbox [A]
 		* Crouch:		Right Thumbstick Click [TOGGLE]
 * Third Person
 	* Keyboard + Mouse
-		* Movement:	WASD / Arrow Keys
+		* Movement:		WASD / Arrow Keys
 		* Camera:		Mouse Cursor
 		* Sprint:		Left Shift [HOLD]
-		* Jump:		Spacebar
+		* Jump:			Spacebar
 		* Strafe:		F Key [TOGGLE]
+		* Recenter:		V Key
 	* Gamepad
-		* Movement:	Left Thumbstick
+		* Movement:		Left Thumbstick
 		* Camera:		Right Thumbstick
 		* Sprint:		Left Thumbstick Click [TOGGLE]
-		* Jump:		PS4 [X]  Xbox [A]
+		* Jump:			PS4 [X]  Xbox [A]
 		* Strafe:		Left Bumper [TOGGLE]
+		* Recenter:		Right Thumstick Click
 
 
 
@@ -124,6 +126,9 @@ For more detailed documentation, please see the WIP Google Docs:
 		a) On the First Person Brain, drag First Person Cameras onto the Camera Animations property
 		b) On the Legacy Cross Platform Character Input, drag StandaloneInput (located under FirstPersonInput) onto the Standalone Input property
 		c) Repeat for MobileInput and the Mobile Input property
+		d) *OPTIONAL* If the scene has a Movement Effects Library, drag it onto the Starting Movement Effect Library property located under the First Person Movement Effect Handler object 
+	6) *OPTIONAL* To support Mobile Input, select MobileInput
+		a) On the Mobile Camera Sensitivity Adjustment, drag the First Person Cameras Cinemachine State Driven Camera onto the Exploration State Camera property
 
 
 ### Third Person Controller:
@@ -132,13 +137,19 @@ For more detailed documentation, please see the WIP Google Docs:
 	3) Drag in MaleThirdPerson prefab
 	4) Select Third Person Cameras
 		a) On the Cinemachine State Driven Camera, drag MaleThirdPerson onto the Follow and Look At properties
-	5) Select FreeLook Camera under Third Person Cameras
-		a) On the Cinemachine State Driven Camera, drag MaleThirdPerson to the Animated Target property
+		b) On the Third Person Camera Animation Manager:
+			i) Drag MaleThirdPerson onto the Brain prooperty
+			ii) Drag MobileInput and StandaloneInput onto the Mobile and Standalone Character Input properties
+	5) Select Exploration Camera under Third Person Cameras
+		a) On the Cinemachine State Driven Camera, drag MaleThirdPerson to the Look At Override and Animated Target properties
 	6) Repeat above step for Strafe under MaleThirdPerson
 	7) Select MaleThirdPerson
 		a) On the Third Person Brain, drag Third Person Cameras onto the Camera Animation Manager property
 		b) On the Legacy Cross Platform Character Input, drag StandaloneInput (located under ThirdPersonInput) onto the Standalone Input property
 		c) Repeat for MobileInput and the Mobile Input property
+		d) *OPTIONAL* If the scene has a Movement Effects Library, drag it onto the Starting Movement Effect Library property located under the Third Person Movement Effect Handler object 
+	8) *OPTIONAL* To support Mobile Input, select MobileInput
+		a) On the Mobile Camera Sensitivity Adjustment, drag the Exploration and Idle Cinemachine State Driven Cameras onto the Exploration State and Third Person Idle Camera properties
 
 
 ### Demo Scene (optional, for dev testing purposes):
