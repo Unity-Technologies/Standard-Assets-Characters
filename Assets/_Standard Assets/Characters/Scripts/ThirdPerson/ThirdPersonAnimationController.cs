@@ -122,8 +122,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		/// <summary>
 		/// Called on the exit of the land animation.
-		/// <remarks>Should only be called by a land StateMachineBehaviour</remarks>
 		/// </summary>
+		/// <remarks>Should only be called by a land StateMachineBehaviour</remarks>
 		public void OnLandAnimationExit()
 		{
 			if (isGrounded)
@@ -135,9 +135,9 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		/// <summary>
 		/// Called on the enter of the land animation.
+		/// </summary>
 		/// <remarks>Should only be called by a land StateMachineBehaviour</remarks>
 		/// <param name="adjustAnimationSpeedBasedOnForwardSpeed">Should the animator speed be adjusted during the land animation</param>
-		/// </summary>
 		public void OnLandAnimationEnter(bool adjustAnimationSpeedBasedOnForwardSpeed)
 		{
 			state = AnimationState.Landing;
@@ -149,8 +149,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		/// <summary>
 		/// Called on the exit of the physics jump animation.
-		/// <remarks>Should only be called by a physics jump StateMachineBehaviour</remarks>
 		/// </summary>
+		/// <remarks>Should only be called by a physics jump StateMachineBehaviour</remarks>
 		public void OnPhysicsJumpAnimationExit()
 		{
 			if (state == AnimationState.PhysicsJump)
@@ -161,8 +161,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		/// <summary>
 		/// Called on the enter of the physics jump animation.
-		/// <remarks>Should only be called by a physics jump StateMachineBehaviour</remarks>
 		/// </summary>
+		/// <remarks>Should only be called by a physics jump StateMachineBehaviour</remarks>
 		public void OnPhysicsJumpAnimationEnter()
 		{
 			state = AnimationState.PhysicsJump;
@@ -170,8 +170,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		/// <summary>
 		/// Called on the enter of the locomotion animation.
-		/// <remarks>Should only be called by a locomotion StateMachineBehaviour</remarks>
 		/// </summary>
+		/// <remarks>Should only be called by a locomotion StateMachineBehaviour</remarks>
 		public void OnLocomotionAnimationEnter()
 		{
 			if (state == AnimationState.RootMotionJump || state == AnimationState.Falling)
@@ -182,8 +182,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		/// <summary>
 		/// Called on the enter of the falling animation.
-		/// <remarks>Should only be called by a falling StateMachineBehaviour</remarks>
 		/// </summary>
+		/// <remarks>Should only be called by a falling StateMachineBehaviour</remarks>
 		public void OnFallingLoopAnimationEnter()
 		{
 			state = AnimationState.Falling;
@@ -324,8 +324,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		/// <summary>
 		/// Subscribe to motor events.
-		/// <remarks>Should be called by OnEnable</remarks>
 		/// </summary>
+		/// <remarks>Should be called by OnEnable</remarks>
 		public void Subscribe()
 		{
 			motor.jumpStarted += OnJumpStarted;
@@ -336,8 +336,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		/// <summary>
 		/// Unsubscribe from events.
-		/// <remarks>Should be called by OnDisable</remarks>
 		/// </summary>
+		/// <remarks>Should be called by OnDisable</remarks>
 		public void Unsubscribe()
 		{
 			if (motor != null)
