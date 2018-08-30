@@ -35,7 +35,39 @@ MonoBehaviour:
   groundedParameter: Grounded
   verticalSpeedParameter: VerticalSpeed
   fallParameter: Fall
-  jumpTransitionDuration: 0.2
+  jumpTransitionAsAFactorOfSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.05
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.09166667
+      value: 0.15
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.15
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   rightFootPhysicsJumpLandAnimationTimeOffset: 0.1
   leftFootPhysicsJumpLandAnimationTimeOffset: 0.6
   jumpEndTransitionDurationByForwardSpeed:
@@ -43,13 +75,31 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: -0.00205544
-      value: 0.04732189
+      value: 2
       inSlope: 0.15353931
       outSlope: 0.15353931
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.104166664
+    - serializedVersion: 3
+      time: 0.094
+      value: 2
+      inSlope: 0.12717631
+      outSlope: 0.12717631
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.095
+      value: 0.06029576
+      inSlope: 0.11462316
+      outSlope: 0.11462316
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
       value: 0.125
@@ -97,7 +147,7 @@ MonoBehaviour:
   invertFootedness: 0
   footednessThreshold: 0.25
   footednessThresholdOffset: 0.25
-  disableHeadTurn: 0
+  disableHeadTurn: 1
   headTurnProperties:
     headLookAtWeight: 1
     headLookAtMaxRotation: 75
