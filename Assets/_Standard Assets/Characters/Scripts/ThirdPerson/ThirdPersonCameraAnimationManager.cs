@@ -20,7 +20,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected ThirdPersonCameraType startingCameraMode = ThirdPersonCameraType.Exploration;
 
 		[SerializeField]
-		protected InputResponse cameraModeInput, cameraToggleInput;
+		protected InputResponse cameraModeInput, cameraToggleInput, recenterCameraInput;
+		
+		[SerializeField]
+		protected LegacyCharacterInputBase characterInput;
 
 		[SerializeField]
 		protected string[] explorationCameraStates, strafeCameraStates;
@@ -33,6 +36,9 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[SerializeField]
 		protected CinemachineStateDrivenCamera strafeStateDrivenCamera;
+		
+		[SerializeField]
+		protected CinemachineFreeLook idleCamera;
 		
 		private string[] currentCameraModeStateNames;
 
@@ -49,8 +55,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			thirdPersonStateDrivenCamera = GetComponent<CinemachineStateDrivenCamera>();
 
-			
-
 			if (cameraModeInput != null)
 			{
 				cameraModeInput.Init();
@@ -59,6 +63,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (cameraToggleInput != null)
 			{
 				cameraToggleInput.Init();
+			}
+			
+			if (recenterCameraInput != null)
+			{
+				recenterCameraInput.Init();
 			}
 		}
 
@@ -82,11 +91,17 @@ namespace StandardAssets.Characters.ThirdPerson
 				cameraModeInput.started += ChangeCameraMode;
 				cameraModeInput.ended += ChangeCameraMode;
 			}
-
+			
 			if (cameraToggleInput != null)
 			{
 				cameraToggleInput.started += ChangeCameraToggle;
 				cameraToggleInput.ended += ChangeCameraToggle;
+			}
+			
+			if (recenterCameraInput != null)
+			{
+				recenterCameraInput.started += RecenterCamera;
+				recenterCameraInput.ended += RecenterCamera;
 			}
 		}
 
@@ -103,6 +118,12 @@ namespace StandardAssets.Characters.ThirdPerson
 				cameraToggleInput.started -= ChangeCameraToggle;
 				cameraToggleInput.ended -= ChangeCameraToggle;
 			}
+			
+			if (recenterCameraInput != null)
+			{
+				recenterCameraInput.started -= RecenterCamera;
+				recenterCameraInput.ended -= RecenterCamera;
+			}
 		}
 
 		private void ChangeCameraToggle()
@@ -117,6 +138,14 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (brain.physicsForCharacter != null && brain.physicsForCharacter.isGrounded)
 			{
 				PerformCameraModeChange();
+			}
+		}
+		
+		void RecenterCamera()
+		{
+			if (!characterInput.hasMovementInput)
+			{
+				RecenterFreeLookCam(idleCamera);
 			}
 		}
 		
@@ -179,6 +208,14 @@ namespace StandardAssets.Characters.ThirdPerson
 					SetCameraObjectsActive(strafeCameraObjects);
 				}
 			}
+			
+			//Idle cameras will turn off recenter if there is any movement on left or 
+			//Right sticks. 
+			if (characterInput.hasMovementInput
+			    | characterInput.lookInput != Vector2.zero)
+			{
+				TurnOffFreeLookCamRecenter(idleCamera);
+			}		
 		}
 
 		private void SetCameraState()
@@ -199,6 +236,23 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 			SetAnimation(currentCameraModeStateNames[cameraIndex]);
+		}
+		
+		/// <summary>
+		/// Sets the given Freelook Cinemachine camera
+		/// to recenter for X/Y axis On/Off
+		/// </summary>
+		/// <param name="freeLook"></param>
+		void RecenterFreeLookCam(CinemachineFreeLook freeLook)
+		{
+			freeLook.m_RecenterToTargetHeading.m_enabled = true;
+			freeLook.m_YAxisRecentering.m_enabled = true;
+		}
+
+		void TurnOffFreeLookCamRecenter(CinemachineFreeLook freeLook)
+		{
+			freeLook.m_RecenterToTargetHeading.m_enabled = false;
+			freeLook.m_YAxisRecentering.m_enabled = false;
 		}
 
 		private void SetCameraAxes(CinemachineStateDrivenCamera sourceStateDrivenCamera,

@@ -715,7 +715,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1192928361917510}
-  m_LocalRotation: {x: 0.2669336, y: 1.2891037e-16, z: 6.016009e-17, w: 0.96371496}
+  m_LocalRotation: {x: -0.00000008940697, y: 0.000000025555282, z: -0.000000015333175,
+    w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -788,7 +789,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1784275661457400}
-  m_LocalRotation: {x: 0.26693356, y: 0.000000028720947, z: -0.000000007955241, w: 0.96371496}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -857,7 +858,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1120486087132888}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0.26693368, y: -0, z: -0, w: 0.9637149}
   m_LocalPosition: {x: 10.497017, y: 1.9729375, z: -18.72462}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -943,7 +944,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1186158382073052}
-  m_LocalRotation: {x: 0.2669336, y: 1.2891037e-16, z: 6.016009e-17, w: 0.96371496}
+  m_LocalRotation: {x: -0.00000008940697, y: 0.000000025555282, z: -0.000000015333175,
+    w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1385,6 +1387,9 @@ MonoBehaviour:
   startingCameraMode: 0
   cameraModeInput: {fileID: 11400000, guid: f7e824638922944d5b76347cc85e8952, type: 2}
   cameraToggleInput: {fileID: 0}
+  recenterCameraInput: {fileID: 11400000, guid: 6aeee65efea4f459082a66316cf93dd4,
+    type: 2}
+  characterInput: {fileID: 0}
   explorationCameraStates:
   - Exploration
   strafeCameraStates:
@@ -1394,6 +1399,7 @@ MonoBehaviour:
   - {fileID: 1504451468462078}
   explorationStateDrivenCamera: {fileID: 114676693933027276}
   strafeStateDrivenCamera: {fileID: 114543724509008454}
+  idleCamera: {fileID: 114626115066085994}
 --- !u!114 &114177270074831250
 MonoBehaviour:
   m_ObjectHideFlags: 1
