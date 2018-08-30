@@ -2,6 +2,9 @@
 
 namespace StandardAssets.Characters.Common
 {
+	/// <summary>
+	/// Abstract utility class used to calculate bearing of a character using the main camera
+	/// </summary>
 	public abstract class CharacterBearing
 	{
 		public Transform cameraMain { get; private set; }
