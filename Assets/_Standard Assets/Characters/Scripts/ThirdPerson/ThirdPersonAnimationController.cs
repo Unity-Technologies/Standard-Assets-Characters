@@ -188,7 +188,10 @@ namespace StandardAssets.Characters.ThirdPerson
 							 CheckHasSpeed(motor.normalizedLateralSpeed));
 
 
-			if ((isGrounded || state == AnimationState.Falling) && state != AnimationState.Landing)
+			bool landingWithInput = state == AnimationState.Landing &&
+									(CheckHasSpeed(motor.normalizedForwardSpeed) ||
+									 CheckHasSpeed(motor.normalizedLateralSpeed));
+			if ((isGrounded && state != AnimationState.Landing) || state == AnimationState.Falling || landingWithInput)
 			{
 				UpdateForwardSpeed(motor.normalizedForwardSpeed, Time.deltaTime);
 				UpdateLateralSpeed(motor.normalizedLateralSpeed, Time.deltaTime);

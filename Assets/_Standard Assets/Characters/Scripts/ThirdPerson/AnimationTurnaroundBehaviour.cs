@@ -7,16 +7,27 @@ using UnityEditor.Animations;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
+	/// <inheritdoc />
+	/// <summary>
+	/// Animation extension of TurnaroundBehaviour
+	/// </summary>
 	[Serializable]
 	public class AnimationTurnaroundBehaviour : TurnaroundBehaviour
 	{
+		/// <summary>
+		/// Model to store data per animation turnaround
+		/// </summary>
 		[Serializable]
 		protected class AnimationInfo
 		{
+			// State name
 			public string name;
+			// Animation play speed
 			public float speed = 1;
+			// Head look at angle scale during animation
 			public float headTurnScale = 1;
 			[HideInInspector]
+			// clip duration. HideInInspector as it should only be edited by the editor code below
 			public float duration;
 
 			public AnimationInfo(string name)
@@ -25,51 +36,49 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
-		[SerializeField] 
-		protected AnimationInfo runLeftTurn = new AnimationInfo("RunForwardTurnLeft180"),
-			runRightTurn = new AnimationInfo("RunForwardTurnRight180_Mirror"),
-			sprintLeftTurn = new AnimationInfo("RunForwardTurnLeft180"),
-			sprintRightTurn = new AnimationInfo("RunForwardTurnRight180_Mirror"),
-			idleLeftTurn = new AnimationInfo("IdleTurnLeft180"),
-			idleRightTurn = new AnimationInfo("IdleTurnRight180_Mirror");
+		// the data for each animation turnaround
+		[SerializeField, Tooltip("Data for run 180 left turn animation")]
+		protected AnimationInfo runLeftTurn = new AnimationInfo("RunForwardTurnLeft180");
+		[SerializeField, Tooltip("Data for run 180 right turn animation")]
+		protected AnimationInfo runRightTurn = new AnimationInfo("RunForwardTurnRight180_Mirror");
+		[SerializeField, Tooltip("Data for sprint 180 left turn animation")]
+		protected AnimationInfo sprintLeftTurn = new AnimationInfo("RunForwardTurnLeft180");
+		[SerializeField, Tooltip("Data for sprint 180 right turn animation")]
+		protected AnimationInfo sprintRightTurn = new AnimationInfo("RunForwardTurnRight180_Mirror");
+		[SerializeField, Tooltip("Data for idle 180 left turn animation")]
+		protected AnimationInfo idleLeftTurn = new AnimationInfo("IdleTurnLeft180");
+		[SerializeField, Tooltip("Data for idle 180 right turn animation")]
+		protected AnimationInfo	idleRightTurn = new AnimationInfo("IdleTurnRight180_Mirror");
 
-		[SerializeField] 
+		[SerializeField, Tooltip("Curve used to determine rotation during animation")] 
 		protected AnimationCurve rotationCurve = AnimationCurve.Linear(0, 0, 1, 1);
 
-		[SerializeField] 
-		protected float normalizedRunSpeedThreshold = 0.1f,
-						crossfadeDuration = 0.125f;
-
-		private float animationTime,
-			targetAngle,
-			cachedAnimatorSpeed,
-			cacheForwardSpeed;
+		[SerializeField, Tooltip("Value used to determine if a run turn should be used")]
+		protected float normalizedRunSpeedThreshold = 0.1f;
 		
-		private Quaternion startRotation;
-		private AnimationInfo current;
+		[SerializeField, Tooltip("Duration of the cross fade into turn animation")] 
+		protected float crossfadeDuration = 0.125f;
+
+		private float animationTime, // current animation time, incremented each frame
+			targetAngle, // target y rotation angle in degrees
+			cachedAnimatorSpeed, // speed of the animator prior to starting an animation turnaround
+			cacheForwardSpeed; // forwards speed of the motor prior to starting an animation turnaround
+		private Quaternion startRotation; // rotation of the character as turnaround is started
+		private AnimationInfo currentAnimationInfo; // currently selected animation info
 		private ThirdPersonAnimationController animationController;
-		private Transform transform;
-
-		private Animator animator
-		{
-			get { return animationController.unityAnimator; }
-		}
-
-		private AnimationInfo CurrentRun(bool rightTurn, float forwardSpeed)
-		{
-			if (rightTurn)
-			{
-				return forwardSpeed <= 1 ? runRightTurn : sprintRightTurn;
-			}
-			return forwardSpeed <= 1 ? runLeftTurn : sprintLeftTurn;
-		}
+		private Transform transform; // character's transform
 
 		public override float headTurnScale
 		{
 			get
 			{
-				return current == null ? 1 : current.headTurnScale;
+				return currentAnimationInfo == null ? 1 : currentAnimationInfo.headTurnScale;
 			}
+		}
+
+		private Animator animator
+		{
+			get { return animationController.unityAnimator; }
 		}
 
 		public override void Init(ThirdPersonBrain brain)
@@ -84,13 +93,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				return;
 			}
-
 			animationController.UpdateForwardSpeed(cacheForwardSpeed, float.MaxValue);
-			animationTime += Time.deltaTime * current.speed;
-			var rotationProgress = rotationCurve.Evaluate(animationTime / current.duration);
+			animationTime += Time.deltaTime * currentAnimationInfo.speed;
+			var rotationProgress = rotationCurve.Evaluate(animationTime / currentAnimationInfo.duration);
 			transform.rotation = Quaternion.AngleAxis(rotationProgress * targetAngle, Vector3.up) * startRotation;
 			// animation complete, blending to locomotion
-			if(animationTime >= current.duration)
+			if(animationTime >= currentAnimationInfo.duration)
 			{
 				animator.speed = cachedAnimatorSpeed;
 				
@@ -100,7 +108,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public override Vector3 GetMovement()
 		{
-			if (current == idleLeftTurn || current == idleRightTurn)
+			if (currentAnimationInfo == idleLeftTurn || currentAnimationInfo == idleRightTurn)
 			{
 				return Vector3.zero;
 			}
@@ -109,25 +117,31 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected override void FinishedTurning()
 		{
-
 		}
 
 		protected override void StartTurningAround(float angle)
 		{
 			targetAngle = MathUtilities.Wrap180(angle);
-			current = GetCurrent(animationController.animatorForwardSpeed, angle > 0,
+			currentAnimationInfo = GetCurrent(animationController.animatorForwardSpeed, angle > 0,
 				!animationController.isRightFootPlanted);
 
 			startRotation = transform.rotation;
-			animator.CrossFade(current.name, crossfadeDuration, 0, 0);
+			animator.CrossFade(currentAnimationInfo.name, crossfadeDuration, 0, 0);
 			animationTime = 0;
 
 			cachedAnimatorSpeed = animator.speed;
-			animator.speed = current.speed;
+			animator.speed = currentAnimationInfo.speed;
 
 			cacheForwardSpeed = animationController.animatorForwardSpeed;
 		}
 
+		/// <summary>
+		/// Determines which animation should be played
+		/// </summary>
+		/// <param name="forwardSpeed">Character's normalized forward speed</param>
+		/// <param name="turningRight">Is the character turning clockwise</param>
+		/// <param name="leftPlanted">Is the character's left foot currently planted</param>
+		/// <returns>The determined AnimationInfo</returns>
 		private AnimationInfo GetCurrent(float forwardSpeed, bool turningRight, bool leftPlanted)
 		{
 			// idle turn
@@ -135,11 +149,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				return turningRight ? idleRightTurn : idleLeftTurn;
 			}
-
+			
 			// < 180 turn
 			if (targetAngle < 170 || targetAngle > 190)
 			{
-				return CurrentRun(turningRight, forwardSpeed);
+				return CurrentRun(forwardSpeed, turningRight);
 			}
 			
 			// 180 turns should be based on footedness
@@ -148,10 +162,33 @@ namespace StandardAssets.Characters.ThirdPerson
 			{ 
 				targetAngle *= -1; 
 			} 
-			return CurrentRun(leftPlanted, forwardSpeed);
+			return CurrentRun(forwardSpeed, leftPlanted);
+		}
+
+		/// <summary>
+		/// Determines if the run or sprint AnimationInfo should be selected
+		/// </summary>
+		/// <param name="forwardSpeed">Character's normalized forward speed</param>
+		/// <param name="turningRight">Is the character turning clockwise</param>
+		/// <returns>The determined AnimationInfo</returns>
+		private AnimationInfo CurrentRun(float forwardSpeed, bool turningRight)
+		{
+			if (turningRight)
+			{
+				return forwardSpeed <= 1 ? runRightTurn : sprintRightTurn;
+			}
+			return forwardSpeed <= 1 ? runLeftTurn : sprintLeftTurn;
 		}
 		
 #if UNITY_EDITOR
+		
+		/*
+		TODO
+		Below is editor logic to retrieve the duration of the clips used for the turnaround. This is required as
+		normalized animator time cannot be used due to transitions. This solution is not ideal as edits to the 
+		animator would require this to run but this only runs in OnValidate().
+		*/
+		
 		private const int k_AnimationCount = 6;
 		private int turnsFound;
 
