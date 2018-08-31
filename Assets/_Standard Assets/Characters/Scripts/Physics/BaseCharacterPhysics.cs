@@ -7,14 +7,15 @@ namespace StandardAssets.Characters.Physics
 	[RequireComponent(typeof(ICharacterInput))]
 	public abstract class BaseCharacterPhysics : MonoBehaviour, ICharacterPhysics
 	{
-		private float gravity;
-
 		/// <summary>
 		/// The maximum speed that the character can move downwards
 		/// </summary>
 		[SerializeField]
 		protected float terminalVelocity = 10f;
 
+		[SerializeField]
+		protected float jumpGravityMultiplier = 1f;
+		
 		[SerializeField, Range(1, 10)]
 		protected float fallGravityMultiplier = 2.5f;
 
@@ -115,7 +116,6 @@ namespace StandardAssets.Characters.Physics
 		protected virtual void Awake()
 		{
 			characterInput = GetComponent<ICharacterInput>();
-			gravity = UnityEngine.Physics.gravity.y;
 
 			if (terminalVelocity > 0)
 			{
@@ -133,7 +133,7 @@ namespace StandardAssets.Characters.Physics
 			float currentAirTime = 0;
 			for (int i = 0; i < k_TrajectorySteps; i++)
 			{
-				moveVector.y = Mathf.Clamp(gravity * fallGravityMultiplier * currentAirTime,
+				moveVector.y = Mathf.Clamp(UnityEngine.Physics.gravity.y * fallGravityMultiplier * currentAirTime,
 												terminalVelocity, Mathf.Infinity) ;
 				currentPosition += moveVector * k_TrajectoryPredictionTimeStep;
 				currentAirTime += k_TrajectoryPredictionTimeStep;
@@ -217,10 +217,11 @@ namespace StandardAssets.Characters.Physics
 		{
 			if (currentVerticalVelocity < 0)
 			{
-				return gravity * fallGravityMultiplier;
+				return UnityEngine.Physics.gravity.y * fallGravityMultiplier;
 			}
 
-			return characterInput.hasJumpInput ? gravity : gravity * minJumpHeightMultiplier;
+			return characterInput.hasJumpInput ? UnityEngine.Physics.gravity.y * jumpGravityMultiplier : 
+				UnityEngine.Physics.gravity.y * minJumpHeightMultiplier * jumpGravityMultiplier;
 		}
 		
 		protected abstract bool CheckGrounded();
