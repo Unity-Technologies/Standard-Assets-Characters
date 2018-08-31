@@ -69,29 +69,33 @@ namespace StandardAssets.Characters.ThirdPerson
 		private DateTime timeOfLastPhysicsJumpLand;
 
 		/// <summary>
-		/// Animation state of the character.
+		/// Gets the animation state of the character.
 		/// </summary>
+		/// <value>The current <see cref="AnimationState"/></value>
 		public AnimationState state { get; private set; }
 
 		/// <summary>
-		/// The character animator.
+		/// Gets the character animator.
 		/// </summary>
+		/// <value>The Unity Animator component</value>
 		public Animator unityAnimator
 		{
 			get { return animator; }
 		}
 		
 		/// <summary>
-		/// The value of the animator forward speed parameter.
+		/// Gets the animator forward speed.
 		/// </summary>
+		/// <value>The animator forward speed parameter.</value>
 		public float animatorForwardSpeed
 		{
 			get { return animator.GetFloat(hashForwardSpeed); }
 		}
 
 		/// <summary>
-		/// The value of the animator turning speed parameter.
+		/// Gets the animator turning speed.
 		/// </summary>
+		/// <value>The animator forward speed parameter.</value>
 		public float animatorTurningSpeed
 		{
 			get { return animator.GetFloat(hashTurningSpeed); }
@@ -106,13 +110,15 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 
 		/// <summary>
-		/// Is the right foot planted
+		/// Gets whether the right foot is planted
 		/// </summary>
+		/// <value>True is the right foot is planted; false if the left.</value>
 		public bool isRightFootPlanted { get; private set; }
 
 		/// <summary>
-		/// Is the character in a root motion state.
+		/// Gets whether the character in a root motion state.
 		/// </summary>
+		/// <value>True if the state is in a grounded state; false if airborne.</value>
 		public bool isRootMotionState
 		{
 			get { return state == AnimationState.Locomotion || 
