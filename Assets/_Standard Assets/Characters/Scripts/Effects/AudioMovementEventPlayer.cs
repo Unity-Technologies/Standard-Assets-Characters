@@ -19,23 +19,23 @@ namespace StandardAssets.Characters.Effects
 			/// Audio clips to use for cycling through clips, i.e as foot steps
 			/// </summary>
 			[SerializeField]
-			protected AudioClip[] sources;
+			protected AudioSource[] sources;
 			
 			/// <summary>
 			/// Use a single sound, or cycle clips
 			/// </summary>
 			[SerializeField]
 			protected bool cycleThroughSources = false;
-	
-			
+
+			private int currentSoundIndex;
 	
 			private Random rand;
 	
 			private void Awake()
 			{
 				rand = new Random();
-				
-				
+				currentSoundIndex = 0;
+
 			}
 	
 			/// <inheritdoc />
@@ -43,12 +43,17 @@ namespace StandardAssets.Characters.Effects
 			{
 				if (cycleThroughSources && sources!=null)
 				{
-					source.clip = sources[rand.Next(0, sources.Length)];
-					
+					//source.clip = sources[rand.Next(0, sources.Length)];
+					//sources[rand.Next(0, sources.Length)].Play();
+					sources[currentSoundIndex++].Play();
+					if (currentSoundIndex >= sources.Length)
+					{
+						currentSoundIndex = 0;
+					}
 				}
 
-				Debug.Log("Source Play");
-				source.Play();
+			//	Debug.Log("Source Play");
+				//source.Play();
 				
 	
 			}
