@@ -674,6 +674,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				{
 					cachedForwardVelocity = configuration.standingJumpSpeed;
 					normalizedForwardSpeed = 1;
+					animationController.UpdateForwardSpeed(normalizedForwardSpeed, 1);
 				}
 				else
 				{
