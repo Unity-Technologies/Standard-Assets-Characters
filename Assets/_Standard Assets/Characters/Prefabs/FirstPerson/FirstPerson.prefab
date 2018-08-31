@@ -120,10 +120,10 @@ MonoBehaviour:
   mainCamera: {fileID: 0}
   firstPersonMovementEventHandler:
     startingMovementEventLibrary: {fileID: 0}
-    walkDistanceThreshold: 0.475
+    walkDistanceThreshold: 0.4
     footIds:
-    - leftfoot Sound
-    - rightfoot Sound
+    - firstPerson_leftfoot
+    - firstPerson_rightfoot
     jumpSoundId: jumping Sound
     landSoundId: landing Sound
   cameraAnimations: {fileID: 0}
