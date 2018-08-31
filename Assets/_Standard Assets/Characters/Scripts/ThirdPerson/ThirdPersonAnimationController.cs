@@ -422,11 +422,17 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			isGrounded = false;
 
-			animator.SetFloat(hashJumpedForwardSpeed, animator.GetFloat(hashForwardSpeed));
+			float jumpForward = animatorForwardSpeed;
+			// TODO any non zero standing jump will blend into moving jump which is ugly. This should be fixed by new animation
+			if (jumpForward < 0.1f)
+			{
+				jumpForward = 0;
+			}
+			animator.SetFloat(hashJumpedForwardSpeed, jumpForward);
 
 			bool rightFoot = animator.GetBool(hashFootedness);
 
-			float duration = configuration.jumpTransitionDurationFactorOfSpeed.Evaluate(motor.normalizedForwardSpeed);
+			float duration = configuration.jumpTransitionDurationFactorOfSpeed.Evaluate(jumpForward);
 			// is it a root motion or physics jump
 			if (Mathf.Abs(motor.normalizedLateralSpeed) <= Mathf.Abs(motor.normalizedForwardSpeed)
 				&& motor.normalizedForwardSpeed >= 0) // forward jump: physics
