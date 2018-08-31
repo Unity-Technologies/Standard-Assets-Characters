@@ -2,6 +2,7 @@
 using StandardAssets.Characters.Effects;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.FirstPerson
 {
@@ -12,8 +13,8 @@ namespace StandardAssets.Characters.FirstPerson
 		/// Distance travelled between movement events
 		/// </summary>
 		[SerializeField]
-		protected float walkDistanceThreshold = 1f;
-
+		protected float walkDistanceThreshold = 0.4f;
+		
 		/// <summary>
 		/// List of IDs for walking events
 		/// </summary>
@@ -142,6 +143,15 @@ namespace StandardAssets.Characters.FirstPerson
 		void Landed()
 		{
 			BroadcastMovementEvent(landSoundId);
-		}  
+		}
+		
+		/// <summary>
+		/// Change the distance that footstep sounds are played
+		/// </summary>
+		/// <param name="distance"></param>
+		public void AdjustAudioTriggerThreshold(float strideLenth)
+		{		
+			sqrDistanceThreshold = strideLenth * strideLenth;
+		}
 	}
 }

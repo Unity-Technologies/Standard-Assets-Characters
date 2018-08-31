@@ -42,6 +42,16 @@ namespace StandardAssets.Characters.FirstPerson
 		[SerializeField]
 		protected float jumpSpeed = 0.3f;
 
+
+		[SerializeField]
+		protected float strideLenght;
+
+		public float strideLenthDistance
+		{
+			get { return strideLenght; }
+		}
+		
+		
 		public Action<string> enterState, exitState;
 
 		/// <summary>

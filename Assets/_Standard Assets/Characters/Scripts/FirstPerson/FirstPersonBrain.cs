@@ -296,7 +296,11 @@ namespace StandardAssets.Characters.FirstPerson
 			{
 				SetNewMovementProperties();
 			}
+			
+			firstPersonMovementEventHandler.AdjustAudioTriggerThreshold(newState.strideLenthDistance);
 		}
+		
+		
 
 		/// <summary>
 		/// Change state to the new state and adds to previous state stack
