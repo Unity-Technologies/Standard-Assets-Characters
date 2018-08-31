@@ -13,6 +13,16 @@ namespace StandardAssets.Characters.Effects
 
 		[SerializeField]
 		protected ThirdPersonBrain thirdPersonBrain;
+
+		private float scaledVolume;
+
+		public float updatedVolume
+		{
+			get
+			{
+				return scaledVolume;
+			}
+		}
 		
 		private float volume;
 		
@@ -23,7 +33,6 @@ namespace StandardAssets.Characters.Effects
 		
 		void Update()
 		{
-			
 			if (thirdPersonBrain != null && thirdPersonBrain.isActiveAndEnabled)
 			{
 				ScaleVolumeToSpeed();
@@ -31,9 +40,7 @@ namespace StandardAssets.Characters.Effects
 		}
 
 		private void ScaleVolumeToSpeed()
-		{
-			float scaledVolume = 0;
-			
+		{	
 			if (thirdPersonBrain.CurrentMotor.normalizedLateralSpeed == 0)
 			{
 				scaledVolume = volume * thirdPersonBrain.CurrentMotor.normalizedForwardSpeed;
@@ -48,7 +55,7 @@ namespace StandardAssets.Characters.Effects
 				scaledVolume *= -1;
 			}
 			
-			source.volume = scaledVolume;
+			//source.volume = scaledVolume;
 		}
 	}
 }

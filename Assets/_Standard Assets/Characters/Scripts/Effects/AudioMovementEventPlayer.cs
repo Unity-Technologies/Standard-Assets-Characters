@@ -13,7 +13,6 @@ namespace StandardAssets.Characters.Effects
 			/// </summary>
 			[SerializeField]
 			protected AudioSource source;
-	
 			
 			/// <summary>
 			/// Audio clips to use for cycling through clips, i.e as foot steps
@@ -29,36 +28,29 @@ namespace StandardAssets.Characters.Effects
 
 			private int currentSoundIndex;
 	
-			private Random rand;
-	
 			private void Awake()
 			{
-				rand = new Random();
 				currentSoundIndex = 0;
-
 			}
 	
-			/// <inheritdoc />
+			/// <summary>
+			/// Play movement events and scale volume
+			/// </summary>
+			/// <param name="movementEvent"></param>
 			protected override void PlayMovementEvent(MovementEvent movementEvent)
 			{
 				if (cycleThroughSources && sources!=null)
 				{
-					//source.clip = sources[rand.Next(0, sources.Length)];
-					//sources[rand.Next(0, sources.Length)].Play();
-					sources[currentSoundIndex++].Play();
+					sources[currentSoundIndex].Play();
+
+					currentSoundIndex++;
 					if (currentSoundIndex >= sources.Length)
 					{
 						currentSoundIndex = 0;
 					}
-
 					return;
 				}
-
-			//	Debug.Log("Source Play");
 				source.Play();
-				
-	
 			}
-		
 	}
 }

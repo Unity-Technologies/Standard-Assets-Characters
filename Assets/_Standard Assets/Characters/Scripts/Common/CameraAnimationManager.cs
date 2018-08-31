@@ -14,6 +14,7 @@ namespace StandardAssets.Characters.Common
 		private Animator animator;
 
 		private string currentState;
+		
 		private int currentLayer;
 
 		/// <summary>
