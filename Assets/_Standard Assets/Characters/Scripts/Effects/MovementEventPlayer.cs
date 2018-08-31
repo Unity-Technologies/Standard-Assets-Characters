@@ -13,15 +13,13 @@ namespace StandardAssets.Characters.Effects
 		/// <param name="movementEvent"></param>
 		public void Play(MovementEvent movementEvent)
 		{
-			Debug.Log("Play");
-		if (movementEvent.firedFrom != null)
+			if (movementEvent.firedFrom != null)
 			{
 				transform.position = movementEvent.firedFrom.position;
 				transform.rotation = movementEvent.firedFrom.rotation;
 			}
-			
+
 			PlayMovementEvent(movementEvent);
-			
 		}
 
 		/// <summary>
