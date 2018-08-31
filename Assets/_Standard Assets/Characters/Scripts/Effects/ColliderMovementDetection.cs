@@ -96,7 +96,6 @@ namespace StandardAssets.Characters.Effects
 			{
 				if (CheckTimeIntervalLimit())
 				{
-					Debug.Log("Movement Event: " + movementEvent.id);
 					detection(movementEvent);
 				}	
 			}
