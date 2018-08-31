@@ -182,16 +182,6 @@ namespace StandardAssets.Characters.FirstPerson
 		}
 
 		/// <summary>
-		/// Handles camera rotation
-		/// </summary>
-		private void Update()
-		{
-			Vector3 currentRotation = transform.rotation.eulerAngles;
-			currentRotation.y = mainCamera.transform.rotation.eulerAngles.y;
-			transform.rotation = Quaternion.Euler(currentRotation);
-		}
-
-		/// <summary>
 		/// Handles jumping
 		/// </summary>
 		private void OnJumpPressed()
@@ -203,10 +193,13 @@ namespace StandardAssets.Characters.FirstPerson
 		}
 
 		/// <summary>
-		/// Handles movement on Physics update
+		/// Handles movement and rotation
 		/// </summary>
 		private void FixedUpdate()
 		{
+			Vector3 currentRotation = transform.rotation.eulerAngles;
+			currentRotation.y = mainCamera.transform.rotation.eulerAngles.y;
+			transform.rotation = Quaternion.Euler(currentRotation);
 			Move();
 			firstPersonMovementEventHandler.Tick();
 		}
