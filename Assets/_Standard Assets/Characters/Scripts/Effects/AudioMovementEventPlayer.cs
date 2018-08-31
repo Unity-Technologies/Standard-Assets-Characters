@@ -50,10 +50,12 @@ namespace StandardAssets.Characters.Effects
 					{
 						currentSoundIndex = 0;
 					}
+
+					return;
 				}
 
 			//	Debug.Log("Source Play");
-				//source.Play();
+				source.Play();
 				
 	
 			}
