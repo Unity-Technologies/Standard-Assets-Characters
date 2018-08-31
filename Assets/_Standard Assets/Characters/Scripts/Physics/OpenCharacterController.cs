@@ -352,7 +352,7 @@ namespace StandardAssets.Characters.Physics
 		private float delayStopSlidingDownSlopeTime;
 		
 		/// <summary>
-		/// Pending resize into to set when it is safe to do so.
+		/// Pending resize info to set when it is safe to do so.
 		/// </summary>
 		private readonly OpenCharacterControllerResizeInfo pendingResize = new OpenCharacterControllerResizeInfo();
 		
