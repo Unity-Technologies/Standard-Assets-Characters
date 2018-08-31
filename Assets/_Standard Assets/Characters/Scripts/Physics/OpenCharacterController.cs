@@ -352,6 +352,11 @@ namespace StandardAssets.Characters.Physics
 		private float delayStopSlidingDownSlopeTime;
 		
 		/// <summary>
+		/// Pending resize into to set when it is safe to do so.
+		/// </summary>
+		private readonly OpenCharacterControllerResizeInfo pendingResize = new OpenCharacterControllerResizeInfo();
+		
+		/// <summary>
 		/// Is the character on the ground? This is updated during Move or SetPosition.
 		/// </summary>
 		public bool isGrounded { get; private set; }
@@ -538,7 +543,7 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		/// <param name="distance">Distance to check.</param>
 		/// <param name="hitInfo">Get the hit info.</param>
-		/// <param name="offsetPosition">Position offset. If we want to do a cast not at the character's current position.</param>
+		/// <param name="offsetPosition">Position offset. If we want to do a cast relative to the character's current position.</param>
 		/// <param name="useSphereCast">Use a sphere cast? If false then use a ray cast.</param>
 		/// <param name="useSecondSphereCast">The second cast includes the skin width. Ideally only needed for human controlled player, for more accuracy.</param>
 		/// <param name="adjustPositionSlightly">Adjust position slightly up, in case it's already inside an obstacle.</param>
@@ -600,7 +605,7 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		/// <param name="distance">Distance to check.</param>
 		/// <param name="hitInfo">Get the hit info.</param>
-		/// <param name="offsetPosition">Position offset. If we want to do a cast not at the character's current position.</param>
+		/// <param name="offsetPosition">Position offset. If we want to do a cast relative to the character's current position.</param>
 		/// <param name="useSphereCast">Use a sphere cast? If false then use a ray cast.</param>
 		/// <param name="useSecondSphereCast">The second cast includes the skin width. Ideally only needed for human controlled player, for more accuracy.</param>
 		/// <param name="adjustPositionSlightly">Adjust position slightly down, in case it's already inside an obstacle.</param>
@@ -706,14 +711,64 @@ namespace StandardAssets.Characters.Physics
 		}
 
 		/// <summary>
+		/// Set the capsule's height and center.
+		/// </summary>
+		/// <param name="newHeight">The new height.</param>
+		/// <param name="newCenter">The new center.</param>
+		/// <param name="checkForPenetration">Check for collision, and then de-penetrate if there's collision?</param>
+		/// <param name="updateGrounded">Update the grounded state? This uses a cast, so only set it to true if you need it.</param>
+		/// <returns>Returns the height that was set, which may be different to newHeight because of validation.</returns>
+		public float SetHeightAndCenter(float newHeight, Vector3 newCenter, bool checkForPenetration, bool updateGrounded)
+		{
+			float oldHeight = height;
+			Vector3 oldCenter = center;
+			Vector3 oldPosition = cachedTransform.position;
+			bool cancelPending = true;
+			
+			SetCenter(newCenter, false, false);
+			SetHeight(newHeight, false, false, false);
+			
+			if (checkForPenetration)
+			{
+				if (Depenetrate())
+				{
+					// Inside colliders?
+					if (CheckCapsule())
+					{
+						// Wait until it is safe to resize
+						cancelPending = false;
+						pendingResize.SetHeightAndCenter(newHeight, newCenter);
+						// Restore data
+						height = oldHeight;
+						center = oldCenter;
+						cachedTransform.position = oldPosition;
+						ValidateCapsule(true);
+					}
+				}
+			}
+
+			if (cancelPending)
+			{
+				pendingResize.CancelHeightAndCenter();
+			}
+			
+			if (updateGrounded)
+			{
+				UpdateGrounded(CollisionFlags.None);
+			}
+
+			return height;
+		}
+
+		/// <summary>
 		/// Reset the capsule's height and center to the default values.
 		/// </summary>
 		/// <param name="checkForPenetration">Check for collision, and then de-penetrate if there's collision?</param>
 		/// <param name="updateGrounded">Update the grounded state? This uses a cast, so only set it to true if you need it.</param>
-		public void ResetHeightAndCenter(bool checkForPenetration, bool updateGrounded)
+		/// <returns>Returns the reset height.</returns>
+		public float ResetHeightAndCenter(bool checkForPenetration, bool updateGrounded)
 		{
-			SetCenter(defaultCenter, false, false);
-			SetHeight(defaultHeight, false, checkForPenetration, updateGrounded);
+			return SetHeightAndCenter(defaultHeight, defaultCenter, checkForPenetration, updateGrounded);
 		}
 
 		/// <summary>
@@ -732,8 +787,40 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="updateGrounded">Update the grounded state? This uses a cast, so only set it to true if you need it.</param>
 		public void SetCenter(Vector3 newCenter, bool checkForPenetration, bool updateGrounded)
 		{
+			Vector3 oldCenter = center;
+			Vector3 oldPosition = cachedTransform.position;
+			bool cancelPending = true;
+			
 			center = newCenter;
-			ValidateCapsule(true, checkForPenetration, updateGrounded);
+			ValidateCapsule(true);
+			
+			if (checkForPenetration)
+			{
+				if (Depenetrate())
+				{
+					// Inside colliders?
+					if (CheckCapsule())
+					{
+						// Wait until it is safe to resize
+						cancelPending = false;
+						pendingResize.SetCenter(newCenter);
+						// Restore data
+						center = oldCenter;
+						cachedTransform.position = oldPosition;
+						ValidateCapsule(true);
+					}
+				}
+			}
+
+			if (cancelPending)
+			{
+				pendingResize.CancelCenter();
+			}
+			
+			if (updateGrounded)
+			{
+				UpdateGrounded(CollisionFlags.None);
+			}
 		}
 
 		/// <summary>
@@ -761,6 +848,14 @@ namespace StandardAssets.Characters.Physics
 		{
 			return height;
 		}
+		
+		/// <summary>
+		/// Validate the height. (It must be at least double the radius size.)
+		/// </summary>
+		public float ValidateHeight(float newHeight)
+		{
+			return Mathf.Clamp(newHeight, radius * 2.0f, float.MaxValue);
+		}
 
 		/// <summary>
 		/// Set the capsule's height (local). Minimum limit is double the capsule radius size.
@@ -773,18 +868,80 @@ namespace StandardAssets.Characters.Physics
 		/// <returns>Returns the height that was set, which may be different to newHeight because of validation.</returns>
 		public float SetHeight(float newHeight, bool preserveFootPosition, bool checkForPenetration, bool updateGrounded)
 		{
+			bool changeCenter = preserveFootPosition;
+			Vector3 newCenter = changeCenter
+				? CalculateCenterWithSameFootPosition(newHeight)
+				: center;
 			newHeight = ValidateHeight(newHeight);
 			if (Mathf.Approximately(height, newHeight))
 			{
+				// Height remains the same
+				pendingResize.CancelHeight();
+				if (changeCenter)
+				{
+					SetCenter(newCenter, checkForPenetration, updateGrounded);
+				}
 				return height;
 			}
+
+			float oldHeight = height;
+			Vector3 oldCenter = center;
+			Vector3 oldPosition = cachedTransform.position;
+			bool cancelPending = true;
 			
-			if (preserveFootPosition)
+			if (changeCenter)
 			{
-				center = CalculateCenterWithSameFootPosition(newHeight);
+				center = newCenter;
 			}
 			height = newHeight;
-			ValidateCapsule(true, checkForPenetration, updateGrounded);
+			ValidateCapsule(true);
+			
+			if (checkForPenetration)
+			{
+				if (Depenetrate())
+				{
+					// Inside colliders?
+					if (CheckCapsule())
+					{
+						// Wait until it is safe to resize
+						cancelPending = false;
+						if (changeCenter)
+						{
+							pendingResize.SetHeightAndCenter(newHeight, newCenter);
+						}
+						else
+						{
+							pendingResize.SetHeight(newHeight);
+						}
+						// Restore data
+						height = oldHeight;
+						if (changeCenter)
+						{
+							center = oldCenter;
+						}
+						cachedTransform.position = oldPosition;
+						ValidateCapsule(true);
+					}
+				}
+			}
+
+			if (cancelPending)
+			{
+				if (changeCenter)
+				{
+					pendingResize.CancelHeightAndCenter();
+				}
+				else
+				{
+					pendingResize.CancelHeight();
+				}
+			}
+			
+			if (updateGrounded)
+			{
+				UpdateGrounded(CollisionFlags.None);
+			}
+			
 			return height;
 		}
 
@@ -990,6 +1147,7 @@ namespace StandardAssets.Characters.Physics
 		public void Update()
 		{
 			UpdateSlideDownSlopes();
+			UpdatePendingHeightAndCenter();
 		}
 		
 		#if UNITY_EDITOR
@@ -1117,14 +1275,6 @@ namespace StandardAssets.Characters.Physics
 			
 			defaultHeight = height;
 			defaultCenter = center;
-		}
-
-		/// <summary>
-		/// Validate the height. It must be at least double the radius size.
-		/// </summary>
-		private float ValidateHeight(float newHeight)
-		{
-			return Mathf.Clamp(newHeight, radius * 2.0f, float.MaxValue);
 		}
 
 		/// <summary>
@@ -1771,7 +1921,7 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="bigRadiusHit">Did hit, including the skin width?</param>
 		/// <param name="smallRadiusHitInfo">Hit info for cast exlucing the skin width.</param>
 		/// <param name="bigRadiusHitInfo">Hit info for cast including the skin width.</param>
-		/// <param name="offsetPosition">Position offset. If we want to do a cast not at the capsule's current position.</param>
+		/// <param name="offsetPosition">Offset position, if we want to test somewhere relative to the capsule's position.</param>
 		private bool CapsuleCast(Vector3 direction, float distance, 
 		                         out bool smallRadiusHit, out bool bigRadiusHit,
 		                         out RaycastHit smallRadiusHitInfo, out RaycastHit bigRadiusHitInfo,
@@ -1793,7 +1943,7 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="direction">Direction to cast.</param>
 		/// <param name="distance">Distance to cast.</param>
 		/// <param name="smallRadiusHitInfo">Hit info.</param>
-		/// <param name="offsetPosition">Position offset. If we want to do a cast not at the capsule's current position.</param>
+		/// <param name="offsetPosition">Offset position, if we want to test somewhere relative to the capsule's position.</param>
 		private bool SmallCapsuleCast(Vector3 direction, float distance,
 									  out RaycastHit smallRadiusHitInfo,
 		                              Vector3 offsetPosition)
@@ -1823,7 +1973,7 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="direction">Direction to cast.</param>
 		/// <param name="distance">Distance to cast.</param>
 		/// <param name="bigRadiusHitInfo">Hit info.</param>
-		/// <param name="offsetPosition">Position offset. If we want to do a cast not at the capsule's current position.</param>
+		/// <param name="offsetPosition">Offset position, if we want to test somewhere relative to the capsule's position.</param>
 		private bool BigCapsuleCast(Vector3 direction, float distance,
 									out RaycastHit bigRadiusHitInfo,
 		                            Vector3 offsetPosition)
@@ -1853,7 +2003,7 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="direction">Direction to cast.</param>
 		/// <param name="distance">Distance to cast.</param>
 		/// <param name="smallRadiusHitInfo">Hit info.</param>
-		/// <param name="offsetPosition">Position offset. If we want to do a cast not at the capsule's current position.</param>
+		/// <param name="offsetPosition">Offset position, if we want to test somewhere relative to the capsule's position.</param>
 		/// <param name="useBottomSphere">Use the sphere at the bottom of the capsule? If false then use the top sphere.</param>
 		private bool SmallSphereCast(Vector3 direction, float distance,
 		                             out RaycastHit smallRadiusHitInfo,
@@ -1887,7 +2037,7 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="direction">Direction to cast.</param>
 		/// <param name="distance">Distance to cast.</param>
 		/// <param name="bigRadiusHitInfo">Hit info.</param>
-		/// <param name="offsetPosition">Position offset. If we want to do a cast not at the capsule's current position.</param>
+		/// <param name="offsetPosition">Offset position, if we want to test somewhere relative to the capsule's position.</param>
 		/// <param name="useBottomSphere">Use the sphere at the bottom of the capsule? If false then use the top sphere.</param>
 		private bool BigSphereCast(Vector3 direction, float distance,
 		                           out RaycastHit bigRadiusHitInfo,
@@ -2043,14 +2193,17 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Check for collision penetration, then try to de-penetrate if there is collision.
 		/// </summary>
-		private void Depenetrate()
+		private bool Depenetrate()
 		{
 			float distance;
 			Vector3 direction;
 			if (GetPenetrationInfo(out distance, out direction))
 			{
 				MovePosition(direction * distance, null, null);
+				return true;
 			}
+
+			return false;
 		}
 		
 		/// <summary>
@@ -2059,7 +2212,7 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="getDistance">Get distance to move out of the obstacle.</param>
 		/// <param name="getDirection">Get direction to move out of the obstacle.</param>
 		/// <param name="includSkinWidth">Include the skin width in the test?</param>
-		/// <param name="offsetPosition">Offset position, if we want to test somewhere other than the capsule's position.</param>
+		/// <param name="offsetPosition">Offset position, if we want to test somewhere relative to the capsule's position.</param>
 		/// <param name="hitInfo">The hit info.</param>
 		private bool GetPenetrationInfo(out float getDistance, out Vector3 getDirection,
 		                                bool includSkinWidth = true,
@@ -2125,6 +2278,27 @@ namespace StandardAssets.Characters.Physics
 			}
 
 			return result;
+		}
+
+		/// <summary>
+		/// Check if any colliders overlap the capsule.
+		/// </summary>
+		/// <param name="includSkinWidth">Include the skin width in the test?</param>
+		/// <param name="offsetPosition">Offset position, if we want to test somewhere relative to the capsule's position.</param>
+		private bool CheckCapsule(bool includSkinWidth = true,
+		                          Vector3? offsetPosition = null)
+		{
+			Vector3 offset = offsetPosition != null
+				? offsetPosition.Value
+				: Vector3.zero;
+			float tempSkinWidth = includSkinWidth
+				? GetSkinWidth()
+				: 0.0f;
+			return UnityEngine.Physics.CheckCapsule(GetTopSphereWorldPosition() + offset,
+			                                        GetBottomSphereWorldPosition() + offset,
+			                                        scaledRadius + tempSkinWidth,
+			                                        GetCollisionLayerMask(),
+			                                        queryTriggerInteraction);
 		}
 
 		/// <summary>
@@ -2320,6 +2494,46 @@ namespace StandardAssets.Characters.Physics
 			velocity = oldVelocity;
 
 			return didSlide;
+		}
+
+		/// <summary>
+		/// Update pending height and center when it is safe.
+		/// </summary>
+		private void UpdatePendingHeightAndCenter()
+		{
+			if (pendingResize.heightTime == null &&
+			    pendingResize.centerTime == null)
+			{
+				return;
+			}
+			
+			// Use smallest time
+			float time = pendingResize.heightTime != null
+				? pendingResize.heightTime.Value
+				: float.MaxValue;
+			time = Mathf.Min(time, pendingResize.centerTime != null
+				                 ? pendingResize.centerTime.Value
+				                 : float.MaxValue);
+			if (time > Time.time)
+			{
+				return;
+			}
+
+			pendingResize.ClearTimers();
+			
+			if (pendingResize.height != null &&
+			    pendingResize.center != null)
+			{
+				SetHeightAndCenter(pendingResize.height.Value, pendingResize.center.Value, true, false);
+			}
+			else if (pendingResize.height != null)
+			{
+				SetHeight(pendingResize.height.Value, false, true, false);
+			}
+			else if (pendingResize.center != null)
+			{
+				SetCenter(pendingResize.center.Value, true, false);
+			}
 		}
 
 		/// <summary>

@@ -134,8 +134,7 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 			}
 			
 			float height 		= currentScale * controller.defaultHeight;
-			
-			height = controller.SetHeight(height, false, false, false);
+			height = controller.ValidateHeight(height);
 
 			float offset;
 
@@ -147,8 +146,8 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 			{
 				offset 		= Mathf.Lerp(entryOffset, Center(height), time);
 			}
-			
-			controller.SetCenter(new Vector3(0, offset, 0), true, false);
+
+			controller.SetHeightAndCenter(height, new Vector3(0, offset, 0), true, false);
 		}
 	
 		public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
