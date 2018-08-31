@@ -44,9 +44,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected float jumpTurningSpeedScale = 0.5f;
 		
-		[SerializeField]
-		protected int postPhyicsJumpFramesToIgnoreForwardSpeed = 10;
-
 		[Header("Standing Jump")]
 		[SerializeField]
 		protected float standingJumpForwardSpeed = 0.1f;
@@ -229,11 +226,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		public float standingJumpMaxMovementThreshold
 		{
 			get { return maxMovementThreshold; }
-		}
-
-		public int postPhyicsJumpFramesToIgnoreForward
-		{
-			get { return postPhyicsJumpFramesToIgnoreForwardSpeed; }
 		}
 
 		public bool autoToggleSprintOnNoInput
