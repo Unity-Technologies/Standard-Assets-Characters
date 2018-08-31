@@ -5,47 +5,47 @@ namespace StandardAssets.Characters.CharacterInput
 	/// <summary>
 	/// Unity original input implementation
 	/// </summary>
+	/// <seealso cref="ICharacterInput"/>
+	/// <seealso cref="LegacyCharacterInputBase"/>
 	public class LegacyCharacterInput : LegacyCharacterInputBase
 	{
-		[SerializeField]
+		[SerializeField, Tooltip("Name of the Input Manager axis that controls the horizontal look")]
 		protected string lookXAxisName = "LookX";
 
-		[SerializeField]
+		[SerializeField, Tooltip("Name of the Input Manager axis that controls the vertical look")]
 		protected string lookYAxisName = "LookY";
 
-		[SerializeField]
+		[SerializeField, Tooltip("Ignores any attached controllers and forces the mouse look to be used as a priority")]
 		protected bool useMouseLookOnly = false;
 
-		public bool toggleMouseLookOnly
-		{
-			get { return useMouseLookOnly; }
-			set { useMouseLookOnly = value; }
-		}
-
 		[Header("Movement Input Axes")]
-		[SerializeField]
+		[SerializeField, Tooltip("Name of the Input Manager axis that controls the horizontal movement")]
 		protected string horizontalAxisName = "Horizontal";
 
-		[SerializeField]
+		[SerializeField, Tooltip("Name of the Input Manager axis that controls the vertical movement")]
 		protected string verticalAxisName = "Vertical";
 
-		[SerializeField]
+		[SerializeField, Tooltip("Name of the Input Manager axis for jumping")]
 		protected string keyboardJumpName = "Jump";
 
-		//[SerializeField] 
-		//protected FirstPersonMouseLookPOVCamera povMouseLook;
-
+		/// <inheritdoc />
+		/// <summary>
+		/// Performs the base look and movement updates as well as checks for jumping
+		/// </summary>
 		protected override void Update()
 		{
 			base.Update();
 			UpdateJump();
 		}
 
+		/// <inheritdoc />
 		/// <summary>
-		//If !useMouseLookOnly, and Gamepad is plugged in, the look
-		//will be controlled by gamepad. If !useMouseLookOnly and no gamepad 
-		//is plugged in, mouse look axis name will still resolove. 
+		/// Updates the look vector
 		/// </summary>
+		/// <remarks>
+		/// Checks if the mouse look is forced.
+		/// If not resolves the input based on the controller at run-time
+		/// </remarks>
 		protected override void UpdateLookVector()
 		{
 			if (useMouseLookOnly)
@@ -62,11 +62,21 @@ namespace StandardAssets.Characters.CharacterInput
 			lookInputVector.y = Input.GetAxis(lookY);
 		}
 
+		/// <summary>
+		/// Updates the movement vectors based on the axis
+		/// </summary>
+		/// <remarks>
+		/// These axes are consistent across all controllers.
+		/// That is why there is no need to resolve the controls
+		/// </remarks>
 		protected override void UpdateMoveVector()
 		{
 			moveInputVector.Set(Input.GetAxisRaw(horizontalAxisName), Input.GetAxisRaw(verticalAxisName));
 		}
 
+		/// <summary>
+		/// Handles the jump
+		/// </summary>
 		private void UpdateJump()
 		{
 			string resolvedJumpControl = LegacyCharacterInputDevicesCache.ResolveControl(keyboardJumpName);

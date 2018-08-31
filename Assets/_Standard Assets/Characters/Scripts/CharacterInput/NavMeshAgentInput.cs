@@ -7,56 +7,50 @@ namespace StandardAssets.Characters.CharacterInput
 	/// <summary>
 	/// Makes a character controller follow a NavMeshAgent. It sets input to move the character.
 	/// </summary>
+	/// <seealso cref="ICharacterInput"/>
 	[RequireComponent(typeof(NavMeshAgent))]
 	public class NavMeshAgentInput : MonoBehaviour, ICharacterInput
 	{
 		/// <summary>
 		/// Make input relative to the camera.
 		/// </summary>
-		[Tooltip("Make input relative to the camera.")]
-		[SerializeField]
+		[SerializeField, Tooltip("Make input relative to the camera.")]
 		private bool inputRelativeToCamera = true;
 
 		/// <summary>
 		/// Character stops moving when it is this close to the agent.
 		/// </summary>
-		[Tooltip("Character stops moving when it is this close to the agent.")]
-		[SerializeField]
+		[SerializeField, Tooltip("Character stops moving when it is this close to the agent.")]
 		private float nearDistance = 0.2f;
 		
 		/// <summary>
 		/// Agent pauses movement when it is this distance away, to wait for the character
 		/// </summary>
-		[Tooltip("Agent pauses movement when it is this distance away, to wait for the character")]
-		[SerializeField]
+		[SerializeField, Tooltip("Agent pauses movement when it is this distance away, to wait for the character")]
 		private float farDistance = 1.5f;
 
 		/// <summary>
 		/// Agent pauses movement when it reaches a corner/waypoint and it is this distance away, to wait for the character
 		/// </summary>
-		[Tooltip("Agent pauses movement when it reaches a corner/waypoint and it is this distance away, to wait for the character")]
-		[SerializeField]
+		[SerializeField, Tooltip("Agent pauses movement when it reaches a corner/waypoint and it is this distance away, to wait for the character")]
 		private float cornerFarDistance = 0.5f;
 
 		/// <summary>
 		/// Reset the agent if it is further than this distance from the character.
 		/// </summary>
-		[Tooltip("Reset the agent if it is further than this distance from the character.")]
-		[SerializeField]
+		[SerializeField, Tooltip("Reset the agent if it is further than this distance from the character.")]
 		private float resetDistance = 3.0f;
 
 		/// <summary>
 		/// Reset the agent if its Y position is further than this distance from the character.
 		/// </summary>
-		[Tooltip("Reset the agent if its Y position is further than this distance from the character.")]
-		[SerializeField]
+		[SerializeField, Tooltip("Reset the agent if its Y position is further than this distance from the character.")]
 		private float resetHeight = 3.0f;
 
 		/// <summary>
 		/// Assume character is stuck if it cannot reach the agent within this time.
 		/// </summary>
-		[Tooltip("Assume character is stuck if it cannot reach the agent within this time.")]
-		[SerializeField]
+		[SerializeField, Tooltip("Assume character is stuck if it cannot reach the agent within this time.")]
 		private float stuckDuration = 3.0f;
 		
 		private NavMeshAgent navMeshAgent;

@@ -7,6 +7,8 @@ namespace StandardAssets.Characters.CharacterInput
 	/// <summary>
 	/// ICharacterInput implementation that automatically chooses between Standalone and Mobile inputs based on the platform
 	/// </summary>
+	/// <seealso cref="LegacyCharacterInput"/>
+	/// <seealso cref="LegacyOnScreenCharacterInput"/>
 	public class LegacyCrossPlatformCharacterInput : MonoBehaviour, ICharacterInput
 	{
 		[SerializeField, Tooltip("Input to use for standalone platforms (OSX/Windows/Editor)")]

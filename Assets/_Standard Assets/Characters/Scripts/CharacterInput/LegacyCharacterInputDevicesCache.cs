@@ -5,6 +5,9 @@ namespace StandardAssets.Characters.CharacterInput
 	/// <summary>
 	/// Static helper class for handling cross platform input
 	/// </summary>
+	/// <remarks>
+	///	Consumes <see cref="LegacyCharacterInputDevices"/>
+	/// </remarks>
 	public static class LegacyCharacterInputDevicesCache
 	{
 		/// <summary>
@@ -58,6 +61,9 @@ namespace StandardAssets.Characters.CharacterInput
 		/// <summary>
 		/// Sets up which gamepad is active
 		/// </summary>
+		/// <remarks>
+		/// This only happens once - switching controllers at runtime WILL NOT WORK
+		/// </remarks>
 		private static void SetActiveGamepad()
 		{
 			foreach (var joystick in Input.GetJoystickNames())
@@ -74,8 +80,8 @@ namespace StandardAssets.Characters.CharacterInput
 		/// <summary>
 		/// Converts the control name (e.g. Sprint) to a Platform and Device specific axis name (e.g SprintXBoneOSX)
 		/// </summary>
-		/// <param name="control"></param>
-		/// <returns></returns>
+		/// <param name="control">Control name, e.g. Sprint</param>
+		/// <returns>Platform and Device specific axis name, e.g. SprintXBoneOSX</returns>
 		public static string ResolveControl(string control)
 		{
 			string platformId = string.Empty;

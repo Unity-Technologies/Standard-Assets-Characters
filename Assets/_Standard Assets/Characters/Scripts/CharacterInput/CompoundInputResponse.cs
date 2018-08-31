@@ -14,9 +14,11 @@ namespace StandardAssets.Characters.CharacterInput
 		protected InputResponse[] inputs;
 		
 		/// <inheritdoc />
+		/// <summary>
+		/// Iterates through all of the Input Responses and subscribe to their callbacks
+		/// </summary>
 		public override void Init()
 		{
-			//Iterate through all of the Input Responses and subscribe to their callbacks
 			foreach (InputResponse inputResponse in inputs)
 			{
 				inputResponse.Init();

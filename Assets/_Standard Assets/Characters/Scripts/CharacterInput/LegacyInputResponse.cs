@@ -15,7 +15,7 @@ namespace StandardAssets.Characters.CharacterInput
 		[SerializeField, Tooltip("The Input Manager axis name")] 
 		protected string axisRaw;
 		
-		[SerializeField, Tooltip("Is the input response for a gamepad - allows separate the behaviour for gamepads")]
+		[SerializeField, Tooltip("Is the input response for a gamepad - allows separate DefaultInputResponseBehaviour for gamepads")]
 		protected bool isGamepad;
 
 		[SerializeField, Tooltip("Allows axis to be specified as buttons (i.e. mapping analog input to a digital input)")]
