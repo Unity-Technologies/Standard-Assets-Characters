@@ -4,7 +4,7 @@ using UnityEngine;
 namespace StandardAssets.Characters.CharacterInput
 {
 	/// <summary>
-	/// Singleton which manages all of the LegacyInputResponsePollers
+	/// Singleton which manages all of the <see cref="LegacyInputResponsePoller"/>
 	/// </summary>
 	public class LegacyInputResponsePollerManager : MonoBehaviour
 	{
@@ -36,10 +36,10 @@ namespace StandardAssets.Characters.CharacterInput
 		/// <summary>
 		/// Creates the poller if it doesn't exist
 		/// </summary>
-		/// <param name="inputResponse"></param>
-		/// <param name="behaviour"></param>
-		/// <param name="axis"></param>
-		/// <param name="useAxisAsButton"></param>
+		/// <param name="inputResponse">The <see cref="LegacyInputResponse"/> being set up</param>
+		/// <param name="behaviour">The behaviour of the <see cref="LegacyInputResponse"/></param>
+		/// <param name="axis">The name of the axis in the Input Manager</param>
+		/// <param name="useAxisAsButton">The behaviour of an axis relating tp a button</param>
 		public void InitPoller(LegacyInputResponse inputResponse, DefaultInputResponseBehaviour behaviour, string axis, AxisAsButton useAxisAsButton)
 		{
 			if (pollers.ContainsKey(inputResponse))

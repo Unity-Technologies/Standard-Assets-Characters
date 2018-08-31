@@ -5,21 +5,27 @@ namespace StandardAssets.Characters.CharacterInput
 	/// <summary>
 	/// A configuration of the platform and controller IDs
 	/// </summary>
+	/// <remarks>
+	/// This is consumed by <see cref="LegacyCharacterInputDevicesCache"/>
+	/// </remarks>
 	[CreateAssetMenu(fileName = "LegacyCharacterInputDevices", menuName = "Standard Assets/Characters/Input/Create Input Device Mapping",
 		order = 1)]
 	public class LegacyCharacterInputDevices : ScriptableObject
 	{
-		[SerializeField]
+		[SerializeField, Tooltip("Platform IDs")]
 		protected string macPlatformId = "OSX", windowsPlatformId = "Windows";
 
-		[SerializeField]
+		[SerializeField, Tooltip("Controller IDs")]
 		protected string xboxOneControllerId = "XBone", xbox360ControllerId = "XBox360", ps4ControllerId = "PS4", xboxOneWirelessControllerId = "XBoneWireless";
 
 		/// <summary>
 		/// Axis naming convention
-		/// e.g. SprintXBoneOSX from the control convention below
 		/// </summary>
-		[SerializeField]
+		/// <remarks>
+		/// Specific syntax is used in the convention
+		/// </remarks>
+		/// <example>{control}{controller}{platform} will resolve as SprintXBoneOSX</example>
+		[SerializeField, Tooltip("Expected keywords: {control} {controller} {platform}. Case sensitive")]
 		protected string controlConvention = "{control}{controller}{platform}";
 
 		public string macPlatformIdentifier

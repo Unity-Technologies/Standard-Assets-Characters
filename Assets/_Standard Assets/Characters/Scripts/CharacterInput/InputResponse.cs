@@ -8,6 +8,9 @@ namespace StandardAssets.Characters.CharacterInput
 	/// e.g. Strafe button is only used by Third Person character and not the First Person character
 	/// Allows that to be agnostic of the input system being used
 	/// </summary>
+	/// <seealso cref="CompoundInputResponse"/>
+	/// <seealso cref="LegacyInputResponse"/>
+	/// <seealso cref="LegacyOnScreenInputResponse"/>
 	public abstract class InputResponse : ScriptableObject
 	{
 		/// <summary>
@@ -21,7 +24,7 @@ namespace StandardAssets.Characters.CharacterInput
 		public event Action ended;
 
 		/// <summary>
-		/// Sets up the input response. In the case of the LegacyInputResponse the Init sets the poller objects needed detect input
+		/// Performs any specific initialization that implementing classes may need
 		/// </summary>
 		public abstract void Init();
 

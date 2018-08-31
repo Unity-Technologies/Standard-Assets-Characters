@@ -4,7 +4,7 @@ using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.CharacterInput
 {
-	public class StaticOnScreenJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDownHandler
+	public class OnScreenJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDownHandler
 	{           
 		[SerializeField, Tooltip("The travel distance for the joystick hat")]
 		protected float joystickMovementLimit = 1f;

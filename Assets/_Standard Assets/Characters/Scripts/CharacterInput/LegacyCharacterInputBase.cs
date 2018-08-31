@@ -7,6 +7,8 @@ namespace StandardAssets.Characters.CharacterInput
 	/// <summary>
 	/// Abstract base class for all Legacy input implementations
 	/// </summary>
+	/// <seealso cref="LegacyCharacterInput"/>
+	/// <seealso cref="LegacyOnScreenCharacterInput"/>
 	public abstract class LegacyCharacterInputBase : MonoBehaviour, ICharacterInput
 	{
 		[Header("Cinemachine Axes")]
@@ -64,6 +66,10 @@ namespace StandardAssets.Characters.CharacterInput
 		/// <summary>
 		/// Maps Cinemachine axis names to the look input vector
 		/// </summary>
+		/// <remarks>
+		/// Currently Cinemachine passes the current axis to be updated as string
+		/// Hence the need for string comparison
+		/// </remarks>
 		private float LookInputOverride(string cinemachineAxisName)
 		{	
 			if (cinemachineAxisName == cinemachineLookXAxisName)

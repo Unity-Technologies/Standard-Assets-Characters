@@ -6,8 +6,9 @@ using UnityEngine.UI;
 namespace StandardAssets.Characters.CharacterInput
 {
 	/// <summary>
-	/// Simply polls on behalf of the LegacyUnityInputResponse
+	/// Simply polls on behalf of the <see cref="LegacyInputResponse"/>
 	/// </summary>
+	/// <seealso cref="LegacyInputResponsePollerManager"/>
 	public class LegacyInputResponsePoller : MonoBehaviour
 	{
 		/// <summary>
@@ -35,15 +36,16 @@ namespace StandardAssets.Characters.CharacterInput
 		/// <summary>
 		/// Whether the axis will be treated as raw or a button when negative or positive
 		/// </summary>
-		private AxisAsButton useAxisAsButton; 
+		private AxisAsButton useAxisAsButton;
 
 		/// <summary>
-		/// Called by the LegacyInputResponse
+		/// Called by the <see cref="LegacyInputResponse"/>
 		/// </summary>
-		/// <param name="newResponse"></param>
-		/// <param name="newBehaviour"></param>
-		/// <param name="axisRaw"></param>
-		public void Init(LegacyInputResponse newResponse, DefaultInputResponseBehaviour newBehaviour, String axisString,AxisAsButton axisAsButton)
+		/// <param name="newResponse">The <see cref="LegacyInputResponse"/> being set up</param>
+		/// <param name="newBehaviour">The behaviour of the <see cref="LegacyInputResponse"/></param>
+		/// <param name="axisString">The name of the axis in the Input Manager</param>
+		/// <param name="axisAsButton">The behaviour of an axis relating tp a button</param>
+		public void Init(LegacyInputResponse newResponse, DefaultInputResponseBehaviour newBehaviour, string axisString, AxisAsButton axisAsButton)
 		{
 			response = newResponse;
 			behaviour = newBehaviour;
@@ -61,7 +63,7 @@ namespace StandardAssets.Characters.CharacterInput
 		/// <summary>
 		/// Does polling of inputs
 		/// </summary>
-		/// <exception cref="ArgumentOutOfRangeException"></exception>
+		/// <exception cref="ArgumentOutOfRangeException">The behaviour is unknown</exception>
 		private void Update()
 		{
 			switch (behaviour)
