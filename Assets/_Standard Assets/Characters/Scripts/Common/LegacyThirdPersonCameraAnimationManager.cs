@@ -32,7 +32,6 @@ namespace StandardAssets.Characters.Common
 
 		private void Awake()
 		{
-			
 			recenterCameraInputResponse.Init();
 		}
 

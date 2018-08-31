@@ -20,10 +20,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected ThirdPersonCameraType startingCameraMode = ThirdPersonCameraType.Exploration;
 
 		[SerializeField]
-		protected InputResponse cameraModeInput, cameraToggleInput, recenterCameraInput;
+		protected InputResponse cameraModeInput, recenterCameraInput;
 		
 		[SerializeField]
-		protected LegacyCharacterInputBase characterInput;
+		protected LegacyCharacterInputBase mobileCharacterInput, standAloneCharacterInput;
 
 		[SerializeField]
 		protected string[] explorationCameraStates, strafeCameraStates;
@@ -59,11 +59,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				cameraModeInput.Init();
 			}
-
-			if (cameraToggleInput != null)
-			{
-				cameraToggleInput.Init();
-			}
 			
 			if (recenterCameraInput != null)
 			{
@@ -92,12 +87,6 @@ namespace StandardAssets.Characters.ThirdPerson
 				cameraModeInput.ended += ChangeCameraMode;
 			}
 			
-			if (cameraToggleInput != null)
-			{
-				cameraToggleInput.started += ChangeCameraToggle;
-				cameraToggleInput.ended += ChangeCameraToggle;
-			}
-			
 			if (recenterCameraInput != null)
 			{
 				recenterCameraInput.started += RecenterCamera;
@@ -112,23 +101,12 @@ namespace StandardAssets.Characters.ThirdPerson
 				cameraModeInput.started -= ChangeCameraMode;
 				cameraModeInput.ended -= ChangeCameraMode;
 			}
-
-			if (cameraToggleInput != null)
-			{
-				cameraToggleInput.started -= ChangeCameraToggle;
-				cameraToggleInput.ended -= ChangeCameraToggle;
-			}
 			
 			if (recenterCameraInput != null)
 			{
 				recenterCameraInput.started -= RecenterCamera;
 				recenterCameraInput.ended -= RecenterCamera;
 			}
-		}
-
-		private void ChangeCameraToggle()
-		{
-			SetCameraState();
 		}
 
 		private void ChangeCameraMode()
@@ -143,7 +121,14 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		void RecenterCamera()
 		{
-			if (!characterInput.hasMovementInput)
+#if UNITY_ANDROID || UNITY_IOS
+			if (!mobileCharacterInput.hasMovementInput)
+			{
+				RecenterFreeLookCam(idleCamera);
+			}
+			
+#endif		
+			if (!standAloneCharacterInput.hasMovementInput)
 			{
 				RecenterFreeLookCam(idleCamera);
 			}
@@ -211,8 +196,17 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			//Idle cameras will turn off recenter if there is any movement on left or 
 			//Right sticks. 
-			if (characterInput.hasMovementInput
-			    | characterInput.lookInput != Vector2.zero)
+#if UNITY_ANDROID || UNITY_IOS
+			
+			if (mobileCharacterInput.hasMovementInput
+			    | mobileCharacterInput.lookInput != Vector2.zero)
+			{
+				TurnOffFreeLookCamRecenter(idleCamera);
+			}		
+			
+#endif		
+			if (standAloneCharacterInput.hasMovementInput
+			    | standAloneCharacterInput.lookInput != Vector2.zero)
 			{
 				TurnOffFreeLookCamRecenter(idleCamera);
 			}		

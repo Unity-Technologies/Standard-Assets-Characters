@@ -1,5 +1,7 @@
 ﻿using Cinemachine;
 using UnityEngine;
+using UnityEngine.Experimental.UIElements;
+using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.Common
 {
@@ -15,22 +17,42 @@ namespace StandardAssets.Characters.Common
 		[SerializeField]
 		protected float maxSpeedDecreaseValue = 0.75f;
 
+		[FormerlySerializedAs("stateCamera"),SerializeField]
+		protected CinemachineStateDrivenCamera explorationStateCamera;
+
 		[SerializeField]
-		protected CinemachineStateDrivenCamera stateCamera;
+		protected CinemachineFreeLook thirdPersonIdleCamera;
+
+		[SerializeField]
+		protected GameObject recenterButton;
 
 		private void Awake()
 		{
+			
 #if UNITY_ANDROID || UNITY_IOS
 			SetCameraSpeed();
+			
 #endif			
 		}
 
+		void Update()
+		{
+			if (explorationStateCamera.IsLiveChild(thirdPersonIdleCamera))
+			{
+				recenterButton.SetActive(true);
+			}
+			else
+			{
+				recenterButton.SetActive(false);
+			}
+		}
+	
 		void SetCameraSpeed()
 		{
-
-			if (stateCamera != null)
+			
+			if (explorationStateCamera != null)
 			{
-				foreach (var childCamera in stateCamera.ChildCameras)
+				foreach (var childCamera in explorationStateCamera.ChildCameras)
 				{
 					var cinemachineVCam = childCamera.GetComponent<CinemachineVirtualCamera>();
 					
