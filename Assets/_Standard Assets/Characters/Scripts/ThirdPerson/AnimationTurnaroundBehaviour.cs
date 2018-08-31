@@ -9,8 +9,9 @@ namespace StandardAssets.Characters.ThirdPerson
 {
 	/// <inheritdoc />
 	/// <summary>
-	/// Animation extension of TurnaroundBehaviour
+	/// Animation extension of TurnaroundBehaviour. Rotates the character to the target angle while playing an animation.
 	/// </summary>
+	/// <remarks>This turnaround type should be used to improve fidelity at the cost of responsiveness.</remarks>
 	[Serializable]
 	public class AnimationTurnaroundBehaviour : TurnaroundBehaviour
 	{
@@ -68,6 +69,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private ThirdPersonAnimationController animationController;
 		private Transform transform; // character's transform
 
+		/// <inheritdoc />
 		public override float headTurnScale
 		{
 			get
@@ -87,6 +89,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			transform = brain.transform;
 		}
 
+		/// <summary>
+		/// Rotates the character toward <see cref="targetAngle"/> using the animation's normalized progress/>
+		/// </summary>
 		public override void Update()
 		{
 			if (!isTurningAround)
@@ -101,11 +106,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			if(animationTime >= currentAnimationInfo.duration)
 			{
 				animator.speed = cachedAnimatorSpeed;
-				
 				EndTurnAround();
 			}
 		}
 
+		/// <inheritdoc />
 		public override Vector3 GetMovement()
 		{
 			if (currentAnimationInfo == idleLeftTurn || currentAnimationInfo == idleRightTurn)
@@ -139,30 +144,30 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// Determines which animation should be played
 		/// </summary>
 		/// <param name="forwardSpeed">Character's normalized forward speed</param>
-		/// <param name="turningRight">Is the character turning clockwise</param>
-		/// <param name="leftPlanted">Is the character's left foot currently planted</param>
+		/// <param name="turningClockwise">Is the character turning clockwise</param>
+		/// <param name="leftFootPlanted">Is the character's left foot currently planted</param>
 		/// <returns>The determined AnimationInfo</returns>
-		private AnimationInfo GetCurrent(float forwardSpeed, bool turningRight, bool leftPlanted)
+		private AnimationInfo GetCurrent(float forwardSpeed, bool turningClockwise, bool leftFootPlanted)
 		{
 			// idle turn
 			if (forwardSpeed < normalizedRunSpeedThreshold)
 			{
-				return turningRight ? idleRightTurn : idleLeftTurn;
+				return turningClockwise ? idleRightTurn : idleLeftTurn;
 			}
 			
 			// < 180 turn
 			if (targetAngle < 170 || targetAngle > 190)
 			{
-				return CurrentRun(forwardSpeed, turningRight);
+				return CurrentRun(forwardSpeed, turningClockwise);
 			}
 			
 			// 180 turns should be based on footedness
 			targetAngle = Mathf.Abs(targetAngle); 
-			if (!leftPlanted) 
+			if (!leftFootPlanted) 
 			{ 
 				targetAngle *= -1; 
 			} 
-			return CurrentRun(forwardSpeed, leftPlanted);
+			return CurrentRun(forwardSpeed, leftFootPlanted);
 		}
 
 		/// <summary>

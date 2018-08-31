@@ -19,14 +19,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		public event Action turnaroundComplete;
 		
 		/// <summary>
-		/// Is this behaviour using with turnaround logic
+		/// Whether this object is currently handling a turnaround motion
 		/// </summary>
 		protected bool isTurningAround;
 
-		/// <summary>
-		/// Initialization logic
-		/// </summary>
-		/// <param name="brain">The ThirdPersonBrain</param>
 		public abstract void Init(ThirdPersonBrain brain);
 
 		public abstract void Update();
@@ -53,7 +49,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 
 		/// <summary>
-		/// Called on completion of turnaround. Fires turnaroundComplete event.
+		/// Called on completion of turnaround. Fires <see cref="turnaroundComplete"/>  event.
 		/// </summary>
 		protected void EndTurnAround()
 		{
