@@ -40,6 +40,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		public float targetYRotation { get; private set; }
 		
 		public float cachedForwardVelocity { get; protected set; }
+		/// <summary>
+		/// Gets the character's current movement mode.
+		/// </summary>
+		/// <value>Either Action or Strafe.</value>
+		public ThirdPersonMotorMovementMode movementMode { get; private set; }
 
 		public Action jumpStarted { get; set; }
 		public Action landed { get; set; }
@@ -61,13 +66,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected ThirdPersonAnimationController animationController;
 
 		protected Animator animator;
-
-		protected ThirdPersonMotorMovementMode movementMode = ThirdPersonMotorMovementMode.Action;
-
-		public ThirdPersonMotorMovementMode currentMovementMode
-		{
-			get { return movementMode; }
-		}
 
 		protected ThirdPersonGroundMovementState preTurnMovementState;
 		protected ThirdPersonGroundMovementState movementState = ThirdPersonGroundMovementState.Walking;
@@ -212,6 +210,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			strafeAverageForwardInput = new SlidingAverage(configuration.strafeInputWindowSize);
 			strafeAverageLateralInput = new SlidingAverage(configuration.strafeInputWindowSize);
 			previousInputs = new SizedQueue<Vector2>(configuration.bufferSizeInput);
+			movementMode = ThirdPersonMotorMovementMode.Action;
 
 			if (sprintInput != null)
 			{

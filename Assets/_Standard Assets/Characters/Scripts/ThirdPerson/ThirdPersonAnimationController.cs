@@ -66,7 +66,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		// cached default animator speed
 		private float cachedAnimatorSpeed = 1;
 		// time of the last physics jump
-		private DateTime timeOfLastPhysicsJumpLand;
+		private float timeOfLastPhysicsJumpLand;
 
 		/// <summary>
 		/// Gets the animation state of the character.
@@ -259,16 +259,19 @@ namespace StandardAssets.Characters.ThirdPerson
 		public void Update()
 		{
 			UpdateTurningSpeed(motor.normalizedTurningSpeed, Time.deltaTime);
-
+		
 			animator.SetBool(hashHasInput,
 							 CheckHasSpeed(motor.normalizedForwardSpeed) ||
 							 CheckHasSpeed(motor.normalizedLateralSpeed));
 
-
+			bool fullyGrounded = isGrounded && state != AnimationState.Landing;
+			// only update during landing if there is input to inhibit a jarring stop post land animation.
 			bool landingWithInput = state == AnimationState.Landing &&
 									(CheckHasSpeed(motor.normalizedForwardSpeed) ||
 									 CheckHasSpeed(motor.normalizedLateralSpeed));
-			if ((isGrounded && state != AnimationState.Landing) || state == AnimationState.Falling || landingWithInput)
+			
+			if (fullyGrounded || landingWithInput
+				|| state == AnimationState.Falling) // update during falling as landing animation depends on forward speed.
 			{
 				UpdateForwardSpeed(motor.normalizedForwardSpeed, Time.deltaTime);
 				UpdateLateralSpeed(motor.normalizedLateralSpeed, Time.deltaTime);
@@ -391,12 +394,12 @@ namespace StandardAssets.Characters.ThirdPerson
 					animator.CrossFadeInFixedTime(configuration.locomotionStateName, duration, 0, rightFoot ? 
 										  configuration.rightFootPhysicsJumpLandAnimationOffset
 										: configuration.leftFootPhysicsJumpLandAnimationOffset);
-					timeOfLastPhysicsJumpLand = DateTime.Now;
+					timeOfLastPhysicsJumpLand = Time.time;
 					break;
 				case AnimationState.Falling:
 					// strafe mode does not have a landing animation so transition directly to locomotion
 					var rootMotionMotor = motor as RootMotionThirdPersonMotor;
-					if (rootMotionMotor != null && rootMotionMotor.currentMovementMode == ThirdPersonMotorMovementMode.Strafe)
+					if (rootMotionMotor != null && rootMotionMotor.movementMode == ThirdPersonMotorMovementMode.Strafe)
 					{
 						animator.CrossFade(configuration.locomotionStateName, configuration.landAnimationBlendDuration);
 					}
@@ -444,7 +447,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				&& motor.normalizedForwardSpeed >= 0) // forward jump: physics
 			{
 				// keep track of the last jump so legs can be alternated if necessary. ie a skip.
-				if (timeOfLastPhysicsJumpLand.AddSeconds(configuration.skipJumpWindow) >= DateTime.Now)
+				if (timeOfLastPhysicsJumpLand + configuration.skipJumpWindow >= Time.time)
 				{
 					rightFoot = !lastPhysicsJumpRightRoot;
 				}
