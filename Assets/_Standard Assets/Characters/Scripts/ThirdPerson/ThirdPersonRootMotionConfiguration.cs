@@ -98,7 +98,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return fallDirectionChangeSpeed; }
 		}
 
-		public AnimationCurve JumpHeightAsAFactorOfForwardSpeedAsAFactorOfSpeed
+		public AnimationCurve jumpHeightAsFactorOfForwardSpeed
 		{
 			get { return jumpHeightAsAFactorOfForwardSpeed; }
 		}

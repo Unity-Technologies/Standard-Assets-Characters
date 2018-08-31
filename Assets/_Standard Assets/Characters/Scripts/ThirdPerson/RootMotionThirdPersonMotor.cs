@@ -696,7 +696,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				}
 				
 				characterPhysics.SetJumpVelocity(
-					configuration.JumpHeightAsAFactorOfForwardSpeedAsAFactorOfSpeed.Evaluate(normalizedForwardSpeed));
+					configuration.jumpHeightAsFactorOfForwardSpeed.Evaluate(normalizedForwardSpeed));
 				
 				fallDirection = transform.forward;
 			}
