@@ -9,6 +9,9 @@ namespace StandardAssets.Characters.ThirdPerson
 	{
 		[Header("Ground Motion")]
 		[SerializeField]
+		protected bool autoToggleSprint = true;
+		
+		[SerializeField]
 		protected float rootMotionMovementScale = 1f;
 
 		[SerializeField]
@@ -231,6 +234,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		public int postPhyicsJumpFramesToIgnoreForward
 		{
 			get { return postPhyicsJumpFramesToIgnoreForwardSpeed; }
+		}
+
+		public bool autoToggleSprintOnNoInput
+		{
+			get { return autoToggleSprint; }
 		}
 	}
 }

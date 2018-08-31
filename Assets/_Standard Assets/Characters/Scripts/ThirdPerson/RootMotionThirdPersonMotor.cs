@@ -254,7 +254,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private void OnSprintStarted()
 		{
-			sprint = true;
+			sprint = !sprint;
 		}
 		
 		private void OnSprintEnded()
@@ -301,7 +301,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public void Update()
 		{
-			if (sprint && !characterInput.hasMovementInput)
+			if (configuration.autoToggleSprintOnNoInput && sprint && !characterInput.hasMovementInput)
 			{
 				sprint = false;
 			}
@@ -674,6 +674,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				{
 					cachedForwardVelocity = configuration.standingJumpSpeed;
 					normalizedForwardSpeed = 1;
+					animationController.UpdateForwardSpeed(normalizedForwardSpeed, 1);
 				}
 				else
 				{
