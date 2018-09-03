@@ -30,17 +30,17 @@ namespace StandardAssets.Characters.GizmosHelpers
 			UpdateColor();
 		}
 
-#if UNITY_EDITOR
 		/// <summary>
 		/// Runs the OnValidate Monobehaviour method
 		/// Public access modifier to allow OnValidate from <see cref="GizmoArrowHelper"/>
 		/// </summary>
 		public void OnValidate()
 		{
-			UpdateColor();
+			#if UNITY_EDITOR
+				UpdateColor();
+			#endif
 		}
-#endif
-
+		
 		/// <summary>
 		/// Method to update the arrow color based on the color field.
 		/// </summary>
