@@ -8,6 +8,9 @@ using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
+	/// <summary>
+	/// Implementation of CameraAnimationManager to manage third person camera states 
+	/// </summary>
 	public class ThirdPersonCameraAnimationManager : CameraAnimationManager
 	{
 		public event Action forwardUnlockedModeStarted, forwardLockedModeStarted;
@@ -21,9 +24,12 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[SerializeField]
 		protected InputResponse cameraModeInput, recenterCameraInput;
+
+		[SerializeField]
+		protected LegacyOnScreenCharacterInput mobileCharacterInput;
 		
 		[SerializeField]
-		protected LegacyCharacterInputBase mobileCharacterInput, standAloneCharacterInput;
+		protected LegacyCharacterInput standAloneCharacterInput;
 
 		[SerializeField]
 		protected string[] explorationCameraStates, strafeCameraStates;
@@ -119,7 +125,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 		
-		void RecenterCamera()
+		private void RecenterCamera()
 		{
 #if UNITY_ANDROID || UNITY_IOS
 			if (!mobileCharacterInput.hasMovementInput)
@@ -197,13 +203,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			//Idle cameras will turn off recenter if there is any movement on left or 
 			//Right sticks. 
 #if UNITY_ANDROID || UNITY_IOS
-			
 			if (mobileCharacterInput.hasMovementInput
-			    | mobileCharacterInput.lookInput != Vector2.zero)
+			    || mobileCharacterInput.lookInput != Vector2.zero)
 			{
 				TurnOffFreeLookCamRecenter(idleCamera);
 			}		
-			
 #endif		
 			if (standAloneCharacterInput.hasMovementInput
 			    | standAloneCharacterInput.lookInput != Vector2.zero)
@@ -237,13 +241,13 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// to recenter for X/Y axis On/Off
 		/// </summary>
 		/// <param name="freeLook"></param>
-		void RecenterFreeLookCam(CinemachineFreeLook freeLook)
+		private void RecenterFreeLookCam(CinemachineFreeLook freeLook)
 		{
 			freeLook.m_RecenterToTargetHeading.m_enabled = true;
 			freeLook.m_YAxisRecentering.m_enabled = true;
 		}
 
-		void TurnOffFreeLookCamRecenter(CinemachineFreeLook freeLook)
+		private void TurnOffFreeLookCamRecenter(CinemachineFreeLook freeLook)
 		{
 			freeLook.m_RecenterToTargetHeading.m_enabled = false;
 			freeLook.m_YAxisRecentering.m_enabled = false;
