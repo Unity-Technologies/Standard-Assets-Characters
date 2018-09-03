@@ -124,8 +124,8 @@ For more detailed documentation, please see the WIP Google Docs:
 		a) On the Cinemachine State Driven Camera, drag FirstPerson onto the Follow property		
 	5) Select FirstPerson
 		a) On the First Person Brain, drag First Person Cameras onto the Camera Animations property
-		b) On the Legacy Cross Platform Character Input, drag StandaloneInput (located under FirstPersonInput) onto the Standalone Input property
-		c) Repeat for MobileInput and the Mobile Input property
+		b) On the Legacy Cross Platform Character Input, drag FirstPersonInput onto the Standalone Input property
+		c) Also drag FirstPersonInput onto the Mobile Input property
 		d) *OPTIONAL* If the scene has a Movement Effects Library, drag it onto the Starting Movement Effect Library property located under the First Person Movement Effect Handler object 
 	6) *OPTIONAL* To support Mobile Input, select MobileInput
 		a) On the Mobile Camera Sensitivity Adjustment, drag the First Person Cameras Cinemachine State Driven Camera onto the Exploration State Camera property
@@ -145,8 +145,8 @@ For more detailed documentation, please see the WIP Google Docs:
 	6) Repeat above step for Strafe under MaleThirdPerson
 	7) Select MaleThirdPerson
 		a) On the Third Person Brain, drag Third Person Cameras onto the Camera Animation Manager property
-		b) On the Legacy Cross Platform Character Input, drag StandaloneInput (located under ThirdPersonInput) onto the Standalone Input property
-		c) Repeat for MobileInput and the Mobile Input property
+		b) On the Legacy Cross Platform Character Input, drag ThirdPersonInput onto the Standalone Input property
+		c) Also drag ThirdPersonInput onto the Mobile Input property
 		d) *OPTIONAL* If the scene has a Movement Effects Library, drag it onto the Starting Movement Effect Library property located under the Third Person Movement Effect Handler object 
 	8) *OPTIONAL* To support Mobile Input, select MobileInput
 		a) On the Mobile Camera Sensitivity Adjustment, drag the Exploration and Idle Cinemachine State Driven Cameras onto the Exploration State and Third Person Idle Camera properties
