@@ -8,54 +8,78 @@ namespace StandardAssets.Characters.ThirdPerson
 	public interface IThirdPersonMotor 
 	{
 		/// <summary>
-		/// The turning speed. Range =  -1 (rotate anticlockwise) to 1 (rotate clockwise). 0 is not turning.
+		/// Gets the turning speed.
 		/// </summary>
+		/// <value>Range =  -1 (rotate anticlockwise) to 1 (rotate clockwise). 0 is not turning.</value>
 		float normalizedTurningSpeed { get; }
 		
 		/// <summary>
-		/// The lateral speed. Range = - 1 (strafe left) to 1 (strafe). 0 is no strafing
+		/// Gets the lateral speed.
 		/// </summary>
+		/// <value>Range = - 1 (strafe left) to 1 (strafe). 0 is no strafing.</value>
 		float normalizedLateralSpeed { get; }
 		
 		/// <summary>
-		/// The forward speed. Range = -1 (run backwards) to 1 (run forwards). 0 is no forward movement 
+		/// Gets the forward speed. 
 		/// </summary>
+		/// <value>Range = -1 (run backwards) to 1 (run forwards). 0 is no forward movement .</value>
 		float normalizedForwardSpeed { get; }
 		
 		/// <summary>
-		/// The time that the character has been falling
+		/// Gets the vertical speed.
 		/// </summary>
+		/// <value>Range = -1 (falling) to 1 (jumping).</value>
+		float normalizedVerticalSpeed { get; }
+		
+		/// <summary>
+		/// Gets the time that the character has been falling.
+		/// </summary>
+		/// <value>A time in seconds.</value>
 		float fallTime { get; }
 		
+		/// <summary>
+		/// The target y rotation to face.
+		/// </summary>
+		/// <value>An angle in degrees.</value>
 		float targetYRotation { get; }
+
+		/// <summary>
+		/// Fired on jump.
+		/// </summary>
+		event Action jumpStarted;
+
+		/// <summary>
+		/// Fired when the character lands.
+		/// </summary>
+		event Action landed;
+
+		/// <summary>
+		/// Fired when the character starts falling.
+		/// </summary>
+		event Action<float> fallStarted;
+
+		/// <summary>
+		/// Fired for a rapid turn.
+		/// </summary>
+		event Action<float> rapidlyTurned;
 		
 		/// <summary>
-		/// Fired on jump
+		/// Gets the current movement state.
 		/// </summary>
-		Action jumpStarted { get; set; }
-		
-		/// <summary>
-		/// When the character lands
-		/// </summary>
-		Action landed { get; set; }
-		
-		/// <summary>
-		/// When the starts falling
-		/// </summary>
-		Action<float> fallStarted { get; set; }
-		
-		/// <summary>
-		/// Fired for a rapid turn
-		/// </summary>
-		Action<float> rapidlyTurned { get; set; }
-		
+		/// <value>Possible states include running, walking and turning around.</value>
 		ThirdPersonGroundMovementState currentGroundMovementState { get; }
 		
+		/// <summary>
+		/// Gets the current aerial state.
+		/// </summary>
+		/// <value>Possible states include grounded, falling and jump.</value>
 		ThirdPersonAerialMovementState currentAerialMovementState { get; }
 		
+		/// <summary>
+		/// Gets the current turnaround behaviour.
+		/// </summary>
+		/// <value>Either <see cref="BlendspaceTurnaroundBehaviour"/> or <see cref="AnimationTurnaroundBehaviour"/>.</value>
 		TurnaroundBehaviour currentTurnaroundBehaviour { get; }
-
-		float normalizedVerticalSpeed { get; }
 
 		void Init(ThirdPersonBrain brain);
 

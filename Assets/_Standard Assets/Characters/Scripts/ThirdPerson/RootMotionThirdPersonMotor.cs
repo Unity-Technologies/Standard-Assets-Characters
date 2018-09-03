@@ -61,7 +61,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		/// <value>The current y rotation, in degrees, used by the <see cref="rotator"/>.</value>
 		public float targetYRotation { get; private set; }
-		
+
 		/// <summary>
 		/// Gets the velocity that was cached as the character exited a root motion state.
 		/// </summary>
@@ -74,10 +74,18 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <value>Either Action or Strafe.</value>
 		public ThirdPersonMotorMovementMode movementMode { get; private set; }
 
-		public Action jumpStarted { get; set; }
-		public Action landed { get; set; }
-		public Action<float> fallStarted { get; set; }
-		public Action<float> rapidlyTurned { get; set; }
+		/// <inheritdoc />
+		public event Action jumpStarted;
+
+		/// <inheritdoc />
+		/// <remarks>Subscribes to <see cref="ICharacterPhysics.landed"/>.</remarks>
+		public event Action landed;
+
+		/// <inheritdoc />
+		public event Action<float> fallStarted;
+
+		/// <inheritdoc />
+		public event Action<float> rapidlyTurned;
 
 		/// <summary>
 		/// The input implementation
@@ -99,9 +107,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Sliding average of root motion velocity.
 		/// </summary>
-		protected SlidingAverage averageForwardVelocity;
+		private SlidingAverage averageForwardVelocity;
 
-		protected SlidingAverage actionAverageForwardInput, strafeAverageForwardInput, strafeAverageLateralInput;
+		private SlidingAverage actionAverageForwardInput, strafeAverageForwardInput, strafeAverageLateralInput;
 
 		private float turnaroundMovementTime;
 		private bool jumpQueued;
@@ -113,27 +121,34 @@ namespace StandardAssets.Characters.ThirdPerson
 		private SizedQueue<Vector2> previousInputs;
 		
 		/// <summary>
-		/// Whether to track height above the ground.
+		/// Gets whether to track height above the ground.
 		/// </summary>
 		private bool trackGroundHeight;
 
+		/// <inheritdoc />
 		public TurnaroundBehaviour currentTurnaroundBehaviour
 		{
 			get { return thirdPersonBrain.turnaround; }
 		}
-
+		/// <inheritdoc />
 		public float normalizedVerticalSpeed
 		{
 			get { return characterPhysics.normalizedVerticalSpeed; }
 		}
-
+		
+		/// <summary>
+		/// Gets whether the character is in a sprint state.
+		/// </summary>
+		/// <value>True if in a sprint state; false otherwise.</value>
 		public bool sprint { get; private set; }
-
+		
+		/// <inheritdoc />
 		public ThirdPersonGroundMovementState currentGroundMovementState
 		{
 			get { return movementState; }
 		}
-
+		
+		/// <inheritdoc />
 		public ThirdPersonAerialMovementState currentAerialMovementState
 		{
 			get { return aerialState; }
@@ -193,7 +208,7 @@ namespace StandardAssets.Characters.ThirdPerson
 					averageForwardVelocity.Add(movementVelocity, HandleNegative.Absolute);
 				}
 			}
-			else //airborne
+			else //aerial
 			{
 				if (normalizedVerticalSpeed <= 0 || aerialState != ThirdPersonAerialMovementState.Grounded)
 				{
@@ -587,6 +602,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			return Quaternion.LookRotation(cameraToInputOffset * flatForward);
 		}
 
+		/// <summary>
+		/// Sets <see cref="normalizedForwardSpeed"/> so that a turn will approach the desired rotation.
+		/// </summary>
+		/// <param name="currentRotation">Current rotation.</param>
+		/// <param name="newRotation">Desired rotation.</param>
 		protected virtual void SetTurningSpeed(Quaternion currentRotation, Quaternion newRotation)
 		{
 			float currentY = currentRotation.eulerAngles.y;
@@ -623,6 +643,10 @@ namespace StandardAssets.Characters.ThirdPerson
 				preTurnMovementState = movementState;
 				movementState = ThirdPersonGroundMovementState.TurningAround;
 				thirdPersonBrain.turnaround.TurnAround(angle);
+				if (rapidlyTurned != null)
+				{
+					rapidlyTurned(angle);
+				}
 				return true;
 			}
 
@@ -696,7 +720,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				}
 				
 				characterPhysics.SetJumpVelocity(
-					configuration.JumpHeightAsAFactorOfForwardSpeedAsAFactorOfSpeed.Evaluate(normalizedForwardSpeed));
+					configuration.jumpHeightAsFactorOfForwardSpeed.Evaluate(normalizedForwardSpeed));
 				
 				fallDirection = transform.forward;
 			}

@@ -72,7 +72,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4662729353161658}
   - component: {fileID: 114757485585459946}
-  - component: {fileID: 114767387019984394}
   m_Layer: 11
   m_Name: MobileInput
   m_TagString: Untagged
@@ -756,21 +755,6 @@ MonoBehaviour:
   cinemachineLookYAxisName: Vertical
   moveInputJoystick: {fileID: 114122454467358518}
   lookInputJoystick: {fileID: 114024904835658770}
---- !u!114 &114767387019984394
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1186736720516234}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fc6253e057a43f28dcd37cb1095043a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxSpeedDecreaseValue: 0.75
-  explorationStateCamera: {fileID: 0}
-  thirdPersonIdleCamera: {fileID: 0}
-  recenterButton: {fileID: 1505134134987468}
 --- !u!114 &114772225568410490
 MonoBehaviour:
   m_ObjectHideFlags: 1

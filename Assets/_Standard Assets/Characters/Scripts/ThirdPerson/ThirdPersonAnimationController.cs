@@ -118,7 +118,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Gets whether the character in a root motion state.
 		/// </summary>
-		/// <value>True if the state is in a grounded state; false if airborne.</value>
+		/// <value>True if the state is in a grounded state; false if aerial.</value>
 		public bool isRootMotionState
 		{
 			get { return state == AnimationState.Locomotion || 
@@ -340,7 +340,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			motor.jumpStarted += OnJumpStarted;
 			motor.landed += OnLanding;
 			motor.fallStarted += OnFallStarted;
-			motor.rapidlyTurned += OnRapidlyTurned;
 		}
 
 		/// <summary>
@@ -354,7 +353,6 @@ namespace StandardAssets.Characters.ThirdPerson
 				motor.jumpStarted -= OnJumpStarted;
 				motor.landed -= OnLanding;
 				motor.fallStarted -= OnFallStarted;
-				motor.rapidlyTurned -= OnRapidlyTurned;
 			}
 		}
 
@@ -366,14 +364,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			isGrounded = false;
 			animator.SetBool(hashGrounded, false);
 			animator.SetTrigger(hashFall);
-		}
-
-		/// <summary>
-		/// Fires when the <see cref="motor"/> enters a rapid turn.
-		/// </summary>
-		private void OnRapidlyTurned(float normalizedTurn)
-		{
-			animator.SetTrigger(hashRapidTurn);
 		}
 
 		/// <summary>
