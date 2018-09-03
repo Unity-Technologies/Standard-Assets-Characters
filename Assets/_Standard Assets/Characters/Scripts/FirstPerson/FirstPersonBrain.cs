@@ -1,4 +1,5 @@
-﻿using StandardAssets.Characters.CharacterInput;
+﻿using Cinemachine;
+using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Common;
 using StandardAssets.Characters.Effects;
 using StandardAssets.Characters.Physics;
@@ -37,6 +38,12 @@ namespace StandardAssets.Characters.FirstPerson
 		
 		[SerializeField]
 		protected CameraAnimationManager cameraAnimations;
+
+		/// <summary>
+		/// Invert camera Y axis. It will override the Cinemachine virtual cameras' setting.
+		/// </summary>
+		[SerializeField, Tooltip("Invert camera Y axis. It will override the Cinemachine virtual cameras' setting.")]
+		protected bool cameraInvertY;
 		
 		public CameraAnimationManager cameraAnimationManager
 		{
@@ -125,7 +132,45 @@ namespace StandardAssets.Characters.FirstPerson
 			{
 				mainCamera = Camera.main;
 			}
+			InvertCamerasY();
 			ChangeState(startingMovementProperties);
+		}
+
+		/// <summary>
+		/// Invert the Y axis of all cameras.
+		/// </summary>
+		private void InvertCamerasY()
+		{
+			if (!cameraInvertY ||
+			    cameraAnimations == null)
+			{
+				return;
+			}
+
+			CinemachineStateDrivenCamera stateDrivenCamera = cameraAnimationManager.GetComponent<CinemachineStateDrivenCamera>();
+			if (stateDrivenCamera == null ||
+			    stateDrivenCamera.ChildCameras == null ||
+			    stateDrivenCamera.ChildCameras.Length <= 0)
+			{
+				return;
+			}
+
+			for (int i = 0, len = stateDrivenCamera.ChildCameras.Length; i < len; i++)
+			{
+				CinemachineVirtualCamera virtualCamera = stateDrivenCamera.ChildCameras[i] as CinemachineVirtualCamera;
+				if (virtualCamera == null)
+				{
+					continue;
+				}
+
+				CinemachinePOV pov = virtualCamera.GetCinemachineComponent<CinemachinePOV>();
+				if (pov == null)
+				{
+					continue;
+				}
+
+				pov.m_VerticalAxis.m_InvertInput = true;
+			}
 		}
 
 		/// <summary>
