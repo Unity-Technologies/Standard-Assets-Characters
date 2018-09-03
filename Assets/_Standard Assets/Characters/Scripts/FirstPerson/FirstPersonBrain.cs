@@ -3,7 +3,9 @@ using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Common;
 using StandardAssets.Characters.Effects;
 using StandardAssets.Characters.Physics;
+using StandardAssets.Characters.Attributes;
 using UnityEngine;
+
 
 namespace StandardAssets.Characters.FirstPerson
 {
@@ -42,7 +44,8 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// Invert camera Y axis. It will override the Cinemachine virtual cameras' setting.
 		/// </summary>
-		[SerializeField, Tooltip("Invert camera Y axis. It will override the Cinemachine virtual cameras' setting.")]
+		[DisableEditAtRuntime]
+		[SerializeField, Tooltip("Invert camera Y axis. It will override the Cinemachine virtual cameras' setting on Awake.")]
 		protected bool cameraInvertY;
 		
 		public CameraAnimationManager cameraAnimationManager
