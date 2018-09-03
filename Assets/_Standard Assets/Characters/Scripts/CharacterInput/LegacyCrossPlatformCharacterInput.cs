@@ -95,8 +95,8 @@ namespace StandardAssets.Characters.CharacterInput
 		{
 			Cursor.lockState = CursorLockMode.None;
 			currentInputSystem = mobileInput;
-			mobileInput.gameObject.SetActive(true);
-			standaloneInput.gameObject.SetActive(false);
+			mobileInput.enabled = true;
+			standaloneInput.enabled = false;
 		}
 
 		/// <summary>
@@ -105,8 +105,8 @@ namespace StandardAssets.Characters.CharacterInput
 		private void SetStandaloneControls()
 		{
 			currentInputSystem = standaloneInput;
-			standaloneInput.gameObject.SetActive(true);
-			mobileInput.gameObject.SetActive(false);
+			standaloneInput.enabled = true;
+			mobileInput.enabled = false;
 		}
 	}
 }

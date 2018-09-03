@@ -42,7 +42,7 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 				{
 					return;
 				} 
-				openCharacterController = openCharacterControllerPhysics.GetOpenCharacterController();
+				openCharacterController = openCharacterControllerPhysics.openCharacterController;
 				if (openCharacterController == null)
 				{
 					return;

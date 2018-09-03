@@ -13,6 +13,12 @@ namespace StandardAssets.Characters.CharacterInput
 		protected OnScreenJoystick moveInputJoystick;
 		[SerializeField, Tooltip("Reference to the onscreen joystick for looking")]
 		protected OnScreenJoystick lookInputJoystick;
+
+		/// <summary>
+		/// Child controls to enable/disable when this component is enabled/disabled.
+		/// </summary>
+		[Header("Children"), SerializeField, Tooltip("Child controls to enable/disable when this component is enabled/disabled.")]
+		protected GameObject childControls;
 		
 		/// <inheritdoc />
 		/// <summary>
@@ -34,9 +40,43 @@ namespace StandardAssets.Characters.CharacterInput
 			Vector2 moveStickVector = moveInputJoystick.GetStickVector();		
 			moveInputVector.Set(moveStickVector.x, moveStickVector.y);
 		}
+
+		private void Awake()
+		{
+			// Call this here, because OnEnable/OnDisable is not fired when the game object starts disabled and this component is disabled.
+			EnableChildControls(enabled);
+		}
+
+		/// <summary>
+		/// Enable the child controls.
+		/// </summary>
+		protected override void OnEnable()
+		{
+			base.OnEnable();
+			EnableChildControls(true);
+		}
+
+		/// <summary>
+		/// Disable the child controls.
+		/// </summary>
+		private void OnDisable()
+		{
+			EnableChildControls(false);
+		}
+
+		/// <summary>
+		/// Enable/disable the child controls.
+		/// </summary>
+		private void EnableChildControls(bool enable)
+		{
+			if (childControls != null)
+			{
+				childControls.SetActive(enable);
+			}
+		}
 		
 		/// <summary>
-		/// Used by jump Unity UI button 
+		/// Called when the jump button is pressed on the UI. It fires the jumpPressed action.
 		/// </summary>
 		public void OnScreenTouchJump()
 		{

@@ -1,49 +1,82 @@
 using System;
 using StandardAssets.Characters.CharacterInput;
 using UnityEngine;
+using UnityPhysics = UnityEngine.Physics;
 
 namespace StandardAssets.Characters.Physics
 {
+	/// <summary>
+	/// Abstract implementation of <see cref="ICharacterPhysics"/> that requires an <see cref="ICharacterInput"/>.
+	/// </summary>
 	[RequireComponent(typeof(ICharacterInput))]
 	public abstract class BaseCharacterPhysics : MonoBehaviour, ICharacterPhysics
 	{
 		/// <summary>
-		/// The maximum speed that the character can move downwards
+		/// Used as a clamp for downward velocity.
 		/// </summary>
-		[SerializeField]
+		[SerializeField, Tooltip("The maximum speed that the character can move downwards")]
 		protected float terminalVelocity = 10f;
 
-		[SerializeField]
+		[SerializeField, Tooltip("Gravity scale applied during a jump")]
 		protected float jumpGravityMultiplier = 1f;
 		
-		[SerializeField, Range(1, 10)]
+		[SerializeField, Range(1, 10), Tooltip("Gravity scale applied during a fall")]
 		protected float fallGravityMultiplier = 2.5f;
 
-		[SerializeField, Range(1, 10)]
+		[SerializeField, Range(1, 10), Tooltip("Gravity scale applied during a jump without jump button held")]
 		protected float minJumpHeightMultiplier = 2f;
 
+		/// <inheritdoc/>
 		public bool isGrounded { get; private set; }
+		/// <inheritdoc/>
 		public abstract bool startedSlide { get; }
-		public Action landed { get; set; }
-		public Action jumpVelocitySet { get; set; }
-		public Action<float> startedFalling { get; set; }
+		
+		/// <inheritdoc/>
+		public event Action landed;
+		/// <inheritdoc/>
+		public event Action jumpVelocitySet;
+		/// <inheritdoc/>
+		public event Action<float> startedFalling;
+		
+		/// <inheritdoc/>
 		public float airTime { get; private set; }
+		/// <inheritdoc/>
 		public float fallTime { get; private set; }
 
+		/// <summary>
+		/// Gets the radius of the character.
+		/// </summary>
+		/// <value>The radius used for predicting the landing position.</value>
 		protected abstract float radius { get; }
+		
+		/// <summary>
+		/// Gets the character's world foot position.
+		/// </summary>
+		/// <value>A world position at the bottom of the character</value>
 		protected abstract Vector3 footWorldPosition { get; }
+		
+		/// <summary>
+		/// Gets the collision layer mask used for physics grounding,
+		/// </summary>
 		protected abstract LayerMask collisionLayerMask { get; }
 		
+		// the number of time sets used for trajectory prediction.
 		private const int k_TrajectorySteps = 60;
+		// the time step used between physics trajectory steps.
 		private const float k_TrajectoryPredictionTimeStep = 0.016f;
+		// colliders used in physics checks for landing prediction
 		private readonly Collider[] trajectoryPredictionColliders = new Collider[1];
 		
+		/// <summary>
+		/// The predicted landing position of the character. Null if a position could not be predicted.
+		/// </summary>
 		protected Vector3? predictedLandingPosition;
 #if UNITY_EDITOR
 		private readonly Vector3[] jumpSteps = new Vector3[k_TrajectorySteps];
 		private int jumpStepCount;
 #endif
 
+		/// <inheritdoc/>
 		public float normalizedVerticalSpeed
 		{
 			get
@@ -58,24 +91,28 @@ namespace StandardAssets.Characters.Physics
 		}
 		
 		/// <summary>
-		/// The initial jump velocity
+		/// The initial jump velocity.
 		/// </summary>
+		/// <value>Velocity used to initiate a jump.</value>
 		protected float initialJumpVelocity;
 
 		/// <summary>
-		/// The current vertical velocity
+		/// The current vertical velocity.
 		/// </summary>
-		/// <returns></returns>
+		/// <value>Calculated using <see cref="initialJumpVelocity"/>, <see cref="airTime"/> and
+		/// <see cref="CalculateGravity"/></value>
 		protected float currentVerticalVelocity;
 
 		/// <summary>
-		/// The last used ground (vertical velocity excluded ie 0) velocity
+		/// The last used ground (vertical velocity excluded ie 0) velocity.
 		/// </summary>
+		/// <value>Velocity based on the moveVector used by <see cref="Move"/>.</value>
 		private Vector3 cachedGroundVelocity;
 		
 		/// <summary>
-		/// The current vertical vector
+		/// The current vertical vector.
 		/// </summary>
+		/// <value><see cref="Vector3.zero"/> with a y based on <see cref="currentVerticalVelocity"/>.</value>
 		private Vector3 verticalVector = Vector3.zero;
 
 		private ICharacterInput characterInput;
@@ -101,7 +138,7 @@ namespace StandardAssets.Characters.Physics
 		}
 
 		/// <summary>
-		/// Tries to jump
+		/// Tries to jump.
 		/// </summary>
 		/// <param name="initialVelocity"></param>
 		public void SetJumpVelocity(float initialVelocity)
@@ -133,7 +170,7 @@ namespace StandardAssets.Characters.Physics
 			float currentAirTime = 0;
 			for (int i = 0; i < k_TrajectorySteps; i++)
 			{
-				moveVector.y = Mathf.Clamp(UnityEngine.Physics.gravity.y * fallGravityMultiplier * currentAirTime,
+				moveVector.y = Mathf.Clamp(UnityPhysics.gravity.y * fallGravityMultiplier * currentAirTime,
 												terminalVelocity, Mathf.Infinity) ;
 				currentPosition += moveVector * k_TrajectoryPredictionTimeStep;
 				currentAirTime += k_TrajectoryPredictionTimeStep;
@@ -157,13 +194,14 @@ namespace StandardAssets.Characters.Physics
 		}
 
 		/// <summary>
-		/// Checks if the given position would collide with the ground collision layer
+		/// Checks if the given position would collide with the ground collision layer.
 		/// </summary>
 		/// <param name="position">Position to check</param>
+		/// <returns>True if a ground collision would occur at the given position.</returns>
 		private bool IsGroundCollision(Vector3 position)
 		{
 			// move sphere but to match bottom of character's capsule collider
-			int colliderCount = UnityEngine.Physics.OverlapSphereNonAlloc(position + new Vector3(0, radius, 0),
+			int colliderCount = UnityPhysics.OverlapSphereNonAlloc(position + new Vector3(0, radius, 0),
 																		  radius, trajectoryPredictionColliders,
 																		  collisionLayerMask);
 			return colliderCount > 0;
@@ -217,15 +255,20 @@ namespace StandardAssets.Characters.Physics
 		{
 			if (currentVerticalVelocity < 0)
 			{
-				return UnityEngine.Physics.gravity.y * fallGravityMultiplier;
+				return UnityPhysics.gravity.y * fallGravityMultiplier;
 			}
 
-			return characterInput.hasJumpInput ? UnityEngine.Physics.gravity.y * jumpGravityMultiplier : 
-				UnityEngine.Physics.gravity.y * minJumpHeightMultiplier * jumpGravityMultiplier;
+			return characterInput.hasJumpInput ? UnityPhysics.gravity.y * jumpGravityMultiplier : 
+				UnityPhysics.gravity.y * minJumpHeightMultiplier * jumpGravityMultiplier;
 		}
 		
+		/// <returns>True if the character is grounded; false otherwise.</returns>
 		protected abstract bool CheckGrounded();
 
+		/// <summary>
+		/// Moves the character by the given value.
+		/// </summary>
+		/// <param name="movement">The value to move the character by.</param>
 		protected abstract void MoveCharacter(Vector3 movement);
 		
 #if UNITY_EDITOR
