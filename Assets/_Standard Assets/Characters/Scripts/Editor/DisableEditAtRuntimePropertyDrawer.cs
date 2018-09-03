@@ -5,6 +5,10 @@ using UnityEngine;
 
 namespace Editor
 {
+	/// <summary>
+	/// Custom property drawer for the <see cref="DisableEditAtRuntimeAttribute"/>
+	/// This will disable the editing of a field when the Unity Editor is in Play Mode.
+	/// </summary>
 	[CustomPropertyDrawer(typeof(DisableEditAtRuntimeAttribute))]
 	public class DisableEditAtRuntimePropertyDrawer : PropertyDrawer
 	{
@@ -13,7 +17,14 @@ namespace Editor
 		{
 			get { return (DisableEditAtRuntimeAttribute) attribute; }
 		}
-		
+
+		///<inheritdoc />
+		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+		{
+			return EditorGUI.GetPropertyHeight(property, label);
+		}
+
+		///<inheritdoc />
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 		{
 			var noEntrySign = Resources.Load<Texture2D>("Texture set/Texture/Editor/NoEntry");
