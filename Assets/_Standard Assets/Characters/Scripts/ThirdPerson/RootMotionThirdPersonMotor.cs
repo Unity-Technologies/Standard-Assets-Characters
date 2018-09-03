@@ -121,7 +121,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private SizedQueue<Vector2> previousInputs;
 		
 		/// <summary>
-		/// Whether to track height above the ground.
+		/// Gets whether to track height above the ground.
 		/// </summary>
 		private bool trackGroundHeight;
 
@@ -137,7 +137,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 		
 		/// <summary>
-		/// Whether the character is in a sprint state.
+		/// Gets whether the character is in a sprint state.
 		/// </summary>
 		/// <value>True if in a sprint state; false otherwise.</value>
 		public bool sprint { get; private set; }
