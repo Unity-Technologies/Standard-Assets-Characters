@@ -7,77 +7,59 @@ namespace StandardAssets.Characters.Common
 {
 	/// <summary>
 	/// When on mobile, this will set the max speed for X and Y axis on the Cinemachine VCams
-	/// to a lower value to make the look easier to control. 
+	/// to a lower value to make the camera easier to control. 
 	/// </summary>
 	public class MobileCameraSensitivityAdjustment:MonoBehaviour
 	{
 		/// <summary>
-		/// Slow the max speed for each axis by this amount
+		/// Scale the max speed for each axis by this amount
 		/// </summary>
-		[SerializeField]
-		protected float maxSpeedDecreaseValue = 0.75f;
-
-		[FormerlySerializedAs("stateCamera"),SerializeField]
-		protected CinemachineStateDrivenCamera explorationStateCamera;
-
-		[SerializeField]
-		protected CinemachineFreeLook thirdPersonIdleCamera;
-
-		[SerializeField]
-		protected GameObject recenterButton;
+		[SerializeField, Range(0.1f,1f)]
+		protected float scaleMaxLookSpeedOnMobile = 0.75f;
+		
+		private CinemachineStateDrivenCamera stateDrivenCamera;
 
 		private void Awake()
 		{
-			
 #if UNITY_ANDROID || UNITY_IOS
+			stateDrivenCamera = GetComponent<CinemachineStateDrivenCamera>();
 			SetCameraSpeed();
-			
-#endif			
+#endif
 		}
-
-		void Update()
-		{
-			if (explorationStateCamera.IsLiveChild(thirdPersonIdleCamera))
-			{
-				recenterButton.SetActive(true);
-			}
-			else
-			{
-				recenterButton.SetActive(false);
-			}
-		}
-	
+		
+		/// <summary>
+		/// Adjust the max speed for each axis of the cameras
+		/// in the StateDrivenCamera for easier control for mobile
+		/// </summary>
 		void SetCameraSpeed()
 		{
-			
-			if (explorationStateCamera != null)
+			if (stateDrivenCamera != null)
 			{
-				foreach (var childCamera in explorationStateCamera.ChildCameras)
+				foreach (CinemachineVirtualCameraBase childCamera in stateDrivenCamera.ChildCameras)
 				{
-					var cinemachineVCam = childCamera.GetComponent<CinemachineVirtualCamera>();
+					CinemachineVirtualCamera cinemachineVCam = childCamera.GetComponent<CinemachineVirtualCamera>();
 					
-					if (cinemachineVCam !=null)
+					if (cinemachineVCam !=null) 
 					{
-						var povCam = cinemachineVCam.GetCinemachineComponent<CinemachinePOV>();
+						CinemachinePOV povCam = cinemachineVCam.GetCinemachineComponent<CinemachinePOV>();
 						
 						if (povCam != null)
 						{
-							povCam.m_HorizontalAxis.m_MaxSpeed *= maxSpeedDecreaseValue;
-							povCam.m_VerticalAxis.m_MaxSpeed *= maxSpeedDecreaseValue;
+							povCam.m_HorizontalAxis.m_MaxSpeed *= scaleMaxLookSpeedOnMobile;
+							povCam.m_VerticalAxis.m_MaxSpeed *= scaleMaxLookSpeedOnMobile;
 						}
-						
 						continue;
 					}
 
-					var cinemachineFreeLookCam = childCamera.GetComponent<CinemachineFreeLook>();
+					CinemachineFreeLook cinemachineFreeLookCam = childCamera.GetComponent<CinemachineFreeLook>();
+					
 					if (cinemachineFreeLookCam != null)
 					{
-						cinemachineFreeLookCam.m_XAxis.m_MaxSpeed *= maxSpeedDecreaseValue;
-						cinemachineFreeLookCam.m_YAxis.m_MaxSpeed *= maxSpeedDecreaseValue;
+						cinemachineFreeLookCam.m_XAxis.m_MaxSpeed *= scaleMaxLookSpeedOnMobile;
+						cinemachineFreeLookCam.m_YAxis.m_MaxSpeed *= scaleMaxLookSpeedOnMobile;
 					}
 				}
 			}
-			
 		}
 	}
 }
