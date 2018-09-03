@@ -131,11 +131,8 @@ For more detailed documentation, please see the WIP Google Docs:
 		a) On the Cinemachine State Driven Camera, drag FirstPerson onto the Follow property		
 	5) Select FirstPerson
 		a) On the First Person Brain, drag First Person Cameras onto the Camera Animations property
-		b) On the Legacy Cross Platform Character Input, drag FirstPersonInput onto the Standalone Input property
-		c) Also drag FirstPersonInput onto the Mobile Input property
-		d) *OPTIONAL* If the scene has a Movement Effects Library, drag it onto the Starting Movement Effect Library property located under the First Person Movement Effect Handler object 
-	6) *OPTIONAL* To support Mobile Input, select MobileInput
-		a) On the Mobile Camera Sensitivity Adjustment, drag the First Person Cameras Cinemachine State Driven Camera onto the Exploration State Camera property
+		b) On the Legacy Cross Platform Character Input, drag FirstPersonInput onto the Standalone and Mobile Input properties
+		c) *OPTIONAL* If the scene has a Movement Effects Library, drag it onto the Starting Movement Effect Library property located under the First Person Movement Effect Handler object 
 
 
 ### Third Person Controller:
@@ -152,11 +149,8 @@ For more detailed documentation, please see the WIP Google Docs:
 	6) Repeat above step for Strafe under MaleThirdPerson
 	7) Select MaleThirdPerson
 		a) On the Third Person Brain, drag Third Person Cameras onto the Camera Animation Manager property
-		b) On the Legacy Cross Platform Character Input, drag ThirdPersonInput onto the Standalone Input property
-		c) Also drag ThirdPersonInput onto the Mobile Input property
-		d) *OPTIONAL* If the scene has a Movement Effects Library, drag it onto the Starting Movement Effect Library property located under the Third Person Movement Effect Handler object 
-	8) *OPTIONAL* To support Mobile Input, select MobileInput
-		a) On the Mobile Camera Sensitivity Adjustment, drag the Exploration and Idle Cinemachine State Driven Cameras onto the Exploration State and Third Person Idle Camera properties
+		b) On the Legacy Cross Platform Character Input, drag ThirdPersonInput onto the Standalone and Mobile Input properties
+		c) *OPTIONAL* If the scene has a Movement Effects Library, drag it onto the Starting Movement Effect Library property located under the Third Person Movement Effect Handler object 
 
 
 ### Demo Scene (optional, for dev testing purposes):
@@ -211,8 +205,10 @@ For more detailed documentation, please see the WIP Google Docs:
 		** Behaviour and Functionality for Idle, Walk, Run, Sprint, Turning Locomotion
 		** Behaviour and Functionality for Falling and Landing
 		** Standing-Forward Jump Behaviour
+		** Jump-Motion Curve
 		** Nav Mesh Input Controller
 		** Animation State Machine
+		** Collision Capsule Resizing Based on Animation Frames (only set on the Landing Roll animation currently)
 
 	* Simple Movement Controller Example
 		** Demo scene to test out Legacy Character Controller and Open Character Controller controlled Cylinders
@@ -238,10 +234,8 @@ For more detailed documentation, please see the WIP Google Docs:
 		** Inspector UX
 		** Code Review and Commenting
 		** New Standing and Running Jump Animations
-		** Tweaks to Jump Motion Curve Feel
 		** Strafing Locomotion Behaviour
 		** Effects Detection System for Character Feet
-		** Collision Capsule Resizing Based on Animation Frames
 	
 	* Cinemachine Camera Setups
 		** First Person Cameras
