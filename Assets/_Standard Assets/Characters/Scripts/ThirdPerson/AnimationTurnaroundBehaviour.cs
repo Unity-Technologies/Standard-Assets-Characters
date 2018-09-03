@@ -83,6 +83,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return animationController.unityAnimator; }
 		}
 
+		/// <inheritdoc/>
 		public override void Init(ThirdPersonBrain brain)
 		{
 			animationController = brain.animationControl;
@@ -124,6 +125,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 		}
 
+		/// <summary>
+		/// Using the target angle and <see cref="ThirdPersonAnimationController.isRightFootPlanted"/> selects the
+		/// appropriate animation to cross fade into.
+		/// </summary>
+		/// <param name="angle">The target angle in degrees.</param>
 		protected override void StartTurningAround(float angle)
 		{
 			targetAngle = MathUtilities.Wrap180(angle);
@@ -174,11 +180,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// Determines if the run or sprint AnimationInfo should be selected
 		/// </summary>
 		/// <param name="forwardSpeed">Character's normalized forward speed</param>
-		/// <param name="turningRight">Is the character turning clockwise</param>
+		/// <param name="turningClockwise">Is the character turning clockwise</param>
 		/// <returns>The determined AnimationInfo</returns>
-		private AnimationInfo CurrentRun(float forwardSpeed, bool turningRight)
+		private AnimationInfo CurrentRun(float forwardSpeed, bool turningClockwise)
 		{
-			if (turningRight)
+			if (turningClockwise)
 			{
 				return forwardSpeed <= 1 ? runRightTurn : sprintRightTurn;
 			}

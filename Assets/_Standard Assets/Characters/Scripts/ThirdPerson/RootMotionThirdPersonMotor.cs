@@ -74,9 +74,13 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <value>Either Action or Strafe.</value>
 		public ThirdPersonMotorMovementMode movementMode { get; private set; }
 
+		/// <inheritdoc />
 		public Action jumpStarted { get; set; }
+		/// <inheritdoc />
 		public Action landed { get; set; }
+		/// <inheritdoc />
 		public Action<float> fallStarted { get; set; }
+		/// <inheritdoc />
 		public Action<float> rapidlyTurned { get; set; }
 
 		/// <summary>
@@ -117,23 +121,30 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private bool trackGroundHeight;
 
+		/// <inheritdoc />
 		public TurnaroundBehaviour currentTurnaroundBehaviour
 		{
 			get { return thirdPersonBrain.turnaround; }
 		}
-
+		/// <inheritdoc />
 		public float normalizedVerticalSpeed
 		{
 			get { return characterPhysics.normalizedVerticalSpeed; }
 		}
-
+		
+		/// <summary>
+		/// Whether the character is in a sprint state.
+		/// </summary>
+		/// <value>True if in a sprint state; false otherwise.</value>
 		public bool sprint { get; private set; }
-
+		
+		/// <inheritdoc />
 		public ThirdPersonGroundMovementState currentGroundMovementState
 		{
 			get { return movementState; }
 		}
-
+		
+		/// <inheritdoc />
 		public ThirdPersonAerialMovementState currentAerialMovementState
 		{
 			get { return aerialState; }
@@ -696,7 +707,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				}
 				
 				characterPhysics.SetJumpVelocity(
-					configuration.JumpHeightAsAFactorOfForwardSpeedAsAFactorOfSpeed.Evaluate(normalizedForwardSpeed));
+					configuration.jumpHeightAsFactorOfForwardSpeed.Evaluate(normalizedForwardSpeed));
 				
 				fallDirection = transform.forward;
 			}
