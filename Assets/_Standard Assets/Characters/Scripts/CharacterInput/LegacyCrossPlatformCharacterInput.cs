@@ -42,32 +42,38 @@ namespace StandardAssets.Characters.CharacterInput
 		/// <inheritdoc />
 		public Vector2 lookInput
 		{
-			get { return currentInput.lookInput; }
+			get { return (currentInput != null) ? currentInput.lookInput : Vector2.zero; }
 		}
 
 		/// <inheritdoc />
 		public Vector2 moveInput
 		{
-			get { return currentInput.moveInput; }
+			get { return (currentInput != null) ? currentInput.moveInput : Vector2.zero; }
 		}
 		
 		/// <inheritdoc />
 		public bool hasMovementInput
 		{
-			get { return currentInput.hasMovementInput; }
+			get { return (currentInput != null) ? currentInput.hasMovementInput : false; }
 		}
 
 		/// <inheritdoc />
 		public bool hasJumpInput
 		{
-			get { return currentInput.hasJumpInput; }
+			get { return (currentInput != null) ? currentInput.hasJumpInput : false; }
 		}
 
 		/// <inheritdoc />
 		public Action jumpPressed
 		{
-			get { return currentInput.jumpPressed; }
-			set { currentInput.jumpPressed = value; }
+			get { return (currentInput != null) ? currentInput.jumpPressed : null; }
+			set 
+			{ 
+				if(currentInput != null)
+				{
+					currentInput.jumpPressed = value; 
+				}
+			}
 		}
 
 		/// <summary>
@@ -95,8 +101,14 @@ namespace StandardAssets.Characters.CharacterInput
 		{
 			Cursor.lockState = CursorLockMode.None;
 			currentInputSystem = mobileInput;
-			mobileInput.enabled = true;
-			standaloneInput.enabled = false;
+			if(mobileInput != null)
+			{
+				mobileInput.enabled = true;
+			}
+			if(standaloneInput != null)
+			{
+				standaloneInput.enabled = false;
+			}
 		}
 
 		/// <summary>
@@ -105,8 +117,14 @@ namespace StandardAssets.Characters.CharacterInput
 		private void SetStandaloneControls()
 		{
 			currentInputSystem = standaloneInput;
-			standaloneInput.enabled = true;
-			mobileInput.enabled = false;
+			if(standaloneInput != null)
+			{
+				standaloneInput.enabled = true;
+			}
+			if(mobileInput != null)
+			{
+				mobileInput.enabled = false;
+			}
 		}
 	}
 }
