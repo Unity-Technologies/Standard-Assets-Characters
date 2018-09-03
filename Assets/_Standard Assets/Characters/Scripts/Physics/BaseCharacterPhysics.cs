@@ -266,9 +266,9 @@ namespace StandardAssets.Characters.Physics
 		protected abstract bool CheckGrounded();
 
 		/// <summary>
-		/// Moves the character by the given value.
+		/// Moves the character by <paramref name="movement"/> world units.
 		/// </summary>
-		/// <param name="movement">The value to move the character by.</param>
+		/// <param name="movement">The value to move the character by in world units.</param>
 		protected abstract void MoveCharacter(Vector3 movement);
 		
 #if UNITY_EDITOR
