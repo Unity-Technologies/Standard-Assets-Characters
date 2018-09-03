@@ -340,7 +340,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			motor.jumpStarted += OnJumpStarted;
 			motor.landed += OnLanding;
 			motor.fallStarted += OnFallStarted;
-			motor.rapidlyTurned += OnRapidlyTurned;
 		}
 
 		/// <summary>
@@ -354,7 +353,6 @@ namespace StandardAssets.Characters.ThirdPerson
 				motor.jumpStarted -= OnJumpStarted;
 				motor.landed -= OnLanding;
 				motor.fallStarted -= OnFallStarted;
-				motor.rapidlyTurned -= OnRapidlyTurned;
 			}
 		}
 
@@ -366,14 +364,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			isGrounded = false;
 			animator.SetBool(hashGrounded, false);
 			animator.SetTrigger(hashFall);
-		}
-
-		/// <summary>
-		/// Fires when the <see cref="motor"/> enters a rapid turn.
-		/// </summary>
-		private void OnRapidlyTurned(float normalizedTurn)
-		{
-			animator.SetTrigger(hashRapidTurn);
 		}
 
 		/// <summary>

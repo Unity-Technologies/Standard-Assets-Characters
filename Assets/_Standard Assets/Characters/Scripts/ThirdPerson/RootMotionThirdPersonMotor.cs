@@ -61,7 +61,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		/// <value>The current y rotation, in degrees, used by the <see cref="rotator"/>.</value>
 		public float targetYRotation { get; private set; }
-		
+
 		/// <summary>
 		/// Gets the velocity that was cached as the character exited a root motion state.
 		/// </summary>
@@ -75,13 +75,17 @@ namespace StandardAssets.Characters.ThirdPerson
 		public ThirdPersonMotorMovementMode movementMode { get; private set; }
 
 		/// <inheritdoc />
-		public Action jumpStarted { get; set; }
+		public event Action jumpStarted;
+
 		/// <inheritdoc />
-		public Action landed { get; set; }
+		/// <remarks>Subscribes to <see cref="ICharacterPhysics.landed"/>.</remarks>
+		public event Action landed;
+
 		/// <inheritdoc />
-		public Action<float> fallStarted { get; set; }
+		public event Action<float> fallStarted;
+
 		/// <inheritdoc />
-		public Action<float> rapidlyTurned { get; set; }
+		public event Action<float> rapidlyTurned;
 
 		/// <summary>
 		/// The input implementation
@@ -103,9 +107,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Sliding average of root motion velocity.
 		/// </summary>
-		protected SlidingAverage averageForwardVelocity;
+		private SlidingAverage averageForwardVelocity;
 
-		protected SlidingAverage actionAverageForwardInput, strafeAverageForwardInput, strafeAverageLateralInput;
+		private SlidingAverage actionAverageForwardInput, strafeAverageForwardInput, strafeAverageLateralInput;
 
 		private float turnaroundMovementTime;
 		private bool jumpQueued;
@@ -598,6 +602,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			return Quaternion.LookRotation(cameraToInputOffset * flatForward);
 		}
 
+		/// <summary>
+		/// Sets <see cref="normalizedForwardSpeed"/> so that a turn will approach the desired rotation.
+		/// </summary>
+		/// <param name="currentRotation">Current rotation.</param>
+		/// <param name="newRotation">Desired rotation.</param>
 		protected virtual void SetTurningSpeed(Quaternion currentRotation, Quaternion newRotation)
 		{
 			float currentY = currentRotation.eulerAngles.y;
@@ -634,6 +643,10 @@ namespace StandardAssets.Characters.ThirdPerson
 				preTurnMovementState = movementState;
 				movementState = ThirdPersonGroundMovementState.TurningAround;
 				thirdPersonBrain.turnaround.TurnAround(angle);
+				if (rapidlyTurned != null)
+				{
+					rapidlyTurned(angle);
+				}
 				return true;
 			}
 
