@@ -80,7 +80,7 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 					// TODO: show warning in inspector?
 					return;
 				} 
-				controller   = physics.GetOpenCharacterController();
+				controller = physics.openCharacterController;
 				if (controller == null)
 				{
 					return;

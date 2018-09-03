@@ -7,21 +7,28 @@ namespace StandardAssets.Characters.Physics
 		[SerializeField]
 		protected OpenCharacterController characterController;
 
-		public OpenCharacterController GetOpenCharacterController()
+		/// <summary>
+		/// Gets the open character controller.
+		/// </summary>
+		/// <value>The class that handles physics of the character.</value>
+		public OpenCharacterController openCharacterController
 		{
-			return characterController;
+			get { return characterController; }
 		}
-
+		
+		/// <inheritdoc/>
 		public override bool startedSlide
 		{
 			get { return characterController.startedSlide; }
 		}
 
+		/// <inheritdoc/>
 		protected override Vector3 footWorldPosition
 		{
 			get { return characterController.GetFootWorldPosition(); }
 		}
-
+		
+		/// <inheritdoc/>
 		protected override LayerMask collisionLayerMask
 		{
 			get { return characterController.GetCollisionLayerMask(); }
@@ -33,16 +40,19 @@ namespace StandardAssets.Characters.Physics
 			characterController.Awake(transform);
 		}
 
+		/// <inheritdoc/>
 		protected override float radius
 		{
 			get { return characterController.scaledRadius + characterController.GetSkinWidth(); }
 		}
-
+		
+		/// <inheritdoc/>
 		protected override bool CheckGrounded()
 		{
 			return characterController.isGrounded;
 		}
 
+		/// <inheritdoc/>
 		protected override void MoveCharacter(Vector3 movement)
 		{
 			CollisionFlags collisionFlags = characterController.Move(movement);

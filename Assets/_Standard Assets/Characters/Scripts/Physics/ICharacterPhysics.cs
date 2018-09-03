@@ -9,43 +9,48 @@ namespace StandardAssets.Characters.Physics
 	public interface ICharacterPhysics
 	{
 		/// <summary>
-		/// Returns true if the physic objects are grounded
+		/// Gets whether the physic objects are grounded
 		/// </summary>
+		/// <value>Returns true if grounded</value>
 		bool isGrounded { get; }
 		
 		/// <summary>
-		/// Returns true if the character just started sliding down a slope
+		/// Gets whether the character just started sliding down a slope.
 		/// </summary>
+		/// <value>Returns true if the character just started sliding.</value>
 		bool startedSlide { get; }
 
 		/// <summary>
 		/// Invoked when the physic object goes from not grounded to grounded
 		/// </summary>
-		Action landed { get; set; }
-		
+		event Action landed;
+
 		/// <summary>
 		/// Invoked when the jump velocity is set
 		/// </summary>
-		Action jumpVelocitySet { get; set; }
-		
+		event Action jumpVelocitySet;
+
 		/// <summary>
 		/// Invoked when the character started falling
 		/// </summary>
-		Action<float> startedFalling { get; set; }
+		event Action<float> startedFalling;
 		
 		/// <summary>
-		/// The time that the character in is not grounded for
+		/// Gets the time that the character in is not grounded for
 		/// </summary>
+		/// <value>The current aerial time in seconds</value>
 		float airTime { get; }
 		
 		/// <summary>
-		/// The time that the character was falling for
+		/// Gets the time that the character was falling for
 		/// </summary>
+		/// <value>The current falling aerial time in seconds</value>
 		float fallTime { get; }
 
 		/// <summary>
-		/// The normalized vertical speed
+		/// Gets the normalized vertical speed
 		/// </summary>
+		/// <value>Range = -1 (falling) to 1 (jumping).</value>
 		float normalizedVerticalSpeed{ get; }
 		
 		/// <summary>
