@@ -41,21 +41,24 @@ namespace StandardAssets.Characters.CharacterInput
 			moveInputVector.Set(moveStickVector.x, moveStickVector.y);
 		}
 
-		/// <inheritdoc />
 		private void Awake()
 		{
 			// Call this here, because OnEnable/OnDisable is not fired when the game object starts disabled and this component is disabled.
 			EnableChildControls(enabled);
 		}
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Enable the child controls.
+		/// </summary>
 		protected override void OnEnable()
 		{
 			base.OnEnable();
 			EnableChildControls(true);
 		}
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Disable the child controls.
+		/// </summary>
 		private void OnDisable()
 		{
 			EnableChildControls(false);
@@ -73,7 +76,7 @@ namespace StandardAssets.Characters.CharacterInput
 		}
 		
 		/// <summary>
-		/// Used by jump Unity UI button 
+		/// Called when the jump button is pressed on the UI. It fires the jumpPressed action.
 		/// </summary>
 		public void OnScreenTouchJump()
 		{
