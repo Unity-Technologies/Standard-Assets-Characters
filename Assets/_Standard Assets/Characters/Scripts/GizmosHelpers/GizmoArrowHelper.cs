@@ -22,8 +22,6 @@ namespace StandardAssets.Characters.GizmosHelpers
 		/// e.g. Default unity input or (in future) the new new input system
 		/// </summary>
 		protected ICharacterInput characterInput;
-
-
 		protected CharacterBrain characterMotor;
 
 		public ICharacterInput inputForCharacter
@@ -36,6 +34,14 @@ namespace StandardAssets.Characters.GizmosHelpers
 			get { return characterMotor; }
 		}
 
+#if UNITY_EDITOR
+
+		//Instances of arrow models
+		private GameObject forwardDirection;
+		private GameObject intendedRotation;
+		private GameObject inputDirection;
+
+
 		/// <summary>
 		/// Get physics and input on Awake
 		/// </summary>
@@ -44,23 +50,20 @@ namespace StandardAssets.Characters.GizmosHelpers
 			characterInput = GetComponent<ICharacterInput>();
 			characterMotor = GetComponent<CharacterBrain>();
 		}
-		
-		//Instances of arrow models
-		private GameObject forwardDirection;
-		private GameObject intendedRotation;
-		private GameObject inputDirection;
-		
-		//Create arrows on start, if in editor
+
+		/// <summary>
+		///When the script starts it will instantiate 3 GizmoArrow objects for:  Forward Direction, Input Direction, Target Rotation
+		/// </summary>
 		private void Start()
 		{
-#if UNITY_EDITOR
 			CreateGizmoArrow(transform.position, transform.position + transform.forward * 5, 0.5f, Color.green, "ForwardDirection", out forwardDirection);
 			CreateGizmoArrow(transform.position, transform.position + transform.forward * 5, 0.5f, Color.blue, "InputDirection", out inputDirection);
 			CreateGizmoArrow(transform.position, transform.position + transform.forward * 5, 0.5f, Color.red, "TargetRotation", out intendedRotation);
-#endif
 		}
 
-		//Testing Code for arrow models
+		/// <summary>
+		/// Creates an instance of a GizmoArrow given a start, end, color and name and draws it to the scene as a child object of this script's transform 
+		/// </summary>
 		void CreateGizmoArrow(Vector3 start, Vector3 end, float width, Color color, string name, out GameObject cylinderObject)
 		{
 			var offset = end - start;
@@ -83,7 +86,9 @@ namespace StandardAssets.Characters.GizmosHelpers
 			}
 		}
 
-#if UNITY_EDITOR
+		/// <summary>
+		/// Updates the arrow position, as well as the Debug lines drawn on every OnDrawGizmos call.
+		/// </summary>
 		private void OnDrawGizmos()
 		{
 			if (enablePowerDebug)
