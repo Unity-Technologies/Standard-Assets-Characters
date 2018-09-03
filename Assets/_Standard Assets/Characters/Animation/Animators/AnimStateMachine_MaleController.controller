@@ -150,6 +150,65 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   adjustAnimationSpeedBasedOnForwardSpeed: 0
+--- !u!114 &114170449232121670
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c59b1a5870e2f499a98dc5cbe1c3310c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useNormalizedTime: 1
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.3
+      value: 0.6
+      inSlope: -0.0037899157
+      outSlope: -0.0037899157
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.5166899
+      outWeight: 0.24814193
+    - serializedVersion: 3
+      time: 0.8
+      value: 0.6
+      inSlope: 0.013354429
+      outSlope: 0.013354429
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.13667476
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  animationMode: 0
+  duration: 1
+  heightScale: 1
+  heightOrigin: 0
+  resetOnExit: 1
 --- !u!114 &114180691745102326
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3615,6 +3674,7 @@ AnimatorState:
   - {fileID: 1101603908786909026}
   m_StateMachineBehaviours:
   - {fileID: 114247410713669366}
+  - {fileID: 114170449232121670}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -4023,12 +4083,12 @@ AnimatorStateMachine:
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions:
-  - first: {fileID: 1107877841531004928}
-    second:
-    - {fileID: 1109072331430154632}
   - first: {fileID: 1107563799764602758}
     second:
     - {fileID: 1109727769762428416}
+  - first: {fileID: 1107877841531004928}
+    second:
+    - {fileID: 1109072331430154632}
   - first: {fileID: 1107920703856779502}
     second:
     - {fileID: 1109091859386678670}
