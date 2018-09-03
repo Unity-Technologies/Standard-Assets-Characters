@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ccda7fde4e0f94ab2b955bdf24adbc56
+guid: 6e5182e2317b945d1b1dad7275a7aae6
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -143,8 +143,8 @@ ModelImporter:
     400134: Root
     400136: Spine
     400138: UpperChest
-    7400000: StandingJump_Frame01
-    7400002: StandingJump_Frame01_MIrror
+    7400000: RunForwardsJump_Frame05
+    7400002: RunForwardsJump_Frame05_Mirror
     9500000: //RootNode
     2186277476908879412: ImportLogs
   externalObjects: {}
@@ -162,7 +162,7 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Bone length in
       copied configuration does not match position in animation file:\n\t'Spine' :
-      position error = 4.506638 mm\n"
+      position error = 6.501564 mm\n"
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
@@ -178,7 +178,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: StandingJump_Frame01
+      name: RunForwardsJump_Frame05
       takeName: Take 001
       firstFrame: 1
       lastFrame: 5
@@ -206,7 +206,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: StandingJump_Frame01_MIrror
+      name: RunForwardsJump_Frame05_Mirror
       takeName: Take 001
       firstFrame: 1
       lastFrame: 5
