@@ -118,7 +118,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Gets whether the character in a root motion state.
 		/// </summary>
-		/// <value>True if the state is in a grounded state; false if airborne.</value>
+		/// <value>True if the state is in a grounded state; false if aerial.</value>
 		public bool isRootMotionState
 		{
 			get { return state == AnimationState.Locomotion || 

@@ -208,7 +208,7 @@ namespace StandardAssets.Characters.ThirdPerson
 					averageForwardVelocity.Add(movementVelocity, HandleNegative.Absolute);
 				}
 			}
-			else //airborne
+			else //aerial
 			{
 				if (normalizedVerticalSpeed <= 0 || aerialState != ThirdPersonAerialMovementState.Grounded)
 				{
