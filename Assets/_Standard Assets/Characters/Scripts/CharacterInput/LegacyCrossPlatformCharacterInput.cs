@@ -93,6 +93,7 @@ namespace StandardAssets.Characters.CharacterInput
 		/// </summary>
 		private void SetMobileControls()
 		{
+			Cursor.lockState = CursorLockMode.None;
 			currentInputSystem = mobileInput;
 			mobileInput.gameObject.SetActive(true);
 			standaloneInput.gameObject.SetActive(false);
