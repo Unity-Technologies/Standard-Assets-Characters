@@ -10,13 +10,13 @@ namespace StandardAssets.Characters.GizmosHelpers
 	/// Intended rotational direction
 	/// Input Direction
 	/// </summary>
+	[RequireComponent(typeof(ICharacterInput))]
+	[RequireComponent(typeof(CharacterBrain))]
 	public class GizmoArrowHelper : MonoBehaviour
 	{
-		private GameObject cylinderPrefab;
-		private const string k_ArrowGizmoPath = "Gizmos/GizmoArrow";
-
 		public bool enablePowerDebug;
-
+		
+#if UNITY_EDITOR
 		/// <summary>
 		/// The Input implementation to be used
 		/// e.g. Default unity input or (in future) the new new input system
@@ -24,23 +24,12 @@ namespace StandardAssets.Characters.GizmosHelpers
 		protected ICharacterInput characterInput;
 		protected CharacterBrain characterMotor;
 
-		public ICharacterInput inputForCharacter
-		{
-			get { return characterInput; }
-		}
-
-		public CharacterBrain motorForCharacter
-		{
-			get { return characterMotor; }
-		}
-
-#if UNITY_EDITOR
+		private const string k_ArrowGizmoPath = "Gizmos/GizmoArrow";
 
 		//Instances of arrow models
 		private GameObject forwardDirection;
 		private GameObject intendedRotation;
 		private GameObject inputDirection;
-
 
 		/// <summary>
 		/// Get physics and input on Awake
