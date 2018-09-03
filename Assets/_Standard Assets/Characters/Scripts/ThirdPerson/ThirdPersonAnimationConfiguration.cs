@@ -61,6 +61,12 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[SerializeField]
 		protected float skipJumpLandWindow = 0.25f;
+
+		[SerializeField]
+		protected float standingJumpNormalizedSpeedMaxThreshold = 0.1f;
+		
+		[SerializeField]
+		protected float runningJumpNormalizedSpeedMinThreshold = 0.9f;
 		
 		[Header("Landing")]
 		[SerializeField]
@@ -276,6 +282,16 @@ namespace StandardAssets.Characters.ThirdPerson
 		public AnimationCurve jumpTransitionDurationFactorOfSpeed
 		{
 			get { return jumpTransitionAsAFactorOfSpeed; }
+		}
+
+		public float runningJumpNormalizedSpeedThreshold
+		{
+			get { return runningJumpNormalizedSpeedMinThreshold; }
+		}
+
+		public float standingJumpNormalizedSpeedThreshold
+		{
+			get { return standingJumpNormalizedSpeedMaxThreshold; }
 		}
 	}
 }

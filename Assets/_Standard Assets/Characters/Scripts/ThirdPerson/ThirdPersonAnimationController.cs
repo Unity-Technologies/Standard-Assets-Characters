@@ -427,7 +427,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				jumpForward = 0;
 			}
-			animator.SetFloat(hashJumpedForwardSpeed, jumpForward);
+
+			SetJumpForward(jumpForward);
 
 			bool rightFoot = animator.GetBool(hashFootedness);
 
@@ -455,6 +456,20 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 			animator.SetBool(hashGrounded, false);
+		}
+
+		private void SetJumpForward(float jumpForward)
+		{
+			if (jumpForward < configuration.standingJumpNormalizedSpeedThreshold)
+			{
+				jumpForward = 0.0f;
+			}
+			else if (jumpForward > configuration.runningJumpNormalizedSpeedThreshold)
+			{
+				jumpForward = 1.0f;
+			}
+			animator.SetFloat(hashJumpedForwardSpeed, jumpForward);
+			
 		}
 
 		/// <summary>

@@ -88,6 +88,8 @@ MonoBehaviour:
   jumpedLateralSpeedParameter: JumpedLateralSpeed
   jumpedForwardSpeedParameter: JumpedForwardSpeed
   skipJumpLandWindow: 0.38
+  standingJumpNormalizedSpeedMaxThreshold: 0.1
+  runningJumpNormalizedSpeedMinThreshold: 0.9
   landSpeedAsAFactorOfSpeed:
     serializedVersion: 2
     m_Curve:
