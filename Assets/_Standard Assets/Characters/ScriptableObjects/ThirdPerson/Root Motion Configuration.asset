@@ -11,6 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d70839d074c4aaf8d6d3e6c7b3cfbc7, type: 3}
   m_Name: Root Motion Configuration
   m_EditorClassIdentifier: 
+  autoToggleSprint: 1
   rootMotionMovementScale: 1
   useCustomActionParameters: 1
   action:
@@ -67,14 +68,13 @@ MonoBehaviour:
   jumpGroundVelocitySamples: 10
   jumpGroundVelocityScale: 1.1
   jumpTurningSpeedScale: 0.25
-  postPhyicsJumpFramesToIgnoreForwardSpeed: 10
   standingJumpForwardSpeed: 3.5
   minInputThreshold: 0.05
   maxMovementThreshold: 0.75
   fallingMaxForwardSpeed: 5
   fallForwardSpeedDeceleration: 0.0025
   fallForwardSpeedAcceleration: 0.05
-  maxFallDistance: 1
+  maxFallDistance: 1.1
   fallDirectionChangeSpeed: 0.025
   turningSpeed: 300
   turningSpeedVisualScale: 0.4

@@ -505,7 +505,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400002, guid: b5fe4d622d20f4a1ba07b37e3a032e84, type: 3}
     m_Threshold: 0.6060606
-    m_Position: {x: 1, y: 0.3}
+    m_Position: {x: 1, y: 0.15}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: ForwardSpeed
@@ -513,7 +513,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400002, guid: 4eafe61eccc3d45238033005a3e0b5ff, type: 3}
     m_Threshold: 0.70707077
-    m_Position: {x: 1, y: 0.1}
+    m_Position: {x: 1, y: 0.05}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: ForwardSpeed
@@ -521,7 +521,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400002, guid: b6ee60ce34abe4b4c83ffb8e05d0b3b7, type: 3}
     m_Threshold: 0.80808085
-    m_Position: {x: 1, y: -0.5}
+    m_Position: {x: 1, y: -0.8}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: ForwardSpeed
@@ -1701,7 +1701,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: b5fe4d622d20f4a1ba07b37e3a032e84, type: 3}
     m_Threshold: 0.6666667
-    m_Position: {x: 1, y: 0.3}
+    m_Position: {x: 1, y: 0.15}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: ForwardSpeed
@@ -1709,7 +1709,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 4eafe61eccc3d45238033005a3e0b5ff, type: 3}
     m_Threshold: 0.7777778
-    m_Position: {x: 1, y: 0.1}
+    m_Position: {x: 1, y: 0.05}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: ForwardSpeed
@@ -2910,11 +2910,11 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.2
+  m_TransitionDuration: 0.25
   m_TransitionOffset: 0
   m_ExitTime: 0.3
   m_HasExitTime: 0
-  m_HasFixedDuration: 0
+  m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
@@ -3169,7 +3169,7 @@ AnimatorStateTransition:
   m_TransitionOffset: 0
   m_ExitTime: 0.65
   m_HasExitTime: 1
-  m_HasFixedDuration: 1
+  m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
@@ -3237,11 +3237,11 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.2
+  m_TransitionDuration: 0.25
   m_TransitionOffset: 0
   m_ExitTime: 0.3
   m_HasExitTime: 0
-  m_HasFixedDuration: 0
+  m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
@@ -4003,12 +4003,12 @@ AnimatorStateMachine:
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions:
-  - first: {fileID: 1107563799764602758}
-    second:
-    - {fileID: 1109727769762428416}
   - first: {fileID: 1107877841531004928}
     second:
     - {fileID: 1109072331430154632}
+  - first: {fileID: 1107563799764602758}
+    second:
+    - {fileID: 1109727769762428416}
   - first: {fileID: 1107920703856779502}
     second:
     - {fileID: 1109091859386678670}
