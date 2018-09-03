@@ -63,22 +63,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1186736720516234
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4662729353161658}
-  - component: {fileID: 114757485585459946}
-  m_Layer: 11
-  m_Name: MobileInput
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
 --- !u!1 &1191875936002792
 GameObject:
   m_ObjectHideFlags: 1
@@ -130,7 +114,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &1332566798126296
 GameObject:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
@@ -154,6 +138,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4896232859770654}
+  - component: {fileID: 114678814525354940}
+  - component: {fileID: 114259741550361366}
   m_Layer: 0
   m_Name: ThirdPersonInput
   m_TagString: Untagged
@@ -265,22 +251,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1854892615919746
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4391956820800778}
-  - component: {fileID: 114672729150782154}
-  m_Layer: 11
-  m_Name: 'StandaloneInput '
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1861012266974406
 GameObject:
   m_ObjectHideFlags: 1
@@ -332,33 +302,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4391956820800778
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1854892615919746}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 33, y: 0, z: 9.31}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4896232859770654}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4662729353161658
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1186736720516234}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 33, y: 0, z: 9.31}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 224618854005099344}
-  m_Father: {fileID: 4896232859770654}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4896232859770654
 Transform:
   m_ObjectHideFlags: 1
@@ -369,8 +312,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4662729353161658}
-  - {fileID: 4391956820800778}
+  - {fileID: 224618854005099344}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -431,6 +373,25 @@ MonoBehaviour:
   joystickBase: {fileID: 224021401848224454}
   joystickHat: {fileID: 224261205738984810}
   deadZone: 0.1
+--- !u!114 &114259741550361366
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1379095116278882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1052986cb0c4fe4b8cfbdfeba746ea0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cinemachineLookXAxisName: Horizontal
+  cinemachineLookYAxisName: Vertical
+  lookXAxisName: LookX
+  lookYAxisName: LookY
+  useMouseLookOnly: 0
+  horizontalAxisName: Horizontal
+  verticalAxisName: Vertical
+  keyboardJumpName: Jump
 --- !u!114 &114269452788155678
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -496,7 +457,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114757485585459946}
+      - m_Target: {fileID: 0}
         m_MethodName: OnScreenTouchJump
         m_Mode: 1
         m_Arguments:
@@ -605,25 +566,22 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
---- !u!114 &114672729150782154
+--- !u!114 &114678814525354940
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1854892615919746}
+  m_GameObject: {fileID: 1379095116278882}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1052986cb0c4fe4b8cfbdfeba746ea0, type: 3}
+  m_Script: {fileID: 11500000, guid: 2dccffe17c4b4678912f9f7cee52230c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cinemachineLookXAxisName: Horizontal
   cinemachineLookYAxisName: Vertical
-  lookXAxisName: LookX
-  lookYAxisName: LookY
-  useMouseLookOnly: 0
-  horizontalAxisName: Horizontal
-  verticalAxisName: Vertical
-  keyboardJumpName: Jump
+  moveInputJoystick: {fileID: 114122454467358518}
+  lookInputJoystick: {fileID: 114024904835658770}
+  childControls: {fileID: 1332566798126296}
 --- !u!114 &114690089064591412
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -740,21 +698,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114757485585459946
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1186736720516234}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2dccffe17c4b4678912f9f7cee52230c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cinemachineLookXAxisName: Horizontal
-  cinemachineLookYAxisName: Vertical
-  moveInputJoystick: {fileID: 114122454467358518}
-  lookInputJoystick: {fileID: 114024904835658770}
 --- !u!114 &114772225568410490
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1291,7 +1234,7 @@ RectTransform:
   - {fileID: 224384305392349840}
   - {fileID: 224021401848224454}
   - {fileID: 224749831008775706}
-  m_Father: {fileID: 4662729353161658}
+  m_Father: {fileID: 4896232859770654}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}

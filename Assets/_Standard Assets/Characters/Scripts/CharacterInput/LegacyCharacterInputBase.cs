@@ -58,7 +58,7 @@ namespace StandardAssets.Characters.CharacterInput
 		/// <summary>
 		/// Subscribe to the Cinemachine GetInputAxis delegate on enable
 		/// </summary>
-		private void OnEnable()
+		protected virtual void OnEnable()
 		{
 			CinemachineCore.GetInputAxis = LookInputOverride;
 		}

@@ -13,6 +13,12 @@ namespace StandardAssets.Characters.CharacterInput
 		protected OnScreenJoystick moveInputJoystick;
 		[SerializeField, Tooltip("Reference to the onscreen joystick for looking")]
 		protected OnScreenJoystick lookInputJoystick;
+
+		/// <summary>
+		/// Child controls to enable/disable when this component is enabled/disabled.
+		/// </summary>
+		[Header("Children"), SerializeField, Tooltip("Child controls to enable/disable when this component is enabled/disabled.")]
+		protected GameObject childControls;
 		
 		/// <inheritdoc />
 		/// <summary>
@@ -33,6 +39,37 @@ namespace StandardAssets.Characters.CharacterInput
 		{
 			Vector2 moveStickVector = moveInputJoystick.GetStickVector();		
 			moveInputVector.Set(moveStickVector.x, moveStickVector.y);
+		}
+
+		/// <inheritdoc />
+		private void Awake()
+		{
+			// Call this here, because OnEnable/OnDisable is not fired when the game object starts disabled and this component is disabled.
+			EnableChildControls(enabled);
+		}
+
+		/// <inheritdoc />
+		protected override void OnEnable()
+		{
+			base.OnEnable();
+			EnableChildControls(true);
+		}
+
+		/// <inheritdoc />
+		private void OnDisable()
+		{
+			EnableChildControls(false);
+		}
+
+		/// <summary>
+		/// Enable/disable the child controls.
+		/// </summary>
+		private void EnableChildControls(bool enable)
+		{
+			if (childControls != null)
+			{
+				childControls.SetActive(enable);
+			}
 		}
 		
 		/// <summary>
