@@ -5,11 +5,18 @@
 This repository contains the new **Standard Assets Character Controller Package**, consisting of both code to drive a more advanced version of First and Third Person Characters than the old Standard Assets Character, as well as a demo scene and setup for Character prototyping purposes and example setup of First and Third Person Characters.
 
 For more detailed documentation, please see the WIP Google Docs:  
-* Open Character Controller:
-	
-	https://docs.google.com/document/d/1TAodMmM8OlbFibyWvOKEU-zj-HI-yI4YJJx45S-hwTo/edit?usp=sharing
-#
+* Overview (Work In Progress):
 
+	https://docs.google.com/document/d/15bda-1wa4fn_ecUcWXTvxAZsNBIsI89zztKf2UxoQY4/edit?usp=sharing
+
+* Open Character Controller:
+
+	https://docs.google.com/document/d/1TAodMmM8OlbFibyWvOKEU-zj-HI-yI4YJJx45S-hwTo/edit?usp=sharing
+	
+* Input:
+
+	https://docs.google.com/document/d/1mU1kQCVWu62lqSDdas9OfF2JY-AX9GVdd6d-q9XhFBU/edit?usp=sharing
+#
 	***ALEC TO LINK MORE TO***
 
 
