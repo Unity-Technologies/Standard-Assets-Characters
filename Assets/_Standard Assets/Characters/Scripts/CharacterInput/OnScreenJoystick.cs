@@ -33,15 +33,12 @@ namespace StandardAssets.Characters.CharacterInput
 		/// <summary>
 		/// Position of the joystick hat. 
 		/// </summary>
-		private Vector2 stickAxis = Vector2.zero;
+		private Vector2 stickAxisRaw = Vector2.zero;
 		
 		/// <summary>
 		/// Position on the screen of the joystick base with hat in the center.
 		/// </summary>
 		private Vector2 joystickPosition = Vector2.zero;
-
-		public float onScreenJoystickHorizontalAxis { get { return stickAxis.x; } }
-		public float onScreenJoystickVerticalAxis { get { return stickAxis.y; } }
 
 		/// <summary>
 		/// Cache the starting positions of the joystick.
@@ -50,37 +47,19 @@ namespace StandardAssets.Characters.CharacterInput
 		{
 			joystickPosition = joystickBase.position;
 		}
-		
-		/// <summary>
-		/// On Screen joystick dead zone.
-		/// </summary>
-		/// <param name="stickInput">The current position of the on screen joystick hat relative to its origin.</param>
-		/// <returns>The on screen joystick input vector with applied dead zone.</returns>
-		private Vector2 OnScreenDeadZone(Vector2 stickInput)
-		{
-			if (stickInput.magnitude < deadZone)
-			{
-				stickInput = Vector2.zero;
-			}
-			else
-			{
-				stickInput = stickInput.normalized * ((stickInput.magnitude - deadZone));
-			}
-			return stickInput;
-		}
 
 		/// <summary>
 		/// Calculates the position delta of the on screen joystick hat and moves the hat on screen,
 		/// keeping its position on screen within the bounds of the <see cref="joystickMovementLimit"/>.
 		/// </summary>
-		/// <param name="eventData"></param>
+		/// <param name="eventData">Pointer or touch event data</param>
 		public void OnDrag(PointerEventData eventData)
 		{
 			Vector2 dragDirection = eventData.position - joystickPosition;
 			float joystickBaseFootprint = joystickBase.sizeDelta.x * 0.5f;
-			stickAxis = (dragDirection.magnitude > joystickBaseFootprint) 
+			stickAxisRaw = (dragDirection.magnitude > joystickBaseFootprint) 
 				? dragDirection.normalized : dragDirection / joystickBaseFootprint;
-			joystickHat.anchoredPosition = (stickAxis * joystickBaseFootprint) * joystickMovementLimit;
+			joystickHat.anchoredPosition = (stickAxisRaw * joystickBaseFootprint) * joystickMovementLimit;
 		}
 
 		/// <summary>
@@ -98,18 +77,28 @@ namespace StandardAssets.Characters.CharacterInput
 		/// <param name="eventData">Pointer or touch event data</param>
 		public void OnPointerUp(PointerEventData eventData)
 		{
-			stickAxis = Vector2.zero;
+			stickAxisRaw = Vector2.zero;
 			joystickHat.anchoredPosition = Vector2.zero;
 		}
 
 		/// <summary>
 		/// Gets the on screen analog stick vector
-		/// <see cref="stickAxis"/>
+		/// <see cref="stickAxisRaw"/>
 		/// </summary>
 		/// <returns>Normalized vector with applied dead zone</returns>
 		public Vector2 GetStickVector()
 		{
-			return OnScreenDeadZone(stickAxis);
+			Vector2 stickInputVector = stickAxisRaw;
+			
+			if (stickInputVector.magnitude < deadZone)
+			{
+				stickInputVector = Vector2.zero;
+			}
+			else
+			{
+				stickInputVector = stickInputVector.normalized * ((stickInputVector.magnitude - deadZone));
+			}
+			return stickInputVector;
 		}
 	}
 }
