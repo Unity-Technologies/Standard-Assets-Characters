@@ -10,12 +10,6 @@ namespace StandardAssets.Characters.FirstPerson
 	public class FirstPersonMovementEventHandler : MovementEventHandler
 	{
 		/// <summary>
-		/// Distance travelled between movement events
-		/// </summary>
-		[SerializeField]
-		protected float walkDistanceThreshold = 0.4f;
-		
-		/// <summary>
 		/// List of IDs for walking events
 		/// </summary>
 		[SerializeField]
@@ -63,7 +57,6 @@ namespace StandardAssets.Characters.FirstPerson
 		public void Init(Transform newTransform, ICharacterPhysics physics)
 		{
 			base.Init();
-			sqrDistanceThreshold = walkDistanceThreshold * walkDistanceThreshold;
 			transform = newTransform;
 			previousPosition = transform.position;
 			characterPhysics = physics;
@@ -148,10 +141,10 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// Change the distance that footstep sounds are played
 		/// </summary>
-		/// <param name="distance"></param>
-		public void AdjustAudioTriggerThreshold(float strideLenth)
+		/// <param name="strideLength"></param>
+		public void AdjustAudioTriggerThreshold(float strideLength)
 		{		
-			sqrDistanceThreshold = strideLenth * strideLenth;
+			sqrDistanceThreshold = strideLength * strideLength;
 		}
 	}
 }
