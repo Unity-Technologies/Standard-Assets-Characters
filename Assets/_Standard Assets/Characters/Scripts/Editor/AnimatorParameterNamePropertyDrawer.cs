@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
 using Editor;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
-using UnityEngine.Experimental.XR;
 
 namespace StandardAssets.Characters.Attributes.Editor
 {
