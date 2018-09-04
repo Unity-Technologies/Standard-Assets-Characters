@@ -3,10 +3,13 @@ using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
+	/// <summary>
+	/// Data model class containing various settings for the <see cref="ThirdPersonAnimationController"/>.
+	/// </summary>
 	[CreateAssetMenu(fileName = "Third Person Animation Configuration", menuName = "Standard Assets/Characters/Third Person Animation Configuration", order = 1)]
 	public class ThirdPersonAnimationConfiguration : ScriptableObject
 	{
-		[SerializeField]
+		[SerializeField, Tooltip("Animator used to find the below state names.")]
 		protected RuntimeAnimatorController thirdPersonAnimator;
 		
 		[Header("State Names")]
@@ -21,7 +24,7 @@ namespace StandardAssets.Characters.ThirdPerson
 						 rollLand = "RollLand",
 						 land = "Land";
 		
-		[Space, SerializeField]
+		[Space, SerializeField, AnimatorParameterName("thirdPersonAnimator", AnimatorControllerParameterType.Bool)]
 		protected string hasInputParameter = "HasInput";
 		
 		[Header("Ground Movement")]
@@ -34,14 +37,14 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected AnimationFloatParameter turningSpeedParameter = new AnimationFloatParameter("TurningSpeed", 0.01f, 0.05f);
 		
-		[SerializeField]
+		[SerializeField, AnimatorParameterName("thirdPersonAnimator", AnimatorControllerParameterType.Bool)]
 		protected string groundedParameter = "Grounded";
 		
-		[Header("Jumping")]
+		[Header("Jumping"), AnimatorParameterName("thirdPersonAnimator", AnimatorControllerParameterType.Float)]
 		[SerializeField]
 		protected string verticalSpeedParameter = "VerticalSpeed";
 		
-		[SerializeField]
+		[SerializeField, AnimatorParameterName("thirdPersonAnimator", AnimatorControllerParameterType.Trigger)]
 		protected string fallParameter = "Fall";
 
 		[SerializeField]
@@ -53,10 +56,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected AnimationCurve jumpEndTransitionDurationByForwardSpeed = AnimationCurve.Linear(0,0,1,0.125f);
 		
-		[SerializeField]
+		[SerializeField, AnimatorParameterName("thirdPersonAnimator", AnimatorControllerParameterType.Float)]
 		protected string jumpedLateralSpeedParameter = "JumpedLateralSpeed";
 		
-		[SerializeField]
+		[SerializeField, AnimatorParameterName("thirdPersonAnimator", AnimatorControllerParameterType.Float)]
 		protected string jumpedForwardSpeedParameter = "JumpedForwardSpeed";
 
 		[SerializeField]
@@ -76,13 +79,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected float normalizedForwardSpeedToRoll = 0.3f,
 						rollAnimationBlendTime = 0.15f,
 						landAnimationBlendTime = 0.11f;
-		
-		[Header("Turning")]
-		[SerializeField]
-		protected string rapidTurnParameter = "RapidTurn";
 
 		[Header("Footedness")]
-		[SerializeField]
+		[SerializeField, AnimatorParameterName("thirdPersonAnimator", AnimatorControllerParameterType.Bool)]
 		protected string footednessParameter = "OnRightFoot";
 		
 		[SerializeField]
@@ -147,11 +146,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		public string jumpedForwardSpeedParameterName
 		{
 			get { return jumpedForwardSpeedParameter; }
-		}
-
-		public string rapidTurnParameterName
-		{
-			get { return rapidTurnParameter; }
 		}
 
 		public bool invertFoot

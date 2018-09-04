@@ -54,7 +54,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		private int hashFootedness;
 		private int hashJumpedForwardSpeed;
 		private int hashJumpedLateralSpeed;
-		private int hashRapidTurn;
 		private int hashFall;
 
 		// is the character grounded
@@ -246,7 +245,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			hashFootedness = Animator.StringToHash(configuration.footednessParameterName);
 			hashJumpedForwardSpeed = Animator.StringToHash(configuration.jumpedForwardSpeedParameterName);
 			hashJumpedLateralSpeed = Animator.StringToHash(configuration.jumpedLateralSpeedParameterName);
-			hashRapidTurn = Animator.StringToHash(configuration.rapidTurnParameterName);
 			hashFall = Animator.StringToHash(configuration.fallParameterName);
 			motor = motorToUse;
 			animator = gameObject.GetComponent<Animator>();
