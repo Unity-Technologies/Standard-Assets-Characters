@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using StandardAssets.Characters.Attributes;
 using UnityEngine;
 using Util;
-
+using Object = UnityEngine.Object;
 #if UNITY_EDITOR
 using StandardAssets.GizmosHelpers;
 #endif
@@ -355,6 +355,11 @@ namespace StandardAssets.Characters.Physics
 		/// Pending resize info to set when it is safe to do so.
 		/// </summary>
 		private readonly OpenCharacterControllerResizeInfo pendingResize = new OpenCharacterControllerResizeInfo();
+
+		/// <summary>
+		/// Camera events to listen to during startup.
+		/// </summary>
+		private OpenCharacterControllerCameraEvents cameraEvents;
 		
 		/// <summary>
 		/// Is the character on the ground? This is updated during Move or SetPosition.
@@ -1126,6 +1131,7 @@ namespace StandardAssets.Characters.Physics
 			InitCapsuleCollider();
 			
 			SetRootToOffset();
+			SetupCameraEvents();
 		}
 		
 		#if UNITY_EDITOR
@@ -2545,6 +2551,46 @@ namespace StandardAssets.Characters.Physics
 			{
 				playerRootTransform.localPosition = rootTransformOffset;
 			}
+		}
+
+		/// <summary>
+		/// Set events on the camera to listen to during startup.
+		/// </summary>
+		private void SetupCameraEvents()
+		{
+			Camera cam = Camera.main;
+			if (cam == null)
+			{
+				cam = Object.FindObjectOfType<Camera>();
+			}
+			if (cam == null)
+			{
+				return;
+			}
+
+			cameraEvents = cam.gameObject.AddComponent<OpenCharacterControllerCameraEvents>();
+			cameraEvents.preRendered += OnCameraPreRender;
+		}
+
+		/// <summary>
+		/// Called by the camera before rendering.
+		/// </summary>
+		/// <remarks>We use this method to set the root transform position during startup, because the initial
+		/// position is changed by the Animator (for a single frame) when it plays the default animation.</remarks>
+		private void OnCameraPreRender()
+		{
+			// Wait until the game object is active
+			if (!cachedTransform.gameObject.activeInHierarchy)
+			{
+				return;
+			}
+
+			SetRootToOffset();
+			
+			// No longer need the event, nor the component
+			cameraEvents.preRendered -= OnCameraPreRender;
+			Object.Destroy(cameraEvents);
+			cameraEvents = null;
 		}
 	}
 }
