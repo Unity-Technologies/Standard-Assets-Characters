@@ -58,6 +58,7 @@ MonoBehaviour:
   jumpGravityMultiplier: 1
   fallGravityMultiplier: 2
   minJumpHeightMultiplier: 1.5
+  gravityLerp: 10
   characterController:
     playerRootTransform: {fileID: 0}
     rootTransformOffset: {x: 0, y: -0.85, z: 0}
@@ -121,15 +122,13 @@ MonoBehaviour:
   mainCamera: {fileID: 0}
   firstPersonMovementEventHandler:
     startingMovementEventLibrary: {fileID: 0}
-    walkDistanceThreshold: 0.4
     footIds:
     - firstPerson_leftfoot
     - firstPerson_rightfoot
-    jumpSoundId: jumping Sound
-    landSoundId: landing Sound
+    jumpId: jump
+    landingId: landing
   cameraAnimations: {fileID: 0}
   cameraInvertY: 0
-  newMovementProperties: {fileID: 0}
 --- !u!135 &135661079851010840
 SphereCollider:
   m_ObjectHideFlags: 1

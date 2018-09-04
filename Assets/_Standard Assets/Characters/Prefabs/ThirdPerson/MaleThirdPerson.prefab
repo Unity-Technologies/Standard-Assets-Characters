@@ -2305,8 +2305,8 @@ MonoBehaviour:
     crossfadeDuration: 0.5
   thirdPersonMovementEventHandler:
     startingMovementEventLibrary: {fileID: 0}
-    jumpSoundId: jumping Sound
-    landSoundId: landing Sound
+    jumpSoundId: jump
+    landSoundId: landing
     movementDetections:
     - {fileID: 114447118663720106}
     - {fileID: 114449538320415148}
@@ -2371,6 +2371,7 @@ MonoBehaviour:
   jumpGravityMultiplier: 1
   fallGravityMultiplier: 1
   minJumpHeightMultiplier: 1
+  gravityLerp: 10
   characterController:
     playerRootTransform: {fileID: 4040340540093194}
     rootTransformOffset: {x: 0, y: -0.87, z: 0}
