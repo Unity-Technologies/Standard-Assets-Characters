@@ -19,11 +19,6 @@ namespace StandardAssets.Characters.FirstPerson
 		[SerializeField]
 		protected string id;
 
-		public string stateId
-		{
-			get { return id; }
-		}
-
 		/// <summary>
 		/// The maximum movement speed
 		/// </summary>
