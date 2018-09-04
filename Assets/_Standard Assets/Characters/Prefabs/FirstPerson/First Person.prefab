@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114373860247929458}
   - component: {fileID: 114501385933726858}
   m_Layer: 11
-  m_Name: FirstPerson
+  m_Name: First Person
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -55,6 +55,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terminalVelocity: -60
+  jumpGravityMultiplier: 1
   fallGravityMultiplier: 2
   minJumpHeightMultiplier: 1.5
   characterController:
@@ -127,6 +128,7 @@ MonoBehaviour:
     jumpSoundId: jumping Sound
     landSoundId: landing Sound
   cameraAnimations: {fileID: 0}
+  cameraInvertY: 0
   newMovementProperties: {fileID: 0}
 --- !u!135 &135661079851010840
 SphereCollider:
