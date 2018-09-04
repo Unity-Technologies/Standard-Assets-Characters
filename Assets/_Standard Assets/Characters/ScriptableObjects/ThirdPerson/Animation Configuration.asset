@@ -59,8 +59,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  rightFootPhysicsJumpLandAnimationTimeOffset: 0
-  leftFootPhysicsJumpLandAnimationTimeOffset: 0.45
+  rightFootPhysicsJumpLandAnimationTimeOffset: 0.6
+  leftFootPhysicsJumpLandAnimationTimeOffset: 0.3
   jumpEndTransitionDurationByForwardSpeed:
     serializedVersion: 2
     m_Curve:
@@ -88,8 +88,8 @@ MonoBehaviour:
   jumpedLateralSpeedParameter: JumpedLateralSpeed
   jumpedForwardSpeedParameter: JumpedForwardSpeed
   skipJumpLandWindow: 0.38
-  standingJumpNormalizedSpeedMaxThreshold: 0.1
-  runningJumpNormalizedSpeedMinThreshold: 0.9
+  standingJumpNormalizedSpeedMaxThreshold: 0.25
+  runningJumpNormalizedSpeedMinThreshold: 0.8
   landSpeedAsAFactorOfSpeed:
     serializedVersion: 2
     m_Curve:
