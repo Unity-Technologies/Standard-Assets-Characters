@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Util;
 
 namespace StandardAssets.Characters.FirstPerson
@@ -42,15 +43,13 @@ namespace StandardAssets.Characters.FirstPerson
 		[SerializeField]
 		protected float jumpSpeed = 0.3f;
 
-
 		[SerializeField]
-		protected float strideLenght;
+		protected float strideLength;
 
-		public float strideLenthDistance
+		public float strideLengthDistance
 		{
-			get { return strideLenght; }
+			get { return strideLength; }
 		}
-		
 		
 		public Action<string> enterState, exitState;
 

@@ -78,7 +78,7 @@ namespace StandardAssets.Characters.FirstPerson
 
 		protected FirstPersonMovementProperties[] allMovement;
 
-		public FirstPersonMovementProperties newMovementProperties;
+		protected FirstPersonMovementProperties newMovementProperties;
 
 		/// <summary>
 		/// The current motor state - controls how the character moves in different states
@@ -338,7 +338,7 @@ namespace StandardAssets.Characters.FirstPerson
 				SetNewMovementProperties();
 			}
 			
-			firstPersonMovementEventHandler.AdjustAudioTriggerThreshold(newState.strideLenthDistance);
+			firstPersonMovementEventHandler.AdjustAudioTriggerThreshold(newState.strideLengthDistance);
 		}
 		
 		
