@@ -4,7 +4,9 @@ using UnityEngine;
 
 namespace Editor
 {
-#if UNITY_EDITOR
+	/// <summary>
+	/// Property Drawer for fields making use of the <see cref="HelperBoxAttribute"/> to draw a block of read-only text containing a supplied string in the Inspector
+	/// </summary>
 	[CustomPropertyDrawer(typeof(HelperBoxAttribute))]
 	public class HelperBoxPropertyDrawer : PropertyDrawer
 	{
@@ -18,6 +20,9 @@ namespace Editor
 			get { return (HelperBoxAttribute) attribute; }
 		}
 
+		/// <summary>
+		/// Gets the height of the relevant property in order to correctly format the inspector when this property is drawn 
+		/// </summary>
 		public override float GetPropertyHeight(SerializedProperty prop, GUIContent label)
 		{
 			// check for Conditional (custom extension).
@@ -41,7 +46,9 @@ namespace Editor
 			return height + textHeight + k_Spacing;
 		}
 
-
+		/// <summary>
+		/// Will draw a correctly formatted HelperBox element to the inspector containing the string supplied in the relevant <see cref="HelpAttribute"/> 
+		/// </summary>
 		public override void OnGUI(Rect position, SerializedProperty prop, GUIContent label)
 		{
 			if (position.height < 1)
@@ -63,5 +70,4 @@ namespace Editor
 			EditorGUI.EndProperty();
 		}
 	}
-#endif
 }

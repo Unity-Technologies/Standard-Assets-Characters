@@ -6,15 +6,26 @@ namespace StandardAssets.Characters.GizmosHelpers
 {
 	/// <summary>
 	/// Renders directional gizmos as well as arrows to determine 3 distinct directional vectors, namely:
-	/// Forward Direction
-	/// Intended rotational direction
-	/// Input Direction
+	/// <list type="bullet">
+	/// <item>
+	/// <description>Forward Direction</description>
+	/// </item>
+	/// <item>
+	/// <description>Intended Rotational Direction</description>
+	/// </item>
+	/// <item>
+	/// <description>Input Direction</description>
+	/// </item>
+	/// </list>
 	/// </summary>
 	[RequireComponent(typeof(ICharacterInput))]
 	[RequireComponent(typeof(CharacterBrain))]
 	public class GizmoArrowHelper : MonoBehaviour
 	{
-		public bool enablePowerDebug;
+		/// <summary>
+		/// Boolean used to enable or disable the drawing of these arrows in the scene
+		/// </summary>
+		public bool enablePowerDebug = true;
 		
 #if UNITY_EDITOR
 		/// <summary>
@@ -32,7 +43,7 @@ namespace StandardAssets.Characters.GizmosHelpers
 		private GameObject inputDirection;
 
 		/// <summary>
-		/// Get physics and input on Awake
+		/// Gets the ICharacterInput, and the CharacterBrain when the Awake method is triggered
 		/// </summary>
 		protected virtual void Awake()
 		{
@@ -41,7 +52,18 @@ namespace StandardAssets.Characters.GizmosHelpers
 		}
 
 		/// <summary>
-		///When the script starts it will instantiate 3 GizmoArrow objects for:  Forward Direction, Input Direction, Target Rotation
+		///When the script starts it will instantiate 3 GizmoArrow objects for:
+		/// <list type="bullet">
+		/// <item>
+		/// <description>Forward Direction</description>
+		/// </item>
+		/// <item>
+		/// <description>Intended Rotational Direction</description>
+		/// </item>
+		/// <item>
+		/// <description>Input Direction</description>
+		/// </item>
+		/// </list>
 		/// </summary>
 		private void Start()
 		{
@@ -51,9 +73,9 @@ namespace StandardAssets.Characters.GizmosHelpers
 		}
 
 		/// <summary>
-		/// Creates an instance of a GizmoArrow given a start, end, color and name and draws it to the scene as a child object of this script's transform 
+		/// Creates an instance of a GizmoArrow given a start point, end point, color and name and draws it to the scene as a child object of this script's transform 
 		/// </summary>
-		void CreateGizmoArrow(Vector3 start, Vector3 end, float width, Color color, string name, out GameObject cylinderObject)
+		private void CreateGizmoArrow(Vector3 start, Vector3 end, float width, Color color, string name, out GameObject cylinderObject)
 		{
 			var offset = end - start;
 			//var scale = new Vector3(width, offset.magnitude / 2.0f, width);
@@ -76,7 +98,7 @@ namespace StandardAssets.Characters.GizmosHelpers
 		}
 
 		/// <summary>
-		/// Updates the arrow position, as well as the Debug lines drawn on every OnDrawGizmos call.
+		/// Updates the arrow position, as well as the Debug lines drawn to scene, on every OnDrawGizmos call.
 		/// </summary>
 		private void OnDrawGizmos()
 		{

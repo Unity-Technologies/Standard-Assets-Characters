@@ -3,14 +3,17 @@
 namespace StandardAssets.Characters.Attributes
 {
 	/// <summary>
-	/// An attribute to disable inspector functionality allowing a field to be edited when the Unity Editor enters "run" mode
+	/// An attribute used to ensure a field in the Inspector is read-only when the editor enters play mode.
 	/// </summary>
 	public class DisableEditAtRuntimeAttribute : PropertyAttribute
 	{
+		/// <summary>
+		/// Boolean used to enable the drawing of a predefined icon in the inspector when the field is read-only.
+		/// </summary>
 		public readonly bool enableIcon;
 
 		/// <summary>
-		/// Constructor 
+		/// /// Creates a new instance of <see cref="DisableEditAtRuntimeAttribute"/> with an option to enable a predefined icon
 		/// </summary>
 		public DisableEditAtRuntimeAttribute(bool enableIcon = true)
 		{
