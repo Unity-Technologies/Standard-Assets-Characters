@@ -60,7 +60,8 @@ namespace Util
 		/// <returns>The remapped value</returns>
 		public static float Remap (this float value, float currentMin, float currentMax, float newMin, float newMax) 
 		{
-			return (value - currentMin) / (currentMax - currentMin) * (newMax - newMin) + newMin;
+			return Mathf.Clamp((value - currentMin) / (currentMax - currentMin) * (newMax - newMin) + newMin, 
+							   newMin, newMax);
 		}
 		
 		/// <summary>
@@ -72,7 +73,7 @@ namespace Util
 		/// <returns>The remapped value</returns>
 		public static float Remap01 (this float value, float currentMin, float currentMax) 
 		{
-			return value.Remap(currentMin, currentMax, 0, 1);
+			return value.Remap(currentMin, currentMax, 0.0f, 1.0f);
 		}
 	}
 }

@@ -458,8 +458,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private void SetJumpForward(float jumpForward)
 		{
-			jumpForward = Mathf.Clamp01(jumpForward.Remap01(configuration.standingJumpNormalizedSpeedThreshold,
-															configuration.runningJumpNormalizedSpeedThreshold));
+			jumpForward = jumpForward.Remap01(configuration.standingJumpNormalizedSpeedThreshold,
+															configuration.runningJumpNormalizedSpeedThreshold);
 			animator.SetFloat(hashJumpedForwardSpeed, jumpForward);
 			
 		}
