@@ -22,20 +22,50 @@ MonoBehaviour:
   - pbExportAsGroup
   - pbGrowSelectionUsingAngle
   - pbGrowSelectionAngleIterative
+  - pbGenerateUV2PerObject
+  - pb_MeshImporter::quads
+  - pb_MeshImporter::smoothing
+  - pbCollapseVertexToFirst
+  - pbStripProBuilderOnBuild
+  - pbDisableAutoUV2Generation
+  - pbForceConvex
+  - pbMeshesAreAssets
   m_Int_keys:
   - pbDefaultEditLevel
   - pbDefaultSelectionMode
   - pb_GIWorkflowMode
   - pbRectSelectMode
+  - pbHandleAlignment
+  - pbDefaultCollider
+  - pbShadowCastingMode
+  - pbDefaultStaticFlags
+  - pbDragSelectMode
+  - pbMirrorObjectScale
   m_Float_keys:
   - pbGrowSelectionAngle
-  m_String_keys: []
+  - pbEditorScroll.x
+  - pbEditorScroll.y
+  - pbWeldDistance
+  - pb_MeshImporter::smoothingThreshold
+  m_String_keys:
+  - pbCurrentMaterialPalette
+  - pb_VertexColorPalette::lastAssignedColorPalette
   m_Color_keys: []
-  m_Material_keys: []
-  m_Bool_values: 01010100000001000100
-  m_Int_values: 00000000010000000100000001000000
+  m_Material_keys:
+  - pbDefaultMaterial
+  m_Bool_values: 010101000000010001000000000101000000
+  m_Int_values: 00000000000000000100000001000000000000000200000002000000000000000000000001000000
   m_Float_values:
   - 42
-  m_String_values: []
+  - 0
+  - 0
+  - 0.1
+  - 1
+  m_String_values:
+  - Assets/_Standard Assets/Prototyping/Package Assets/ProBuilder Data/Default Material
+    Palette.asset
+  - Assets/_Standard Assets/Prototyping/Package Assets/ProBuilder Data/Default Color
+    Palette.asset
   m_Color_values: []
-  m_Material_values: []
+  m_Material_values:
+  - {fileID: 2100000, guid: c22777d6e868e4f2fb421913386b154e, type: 2}
