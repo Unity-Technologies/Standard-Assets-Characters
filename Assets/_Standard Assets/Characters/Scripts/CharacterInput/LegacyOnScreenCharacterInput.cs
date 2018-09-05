@@ -20,6 +20,10 @@ namespace StandardAssets.Characters.CharacterInput
 		[Header("Children"), SerializeField, Tooltip("Child controls to enable/disable when this component is enabled/disabled.")]
 		protected GameObject childControls;
 		
+		[Header("Input Modifier")]
+		[SerializeField]
+		protected LegacyCharacterInputModifier inputModifier;
+		
 		/// <inheritdoc />
 		/// <summary>
 		/// Sets look input vector to values from the lookInputJoystick <see cref="OnScreenJoystick"/>
@@ -39,6 +43,12 @@ namespace StandardAssets.Characters.CharacterInput
 		{
 			Vector2 moveStickVector = moveInputJoystick.GetStickVector();		
 			moveInputVector.Set(moveStickVector.x, moveStickVector.y);
+			
+			if (inputModifier != null &&
+			    inputModifier.enabled)
+			{
+				inputModifier.UpdateMoveInput(ref moveInputVector);
+			}
 		}
 
 		private void Awake()

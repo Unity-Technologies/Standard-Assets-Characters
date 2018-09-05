@@ -189,7 +189,7 @@ namespace StandardAssets.Characters.Physics
 		         "Ideally, x and z should be zero to avoid rotating into another collider.")]
 		[DisableEditAtRuntime]
 		[SerializeField]
-		public Vector3 center;
+		private Vector3 center;
 
 		/// <summary>
 		/// Length of the Capsule Collider’s radius. This is essentially the width of the collider.
@@ -547,7 +547,7 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="useSphereCast">Use a sphere cast? If false then use a ray cast.</param>
 		/// <param name="useSecondSphereCast">The second cast includes the skin width. Ideally only needed for human controlled player, for more accuracy.</param>
 		/// <param name="adjustPositionSlightly">Adjust position slightly up, in case it's already inside an obstacle.</param>
-		/// <returns>True if collision occured.</returns>
+		/// <returns>True if collision occurred.</returns>
 		public bool CheckCollisionBelow(float distance, out RaycastHit hitInfo, 
 		                                Vector3 offsetPosition,
 		                                bool useSphereCast = false, 
@@ -609,7 +609,7 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="useSphereCast">Use a sphere cast? If false then use a ray cast.</param>
 		/// <param name="useSecondSphereCast">The second cast includes the skin width. Ideally only needed for human controlled player, for more accuracy.</param>
 		/// <param name="adjustPositionSlightly">Adjust position slightly down, in case it's already inside an obstacle.</param>
-		/// <returns>True if collision occured.</returns>
+		/// <returns>True if collision occurred.</returns>
 		public bool CheckCollisionAbove(float distance, out RaycastHit hitInfo, 
 		                                Vector3 offsetPosition,
 		                                bool useSphereCast = false, 
@@ -850,8 +850,9 @@ namespace StandardAssets.Characters.Physics
 		}
 		
 		/// <summary>
-		/// Validate the height. (It must be at least double the radius size.)
+		/// Validate the capsule's height. (It must be at least double the radius size.)
 		/// </summary>
+		/// <returns>The valid height.</returns>
 		public float ValidateHeight(float newHeight)
 		{
 			return Mathf.Clamp(newHeight, radius * 2.0f, float.MaxValue);

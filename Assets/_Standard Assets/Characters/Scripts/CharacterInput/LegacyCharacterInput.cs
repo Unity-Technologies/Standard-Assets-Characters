@@ -27,6 +27,10 @@ namespace StandardAssets.Characters.CharacterInput
 
 		[SerializeField, Tooltip("Name of the Input Manager axis for jumping")]
 		protected string keyboardJumpName = "Jump";
+		
+		[Header("Input Modifier")]
+		[SerializeField]
+		protected LegacyCharacterInputModifier inputModifier;
 
 		/// <inheritdoc />
 		/// <summary>
@@ -72,6 +76,12 @@ namespace StandardAssets.Characters.CharacterInput
 		protected override void UpdateMoveVector()
 		{
 			moveInputVector.Set(Input.GetAxisRaw(horizontalAxisName), Input.GetAxisRaw(verticalAxisName));
+			
+			if (inputModifier != null &&
+			    inputModifier.enabled)
+			{
+				inputModifier.UpdateMoveInput(ref moveInputVector);
+			}
 		}
 
 		/// <summary>
