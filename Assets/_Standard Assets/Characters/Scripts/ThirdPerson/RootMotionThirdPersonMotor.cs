@@ -218,8 +218,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				var movementDirection = movementMode == ThirdPersonMotorMovementMode.Action ? transform.forward :
 					CalculateLocalInputDirection() ;
 				fallDirection = Vector3.Lerp(fallDirection, movementDirection, configuration.fallDirectionChange);
-				characterPhysics.Move(cachedForwardVelocity * Time.deltaTime * fallDirection * 
-									  configuration.scaledGroundVelocity, Time.deltaTime);
+				characterPhysics.Move(cachedForwardVelocity * Time.deltaTime * fallDirection, Time.deltaTime);
 			}
 		}
 
@@ -616,7 +615,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			normalizedTurningSpeed = Mathf.Lerp(normalizedTurningSpeed,Mathf.Clamp(
 													difference / configuration.turningYSpeed *
 													configuration.turningSpeedScaleVisual, -1, 1),
-													Time.deltaTime * configuration.turningLerpFactor);
+													Time.deltaTime * configuration.normalizedTurningSpeedLerpSpeedFactor);
 		}
 
 		/// <remarks>Subscribes to the <see cref="currentTurnaroundBehaviour"/>'s
