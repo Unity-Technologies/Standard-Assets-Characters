@@ -15,35 +15,35 @@ namespace StandardAssets.Characters.ThirdPerson
 	{
 		public event Action forwardUnlockedModeStarted, forwardLockedModeStarted;
 
-		[SerializeField]
+		[SerializeField, Tooltip("Third person character brain")]
 		protected ThirdPersonBrain brain;
 		
 		[DisableEditAtRuntime()]
 		[SerializeField]
 		protected ThirdPersonCameraType startingCameraMode = ThirdPersonCameraType.Exploration;
 
-		[SerializeField]
+		[SerializeField, Tooltip("Input Response for changing camera mode and camera recenter")]
 		protected InputResponse cameraModeInput, recenterCameraInput;
 
-		[SerializeField]
+		[SerializeField, Tooltip("Legacy on screen character input")]
 		protected LegacyOnScreenCharacterInput mobileCharacterInput;
 		
-		[SerializeField]
+		[SerializeField, Tooltip("Legacy stand alone character input")]
 		protected LegacyCharacterInput standAloneCharacterInput;
 
-		[SerializeField]
+		[SerializeField, Tooltip("State Driven Camera state names")]
 		protected string[] explorationCameraStates, strafeCameraStates;
 
-		[SerializeField]
+		[SerializeField, Tooltip("Game objects to toggle when switching camera modes")]
 		protected GameObject[] explorationCameraObjects, strafeCameraObjects;
 
-		[SerializeField]
+		[SerializeField, Tooltip("Cinemachine State Driven Camera")]
 		protected CinemachineStateDrivenCamera explorationStateDrivenCamera;
 
-		[SerializeField]
+		[SerializeField, Tooltip("Cinemachine State Driven Camera")]
 		protected CinemachineStateDrivenCamera strafeStateDrivenCamera;
 		
-		[SerializeField]
+		[SerializeField, Tooltip("This is the free look camera that will be able to get recentered")]
 		protected CinemachineFreeLook idleCamera;
 		
 		private string[] currentCameraModeStateNames;
@@ -55,7 +55,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		private CinemachineStateDrivenCamera thirdPersonStateDrivenCamera;
 
 		private bool isChangingMode;
-
 
 		private void Awake()
 		{
@@ -84,7 +83,10 @@ namespace StandardAssets.Characters.ThirdPerson
 			SetAnimation(currentCameraModeStateNames[cameraIndex]);
 			PlayForwardModeEvent();
 		}
-
+		
+		/// <summary>
+		/// Subscribe to input events 
+		/// </summary>
 		private void OnEnable()
 		{
 			if (cameraModeInput != null)
@@ -99,7 +101,10 @@ namespace StandardAssets.Characters.ThirdPerson
 				recenterCameraInput.ended += RecenterCamera;
 			}
 		}
-
+		
+		/// <summary>
+		/// Unsubscribe from input events
+		/// </summary>
 		private void OnDisable()
 		{
 			if (cameraModeInput != null)
@@ -114,7 +119,10 @@ namespace StandardAssets.Characters.ThirdPerson
 				recenterCameraInput.ended -= RecenterCamera;
 			}
 		}
-
+		
+		/// <summary>
+		/// Change between camera modes
+		/// </summary>
 		private void ChangeCameraMode()
 		{
 			isChangingMode = true;
@@ -132,7 +140,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				RecenterFreeLookCam(idleCamera);
 			}
-			
 #endif		
 			if (!standAloneCharacterInput.hasMovementInput)
 			{
@@ -188,8 +195,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				}
 			}
 		}
-
-		//TEMP TO SWITCH CROSSHAIR ON ONCE BLEND IS FINISHED 
+		
 		private void Update()
 		{
 			if (!isForwardUnlocked)
@@ -200,8 +206,6 @@ namespace StandardAssets.Characters.ThirdPerson
 				}
 			}
 			
-			//Idle cameras will turn off recenter if there is any movement on left or 
-			//Right sticks. 
 #if UNITY_ANDROID || UNITY_IOS
 			if (mobileCharacterInput.hasMovementInput
 			    || mobileCharacterInput.lookInput != Vector2.zero)
@@ -210,15 +214,16 @@ namespace StandardAssets.Characters.ThirdPerson
 			}		
 #endif		
 			if (standAloneCharacterInput.hasMovementInput
-			    | standAloneCharacterInput.lookInput != Vector2.zero)
+			    || standAloneCharacterInput.lookInput != Vector2.zero)
 			{
 				TurnOffFreeLookCamRecenter(idleCamera);
 			}		
 		}
-
+		
 		private void SetCameraState()
 		{
 			cameraIndex++;
+			
 			if (cameraIndex >= currentCameraModeStateNames.Length)
 			{
 				cameraIndex = 0;
@@ -236,11 +241,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			SetAnimation(currentCameraModeStateNames[cameraIndex]);
 		}
 		
-		/// <summary>
-		/// Sets the given Freelook Cinemachine camera
-		/// to recenter for X/Y axis On/Off
-		/// </summary>
-		/// <param name="freeLook"></param>
 		private void RecenterFreeLookCam(CinemachineFreeLook freeLook)
 		{
 			freeLook.m_RecenterToTargetHeading.m_enabled = true;
@@ -252,7 +252,13 @@ namespace StandardAssets.Characters.ThirdPerson
 			freeLook.m_RecenterToTargetHeading.m_enabled = false;
 			freeLook.m_YAxisRecentering.m_enabled = false;
 		}
-
+		
+		/// <summary>
+		/// <para>Keep virtual camera children of a state driven camera all</para>
+		/// pointing in the same direction when changing between state driven cameras
+		/// </summary>
+		/// <param name="sourceStateDrivenCamera">The state driven camera that is being transitioned from</param>
+		/// <param name="destinationStateDrivenCamera">The state driven camera that is being transitioned to</param>
 		private void SetCameraAxes(CinemachineStateDrivenCamera sourceStateDrivenCamera,
 		                           CinemachineStateDrivenCamera destinationStateDrivenCamera)
 		{
@@ -266,7 +272,13 @@ namespace StandardAssets.Characters.ThirdPerson
 				}
 			}
 		}
-
+		
+		/// <summary>
+		/// Manually update the X and Y axis of all child cameras
+		/// </summary>
+		/// <param name="stateDrivenCamera">Parent State Driven Camera</param>
+		/// <param name="xAxis">X axis value</param>
+		/// <param name="yAxis">Y Axis value</param>
 		private void SetChildCamerasAxis(CinemachineStateDrivenCamera stateDrivenCamera, float xAxis, float yAxis)
 		{
 			foreach (CinemachineVirtualCameraBase childCamera in stateDrivenCamera.ChildCameras)
