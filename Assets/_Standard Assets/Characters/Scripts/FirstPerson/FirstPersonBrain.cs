@@ -20,47 +20,43 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// The state that first person motor starts in
 		/// </summary>
-		[SerializeField]
+		[SerializeField, Tooltip("The state that first person motor starts in")]
 		protected FirstPersonMovementProperties startingMovementProperties;
 
 		/// <summary>
 		/// List of possible state modifiers
 		/// </summary>
-		[SerializeField] 
+		[SerializeField, Tooltip("List of possible state modifiers")] 
 		protected FirstPersonMovementModification[] movementModifiers;
 		
 		/// <summary>
 		/// Main Camera that is using the POV camera
 		/// </summary>
-		[SerializeField]
+		[SerializeField, Tooltip("Main Camera that is using the POV camera - will fetch Camera.main if this is left empty")]
 		protected Camera mainCamera;
 
-		[SerializeField]
+		/// <summary>
+		/// Manages movement events
+		/// </summary>
+		[SerializeField, Tooltip("The management of movement events e.g. footsteps")]
 		protected FirstPersonMovementEventHandler firstPersonMovementEventHandler;
 		
-		[SerializeField]
+		/// <summary>
+		/// The movement state is passed to the camera manager so that there can be different cameras e.g. crouch
+		/// </summary>
+		[SerializeField, Tooltip("The movement state is passed to the camera manager so that there can be different cameras e.g. crouch")]
 		protected CameraAnimationManager cameraAnimations;
 
 		/// <summary>
 		/// Invert camera Y axis. It will override the Cinemachine virtual cameras' setting.
 		/// </summary>
-		[DisableEditAtRuntime]
-		[SerializeField, Tooltip("Invert camera Y axis. It will override the Cinemachine virtual cameras' setting on Awake.")]
+		[DisableEditAtRuntime, SerializeField, Tooltip("Invert camera Y axis. It will override the Cinemachine virtual cameras' setting on Awake.")]
 		protected bool cameraInvertY;
 		
-		public CameraAnimationManager cameraAnimationManager
-		{
-			get { return cameraAnimations; }
-		}
-		
-		/// <summary>
-		/// Exposes the movement properties array for use in UI 
-		/// </summary>
-		public FirstPersonMovementModification[] exposedMovementModifiers
-		{
-			get { return movementModifiers; }
-		}
+		protected FirstPersonMovementProperties[] allMovement;
 
+		protected FirstPersonMovementProperties newMovementProperties;
+		
 		/// <summary>
 		/// The current movement properties
 		/// </summary>
@@ -75,23 +71,44 @@ namespace StandardAssets.Characters.FirstPerson
 		/// A check to see if input was previous being applied
 		/// </summary>
 		private bool previouslyHasInput;
-
-		protected FirstPersonMovementProperties[] allMovement;
-
-		protected FirstPersonMovementProperties newMovementProperties;
+		
+		/// <summary>
+		/// Gets the referenced <see cref="CameraAnimationManager"/>
+		/// </summary>
+		public CameraAnimationManager cameraAnimationManager
+		{
+			get { return cameraAnimations; }
+		}
+		
+		/// <summary>
+		/// Gets the movement properties array for use in UI 
+		/// </summary>
+		public FirstPersonMovementModification[] exposedMovementModifiers
+		{
+			get { return movementModifiers; }
+		}
 
 		/// <summary>
-		/// The current motor state - controls how the character moves in different states
+		/// Gets current motor state - controls how the character moves in different states
 		/// </summary>
 		public FirstPersonMovementProperties currentMovementProperties { get; protected set; }
 		
+		/// <summary>
+		/// Gets the MovementEventHandler
+		/// </summary>
 		public override MovementEventHandler movementEventHandler
 		{
 			get { return firstPersonMovementEventHandler; }
 		}
 
+		/// <summary>
+		/// Gets the target Y rotation of the character
+		/// </summary>
 		public override float targetYRotation { get; set; }
 
+		/// <summary>
+		/// Gets all of the movement properties, including the starting movement properties
+		/// </summary>
 		public FirstPersonMovementProperties[] allMovementProperties
 		{
 			get
@@ -113,6 +130,10 @@ namespace StandardAssets.Characters.FirstPerson
 			}
 		}
 		
+		/// <summary>
+		/// Helper method for setting the animation
+		/// </summary>
+		/// <param name="animation">The case sensitive name of the animation state</param>
 		protected void SetAnimation(string animation)
 		{
 			if (cameraAnimations == null)
@@ -125,7 +146,7 @@ namespace StandardAssets.Characters.FirstPerson
 		}
 
 		/// <summary>
-		/// Get the attached implementations on wake
+		/// Get the attached implementations on awake
 		/// </summary>
 		protected override void Awake()
 		{
@@ -177,7 +198,7 @@ namespace StandardAssets.Characters.FirstPerson
 		}
 
 		/// <summary>
-		/// Subscribe
+		/// Subscribes to the various events
 		/// </summary>
 		private void OnEnable()
 		{
@@ -193,7 +214,7 @@ namespace StandardAssets.Characters.FirstPerson
 		}
 
 		/// <summary>
-		/// Unsubscribe
+		/// Unsubscribes to the various events
 		/// </summary>
 		private void OnDisable()
 		{
@@ -213,11 +234,17 @@ namespace StandardAssets.Characters.FirstPerson
 			characterPhysics.landed -= OnLanded;
 		}
 		
+		/// <summary>
+		/// Called on character landing
+		/// </summary>
 		private void OnLanded()
 		{
 			SetNewMovementProperties();
 		}
 
+		/// <summary>
+		/// Sets the movement properties to the new state
+		/// </summary>
 		private void SetNewMovementProperties()
 		{
 			if (currentMovementProperties != null)
@@ -341,12 +368,10 @@ namespace StandardAssets.Characters.FirstPerson
 			firstPersonMovementEventHandler.AdjustAudioTriggerThreshold(newState.strideLengthDistance);
 		}
 		
-		
-
 		/// <summary>
 		/// Change state to the new state and adds to previous state stack
 		/// </summary>
-		/// <param name="newState"></param>
+		/// <param name="newState">The new first person movement properties to be used</param>
 		public void EnterNewState(FirstPersonMovementProperties newState)
 		{
 			ChangeState(newState);

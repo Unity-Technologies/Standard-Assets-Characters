@@ -47,6 +47,9 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		private ICharacterPhysics characterPhysics;
 
+		/// <summary>
+		/// Transform used for tracking distance
+		/// </summary>
 		private Transform transform;
 		
 		/// <summary>
@@ -125,7 +128,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// Calls PlayEvent on the jump ID
 		/// </summary>
-		void Jumped()
+		private void Jumped()
 		{
 			BroadcastMovementEvent(jumpId);
 		}
@@ -133,7 +136,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// Calls PlayEvent on the landing ID
 		/// </summary>
-		void Landed()
+		private void Landed()
 		{
 			BroadcastMovementEvent(landingId);
 		}

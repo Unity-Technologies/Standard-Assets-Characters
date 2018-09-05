@@ -14,40 +14,48 @@ namespace StandardAssets.Characters.FirstPerson
 	public class FirstPersonMovementProperties : ScriptableObject
 	{
 		/// <summary>
-		/// The state name
+		/// Actions that are fired on state change
 		/// </summary>
-		[SerializeField]
+		public Action<string> enterState, exitState;
+		
+		/// <summary>
+		/// The unique identifier - corresponds to a state in the animator
+		/// </summary>
+		[SerializeField, Tooltip("The unique identifier - corresponds to a state in the animator")]
 		protected string id;
 
 		/// <summary>
 		/// The maximum movement speed
 		/// </summary>
-		[SerializeField]
+		[SerializeField, Tooltip("The maximum movement speed of the character")]
 		protected float maxSpeed = 5f;
 
 		/// <summary>
 		/// The curve evaluator for acceleration
 		/// </summary>
-		[Tooltip("Value is the time is takes accelerate to max speed")]
-		[SerializeField]
+		[SerializeField, Tooltip("Value is the time is takes accelerate to max speed")]
 		protected CurveEvaluator acceleration;
 
 		/// <summary>
-		/// Jump speed 
+		/// The initial Y velocity of a Jump
 		/// </summary>
-		[SerializeField]
-		protected float jumpSpeed = 0.3f;
+		[SerializeField, Tooltip("The initial Y velocity of a Jump")]
+		protected float jumpSpeed = 5f;
 
-		[SerializeField]
+		/// <summary>
+		/// The length of a stride
+		/// </summary>
+		[SerializeField, Tooltip("Distance that is considered a stride")]
 		protected float strideLength;
 
+		/// <summary>
+		/// Gets the stride length
+		/// </summary>
 		public float strideLengthDistance
 		{
 			get { return strideLength; }
 		}
 		
-		public Action<string> enterState, exitState;
-
 		/// <summary>
 		/// Gets the maximum speed
 		/// </summary>
@@ -100,7 +108,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// Helper to safely broadcast the action
 		/// </summary>
-		void SafelyBroadcastEvent(Action<string> action)
+		private void SafelyBroadcastEvent(Action<string> action)
 		{
 			if (action != null)
 			{
