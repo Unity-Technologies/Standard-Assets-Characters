@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4eafe61eccc3d45238033005a3e0b5ff
+guid: b2e335125ba714f65bdbc46186251274
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -143,8 +143,8 @@ ModelImporter:
     400134: Root
     400136: Spine
     400138: UpperChest
-    7400000: RunForwardsJump_Frame03
-    7400002: RunForwardsJump_Frame03_Mirror
+    7400000: Falling
+    7400002: Falling_Mirror
     9500000: //RootNode
     2186277476908879412: ImportLogs
   externalObjects: {}
@@ -162,7 +162,7 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Bone length in
       copied configuration does not match position in animation file:\n\t'Spine' :
-      position error = 20.042038 mm\n"
+      position error = 4.519341 mm\n"
     animationImportErrors: 
     animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
       might lower retargeting quality:\nNote: Activate translation DOF on avatar to
@@ -172,7 +172,7 @@ ModelImporter:
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 3
+    animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -181,7 +181,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: RunForwardsJump_Frame03
+      name: Falling
       takeName: Take 001
       firstFrame: 1
       lastFrame: 40
@@ -209,7 +209,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: RunForwardsJump_Frame03_Mirror
+      name: Falling_Mirror
       takeName: Take 001
       firstFrame: 1
       lastFrame: 40

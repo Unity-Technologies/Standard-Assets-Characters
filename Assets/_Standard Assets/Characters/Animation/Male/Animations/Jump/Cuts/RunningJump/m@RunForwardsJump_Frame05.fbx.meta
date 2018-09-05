@@ -162,9 +162,12 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Bone length in
       copied configuration does not match position in animation file:\n\t'Spine' :
-      position error = 6.501564 mm\n"
+      position error = 21.133198 mm\n"
     animationImportErrors: 
-    animationImportWarnings: 
+    animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
+      might lower retargeting quality:\nNote: Activate translation DOF on avatar to
+      improve retargeting quality.\n\t'Spine' has translation animation that will
+      be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -181,7 +184,7 @@ ModelImporter:
       name: RunForwardsJump_Frame05
       takeName: Take 001
       firstFrame: 1
-      lastFrame: 5
+      lastFrame: 40
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -209,7 +212,7 @@ ModelImporter:
       name: RunForwardsJump_Frame05_Mirror
       takeName: Take 001
       firstFrame: 1
-      lastFrame: 5
+      lastFrame: 40
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
