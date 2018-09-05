@@ -7,6 +7,9 @@ namespace StandardAssets.Characters.Effects
 	/// </summary>
 	public abstract class MovementEventPlayer : MonoBehaviour
 	{
+		[SerializeField, Tooltip("Should rotation be set on play")]
+		protected bool setRotation;
+		
 		/// <summary>
 		/// Plays the movement event at a set location
 		/// </summary>
@@ -16,7 +19,10 @@ namespace StandardAssets.Characters.Effects
 			if (movementEvent.firedFrom != null)
 			{
 				transform.position = movementEvent.firedFrom.position;
-				transform.rotation = movementEvent.firedFrom.rotation;
+				if (setRotation)
+				{
+					transform.rotation = movementEvent.firedFrom.rotation;
+				}
 			}
 
 			PlayMovementEvent(movementEvent);

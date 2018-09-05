@@ -26,6 +26,9 @@ namespace StandardAssets.Characters.Physics
 		[SerializeField, Range(1, 10), Tooltip("Gravity scale applied during a jump without jump button held")]
 		protected float minJumpHeightMultiplier = 2f;
 
+		[SerializeField, Tooltip("The speed at which gravity is allowed to change")]
+		protected float gravityChangeSpeed = 10f;
+
 		/// <inheritdoc/>
 		public bool isGrounded { get; private set; }
 		/// <inheritdoc/>
@@ -66,6 +69,9 @@ namespace StandardAssets.Characters.Physics
 		private const float k_TrajectoryPredictionTimeStep = 0.016f;
 		// colliders used in physics checks for landing prediction
 		private readonly Collider[] trajectoryPredictionColliders = new Collider[1];
+
+		// the current value of gravity
+		private float gravity;
 		
 		/// <summary>
 		/// The predicted landing position of the character. Null if a position could not be predicted.
@@ -158,6 +164,8 @@ namespace StandardAssets.Characters.Physics
 			{
 				terminalVelocity = -terminalVelocity;
 			}
+
+			gravity = UnityPhysics.gravity.y;
 		}
 
 		/// <summary>
@@ -170,7 +178,7 @@ namespace StandardAssets.Characters.Physics
 			float currentAirTime = 0;
 			for (int i = 0; i < k_TrajectorySteps; i++)
 			{
-				moveVector.y = Mathf.Clamp(UnityPhysics.gravity.y * fallGravityMultiplier * currentAirTime,
+				moveVector.y = Mathf.Clamp(gravity * fallGravityMultiplier * currentAirTime,
 												terminalVelocity, Mathf.Infinity) ;
 				currentPosition += moveVector * k_TrajectoryPredictionTimeStep;
 				currentAirTime += k_TrajectoryPredictionTimeStep;
@@ -213,7 +221,8 @@ namespace StandardAssets.Characters.Physics
 		private void AerialMovement(float deltaTime)
 		{
 			airTime += deltaTime;
-			currentVerticalVelocity = Mathf.Clamp(initialJumpVelocity + CalculateGravity() * airTime, terminalVelocity, 
+			CalculateGravity(deltaTime);
+			currentVerticalVelocity = Mathf.Clamp(initialJumpVelocity + gravity * airTime, terminalVelocity, 
 				Mathf.Infinity);
 			float previousFallTime = fallTime;
 
@@ -251,15 +260,20 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Calculates the current gravity modified based on current vertical velocity
 		/// </summary>
-		private float CalculateGravity()
+		private void CalculateGravity(float deltaTime)
 		{
+			float newGravity;
 			if (currentVerticalVelocity < 0)
 			{
-				return UnityPhysics.gravity.y * fallGravityMultiplier;
+				newGravity = UnityPhysics.gravity.y * fallGravityMultiplier;
+			}
+			else
+			{
+				newGravity = characterInput.hasJumpInput ? UnityPhysics.gravity.y * jumpGravityMultiplier : 
+					UnityPhysics.gravity.y * minJumpHeightMultiplier * jumpGravityMultiplier;
 			}
 
-			return characterInput.hasJumpInput ? UnityPhysics.gravity.y * jumpGravityMultiplier : 
-				UnityPhysics.gravity.y * minJumpHeightMultiplier * jumpGravityMultiplier;
+			gravity = Mathf.Lerp(gravity, newGravity, deltaTime * gravityChangeSpeed);
 		}
 		
 		/// <returns>True if the character is grounded; false otherwise.</returns>
