@@ -167,7 +167,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				return CurrentRun(forwardSpeed, turningClockwise);
 			}
 			
-			// 180 turns should be based on footedness
+			// 180 turns should be based on the grounded foot
 			targetAngle = Mathf.Abs(targetAngle); 
 			if (!leftFootPlanted) 
 			{ 
