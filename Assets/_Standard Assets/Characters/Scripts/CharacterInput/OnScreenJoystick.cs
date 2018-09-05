@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Experimental.Rendering.UI;
 using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.CharacterInput
@@ -56,10 +57,13 @@ namespace StandardAssets.Characters.CharacterInput
 		public void OnDrag(PointerEventData eventData)
 		{
 			Vector2 dragDirection = eventData.position - joystickPosition;
-			float joystickBaseFootprint = joystickBase.sizeDelta.x * 0.5f;
-			stickAxisRaw = (dragDirection.magnitude > joystickBaseFootprint) 
-				? dragDirection.normalized : dragDirection / joystickBaseFootprint;
-			joystickHat.anchoredPosition = (stickAxisRaw * joystickBaseFootprint) * joystickMovementLimit;
+			float joystickBaseFootprintRadius = joystickBase.sizeDelta.x * 0.5f;
+			float joystickHatRadius = joystickHat.sizeDelta.x * 0.5f;
+			
+			stickAxisRaw = (dragDirection.sqrMagnitude > Mathf.Pow(joystickBaseFootprintRadius-joystickHatRadius,2f)) 
+				? dragDirection.normalized : (dragDirection / joystickBaseFootprintRadius)*2f;	
+			joystickHat.anchoredPosition = 
+				(stickAxisRaw * (joystickBaseFootprintRadius-joystickHatRadius)) * joystickMovementLimit;
 		}
 
 		/// <summary>
@@ -83,20 +87,21 @@ namespace StandardAssets.Characters.CharacterInput
 
 		/// <summary>
 		/// Gets the on screen analog stick vector
-		/// <see cref="stickAxisRaw"/>
 		/// </summary>
 		/// <returns>Normalized vector with applied dead zone</returns>
 		public Vector2 GetStickVector()
 		{
 			Vector2 stickInputVector = stickAxisRaw;
+			float stickInputMagnitude = stickInputVector.magnitude;
 			
-			if (stickInputVector.magnitude < deadZone)
+			if (stickInputMagnitude < deadZone)
 			{
 				stickInputVector = Vector2.zero;
 			}
 			else
 			{
-				stickInputVector = stickInputVector.normalized * ((stickInputVector.magnitude - deadZone));
+				Vector2 stickInputNormalized = stickInputVector / stickInputMagnitude;
+				stickInputVector = stickInputNormalized * ((stickInputMagnitude - deadZone));
 			}
 			return stickInputVector;
 		}
