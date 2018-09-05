@@ -78,7 +78,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField, Tooltip("Curve used to determine the land animation speed")]
 		protected AnimationCurve landSpeedAsAFactorOfSpeed = AnimationCurve.Linear(0,1,1,2);
 
-		[SerializeField, Tooltip("A speed higher than this will trigger a roll on land")]
+		[SerializeField, Tooltip("A forward speed higher than this will trigger a roll on land")]
 		protected float normalizedForwardSpeedToRoll = 0.3f;
 
 		[SerializeField, Tooltip("Time used for the cross fade into the roll animation state")]
@@ -87,19 +87,19 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField, Tooltip("Time used for the cross fade into the land animation state")]
 		protected float landAnimationBlendTime = 0.11f;
 
-		[Header("Footedness")]
+		[Header("Grounded Foot")]
 		[SerializeField, AnimatorParameterName("thirdPersonAnimator", AnimatorControllerParameterType.Bool)]
-		protected string footednessParameter = "OnRightFoot";
+		protected string groundedFootRightParameter = "OnRightFoot";
 		
-		[SerializeField, Tooltip("Should the footedness be inverted?")]
-		protected bool invertFootedness;
+		[SerializeField, Tooltip("Should the right foot start as grounded?")]
+		protected bool startRightFootGrounded;
 
-		[SerializeField, Tooltip("Value used to determine footedness based on animation normalized time")]
-		protected float footednessThreshold = 0.25f, footednessThresholdOffset = 0.25f;
+		[SerializeField, Tooltip("Value used to determine the grounded foot based on animation normalized time")]
+		protected float groundedFootThreshold = 0.25f, groundedFootThresholdOffset = 0.25f;
 
 		[Header("Head Movement"), Tooltip("Should the head look be turned off?")]
 		[SerializeField]
-		protected bool disableHeadTurn;
+		protected bool enableHeadTurn = true;
 
 		[VisibleIf("disableHeadTurn",false)]
 		[SerializeField, Tooltip("Configuration for the head turning/looking")]
@@ -162,11 +162,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 
 		/// <summary>
-		/// Gets the footedness parameter name
+		/// Gets the grounded foot right parameter name
 		/// </summary>
-		public string footednessParameterName
+		public string groundedFootRightParameterName
 		{
-			get { return footednessParameter; }
+			get { return groundedFootRightParameter; }
 		}
 
 		/// <summary>
@@ -186,37 +186,37 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 
 		/// <summary>
-		/// Gets whether the footedness should be inverted
+		/// Gets whether the right foot should start as grounded
 		/// </summary>
-		/// <value>True if the footedness should be inverted; false otherwise</value>
+		/// <value>True if the right foot should start grounded; false if the left foot should.</value>
 		public bool invertFoot
 		{
-			get { return invertFootedness; }
+			get { return startRightFootGrounded; }
 		}
 
 		/// <summary>
-		/// Gets the footedness threshold value used in determining the current footedness
+		/// Gets the threshold value used in determining the current grounded foot.
 		/// </summary>
-		public float footednessThresholdValue
+		public float groundedFootThresholdValue
 		{
-			get { return footednessThreshold; }
+			get { return groundedFootThreshold; }
 		}
 
 		/// <summary>
-		/// Gets the footedness threshold offset value used in determining the current footedness
+		/// Gets the threshold offset value used in determining the current grounded foot.
 		/// </summary>
-		public float footednessThresholdOffsetValue
+		public float groundedFootThresholdOffsetValue
 		{
-			get { return footednessThresholdOffset; }
+			get { return groundedFootThresholdOffset; }
 		}
 
 		/// <summary>
-		/// Gets whether the head turning/look at should be disabled
+		/// Gets whether the head turning/look at should be enabled
 		/// </summary>
-		/// <value>True if the head turning should be disabled; false if it is to be enabled. </value>
-		public bool disableHeadLookAt
+		/// <value>True if the head turning should enabled; false if it is to be disabled. </value>
+		public bool enableHeadLookAt
 		{
-			get { return disableHeadTurn; }
+			get { return enableHeadTurn; }
 		}
 
 		/// <summary>
@@ -284,7 +284,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 		
 		/// <summary>
-		/// Gets the time allowed between physics jumps to alternate footedness.
+		/// Gets the time allowed between physics jumps to alternate the grounded foot.
 		/// </summary>
 		public float skipJumpWindow
 		{

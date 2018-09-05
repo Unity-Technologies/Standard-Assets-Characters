@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using StandardAssets.Characters.Attributes;
+﻿using StandardAssets.Characters.Attributes;
 using UnityEditor;
 using UnityEngine;
 
@@ -12,19 +11,22 @@ namespace Editor
 	[CustomPropertyDrawer(typeof(DisableEditAtRuntimeAttribute))]
 	public class DisableEditAtRuntimePropertyDrawer : PropertyDrawer
 	{
-
 		private DisableEditAtRuntimeAttribute DisableEditAtRuntimeAttribute
 		{
 			get { return (DisableEditAtRuntimeAttribute) attribute; }
 		}
 
-		///<inheritdoc />
+		/// <summary>
+		/// Gets the height of the relevant property in order to correctly format the inspector when this property is drawn 
+		/// </summary>
 		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
 		{
 			return EditorGUI.GetPropertyHeight(property, label);
 		}
 
-		///<inheritdoc />
+		/// <summary>
+		/// Will draw the relevant property on the inspector in read-only mode when the inspector is in play-mode and the OnGui method is triggered  
+		/// </summary>
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 		{
 			var noEntrySign = Resources.Load<Texture2D>("Texture set/Texture/Editor/NoEntry");

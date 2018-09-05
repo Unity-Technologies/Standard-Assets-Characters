@@ -51,7 +51,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private int hashVerticalSpeed;
 		private int hashGrounded;
 		private int hashHasInput;
-		private int hashFootedness;
+		private int hashGroundedFootRight;
 		private int hashJumpedForwardSpeed;
 		private int hashJumpedLateralSpeed;
 		private int hashFall;
@@ -242,7 +242,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			hashVerticalSpeed = Animator.StringToHash(configuration.verticalSpeedParameterName);
 			hashGrounded = Animator.StringToHash(configuration.groundedParameterName);
 			hashHasInput = Animator.StringToHash(configuration.hasInputParameterName);
-			hashFootedness = Animator.StringToHash(configuration.footednessParameterName);
+			hashGroundedFootRight = Animator.StringToHash(configuration.groundedFootRightParameterName);
 			hashJumpedForwardSpeed = Animator.StringToHash(configuration.jumpedForwardSpeedParameterName);
 			hashJumpedLateralSpeed = Animator.StringToHash(configuration.jumpedLateralSpeedParameterName);
 			hashFall = Animator.StringToHash(configuration.fallParameterName);
@@ -286,7 +286,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		public void HeadTurn()
 		{
-			if (configuration.disableHeadLookAt)
+			if (!configuration.enableHeadLookAt)
 			{
 				return;
 			}
@@ -376,7 +376,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				// if coming from a physics jump handle animation transition
 				case AnimationState.PhysicsJump:
-					bool rightFoot = animator.GetBool(hashFootedness);
+					bool rightFoot = animator.GetBool(hashGroundedFootRight);
 					float duration = configuration.jumpEndTransitionByForwardSpeed.Evaluate(
 						Mathf.Abs(animator.GetFloat(configuration.jumpedForwardSpeedParameterName)));
 					animator.CrossFadeInFixedTime(configuration.locomotionStateName, duration, 0, rightFoot ? 
@@ -428,7 +428,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			SetJumpForward(jumpForward);
 
-			bool rightFoot = animator.GetBool(hashFootedness);
+			bool rightFoot = animator.GetBool(hashGroundedFootRight);
 
 			float duration = configuration.jumpTransitionDurationFactorOfSpeed.Evaluate(jumpForward);
 			// is it a root motion or physics jump
@@ -458,14 +458,14 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private void SetJumpForward(float jumpForward)
 		{
-			jumpForward = Mathf.Clamp01(jumpForward.Remap01(configuration.standingJumpNormalizedSpeedThreshold,
-															configuration.runningJumpNormalizedSpeedThreshold));
+			jumpForward = jumpForward.Remap01(configuration.standingJumpNormalizedSpeedThreshold,
+															configuration.runningJumpNormalizedSpeedThreshold);
 			animator.SetFloat(hashJumpedForwardSpeed, jumpForward);
 			
 		}
 
 		/// <summary>
-		/// Uses the normalized progress of the animation to determine footedness.
+		/// Uses the normalized progress of the animation to determine the grounded foot.
 		/// </summary>
 		private void UpdateFoot()
 		{
@@ -473,32 +473,32 @@ namespace StandardAssets.Characters.ThirdPerson
 			var animationNormalizedProgress = MathUtilities.GetFraction(stateInfo.normalizedTime);
 			//TODO: remove zero index
 			if (MathUtilities.Wrap1(animationNormalizedProgress +
-									configuration.footednessThresholdOffsetValue) >
-				MathUtilities.Wrap1(configuration.footednessThresholdValue +
-									configuration.footednessThresholdOffsetValue))
+									configuration.groundedFootThresholdOffsetValue) >
+				MathUtilities.Wrap1(configuration.groundedFootThresholdValue +
+									configuration.groundedFootThresholdOffsetValue))
 			{
-				SetFootednessBool(!configuration.invertFoot);
+				SetGroundedFootRight(!configuration.invertFoot);
 				return;
 			}
 
-			SetFootednessBool(configuration.invertFoot);
+			SetGroundedFootRight(configuration.invertFoot);
 		}
 		
 		/// <summary>
-		/// Sets the footedness of the animator. This is used to play the appropriate footed animations.
+		/// Sets the grounded foot of the animator. This is used to play the appropriate footed animations.
 		/// </summary>
-		private void SetFootednessBool(bool value)
+		private void SetGroundedFootRight(bool value)
 		{
 			if (Mathf.Abs(motor.normalizedLateralSpeed) < Mathf.Epsilon)
 			{
-				animator.SetBool(hashFootedness, value);
+				animator.SetBool(hashGroundedFootRight, value);
 				isRightFootPlanted = value;
 				return;
 			}
 
 			// while strafing a foot is preferred depending on lateral direction
 			bool lateralSpeedRight = motor.normalizedLateralSpeed < 0;
-			animator.SetBool(hashFootedness, lateralSpeedRight);
+			animator.SetBool(hashGroundedFootRight, lateralSpeedRight);
 			isRightFootPlanted = lateralSpeedRight;
 		}
 

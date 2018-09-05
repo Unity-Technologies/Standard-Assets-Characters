@@ -31,8 +31,10 @@ namespace StandardAssets.Characters.GizmosHelpers
 		}
 
 		/// <summary>
-		/// Runs the OnValidate Monobehaviour method
+		/// Updates the arrow color on change in the inspector
+		/// <remarks>
 		/// Public access modifier to allow OnValidate from <see cref="GizmoArrowHelper"/>
+		/// </remarks>
 		/// </summary>
 		public void OnValidate()
 		{
