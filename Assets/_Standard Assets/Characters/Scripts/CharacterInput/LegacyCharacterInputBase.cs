@@ -11,6 +11,9 @@ namespace StandardAssets.Characters.CharacterInput
 	/// <seealso cref="LegacyOnScreenCharacterInput"/>
 	public abstract class LegacyCharacterInputBase : MonoBehaviour, ICharacterInput
 	{
+		/// <inheritdoc />
+		public event Action jumpPressed;
+		
 		[Header("Cinemachine Axes")]
 		[SerializeField, Tooltip("The name of the horizontal looking axis setup on the Cinemachine camera")]
 		protected string cinemachineLookXAxisName = "Horizontal";
@@ -23,9 +26,6 @@ namespace StandardAssets.Characters.CharacterInput
 		
 		//The backing field of the lookInput property
 		protected Vector2 lookInputVector;
-		
-		//The backing field for the jumpPressed property
-		protected Action jumped;
 
 		/// <inheritdoc />
 		public Vector2 lookInput
@@ -47,13 +47,6 @@ namespace StandardAssets.Characters.CharacterInput
 
 		/// <inheritdoc />
 		public bool hasJumpInput { get; protected set; }
-
-		/// <inheritdoc />
-		public Action jumpPressed
-		{
-			get { return jumped; }
-			set { jumped = value; }
-		}
 		
 		/// <summary>
 		/// Subscribe to the Cinemachine GetInputAxis delegate on enable
@@ -92,6 +85,17 @@ namespace StandardAssets.Characters.CharacterInput
 		{
 			UpdateLookVector();
 			UpdateMoveVector();
+		}
+
+		/// <summary>
+		/// Helper method for firing jump
+		/// </summary>
+		protected virtual void OnJumpPressed()
+		{
+			if (jumpPressed != null)
+			{
+				jumpPressed();
+			}
 		}
 
 		/// <summary>

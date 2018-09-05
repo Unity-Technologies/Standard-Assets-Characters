@@ -11,6 +11,9 @@ namespace StandardAssets.Characters.CharacterInput
 	/// <seealso cref="LegacyOnScreenCharacterInput"/>
 	public class LegacyCrossPlatformCharacterInput : MonoBehaviour, ICharacterInput
 	{
+		/// <inheritdoc />
+		public event Action jumpPressed;
+		
 		[SerializeField, Tooltip("Input to use for standalone platforms (OSX/Windows/Editor)")]
 		protected LegacyCharacterInput standaloneInput;
 
@@ -63,19 +66,6 @@ namespace StandardAssets.Characters.CharacterInput
 			get { return (currentInput != null) ? currentInput.hasJumpInput : false; }
 		}
 
-		/// <inheritdoc />
-		public Action jumpPressed
-		{
-			get { return (currentInput != null) ? currentInput.jumpPressed : null; }
-			set 
-			{ 
-				if(currentInput != null)
-				{
-					currentInput.jumpPressed = value; 
-				}
-			}
-		}
-
 		/// <summary>
 		/// Sets the current control based on the Platform
 		/// </summary>
@@ -92,6 +82,19 @@ namespace StandardAssets.Characters.CharacterInput
 			#else
 			SetStandaloneControls();
 			#endif
+
+			if (currentInput != null)
+			{
+				currentInput.jumpPressed += OnJumpPressed;
+			}
+		}
+
+		private void OnJumpPressed()
+		{
+			if (jumpPressed != null)
+			{
+				jumpPressed();
+			}
 		}
 
 		/// <summary>

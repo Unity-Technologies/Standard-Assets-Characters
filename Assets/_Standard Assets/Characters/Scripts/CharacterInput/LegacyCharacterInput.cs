@@ -84,10 +84,7 @@ namespace StandardAssets.Characters.CharacterInput
 			if (Input.GetButtonDown(resolvedJumpControl) ||
 			    Input.GetButtonDown("Jump"))
 			{
-				if (jumpPressed != null)
-				{
-					jumpPressed();
-				}
+				OnJumpPressed();
 			}
 
 			hasJumpInput = (Input.GetButton(resolvedJumpControl) || Input.GetButton("Jump"));

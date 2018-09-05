@@ -80,10 +80,7 @@ namespace StandardAssets.Characters.CharacterInput
 		/// </summary>
 		public void OnScreenTouchJump()
 		{
-			if (jumpPressed != null)
-			{
-				jumpPressed();
-			}
+			OnJumpPressed();
 		}
 	}
 }

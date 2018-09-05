@@ -11,6 +11,9 @@ namespace StandardAssets.Characters.CharacterInput
 	[RequireComponent(typeof(NavMeshAgent))]
 	public class NavMeshAgentInput : MonoBehaviour, ICharacterInput
 	{
+		/// <inheritdoc />
+		public event Action jumpPressed;
+		
 		/// <summary>
 		/// Make input relative to the camera.
 		/// </summary>
@@ -69,7 +72,6 @@ namespace StandardAssets.Characters.CharacterInput
 			get { return moveInput != Vector2.zero; }
 		}
 		public bool hasJumpInput { get; private set; }
-		public Action jumpPressed { get; set; }
 
 		/// <summary>
 		/// Set the camera to use, for making input relative to the camera. 
