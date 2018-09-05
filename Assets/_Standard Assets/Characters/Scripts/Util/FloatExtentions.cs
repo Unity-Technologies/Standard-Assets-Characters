@@ -57,7 +57,7 @@ namespace Util
 		/// <param name="currentMax">The current range's upper bound</param>
 		/// <param name="newMin">The new range's lower bound</param>
 		/// <param name="newMax">The new range's upper bound</param>
-		/// <returns>The remapped value</returns>
+		/// <returns>The remapped value clamped within <paramref name="newMin"/> and <paramref name="newMax"/></returns>
 		public static float Remap (this float value, float currentMin, float currentMax, float newMin, float newMax) 
 		{
 			return Mathf.Clamp((value - currentMin) / (currentMax - currentMin) * (newMax - newMin) + newMin, 
@@ -70,7 +70,7 @@ namespace Util
 		/// <param name="value"></param>
 		/// <param name="currentMin">The current range's lower bound</param>
 		/// <param name="currentMax">The current range's upper bound</param>
-		/// <returns>The remapped value</returns>
+		/// <returns>The remapped value clamped within 0 and 1</returns>
 		public static float Remap01 (this float value, float currentMin, float currentMax) 
 		{
 			return value.Remap(currentMin, currentMax, 0.0f, 1.0f);
