@@ -1,6 +1,7 @@
 ﻿using StandardAssets.Characters.ThirdPerson;
 using UnityEngine;
 using System;
+using UnityEditor.ShaderGraph;
 using Random = System.Random;
 
 namespace StandardAssets.Characters.Effects
@@ -11,19 +12,19 @@ namespace StandardAssets.Characters.Effects
 			/// <summary>
 			/// The audio source to be played
 			/// </summary>
-			[SerializeField]
+			[SerializeField, Tooltip("When using a single audio source")]
 			protected AudioSource source;
 			
 			/// <summary>
 			/// Audio clips to use for cycling through clips, i.e as foot steps
 			/// </summary>
-			[SerializeField]
+			[SerializeField, Tooltip("For using multiple audio sources, i.e footstep sounds")]
 			protected AudioSource[] sources;
 			
 			/// <summary>
 			/// Use a single sound, or cycle clips
 			/// </summary>
-			[SerializeField]
+			[SerializeField, Tooltip("Cycle through the sounds")]
 			protected bool cycleThroughSources = false;
 
 			private int currentSoundIndex;
@@ -34,9 +35,9 @@ namespace StandardAssets.Characters.Effects
 			}
 	
 			/// <summary>
-			/// Play movement events and scale volume
+			/// Play movement events
 			/// </summary>
-			/// <param name="movementEvent"></param>
+			/// <param name="movementEvent">Movement event data</param>
 			protected override void PlayMovementEvent(MovementEvent movementEvent)
 			{
 				if (cycleThroughSources && sources!=null)
@@ -50,7 +51,11 @@ namespace StandardAssets.Characters.Effects
 					}
 					return;
 				}
-				source.Play();
+
+				if (source != null)
+				{
+					source.Play();
+				}
 			}
-	}
+		}
 }
