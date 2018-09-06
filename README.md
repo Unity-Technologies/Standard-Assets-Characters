@@ -20,6 +20,10 @@ For more detailed documentation, please see the WIP Google Docs:
 * First Person:
 
 	https://docs.google.com/document/d/14C-a3P5o3tAXWd_Dzl8Zc-jh3uQUTaKcfWxPvqXv9w0/edit?usp=sharing
+
+* Movement Effects:
+
+	https://docs.google.com/document/d/17QTANYLrB4h2iZIzeaz3bop_Bzghp1Z65NssqIxvH5Q/edit?usp=sharing	
 #
 	***ALEC TO LINK MORE TO***
 
