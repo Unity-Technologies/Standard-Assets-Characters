@@ -20,9 +20,10 @@ namespace StandardAssets.Characters.CharacterInput
 		[Header("Children"), SerializeField, Tooltip("Child controls to enable/disable when this component is enabled/disabled.")]
 		protected GameObject childControls;
 		
-		[Header("Input Modifier")]
-		[SerializeField]
-		protected LegacyCharacterInputModifier inputModifier;
+		/// <summary>
+		/// Optional input modifier, which modifies the input at the end of the UpdateMoveVector method.
+		/// </summary>
+		protected ILegacyCharacterInputModifier inputModifier;
 		
 		/// <inheritdoc />
 		/// <summary>
@@ -44,15 +45,16 @@ namespace StandardAssets.Characters.CharacterInput
 			Vector2 moveStickVector = moveInputJoystick.GetStickVector();		
 			moveInputVector.Set(moveStickVector.x, moveStickVector.y);
 			
-			if (inputModifier != null &&
-			    inputModifier.enabled)
+			if (inputModifier != null)
 			{
-				inputModifier.UpdateMoveInput(ref moveInputVector);
+				inputModifier.ModifyMoveInput(ref moveInputVector);
 			}
 		}
 
 		private void Awake()
 		{
+			inputModifier = GetComponent<ILegacyCharacterInputModifier>();
+			
 			// Call this here, because OnEnable/OnDisable is not fired when the game object starts disabled and this component is disabled.
 			EnableChildControls(enabled);
 		}

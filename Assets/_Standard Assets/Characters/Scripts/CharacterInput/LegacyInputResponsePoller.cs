@@ -74,7 +74,7 @@ namespace StandardAssets.Characters.CharacterInput
 				case DefaultInputResponseBehaviour.Toggle:
 					Toggle();
 					break;
-				case DefaultInputResponseBehaviour.Button:
+				case DefaultInputResponseBehaviour.ButtonWithManualEnd:
 					Press();
 					break;
 				default:

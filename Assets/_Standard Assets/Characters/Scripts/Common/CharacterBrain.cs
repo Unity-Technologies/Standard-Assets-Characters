@@ -1,4 +1,4 @@
-﻿using StandardAssets.Characters.CharacterInput;
+using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Effects;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
@@ -10,7 +10,7 @@ namespace StandardAssets.Characters.Common
 	/// </summary>
 	[RequireComponent(typeof(ICharacterPhysics))]
 	[RequireComponent(typeof(ICharacterInput))]
-	public abstract class CharacterBrain : MonoBehaviour
+	public abstract class CharacterBrain : MonoBehaviour, INormalizedForwardSpeedContainer
 	{
 		/// <summary>
 		/// The Physic implementation used to do the movement
@@ -41,7 +41,9 @@ namespace StandardAssets.Characters.Common
 		{
 			get { return characterBearing; }
 		} 
-			
+
+		public abstract float normalizedForwardSpeed { get;}
+		
 		public abstract MovementEventHandler movementEventHandler { get; }
 
 		public abstract float targetYRotation { get; set; }

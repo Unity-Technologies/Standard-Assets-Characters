@@ -42,6 +42,17 @@ namespace StandardAssets.Characters.CharacterInput
 		}
 
 		/// <summary>
+		/// Fires <see cref="InputResponse.OnInputEnded"/> if <see cref="behaviour"/> is <see cref="DefaultInputResponseBehaviour.ButtonWithManualEnd"/>
+		/// </summary>
+		public override void ManualInputEnded()
+		{
+			if (behaviour == DefaultInputResponseBehaviour.ButtonWithManualEnd)
+			{
+				OnInputEnded();
+			}
+		}
+
+		/// <summary>
 		/// Exposes the input start for the poller
 		/// </summary>
 		public void BroadcastStart()
@@ -65,7 +76,7 @@ namespace StandardAssets.Characters.CharacterInput
 	{
 		Toggle,
 		Hold,
-		Button
+		ButtonWithManualEnd
 	}
 	
 	/// <summary>

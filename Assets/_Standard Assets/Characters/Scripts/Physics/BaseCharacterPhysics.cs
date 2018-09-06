@@ -1,14 +1,17 @@
 using System;
 using StandardAssets.Characters.CharacterInput;
+using StandardAssets.Characters.Common;
 using UnityEngine;
 using UnityPhysics = UnityEngine.Physics;
 
 namespace StandardAssets.Characters.Physics
 {
 	/// <summary>
-	/// Abstract implementation of <see cref="ICharacterPhysics"/> that requires an <see cref="ICharacterInput"/>.
+	/// Abstract implementation of <see cref="ICharacterPhysics"/> that requires an <see cref="ICharacterInput"/> and
+	/// a <see cref="INormalizedForwardSpeedContainer"/>.
 	/// </summary>
 	[RequireComponent(typeof(ICharacterInput))]
+	[RequireComponent(typeof(INormalizedForwardSpeedContainer))]
 	public abstract class BaseCharacterPhysics : MonoBehaviour, ICharacterPhysics
 	{
 		/// <summary>
@@ -18,31 +21,38 @@ namespace StandardAssets.Characters.Physics
 		protected float terminalVelocity = 10f;
 
 		[SerializeField, Tooltip("Gravity scale applied during a jump")]
-		protected float jumpGravityMultiplier = 1f;
-		
-		[SerializeField, Range(1, 10), Tooltip("Gravity scale applied during a fall")]
-		protected float fallGravityMultiplier = 2.5f;
+		protected AnimationCurve jumpGravityMultiplierAsAFactorOfForwardSpeed =
+			AnimationCurve.Constant(1.0f, 0.0f, 1.0f);
 
-		[SerializeField, Range(1, 10), Tooltip("Gravity scale applied during a jump without jump button held")]
-		protected float minJumpHeightMultiplier = 2f;
+		[SerializeField, Tooltip("Gravity scale applied during a fall")]
+		protected AnimationCurve fallGravityMultiplierAsAFactorOfForwardSpeed =
+			AnimationCurve.Constant(1.0f, 0.0f, 1.0f);
+
+		[SerializeField, Tooltip("Gravity scale applied during a jump without jump button held")]
+		protected AnimationCurve minJumpHeightMultiplierAsAFactorOfForwardSpeed =
+			AnimationCurve.Constant(1.0f, 0.0f, 1.0f);
 
 		[SerializeField, Tooltip("The speed at which gravity is allowed to change")]
 		protected float gravityChangeSpeed = 10f;
 
 		/// <inheritdoc/>
 		public bool isGrounded { get; private set; }
+
 		/// <inheritdoc/>
 		public abstract bool startedSlide { get; }
-		
+
 		/// <inheritdoc/>
 		public event Action landed;
+
 		/// <inheritdoc/>
 		public event Action jumpVelocitySet;
+
 		/// <inheritdoc/>
 		public event Action<float> startedFalling;
-		
+
 		/// <inheritdoc/>
 		public float airTime { get; private set; }
+
 		/// <inheritdoc/>
 		public float fallTime { get; private set; }
 
@@ -51,28 +61,33 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		/// <value>The radius used for predicting the landing position.</value>
 		protected abstract float radius { get; }
-		
+
 		/// <summary>
 		/// Gets the character's world foot position.
 		/// </summary>
 		/// <value>A world position at the bottom of the character</value>
 		protected abstract Vector3 footWorldPosition { get; }
-		
+
 		/// <summary>
 		/// Gets the collision layer mask used for physics grounding,
 		/// </summary>
 		protected abstract LayerMask collisionLayerMask { get; }
-		
+
 		// the number of time sets used for trajectory prediction.
 		private const int k_TrajectorySteps = 60;
+
 		// the time step used between physics trajectory steps.
 		private const float k_TrajectoryPredictionTimeStep = 0.016f;
+
 		// colliders used in physics checks for landing prediction
 		private readonly Collider[] trajectoryPredictionColliders = new Collider[1];
 
 		// the current value of gravity
 		private float gravity;
-		
+
+		// the source of the normalized forward speed.
+		private INormalizedForwardSpeedContainer normalizedForwardSpeedContainer;
+
 		/// <summary>
 		/// The predicted landing position of the character. Null if a position could not be predicted.
 		/// </summary>
@@ -91,11 +106,13 @@ namespace StandardAssets.Characters.Physics
 				{
 					return 0f;
 				}
-				
-				return Mathf.Clamp(currentVerticalVelocity / (initialJumpVelocity * fallGravityMultiplier), -1f, 1f);
+
+				return Mathf.Clamp(currentVerticalVelocity / (initialJumpVelocity *
+												fallGravityMultiplierAsAFactorOfForwardSpeed.Evaluate(
+												normalizedForwardSpeedContainer.normalizedForwardSpeed)), -1f, 1f);
 			}
 		}
-		
+
 		/// <summary>
 		/// The initial jump velocity.
 		/// </summary>
@@ -114,7 +131,7 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		/// <value>Velocity based on the moveVector used by <see cref="Move"/>.</value>
 		private Vector3 cachedGroundVelocity;
-		
+
 		/// <summary>
 		/// The current vertical vector.
 		/// </summary>
@@ -131,7 +148,7 @@ namespace StandardAssets.Characters.Physics
 			MoveCharacter(moveVector + verticalVector);
 			cachedGroundVelocity = moveVector / deltaTime;
 		}
-		
+
 		/// <summary>
 		/// Calculates the current predicted fall distance based on the predicted landing position
 		/// </summary>
@@ -139,8 +156,9 @@ namespace StandardAssets.Characters.Physics
 		public float GetPredictedFallDistance()
 		{
 			UpdatePredictedLandingPosition();
-			return predictedLandingPosition == null ? float.MaxValue : 
-				footWorldPosition.y - ((Vector3)predictedLandingPosition).y;
+			return predictedLandingPosition == null
+				? float.MaxValue
+				: footWorldPosition.y - ((Vector3) predictedLandingPosition).y;
 		}
 
 		/// <summary>
@@ -155,10 +173,11 @@ namespace StandardAssets.Characters.Physics
 				jumpVelocitySet();
 			}
 		}
-		
+
 		protected virtual void Awake()
 		{
 			characterInput = GetComponent<ICharacterInput>();
+			normalizedForwardSpeedContainer = GetComponent<INormalizedForwardSpeedContainer>();
 
 			if (terminalVelocity > 0)
 			{
@@ -178,8 +197,9 @@ namespace StandardAssets.Characters.Physics
 			float currentAirTime = 0;
 			for (int i = 0; i < k_TrajectorySteps; i++)
 			{
-				moveVector.y = Mathf.Clamp(gravity * fallGravityMultiplier * currentAirTime,
-												terminalVelocity, Mathf.Infinity) ;
+				moveVector.y = Mathf.Clamp(gravity * fallGravityMultiplierAsAFactorOfForwardSpeed.Evaluate(
+					                           normalizedForwardSpeedContainer.normalizedForwardSpeed) * currentAirTime,
+										   terminalVelocity, Mathf.Infinity);
 				currentPosition += moveVector * k_TrajectoryPredictionTimeStep;
 				currentAirTime += k_TrajectoryPredictionTimeStep;
 #if UNITY_EDITOR
@@ -210,11 +230,11 @@ namespace StandardAssets.Characters.Physics
 		{
 			// move sphere but to match bottom of character's capsule collider
 			int colliderCount = UnityPhysics.OverlapSphereNonAlloc(position + new Vector3(0, radius, 0),
-																		  radius, trajectoryPredictionColliders,
-																		  collisionLayerMask);
+																   radius, trajectoryPredictionColliders,
+																   collisionLayerMask);
 			return colliderCount > 0;
 		}
-		
+
 		/// <summary>
 		/// Handles Jumping and Falling
 		/// </summary>
@@ -222,8 +242,8 @@ namespace StandardAssets.Characters.Physics
 		{
 			airTime += deltaTime;
 			CalculateGravity(deltaTime);
-			currentVerticalVelocity = Mathf.Clamp(initialJumpVelocity + gravity * airTime, terminalVelocity, 
-				Mathf.Infinity);
+			currentVerticalVelocity = Mathf.Clamp(initialJumpVelocity + gravity * airTime, terminalVelocity,
+												  Mathf.Infinity);
 			float previousFallTime = fallTime;
 
 			if (currentVerticalVelocity < 0)
@@ -233,19 +253,19 @@ namespace StandardAssets.Characters.Physics
 				{
 					initialJumpVelocity = 0f;
 					verticalVector = Vector3.zero;
-					
+
 					//Play the moment that the character lands and only at that moment
 					if (Math.Abs(airTime - deltaTime) > Mathf.Epsilon && landed != null)
 					{
 						landed();
 					}
-					
+
 					fallTime = 0f;
 					airTime = 0f;
 					return;
 				}
 			}
-			
+
 			if (Mathf.Approximately(previousFallTime, 0.0f) && fallTime > Mathf.Epsilon)
 			{
 				if (startedFalling != null)
@@ -253,7 +273,7 @@ namespace StandardAssets.Characters.Physics
 					startedFalling(GetPredictedFallDistance());
 				}
 			}
-			
+
 			verticalVector = new Vector3(0, currentVerticalVelocity * deltaTime, 0);
 		}
 
@@ -265,17 +285,23 @@ namespace StandardAssets.Characters.Physics
 			float newGravity;
 			if (currentVerticalVelocity < 0)
 			{
-				newGravity = UnityPhysics.gravity.y * fallGravityMultiplier;
+				newGravity = UnityPhysics.gravity.y * fallGravityMultiplierAsAFactorOfForwardSpeed.Evaluate(
+					             normalizedForwardSpeedContainer.normalizedForwardSpeed);
 			}
 			else
 			{
-				newGravity = characterInput.hasJumpInput ? UnityPhysics.gravity.y * jumpGravityMultiplier : 
-					UnityPhysics.gravity.y * minJumpHeightMultiplier * jumpGravityMultiplier;
+				newGravity = characterInput.hasJumpInput
+					? UnityPhysics.gravity.y * jumpGravityMultiplierAsAFactorOfForwardSpeed.Evaluate(
+						  normalizedForwardSpeedContainer.normalizedForwardSpeed)
+					: UnityPhysics.gravity.y * minJumpHeightMultiplierAsAFactorOfForwardSpeed.Evaluate(
+						  normalizedForwardSpeedContainer.normalizedForwardSpeed) *
+					  jumpGravityMultiplierAsAFactorOfForwardSpeed.Evaluate(
+						  normalizedForwardSpeedContainer.normalizedForwardSpeed);
 			}
 
 			gravity = Mathf.Lerp(gravity, newGravity, deltaTime * gravityChangeSpeed);
 		}
-		
+
 		/// <returns>True if the character is grounded; false otherwise.</returns>
 		protected abstract bool CheckGrounded();
 
@@ -284,18 +310,19 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		/// <param name="movement">The value to move the character by in world units.</param>
 		protected abstract void MoveCharacter(Vector3 movement);
-		
+
 #if UNITY_EDITOR
 		protected virtual void OnDrawGizmosSelected()
 		{
 			for (int index = 0; index < jumpStepCount - 1; index++)
 			{
-				Gizmos.DrawLine(jumpSteps[index], jumpSteps[index+1]);
+				Gizmos.DrawLine(jumpSteps[index], jumpSteps[index + 1]);
 			}
+
 			Gizmos.color = Color.green;
 			if (predictedLandingPosition != null)
 			{
-				Gizmos.DrawSphere((Vector3)predictedLandingPosition, 0.05f);
+				Gizmos.DrawSphere((Vector3) predictedLandingPosition, 0.05f);
 			}
 		}
 #endif
