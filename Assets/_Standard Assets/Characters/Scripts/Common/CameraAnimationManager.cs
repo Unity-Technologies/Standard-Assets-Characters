@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using StandardAssets.Characters.CharacterInput;
+using UnityEngine;
 
 namespace StandardAssets.Characters.Common
 {
@@ -23,6 +24,17 @@ namespace StandardAssets.Characters.Common
 		private void Awake()
 		{
 			LazyLoadAnimator();
+		}
+
+		/// <summary>
+		/// Update cameras based on the input options (e.g. invert Y).
+		/// </summary>
+		protected virtual void Start()
+		{
+			if (InputOptions.Instance != null)
+			{
+				InputOptions.Instance.UpdateCinemachineCameras(gameObject);
+			}
 		}
 
 		/// <summary>
