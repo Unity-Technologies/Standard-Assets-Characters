@@ -75,7 +75,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			if (brain != null)
 			{
-				brain.CurrentMotor.landed += OnLanded;
+				brain.currentMotor.landed += OnLanded;
 			}
 			
 			isForwardUnlocked = startingCameraMode == ThirdPersonCameraType.Exploration;

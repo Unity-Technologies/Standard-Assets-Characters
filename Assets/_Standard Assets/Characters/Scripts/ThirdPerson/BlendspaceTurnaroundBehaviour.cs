@@ -222,7 +222,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			startRotation = transform.eulerAngles;
 
-			RootMotionThirdPersonMotor motor = thirdPersonBrain.CurrentMotor as RootMotionThirdPersonMotor;
+			RootMotionThirdPersonMotor motor = thirdPersonBrain.currentMotor as RootMotionThirdPersonMotor;
 			if (motor != null)
 			{
 				Vector3 rotatedVector = Quaternion.AngleAxis(angle, Vector3.up) * transform.forward;

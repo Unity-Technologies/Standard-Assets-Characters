@@ -41,13 +41,13 @@ namespace StandardAssets.Characters.Effects
 
 		private void ScaleVolumeToSpeed()
 		{	
-			if (thirdPersonBrain.CurrentMotor.normalizedLateralSpeed == 0)
+			if (thirdPersonBrain.currentMotor.normalizedLateralSpeed == 0)
 			{
-				scaledVolume = volume * thirdPersonBrain.CurrentMotor.normalizedForwardSpeed;
+				scaledVolume = volume * thirdPersonBrain.currentMotor.normalizedForwardSpeed;
 			}
 			else
 			{
-				scaledVolume = volume * thirdPersonBrain.CurrentMotor.normalizedLateralSpeed;
+				scaledVolume = volume * thirdPersonBrain.currentMotor.normalizedLateralSpeed;
 			}
 		
 			if (scaledVolume < 0)

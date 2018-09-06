@@ -71,7 +71,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// A check to see if input was previous being applied
 		/// </summary>
 		private bool previouslyHasInput;
-		
+
 		/// <summary>
 		/// Gets the referenced <see cref="CameraAnimationManager"/>
 		/// </summary>
@@ -86,6 +86,17 @@ namespace StandardAssets.Characters.FirstPerson
 		public FirstPersonMovementModification[] exposedMovementModifiers
 		{
 			get { return movementModifiers; }
+		}
+
+		/// <inheritdoc/>
+		public override float normalizedForwardSpeed
+		{
+			get
+			{
+				return currentSpeed / (currentMovementProperties == null
+						   ? startingMovementProperties.maximumSpeed
+						   : currentMovementProperties.maximumSpeed);
+			}
 		}
 
 		/// <summary>
@@ -166,15 +177,15 @@ namespace StandardAssets.Characters.FirstPerson
 		private void InvertCamerasY()
 		{
 			if (!cameraInvertY ||
-			    cameraAnimations == null)
+				cameraAnimations == null)
 			{
 				return;
 			}
 
 			CinemachineStateDrivenCamera stateDrivenCamera = cameraAnimationManager.GetComponent<CinemachineStateDrivenCamera>();
 			if (stateDrivenCamera == null ||
-			    stateDrivenCamera.ChildCameras == null ||
-			    stateDrivenCamera.ChildCameras.Length <= 0)
+				stateDrivenCamera.ChildCameras == null ||
+				stateDrivenCamera.ChildCameras.Length <= 0)
 			{
 				return;
 			}
