@@ -14,18 +14,6 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		[SerializeField]
 		protected string[] footIds = new string[]{"leftfoot", "rightfoot"};
-		
-		/// <summary>
-		/// Id of Jumping event
-		/// </summary>
-		[SerializeField]
-		protected string jumpId = "jump";
-
-		/// <summary>
-		/// Id of Landing event
-		/// </summary>
-		[SerializeField]
-		protected string landingId = "landing";
 
 		/// <summary>
 		/// The current index of the 

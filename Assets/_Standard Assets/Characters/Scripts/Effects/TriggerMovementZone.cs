@@ -7,16 +7,13 @@ namespace StandardAssets.Characters.Effects
 	[RequireComponent(typeof(Collider))]
 	public class TriggerMovementZone : MovementZone
 	{
-
-		[SerializeField]
-		protected CharacterBrain brain;
 		/// <summary>
 		/// Change the movement event library on trigger enter
 		/// </summary>
 		/// <param name="other"></param>
 		void OnTriggerEnter(Collider other)
 		{
-			//CharacterBrain brain = other.GetComponent<CharacterBrain>();
+			CharacterBrain brain = other.GetComponent<CharacterBrain>();
 			if (brain != null)
 			{
 				Trigger(brain.movementEventHandler);
@@ -29,6 +26,7 @@ namespace StandardAssets.Characters.Effects
 		/// <param name="other"></param>
 		private void OnTriggerExit(Collider other)
 		{
+			CharacterBrain brain = other.GetComponent<CharacterBrain>();
 			if (brain != null)
 			{
 				ExitTrigger(brain.movementEventHandler);
