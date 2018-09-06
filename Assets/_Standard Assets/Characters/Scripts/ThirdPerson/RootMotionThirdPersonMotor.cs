@@ -339,7 +339,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			if (configuration.autoToggleSprintOnNoInput && sprint && !characterInput.hasMovementInput)
 			{
-				sprint = false;
+				sprintInput.ManualInputEnded();
 			}
 			
 			HandleMovement();
