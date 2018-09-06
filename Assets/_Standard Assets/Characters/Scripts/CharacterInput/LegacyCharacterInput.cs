@@ -28,8 +28,9 @@ namespace StandardAssets.Characters.CharacterInput
 		[SerializeField, Tooltip("Name of the Input Manager axis for jumping")]
 		protected string keyboardJumpName = "Jump";
 		
-		[Header("Input Modifier")]
-		[SerializeField]
+		/// <summary>
+		/// Optional input modifier, which modifies the input at the end of the UpdateMoveVector method.
+		/// </summary>
 		protected ILegacyCharacterInputModifier inputModifier;
 
 		private void Awake()

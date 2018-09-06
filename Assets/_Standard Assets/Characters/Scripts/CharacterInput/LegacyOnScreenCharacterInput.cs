@@ -20,8 +20,9 @@ namespace StandardAssets.Characters.CharacterInput
 		[Header("Children"), SerializeField, Tooltip("Child controls to enable/disable when this component is enabled/disabled.")]
 		protected GameObject childControls;
 		
-		[Header("Input Modifier")]
-		[SerializeField]
+		/// <summary>
+		/// Optional input modifier, which modifies the input at the end of the UpdateMoveVector method.
+		/// </summary>
 		protected ILegacyCharacterInputModifier inputModifier;
 		
 		/// <inheritdoc />

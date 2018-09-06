@@ -50,12 +50,12 @@ namespace StandardAssets.Characters.ThirdPerson
 		private ThirdPersonBrain characterBrain;
 		
 		/// <summary>
-		/// Speed at which the tail of the buffer catches up to the head. It's recommended to make this slightly bigger
-		/// than the character's turn speed.
+		/// Speed (degrees/second) at which the tail of the buffer catches up to the head. It's recommended to make 
+		/// this slightly bigger than the character's turning speed.
 		/// </summary>
-		[SerializeField, Tooltip("Speed at which the tail of the buffer catches up to the head. It's recommended to make " +
-		                         "this slightly bigger than the character's turn speed.")]
-		private float turnSpeed = 305.0f;
+		[SerializeField, Tooltip("Speed (degrees/second) at which the tail of the buffer catches up to the head. It's recommended to make " +
+		                         "this slightly bigger than the character's turning speed.")]
+		private float turningSpeed = 305.0f;
 
 		/// <summary>
 		/// Stop turning when there is no input. (Otherwise try to face the last input vector.)
@@ -240,7 +240,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			    tailInput != null)
 			{
 				// Rotate tail towards head (i.e. rotate to the "tail target" which may be the head or located between the tail and head)
-				float turnSpeedRadians = Mathf.Deg2Rad * turnSpeed;
+				float turnSpeedRadians = Mathf.Deg2Rad * turningSpeed;
 				Vector3 rotated = Vector3.RotateTowards(new Vector3(tailInput.Value.x, 0.0f, tailInput.Value.y),
 				                                        new Vector3(tailTargetInput.Value.x, 0.0f, tailTargetInput.Value.y),
 				                                        turnSpeedRadians * dt,
@@ -249,7 +249,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				
 				moveInput = new Vector2(tailInput.Value.x, tailInput.Value.y);
 				
-				// Tail near target, or reached targed?
+				// Tail near target, or reached target?
 				if (Vector2.Angle(tailInput.Value, tailTargetInput.Value) < k_AngleToRecalculateTailTarget ||
 				    (Mathf.Approximately(tailTargetInput.Value.x, tailInput.Value.x) &&
 				     Mathf.Approximately(tailTargetInput.Value.y, tailInput.Value.y)))
@@ -342,14 +342,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (Mathf.Abs(angle) > k_MaxAngleToTailTarget)
 			{
 				// Limit the angle to prevent weirdness when angle is near 180 degrees
-				if (direction > 0.0f)
-				{
-					target = Quaternion.Euler(0.0f, k_MaxAngleToTailTarget, 0.0f) * tail;
-				}
-				else
-				{
-					target = Quaternion.Euler(0.0f, -k_MaxAngleToTailTarget, 0.0f) * tail;
-				}
+				target = Quaternion.Euler(0.0f, k_MaxAngleToTailTarget * Mathf.Sign(direction), 0.0f) * tail;
 			}
 
 			return new Vector2(target.x, target.z);
