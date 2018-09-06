@@ -1,8 +1,4 @@
-﻿using StandardAssets.Characters.ThirdPerson;
-using UnityEngine;
-using System;
-using UnityEditor.ShaderGraph;
-using Random = System.Random;
+﻿using UnityEngine;
 
 namespace StandardAssets.Characters.Effects
 {
