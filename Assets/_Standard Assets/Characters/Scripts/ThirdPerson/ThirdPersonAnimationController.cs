@@ -42,9 +42,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private GameObject gameObject;
 
-		/// <summary>
-		/// Hashes of the animator parameters
-		/// </summary>
+		// Hashes of the animator parameters
 		private int hashForwardSpeed;
 		private int hashLateralSpeed;
 		private int hashTurningSpeed;
@@ -393,9 +391,16 @@ namespace StandardAssets.Characters.ThirdPerson
 					}
 					else
 					{
-						if (motor.normalizedForwardSpeed > configuration.forwardSpeedToRoll) // play roll
+						if (motor.normalizedForwardSpeed > configuration.forwardSpeedToRoll) // moving fast enough to roll
 						{
-							animator.CrossFade(configuration.rollLandStateName, configuration.rollAnimationBlendDuration);
+							if (motor.fallTime > configuration.fallTimeRequiredToRoll) // play roll
+							{
+								animator.CrossFade(configuration.rollLandStateName, configuration.rollAnimationBlendDuration);
+							}
+							else // has not fallen for long enough to roll
+							{
+								animator.CrossFade(configuration.locomotionStateName, configuration.landAnimationBlendDuration);
+							}
 						}
 						else // play land 
 						{
