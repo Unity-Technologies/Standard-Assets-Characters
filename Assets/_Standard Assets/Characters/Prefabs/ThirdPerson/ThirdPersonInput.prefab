@@ -140,6 +140,7 @@ GameObject:
   - component: {fileID: 4896232859770654}
   - component: {fileID: 114678814525354940}
   - component: {fileID: 114259741550361366}
+  - component: {fileID: 114392513456026218}
   m_Layer: 0
   m_Name: ThirdPersonInput
   m_TagString: Untagged
@@ -486,6 +487,22 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &114392513456026218
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1379095116278882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8ba929acbc247efbf47e445f97644b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterBrain: {fileID: 0}
+  turnSpeed: 305
+  stopTurningWhenNoInput: 0
+  debugEnabled: 0
+  debugOffsetY: 0
 --- !u!114 &114392768449442272
 MonoBehaviour:
   m_ObjectHideFlags: 1

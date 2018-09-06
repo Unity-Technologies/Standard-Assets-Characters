@@ -22,7 +22,7 @@ namespace StandardAssets.Characters.CharacterInput
 		
 		[Header("Input Modifier")]
 		[SerializeField]
-		protected LegacyCharacterInputModifier inputModifier;
+		protected ILegacyCharacterInputModifier inputModifier;
 		
 		/// <inheritdoc />
 		/// <summary>
@@ -44,15 +44,16 @@ namespace StandardAssets.Characters.CharacterInput
 			Vector2 moveStickVector = moveInputJoystick.GetStickVector();		
 			moveInputVector.Set(moveStickVector.x, moveStickVector.y);
 			
-			if (inputModifier != null &&
-			    inputModifier.enabled)
+			if (inputModifier != null)
 			{
-				inputModifier.UpdateMoveInput(ref moveInputVector);
+				inputModifier.ModifyMoveInput(ref moveInputVector);
 			}
 		}
 
 		private void Awake()
 		{
+			inputModifier = GetComponent<ILegacyCharacterInputModifier>();
+			
 			// Call this here, because OnEnable/OnDisable is not fired when the game object starts disabled and this component is disabled.
 			EnableChildControls(enabled);
 		}

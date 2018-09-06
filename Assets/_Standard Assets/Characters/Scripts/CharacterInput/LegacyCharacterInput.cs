@@ -30,8 +30,13 @@ namespace StandardAssets.Characters.CharacterInput
 		
 		[Header("Input Modifier")]
 		[SerializeField]
-		protected LegacyCharacterInputModifier inputModifier;
+		protected ILegacyCharacterInputModifier inputModifier;
 
+		private void Awake()
+		{
+			inputModifier = GetComponent<ILegacyCharacterInputModifier>();
+		}
+		
 		/// <inheritdoc />
 		/// <summary>
 		/// Performs the base look and movement updates as well as checks for jumping
@@ -77,10 +82,9 @@ namespace StandardAssets.Characters.CharacterInput
 		{
 			moveInputVector.Set(Input.GetAxisRaw(horizontalAxisName), Input.GetAxisRaw(verticalAxisName));
 			
-			if (inputModifier != null &&
-			    inputModifier.enabled)
+			if (inputModifier != null)
 			{
-				inputModifier.UpdateMoveInput(ref moveInputVector);
+				inputModifier.ModifyMoveInput(ref moveInputVector);
 			}
 		}
 
