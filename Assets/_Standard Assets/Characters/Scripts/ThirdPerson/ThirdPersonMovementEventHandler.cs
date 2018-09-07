@@ -2,6 +2,7 @@
 using StandardAssets.Characters.Effects;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.UI;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
@@ -32,25 +33,12 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		[SerializeField]
 		protected ColliderMovementDetection[] movementDetections;
-
-		/*
-		 * public void Init(ICharacterPhysics physics)
-		{
-			//characterPhysics = physics;
-		}
-		 */
-		
-	
 		
 		/// <summary>
 		/// Subscribe to the movement detection events
 		/// </summary>
 		public void Subscribe()
 		{
-			//characterPhysics.landed += Landed;
-			//characterPhysics.jumpVelocitySet += Jumped;
-			
-			
 			foreach (ColliderMovementDetection colliderMovementDetection in movementDetections)
 			{
 				colliderMovementDetection.detection += BroadcastMovementEvent;
@@ -62,11 +50,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		public void Unsubscribe()
 		{
-			
-			//characterPhysics.landed -= Landed;
-			//characterPhysics.jumpVelocitySet -= Jumped;
-			
-			
 			foreach (ColliderMovementDetection colliderMovementDetection in movementDetections)
 			{
 				colliderMovementDetection.detection -= BroadcastMovementEvent;
