@@ -15,8 +15,10 @@ namespace StandardAssets.Characters.CharacterInput
 		/// <summary>
 		/// This is called after movement input is received from hardware, but before it is used by the character.
 		/// The method then modifies the input as needed for the character.
-		/// <see cref="LegacyCharacterInput"/> for a usage example.
 		/// </summary>
+		/// <example>
+		/// See <see cref="LegacyCharacterInput"/> for a usage example.
+		/// </example>
 		void ModifyMoveInput(ref Vector2 moveInput);
 	}
 }
