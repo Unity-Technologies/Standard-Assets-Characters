@@ -18,7 +18,14 @@ namespace StandardAssets.Characters.CharacterInput
 		{
 			Debug.LogFormat("Initialized onscreen input response = {0}", name);
 		}
-		
+
+		/// <summary>
+		/// Performs no function for <see cref="LegacyOnScreenInputResponse"/>.
+		/// </summary>
+		public override void ManualInputEnded()
+		{
+		}
+
 		/// <summary>
 		/// Toggles the touch button
 		/// </summary>

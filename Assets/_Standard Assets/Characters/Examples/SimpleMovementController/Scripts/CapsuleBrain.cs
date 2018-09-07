@@ -42,6 +42,17 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 
 		private MovementEventHandler _movementEventHandler;
 
+		/// <inheritdoc/>
+		public override float normalizedForwardSpeed
+		{
+			get
+			{
+				return currentSpeed / (currentMovementProperties == null
+						   ? startingMovementProperties.maximumSpeed
+						   : currentMovementProperties.maximumSpeed);
+			}
+		}
+
 		public override MovementEventHandler movementEventHandler
 		{
 			get { return _movementEventHandler; }

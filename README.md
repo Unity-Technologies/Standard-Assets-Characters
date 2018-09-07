@@ -20,6 +20,10 @@ For more detailed documentation, please see the WIP Google Docs:
 * First Person:
 
 	https://docs.google.com/document/d/14C-a3P5o3tAXWd_Dzl8Zc-jh3uQUTaKcfWxPvqXv9w0/edit?usp=sharing
+
+* Movement Effects:
+
+	https://docs.google.com/document/d/17QTANYLrB4h2iZIzeaz3bop_Bzghp1Z65NssqIxvH5Q/edit?usp=sharing	
 #
 	***ALEC TO LINK MORE TO***
 
@@ -155,6 +159,8 @@ For more detailed documentation, please see the WIP Google Docs:
 		a) On the Third Person Brain, drag Third Person Cameras onto the Camera Animation Manager property
 		b) On the Legacy Cross Platform Character Input, drag ThirdPersonInput onto the Standalone and Mobile Input properties
 		c) *OPTIONAL* If the scene has a Movement Effects Library, drag it onto the Starting Movement Effect Library property located under the Third Person Movement Effect Handler object 
+	8) Select ThirdPersonInput
+		a) On the Third Person Character Input Modifier, drag MaleThirdPerson onto the Character Brain property
 
 
 ### Demo Scene (optional, for dev testing purposes):

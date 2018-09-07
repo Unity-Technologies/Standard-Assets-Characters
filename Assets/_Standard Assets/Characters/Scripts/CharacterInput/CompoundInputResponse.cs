@@ -12,6 +12,8 @@ namespace StandardAssets.Characters.CharacterInput
 	{
 		[SerializeField, Tooltip("Collection of different input responses - used for supporting multiple platforms")]
 		protected InputResponse[] inputs;
+
+		protected InputResponse lastInput;
 		
 		/// <inheritdoc />
 		/// <summary>
@@ -19,11 +21,28 @@ namespace StandardAssets.Characters.CharacterInput
 		/// </summary>
 		public override void Init()
 		{
+			lastInput = null;
 			foreach (InputResponse inputResponse in inputs)
 			{
 				inputResponse.Init();
-				inputResponse.started += OnInputStarted;
+				InputResponse response = inputResponse;
+				inputResponse.started += () =>
+										 {
+											 lastInput = response;
+											 OnInputStarted();
+										 };
 				inputResponse.ended += OnInputEnded;
+			}
+		}
+
+		/// <summary>
+		/// Calls <see cref="ManualInputEnded"/> on the last active input response.
+		/// </summary>
+		public override void ManualInputEnded()
+		{
+			if (lastInput != null)
+			{
+				lastInput.ManualInputEnded();
 			}
 		}
 	}

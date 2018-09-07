@@ -10,6 +10,18 @@ namespace StandardAssets.Characters.Effects
 		protected MovementEventLibrary startingMovementEventLibrary;
 		
 		/// <summary>
+		/// Id of Jumping event
+		/// </summary>
+		[SerializeField]
+		protected string jumpId = "jump";
+
+		/// <summary>
+		/// Id of Landing event
+		/// </summary>
+		[SerializeField]
+		protected string landingId = "landing";
+		
+		/// <summary>
 		/// The current movement event library
 		/// </summary>
 		protected MovementEventLibrary movementEventLibrary;

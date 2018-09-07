@@ -29,6 +29,11 @@ namespace StandardAssets.Characters.CharacterInput
 		public abstract void Init();
 
 		/// <summary>
+		/// A way to manually fire <see cref="OnInputEnded"/>.
+		/// </summary>
+		public abstract void ManualInputEnded();
+
+		/// <summary>
 		/// Safely broadcasts the enable event
 		/// </summary>
 		protected virtual void OnInputStarted()

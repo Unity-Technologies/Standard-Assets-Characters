@@ -14,7 +14,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField, Tooltip("When using a controller should sprint auto turn off when releasing the left analogue stick?")]
 		protected bool autoToggleSprint = true;
 		
-		[SerializeField, Tooltip("The root motion will be scaled by this perform movement is applied")]
+		[SerializeField, Tooltip("The root motion will be scaled by this before movement is applied")]
 		protected float rootMotionMovementScale = 1f;
 
 		[SerializeField]
@@ -27,7 +27,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected bool useCustomStrafeParameters = true;
 		
-		[SerializeField, Tooltip("During sprint normalized speed with be 1 + this. Used to extend the locomotion blend tree.")]
+		[SerializeField, Tooltip("During sprint normalized speed will be 1 + this. Used to extend the locomotion blend tree.")]
 		protected float sprintNormalizedSpeedIncrease = 0.5f;
 
 		[VisibleIf("useCustomStrafeParameters")]
@@ -67,7 +67,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField, Tooltip("A fall distance higher than this will trigger a fall animation.")]
 		protected float maxFallDistance = 1;
 
-		[SerializeField, Tooltip("The speed at fall direction can change.")] 
+		[SerializeField, Tooltip("The speed at which fall direction can change.")] 
 		protected float fallDirectionChangeSpeed = 0.025f;
 
 		[Header("Turning")]

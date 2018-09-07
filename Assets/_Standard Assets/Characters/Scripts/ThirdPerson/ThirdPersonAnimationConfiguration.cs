@@ -81,6 +81,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField, Tooltip("A forward speed higher than this will trigger a roll on land")]
 		protected float normalizedForwardSpeedToRoll = 0.3f;
 
+		[SerializeField, Tooltip("A fall time greater than this will trigger a roll. Less than this will transition to" +
+								 "locomotion")]
+		protected float fallTimeRequiredToTriggerRoll = 1.0f;
+
 		[SerializeField, Tooltip("Time used for the cross fade into the roll animation state")]
 		protected float rollAnimationBlendTime = 0.15f;
 
@@ -305,6 +309,14 @@ namespace StandardAssets.Characters.ThirdPerson
 		public float forwardSpeedToRoll
 		{
 			get { return normalizedForwardSpeedToRoll; }
+		}
+
+		/// <summary>
+		/// Gets the fall time in seconds required to trigger a roll on land.
+		/// </summary>
+		public float fallTimeRequiredToRoll
+		{
+			get { return fallTimeRequiredToTriggerRoll; }
 		}
 
 		/// <summary>

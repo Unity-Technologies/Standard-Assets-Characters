@@ -27,7 +27,17 @@ namespace StandardAssets.Characters.CharacterInput
 
 		[SerializeField, Tooltip("Name of the Input Manager axis for jumping")]
 		protected string keyboardJumpName = "Jump";
+		
+		/// <summary>
+		/// Optional input modifier, which modifies the input at the end of the UpdateMoveVector method.
+		/// </summary>
+		protected ILegacyCharacterInputModifier inputModifier;
 
+		private void Awake()
+		{
+			inputModifier = GetComponent<ILegacyCharacterInputModifier>();
+		}
+		
 		/// <inheritdoc />
 		/// <summary>
 		/// Performs the base look and movement updates as well as checks for jumping
@@ -72,6 +82,11 @@ namespace StandardAssets.Characters.CharacterInput
 		protected override void UpdateMoveVector()
 		{
 			moveInputVector.Set(Input.GetAxisRaw(horizontalAxisName), Input.GetAxisRaw(verticalAxisName));
+			
+			if (inputModifier != null)
+			{
+				inputModifier.ModifyMoveInput(ref moveInputVector);
+			}
 		}
 
 		/// <summary>

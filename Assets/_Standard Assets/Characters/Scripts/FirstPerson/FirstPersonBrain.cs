@@ -1,11 +1,8 @@
-﻿using Cinemachine;
-using StandardAssets.Characters.CharacterInput;
+﻿using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Common;
 using StandardAssets.Characters.Effects;
 using StandardAssets.Characters.Physics;
-using StandardAssets.Characters.Attributes;
 using UnityEngine;
-
 
 namespace StandardAssets.Characters.FirstPerson
 {
@@ -46,12 +43,6 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		[SerializeField, Tooltip("The movement state is passed to the camera manager so that there can be different cameras e.g. crouch")]
 		protected CameraAnimationManager cameraAnimations;
-
-		/// <summary>
-		/// Invert camera Y axis. It will override the Cinemachine virtual cameras' setting.
-		/// </summary>
-		[DisableEditAtRuntime, SerializeField, Tooltip("Invert camera Y axis. It will override the Cinemachine virtual cameras' setting on Awake.")]
-		protected bool cameraInvertY;
 		
 		protected FirstPersonMovementProperties[] allMovement;
 
@@ -71,7 +62,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// A check to see if input was previous being applied
 		/// </summary>
 		private bool previouslyHasInput;
-		
+
 		/// <summary>
 		/// Gets the referenced <see cref="CameraAnimationManager"/>
 		/// </summary>
@@ -86,6 +77,17 @@ namespace StandardAssets.Characters.FirstPerson
 		public FirstPersonMovementModification[] exposedMovementModifiers
 		{
 			get { return movementModifiers; }
+		}
+
+		/// <inheritdoc/>
+		public override float normalizedForwardSpeed
+		{
+			get
+			{
+				return currentSpeed / (currentMovementProperties == null
+						   ? startingMovementProperties.maximumSpeed
+						   : currentMovementProperties.maximumSpeed);
+			}
 		}
 
 		/// <summary>
@@ -156,45 +158,7 @@ namespace StandardAssets.Characters.FirstPerson
 			{
 				mainCamera = Camera.main;
 			}
-			InvertCamerasY();
 			ChangeState(startingMovementProperties);
-		}
-
-		/// <summary>
-		/// Invert the Y axis of all cameras.
-		/// </summary>
-		private void InvertCamerasY()
-		{
-			if (!cameraInvertY ||
-			    cameraAnimations == null)
-			{
-				return;
-			}
-
-			CinemachineStateDrivenCamera stateDrivenCamera = cameraAnimationManager.GetComponent<CinemachineStateDrivenCamera>();
-			if (stateDrivenCamera == null ||
-			    stateDrivenCamera.ChildCameras == null ||
-			    stateDrivenCamera.ChildCameras.Length <= 0)
-			{
-				return;
-			}
-
-			for (int i = 0, len = stateDrivenCamera.ChildCameras.Length; i < len; i++)
-			{
-				CinemachineVirtualCamera virtualCamera = stateDrivenCamera.ChildCameras[i] as CinemachineVirtualCamera;
-				if (virtualCamera == null)
-				{
-					continue;
-				}
-
-				CinemachinePOV pov = virtualCamera.GetCinemachineComponent<CinemachinePOV>();
-				if (pov == null)
-				{
-					continue;
-				}
-
-				pov.m_VerticalAxis.m_InvertInput = true;
-			}
 		}
 
 		/// <summary>

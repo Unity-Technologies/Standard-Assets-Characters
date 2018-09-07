@@ -71,11 +71,13 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
-		private void Start()
+		protected override void Start()
 		{
+			base.Start();
+			
 			if (brain != null)
 			{
-				brain.CurrentMotor.landed += OnLanded;
+				brain.currentMotor.landed += OnLanded;
 			}
 			
 			isForwardUnlocked = startingCameraMode == ThirdPersonCameraType.Exploration;

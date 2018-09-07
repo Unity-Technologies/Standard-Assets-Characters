@@ -36,7 +36,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private TurnaroundBehaviour currentTurnaroundBehaviour;
 
 		private TurnaroundBehaviour[] turnaroundBehaviours;
-
+		
 		public RootMotionThirdPersonMotor rootMotionThirdPersonMotor
 		{
 			get { return rootMotionMotor; }
@@ -68,6 +68,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
+		/// <inheritdoc/>
+		public override float normalizedForwardSpeed
+		{
+			get { return currentMotor.normalizedForwardSpeed; }
+		}
+
 		public override MovementEventHandler movementEventHandler
 		{
 			get { return thirdPersonMovementEventHandler; }
@@ -75,7 +81,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public override float targetYRotation { get; set; }
 
-		public IThirdPersonMotor CurrentMotor { get; private set; }
+		public IThirdPersonMotor currentMotor { get; private set; }
 
 		public ThirdPersonCameraAnimationManager thirdPersonCameraAnimationManager
 		{
@@ -93,12 +99,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			animationTurnaroundBehaviour.Init(this);
 			currentTurnaroundBehaviour = GetCurrentTurnaroundBehaviour();
 			
-			CurrentMotor = GetCurrentMotor();
-			CurrentMotor.Init(this);
+			currentMotor = GetCurrentMotor();
+			currentMotor.Init(this);
 			
 			if (animationController != null)
 			{
-				animationController.Init(this, CurrentMotor);
+				animationController.Init(this, currentMotor);
 			}
 			
 			thirdPersonMovementEventHandler.Init();
@@ -138,7 +144,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				animationController.Subscribe();
 			}
 			
-			CurrentMotor.Subscribe();
+			currentMotor.Subscribe();
 			thirdPersonMovementEventHandler.Subscribe();
 		}
 		
@@ -151,7 +157,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				animationController.Unsubscribe();
 			}
 			
-			CurrentMotor.Unsubscribe();
+			currentMotor.Unsubscribe();
 			thirdPersonMovementEventHandler.Unsubscribe();
 			
 		}
@@ -165,14 +171,14 @@ namespace StandardAssets.Characters.ThirdPerson
 				animationController.Update();
 			}
 			
-			CurrentMotor.Update();
+			currentMotor.Update();
 
 			if (currentTurnaroundBehaviour != null)
 			{
 				currentTurnaroundBehaviour.Update();
 			}
 			
-			targetYRotation = CurrentMotor.targetYRotation;
+			targetYRotation = currentMotor.targetYRotation;
 		
 			//Just for build testing
 			if (Input.GetKeyDown(KeyCode.T))
@@ -184,7 +190,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private void OnAnimatorMove()
 		{
-			CurrentMotor.OnAnimatorMove();
+			currentMotor.OnAnimatorMove();
 		}
 
 		private void OnAnimatorIK(int layerIndex)
