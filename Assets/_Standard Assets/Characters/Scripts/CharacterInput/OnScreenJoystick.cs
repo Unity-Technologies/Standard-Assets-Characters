@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Experimental.Rendering.UI;
-using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.CharacterInput
 {
