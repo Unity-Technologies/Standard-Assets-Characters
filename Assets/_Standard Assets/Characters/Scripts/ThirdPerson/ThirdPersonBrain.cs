@@ -215,10 +215,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void OnValidate()
 		{
 			currentTurnaroundBehaviour = GetCurrentTurnaroundBehaviour();
-			if (turnaroundType == TurnaroundType.Animation)
-			{
-				animationTurnaroundBehaviour.OnValidate(GetComponent<Animator>());
-			}
 		}
 		#endif
 	}
