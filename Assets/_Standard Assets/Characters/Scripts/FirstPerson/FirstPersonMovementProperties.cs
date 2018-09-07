@@ -115,5 +115,18 @@ namespace StandardAssets.Characters.FirstPerson
 				action(id);
 			}
 		}
+
+#if UNITY_EDITOR
+		private const float k_MinimumMaxSpeed = 0.001f;
+		
+		// ensure that maxSpeed is above 0.
+		private void OnValidate()
+		{
+			if (maxSpeed <= 0)
+			{
+				maxSpeed = k_MinimumMaxSpeed;
+			}
+		}
+#endif
 	}
 }

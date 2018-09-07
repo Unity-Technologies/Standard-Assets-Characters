@@ -42,6 +42,7 @@ namespace StandardAssets.Characters.Common
 			get { return characterBearing; }
 		} 
 
+		/// <inheritdoc/>
 		public abstract float normalizedForwardSpeed { get;}
 		
 		public abstract MovementEventHandler movementEventHandler { get; }

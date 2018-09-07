@@ -84,9 +84,14 @@ namespace StandardAssets.Characters.FirstPerson
 		{
 			get
 			{
-				return currentSpeed / (currentMovementProperties == null
-						   ? startingMovementProperties.maximumSpeed
-						   : currentMovementProperties.maximumSpeed);
+				float maxSpeed = currentMovementProperties == null
+					? startingMovementProperties.maximumSpeed
+					: currentMovementProperties.maximumSpeed;
+				if (maxSpeed <= 0)
+				{
+					return 1;
+				}
+				return currentSpeed / maxSpeed;
 			}
 		}
 
