@@ -172,6 +172,11 @@ For more detailed documentation, please see the WIP Google Docs:
 		e) Drag Third Person Camaeras onto the Third Person Main State Driven Camera property
 
 
+### Invert camera Y axis (optional):
+	1) Select InputManager
+		a) On the Input Options, tick the Camera Invert Y property
+
+
 
 ## Camera Setup Overview
 
