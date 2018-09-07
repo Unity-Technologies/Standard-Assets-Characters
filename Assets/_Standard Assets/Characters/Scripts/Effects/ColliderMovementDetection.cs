@@ -4,19 +4,19 @@ using UnityEngine;
 namespace StandardAssets.Characters.Effects
 {
 	/// <summary>
-	/// Used in conjunction with Colliders to detect movement
+	/// Detect collisions or triggers and broadcast <see cref="MovementEvent"/>
 	/// e.g. BoxColliders on the feet for ThirdPerson character
 	/// </summary>
 	[RequireComponent(typeof(Collider))]
 	public class ColliderMovementDetection : MonoBehaviour
 	{
 		/// <summary>
-		/// The movement event id
+		/// The movement event ID corresponding to the <see cref="MovementEventHandler"/>
 		/// </summary>
 		[SerializeField]
 		protected string id;
 
-		[SerializeField]
+		[SerializeField, Tooltip("The layer that will trigger the broadcast of this movement event handler ID")]
 		protected LayerMask layerMask;
 		
 		/// <summary>
@@ -24,28 +24,16 @@ namespace StandardAssets.Characters.Effects
 		/// </summary>
 		public event Action<MovementEvent> detection;
 
-		/// <summary>
-		/// Whether or not the attached collider is a trigger
-		/// </summary>
 		private bool isTrigger;
 		
-		[SerializeField]
-		protected float minimumTimeInterval = 0.5f;
-
-		private float timeSinceLastTrigger;
-
 		private void Awake()
 		{
-			//Is the Collider a Trigger
 			isTrigger = GetComponent<Collider>().isTrigger;
 		}
 
-		/// <summary>
-		/// Handle triggering
-		/// </summary>
-		/// <param name="other"></param>
 		private void OnTriggerEnter(Collider other)
 		{
+			
 			if (!isTrigger)
 			{
 				return;
@@ -60,13 +48,9 @@ namespace StandardAssets.Characters.Effects
 			movementEvent.id = id;
 			movementEvent.firedFrom = transform;
 			//TODO set position
-			OnDetection(movementEvent);
+			OnDetection(movementEvent);			
 		}
-
-		/// <summary>
-		/// Handle colliding
-		/// </summary>
-		/// <param name="other"></param>
+		
 		private void OnCollisionEnter(Collision other)
 		{
 			if (isTrigger)
@@ -87,29 +71,12 @@ namespace StandardAssets.Characters.Effects
 		}
 
 		/// <summary>
-		/// Safely broadcast detection
+		/// Safely broadcast movement event after collider detection
 		/// </summary>
-		/// <param name="movementEvent"></param>
+		/// <param name="movementEvent">Movement event data</param>
 		private void OnDetection(MovementEvent movementEvent)
 		{
-			if (detection != null)
-			{
-				if (CheckTimeIntervalLimit())
-				{
-					detection(movementEvent);
-				}	
-			}
-		}
-
-		private bool CheckTimeIntervalLimit()
-		{
-			if (Time.time - timeSinceLastTrigger >= minimumTimeInterval)
-			{
-				timeSinceLastTrigger = Time.time;
-				return true;
-			}
-
-			return false;
+			detection(movementEvent);
 		}
 	}
 }
