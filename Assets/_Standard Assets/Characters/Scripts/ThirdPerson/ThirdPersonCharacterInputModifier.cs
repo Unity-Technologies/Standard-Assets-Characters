@@ -203,6 +203,8 @@ namespace StandardAssets.Characters.ThirdPerson
 					turnRate = 0.0f;
 				}
 				
+				// TODO: Restore fast turn after test
+				/*
 				// Rotated too far too fast?
 				if (angle > k_FastSnapTurnAngle &&
 				    turnRate > k_FastSnapTurnRate)
@@ -210,7 +212,7 @@ namespace StandardAssets.Characters.ThirdPerson
 					updateInput = false;
 					ClearInputBuffer();
 				}
-				else
+				else*/
 				{
 					headInput = moveInput;
 					if (tailInput == null)
