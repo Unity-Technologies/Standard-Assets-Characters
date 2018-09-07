@@ -3,10 +3,13 @@ using UnityEngine;
 
 namespace StandardAssets.Characters.Effects
 {
+	/// <summary>
+	/// Scales the volume of an audio source based off the <see cref="thirdPersonBrain"/> normalized speed
+	/// </summary>
 	public class AudioVolumeCharacterSpeedScaler : MonoBehaviour
 	{
 		/// <summary>
-		/// The audio source to be played
+		/// The audio source to be volume scaled
 		/// </summary>
 		[SerializeField]
 		protected AudioSource source;
@@ -20,7 +23,10 @@ namespace StandardAssets.Characters.Effects
 		
 		private void Awake()
 		{
-			defaultVolume = source.volume;
+			if (source != null)
+			{
+				defaultVolume = source.volume;
+			}
 		}
 		
 		void Update()
@@ -32,14 +38,19 @@ namespace StandardAssets.Characters.Effects
 		}
 
 		private void ScaleVolumeToSpeed()
-		{	
-			if (thirdPersonBrain.normalizedForwardSpeed == 0)
+		{
+			if (source == null)
 			{
-				scaledVolume = defaultVolume * thirdPersonBrain.normalizedForwardSpeed;
+				return;
+			}
+			
+			if (thirdPersonBrain.currentMotor.normalizedForwardSpeed == 0)
+			{
+				scaledVolume = defaultVolume * thirdPersonBrain.currentMotor.normalizedLateralSpeed;
 			}
 			else
 			{
-				//scaledVolume = defaultVolume * thirdPersonBrain.normalizedLateralSpeed;
+				scaledVolume = defaultVolume * thirdPersonBrain.normalizedForwardSpeed;
 			}
 		
 			if (scaledVolume < 0)
