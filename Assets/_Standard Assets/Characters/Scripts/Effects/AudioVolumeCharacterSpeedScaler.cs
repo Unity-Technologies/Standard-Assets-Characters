@@ -15,20 +15,12 @@ namespace StandardAssets.Characters.Effects
 		protected ThirdPersonBrain thirdPersonBrain;
 
 		private float scaledVolume;
-
-		public float updatedVolume
-		{
-			get
-			{
-				return scaledVolume;
-			}
-		}
 		
-		private float volume;
+		private float defaultVolume;
 		
 		private void Awake()
 		{
-			volume = source.volume;
+			defaultVolume = source.volume;
 		}
 		
 		void Update()
@@ -43,11 +35,11 @@ namespace StandardAssets.Characters.Effects
 		{	
 			if (thirdPersonBrain.CurrentMotor.normalizedLateralSpeed == 0)
 			{
-				scaledVolume = volume * thirdPersonBrain.CurrentMotor.normalizedForwardSpeed;
+				scaledVolume = defaultVolume * thirdPersonBrain.CurrentMotor.normalizedForwardSpeed;
 			}
 			else
 			{
-				scaledVolume = volume * thirdPersonBrain.CurrentMotor.normalizedLateralSpeed;
+				scaledVolume = defaultVolume * thirdPersonBrain.CurrentMotor.normalizedLateralSpeed;
 			}
 		
 			if (scaledVolume < 0)
@@ -55,7 +47,7 @@ namespace StandardAssets.Characters.Effects
 				scaledVolume *= -1;
 			}
 			
-			//source.volume = scaledVolume;
+			source.volume = scaledVolume;
 		}
 	}
 }
