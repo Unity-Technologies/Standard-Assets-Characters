@@ -1,11 +1,8 @@
-﻿using Cinemachine;
-using StandardAssets.Characters.CharacterInput;
+﻿using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Common;
 using StandardAssets.Characters.Effects;
 using StandardAssets.Characters.Physics;
-using StandardAssets.Characters.Attributes;
 using UnityEngine;
-
 
 namespace StandardAssets.Characters.FirstPerson
 {
