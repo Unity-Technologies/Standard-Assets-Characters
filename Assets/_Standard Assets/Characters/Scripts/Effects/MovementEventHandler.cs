@@ -10,26 +10,29 @@ namespace StandardAssets.Characters.Effects
 		protected MovementEventLibrary startingMovementEventLibrary;
 		
 		/// <summary>
-		/// Id of Jumping event
+		/// ID of <see cref="MovementEvent"/> for jump
 		/// </summary>
-		[SerializeField]
+		[SerializeField, Tooltip("The ID of the MovementEventPlayer in the " +
+		                         "MovementEventLibrary that will play on this movement event")]
 		protected string jumpId = "jump";
 
 		/// <summary>
-		/// Id of Landing event
+		/// ID of the <see cref="MovementEvent"/> for landing
 		/// </summary>
-		[SerializeField]
+		[SerializeField, Tooltip("The ID of the MovementEventPlayer in the " +
+		                       "MovementEventLibrary that will play on this movement event")]
 		protected string landingId = "landing";
 		
 		/// <summary>
-		/// The current movement event library
+		/// The current Movement event library being used
 		/// </summary>
+		[SerializeField]
 		protected MovementEventLibrary movementEventLibrary;
 
 		/// <summary>
-		/// Sets the current movement event library
+		/// Sets the current <see cref="movementEventLibrary"/>
 		/// </summary>
-		/// <param name="newMovementEventLibrary"></param>
+		/// <param name="newMovementEventLibrary">Movement event library data</param>
 		public void SetCurrentMovementEventLibrary(MovementEventLibrary newMovementEventLibrary)
 		{
 			movementEventLibrary = newMovementEventLibrary;
@@ -48,10 +51,6 @@ namespace StandardAssets.Characters.Effects
 			SetCurrentMovementEventLibrary(startingMovementEventLibrary);
 		}
 		
-		/// <summary>
-		/// Plays the movement event
-		/// </summary>
-		/// <param name="movementEvent"></param>
 		protected void OnMoved(MovementEvent movementEvent)
 		{
 			if (movementEventLibrary == null)
@@ -62,10 +61,6 @@ namespace StandardAssets.Characters.Effects
 			movementEventLibrary.PlayEvent(movementEvent);
 		}
 		
-		/// <summary>
-		/// Helper function for broadcasting events
-		/// </summary>
-		/// <param name="movementEvent"></param>
 		protected virtual void BroadcastMovementEvent(MovementEvent movementEvent)
 		{
 			OnMoved(movementEvent);
@@ -74,7 +69,7 @@ namespace StandardAssets.Characters.Effects
 		/// <summary>
 		/// Helper function for creating a MovementEvent with a specified id and broadcasting it
 		/// </summary>
-		/// <param name="id"></param>
+		/// <param name="id">The ID of the movement event</param>
 		protected virtual void BroadcastMovementEvent(string id)
 		{
 			MovementEvent movementEvent = new MovementEvent();
@@ -85,8 +80,8 @@ namespace StandardAssets.Characters.Effects
 		/// <summary>
 		/// Helper function for creating a MovementEvent with a specified id and firedFrom transform and broadcasting it
 		/// </summary>
-		/// <param name="id"></param>
-		/// <param name="firedFrom"></param>
+		/// <param name="id">The ID of the movement event</param>
+		/// <param name="firedFrom">The transform of where the movement event was fire from</param>
 		protected virtual void BroadcastMovementEvent(string id, Transform firedFrom)
 		{
 			MovementEvent movementEvent = new MovementEvent();
