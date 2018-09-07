@@ -1,35 +1,30 @@
 ﻿using System;
 using StandardAssets.Characters.Effects;
-using StandardAssets.Characters.Physics;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering.UI;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
+	/// <summary>
+	/// Handles the third person movement event triggers and event IDs.
+	/// As well as collider movement detections <see cref="ColliderMovementDetection"/>
+	/// </summary>
 	[Serializable]
 	public class ThirdPersonMovementEventHandler : MovementEventHandler
 	{
-		
 		/// <summary>
-		/// CharacterPhysics
-		/// </summary>
-		private ICharacterPhysics characterPhysics;
-		
-		
-		/// <summary>
-		/// Id of Jumping event
+		/// ID of jumping <see cref="MovementEventPlayer"/> from the <see cref="MovementEventLibrary"/>
 		/// </summary>
 		[SerializeField]
 		protected string jumpSoundId = "jumpingSound";
 
 		/// <summary>
-		/// Id of Landing event
+		/// ID of landing <see cref="MovementEventPlayer"/> from the <see cref="MovementEventLibrary"/>
 		/// </summary>
 		[SerializeField]
 		protected string landSoundId = "landingSound";
 		
 		/// <summary>
-		/// The movement detections
+		/// The movement detection colliders attached to the feet of the Third Person Character
 		/// </summary>
 		[SerializeField]
 		protected ColliderMovementDetection[] movementDetections;
@@ -46,7 +41,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 		
 		/// <summary>
-		/// Subscribe to the movement detection events
+		/// Unsubscribe to the movement detection events
 		/// </summary>
 		public void Unsubscribe()
 		{
