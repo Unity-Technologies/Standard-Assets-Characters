@@ -59,11 +59,11 @@ namespace StandardAssets.Characters.CharacterInput
 			Vector2 dragDirection = eventData.position - joystickPosition;
 			float joystickBaseFootprintRadius = joystickBase.sizeDelta.x * 0.5f;
 			float joystickHatRadius = joystickHat.sizeDelta.x * 0.5f;
+			float radiusDifference = joystickBaseFootprintRadius - joystickHatRadius;
 			
-			stickAxisRaw = (dragDirection.sqrMagnitude > Mathf.Pow(joystickBaseFootprintRadius-joystickHatRadius,2f)) 
+			stickAxisRaw = (dragDirection.sqrMagnitude > (radiusDifference*radiusDifference)) 
 				? dragDirection.normalized : (dragDirection / joystickBaseFootprintRadius)*2f;	
-			joystickHat.anchoredPosition = 
-				(stickAxisRaw * (joystickBaseFootprintRadius-joystickHatRadius)) * joystickMovementLimit;
+			joystickHat.anchoredPosition = stickAxisRaw * radiusDifference * joystickMovementLimit;
 		}
 
 		/// <summary>
