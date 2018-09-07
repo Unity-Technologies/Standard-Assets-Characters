@@ -11,18 +11,7 @@ namespace StandardAssets.Characters.ThirdPerson
 	[Serializable]
 	public class ThirdPersonMovementEventHandler : MovementEventHandler
 	{
-		/// <summary>
-		/// ID of jumping <see cref="MovementEventPlayer"/> from the <see cref="MovementEventLibrary"/>
-		/// </summary>
-		[SerializeField]
-		protected string jumpSoundId = "jumpingSound";
 
-		/// <summary>
-		/// ID of landing <see cref="MovementEventPlayer"/> from the <see cref="MovementEventLibrary"/>
-		/// </summary>
-		[SerializeField]
-		protected string landSoundId = "landingSound";
-		
 		/// <summary>
 		/// The movement detection colliders attached to the feet of the Third Person Character
 		/// </summary>
@@ -53,12 +42,12 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public void Jumped()
 		{
-			BroadcastMovementEvent(jumpSoundId);
+			BroadcastMovementEvent(jumpId);
 		}
 
 		public void Landed()
 		{
-			BroadcastMovementEvent(landSoundId);
+			BroadcastMovementEvent(landingId);
 		}
 	}
 }
