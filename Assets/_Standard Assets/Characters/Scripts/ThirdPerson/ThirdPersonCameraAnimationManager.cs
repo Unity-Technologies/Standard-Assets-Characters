@@ -9,7 +9,7 @@ using UnityEngine;
 namespace StandardAssets.Characters.ThirdPerson
 {
 	/// <summary>
-	/// Implementation of CameraAnimationManager to manage third person camera states 
+	/// Implementation of <see cref="CameraAnimationManager"/> to manage third person camera states 
 	/// </summary>
 	public class ThirdPersonCameraAnimationManager : CameraAnimationManager
 	{
@@ -122,9 +122,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 		
-		/// <summary>
-		/// Change between camera modes
-		/// </summary>
 		private void ChangeCameraMode()
 		{
 			isChangingMode = true;
@@ -256,7 +253,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 		
 		/// <summary>
-		/// <para>Keep virtual camera children of a state driven camera all</para>
+		/// Keep virtual camera children of a state driven camera all
 		/// pointing in the same direction when changing between state driven cameras
 		/// </summary>
 		/// <param name="sourceStateDrivenCamera">The state driven camera that is being transitioned from</param>
@@ -270,18 +267,12 @@ namespace StandardAssets.Characters.ThirdPerson
 				{
 					float cameraX = camera.GetComponent<CinemachineFreeLook>().m_XAxis.Value;
 					float cameraY = camera.GetComponent<CinemachineFreeLook>().m_YAxis.Value;
-					SetChildCamerasAxis(destinationStateDrivenCamera, cameraX, cameraY);
+					SetChildCameraAxes(destinationStateDrivenCamera, cameraX, cameraY);
 				}
 			}
 		}
 		
-		/// <summary>
-		/// Manually update the X and Y axis of all child cameras
-		/// </summary>
-		/// <param name="stateDrivenCamera">Parent State Driven Camera</param>
-		/// <param name="xAxis">X axis value</param>
-		/// <param name="yAxis">Y Axis value</param>
-		private void SetChildCamerasAxis(CinemachineStateDrivenCamera stateDrivenCamera, float xAxis, float yAxis)
+		private void SetChildCameraAxes(CinemachineStateDrivenCamera stateDrivenCamera, float xAxis, float yAxis)
 		{
 			foreach (CinemachineVirtualCameraBase childCamera in stateDrivenCamera.ChildCameras)
 			{
