@@ -25,9 +25,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		[SerializeField, Tooltip("Input response to trigger sprint")]
 		protected InputResponse sprintInput;
-		
-		[SerializeField, Tooltip("Settings to customize character rotation")]
-		protected CharacterRotator rotator;
 
 		/// <summary>
 		/// Gets the normalized turning speed
@@ -536,8 +533,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				? configuration.turningYSpeed
 				: configuration.jumpTurningYSpeed;
 
-			rotator.Tick(targetYRotation);
-			Quaternion newRotation = rotator.GetNewRotation(transform, targetRotation, turnSpeed);
+			Quaternion newRotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
 
 			SetTurningSpeed(transform.rotation, newRotation);
 
