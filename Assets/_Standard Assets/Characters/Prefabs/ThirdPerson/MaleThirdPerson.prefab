@@ -124,8 +124,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4036498303539776}
-  - component: {fileID: 65244173496618208}
   - component: {fileID: 114447118663720106}
+  - component: {fileID: 135095581109918508}
   m_Layer: 9
   m_Name: LeftFoot
   m_TagString: Untagged
@@ -201,8 +201,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4435197676432380}
-  - component: {fileID: 65763725577463722}
   - component: {fileID: 114449538320415148}
+  - component: {fileID: 135480279833609706}
   m_Layer: 9
   m_Name: RightFoot
   m_TagString: Untagged
@@ -1179,7 +1179,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1143746075392832}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.87, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4971338634202510}
@@ -1221,7 +1221,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1294013925418394}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 33, y: -0.1197482, z: 9.31}
+  m_LocalPosition: {x: 33, y: -0.9897482, z: 9.31}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4373934692070628}
@@ -2095,30 +2095,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &65244173496618208
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1127383005414138}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.035, y: 0.26, z: 0.1}
-  m_Center: {x: -0.07, y: -0.07, z: 0}
---- !u!65 &65763725577463722
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1147503794107644}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.035, y: 0.26, z: 0.1}
-  m_Center: {x: 0.07, y: 0.07, z: 0}
 --- !u!95 &95372130055387216
 Animator:
   serializedVersion: 3
@@ -2268,32 +2244,26 @@ MonoBehaviour:
       name: RunForwardTurnLeft180
       speed: 1.25
       headTurnScale: 1
-      duration: 1.1333334
     runRightTurn:
       name: RunForwardTurnRight180_Mirror
       speed: 1.25
       headTurnScale: 1
-      duration: 1.1333334
     sprintLeftTurn:
       name: RunForwardTurnLeft180
       speed: 1.5
       headTurnScale: 1
-      duration: 1.1333334
     sprintRightTurn:
       name: RunForwardTurnRight180_Mirror
       speed: 1.5
       headTurnScale: 1
-      duration: 1.1333334
     idleLeftTurn:
       name: IdleTurnLeft180
       speed: 3
       headTurnScale: 1
-      duration: 1.8000001
     idleRightTurn:
       name: IdleTurnRight180_Mirror
       speed: 3
       headTurnScale: 1
-      duration: 1.8000001
     rotationCurve:
       serializedVersion: 2
       m_Curve:
@@ -2356,7 +2326,6 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 256
-  minimumTimeInterval: 0
 --- !u!114 &114449538320415148
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2372,7 +2341,6 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 256
-  minimumTimeInterval: 0
 --- !u!114 &114484545000245226
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2385,18 +2353,87 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terminalVelocity: 10
-  jumpGravityMultiplier: 1
-  fallGravityMultiplier: 1
-  minJumpHeightMultiplier: 1
+  jumpGravityMultiplierAsAFactorOfForwardSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: -0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  fallGravityMultiplierAsAFactorOfForwardSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: -0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  minJumpHeightMultiplierAsAFactorOfForwardSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: -0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   gravityChangeSpeed: 10
   characterController:
     playerRootTransform: {fileID: 4040340540093194}
-    rootTransformOffset: {x: 0, y: -0.87, z: 0}
+    rootTransformOffset: {x: 0, y: 0, z: 0}
     slopeLimit: 45
     stepOffset: 0.3
     skinWidth: 0.08
     minMoveDistance: 0
-    center: {x: 0, y: 0, z: 0}
+    center: {x: 0, y: 0.87, z: 0}
     radius: 0.4
     height: 1.6
     addKinematicRigidbody: 1
@@ -2415,6 +2452,30 @@ MonoBehaviour:
     slideDownStartDuration: 0.25
     enableDebug: 0
     debugDrawMoveVector: 0
+--- !u!135 &135095581109918508
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1127383005414138}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.03
+  m_Center: {x: -0.07, y: -0.15, z: 0}
+--- !u!135 &135480279833609706
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1147503794107644}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.03
+  m_Center: {x: 0.07, y: 0.15, z: 0}
 --- !u!136 &136667864244899260
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -2427,7 +2488,7 @@ CapsuleCollider:
   m_Radius: 0.4
   m_Height: 1.6
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.87, z: 0}
 --- !u!137 &137464820802569840
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

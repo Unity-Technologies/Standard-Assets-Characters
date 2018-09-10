@@ -1,20 +1,19 @@
 ﻿using System;
 using StandardAssets.Characters.Effects;
-using StandardAssets.Characters.Physics;
 using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
+	/// <summary>
+	/// Handles the third person movement event triggers and event IDs.
+	/// As well as collider movement detections <see cref="ColliderMovementDetection"/>
+	/// </summary>
 	[Serializable]
 	public class ThirdPersonMovementEventHandler : MovementEventHandler
 	{
+
 		/// <summary>
-		/// CharacterPhysics
-		/// </summary>
-		private ICharacterPhysics characterPhysics;
-		
-		/// <summary>
-		/// The movement detections
+		/// The movement detection colliders attached to the feet of the Third Person Character
 		/// </summary>
 		[SerializeField]
 		protected ColliderMovementDetection[] movementDetections;
@@ -31,7 +30,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 		
 		/// <summary>
-		/// Subscribe to the movement detection events
+		/// Unsubscribe to the movement detection events
 		/// </summary>
 		public void Unsubscribe()
 		{

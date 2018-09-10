@@ -12,7 +12,7 @@ namespace StandardAssets.Characters.Effects
 		protected AudioSource source;
 
 		/// <summary>
-		/// Audio clips to use for cycling through clips, i.e as foot steps
+		/// Collection of audio clips that could be randomly selected by this <see cref="AudioMovementEventPlayer"/>
 		/// </summary>
 		[SerializeField, Tooltip("For using multiple audio sources, i.e footstep sounds")]
 		protected AudioClip[] clips;
@@ -25,23 +25,27 @@ namespace StandardAssets.Characters.Effects
 		}
 
 		/// <summary>
-		/// Play movement events
+		/// Play the audio source associated with the movement event or cycle
+		/// through multiple clips if required. e.g. for alternating footstep sounds. 
 		/// </summary>
 		/// <param name="movementEvent">Movement event data</param>
 		protected override void PlayMovementEvent(MovementEvent movementEvent)
 		{
-			source.clip = clips[currentSoundIndex];
-
-			currentSoundIndex++;
-			if (currentSoundIndex >= clips.Length)
+			if (source == null)
 			{
-				currentSoundIndex = 0;
+				return;
 			}
 
-			if (source != null)
+			if (clips.Length != 0)
 			{
-				source.Play();
+				if (currentSoundIndex >= clips.Length)
+				{
+					currentSoundIndex = 0;
+				}
+				source.clip = clips[currentSoundIndex++];
 			}
+			
+			source.Play();
 		}
 	}
 }

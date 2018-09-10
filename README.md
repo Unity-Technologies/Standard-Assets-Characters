@@ -172,6 +172,11 @@ For more detailed documentation, please see the WIP Google Docs:
 		e) Drag Third Person Camaeras onto the Third Person Main State Driven Camera property
 
 
+### Invert camera Y axis (optional):
+	1) Select InputManager
+		a) On the Input Options, tick the Camera Invert Y property
+
+
 
 ## Camera Setup Overview
 
@@ -214,6 +219,7 @@ For more detailed documentation, please see the WIP Google Docs:
 		** Code and Design Structure
 		** Behaviour and Functionality for Idle, Walk, Run, Sprint, Turning Locomotion
 		** Behaviour and Functionality for Falling and Landing
+		** Standing and Running Jump Animations
 		** Standing-Forward Jump Behaviour
 		** Jump-Motion Curve
 		** Nav Mesh Input Controller
@@ -243,7 +249,6 @@ For more detailed documentation, please see the WIP Google Docs:
 	* Third Person Controller 
 		** Inspector UX
 		** Code Review and Commenting
-		** New Standing and Running Jump Animations
 		** Strafing Locomotion Behaviour
 		** Effects Detection System for Character Feet
 	
@@ -256,6 +261,9 @@ For more detailed documentation, please see the WIP Google Docs:
 
 
 ### Still Requires Work:
+
+	* First Person Controller
+		** Head Bobbing Cinemachine Custom Extension
 
 	* Third Person Controller 
 		** Strafing Locomotion Animation Updates

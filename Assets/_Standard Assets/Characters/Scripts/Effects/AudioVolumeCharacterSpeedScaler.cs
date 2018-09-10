@@ -3,10 +3,13 @@ using UnityEngine;
 
 namespace StandardAssets.Characters.Effects
 {
+	/// <summary>
+	/// Scales the volume of an audio source based off the <see cref="thirdPersonBrain"/> normalized speed
+	/// </summary>
 	public class AudioVolumeCharacterSpeedScaler : MonoBehaviour
 	{
 		/// <summary>
-		/// The audio source to be played
+		/// The audio source to be volume scaled
 		/// </summary>
 		[SerializeField]
 		protected AudioSource source;
@@ -15,23 +18,18 @@ namespace StandardAssets.Characters.Effects
 		protected ThirdPersonBrain thirdPersonBrain;
 
 		private float scaledVolume;
-
-		public float updatedVolume
-		{
-			get
-			{
-				return scaledVolume;
-			}
-		}
 		
-		private float volume;
+		private float defaultVolume;
 		
 		private void Awake()
 		{
-			volume = source.volume;
+			if (source != null)
+			{
+				defaultVolume = source.volume;
+			}
 		}
 		
-		void Update()
+		private void Update()
 		{
 			if (thirdPersonBrain != null && thirdPersonBrain.isActiveAndEnabled)
 			{
@@ -40,22 +38,22 @@ namespace StandardAssets.Characters.Effects
 		}
 
 		private void ScaleVolumeToSpeed()
-		{	
-			if (thirdPersonBrain.currentMotor.normalizedLateralSpeed == 0)
+		{
+			if (source == null)
 			{
-				scaledVolume = volume * thirdPersonBrain.currentMotor.normalizedForwardSpeed;
+				return;
+			}
+			
+			if (thirdPersonBrain.currentMotor.normalizedForwardSpeed == 0)
+			{
+				scaledVolume = defaultVolume * thirdPersonBrain.currentMotor.normalizedLateralSpeed;
 			}
 			else
 			{
-				scaledVolume = volume * thirdPersonBrain.currentMotor.normalizedLateralSpeed;
+				scaledVolume = defaultVolume * thirdPersonBrain.normalizedForwardSpeed;
 			}
-		
-			if (scaledVolume < 0)
-			{
-				scaledVolume *= -1;
-			}
-			
-			//source.volume = scaledVolume;
+
+			source.volume = Mathf.Abs(scaledVolume);
 		}
 	}
 }

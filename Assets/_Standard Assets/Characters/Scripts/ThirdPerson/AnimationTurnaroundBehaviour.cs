@@ -15,6 +15,15 @@ namespace StandardAssets.Characters.ThirdPerson
 	[Serializable]
 	public class AnimationTurnaroundBehaviour : TurnaroundBehaviour
 	{
+		private enum State
+		{
+			Inactive,
+			WaitingForTransition,
+			Transitioning,
+			TurningAnimation,
+			TransitioningOut
+		}
+		
 		/// <summary>
 		/// Model to store data per animation turnaround
 		/// </summary>
@@ -27,9 +36,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			public float speed = 1;
 			// Head look at angle scale during animation
 			public float headTurnScale = 1;
-			[HideInInspector]
-			// clip duration. HideInInspector as it should only be edited by the editor code below
-			public float duration;
 
 			public AnimationInfo(string name)
 			{
@@ -60,14 +66,14 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField, Tooltip("Duration of the cross fade into turn animation")] 
 		protected float crossfadeDuration = 0.125f;
 
-		private float animationTime, // current animation time, incremented each frame
-			targetAngle, // target y rotation angle in degrees
+		private float targetAngle, // target y rotation angle in degrees
 			cachedAnimatorSpeed, // speed of the animator prior to starting an animation turnaround
 			cacheForwardSpeed; // forwards speed of the motor prior to starting an animation turnaround
 		private Quaternion startRotation; // rotation of the character as turnaround is started
 		private AnimationInfo currentAnimationInfo; // currently selected animation info
 		private ThirdPersonAnimationController animationController;
 		private Transform transform; // character's transform
+		private State state; // state used to determine where to retrieve animator normalized time from
 
 		/// <inheritdoc />
 		public override float headTurnScale
@@ -99,16 +105,55 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				return;
 			}
-			animationController.UpdateForwardSpeed(cacheForwardSpeed, float.MaxValue);
-			animationTime += Time.deltaTime * currentAnimationInfo.speed;
-			var rotationProgress = rotationCurve.Evaluate(animationTime / currentAnimationInfo.duration);
-			transform.rotation = Quaternion.AngleAxis(rotationProgress * targetAngle, Vector3.up) * startRotation;
-			// animation complete, blending to locomotion
-			if(animationTime >= currentAnimationInfo.duration)
+
+			// check if next or current state normalized time is appropriate.
+			float nextStateNormalizedTime = animator.GetNextAnimatorStateInfo(0).normalizedTime;
+			float currentStateNormalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+			
+			float normalizedTime = 0;
+			switch (state)
 			{
-				animator.speed = cachedAnimatorSpeed;
-				EndTurnAround();
+				case State.WaitingForTransition: // waiting for transition to start use 0 until start
+					if (!Mathf.Approximately(nextStateNormalizedTime, 0))
+					{
+						state = State.Transitioning;
+					}
+					break;
+				case State.Transitioning: // transitioning into animation use next state time until transition is complete.
+					if (Mathf.Approximately(nextStateNormalizedTime, 0))
+					{
+						state = State.TurningAnimation;
+						normalizedTime = currentStateNormalizedTime;
+					}
+					else
+					{
+						normalizedTime = nextStateNormalizedTime;
+					}
+					break;
+				case State.TurningAnimation: // playing turn use current state until turn is complete
+					normalizedTime = currentStateNormalizedTime;
+					if (normalizedTime >= 1.0f)
+					{
+						state = State.TransitioningOut;
+						return;
+					}
+
+					break;
+				case State.TransitioningOut: // transition out of turn don't rotate just wait for transition end
+					AnimatorTransitionInfo transitionInfo = animator.GetAnimatorTransitionInfo(0);
+					if (Mathf.Approximately(transitionInfo.normalizedTime, 0))
+					{
+						state = State.Inactive;
+						animator.speed = cachedAnimatorSpeed;
+						EndTurnAround();
+					}
+					return; // don't rotate character
 			}
+			
+			animationController.UpdateForwardSpeed(cacheForwardSpeed, float.MaxValue);
+			
+			float rotationProgress = rotationCurve.Evaluate(normalizedTime);
+			transform.rotation = Quaternion.AngleAxis(rotationProgress * targetAngle, Vector3.up) * startRotation;
 		}
 
 		/// <inheritdoc />
@@ -138,12 +183,13 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			startRotation = transform.rotation;
 			animator.CrossFade(currentAnimationInfo.name, crossfadeDuration, 0, 0);
-			animationTime = 0;
 
 			cachedAnimatorSpeed = animator.speed;
 			animator.speed = currentAnimationInfo.speed;
 
 			cacheForwardSpeed = animationController.animatorForwardSpeed;
+
+			state = State.WaitingForTransition;
 		}
 
 		/// <summary>
@@ -190,90 +236,5 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			return forwardSpeed <= 1 ? runLeftTurn : sprintLeftTurn;
 		}
-		
-#if UNITY_EDITOR
-		
-		/*
-		TODO
-		Below is editor logic to retrieve the duration of the clips used for the turnaround. This is required as
-		normalized animator time cannot be used due to transitions. This solution is not ideal as edits to the 
-		animator would require this to run but this only runs in OnValidate().
-		*/
-		
-		private const int k_AnimationCount = 6;
-		private int turnsFound;
-
-		// Validate the durations of the turn animations
-		public void OnValidate(Animator animator)
-		{
-			turnsFound = 0;
-			// we get states from state machine, no need to look in blend trees for this.
-			var animation = (AnimatorController)animator.runtimeAnimatorController;
-			TraverseStatemachineToCheckStates(animation.layers[0].stateMachine);
-			
-			if (turnsFound < k_AnimationCount)
-			{
-				Debug.LogError("Did not find all turn states in state machine");
-			}
-		}
-
-		private void TraverseStatemachineToCheckStates(AnimatorStateMachine stateMachine)
-		{
-			if (turnsFound == k_AnimationCount)
-			{
-				return;
-			}
-			foreach (var childState in stateMachine.states)
-			{
-				var clip = childState.state.motion as AnimationClip;
-				if (clip != null)
-				{
-					CheckStateForTurn(childState.state);
-					if (turnsFound == k_AnimationCount)
-					{
-						return;
-					}
-				}
-			}
-			foreach (var childStateMachine in stateMachine.stateMachines)
-			{
-				TraverseStatemachineToCheckStates(childStateMachine.stateMachine);
-			}
-		}
-
-		private void CheckStateForTurn(AnimatorState state)
-		{
-			if (state.name == runLeftTurn.name)
-			{
-				runLeftTurn.duration = state.motion.averageDuration;
-				turnsFound++;
-			}
-			else if (state.name == runRightTurn.name)
-			{
-				runRightTurn.duration = state.motion.averageDuration;
-				turnsFound++;
-			}
-			if (state.name == sprintLeftTurn.name)
-			{
-				sprintLeftTurn.duration = state.motion.averageDuration;
-				turnsFound++;
-			}
-			if (state.name == sprintRightTurn.name)
-			{
-				sprintRightTurn.duration = state.motion.averageDuration;
-				turnsFound++;
-			}
-			if (state.name == idleLeftTurn.name)
-			{
-				idleLeftTurn.duration = state.motion.averageDuration;
-				turnsFound++;
-			}
-			if (state.name == idleRightTurn.name)
-			{
-				idleRightTurn.duration = state.motion.averageDuration;
-				turnsFound++;
-			}
-		}
-#endif
 	}
 }
