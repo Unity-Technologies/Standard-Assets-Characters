@@ -29,7 +29,7 @@ namespace StandardAssets.Characters.Effects
 			}
 		}
 		
-		void Update()
+		private void Update()
 		{
 			if (thirdPersonBrain != null && thirdPersonBrain.isActiveAndEnabled)
 			{
@@ -52,13 +52,8 @@ namespace StandardAssets.Characters.Effects
 			{
 				scaledVolume = defaultVolume * thirdPersonBrain.normalizedForwardSpeed;
 			}
-		
-			if (scaledVolume < 0)
-			{
-				scaledVolume *= -1;
-			}
-			
-			source.volume = scaledVolume;
+
+			source.volume = Mathf.Abs(scaledVolume);
 		}
 	}
 }
