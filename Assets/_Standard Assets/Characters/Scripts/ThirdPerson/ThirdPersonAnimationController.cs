@@ -336,6 +336,15 @@ namespace StandardAssets.Characters.ThirdPerson
 			motor.jumpStarted += OnJumpStarted;
 			motor.landed += OnLanding;
 			motor.fallStarted += OnFallStarted;
+
+			var thirdPersonBrain = gameObject.GetComponent<ThirdPersonBrain>();
+			if (thirdPersonBrain != null)
+			{
+				thirdPersonBrain.thirdPersonCameraAnimationManager.forwardLockedModeStarted +=
+					OnStrafeStarted;
+				thirdPersonBrain.thirdPersonCameraAnimationManager.forwardUnlockedModeStarted +=
+					OnStrafeEnded;
+			}
 		}
 
 		/// <summary>
@@ -349,6 +358,15 @@ namespace StandardAssets.Characters.ThirdPerson
 				motor.jumpStarted -= OnJumpStarted;
 				motor.landed -= OnLanding;
 				motor.fallStarted -= OnFallStarted;
+			}
+			
+			var thirdPersonBrain = gameObject.GetComponent<ThirdPersonBrain>();
+			if (thirdPersonBrain != null)
+			{
+				thirdPersonBrain.thirdPersonCameraAnimationManager.forwardLockedModeStarted -=
+					OnStrafeStarted;
+				thirdPersonBrain.thirdPersonCameraAnimationManager.forwardUnlockedModeStarted -=
+					OnStrafeEnded;
 			}
 		}
 
@@ -410,6 +428,22 @@ namespace StandardAssets.Characters.ThirdPerson
 					break;
 			}
 			animator.SetBool(hashGrounded, true);
+		}
+		
+		/// <summary>
+		/// Sets the animator strafe parameter to true.
+		/// </summary>
+		private void OnStrafeStarted()
+		{
+			animator.SetBool(configuration.strafeParameterName, true);
+		}
+		
+		/// <summary>
+		/// Sets the animator strafe parameter to false.
+		/// </summary>
+		private void OnStrafeEnded()
+		{
+			animator.SetBool(configuration.strafeParameterName, false);
 		}
 
 		/// <summary>

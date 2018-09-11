@@ -15,7 +15,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		[Header("State Names")]
 		[SerializeField, AnimatorStateName("thirdPersonAnimator")]
 		protected string locomotion = "Locomotion Blend";
-		
+
 		[SerializeField, AnimatorStateName("thirdPersonAnimator")]
 		protected string rightFootRootMotionJump = "OnRightFoot",
 						 leftFootRootMotionJump = "OnLeftFoot",
@@ -36,6 +36,9 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[SerializeField, Tooltip("Configuration for the turning speed animation parameter")]
 		protected AnimationFloatParameter turningSpeedParameter = new AnimationFloatParameter("TurningSpeed", 0.01f, 0.05f);
+
+		[SerializeField, AnimatorParameterName("thirdPersonAnimator", AnimatorControllerParameterType.Bool)]
+		protected string strafeParameter = "Strafe";
 		
 		[SerializeField, AnimatorParameterName("thirdPersonAnimator", AnimatorControllerParameterType.Bool)]
 		protected string groundedParameter = "Grounded";
@@ -179,6 +182,14 @@ namespace StandardAssets.Characters.ThirdPerson
 		public string jumpedLateralSpeedParameterName
 		{
 			get { return jumpedLateralSpeedParameter; }
+		}
+
+		/// <summary>
+		/// Gets the strafe parameter name
+		/// </summary>
+		public string strafeParameterName
+		{
+			get { return strafeParameter; }
 		}
 
 		/// <summary>
