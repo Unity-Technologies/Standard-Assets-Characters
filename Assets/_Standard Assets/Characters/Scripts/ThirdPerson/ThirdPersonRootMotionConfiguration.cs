@@ -17,6 +17,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField, Tooltip("The root motion will be scaled by this before movement is applied")]
 		protected float rootMotionMovementScale = 1f;
 
+		[SerializeField, Tooltip("During sprint normalized speed will be 1 + this. Used to extend the locomotion blend tree.")]
+		protected float sprintNormalizedSpeedIncrease = 0.5f;
+		
 		[SerializeField]
 		protected bool useCustomActionParameters = true;
 
@@ -26,9 +29,6 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[SerializeField]
 		protected bool useCustomStrafeParameters = true;
-		
-		[SerializeField, Tooltip("During sprint normalized speed will be 1 + this. Used to extend the locomotion blend tree.")]
-		protected float sprintNormalizedSpeedIncrease = 0.5f;
 
 		[VisibleIf("useCustomStrafeParameters")]
 		[SerializeField]
