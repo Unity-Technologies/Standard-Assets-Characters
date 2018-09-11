@@ -17,15 +17,12 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected string locomotion = "Locomotion Blend";
 		
 		[SerializeField, AnimatorStateName("thirdPersonAnimator")]
-		protected string rightFootRootMotionJump = "OnRightFoot",
-						 leftFootRootMotionJump = "OnLeftFoot",
-						 rightFootJump = "OnRightFootBlend",
-						 leftFootJump = "OnLeftFootBlend",
+		protected string rightFootRootMotionJump = "RightFootRootMotionJump",
+						 leftFootRootMotionJump = "LeftFootRootMotionJump",
+						 rightFootJump = "RightFootPhysicsJump",
+						 leftFootJump = "LeftFootPhysicsJump",
 						 rollLand = "RollLand",
 						 land = "Land";
-		
-		[Space, SerializeField, AnimatorParameterName("thirdPersonAnimator", AnimatorControllerParameterType.Bool)]
-		protected string hasInputParameter = "HasInput";
 		
 		[Header("Ground Movement"), Tooltip("Configuration for the forward speed animation parameter")]
 		[SerializeField]
@@ -36,9 +33,6 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[SerializeField, Tooltip("Configuration for the turning speed animation parameter")]
 		protected AnimationFloatParameter turningSpeedParameter = new AnimationFloatParameter("TurningSpeed", 0.01f, 0.05f);
-		
-		[SerializeField, AnimatorParameterName("thirdPersonAnimator", AnimatorControllerParameterType.Bool)]
-		protected string groundedParameter = "Grounded";
 		
 		[Header("Jumping"), AnimatorParameterName("thirdPersonAnimator", AnimatorControllerParameterType.Float)]
 		[SerializeField]
@@ -142,27 +136,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 
 		/// <summary>
-		/// Gets the grounded parameter name
-		/// </summary>
-		public string groundedParameterName
-		{
-			get { return groundedParameter; }
-		}
-
-		/// <summary>
 		/// Gets the fall parameter name
 		/// </summary>
 		public string fallParameterName
 		{
 			get { return fallParameter; }
-		}
-
-		/// <summary>
-		/// Gets the has input parameter name
-		/// </summary>
-		public string hasInputParameterName
-		{
-			get { return hasInputParameter; }
 		}
 
 		/// <summary>
