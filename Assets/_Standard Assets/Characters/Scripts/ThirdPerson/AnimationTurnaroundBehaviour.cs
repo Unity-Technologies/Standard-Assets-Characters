@@ -35,7 +35,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			// Animation play speed
 			public float speed = 1;
 			// Head look at angle scale during animation
-			public float headTurnScale = 1;
+			public float headTurnScale = 1.0f;
 
 			public AnimationInfo(string name)
 			{
@@ -80,7 +80,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			get
 			{
-				return currentAnimationInfo == null ? 1 : currentAnimationInfo.headTurnScale;
+				return currentAnimationInfo == null ? 1.0f : currentAnimationInfo.headTurnScale;
 			}
 		}
 
@@ -107,27 +107,27 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 			// check if next or current state normalized time is appropriate.
-			float nextStateNormalizedTime = animator.GetNextAnimatorStateInfo(0).normalizedTime;
 			float currentStateNormalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
 			
-			float normalizedTime = 0;
+			float normalizedTime = 0.0f;
 			switch (state)
 			{
 				case State.WaitingForTransition: // waiting for transition to start use 0 until start
-					if (!Mathf.Approximately(nextStateNormalizedTime, 0))
+					if (animator.IsInTransition(0))
 					{
 						state = State.Transitioning;
 					}
 					break;
 				case State.Transitioning: // transitioning into animation use next state time until transition is complete.
-					if (Mathf.Approximately(nextStateNormalizedTime, 0))
+					if (!animator.IsInTransition(0))
 					{
 						state = State.TurningAnimation;
 						normalizedTime = currentStateNormalizedTime;
 					}
 					else
 					{
-						normalizedTime = nextStateNormalizedTime;
+						// transitioning, use next state's normalized time.
+						normalizedTime = animator.GetNextAnimatorStateInfo(0).normalizedTime;
 					}
 					break;
 				case State.TurningAnimation: // playing turn use current state until turn is complete
@@ -140,8 +140,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 					break;
 				case State.TransitioningOut: // transition out of turn don't rotate just wait for transition end
-					AnimatorTransitionInfo transitionInfo = animator.GetAnimatorTransitionInfo(0);
-					if (Mathf.Approximately(transitionInfo.normalizedTime, 0))
+					if (!animator.IsInTransition(0))
 					{
 						state = State.Inactive;
 						animator.speed = cachedAnimatorSpeed;
@@ -178,11 +177,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected override void StartTurningAround(float angle)
 		{
 			targetAngle = MathUtilities.Wrap180(angle);
-			currentAnimationInfo = GetCurrent(animationController.animatorForwardSpeed, angle > 0,
+			currentAnimationInfo = GetCurrent(animationController.animatorForwardSpeed, angle > 0.0f,
 				!animationController.isRightFootPlanted);
 
 			startRotation = transform.rotation;
-			animator.CrossFade(currentAnimationInfo.name, crossfadeDuration, 0, 0);
+			animator.CrossFade(currentAnimationInfo.name, crossfadeDuration, 0, 0.0f);
 
 			cachedAnimatorSpeed = animator.speed;
 			animator.speed = currentAnimationInfo.speed;
@@ -217,7 +216,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			targetAngle = Mathf.Abs(targetAngle); 
 			if (!leftFootPlanted) 
 			{ 
-				targetAngle *= -1; 
+				targetAngle *= -1.0f; 
 			} 
 			return CurrentRun(forwardSpeed, leftFootPlanted);
 		}
@@ -232,9 +231,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			if (turningClockwise)
 			{
-				return forwardSpeed <= 1 ? runRightTurn : sprintRightTurn;
+				return forwardSpeed <= 1.0f ? runRightTurn : sprintRightTurn;
 			}
-			return forwardSpeed <= 1 ? runLeftTurn : sprintLeftTurn;
+			return forwardSpeed <= 1.0f ? runLeftTurn : sprintLeftTurn;
 		}
 	}
 }

@@ -47,8 +47,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		private int hashLateralSpeed;
 		private int hashTurningSpeed;
 		private int hashVerticalSpeed;
-		private int hashGrounded;
-		private int hashHasInput;
 		private int hashGroundedFootRight;
 		private int hashJumpedForwardSpeed;
 		private int hashJumpedLateralSpeed;
@@ -238,8 +236,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			hashLateralSpeed = Animator.StringToHash(configuration.lateralSpeed.parameter);
 			hashTurningSpeed = Animator.StringToHash(configuration.turningSpeed.parameter);
 			hashVerticalSpeed = Animator.StringToHash(configuration.verticalSpeedParameterName);
-			hashGrounded = Animator.StringToHash(configuration.groundedParameterName);
-			hashHasInput = Animator.StringToHash(configuration.hasInputParameterName);
 			hashGroundedFootRight = Animator.StringToHash(configuration.groundedFootRightParameterName);
 			hashJumpedForwardSpeed = Animator.StringToHash(configuration.jumpedForwardSpeedParameterName);
 			hashJumpedLateralSpeed = Animator.StringToHash(configuration.jumpedLateralSpeedParameterName);
@@ -255,10 +251,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		public void Update()
 		{
 			UpdateTurningSpeed(motor.normalizedTurningSpeed, Time.deltaTime);
-		
-			animator.SetBool(hashHasInput,
-							 CheckHasSpeed(motor.normalizedForwardSpeed) ||
-							 CheckHasSpeed(motor.normalizedLateralSpeed));
 
 			bool fullyGrounded = isGrounded && state != AnimationState.Landing;
 			// only update during landing if there is input to inhibit a jarring stop post land animation.
@@ -376,7 +368,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void OnFallStarted(float predictedFallDistance)
 		{
 			isGrounded = false;
-			animator.SetBool(hashGrounded, false);
 			animator.SetTrigger(hashFall);
 		}
 
@@ -427,7 +418,6 @@ namespace StandardAssets.Characters.ThirdPerson
 					}
 					break;
 			}
-			animator.SetBool(hashGrounded, true);
 		}
 		
 		/// <summary>
@@ -491,8 +481,6 @@ namespace StandardAssets.Characters.ThirdPerson
 											 : configuration.leftFootRootMotionJumpStateName, duration);
 				state = AnimationState.RootMotionJump;
 			}
-
-			animator.SetBool(hashGrounded, false);
 		}
 
 		private void SetJumpForward(float jumpForward)

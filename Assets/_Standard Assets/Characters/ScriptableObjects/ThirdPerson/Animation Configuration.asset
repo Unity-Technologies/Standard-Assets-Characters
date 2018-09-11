@@ -13,13 +13,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thirdPersonAnimator: {fileID: 9100000, guid: 9250483fadc19a444bcc66715ab615e9, type: 2}
   locomotion: Locomotion Blend
-  rightFootRootMotionJump: OnRightFoot
-  leftFootRootMotionJump: OnLeftFoot
-  rightFootJump: OnRightFootBlend
-  leftFootJump: OnLeftFootBlend
+  rightFootRootMotionJump: RightFootRootMotionJump
+  leftFootRootMotionJump: LeftFootRootMotionJump
+  rightFootJump: RightFootPhysicsJump
+  leftFootJump: LeftFootPhysicsJump
   rollLand: RollLand
   land: Land
-  hasInputParameter: HasInput
   forwardSpeedParameter:
     parameterName: ForwardSpeed
     minInterpolationTime: 0.15
@@ -32,7 +31,6 @@ MonoBehaviour:
     parameterName: TurningSpeed
     minInterpolationTime: 0.01
     maxInterpolationTime: 0.05
-  groundedParameter: Grounded
   verticalSpeedParameter: VerticalSpeed
   fallParameter: Fall
   jumpTransitionAsAFactorOfSpeed:
@@ -59,8 +57,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  rightFootPhysicsJumpLandAnimationTimeOffset: 0.6
-  leftFootPhysicsJumpLandAnimationTimeOffset: 0.3
   jumpEndTransitionDurationByForwardSpeed:
     serializedVersion: 2
     m_Curve:
@@ -85,6 +81,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  rightFootPhysicsJumpLandAnimationTimeOffset: 0.6
+  leftFootPhysicsJumpLandAnimationTimeOffset: 0.3
   jumpedLateralSpeedParameter: JumpedLateralSpeed
   jumpedForwardSpeedParameter: JumpedForwardSpeed
   skipJumpLandWindow: 0.38
@@ -115,13 +113,14 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   normalizedForwardSpeedToRoll: 0.3
+  fallTimeRequiredToTriggerRoll: 1
   rollAnimationBlendTime: 0.15
   landAnimationBlendTime: 0.11
-  footednessParameter: OnRightFoot
-  invertFootedness: 0
-  footednessThreshold: 0.25
-  footednessThresholdOffset: 0.25
-  disableHeadTurn: 0
+  groundedFootRightParameter: OnRightFoot
+  startRightFootGrounded: 0
+  groundedFootThreshold: 0.25
+  groundedFootThresholdOffset: 0.25
+  enableHeadTurn: 1
   headTurnProperties:
     headLookAtWeight: 1
     headLookAtMaxRotation: 75
