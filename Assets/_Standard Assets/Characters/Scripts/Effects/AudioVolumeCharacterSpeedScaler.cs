@@ -6,7 +6,7 @@ namespace StandardAssets.Characters.Effects
 	/// <summary>
 	/// Scales the volume of an audio source based off the <see cref="thirdPersonBrain"/> normalized speed
 	/// </summary>
-	public class AudioVolumeCharacterSpeedScaler : MonoBehaviour
+	public class AudioVolumeCharacterSpeedScaler : CharacterSpeedEffectScaler
 	{
 		/// <summary>
 		/// The audio source to be volume scaled
@@ -15,45 +15,32 @@ namespace StandardAssets.Characters.Effects
 		protected AudioSource source;
 
 		[SerializeField]
-		protected ThirdPersonBrain thirdPersonBrain;
-
-		private float scaledVolume;
+		protected float minimumVolume = 0.1f;
 		
+		private float scaledVolume;
+
 		private float defaultVolume;
 		
 		private void Awake()
 		{
+			base.Awake();
+			
 			if (source != null)
 			{
 				defaultVolume = source.volume;
 			}
 		}
-		
-		private void Update()
-		{
-			if (thirdPersonBrain != null && thirdPersonBrain.isActiveAndEnabled)
-			{
-				ScaleVolumeToSpeed();
-			}
-		}
 
-		private void ScaleVolumeToSpeed()
+		protected override void ApplyNormalizedSpeedToEffect(float normalizedSpeed)
 		{
-			if (source == null)
+			scaledVolume = defaultVolume * normalizedSpeed;
+			
+			if (scaledVolume < minimumVolume)
 			{
-				return;
+				scaledVolume = minimumVolume;
 			}
 			
-			if (thirdPersonBrain.currentMotor.normalizedForwardSpeed == 0)
-			{
-				scaledVolume = defaultVolume * thirdPersonBrain.currentMotor.normalizedLateralSpeed;
-			}
-			else
-			{
-				scaledVolume = defaultVolume * thirdPersonBrain.normalizedForwardSpeed;
-			}
-
-			source.volume = Mathf.Abs(scaledVolume);
+			source.volume = scaledVolume;
 		}
 	}
 }
