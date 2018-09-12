@@ -23,8 +23,11 @@ namespace StandardAssets.Characters.Effects
 		/// </summary>
 		protected virtual void Awake()
 		{
-			lastPosition = characterTransform.position;
-			lastPosition.y = 0;
+			if (characterTransform != null)
+			{
+				lastPosition = characterTransform.position;
+				lastPosition.y = 0;
+			}
 		}
 
 		/// <summary>
@@ -32,13 +35,20 @@ namespace StandardAssets.Characters.Effects
 		/// </summary>
 		protected virtual void Update()
 		{
-			Vector3 newPosition = characterTransform.position;
-			newPosition.y = 0;
-			float displacement = (lastPosition - newPosition).magnitude;
-			float speed = displacement / Time.deltaTime;
-			normalizedSpeed = Mathf.Clamp(speed / maxSpeed, 0, 1);
-			ApplyNormalizedSpeedToEffect(normalizedSpeed);
-			lastPosition = newPosition;
+			if (characterTransform != null)
+			{
+				Vector3 newPosition = characterTransform.position;
+				newPosition.y = 0;
+				float displacement = (lastPosition - newPosition).magnitude;
+				float speed = displacement / Time.deltaTime;
+				normalizedSpeed = Mathf.Clamp(speed / maxSpeed, 0, 1);
+				ApplyNormalizedSpeedToEffect(normalizedSpeed);
+				lastPosition = newPosition;	
+			}
+			else
+			{
+				normalizedSpeed = 1f; //If there is no character transform, set the normal speed to 1
+			}
 		}
 
 		/// <summary>
