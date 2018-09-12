@@ -19,7 +19,6 @@ MonoBehaviour:
   leftFootJump: LeftFootPhysicsJump
   rollLand: RollLand
   land: Land
-  hasInputParameter: HasInput
   forwardSpeedParameter:
     parameterName: ForwardSpeed
     minInterpolationTime: 0.15
@@ -32,7 +31,6 @@ MonoBehaviour:
     parameterName: TurningSpeed
     minInterpolationTime: 0.01
     maxInterpolationTime: 0.05
-  groundedParameter: Grounded
   verticalSpeedParameter: VerticalSpeed
   fallParameter: Fall
   jumpTransitionAsAFactorOfSpeed:

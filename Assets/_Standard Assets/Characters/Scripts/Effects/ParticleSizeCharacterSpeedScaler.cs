@@ -1,5 +1,5 @@
-using StandardAssets.Characters.ThirdPerson;
 using UnityEngine;
+using Util;
 
 namespace StandardAssets.Characters.Effects
 {
@@ -7,51 +7,32 @@ namespace StandardAssets.Characters.Effects
 	/// Scales the particle start size based off the <see cref="thirdPersonBrain"/> character speed
 	/// </summary>
 	[RequireComponent(typeof(ParticleSystem))]
-	public class ParticleSizeCharacterSpeedScaler: MonoBehaviour
+	public class ParticleSizeCharacterSpeedScaler : CharacterSpeedEffectScaler
 	{
-		[SerializeField, Tooltip("Third person brain for getting character speed")]
-		protected ThirdPersonBrain thirdPersonBrain;
+		[SerializeField]
+		protected AnimationCurve particleScaleFromNormalizedSpeed = AnimationCurve.Linear(0,0,1,1);
 
+		[SerializeField]
+		protected float minScale = 1f;
+
+		private float maxScale;
+		
 		private ParticleSystem particleSystem;
-
-		private float maxParticleStartSize;
 
 		private float scaledParticleStartSize;
 
-		private void Awake()
+		protected override void Awake()
 		{
+			base.Awake();
 			particleSystem = GetComponent<ParticleSystem>();
-			maxParticleStartSize = particleSystem.main.startSize.constant;
+			maxScale = particleSystem.main.startSize.constant;
 		}
 
-		private void Update()
+		protected override void ApplyNormalizedSpeedToEffect(float normalizedSpeed)
 		{
-			ScaleParticleSizeToSpeed();
-		}
-
-		private void ScaleParticleSizeToSpeed()
-		{
-			if (thirdPersonBrain == null || maxParticleStartSize == null)
-			{
-				return;
-			}
-			if (thirdPersonBrain.currentMotor.normalizedForwardSpeed == 0)
-			{
-				scaledParticleStartSize = maxParticleStartSize * thirdPersonBrain.currentMotor.normalizedLateralSpeed;
-			}
-			else
-			{
-				scaledParticleStartSize = maxParticleStartSize * thirdPersonBrain.normalizedForwardSpeed;
-			}
-			
-			scaledParticleStartSize = Mathf.Abs(scaledParticleStartSize);
-
-			if (scaledParticleStartSize < 1)
-			{
-				scaledParticleStartSize = 1;
-			}
 			ParticleSystem.MainModule particleSystemMain = particleSystem.main;
-			particleSystemMain.startSize =  scaledParticleStartSize;
+			scaledParticleStartSize = particleScaleFromNormalizedSpeed.Evaluate(normalizedSpeed) * (maxScale - minScale) + minScale;
+			particleSystemMain.startSize = scaledParticleStartSize;
 		}
 	}
 }
