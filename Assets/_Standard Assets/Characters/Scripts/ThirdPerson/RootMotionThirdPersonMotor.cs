@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
@@ -71,6 +72,14 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <value>Either Action or Strafe.</value>
 		public ThirdPersonMotorMovementMode movementMode { get; private set; }
 
+		/// <summary>
+		/// Is rapid turn disabled? (Enable/Disable it via EnableRapidTurn/DisableRapidTurn).
+		/// </summary>
+		public bool disableRapidTurn
+		{
+			get { return objectsThatDisabledRapidTurn.Count > 0; }
+		}
+
 		/// <inheritdoc />
 		public event Action jumpStarted;
 
@@ -121,6 +130,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// Gets whether to track height above the ground.
 		/// </summary>
 		private bool trackGroundHeight;
+
+		/// <summary>
+		/// List of objects that disabled rapid turn. To allow multiple objects to disable it temporarily.
+		/// </summary>
+		private readonly List<System.Object> objectsThatDisabledRapidTurn = new List<System.Object>();
 
 		/// <inheritdoc />
 		public TurnaroundBehaviour currentTurnaroundBehaviour
@@ -349,6 +363,32 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (trackGroundHeight)
 			{
 				UpdateTrackGroundHeight();
+			}
+		}
+
+		/// <summary>
+		/// Enable rapid turn. Usually used after it has been temporarily disabled.
+		/// </summary>
+		/// <param name="disabledByObject">The object that disabled it previously via DisableRapidTurn.</param>
+		public void EnableRapidTurn(System.Object disabledByObject)
+		{
+			if (objectsThatDisabledRapidTurn.Contains(disabledByObject))
+			{
+				previousInputs.Clear();
+				objectsThatDisabledRapidTurn.Remove(disabledByObject);
+			}
+		}
+
+		/// <summary>
+		/// Disable rapid turn. Usually used to disable it temporarily.
+		/// </summary>
+		/// <param name="disabledByObject">The object that called this method. Use the same object when calling
+		/// EnableRapidTurn. This helps identify various objects that temporarily disables rapid turn.</param>
+		public void DisableRapidTurn(System.Object disabledByObject)
+		{
+			if (!objectsThatDisabledRapidTurn.Contains(disabledByObject))
+			{
+				objectsThatDisabledRapidTurn.Add(disabledByObject);
 			}
 		}
 
@@ -623,7 +663,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected virtual bool CheckForAndHandleRapidTurn(Quaternion target)
 		{
-			if (thirdPersonBrain.turnaround == null)
+			if (thirdPersonBrain.turnaround == null ||
+			    disableRapidTurn)
 			{
 				return false;
 			}
@@ -667,7 +708,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			foreach (Vector2 previousInputsValue in previousInputs.values)
 			{
-				angle = Vector2.SignedAngle(previousInputsValue, characterInput.moveInput);
+				angle = -Vector2.SignedAngle(previousInputsValue, characterInput.moveInput);
 				float deltaMagnitude = Mathf.Abs(previousInputsValue.magnitude - characterInput.moveInput.magnitude);
 				if (Mathf.Abs(angle) > configuration.inputAngleRapidTurn && deltaMagnitude < 0.25f)
 				{
