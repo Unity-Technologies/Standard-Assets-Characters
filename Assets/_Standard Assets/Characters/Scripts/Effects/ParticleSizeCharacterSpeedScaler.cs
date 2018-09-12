@@ -15,6 +15,9 @@ namespace StandardAssets.Characters.Effects
 		[SerializeField]
 		protected float minScale = 1f;
 
+		[SerializeField]
+		protected float minSpeedForParticleEmission = 0.5f;
+
 		private float maxScale;
 		
 		private ParticleSystem particleSystem;
@@ -31,6 +34,11 @@ namespace StandardAssets.Characters.Effects
 		protected override void ApplyNormalizedSpeedToEffect(float normalizedSpeed)
 		{
 			ParticleSystem.MainModule particleSystemMain = particleSystem.main;
+			if (normalizedSpeed < minSpeedForParticleEmission)
+			{
+				particleSystemMain.startSize = 0f;
+				return;
+			}
 			scaledParticleStartSize = particleScaleFromNormalizedSpeed.Evaluate(normalizedSpeed) * (maxScale - minScale) + minScale;
 			particleSystemMain.startSize = scaledParticleStartSize;
 		}
