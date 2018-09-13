@@ -45,6 +45,11 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// </summary>
 		private bool previouslyHasInput;
 
+		/// <summary>
+		/// The main camera's transform, used for calculating look direction.
+		/// </summary>
+		private Transform mainCameraTransform;
+
 		/// <inheritdoc/>
 		public override float normalizedForwardSpeed
 		{
@@ -74,6 +79,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 			base.Awake();
 			ChangeState(startingMovementProperties);
 			capsuleMovementEventHandler.Init(transform, characterPhysics);
+			mainCameraTransform = Camera.main.transform;
 		}
 
 		private void OnEnable()
@@ -110,7 +116,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		
 		protected virtual Quaternion CalculateTargetRotation()
 		{
-			Vector3 flatForward = Camera.main.transform.forward;
+			Vector3 flatForward = mainCameraTransform.forward;
 			flatForward.y = 0f;
 			flatForward.Normalize();
 
@@ -202,14 +208,6 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 			currentSpeed = 0f;
 		}
 
-		/// <summary>
-		/// Clamps the current speed
-		/// </summary>
-		private void ClampCurrentSpeed()
-		{
-			currentSpeed = Mathf.Clamp(currentSpeed, 0f, currentMovementProperties.maximumSpeed);
-		}
-		
 		/// <summary>
 		/// Changes the current motor state and play events associated with state change
 		/// </summary>
