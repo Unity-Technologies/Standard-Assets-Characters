@@ -215,7 +215,6 @@ GameObject:
   - component: {fileID: 198055434924422520}
   - component: {fileID: 199182947327488204}
   - component: {fileID: 114454600131165316}
-  - component: {fileID: 114596154974041464}
   m_Layer: 11
   m_Name: 'Left Footstep Particle '
   m_TagString: Untagged
@@ -247,7 +246,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4515171478398038}
   - component: {fileID: 114622797650068930}
-  - component: {fileID: 114131883685197168}
   - component: {fileID: 82816127568170090}
   m_Layer: 11
   m_Name: Right Foot
@@ -281,7 +279,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4729261430092710}
   - component: {fileID: 114611809758985554}
-  - component: {fileID: 114123364864330034}
   - component: {fileID: 82870357802353172}
   m_Layer: 11
   m_Name: Right Foot
@@ -315,7 +312,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4809323353005204}
   - component: {fileID: 114784904795202732}
-  - component: {fileID: 114975905131148320}
   - component: {fileID: 82031709974400794}
   m_Layer: 11
   m_Name: Left Foot
@@ -445,7 +441,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4631122427900120}
   - component: {fileID: 114936745800307588}
-  - component: {fileID: 114275190676303484}
   - component: {fileID: 82689677409949390}
   m_Layer: 11
   m_Name: Left Foot
@@ -465,7 +460,6 @@ GameObject:
   - component: {fileID: 198469121927622458}
   - component: {fileID: 199953638949658392}
   - component: {fileID: 114774502518617130}
-  - component: {fileID: 114793441365012798}
   m_Layer: 11
   m_Name: 'Right Footstep Particle '
   m_TagString: Untagged
@@ -1753,37 +1747,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   setRotation: 0
+  normalizedEffectMagnitudeBasedOnNormalizedSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   source: {fileID: 82466460862007014}
   clips:
   - {fileID: 8300000, guid: e749ca6855dde405aa8f5ff21aa27ec4, type: 3}
   - {fileID: 8300000, guid: a1e9f750a495c4beba0a43e9f1e719e7, type: 3}
   - {fileID: 8300000, guid: 237cd18e1619142249bb5f328aae90e1, type: 3}
---- !u!114 &114123364864330034
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1549959937259302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e912a2b5305451187f0bffb43aebf3b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  source: {fileID: 82870357802353172}
-  thirdPersonBrain: {fileID: 0}
---- !u!114 &114131883685197168
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1455084172916128}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e912a2b5305451187f0bffb43aebf3b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  source: {fileID: 82816127568170090}
-  thirdPersonBrain: {fileID: 0}
+  maximumVolume: 1
+  minimumVolume: 0.1
 --- !u!114 &114156288923457914
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1796,21 +1790,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   setRotation: 0
+  normalizedEffectMagnitudeBasedOnNormalizedSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 65
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: -0
+      outSlope: 1
+      tangentMode: 5
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   source: {fileID: 82185353728893114}
   clips: []
---- !u!114 &114275190676303484
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1818812014650364}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e912a2b5305451187f0bffb43aebf3b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  source: {fileID: 82689677409949390}
-  thirdPersonBrain: {fileID: 0}
+  maximumVolume: 0.5
+  minimumVolume: 0
 --- !u!114 &114365784695089414
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1823,8 +1830,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   setRotation: 0
+  normalizedEffectMagnitudeBasedOnNormalizedSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   source: {fileID: 82518008061428930}
   clips: []
+  maximumVolume: 0.5
+  minimumVolume: 0
 --- !u!114 &114399565055489756
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1837,11 +1870,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   setRotation: 0
+  normalizedEffectMagnitudeBasedOnNormalizedSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   source: {fileID: 82680784201268840}
   clips:
   - {fileID: 8300000, guid: 55f455eaf5e4240a28428c98627461d4, type: 3}
   - {fileID: 8300000, guid: dfc0430d8381044fba925a645a037fde, type: 3}
   - {fileID: 8300000, guid: 963b31c25d43f4275ba11bcda964f228, type: 3}
+  maximumVolume: 1
+  minimumVolume: 0.1
 --- !u!114 &114454600131165316
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1854,6 +1913,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   setRotation: 0
+  normalizedEffectMagnitudeBasedOnNormalizedSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  maximumLocalScale: 1
+  minimumLocalScale: 0
 --- !u!114 &114510210795044862
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1866,44 +1951,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   library: {fileID: 114034302462990830}
---- !u!114 &114596154974041464
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1411025450606134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49f6547d83024ddd8a04591281fac94a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterTransform: {fileID: 0}
-  maxSpeed: 4
-  particleScaleFromNormalizedSpeed:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  minScale: 1
 --- !u!114 &114611809758985554
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1916,11 +1963,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   setRotation: 0
+  normalizedEffectMagnitudeBasedOnNormalizedSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   source: {fileID: 82870357802353172}
   clips:
   - {fileID: 8300000, guid: c17d3d2bd7d2a47519cd9b89e7250b22, type: 3}
   - {fileID: 8300000, guid: 582c841a9379247e595e5a7b9e9511b1, type: 3}
   - {fileID: 8300000, guid: b938700144e4a4d569209c785ff12200, type: 3}
+  maximumVolume: 1
+  minimumVolume: 0.1
 --- !u!114 &114622797650068930
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1933,11 +2006,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   setRotation: 0
+  normalizedEffectMagnitudeBasedOnNormalizedSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   source: {fileID: 82816127568170090}
   clips:
   - {fileID: 8300000, guid: 6547d258917564b70a8f0a478d2e567c, type: 3}
   - {fileID: 8300000, guid: 55f455eaf5e4240a28428c98627461d4, type: 3}
   - {fileID: 8300000, guid: dfc0430d8381044fba925a645a037fde, type: 3}
+  maximumVolume: 1
+  minimumVolume: 0.1
 --- !u!114 &114774502518617130
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1950,6 +2049,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   setRotation: 0
+  normalizedEffectMagnitudeBasedOnNormalizedSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  maximumLocalScale: 1
+  minimumLocalScale: 0
 --- !u!114 &114784904795202732
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1962,33 +2087,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   setRotation: 0
-  source: {fileID: 82031709974400794}
-  clips:
-  - {fileID: 8300000, guid: e749ca6855dde405aa8f5ff21aa27ec4, type: 3}
-  - {fileID: 8300000, guid: a1e9f750a495c4beba0a43e9f1e719e7, type: 3}
-  - {fileID: 8300000, guid: 237cd18e1619142249bb5f328aae90e1, type: 3}
---- !u!114 &114793441365012798
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1949984855620530}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49f6547d83024ddd8a04591281fac94a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterTransform: {fileID: 0}
-  maxSpeed: 4
-  particleScaleFromNormalizedSpeed:
+  normalizedEffectMagnitudeBasedOnNormalizedSpeed:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 1
+      inSlope: 0
       outSlope: 1
-      tangentMode: 34
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
@@ -1996,15 +2103,21 @@ MonoBehaviour:
       time: 1
       value: 1
       inSlope: 1
-      outSlope: 1
-      tangentMode: 34
+      outSlope: 0
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  minScale: 1
+  source: {fileID: 82031709974400794}
+  clips:
+  - {fileID: 8300000, guid: e749ca6855dde405aa8f5ff21aa27ec4, type: 3}
+  - {fileID: 8300000, guid: a1e9f750a495c4beba0a43e9f1e719e7, type: 3}
+  - {fileID: 8300000, guid: 237cd18e1619142249bb5f328aae90e1, type: 3}
+  maximumVolume: 1
+  minimumVolume: 0.1
 --- !u!114 &114936745800307588
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2017,11 +2130,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   setRotation: 0
+  normalizedEffectMagnitudeBasedOnNormalizedSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   source: {fileID: 82689677409949390}
   clips:
   - {fileID: 8300000, guid: a53a0e8ed6e7f4341b84295292b2cd40, type: 3}
   - {fileID: 8300000, guid: e39f9b43abafa4028b8550dc6ba13c6f, type: 3}
   - {fileID: 8300000, guid: 46b96de4763db43d2903dd42b6256527, type: 3}
+  maximumVolume: 1
+  minimumVolume: 0.1
 --- !u!114 &114946200695467184
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2054,19 +2193,6 @@ MonoBehaviour:
     movementEventPlayers:
     - {fileID: 114622797650068930}
     - {fileID: 114774502518617130}
---- !u!114 &114975905131148320
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1563986647254860}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e912a2b5305451187f0bffb43aebf3b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  source: {fileID: 82031709974400794}
-  thirdPersonBrain: {fileID: 0}
 --- !u!167 &167178244105134748
 AudioReverbZone:
   m_ObjectHideFlags: 1

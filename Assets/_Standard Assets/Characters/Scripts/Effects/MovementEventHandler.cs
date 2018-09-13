@@ -90,5 +90,20 @@ namespace StandardAssets.Characters.Effects
 			BroadcastMovementEvent(movementEvent);
 		}
 
+		/// <summary>
+		/// Helper function for creating a Movement Event with specified id, firedFrom and normalizedSpeed
+		/// </summary>
+		/// <param name="id">The ID of the movement event</param>
+		/// <param name="firedFrom">The transform of where the movement event was fire from</param>
+		/// <param name="normalizedSpeed">The normalized speed of the character</param>
+		protected virtual void BroadcastMovementEvent(string id, Transform firedFrom, float normalizedSpeed)
+		{
+			MovementEvent movementEvent = new MovementEvent();
+			movementEvent.id = id;
+			movementEvent.firedFrom = firedFrom;
+			movementEvent.normalizedSpeed = normalizedSpeed;
+			BroadcastMovementEvent(movementEvent);
+		}
+
 	}
 }
