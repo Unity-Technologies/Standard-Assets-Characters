@@ -37,7 +37,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		 AnimatorFloatParameter("thirdPersonAnimator")]
 		protected AnimationFloatParameter turningSpeedParameter = new AnimationFloatParameter("TurningSpeed", 0.01f, 0.05f);
 
-		[SerializeField, AnimatorParameterName("thirdPersonAnimator", AnimatorControllerParameterType.Bool)]
+		[SerializeField, Tooltip("Name of the strafe bool animator parameter"),
+		 AnimatorParameterName("thirdPersonAnimator", AnimatorControllerParameterType.Bool)]
 		protected string strafeParameter = "Strafe";
 		
 		[Header("Jumping"), AnimatorParameterName("thirdPersonAnimator", AnimatorControllerParameterType.Float)]

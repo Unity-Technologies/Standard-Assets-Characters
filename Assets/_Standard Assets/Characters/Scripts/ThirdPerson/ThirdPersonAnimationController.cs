@@ -62,6 +62,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		private float cachedAnimatorSpeed = 1;
 		// time of the last physics jump
 		private float timeOfLastPhysicsJumpLand;
+		// reference to the ThirdPersonBrain
+		private ThirdPersonBrain thirdPersonBrain;
 
 		/// <summary>
 		/// Gets the animation state of the character.
@@ -243,6 +245,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			motor = motorToUse;
 			animator = gameObject.GetComponent<Animator>();
 			cachedAnimatorSpeed = animator.speed;
+			thirdPersonBrain = brain;
 		}
 
 		/// <summary>
@@ -329,14 +332,10 @@ namespace StandardAssets.Characters.ThirdPerson
 			motor.landed += OnLanding;
 			motor.fallStarted += OnFallStarted;
 
-			var thirdPersonBrain = gameObject.GetComponent<ThirdPersonBrain>();
-			if (thirdPersonBrain != null)
-			{
-				thirdPersonBrain.thirdPersonCameraAnimationManager.forwardLockedModeStarted +=
-					OnStrafeStarted;
-				thirdPersonBrain.thirdPersonCameraAnimationManager.forwardUnlockedModeStarted +=
-					OnStrafeEnded;
-			}
+			thirdPersonBrain.thirdPersonCameraAnimationManager.forwardLockedModeStarted +=
+				OnStrafeStarted;
+			thirdPersonBrain.thirdPersonCameraAnimationManager.forwardUnlockedModeStarted +=
+				OnStrafeEnded;
 		}
 
 		/// <summary>
@@ -352,14 +351,10 @@ namespace StandardAssets.Characters.ThirdPerson
 				motor.fallStarted -= OnFallStarted;
 			}
 			
-			var thirdPersonBrain = gameObject.GetComponent<ThirdPersonBrain>();
-			if (thirdPersonBrain != null)
-			{
-				thirdPersonBrain.thirdPersonCameraAnimationManager.forwardLockedModeStarted -=
-					OnStrafeStarted;
-				thirdPersonBrain.thirdPersonCameraAnimationManager.forwardUnlockedModeStarted -=
-					OnStrafeEnded;
-			}
+			thirdPersonBrain.thirdPersonCameraAnimationManager.forwardLockedModeStarted -=
+				OnStrafeStarted;
+			thirdPersonBrain.thirdPersonCameraAnimationManager.forwardUnlockedModeStarted -=
+				OnStrafeEnded;
 		}
 
 		/// <summary>
