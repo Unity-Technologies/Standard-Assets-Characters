@@ -2,7 +2,9 @@
 
 namespace StandardAssets.Characters.Effects
 {
-	/// <inheritdoc />
+	/// <summary>
+	/// Selects an audio clip to play and scales the volume based on character speed
+	/// </summary>
 	public class AudioMovementEventPlayer : NormalizedSpeedMovementEventPlayer
 	{
 		/// <summary>
@@ -17,19 +19,19 @@ namespace StandardAssets.Characters.Effects
 		[SerializeField, Tooltip("For using multiple audio sources, i.e footstep sounds")]
 		protected AudioClip[] clips;
 
+		/// <summary>
+		/// The maximum volume that the clip is played at
+		/// </summary>
 		[SerializeField, Tooltip("The maximum volume that the clip is played at"), Range(0f, 1f)]
 		protected float maximumVolume = 1f;
 		
+		/// <summary>
+		/// The minimum volume that the clip is played at
+		/// </summary>
 		[SerializeField, Tooltip("The minimum volume that the clip is played at"), Range(0f, 1f)]
 		protected float minimumVolume;
-		
 
 		private int currentSoundIndex;
-
-		private void Awake()
-		{
-			currentSoundIndex = 0;
-		}
 
 		protected override float minValue
 		{
@@ -40,7 +42,17 @@ namespace StandardAssets.Characters.Effects
 		{
 			get { return maximumVolume; }
 		}
+		
+		private void Awake()
+		{
+			currentSoundIndex = 0;
+		}
 
+		/// <summary>
+		/// Selects an audio clip (by cycling through theme) and changes the volume based on effectMagnitude
+		/// </summary>
+		/// <param name="movementEvent">The MovementEvent data</param>
+		/// <param name="effectMagnitude">The magnitude of the effect</param>
 		protected override void PlayMovementEvent(MovementEvent movementEvent, float effectMagnitude)
 		{
 			if (source == null)

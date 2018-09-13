@@ -3,7 +3,9 @@ using UnityEngine;
 
 namespace StandardAssets.Characters.Effects
 {
-	/// <inheritdoc />
+	/// <summary>
+	/// Implementation of a movement zone using Triggers
+	/// </summary>
 	[RequireComponent(typeof(Collider))]
 	public class TriggerMovementZone : MovementZone
 	{
@@ -11,7 +13,7 @@ namespace StandardAssets.Characters.Effects
 		/// Change the movement event library on trigger enter
 		/// </summary>
 		/// <param name="other"></param>
-		void OnTriggerEnter(Collider other)
+		private void OnTriggerEnter(Collider other)
 		{
 			CharacterBrain brain = other.GetComponent<CharacterBrain>();
 			if (brain != null)

@@ -3,10 +3,13 @@ using UnityEngine;
 
 namespace StandardAssets.Characters.Effects
 {
+	/// <summary>
+	/// Abstract class for handling MovementEvents
+	/// </summary>
 	[Serializable]
 	public abstract class MovementEventHandler
 	{
-		[SerializeField]
+		[SerializeField, Tooltip("This is default event library that used")]
 		protected MovementEventLibrary startingMovementEventLibrary;
 		
 		/// <summary>
@@ -26,7 +29,6 @@ namespace StandardAssets.Characters.Effects
 		/// <summary>
 		/// The current Movement event library being used
 		/// </summary>
-		[SerializeField]
 		protected MovementEventLibrary movementEventLibrary;
 
 		/// <summary>
@@ -46,11 +48,18 @@ namespace StandardAssets.Characters.Effects
 			movementEventLibrary = startingMovementEventLibrary;
 		}
 
+		/// <summary>
+		/// Sets the current event library to the starting event library
+		/// </summary>
 		public void Init()
 		{
 			SetCurrentMovementEventLibrary(startingMovementEventLibrary);
 		}
 		
+		/// <summary>
+		/// Helper for playing <see cref="MovementEvent"/> via the current library
+		/// </summary>
+		/// <param name="movementEvent"></param>
 		protected void OnMoved(MovementEvent movementEvent)
 		{
 			if (movementEventLibrary == null)

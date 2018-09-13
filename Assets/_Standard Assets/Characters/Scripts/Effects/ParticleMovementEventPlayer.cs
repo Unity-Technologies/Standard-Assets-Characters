@@ -2,7 +2,9 @@
 
 namespace StandardAssets.Characters.Effects
 {
-	/// <inheritdoc />
+	/// <summary>
+	/// Calls play on the ParticleSystem and scales the transform based on the effectMagnitude
+	/// </summary>
 	[RequireComponent(typeof(ParticleSystem))]
 	public class ParticleMovementEventPlayer : NormalizedSpeedMovementEventPlayer
 	{
@@ -13,8 +15,6 @@ namespace StandardAssets.Characters.Effects
 		protected float minimumLocalScale;
 		
 		private ParticleSystem particleSource;
-		private float minValue1;
-		private float maxValue1;
 
 		private void Awake()
 		{
