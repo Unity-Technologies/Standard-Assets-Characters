@@ -100,17 +100,8 @@ namespace StandardAssets.Characters.Physics
 		/// <inheritdoc/>
 		public float normalizedVerticalSpeed
 		{
-			get
-			{
-				if (initialJumpVelocity < Mathf.Epsilon)
-				{
-					return 0f;
-				}
-
-				return Mathf.Clamp(currentVerticalVelocity / (initialJumpVelocity *
-												fallGravityMultiplierAsAFactorOfForwardSpeed.Evaluate(
-												normalizedForwardSpeedContainer.normalizedForwardSpeed)), -1f, 1f);
-			}
+			get;
+			private set;
 		}
 
 		/// <summary>
@@ -139,6 +130,42 @@ namespace StandardAssets.Characters.Physics
 		private Vector3 verticalVector = Vector3.zero;
 
 		private ICharacterInput characterInput;
+
+		/// <summary>
+		/// Gets the current jump gravity multiplier as a factor of normalized forward speed.
+		/// </summary>
+		private float jumpGravityMultiplier
+		{
+			get
+			{
+				return jumpGravityMultiplierAsAFactorOfForwardSpeed.Evaluate(
+					normalizedForwardSpeedContainer.normalizedForwardSpeed);
+			}
+		}
+		
+		/// <summary>
+		/// Gets the current minimum jump height gravity multiplier as a factor of normalized forward speed.
+		/// </summary>
+		private float minJumpHeightMultiplier
+		{
+			get
+			{
+				return minJumpHeightMultiplierAsAFactorOfForwardSpeed.Evaluate(
+					normalizedForwardSpeedContainer.normalizedForwardSpeed);
+			}
+		}
+		
+		/// <summary>
+		/// Gets the current fall gravity multiplier as a factor of normalized forward speed.
+		/// </summary>
+		private float fallGravityMultiplier
+		{
+			get
+			{
+				return fallGravityMultiplierAsAFactorOfForwardSpeed.Evaluate(
+					normalizedForwardSpeedContainer.normalizedForwardSpeed);
+			}
+		}
 
 		/// <inheritdoc />
 		public void Move(Vector3 moveVector, float deltaTime)
@@ -176,6 +203,7 @@ namespace StandardAssets.Characters.Physics
 
 		protected virtual void Awake()
 		{
+			normalizedVerticalSpeed = 0;
 			characterInput = GetComponent<ICharacterInput>();
 			normalizedForwardSpeedContainer = GetComponent<INormalizedForwardSpeedContainer>();
 
@@ -197,9 +225,8 @@ namespace StandardAssets.Characters.Physics
 			float currentAirTime = 0;
 			for (int i = 0; i < k_TrajectorySteps; i++)
 			{
-				moveVector.y = Mathf.Clamp(gravity * fallGravityMultiplierAsAFactorOfForwardSpeed.Evaluate(
-					                           normalizedForwardSpeedContainer.normalizedForwardSpeed) * currentAirTime,
-										   terminalVelocity, Mathf.Infinity);
+				moveVector.y = Mathf.Clamp(gravity * fallGravityMultiplier * currentAirTime,  terminalVelocity, 
+				                           Mathf.Infinity);
 				currentPosition += moveVector * k_TrajectoryPredictionTimeStep;
 				currentAirTime += k_TrajectoryPredictionTimeStep;
 #if UNITY_EDITOR
@@ -242,12 +269,17 @@ namespace StandardAssets.Characters.Physics
 		{
 			airTime += deltaTime;
 			CalculateGravity(deltaTime);
-			currentVerticalVelocity = Mathf.Clamp(initialJumpVelocity + gravity * airTime, terminalVelocity,
-												  Mathf.Infinity);
+			if (currentVerticalVelocity >= 0)
+			{
+				currentVerticalVelocity = Mathf.Clamp(initialJumpVelocity + gravity * airTime, terminalVelocity,
+													  Mathf.Infinity);
+			}
+			
 			float previousFallTime = fallTime;
 
 			if (currentVerticalVelocity < 0)
 			{
+				currentVerticalVelocity = Mathf.Clamp(gravity * fallTime, terminalVelocity, Mathf.Infinity);
 				fallTime += deltaTime;
 				if (isGrounded)
 				{
@@ -273,7 +305,7 @@ namespace StandardAssets.Characters.Physics
 					startedFalling(GetPredictedFallDistance());
 				}
 			}
-
+			
 			verticalVector = new Vector3(0, currentVerticalVelocity * deltaTime, 0);
 		}
 
@@ -282,22 +314,28 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		private void CalculateGravity(float deltaTime)
 		{
-			float newGravity;
+			float gravityFactor;
 			if (currentVerticalVelocity < 0)
 			{
-				newGravity = UnityPhysics.gravity.y * fallGravityMultiplierAsAFactorOfForwardSpeed.Evaluate(
-					             normalizedForwardSpeedContainer.normalizedForwardSpeed);
+				gravityFactor = fallGravityMultiplier;
+				if (initialJumpVelocity < Mathf.Epsilon)
+				{
+					normalizedVerticalSpeed = 0;
+				}
+				else
+				{
+					normalizedVerticalSpeed = Mathf.Clamp(currentVerticalVelocity / 
+					                                      (initialJumpVelocity * gravityFactor), -1f, 1f);
+				}
 			}
 			else
 			{
-				newGravity = characterInput.hasJumpInput
-					? UnityPhysics.gravity.y * jumpGravityMultiplierAsAFactorOfForwardSpeed.Evaluate(
-						  normalizedForwardSpeedContainer.normalizedForwardSpeed)
-					: UnityPhysics.gravity.y * minJumpHeightMultiplierAsAFactorOfForwardSpeed.Evaluate(
-						  normalizedForwardSpeedContainer.normalizedForwardSpeed) *
-					  jumpGravityMultiplierAsAFactorOfForwardSpeed.Evaluate(
-						  normalizedForwardSpeedContainer.normalizedForwardSpeed);
+				gravityFactor = characterInput.hasJumpInput ? jumpGravityMultiplier : minJumpHeightMultiplier *
+					  jumpGravityMultiplier;
+				normalizedVerticalSpeed = currentVerticalVelocity / initialJumpVelocity;
 			}
+
+			float newGravity = gravityFactor * UnityPhysics.gravity.y;
 
 			gravity = Mathf.Lerp(gravity, newGravity, deltaTime * gravityChangeSpeed);
 		}
