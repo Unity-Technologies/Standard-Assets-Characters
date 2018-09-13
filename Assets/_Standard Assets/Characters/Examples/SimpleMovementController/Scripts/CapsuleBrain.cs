@@ -20,8 +20,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// Manages movement events
 		/// </summary>
 		[SerializeField, Tooltip("The management of movement events e.g. footsteps")]
-		// TODO create override of MovementEventHandler that will work with CapsuleBrain. MovementEventHandler is abstract so not serializable.
-		protected MovementEventHandler capsuleMovementEventHandler;
+		protected CapsuleMovementEventHandler capsuleMovementEventHandler;
 
 		[SerializeField] 
 		protected float turnSpeed = 300f;
@@ -45,6 +44,11 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// A check to see if input was previous being applied
 		/// </summary>
 		private bool previouslyHasInput;
+
+		/// <summary>
+		/// The main camera's transform, used for calculating look direction.
+		/// </summary>
+		private Transform mainCameraTransform;
 
 		/// <inheritdoc/>
 		public override float normalizedForwardSpeed
@@ -74,11 +78,14 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		{
 			base.Awake();
 			ChangeState(startingMovementProperties);
+			capsuleMovementEventHandler.Init(transform, characterPhysics);
+			mainCameraTransform = Camera.main.transform;
 		}
 
 		private void OnEnable()
 		{
 			characterInput.jumpPressed += OnJumpPressed;
+			capsuleMovementEventHandler.Subscribe();
 		}
 		
 		/// <summary>
@@ -86,6 +93,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// </summary>
 		private void OnDisable()
 		{
+			capsuleMovementEventHandler.Unsubscribe();
 			if (characterInput == null)
 			{
 				return;
@@ -108,7 +116,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		
 		protected virtual Quaternion CalculateTargetRotation()
 		{
-			Vector3 flatForward = Camera.main.transform.forward;
+			Vector3 flatForward = mainCameraTransform.forward;
 			flatForward.y = 0f;
 			flatForward.Normalize();
 
@@ -137,6 +145,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		private void FixedUpdate()
 		{
 			Move();
+			capsuleMovementEventHandler.Tick();
 		}
 
 		/// <summary>
@@ -200,14 +209,6 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		}
 
 		/// <summary>
-		/// Clamps the current speed
-		/// </summary>
-		private void ClampCurrentSpeed()
-		{
-			currentSpeed = Mathf.Clamp(currentSpeed, 0f, currentMovementProperties.maximumSpeed);
-		}
-		
-		/// <summary>
 		/// Changes the current motor state and play events associated with state change
 		/// </summary>
 		/// <param name="newState"></param>
@@ -225,6 +226,8 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 
 			currentMovementProperties = newState;
 			currentMovementProperties.EnterState();
+			
+			capsuleMovementEventHandler.AdjustAudioTriggerThreshold(newState.strideLengthDistance);
 		}
 
 		/// <summary>
