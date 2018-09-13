@@ -66,11 +66,6 @@ namespace StandardAssets.Characters.CharacterInput
 		/// </remarks>
 		private static void SetActiveGamepad()
 		{
-			foreach (var joystick in Input.GetJoystickNames())
-			{
-				Debug.Log(joystick);
-			}
-
 			xBoneActive = IsXboxOne();
 			xBoxActive = IsXbox360();
 			ps4Active = IsPS4();
@@ -127,7 +122,6 @@ namespace StandardAssets.Characters.CharacterInput
 			{
 				if (joystick.ToLower().Contains("xbox") && !joystick.ToLower().Contains("360")&& !joystick.ToLower().Contains("wireless"))
 				{
-					Debug.Log("XBone Wires");
 					return true;
 				}
 			}
@@ -146,7 +140,6 @@ namespace StandardAssets.Characters.CharacterInput
 				if (joystick.ToLower().Contains("xbox") && joystick.ToLower().Contains("wireless") &&
 				    !joystick.ToLower().Contains("360"))
 				{
-					Debug.Log("XBone Wireless");
 					return true;
 				}
 			}
