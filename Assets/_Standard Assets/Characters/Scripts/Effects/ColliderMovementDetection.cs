@@ -47,7 +47,6 @@ namespace StandardAssets.Characters.Effects
 			MovementEvent movementEvent = new MovementEvent();
 			movementEvent.id = id;
 			movementEvent.firedFrom = transform;
-			//TODO set position
 			OnDetection(movementEvent);			
 		}
 		

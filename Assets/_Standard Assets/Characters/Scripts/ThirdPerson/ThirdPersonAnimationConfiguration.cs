@@ -17,28 +17,25 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected string locomotion = "Locomotion Blend";
 		
 		[SerializeField, AnimatorStateName("thirdPersonAnimator")]
-		protected string rightFootRootMotionJump = "OnRightFoot",
-						 leftFootRootMotionJump = "OnLeftFoot",
-						 rightFootJump = "OnRightFootBlend",
-						 leftFootJump = "OnLeftFootBlend",
+		protected string rightFootRootMotionJump = "RightFootRootMotionJump",
+						 leftFootRootMotionJump = "LeftFootRootMotionJump",
+						 rightFootJump = "RightFootPhysicsJump",
+						 leftFootJump = "LeftFootPhysicsJump",
 						 rollLand = "RollLand",
 						 land = "Land";
 		
-		[Space, SerializeField, AnimatorParameterName("thirdPersonAnimator", AnimatorControllerParameterType.Bool)]
-		protected string hasInputParameter = "HasInput";
-		
-		[Header("Ground Movement"), Tooltip("Configuration for the forward speed animation parameter")]
+		[Header("Ground Movement"), Tooltip("Configuration for the forward speed animation parameter"), 
+		 AnimatorFloatParameter("thirdPersonAnimator")]
 		[SerializeField]
 		protected AnimationFloatParameter forwardSpeedParameter = new AnimationFloatParameter("ForwardSpeed", 0.05f, 0.15f);
 		
-		[SerializeField, Tooltip("Configuration for the lateral speed animation parameter")]
+		[SerializeField, Tooltip("Configuration for the lateral speed animation parameter"), 
+		 AnimatorFloatParameter("thirdPersonAnimator")]
 		protected AnimationFloatParameter lateralSpeedParameter = new AnimationFloatParameter("LateralSpeed", 0.01f, 0.05f);
 
-		[SerializeField, Tooltip("Configuration for the turning speed animation parameter")]
+		[SerializeField, Tooltip("Configuration for the turning speed animation parameter"), 
+		 AnimatorFloatParameter("thirdPersonAnimator")]
 		protected AnimationFloatParameter turningSpeedParameter = new AnimationFloatParameter("TurningSpeed", 0.01f, 0.05f);
-		
-		[SerializeField, AnimatorParameterName("thirdPersonAnimator", AnimatorControllerParameterType.Bool)]
-		protected string groundedParameter = "Grounded";
 		
 		[Header("Jumping"), AnimatorParameterName("thirdPersonAnimator", AnimatorControllerParameterType.Float)]
 		[SerializeField]
@@ -142,27 +139,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 
 		/// <summary>
-		/// Gets the grounded parameter name
-		/// </summary>
-		public string groundedParameterName
-		{
-			get { return groundedParameter; }
-		}
-
-		/// <summary>
 		/// Gets the fall parameter name
 		/// </summary>
 		public string fallParameterName
 		{
 			get { return fallParameter; }
-		}
-
-		/// <summary>
-		/// Gets the has input parameter name
-		/// </summary>
-		public string hasInputParameterName
-		{
-			get { return hasInputParameter; }
 		}
 
 		/// <summary>

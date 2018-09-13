@@ -16,5 +16,10 @@ namespace StandardAssets.Characters.Effects
 		/// Where the event was fired from
 		/// </summary>
 		public Transform firedFrom;
+
+		/// <summary>
+		/// The velocity that the effect occurs at
+		/// </summary>
+		public float normalizedSpeed;
 	}
 }

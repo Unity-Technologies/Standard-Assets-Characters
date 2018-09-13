@@ -9,6 +9,9 @@ namespace StandardAssets.Characters.FirstPerson
 	[Serializable]
 	public class FirstPersonMovementEventHandler : MovementEventHandler
 	{
+		[SerializeField, Tooltip("The maximum speed of the character")]
+		protected float maximumSpeed = 10f;
+		
 		/// <summary>
 		/// List of IDs for walking events
 		/// </summary>
@@ -31,26 +34,26 @@ namespace StandardAssets.Characters.FirstPerson
 		private Vector3 previousPosition;
 
 		/// <summary>
-		/// CharacterPhysics
-		/// </summary>
-		private ICharacterPhysics characterPhysics;
-
-		/// <summary>
 		/// Transform used for tracking distance
 		/// </summary>
 		private Transform transform;
+
+		/// <summary>
+		/// The character brain for used in speed scaling
+		/// </summary>
+		private FirstPersonBrain brain;
 		
 		/// <summary>
 		/// Initialize:
 		/// Precalculate the square of the threshold
 		/// Set the previous position
 		/// </summary>
-		public void Init(Transform newTransform, ICharacterPhysics physics)
+		public void Init(FirstPersonBrain brainToUse)
 		{
 			base.Init();
-			transform = newTransform;
+			transform = brainToUse.transform;
 			previousPosition = transform.position;
-			characterPhysics = physics;
+			brain = brainToUse;
 		}
 
 		public void Tick()
@@ -58,7 +61,7 @@ namespace StandardAssets.Characters.FirstPerson
 			Vector3 currentPosition = transform.position;
 			
 			//Optimization - prevents the rest of the logic, which includes vector magnitude calculations, from being called if the character has not moved
-			if (currentPosition == previousPosition || !characterPhysics.isGrounded)
+			if (currentPosition == previousPosition || !brain.physicsForCharacter.isGrounded)
 			{
 				previousPosition = currentPosition;
 				return;
@@ -80,8 +83,8 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		public void Subscribe()
 		{
-			characterPhysics.landed += Landed;
-			characterPhysics.jumpVelocitySet += Jumped;
+			brain.physicsForCharacter.landed += Landed;
+			brain.physicsForCharacter.jumpVelocitySet += Jumped;
 		}
 
 		/// <summary>
@@ -89,8 +92,8 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		public void Unsubscribe()
 		{
-			characterPhysics.landed -= Landed;
-			characterPhysics.jumpVelocitySet -= Jumped;
+			brain.physicsForCharacter.landed -= Landed;
+			brain.physicsForCharacter.jumpVelocitySet -= Jumped;
 		}    
 		
 		/// <summary>
@@ -110,7 +113,7 @@ namespace StandardAssets.Characters.FirstPerson
 				currentIdIndex = 0;
 			}
 
-			BroadcastMovementEvent(footIds[currentIdIndex]);
+			BroadcastMovementEvent(footIds[currentIdIndex], transform, Mathf.Clamp01(brain.planarSpeed/maximumSpeed));
 		}
 		
 		/// <summary>
@@ -118,7 +121,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		private void Jumped()
 		{
-			BroadcastMovementEvent(jumpId);
+			BroadcastMovementEvent(jumpId, transform);
 		}
 		
 		/// <summary>
@@ -126,7 +129,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		private void Landed()
 		{
-			BroadcastMovementEvent(landingId);
+			BroadcastMovementEvent(landingId, transform);
 		}
 		
 		/// <summary>

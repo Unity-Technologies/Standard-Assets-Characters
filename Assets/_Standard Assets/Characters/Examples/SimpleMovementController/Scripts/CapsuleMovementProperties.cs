@@ -37,6 +37,20 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// </summary>
 		[SerializeField]
 		protected float jumpSpeed = 0.3f;
+		
+		/// <summary>
+		/// The length of a stride
+		/// </summary>
+		[SerializeField, Tooltip("Distance that is considered a stride")]
+		protected float strideLength;
+
+		/// <summary>
+		/// Gets the stride length
+		/// </summary>
+		public float strideLengthDistance
+		{
+			get { return strideLength; }
+		}
 
 		public Action<string> enterState, exitState;
 
