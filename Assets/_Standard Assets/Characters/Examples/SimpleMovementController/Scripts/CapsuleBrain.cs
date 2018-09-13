@@ -20,8 +20,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// Manages movement events
 		/// </summary>
 		[SerializeField, Tooltip("The management of movement events e.g. footsteps")]
-		// TODO create override of MovementEventHandler that will work with CapsuleBrain. MovementEventHandler is abstract so not serializable.
-		protected MovementEventHandler capsuleMovementEventHandler;
+		protected CapsuleMovementEventHandler capsuleMovementEventHandler;
 
 		[SerializeField] 
 		protected float turnSpeed = 300f;
@@ -74,11 +73,13 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		{
 			base.Awake();
 			ChangeState(startingMovementProperties);
+			capsuleMovementEventHandler.Init(transform, characterPhysics);
 		}
 
 		private void OnEnable()
 		{
 			characterInput.jumpPressed += OnJumpPressed;
+			capsuleMovementEventHandler.Subscribe();
 		}
 		
 		/// <summary>
@@ -86,6 +87,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// </summary>
 		private void OnDisable()
 		{
+			capsuleMovementEventHandler.Unsubscribe();
 			if (characterInput == null)
 			{
 				return;
@@ -137,6 +139,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		private void FixedUpdate()
 		{
 			Move();
+			capsuleMovementEventHandler.Tick();
 		}
 
 		/// <summary>
@@ -225,6 +228,8 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 
 			currentMovementProperties = newState;
 			currentMovementProperties.EnterState();
+			
+			capsuleMovementEventHandler.AdjustAudioTriggerThreshold(newState.strideLengthDistance);
 		}
 
 		/// <summary>

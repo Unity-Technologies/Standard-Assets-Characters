@@ -113,7 +113,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 				currentIdIndex = 0;
 			}
 
-			BroadcastMovementEvent(footIds[currentIdIndex]);
+			BroadcastMovementEvent(footIds[currentIdIndex], transform);
 		}
 		
 		/// <summary>
@@ -131,5 +131,14 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		{
 			BroadcastMovementEvent(landingId);
 		}  
+		
+		/// <summary>
+		/// Change the distance that footstep events are triggered.
+		/// </summary>
+		/// <param name="strideLength"></param>
+		public void AdjustAudioTriggerThreshold(float strideLength)
+		{		
+			sqrDistanceThreshold = strideLength * strideLength;
+		}
 	}
 }
