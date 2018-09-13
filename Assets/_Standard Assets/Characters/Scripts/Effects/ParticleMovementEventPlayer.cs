@@ -14,11 +14,11 @@ namespace StandardAssets.Characters.Effects
 		[SerializeField, Tooltip("The minimum local scale of the particle player object")]
 		protected float minimumLocalScale;
 		
-		private ParticleSystem particleSource;
+		private ParticleSystem[] particleSources;
 
 		private void Awake()
 		{
-			particleSource = GetComponent<ParticleSystem>();
+			particleSources = GetComponentsInChildren<ParticleSystem>();
 		}
 
 		protected override float minValue
@@ -33,8 +33,12 @@ namespace StandardAssets.Characters.Effects
 
 		protected override void PlayMovementEvent(MovementEvent movementEvent, float effectMagnitude)
 		{
-			transform.localScale = Vector3.one * effectMagnitude;
-			particleSource.Play();
+			Vector3 scale = Vector3.one * effectMagnitude;
+			foreach (ParticleSystem particleSource in particleSources)
+			{
+				particleSource.transform.localScale = scale;
+				particleSource.Play();
+			}
 		}
 	}
 }
