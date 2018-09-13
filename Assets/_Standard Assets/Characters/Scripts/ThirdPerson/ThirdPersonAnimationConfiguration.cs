@@ -24,14 +24,17 @@ namespace StandardAssets.Characters.ThirdPerson
 						 rollLand = "RollLand",
 						 land = "Land";
 		
-		[Header("Ground Movement"), Tooltip("Configuration for the forward speed animation parameter")]
+		[Header("Ground Movement"), Tooltip("Configuration for the forward speed animation parameter"), 
+		 AnimatorFloatParameter("thirdPersonAnimator")]
 		[SerializeField]
 		protected AnimationFloatParameter forwardSpeedParameter = new AnimationFloatParameter("ForwardSpeed", 0.05f, 0.15f);
 		
-		[SerializeField, Tooltip("Configuration for the lateral speed animation parameter")]
+		[SerializeField, Tooltip("Configuration for the lateral speed animation parameter"), 
+		 AnimatorFloatParameter("thirdPersonAnimator")]
 		protected AnimationFloatParameter lateralSpeedParameter = new AnimationFloatParameter("LateralSpeed", 0.01f, 0.05f);
 
-		[SerializeField, Tooltip("Configuration for the turning speed animation parameter")]
+		[SerializeField, Tooltip("Configuration for the turning speed animation parameter"), 
+		 AnimatorFloatParameter("thirdPersonAnimator")]
 		protected AnimationFloatParameter turningSpeedParameter = new AnimationFloatParameter("TurningSpeed", 0.01f, 0.05f);
 
 		[SerializeField, AnimatorParameterName("thirdPersonAnimator", AnimatorControllerParameterType.Bool)]
