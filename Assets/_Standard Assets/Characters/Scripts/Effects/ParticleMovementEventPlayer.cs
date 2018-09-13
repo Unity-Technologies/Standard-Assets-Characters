@@ -23,12 +23,12 @@ namespace StandardAssets.Characters.Effects
 
 		protected override float minValue
 		{
-			get { return maximumLocalScale; }
+			get { return minimumLocalScale; }
 		}
 
 		protected override float maxValue
 		{
-			get { return minimumLocalScale; }
+			get { return maximumLocalScale; }
 		}
 
 		protected override void PlayMovementEvent(MovementEvent movementEvent, float effectMagnitude)
