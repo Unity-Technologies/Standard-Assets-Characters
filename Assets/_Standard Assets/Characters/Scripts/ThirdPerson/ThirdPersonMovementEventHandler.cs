@@ -11,13 +11,27 @@ namespace StandardAssets.Characters.ThirdPerson
 	[Serializable]
 	public class ThirdPersonMovementEventHandler : MovementEventHandler
 	{
-
 		/// <summary>
 		/// The movement detection colliders attached to the feet of the Third Person Character
 		/// </summary>
 		[SerializeField]
 		protected ColliderMovementDetection[] movementDetections;
-		
+
+		[SerializeField]
+		protected float maximumSpeed = 10f;
+
+		private ThirdPersonBrain brain;
+
+		/// <summary>
+		/// Gives the <see cref="ThirdPersonMovementEventHandler"/> ThirdPersonMovementEventHandler context of the <see cref="ThirdPersonBrain"/>
+		/// </summary>
+		/// <param name="brainToUse"></param>
+		public void Init(ThirdPersonBrain brainToUse)
+		{
+			base.Init();
+			brain = brainToUse;
+		}
+
 		/// <summary>
 		/// Subscribe to the movement detection events
 		/// </summary>
@@ -25,10 +39,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			foreach (ColliderMovementDetection colliderMovementDetection in movementDetections)
 			{
-				colliderMovementDetection.detection += BroadcastMovementEvent;
+				colliderMovementDetection.detection += HandleMove;
 			}
 		}
-		
+
 		/// <summary>
 		/// Unsubscribe to the movement detection events
 		/// </summary>
@@ -36,7 +50,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			foreach (ColliderMovementDetection colliderMovementDetection in movementDetections)
 			{
-				colliderMovementDetection.detection -= BroadcastMovementEvent;
+				colliderMovementDetection.detection -= HandleMove;
 			}
 		}
 
@@ -48,6 +62,12 @@ namespace StandardAssets.Characters.ThirdPerson
 		public void Landed()
 		{
 			BroadcastMovementEvent(landingId);
+		}
+
+		private void HandleMove(MovementEvent movementEvent)
+		{
+			movementEvent.normalizedSpeed = Mathf.Clamp01(brain.planarSpeed/maximumSpeed);
+			BroadcastMovementEvent(movementEvent);
 		}
 	}
 }
