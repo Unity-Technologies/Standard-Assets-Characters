@@ -21,7 +21,7 @@ namespace StandardAssets.Characters.Effects
 
 		private float defaultVolume;
 		
-		private void Awake()
+		protected override void Awake()
 		{
 			base.Awake();
 			
@@ -31,9 +31,9 @@ namespace StandardAssets.Characters.Effects
 			}
 		}
 
-		protected override void ApplyNormalizedSpeedToEffect(float normalizedSpeed)
+		protected override void ApplyNormalizedSpeedToEffect(float normalizedSpeedToApply)
 		{
-			scaledVolume = defaultVolume * normalizedSpeed;
+			scaledVolume = defaultVolume * normalizedSpeedToApply;
 			
 			if (scaledVolume < minimumVolume)
 			{

@@ -54,7 +54,7 @@ namespace StandardAssets.Characters.Effects
 		/// <summary>
 		/// Scales effects based on normalized speed
 		/// </summary>
-		/// <param name="normalizedSpeed">the normalized character speed</param>
-		protected abstract void ApplyNormalizedSpeedToEffect(float normalizedSpeed);
+		/// <param name="normalizedSpeedToApply">the normalized character speed</param>
+		protected abstract void ApplyNormalizedSpeedToEffect(float normalizedSpeedToApply);
 	}
 }
