@@ -18,19 +18,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// List of IDs for walking events
 		/// </summary>
 		[SerializeField]
-		protected string[] footIds = new string[]{"leftfoot", "rightfoot"};
-		
-		/// <summary>
-		/// Id of Jumping event
-		/// </summary>
-		[SerializeField]
-		protected string jumpId = "jumping";
-
-		/// <summary>
-		/// Id of Landing event
-		/// </summary>
-		[SerializeField]
-		protected string landingId = "landing";
+		protected string[] footIds = {"leftfoot", "rightfoot"};
 
 		/// <summary>
 		/// The current index of the 

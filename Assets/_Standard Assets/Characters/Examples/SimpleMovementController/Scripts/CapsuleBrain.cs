@@ -15,6 +15,13 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// </summary>
 		[SerializeField]
 		protected CapsuleMovementProperties startingMovementProperties;
+		
+		/// <summary>
+		/// Manages movement events
+		/// </summary>
+		[SerializeField, Tooltip("The management of movement events e.g. footsteps")]
+		// TODO create override of MovementEventHandler that will work with CapsuleBrain. MovementEventHandler is abstract so not serializable.
+		protected MovementEventHandler capsuleMovementEventHandler;
 
 		[SerializeField] 
 		protected float turnSpeed = 300f;
@@ -24,7 +31,6 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// </summary>
 		public CapsuleMovementProperties currentMovementProperties { get; protected set; }
 	   
-		
 		/// <summary>
 		/// The current movement properties
 		/// </summary>
@@ -39,8 +45,6 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// A check to see if input was previous being applied
 		/// </summary>
 		private bool previouslyHasInput;
-
-		private MovementEventHandler _movementEventHandler;
 
 		/// <inheritdoc/>
 		public override float normalizedForwardSpeed
@@ -58,9 +62,10 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 			}
 		}
 
+		/// <inheritdoc/>
 		public override MovementEventHandler movementEventHandler
 		{
-			get { return _movementEventHandler; }
+			get { return capsuleMovementEventHandler; }
 		}
 
 		public override float targetYRotation { get; set; }

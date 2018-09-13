@@ -45,6 +45,9 @@ namespace StandardAssets.Characters.Common
 		/// <inheritdoc/>
 		public abstract float normalizedForwardSpeed { get;}
 		
+		/// <summary>
+		/// Gets the movement event handler.
+		/// </summary>
 		public abstract MovementEventHandler movementEventHandler { get; }
 
 		public abstract float targetYRotation { get; set; }

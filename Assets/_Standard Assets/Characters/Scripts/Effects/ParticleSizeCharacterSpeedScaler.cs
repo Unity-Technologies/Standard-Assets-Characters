@@ -20,26 +20,26 @@ namespace StandardAssets.Characters.Effects
 
 		private float maxScale;
 		
-		private ParticleSystem particleSystem;
+		private ParticleSystem cachedParticleSystem;
 
 		private float scaledParticleStartSize;
 
 		protected override void Awake()
 		{
 			base.Awake();
-			particleSystem = GetComponent<ParticleSystem>();
-			maxScale = particleSystem.main.startSize.constant;
+			cachedParticleSystem = GetComponent<ParticleSystem>();
+			maxScale = cachedParticleSystem.main.startSize.constant;
 		}
 
-		protected override void ApplyNormalizedSpeedToEffect(float normalizedSpeed)
+		protected override void ApplyNormalizedSpeedToEffect(float normalizedSpeedToApply)
 		{
-			ParticleSystem.MainModule particleSystemMain = particleSystem.main;
-			if (normalizedSpeed < minSpeedForParticleEmission)
+			ParticleSystem.MainModule particleSystemMain = cachedParticleSystem.main;
+			if (normalizedSpeedToApply < minSpeedForParticleEmission)
 			{
 				particleSystemMain.startSize = 0f;
 				return;
 			}
-			scaledParticleStartSize = particleScaleFromNormalizedSpeed.Evaluate(normalizedSpeed) * (maxScale - minScale) + minScale;
+			scaledParticleStartSize = particleScaleFromNormalizedSpeed.Evaluate(normalizedSpeedToApply) * (maxScale - minScale) + minScale;
 			particleSystemMain.startSize = scaledParticleStartSize;
 		}
 	}
