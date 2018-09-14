@@ -105,8 +105,9 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// <summary>
 		/// Handles camera rotation
 		/// </summary>
-		private void Update()
+		protected override void Update()
 		{
+			base.Update();
 			Quaternion targetRotation = CalculateTargetRotation();
 			transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
 
