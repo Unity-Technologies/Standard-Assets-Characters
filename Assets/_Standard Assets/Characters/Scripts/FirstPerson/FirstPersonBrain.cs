@@ -158,7 +158,7 @@ namespace StandardAssets.Characters.FirstPerson
 		protected override void Awake()
 		{
 			base.Awake();
-			firstPersonMovementEventHandler.Init(transform, characterPhysics);
+			firstPersonMovementEventHandler.Init(this);
 			if (mainCamera == null)
 			{
 				mainCamera = Camera.main;

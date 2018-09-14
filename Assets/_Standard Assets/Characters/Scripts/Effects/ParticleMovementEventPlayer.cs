@@ -2,22 +2,43 @@
 
 namespace StandardAssets.Characters.Effects
 {
-	/// <inheritdoc />
+	/// <summary>
+	/// Calls play on the ParticleSystem and scales the transform based on the effectMagnitude
+	/// </summary>
 	[RequireComponent(typeof(ParticleSystem))]
-	public class ParticleMovementEventPlayer : MovementEventPlayer 
+	public class ParticleMovementEventPlayer : NormalizedSpeedMovementEventPlayer
 	{
-		private ParticleSystem particleSource;
+		[SerializeField, Tooltip("The maximum local scale of the particle player object")]
+		protected float maximumLocalScale = 1f;
+
+		[SerializeField, Tooltip("The minimum local scale of the particle player object")]
+		protected float minimumLocalScale;
+		
+		private ParticleSystem[] particleSources;
 
 		private void Awake()
 		{
-			particleSource = GetComponent<ParticleSystem>();
+			particleSources = GetComponentsInChildren<ParticleSystem>();
 		}
 
-		/// <inheritdoc />
-		protected override void PlayMovementEvent(MovementEvent movementEvent)
+		protected override float minValue
 		{
-			particleSource.Play();
+			get { return minimumLocalScale; }
 		}
 
+		protected override float maxValue
+		{
+			get { return maximumLocalScale; }
+		}
+
+		protected override void PlayMovementEvent(MovementEvent movementEvent, float effectMagnitude)
+		{
+			Vector3 scale = Vector3.one * effectMagnitude;
+			foreach (ParticleSystem particleSource in particleSources)
+			{
+				particleSource.transform.localScale = scale;
+				particleSource.Play();
+			}
+		}
 	}
 }

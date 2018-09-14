@@ -2128,10 +2128,6 @@ MonoBehaviour:
   rootMotionMotor:
     configuration: {fileID: 11400000, guid: 33e0d88026c128b4ca3076e2e5149510, type: 2}
     sprintInput: {fileID: 11400000, guid: c7d1f7ecb7c41493abf956822fc79f32, type: 2}
-    rotator:
-      angleThreshold: 10
-      changeThreshold: 270
-      zeroAngleAxis: {x: 0, y: 1}
   animationController:
     configuration: {fileID: 11400000, guid: 16861f506e03f4b39a1b25e1bb3e307f, type: 2}
   turnaroundType: 1
@@ -2294,9 +2290,11 @@ MonoBehaviour:
     startingMovementEventLibrary: {fileID: 0}
     jumpId: jump
     landingId: landing
+    movementEventLibrary: {fileID: 0}
     movementDetections:
     - {fileID: 114447118663720106}
     - {fileID: 114449538320415148}
+    maximumSpeed: 6
 --- !u!114 &114436560949563180
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2358,19 +2356,19 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0.85
       inSlope: -0
-      outSlope: 0
-      tangentMode: 0
+      outSlope: 0.14999998
+      tangentMode: 65
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0
-      outSlope: -0
-      tangentMode: 0
+      inSlope: 0.14999998
+      outSlope: 0
+      tangentMode: 5
       weightedMode: 0
       inWeight: 0
       outWeight: 0
@@ -2382,19 +2380,19 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 1.15
       inSlope: -0
-      outSlope: 0
-      tangentMode: 0
+      outSlope: -0.14999998
+      tangentMode: 65
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0
-      outSlope: -0
-      tangentMode: 0
+      inSlope: -0.14999998
+      outSlope: 0
+      tangentMode: 5
       weightedMode: 0
       inWeight: 0
       outWeight: 0

@@ -5,15 +5,15 @@ namespace StandardAssets.Characters.Effects
 {
 	/// <summary>
 	/// A library of movement effects.
-	/// This is what would be swapped out for different zones
-	/// i.e. walking on dirt versus walking on metal
+	/// This is what would be swapped out for different zones.
+	/// i.e. walking on dirt versus walking on metal.
 	/// </summary>
 	public class MovementEventLibrary : MonoBehaviour
 	{
 		/// <summary>
 		/// The definable list of movement effects
 		/// </summary>
-		[SerializeField]
+		[SerializeField, Tooltip("List of Movement Events and their corresponding Movement Event Players")]
 		protected List<MovementEventLibraryEntry> movementEvents;
 
 		/// <summary>
@@ -25,7 +25,7 @@ namespace StandardAssets.Characters.Effects
 		/// <summary>
 		/// Set up dictionary from public list
 		/// </summary>
-		void Awake()
+		private void Awake()
 		{
 			//Set up the dictionary
 			foreach (MovementEventLibraryEntry movementEvent in movementEvents)

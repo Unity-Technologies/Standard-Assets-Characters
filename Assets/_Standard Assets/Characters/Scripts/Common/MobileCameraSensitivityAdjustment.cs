@@ -15,6 +15,7 @@ namespace StandardAssets.Characters.Common
 		[SerializeField, Range(0.1f,1f), Tooltip("How much to scale camera speed on mobile")]
 		protected float scaleMaxLookSpeedOnMobile = 0.75f;
 		
+#if UNITY_ANDROID || UNITY_IOS
 		private CinemachineStateDrivenCamera stateDrivenCamera;
 
 		/// <summary>
@@ -22,12 +23,9 @@ namespace StandardAssets.Characters.Common
 		/// </summary>
 		private void Awake()
 		{
-#if UNITY_ANDROID || UNITY_IOS
 			stateDrivenCamera = GetComponent<CinemachineStateDrivenCamera>();
 			SetCameraSpeed();
-#endif
 		}
-		
 		/// <summary>
 		/// Adjust the max speed for each axis of the cameras
 		/// in the StateDrivenCamera for easier control for mobile
@@ -62,5 +60,7 @@ namespace StandardAssets.Characters.Common
 				}
 			}
 		}
+#endif
 	}
+
 }

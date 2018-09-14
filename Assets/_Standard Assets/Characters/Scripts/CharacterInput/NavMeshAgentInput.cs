@@ -66,7 +66,6 @@ namespace StandardAssets.Characters.CharacterInput
 
 		public Vector2 lookInput { get; private set; }
 		public Vector2 moveInput { get; private set; }
-		public Vector2 previousNonZeroMoveInput { get; private set; }
 		public bool hasMovementInput
 		{
 			get { return moveInput != Vector2.zero; }
