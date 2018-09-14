@@ -1941,9 +1941,9 @@ MonoBehaviour:
   m_ImpulseDefinition:
     m_ImpulseChannel: 1
     m_RawSignal: {fileID: 11400000, guid: 99e073394682c9d4fb9009b08cf94fb8, type: 2}
-    m_AmplitudeGain: 1
+    m_AmplitudeGain: 0.2
     m_FrequencyGain: 1
-    m_RepeatMode: 0
+    m_RepeatMode: 1
     m_Randomize: 1
     m_TimeEnvelope:
       m_AttackShape:
@@ -2039,7 +2039,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: a1e9f750a495c4beba0a43e9f1e719e7, type: 3}
   - {fileID: 8300000, guid: 237cd18e1619142249bb5f328aae90e1, type: 3}
   maximumVolume: 1
-  minimumVolume: 0.1
+  minimumVolume: 0.5
 --- !u!114 &114060665018949884
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2054,9 +2054,9 @@ MonoBehaviour:
   m_ImpulseDefinition:
     m_ImpulseChannel: 1
     m_RawSignal: {fileID: 11400000, guid: 290bea5a576022e4a99d443726e21870, type: 2}
-    m_AmplitudeGain: 1
+    m_AmplitudeGain: 0.2
     m_FrequencyGain: 1
-    m_RepeatMode: 0
+    m_RepeatMode: 1
     m_Randomize: 1
     m_TimeEnvelope:
       m_AttackShape:
@@ -2327,7 +2327,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: dfc0430d8381044fba925a645a037fde, type: 3}
   - {fileID: 8300000, guid: 963b31c25d43f4275ba11bcda964f228, type: 3}
   maximumVolume: 1
-  minimumVolume: 0.1
+  minimumVolume: 0.5
 --- !u!114 &114510210795044862
 MonoBehaviour:
   m_ObjectHideFlags: 1
