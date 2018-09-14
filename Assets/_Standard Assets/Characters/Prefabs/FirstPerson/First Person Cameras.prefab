@@ -74,6 +74,7 @@ GameObject:
   - component: {fileID: 95320754008123142}
   - component: {fileID: 114978622214952858}
   - component: {fileID: 114153616964671878}
+  - component: {fileID: 114388773642047702}
   m_Layer: 11
   m_Name: First Person Cameras
   m_TagString: Untagged
@@ -505,6 +506,20 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114388773642047702
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1235494828403966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ChannelMask: 1
+  m_Gain: 1
+  m_Use2DDistance: 0
 --- !u!114 &114416282977718440
 MonoBehaviour:
   m_ObjectHideFlags: 1
