@@ -92,16 +92,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			public float averageInputAngleTotal;
 
 			/// <summary>
-			/// Average input vector.
-			/// </summary>
-			public Vector2 averageInputVector;
-			
-			/// <summary>
-			/// Accumulative total for the average input vector.
-			/// </summary>
-			public Vector2 averageInputVectorTotal;
-
-			/// <summary>
 			/// Average direction in which the input vector is rotated, continuously. Zero means it is not rotating.
 			/// </summary>
 			public float averageInputDirection;
@@ -170,8 +160,6 @@ namespace StandardAssets.Characters.ThirdPerson
 				averageInputAngle = 0.0f;
 				averageSamples = 0;
 				averageTime = 0.0f;
-				averageInputVector = Vector2.zero;
-				averageInputVectorTotal = Vector2.zero;
 			}
 		}
 		
@@ -553,12 +541,10 @@ namespace StandardAssets.Characters.ThirdPerson
 
 					// Calculate averages
 					continuousInfo.averageInputAngleTotal += angle;
-					continuousInfo.averageInputVectorTotal += moveInput;
 					continuousInfo.averageSamples++;
 					continuousInfo.averageTime += dt;
 					continuousInfo.averageInputAngle = continuousInfo.averageInputAngleTotal /
 					                                   continuousInfo.averageSamples;
-					continuousInfo.averageInputVector = continuousInfo.averageInputVectorTotal / continuousInfo.averageSamples;
 					continuousInfo.averageInputDirection = !Mathf.Approximately(continuousInfo.averageInputAngle, 0.0f)
 															? Mathf.Sign(continuousInfo.averageInputAngle)
 															: 0.0f;
@@ -569,7 +555,6 @@ namespace StandardAssets.Characters.ThirdPerson
 						continuousInfo.averageInputAngleTotal = 0.0f;
 						continuousInfo.averageSamples = 0;
 						continuousInfo.averageTime = 0.0f;
-						continuousInfo.averageInputVectorTotal = Vector2.zero;
 					}
 					// Average rotating in the same direction?
 					if (Mathf.Approximately(continuousInfo.averageInputDirection, continuousInfo.previousAverageInputDirection))
