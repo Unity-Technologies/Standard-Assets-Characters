@@ -9,7 +9,7 @@ namespace StandardAssets.Characters.ThirdPerson
 	[Serializable]
 	public class ActionProperties
 	{
-		[SerializeField]
+		[SerializeField, Tooltip("Number of samples used for forward input smoothing.")]
 		protected int forwardInputSamples = 1;
 		
 		/// <summary>
