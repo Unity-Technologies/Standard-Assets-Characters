@@ -194,7 +194,7 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="initialVelocity"></param>
 		public void SetJumpVelocity(float initialVelocity)
 		{
-			initialJumpVelocity = initialVelocity;
+			currentVerticalVelocity = initialJumpVelocity = initialVelocity;
 			if (jumpVelocitySet != null)
 			{
 				jumpVelocitySet();
@@ -334,7 +334,7 @@ namespace StandardAssets.Characters.Physics
 				{
 					gravityFactor *= minJumpHeightMultiplier;
 				}
-				normalizedVerticalSpeed = currentVerticalVelocity / initialJumpVelocity;
+				normalizedVerticalSpeed = initialJumpVelocity > 0 ? currentVerticalVelocity / initialJumpVelocity : 0;
 			}
 
 			float newGravity = gravityFactor * UnityPhysics.gravity.y;
