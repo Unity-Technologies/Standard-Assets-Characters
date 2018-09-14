@@ -21,11 +21,17 @@ namespace StandardAssets.Characters.Effects
 			particleSources = GetComponentsInChildren<ParticleSystem>();
 		}
 
+		/// <summary>
+		/// Gets the minimumLocalScale as the minValue which is used to calculate the effectMagnitude in <see cref="NormalizedSpeedMovementEventPlayer"/>
+		/// </summary>
 		protected override float minValue
 		{
 			get { return minimumLocalScale; }
 		}
 
+		/// <summary>
+		/// Gets the maximumLocalScale as the maxValue which is used to calculate the effectMagnitude in <see cref="NormalizedSpeedMovementEventPlayer"/>
+		/// </summary>
 		protected override float maxValue
 		{
 			get { return maximumLocalScale; }

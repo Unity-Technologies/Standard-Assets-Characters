@@ -33,11 +33,17 @@ namespace StandardAssets.Characters.Effects
 
 		private int currentSoundIndex;
 
+		/// <summary>
+		/// Gets the minimumVolume as the minValue which is used to calculate the effectMagnitude in <see cref="NormalizedSpeedMovementEventPlayer"/>
+		/// </summary>
 		protected override float minValue
 		{
 			get { return minimumVolume; }
 		}
 
+		/// <summary>
+		/// Gets the maximumVolume as the maxValue which is used to calculate the effectMagnitude in <see cref="NormalizedSpeedMovementEventPlayer"/>
+		/// </summary>
 		protected override float maxValue
 		{
 			get { return maximumVolume; }
