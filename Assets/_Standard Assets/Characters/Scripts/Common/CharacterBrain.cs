@@ -24,27 +24,48 @@ namespace StandardAssets.Characters.Common
 		/// </summary>
 		protected ICharacterInput characterInput;
 
-		
+		/// <summary>
+		/// Used to report the character bearing for different kinds of movement
+		/// </summary>
 		protected CharacterBearing characterBearing;
 
+		/// <summary>
+		/// Gets the physics implementation used by the Character
+		/// </summary>
 		public ICharacterPhysics physicsForCharacter
 		{
 			get { return characterPhysics; }
 		}
 
+		/// <summary>
+		/// Gets the input implementation used by the Character
+		/// </summary>
 		public ICharacterInput inputForCharacter
 		{
 			get { return characterInput; }
 		}
 
+		/// <summary>
+		/// Gets the bearing of the character to be used by different movements 
+		/// </summary>
 		public CharacterBearing bearingOfCharacter
 		{
 			get { return characterBearing; }
-		} 
+		}
+
+		/// <summary>
+		/// Gets/sets the planar speed (i.e. ignoring the displacement) of the CharacterBrain
+		/// </summary>
+		public float planarSpeed { get; protected set; }
+		
+		private Vector3 lastPosition;
 
 		/// <inheritdoc/>
 		public abstract float normalizedForwardSpeed { get;}
 		
+		/// <summary>
+		/// Gets the movement event handler.
+		/// </summary>
 		public abstract MovementEventHandler movementEventHandler { get; }
 
 		public abstract float targetYRotation { get; set; }
@@ -57,6 +78,19 @@ namespace StandardAssets.Characters.Common
 			characterPhysics = GetComponent<ICharacterPhysics>();
 			characterInput = GetComponent<ICharacterInput>();
 			Cursor.lockState = CursorLockMode.Locked;
+			lastPosition = transform.position;
+		}
+
+		/// <summary>
+		/// Calculates the planarSpeed of the CharacterBrain
+		/// </summary>
+		protected virtual void Update()
+		{
+			Vector3 newPosition = transform.position;
+			newPosition.y = 0;
+			float displacement = (lastPosition - newPosition).magnitude;
+			planarSpeed = displacement / Time.deltaTime;
+			lastPosition = newPosition;
 		}
 	}
 }

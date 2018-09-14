@@ -15,6 +15,12 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// </summary>
 		[SerializeField]
 		protected CapsuleMovementProperties startingMovementProperties;
+		
+		/// <summary>
+		/// Manages movement events
+		/// </summary>
+		[SerializeField, Tooltip("The management of movement events e.g. footsteps")]
+		protected CapsuleMovementEventHandler capsuleMovementEventHandler;
 
 		[SerializeField] 
 		protected float turnSpeed = 300f;
@@ -24,7 +30,6 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// </summary>
 		public CapsuleMovementProperties currentMovementProperties { get; protected set; }
 	   
-		
 		/// <summary>
 		/// The current movement properties
 		/// </summary>
@@ -40,7 +45,10 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// </summary>
 		private bool previouslyHasInput;
 
-		private MovementEventHandler _movementEventHandler;
+		/// <summary>
+		/// The main camera's transform, used for calculating look direction.
+		/// </summary>
+		private Transform mainCameraTransform;
 
 		/// <inheritdoc/>
 		public override float normalizedForwardSpeed
@@ -58,9 +66,10 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 			}
 		}
 
+		/// <inheritdoc/>
 		public override MovementEventHandler movementEventHandler
 		{
-			get { return _movementEventHandler; }
+			get { return capsuleMovementEventHandler; }
 		}
 
 		public override float targetYRotation { get; set; }
@@ -69,11 +78,14 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		{
 			base.Awake();
 			ChangeState(startingMovementProperties);
+			capsuleMovementEventHandler.Init(transform, characterPhysics);
+			mainCameraTransform = Camera.main.transform;
 		}
 
 		private void OnEnable()
 		{
 			characterInput.jumpPressed += OnJumpPressed;
+			capsuleMovementEventHandler.Subscribe();
 		}
 		
 		/// <summary>
@@ -81,6 +93,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// </summary>
 		private void OnDisable()
 		{
+			capsuleMovementEventHandler.Unsubscribe();
 			if (characterInput == null)
 			{
 				return;
@@ -92,8 +105,9 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// <summary>
 		/// Handles camera rotation
 		/// </summary>
-		private void Update()
+		protected override void Update()
 		{
+			base.Update();
 			Quaternion targetRotation = CalculateTargetRotation();
 			transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
 
@@ -103,7 +117,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		
 		protected virtual Quaternion CalculateTargetRotation()
 		{
-			Vector3 flatForward = Camera.main.transform.forward;
+			Vector3 flatForward = mainCameraTransform.forward;
 			flatForward.y = 0f;
 			flatForward.Normalize();
 
@@ -132,6 +146,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		private void FixedUpdate()
 		{
 			Move();
+			capsuleMovementEventHandler.Tick();
 		}
 
 		/// <summary>
@@ -195,14 +210,6 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		}
 
 		/// <summary>
-		/// Clamps the current speed
-		/// </summary>
-		private void ClampCurrentSpeed()
-		{
-			currentSpeed = Mathf.Clamp(currentSpeed, 0f, currentMovementProperties.maximumSpeed);
-		}
-		
-		/// <summary>
 		/// Changes the current motor state and play events associated with state change
 		/// </summary>
 		/// <param name="newState"></param>
@@ -220,6 +227,8 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 
 			currentMovementProperties = newState;
 			currentMovementProperties.EnterState();
+			
+			capsuleMovementEventHandler.AdjustAudioTriggerThreshold(newState.strideLengthDistance);
 		}
 
 		/// <summary>

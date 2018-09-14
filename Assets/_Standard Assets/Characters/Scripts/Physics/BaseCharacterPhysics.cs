@@ -100,17 +100,8 @@ namespace StandardAssets.Characters.Physics
 		/// <inheritdoc/>
 		public float normalizedVerticalSpeed
 		{
-			get
-			{
-				if (initialJumpVelocity < Mathf.Epsilon)
-				{
-					return 0f;
-				}
-
-				return Mathf.Clamp(currentVerticalVelocity / (initialJumpVelocity *
-												fallGravityMultiplierAsAFactorOfForwardSpeed.Evaluate(
-												normalizedForwardSpeedContainer.normalizedForwardSpeed)), -1f, 1f);
-			}
+			get;
+			private set;
 		}
 
 		/// <summary>
@@ -139,6 +130,42 @@ namespace StandardAssets.Characters.Physics
 		private Vector3 verticalVector = Vector3.zero;
 
 		private ICharacterInput characterInput;
+
+		/// <summary>
+		/// Gets the current jump gravity multiplier as a factor of normalized forward speed.
+		/// </summary>
+		private float jumpGravityMultiplier
+		{
+			get
+			{
+				return jumpGravityMultiplierAsAFactorOfForwardSpeed.Evaluate(
+					normalizedForwardSpeedContainer.normalizedForwardSpeed);
+			}
+		}
+		
+		/// <summary>
+		/// Gets the current minimum jump height gravity multiplier as a factor of normalized forward speed.
+		/// </summary>
+		private float minJumpHeightMultiplier
+		{
+			get
+			{
+				return minJumpHeightMultiplierAsAFactorOfForwardSpeed.Evaluate(
+					normalizedForwardSpeedContainer.normalizedForwardSpeed);
+			}
+		}
+		
+		/// <summary>
+		/// Gets the current fall gravity multiplier as a factor of normalized forward speed.
+		/// </summary>
+		private float fallGravityMultiplier
+		{
+			get
+			{
+				return fallGravityMultiplierAsAFactorOfForwardSpeed.Evaluate(
+					normalizedForwardSpeedContainer.normalizedForwardSpeed);
+			}
+		}
 
 		/// <inheritdoc />
 		public void Move(Vector3 moveVector, float deltaTime)
@@ -176,10 +203,11 @@ namespace StandardAssets.Characters.Physics
 
 		protected virtual void Awake()
 		{
+			normalizedVerticalSpeed = 0.0f;
 			characterInput = GetComponent<ICharacterInput>();
 			normalizedForwardSpeedContainer = GetComponent<INormalizedForwardSpeedContainer>();
 
-			if (terminalVelocity > 0)
+			if (terminalVelocity > 0.0f)
 			{
 				terminalVelocity = -terminalVelocity;
 			}
@@ -194,12 +222,11 @@ namespace StandardAssets.Characters.Physics
 		{
 			Vector3 currentPosition = footWorldPosition;
 			Vector3 moveVector = cachedGroundVelocity;
-			float currentAirTime = 0;
+			float currentAirTime = 0.0f;
 			for (int i = 0; i < k_TrajectorySteps; i++)
 			{
-				moveVector.y = Mathf.Clamp(gravity * fallGravityMultiplierAsAFactorOfForwardSpeed.Evaluate(
-					                           normalizedForwardSpeedContainer.normalizedForwardSpeed) * currentAirTime,
-										   terminalVelocity, Mathf.Infinity);
+				moveVector.y = Mathf.Clamp(gravity * fallGravityMultiplier * currentAirTime,  terminalVelocity, 
+				                           Mathf.Infinity);
 				currentPosition += moveVector * k_TrajectoryPredictionTimeStep;
 				currentAirTime += k_TrajectoryPredictionTimeStep;
 #if UNITY_EDITOR
@@ -229,10 +256,10 @@ namespace StandardAssets.Characters.Physics
 		private bool IsGroundCollision(Vector3 position)
 		{
 			// move sphere but to match bottom of character's capsule collider
-			int colliderCount = UnityPhysics.OverlapSphereNonAlloc(position + new Vector3(0, radius, 0),
+			int colliderCount = UnityPhysics.OverlapSphereNonAlloc(position + new Vector3(0.0f, radius, 0.0f),
 																   radius, trajectoryPredictionColliders,
 																   collisionLayerMask);
-			return colliderCount > 0;
+			return colliderCount > 0.0f;
 		}
 
 		/// <summary>
@@ -242,16 +269,21 @@ namespace StandardAssets.Characters.Physics
 		{
 			airTime += deltaTime;
 			CalculateGravity(deltaTime);
-			currentVerticalVelocity = Mathf.Clamp(initialJumpVelocity + gravity * airTime, terminalVelocity,
-												  Mathf.Infinity);
+			if (currentVerticalVelocity >= 0.0f)
+			{
+				currentVerticalVelocity = Mathf.Clamp(initialJumpVelocity + gravity * airTime, terminalVelocity,
+													  Mathf.Infinity);
+			}
+			
 			float previousFallTime = fallTime;
 
-			if (currentVerticalVelocity < 0)
+			if (currentVerticalVelocity < 0.0f)
 			{
+				currentVerticalVelocity = Mathf.Clamp(gravity * fallTime, terminalVelocity, Mathf.Infinity);
 				fallTime += deltaTime;
 				if (isGrounded)
 				{
-					initialJumpVelocity = 0f;
+					initialJumpVelocity = 0.0f;
 					verticalVector = Vector3.zero;
 
 					//Play the moment that the character lands and only at that moment
@@ -260,8 +292,8 @@ namespace StandardAssets.Characters.Physics
 						landed();
 					}
 
-					fallTime = 0f;
-					airTime = 0f;
+					fallTime = 0.0f;
+					airTime = 0.0f;
 					return;
 				}
 			}
@@ -273,8 +305,7 @@ namespace StandardAssets.Characters.Physics
 					startedFalling(GetPredictedFallDistance());
 				}
 			}
-
-			verticalVector = new Vector3(0, currentVerticalVelocity * deltaTime, 0);
+			verticalVector = new Vector3(0.0f, currentVerticalVelocity * deltaTime, 0.0f);
 		}
 
 		/// <summary>
@@ -282,23 +313,31 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		private void CalculateGravity(float deltaTime)
 		{
-			float newGravity;
-			if (currentVerticalVelocity < 0)
+			float gravityFactor;
+			if (currentVerticalVelocity < 0.0f)
 			{
-				newGravity = UnityPhysics.gravity.y * fallGravityMultiplierAsAFactorOfForwardSpeed.Evaluate(
-					             normalizedForwardSpeedContainer.normalizedForwardSpeed);
+				gravityFactor = fallGravityMultiplier;
+				if (initialJumpVelocity < Mathf.Epsilon)
+				{
+					normalizedVerticalSpeed = 0.0f;
+				}
+				else
+				{
+					normalizedVerticalSpeed = Mathf.Clamp(currentVerticalVelocity / 
+					                                      (initialJumpVelocity * gravityFactor), -1f, 1f);
+				}
 			}
 			else
 			{
-				newGravity = characterInput.hasJumpInput
-					? UnityPhysics.gravity.y * jumpGravityMultiplierAsAFactorOfForwardSpeed.Evaluate(
-						  normalizedForwardSpeedContainer.normalizedForwardSpeed)
-					: UnityPhysics.gravity.y * minJumpHeightMultiplierAsAFactorOfForwardSpeed.Evaluate(
-						  normalizedForwardSpeedContainer.normalizedForwardSpeed) *
-					  jumpGravityMultiplierAsAFactorOfForwardSpeed.Evaluate(
-						  normalizedForwardSpeedContainer.normalizedForwardSpeed);
+				gravityFactor = jumpGravityMultiplier;
+				if (!characterInput.hasJumpInput) // if no input apply min jump modifier
+				{
+					gravityFactor *= minJumpHeightMultiplier;
+				}
+				normalizedVerticalSpeed = currentVerticalVelocity / initialJumpVelocity;
 			}
 
+			float newGravity = gravityFactor * UnityPhysics.gravity.y;
 			gravity = Mathf.Lerp(gravity, newGravity, deltaTime * gravityChangeSpeed);
 		}
 

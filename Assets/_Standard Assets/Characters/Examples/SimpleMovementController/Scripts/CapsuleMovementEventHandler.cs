@@ -18,19 +18,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// List of IDs for walking events
 		/// </summary>
 		[SerializeField]
-		protected string[] footIds = new string[]{"leftfoot", "rightfoot"};
-		
-		/// <summary>
-		/// Id of Jumping event
-		/// </summary>
-		[SerializeField]
-		protected string jumpId = "jumping";
-
-		/// <summary>
-		/// Id of Landing event
-		/// </summary>
-		[SerializeField]
-		protected string landingId = "landing";
+		protected string[] footIds = {"leftfoot", "rightfoot"};
 
 		/// <summary>
 		/// The current index of the 
@@ -125,7 +113,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 				currentIdIndex = 0;
 			}
 
-			BroadcastMovementEvent(footIds[currentIdIndex]);
+			BroadcastMovementEvent(footIds[currentIdIndex], transform);
 		}
 		
 		/// <summary>
@@ -143,5 +131,14 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		{
 			BroadcastMovementEvent(landingId);
 		}  
+		
+		/// <summary>
+		/// Change the distance that footstep events are triggered.
+		/// </summary>
+		/// <param name="strideLength"></param>
+		public void AdjustAudioTriggerThreshold(float strideLength)
+		{		
+			sqrDistanceThreshold = strideLength * strideLength;
+		}
 	}
 }

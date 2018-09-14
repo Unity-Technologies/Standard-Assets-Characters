@@ -13,7 +13,7 @@ namespace StandardAssets.Characters.Effects
 		/// <summary>
 		/// The movement event ID corresponding to the <see cref="MovementEventHandler"/>
 		/// </summary>
-		[SerializeField]
+		[SerializeField, Tooltip("This should correspond to the footstep ID e.g. leftfoot")]
 		protected string id;
 
 		[SerializeField, Tooltip("The layer that will trigger the broadcast of this movement event handler ID")]
@@ -47,7 +47,6 @@ namespace StandardAssets.Characters.Effects
 			MovementEvent movementEvent = new MovementEvent();
 			movementEvent.id = id;
 			movementEvent.firedFrom = transform;
-			//TODO set position
 			OnDetection(movementEvent);			
 		}
 		
@@ -66,7 +65,6 @@ namespace StandardAssets.Characters.Effects
 			MovementEvent movementEvent = new MovementEvent();
 			movementEvent.id = id;
 			movementEvent.firedFrom = transform;
-			//TODO set position
 			OnDetection(movementEvent);
 		}
 
@@ -76,6 +74,11 @@ namespace StandardAssets.Characters.Effects
 		/// <param name="movementEvent">Movement event data</param>
 		private void OnDetection(MovementEvent movementEvent)
 		{
+			if (detection == null)
+			{
+				return;
+			}
+			
 			detection(movementEvent);
 		}
 	}

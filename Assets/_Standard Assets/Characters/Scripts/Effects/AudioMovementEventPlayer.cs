@@ -2,13 +2,15 @@
 
 namespace StandardAssets.Characters.Effects
 {
-	/// <inheritdoc />
-	public class AudioMovementEventPlayer : MovementEventPlayer
+	/// <summary>
+	/// Selects an audio clip to play and scales the volume based on character speed
+	/// </summary>
+	public class AudioMovementEventPlayer : NormalizedSpeedMovementEventPlayer
 	{
 		/// <summary>
 		/// The audio source to be played
 		/// </summary>
-		[SerializeField, Tooltip("When using a single audio source")]
+		[SerializeField, Tooltip("The AudioSource used to play the selected clip")]
 		protected AudioSource source;
 
 		/// <summary>
@@ -17,19 +19,41 @@ namespace StandardAssets.Characters.Effects
 		[SerializeField, Tooltip("For using multiple audio sources, i.e footstep sounds")]
 		protected AudioClip[] clips;
 
+		/// <summary>
+		/// The maximum volume that the clip is played at
+		/// </summary>
+		[SerializeField, Tooltip("The maximum volume that the clip is played at"), Range(0f, 1f)]
+		protected float maximumVolume = 1f;
+		
+		/// <summary>
+		/// The minimum volume that the clip is played at
+		/// </summary>
+		[SerializeField, Tooltip("The minimum volume that the clip is played at"), Range(0f, 1f)]
+		protected float minimumVolume;
+
 		private int currentSoundIndex;
 
+		protected override float minValue
+		{
+			get { return minimumVolume; }
+		}
+
+		protected override float maxValue
+		{
+			get { return maximumVolume; }
+		}
+		
 		private void Awake()
 		{
 			currentSoundIndex = 0;
 		}
 
 		/// <summary>
-		/// Play the audio source associated with the movement event or cycle
-		/// through multiple clips if required. e.g. for alternating footstep sounds. 
+		/// Selects an audio clip (by cycling through theme) and changes the volume based on effectMagnitude
 		/// </summary>
-		/// <param name="movementEvent">Movement event data</param>
-		protected override void PlayMovementEvent(MovementEvent movementEvent)
+		/// <param name="movementEvent">The MovementEvent data</param>
+		/// <param name="effectMagnitude">The magnitude of the effect</param>
+		protected override void PlayMovementEvent(MovementEvent movementEvent, float effectMagnitude)
 		{
 			if (source == null)
 			{
@@ -42,10 +66,13 @@ namespace StandardAssets.Characters.Effects
 				{
 					currentSoundIndex = 0;
 				}
-				source.clip = clips[currentSoundIndex++];
+				source.PlayOneShot(clips[currentSoundIndex++], effectMagnitude);
+				return;
 			}
-			
+
+			source.volume = effectMagnitude;
 			source.Play();
+
 		}
 	}
 }
