@@ -30,11 +30,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		[Serializable]
 		protected class AnimationInfo
 		{
-			// State name
+			[Tooltip("Animation state name.")]
 			public string name;
-			// Animation play speed
+			[Tooltip("Animation play speed.")]
 			public float speed = 1;
-			// Head look at angle scale during animation
+			[Tooltip("Head look at angle scale during animation.")]
 			public float headTurnScale = 1.0f;
 
 			public AnimationInfo(string name)
