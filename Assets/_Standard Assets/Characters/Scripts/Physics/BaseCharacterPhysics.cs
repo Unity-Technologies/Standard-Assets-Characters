@@ -203,11 +203,11 @@ namespace StandardAssets.Characters.Physics
 
 		protected virtual void Awake()
 		{
-			normalizedVerticalSpeed = 0;
+			normalizedVerticalSpeed = 0.0f;
 			characterInput = GetComponent<ICharacterInput>();
 			normalizedForwardSpeedContainer = GetComponent<INormalizedForwardSpeedContainer>();
 
-			if (terminalVelocity > 0)
+			if (terminalVelocity > 0.0f)
 			{
 				terminalVelocity = -terminalVelocity;
 			}
@@ -222,7 +222,7 @@ namespace StandardAssets.Characters.Physics
 		{
 			Vector3 currentPosition = footWorldPosition;
 			Vector3 moveVector = cachedGroundVelocity;
-			float currentAirTime = 0;
+			float currentAirTime = 0.0f;
 			for (int i = 0; i < k_TrajectorySteps; i++)
 			{
 				moveVector.y = Mathf.Clamp(gravity * fallGravityMultiplier * currentAirTime,  terminalVelocity, 
@@ -256,10 +256,10 @@ namespace StandardAssets.Characters.Physics
 		private bool IsGroundCollision(Vector3 position)
 		{
 			// move sphere but to match bottom of character's capsule collider
-			int colliderCount = UnityPhysics.OverlapSphereNonAlloc(position + new Vector3(0, radius, 0),
+			int colliderCount = UnityPhysics.OverlapSphereNonAlloc(position + new Vector3(0.0f, radius, 0.0f),
 																   radius, trajectoryPredictionColliders,
 																   collisionLayerMask);
-			return colliderCount > 0;
+			return colliderCount > 0.0f;
 		}
 
 		/// <summary>
@@ -269,7 +269,7 @@ namespace StandardAssets.Characters.Physics
 		{
 			airTime += deltaTime;
 			CalculateGravity(deltaTime);
-			if (currentVerticalVelocity >= 0)
+			if (currentVerticalVelocity >= 0.0f)
 			{
 				currentVerticalVelocity = Mathf.Clamp(initialJumpVelocity + gravity * airTime, terminalVelocity,
 													  Mathf.Infinity);
@@ -277,13 +277,13 @@ namespace StandardAssets.Characters.Physics
 			
 			float previousFallTime = fallTime;
 
-			if (currentVerticalVelocity < 0)
+			if (currentVerticalVelocity < 0.0f)
 			{
 				currentVerticalVelocity = Mathf.Clamp(gravity * fallTime, terminalVelocity, Mathf.Infinity);
 				fallTime += deltaTime;
 				if (isGrounded)
 				{
-					initialJumpVelocity = 0f;
+					initialJumpVelocity = 0.0f;
 					verticalVector = Vector3.zero;
 
 					//Play the moment that the character lands and only at that moment
@@ -292,8 +292,8 @@ namespace StandardAssets.Characters.Physics
 						landed();
 					}
 
-					fallTime = 0f;
-					airTime = 0f;
+					fallTime = 0.0f;
+					airTime = 0.0f;
 					return;
 				}
 			}
@@ -305,8 +305,7 @@ namespace StandardAssets.Characters.Physics
 					startedFalling(GetPredictedFallDistance());
 				}
 			}
-			
-			verticalVector = new Vector3(0, currentVerticalVelocity * deltaTime, 0);
+			verticalVector = new Vector3(0.0f, currentVerticalVelocity * deltaTime, 0.0f);
 		}
 
 		/// <summary>
@@ -315,12 +314,12 @@ namespace StandardAssets.Characters.Physics
 		private void CalculateGravity(float deltaTime)
 		{
 			float gravityFactor;
-			if (currentVerticalVelocity < 0)
+			if (currentVerticalVelocity < 0.0f)
 			{
 				gravityFactor = fallGravityMultiplier;
 				if (initialJumpVelocity < Mathf.Epsilon)
 				{
-					normalizedVerticalSpeed = 0;
+					normalizedVerticalSpeed = 0.0f;
 				}
 				else
 				{
@@ -330,13 +329,15 @@ namespace StandardAssets.Characters.Physics
 			}
 			else
 			{
-				gravityFactor = characterInput.hasJumpInput ? jumpGravityMultiplier : minJumpHeightMultiplier *
-					  jumpGravityMultiplier;
+				gravityFactor = jumpGravityMultiplier;
+				if (!characterInput.hasJumpInput) // if no input apply min jump modifier
+				{
+					gravityFactor *= minJumpHeightMultiplier;
+				}
 				normalizedVerticalSpeed = currentVerticalVelocity / initialJumpVelocity;
 			}
 
 			float newGravity = gravityFactor * UnityPhysics.gravity.y;
-
 			gravity = Mathf.Lerp(gravity, newGravity, deltaTime * gravityChangeSpeed);
 		}
 
