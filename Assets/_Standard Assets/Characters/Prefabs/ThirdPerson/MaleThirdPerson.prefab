@@ -2128,10 +2128,6 @@ MonoBehaviour:
   rootMotionMotor:
     configuration: {fileID: 11400000, guid: 33e0d88026c128b4ca3076e2e5149510, type: 2}
     sprintInput: {fileID: 11400000, guid: c7d1f7ecb7c41493abf956822fc79f32, type: 2}
-    rotator:
-      angleThreshold: 10
-      changeThreshold: 270
-      zeroAngleAxis: {x: 0, y: 1}
   animationController:
     configuration: {fileID: 11400000, guid: 16861f506e03f4b39a1b25e1bb3e307f, type: 2}
   turnaroundType: 1
@@ -2294,6 +2290,7 @@ MonoBehaviour:
     startingMovementEventLibrary: {fileID: 0}
     jumpId: jump
     landingId: landing
+    movementEventLibrary: {fileID: 0}
     movementDetections:
     - {fileID: 114447118663720106}
     - {fileID: 114449538320415148}
@@ -2462,8 +2459,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.03
-  m_Center: {x: -0.07, y: -0.15, z: 0}
+  m_Radius: 0.05
+  m_Center: {x: -0.07, y: 0, z: 0}
 --- !u!135 &135480279833609706
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -2474,8 +2471,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.03
-  m_Center: {x: 0.07, y: 0.15, z: 0}
+  m_Radius: 0.05
+  m_Center: {x: 0.07, y: 0, z: 0}
 --- !u!136 &136667864244899260
 CapsuleCollider:
   m_ObjectHideFlags: 1
