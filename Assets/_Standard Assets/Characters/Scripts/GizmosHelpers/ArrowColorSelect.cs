@@ -15,7 +15,7 @@ namespace StandardAssets.Characters.GizmosHelpers
 		/// <summary>
 		/// Color selected for this instance of the GizmoArrow, defaulted to Red.
 		/// </summary>
-		public Color Color = Color.red;
+		public Color color = Color.red;
 
 		/// <summary>
 		/// The collection of properties for all components of this instance of the GizmoArrow
@@ -52,7 +52,7 @@ namespace StandardAssets.Characters.GizmosHelpers
 			{
 				block = new MaterialPropertyBlock();
 			}
-			block.SetColor("_Color", Color);
+			block.SetColor("_Color", color);
 			foreach (var r in renderers)
 			{
 				r.SetPropertyBlock(block);
