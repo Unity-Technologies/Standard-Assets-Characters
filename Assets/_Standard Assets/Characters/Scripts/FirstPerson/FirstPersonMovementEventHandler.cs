@@ -1,4 +1,5 @@
 ﻿using System;
+using Cinemachine;
 using StandardAssets.Characters.Effects;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
