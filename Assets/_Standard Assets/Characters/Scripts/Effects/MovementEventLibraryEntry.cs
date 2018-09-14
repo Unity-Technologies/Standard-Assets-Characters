@@ -12,20 +12,26 @@ namespace StandardAssets.Characters.Effects
 		/// <summary>
 		/// The Movement unique ID - e.g. footstep
 		/// </summary>
-		[SerializeField]
+		[SerializeField, Tooltip("The corresponding Movement Event Id")]
 		protected string id;
 
 		/// <summary>
 		/// The list of behaviours for visualize movement events
 		/// </summary>
-		[SerializeField]
+		[SerializeField, Tooltip("The effect that occur on a movement event")]
 		protected MovementEventPlayer[] movementEventPlayers;
 
+		/// <summary>
+		/// Gets the Movement Event ID
+		/// </summary>
 		public string identifier
 		{
 			get { return id; }
 		}
 
+		/// <summary>
+		/// Gets the collection of MovementEventPlayers
+		/// </summary>
 		public MovementEventPlayer[] movementPlayers
 		{
 			get { return movementEventPlayers; }

@@ -105,8 +105,9 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// <summary>
 		/// Handles camera rotation
 		/// </summary>
-		private void Update()
+		protected override void Update()
 		{
+			base.Update();
 			Quaternion targetRotation = CalculateTargetRotation();
 			transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
 
@@ -196,7 +197,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		private void Accelerate()
 		{
 			movementTime += Time.fixedDeltaTime;
-			movementTime = Mathf.Clamp(movementTime, 0f, currentMovementProperties.accelerationCurve.maxValue);
+			movementTime = Mathf.Clamp(movementTime, 0f, currentMovementProperties.accelerationCurve.maximumValue);
 			currentSpeed = currentMovementProperties.accelerationCurve.Evaluate(movementTime) * currentMovementProperties.maximumSpeed;
 		}
 		

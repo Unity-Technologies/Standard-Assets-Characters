@@ -98,7 +98,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			blendspaceTurnaroundBehaviour.Init(this);
 			animationTurnaroundBehaviour.Init(this);
 			currentTurnaroundBehaviour = GetCurrentTurnaroundBehaviour();
-			
 			currentMotor = GetCurrentMotor();
 			currentMotor.Init(this);
 			
@@ -107,9 +106,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				animationController.Init(this, currentMotor);
 			}
 			
-			thirdPersonMovementEventHandler.Init();
-			
-			
+			thirdPersonMovementEventHandler.Init(this);
 		}
 
 		private TurnaroundBehaviour GetCurrentTurnaroundBehaviour()
@@ -162,9 +159,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 		}
 
-		private void Update()
+		protected override void Update()
 		{
-			
+			base.Update();
 			
 			if (animationController != null)
 			{

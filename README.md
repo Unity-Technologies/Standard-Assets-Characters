@@ -245,12 +245,13 @@ For more detailed documentation, please see the WIP Google Docs:
 	* First Person Controller
 		** Inspector UX
 		** Code Review and Commenting
+		** Head Bobbing Cinemachine Custom Extension
 
 	* Third Person Controller 
 		** Inspector UX
 		** Code Review and Commenting
-		** Strafing Locomotion Behaviour
 		** Effects Detection System for Character Feet
+		** Strafing Locomotion Behaviour & New Animations
 	
 	* Cinemachine Camera Setups
 		** First Person Cameras
@@ -261,13 +262,6 @@ For more detailed documentation, please see the WIP Google Docs:
 
 
 ### Still Requires Work:
-
-	* First Person Controller
-		** Head Bobbing Cinemachine Custom Extension
-
-	* Third Person Controller 
-		** Strafing Locomotion Animation Updates
-			*** Requires Feedback Brief
 
 	* Garbage Generation and Optimation Pass
 	* Addition of Female Avatar & Aniamtion Set
