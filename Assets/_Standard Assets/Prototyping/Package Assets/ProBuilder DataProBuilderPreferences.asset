@@ -8,64 +8,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c04d9be0543234e9cbb340e7ee259a5c, type: 3}
+  m_Script: {fileID: 0}
   m_Name: ProBuilder DataProBuilderPreferences
   m_EditorClassIdentifier: 
-  m_Bool_keys:
-  - pbEnableBackfaceSelection
-  - pbObjExportRightHanded
-  - pbObjApplyTransform
-  - pbObjExportCopyTextures
-  - pbObjExportVertexColors
-  - pbObjTextureOffsetScale
-  - pbObjQuads
-  - pbExportAsGroup
-  - pbGrowSelectionUsingAngle
-  - pbGrowSelectionAngleIterative
-  - pbGenerateUV2PerObject
-  - pb_MeshImporter::quads
-  - pb_MeshImporter::smoothing
-  - pbCollapseVertexToFirst
-  - pbStripProBuilderOnBuild
-  - pbDisableAutoUV2Generation
-  - pbForceConvex
-  - pbMeshesAreAssets
-  m_Int_keys:
-  - pbDefaultEditLevel
-  - pbDefaultSelectionMode
-  - pb_GIWorkflowMode
-  - pbRectSelectMode
-  - pbHandleAlignment
-  - pbDefaultCollider
-  - pbShadowCastingMode
-  - pbDefaultStaticFlags
-  - pbDragSelectMode
-  - pbMirrorObjectScale
-  m_Float_keys:
-  - pbGrowSelectionAngle
-  - pbEditorScroll.x
-  - pbEditorScroll.y
-  - pbWeldDistance
-  - pb_MeshImporter::smoothingThreshold
-  m_String_keys:
-  - pbCurrentMaterialPalette
-  - pb_VertexColorPalette::lastAssignedColorPalette
+  m_Bool_keys: []
+  m_Int_keys: []
+  m_Float_keys: []
+  m_String_keys: []
   m_Color_keys: []
-  m_Material_keys:
-  - pbDefaultMaterial
-  m_Bool_values: 010101000000010001000000000101000000
-  m_Int_values: 00000000000000000100000001000000000000000200000002000000000000000000000001000000
-  m_Float_values:
-  - 42
-  - 0
-  - 0
-  - 0.1
-  - 1
-  m_String_values:
-  - Assets/_Standard Assets/Prototyping/Package Assets/ProBuilder Data/Default Material
-    Palette.asset
-  - Assets/_Standard Assets/Prototyping/Package Assets/ProBuilder Data/Default Color
-    Palette.asset
+  m_Material_keys: []
+  m_Bool_values: 
+  m_Int_values: 
+  m_Float_values: []
+  m_String_values: []
   m_Color_values: []
-  m_Material_values:
-  - {fileID: 2100000, guid: c22777d6e868e4f2fb421913386b154e, type: 2}
+  m_Material_values: []
