@@ -6,7 +6,7 @@ namespace StandardAssets.Characters.Effects
 	/// <summary>
 	/// A library of movement effects.
 	/// This is what would be swapped out for different zones.
-	/// i.e. walking on dirt versus walking on metal.
+	/// e.g. walking on dirt versus walking on metal.
 	/// </summary>
 	public class MovementEventLibrary : MonoBehaviour
 	{

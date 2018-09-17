@@ -8,15 +8,15 @@ namespace StandardAssets.Characters.Effects
 	public abstract class NormalizedSpeedMovementEventPlayer : MovementEventPlayer
 	{
 		[SerializeField, Tooltip("How the effect is scaled based on normalizedSpeed")]
-		protected AnimationCurve normalizedEffectMagnitudeBasedOnNormalizedSpeed = AnimationCurve.Linear(0,0,1,1);
+		protected AnimationCurve normalizedEffectMagnitudeBasedOnNormalizedSpeed = AnimationCurve.Linear(0f,0f,1f,1f);
 
 		/// <summary>
-		/// Gets the minimum value of the effect. i.e. where normalizedEffectMagnitudeBasedOnNormalizedSpeed is zero
+		/// Gets the minimum value of the effect. i.e. where <see cref="normalizedEffectMagnitudeBasedOnNormalizedSpeed"/> is zero
 		/// </summary>
 		protected abstract float minValue { get; }
 		
 		/// <summary>
-		/// Gets the maximum value of the effect. i.e. where normalizedEffectMagnitudeBasedOnNormalizedSpeed is 1
+		/// Gets the maximum value of the effect. i.e. where where <see cref="normalizedEffectMagnitudeBasedOnNormalizedSpeed"/> is 1
 		/// </summary>
 		protected abstract float maxValue { get; }
 		

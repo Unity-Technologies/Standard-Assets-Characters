@@ -49,7 +49,7 @@ namespace StandardAssets.Characters.Effects
 		}
 
 		/// <summary>
-		/// Selects an audio clip (by cycling through them) and changes the volume based on effectMagnitude
+		/// Selects an audio clip (by cycling through them) and changes the volume based on <paramref name="effectMagnitude"/>
 		/// </summary>
 		/// <param name="movementEvent">The <see cref="MovementEvent"/> data</param>
 		/// <param name="effectMagnitude">The magnitude of the effect</param>
