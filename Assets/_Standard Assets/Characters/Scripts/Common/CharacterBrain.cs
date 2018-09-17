@@ -87,7 +87,7 @@ namespace StandardAssets.Characters.Common
 		protected virtual void Update()
 		{
 			Vector3 newPosition = transform.position;
-			newPosition.y = 0;
+			newPosition.y = 0f;
 			float displacement = (lastPosition - newPosition).magnitude;
 			planarSpeed = displacement / Time.deltaTime;
 			lastPosition = newPosition;
