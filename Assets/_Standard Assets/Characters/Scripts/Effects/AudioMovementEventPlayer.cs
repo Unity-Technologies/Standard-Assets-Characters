@@ -49,9 +49,9 @@ namespace StandardAssets.Characters.Effects
 		}
 
 		/// <summary>
-		/// Selects an audio clip (by cycling through theme) and changes the volume based on effectMagnitude
+		/// Selects an audio clip (by cycling through them) and changes the volume based on effectMagnitude
 		/// </summary>
-		/// <param name="movementEvent">The MovementEvent data</param>
+		/// <param name="movementEvent">The <see cref="MovementEvent"/> data</param>
 		/// <param name="effectMagnitude">The magnitude of the effect</param>
 		protected override void PlayMovementEvent(MovementEvent movementEvent, float effectMagnitude)
 		{
@@ -72,7 +72,6 @@ namespace StandardAssets.Characters.Effects
 
 			source.volume = effectMagnitude;
 			source.Play();
-
 		}
 	}
 }
