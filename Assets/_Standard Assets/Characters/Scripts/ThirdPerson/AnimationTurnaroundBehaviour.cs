@@ -33,7 +33,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			[Tooltip("Animation state name.")]
 			public string name;
 			[Tooltip("Animation play speed.")]
-			public float speed = 1;
+			public float speed = 1.0f;
 			[Tooltip("Head look at angle scale during animation.")]
 			public float headTurnScale = 1.0f;
 
@@ -58,7 +58,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected AnimationInfo	idleRightTurn = new AnimationInfo("IdleTurnRight180_Mirror");
 
 		[SerializeField, Tooltip("Curve used to determine rotation during animation")] 
-		protected AnimationCurve rotationCurve = AnimationCurve.Linear(0, 0, 1, 1);
+		protected AnimationCurve rotationCurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
 
 		[SerializeField, Tooltip("Value used to determine if a run turn should be used")]
 		protected float normalizedRunSpeedThreshold = 0.1f;
@@ -207,7 +207,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			
 			// < 180 turn
-			if (targetAngle < 170 || targetAngle > 190)
+			if (targetAngle < 170.0f || targetAngle > 190.0f)
 			{
 				return CurrentRun(forwardSpeed, turningClockwise);
 			}

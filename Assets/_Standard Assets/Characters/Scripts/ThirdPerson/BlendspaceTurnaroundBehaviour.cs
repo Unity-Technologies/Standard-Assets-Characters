@@ -33,12 +33,12 @@ namespace StandardAssets.Characters.ThirdPerson
 		private Transform transform;
 
 		// defaults used if configureBlendspace is false
-		private const float k_DefaultTurnTime = 0.2f, k_DefaultHeadTurnScale = 1f;
-		private float defaultTurnClassificationAngle = 150f;
-		private AnimationCurve defaultRotationCurve = AnimationCurve.Linear(0, 0, 1, 1);
-		private AnimationCurve defaultForwardCurve = AnimationCurve.Linear(0, 0.1f, 1, 0.1f);
-		private AnimationCurve defaultTurn180MovementCurve = AnimationCurve.Linear(0, 1, 1, 1);
-		private AnimationCurve defaultTurn90MovementCurve = AnimationCurve.Linear(0, 1, 1, 1);
+		private const float k_DefaultTurnTime = 0.2f, k_DefaultHeadTurnScale = 1.0f;
+		private float defaultTurnClassificationAngle = 150.0f;
+		private AnimationCurve defaultRotationCurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
+		private AnimationCurve defaultForwardCurve = AnimationCurve.Linear(0.0f, 0.1f, 1.0f, 0.1f);
+		private AnimationCurve defaultTurn180MovementCurve = AnimationCurve.Linear(0.0f, 1.0f, 1.0f, 1.0f);
+		private AnimationCurve defaultTurn90MovementCurve = AnimationCurve.Linear(0.0f, 1.0f, 1.0f, 1.0f);
 
 
 		private float timeToTurn
@@ -134,7 +134,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			isSmallTurn = Mathf.Abs(angle) < classificationAngle;
 			targetAngle = MathUtilities.Wrap180(angle);
-			turningTime = 0f;
+			turningTime = 0.0f;
 			currentForwardSpeed = animationController.animatorForwardSpeed;
 			currentTurningSpeed = animationController.animatorTurningSpeed;
 
@@ -145,7 +145,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				Vector3 rotatedVector = Quaternion.AngleAxis(angle, Vector3.up) * transform.forward;
 				movementVector = rotatedVector * motor.cachedForwardVelocity;
-				movementVector.y = 0;
+				movementVector.y = 0.0f;
 			}
 		}
 
@@ -167,7 +167,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			animationController.UpdateForwardSpeed(forwardSpeedValue, Time.deltaTime);
 
 			Vector3 newRotation =
-				startRotation + new Vector3(0, rotationOverTime.Evaluate(normalizedTime) * targetAngle, 0);
+				startRotation + new Vector3(0.0f, rotationOverTime.Evaluate(normalizedTime) * targetAngle, 0.0f);
 			transform.rotation = Quaternion.Euler(newRotation);
 		}
 	}

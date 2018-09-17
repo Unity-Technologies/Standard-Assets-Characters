@@ -4,7 +4,7 @@ using UnityEngine;
 namespace StandardAssets.Characters.ThirdPerson
 {
 	/// <summary>
-	/// Data class used to store configuration settings used bt <see cref="BlendspaceTurnaroundBehaviour"/>.
+	/// Data class used to store configuration settings used by <see cref="BlendspaceTurnaroundBehaviour"/>.
 	/// </summary>
 	[Serializable]
 	public class BlendspaceTurnaroundConfiguration
@@ -13,25 +13,25 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected float timeToTurn = 0.2f;
 		
 		[SerializeField, Tooltip("Curve used to evaluate rotation throughout turnaround.")]
-		protected AnimationCurve rotationDuringTurn = AnimationCurve.Linear(0,0,1,1);
+		protected AnimationCurve rotationDuringTurn = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
 
 		[SerializeField, Tooltip("Curve used to evaluate forward speed throughout turnaround.")]
-		protected AnimationCurve forwardSpeed = AnimationCurve.Linear(0, 1, 1, 1);
+		protected AnimationCurve forwardSpeed = AnimationCurve.Linear(0.0f, 1.0f, 1.0f, 1.0f);
 
 		[SerializeField, Tooltip("Method to apply forward speed during turnaround.")]
 		protected Calculation forwardSpeedCalculation = Calculation.Multiplicative;
 
 		[SerializeField, Tooltip("An angle less than this is classified as a small turn.")]
-		protected float turnClassificationAngle = 150f;
+		protected float turnClassificationAngle = 150.0f;
 
 		[SerializeField, Tooltip("Curve used to evaluate movement throughout a 180° turnaround.")]
-		protected AnimationCurve movementDuring180Turn = AnimationCurve.Linear(0, 1, 1, 1);
+		protected AnimationCurve movementDuring180Turn = AnimationCurve.Linear(0.0f, 1.0f, 1.0f, 1.0f);
 		
 		[SerializeField, Tooltip("Curve used to evaluate movement throughout a 90° turnaround.")]
-		protected AnimationCurve movementDuring90Turn = AnimationCurve.Linear(0, 1, 1, 1);
+		protected AnimationCurve movementDuring90Turn = AnimationCurve.Linear(0.0f, 1.0f, 1.0f, 1.0f);
 
 		[SerializeField, Tooltip("Head look at angle scale during animation.")]
-		protected float headTurnMultiplier = 1f;
+		protected float headTurnMultiplier = 1.0f;
 		
 		/// <summary>
 		/// Gets the turn duration in seconds.
