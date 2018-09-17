@@ -11,28 +11,30 @@ For more detailed documentation, please see the WIP Google Docs:
 
 * Open Character Controller:
 
-	https://docs.google.com/document/d/1TAodMmM8OlbFibyWvOKEU-zj-HI-yI4YJJx45S-hwTo/edit?usp=sharing
-	
-* Input:
+	https://docs.google.com/document/d/1TAodMmM8OlbFibyWvOKEU-zj-HI-yI4YJJx45S-hwTo/edit?usp=sharing	
 
-	https://docs.google.com/document/d/1mU1kQCVWu62lqSDdas9OfF2JY-AX9GVdd6d-q9XhFBU/edit?usp=sharing
-
-* First Person:
+* First Person Controller:
 
 	https://docs.google.com/document/d/14C-a3P5o3tAXWd_Dzl8Zc-jh3uQUTaKcfWxPvqXv9w0/edit?usp=sharing
+
+* Third Person Contoller:
+
+	https://docs.google.com/document/d/1uU6SqWtDF0BPT81bYcVRBMZ2Li6XrKtGznItrfH8hvc/edit?usp=sharing
+
+* Input (Legacy):
+
+	https://docs.google.com/document/d/1mU1kQCVWu62lqSDdas9OfF2JY-AX9GVdd6d-q9XhFBU/edit?usp=sharing
 
 * Movement Effects:
 
 	https://docs.google.com/document/d/17QTANYLrB4h2iZIzeaz3bop_Bzghp1Z65NssqIxvH5Q/edit?usp=sharing	
-#
-	***ALEC TO LINK MORE TO***
 
 
 ## Quick Start
 
 * Pull the repository and open the project in the relevant version of Unity
 * Open the Protoland Scene
-* Pres Play
+* Press Play
 * Select First or Third Person modes
 
 
@@ -206,14 +208,21 @@ For more detailed documentation, please see the WIP Google Docs:
 	* Input Manager (Legacy)
 		** Code and Design Structure
 		** Keyboard & Mouse, Gamepad (PS4, Xbox360, XboxOne), Mobile Touch Screen Support
+		** Inspector UX Review
+		** Code Review and Commenting
 	
 	* Open Character Controller
 		** Code and Design Structure
 		** Behaviour and Functionality
+		** Inspector UX Review
+		** Code Review and Commenting
 
 	* First Person Controller
 		** Code and Design Structure
 		** Behaviour and Functionality for Walk, Sprint, Crouch, Jump
+		** Head Bobbing System using Cinemachine Impulses
+		** Inspector UX Review
+		** Code Review and Commenting
 
 	* Third Person Controller 
 		** Code and Design Structure
@@ -225,6 +234,8 @@ For more detailed documentation, please see the WIP Google Docs:
 		** Nav Mesh Input Controller
 		** Animation State Machine
 		** Collision Capsule Resizing Based on Animation Frames (only set on the Landing Roll animation currently)
+		** Inspector UX Review
+		** Code Review and Commenting
 
 	* Simple Movement Controller Example
 		** Demo scene to test out Legacy Character Controller and Open Character Controller controlled Cylinders
@@ -232,36 +243,24 @@ For more detailed documentation, please see the WIP Google Docs:
 	* Simple NavMesh Input Controller Example
 		** Demo scene to show NavMesh driven Character Controller Input
 
+	* Project Hygene
+	    ** First Pass Documentation of the Systems and Behaviours
+	    ** General Internal Code Commenting Review Pass
+
 
 ### Currently Being Worked On:
-	* Input Manager (Legacy)
-		** Inspector UX
-		** Code Review and Commenting
-	
-	* Open Character Controller
-		** Inspector UX
-		** Code Review and Commenting
-
-	* First Person Controller
-		** Inspector UX
-		** Code Review and Commenting
-		** Head Bobbing Cinemachine Custom Extension
 
 	* Third Person Controller 
-		** Inspector UX
-		** Code Review and Commenting
 		** Effects Detection System for Character Feet
-		** Strafing Locomotion Behaviour & New Animations
+		** Strafing Locomotion Behaviour & Blends
+		** New Strafing Animations
 	
-	* Cinemachine Camera Setups
-		** First Person Cameras
-		** Third Person Cameras
-
-	* First Pass Documentation of the Systems and Behaviours
-	* General Internal commenting and code review pass
-
 
 ### Still Requires Work:
+
+	* Cinemachine Camera Setups [By CM Team?]
+		** First Person Cameras
+		** Third Person Cameras
 
 	* Garbage Generation and Optimation Pass
 	* Addition of Female Avatar & Aniamtion Set

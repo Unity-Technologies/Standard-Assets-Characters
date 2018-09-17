@@ -91,7 +91,7 @@ namespace StandardAssets.Characters.GizmosHelpers
 				ArrowColorSelect arrowColorSelect = cylinderObject.GetComponentInChildren<ArrowColorSelect>();
 				if (arrowColorSelect != null)
 				{
-					arrowColorSelect.Color = color;
+					arrowColorSelect.color = color;
 					arrowColorSelect.OnValidate();
 				}
 			}

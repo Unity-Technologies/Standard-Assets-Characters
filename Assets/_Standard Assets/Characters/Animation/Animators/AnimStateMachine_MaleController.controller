@@ -737,7 +737,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 2f583896b83f7ce4b9b7899d7f9d26c9, type: 3}
     m_Threshold: 0.07575758
-    m_Position: {x: 0, y: 0.47}
+    m_Position: {x: 0, y: 0.5}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: ForwardSpeed
@@ -3645,7 +3645,7 @@ AnimatorState:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Locomotion Blend
+  m_Name: Action
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -3964,7 +3964,7 @@ AnimatorStateMachine:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Standing
+  m_Name: ThirdPerson
   m_ChildStates: []
   m_ChildStateMachines:
   - serializedVersion: 1
@@ -3972,10 +3972,10 @@ AnimatorStateMachine:
     m_Position: {x: 408, y: 108, z: 0}
   - serializedVersion: 1
     m_StateMachine: {fileID: 1107563799764602758}
-    m_Position: {x: 684, y: -132, z: 0}
+    m_Position: {x: 552, y: 12, z: 0}
   - serializedVersion: 1
     m_StateMachine: {fileID: 1107920703856779502}
-    m_Position: {x: 684, y: 324, z: 0}
+    m_Position: {x: 552, y: 192, z: 0}
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions:
@@ -3989,9 +3989,9 @@ AnimatorStateMachine:
     second:
     - {fileID: 1109091859386678670}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 180, y: 0, z: 0}
-  m_EntryPosition: {x: 180, y: 36, z: 0}
-  m_ExitPosition: {x: 180, y: -36, z: 0}
+  m_AnyStatePosition: {x: 348, y: 12, z: 0}
+  m_EntryPosition: {x: 348, y: 48, z: 0}
+  m_ExitPosition: {x: 348, y: -24, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 1102111145717707914}
 --- !u!1107 &1107485051808353962
@@ -4109,7 +4109,7 @@ AnimatorStateMachine:
   m_ChildStateMachines:
   - serializedVersion: 1
     m_StateMachine: {fileID: 1107508898193817866}
-    m_Position: {x: 492, y: 168, z: 0}
+    m_Position: {x: 492, y: 96, z: 0}
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions:

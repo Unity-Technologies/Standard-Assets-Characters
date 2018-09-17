@@ -50,18 +50,18 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Rotate around an implied circle to give the vector at a certain point along the circumference 
 		/// </summary>
-		public Vector3 rotateByDegrees(Vector3 centre, float radius, float angle)
+		public Vector3 RotateByDegrees(Vector3 centre, float radius, float angle)
 		{
-			var centreX = centre.x;
-			var centreY = centre.z;
+			float centreX = centre.x;
+			float centreY = centre.z;
 
 			angle = angle * Mathf.Deg2Rad;
-			
-			var rotationPoint = new Vector3();
-			rotationPoint.x = (Mathf.Sin(angle) * radius) + centreX;
-			rotationPoint.y = centre.y;
-			rotationPoint.z = (Mathf.Cos(angle) * radius) + centreY;
-			
+
+			var rotationPoint = new Vector3
+			{
+				x = (Mathf.Sin(angle) * radius) + centreX, y = centre.y, z = (Mathf.Cos(angle) * radius) + centreY
+			};
+
 			return rotationPoint;
 		}
 		
@@ -73,23 +73,22 @@ namespace StandardAssets.Characters.ThirdPerson
 				if (Application.isPlaying)
 				{
 					//Forward direction of the character transform
-					Debug.DrawLine(transform.position, transform.position + transform.forward * 5, Color.green);
+					Debug.DrawLine(transform.position, transform.position + transform.forward * 5.0f, Color.green);
 					
 					//Translate move input from vector2 into 3D space
-					var translatedMoveInput = new Vector3(characterInput.moveInput.x, 0, characterInput.moveInput.y);
+					var translatedMoveInput = new Vector3(characterInput.moveInput.x, 0.0f, characterInput.moveInput.y);
 					
 					//Find the direction of input relative to both the character and the main camera
-					Debug.DrawLine(transform.position, transform.position + Camera.main.transform.TransformDirection(translatedMoveInput) * 10, Color.blue);
+					Debug.DrawLine(transform.position, transform.position + Camera.main.transform.TransformDirection(translatedMoveInput) * 10.0f, Color.blue);
 					
 					//Intended rotation by degrees
 					float angle = characterMotor.targetYRotation;
 					
 					//Find vector rotated by given degrees
-					Vector3 targetPoint = rotateByDegrees(transform.position, 1, angle);
+					Vector3 targetPoint = RotateByDegrees(transform.position, 1.0f, angle);
 					
 					//Draw the line to the intended rotation
 					Debug.DrawLine(transform.position, targetPoint, Color.red);
-					
 				}
 			}
 		}

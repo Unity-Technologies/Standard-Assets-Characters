@@ -731,7 +731,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 564917964}
-  m_LocalRotation: {x: 0.31278747, y: -0.000000033005392, z: 0.0000000023811335, w: 0.9498232}
+  m_LocalRotation: {x: 0.31278747, y: 0.0000000132195375, z: -0.000000012840958, w: 0.9498232}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1078,11 +1078,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   setRotation: 0
+  normalizedEffectMagnitudeBasedOnNormalizedSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   source: {fileID: 731229771}
   clips:
   - {fileID: 8300000, guid: e749ca6855dde405aa8f5ff21aa27ec4, type: 3}
   - {fileID: 8300000, guid: a1e9f750a495c4beba0a43e9f1e719e7, type: 3}
   - {fileID: 8300000, guid: 237cd18e1619142249bb5f328aae90e1, type: 3}
+  maximumVolume: 1
+  minimumVolume: 1
 --- !u!1 &935747048
 GameObject:
   m_ObjectHideFlags: 0
@@ -1095,7 +1121,6 @@ GameObject:
   - component: {fileID: 935747053}
   - component: {fileID: 935747052}
   - component: {fileID: 935747051}
-  - component: {fileID: 935747050}
   m_Layer: 11
   m_Name: 'Left Footstep Particle '
   m_TagString: Untagged
@@ -1117,46 +1142,6 @@ Transform:
   m_Father: {fileID: 2133224158}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90.807, y: 0, z: 0}
---- !u!114 &935747050
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 114596154974041464, guid: eca1f6f13be6e44dbb51e1847fe990ba,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 935747048}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49f6547d83024ddd8a04591281fac94a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterTransform: {fileID: 434761007}
-  maxSpeed: 4
-  particleScaleFromNormalizedSpeed:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  minScale: 1
-  minSpeedForParticleEmission: 0.5
 --- !u!114 &935747051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1170,6 +1155,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   setRotation: 0
+  normalizedEffectMagnitudeBasedOnNormalizedSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  maximumLocalScale: 1
+  minimumLocalScale: 1
 --- !u!199 &935747052
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -5912,8 +5923,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   setRotation: 0
+  normalizedEffectMagnitudeBasedOnNormalizedSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   source: {fileID: 1108155582}
   clips: []
+  maximumVolume: 1
+  minimumVolume: 1
 --- !u!1 &1121876059
 GameObject:
   m_ObjectHideFlags: 0
@@ -6156,7 +6193,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1357013557}
-  m_LocalRotation: {x: 0.28507265, y: 6.2091665e-11, z: 0.000000010044232, w: 0.9585059}
+  m_LocalRotation: {x: 0.28507265, y: -0.00000003292275, z: 0.000000019854365, w: 0.9585059}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -6238,11 +6275,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   setRotation: 0
+  normalizedEffectMagnitudeBasedOnNormalizedSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   source: {fileID: 1424830332}
   clips:
   - {fileID: 8300000, guid: 55f455eaf5e4240a28428c98627461d4, type: 3}
   - {fileID: 8300000, guid: dfc0430d8381044fba925a645a037fde, type: 3}
   - {fileID: 8300000, guid: 963b31c25d43f4275ba11bcda964f228, type: 3}
+  maximumVolume: 1
+  minimumVolume: 1
 --- !u!82 &1424830332
 AudioSource:
   m_ObjectHideFlags: 0
@@ -6676,8 +6739,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   setRotation: 0
+  normalizedEffectMagnitudeBasedOnNormalizedSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   source: {fileID: 1652914264}
   clips: []
+  maximumVolume: 1
+  minimumVolume: 1
 --- !u!43 &1702817193
 Mesh:
   m_ObjectHideFlags: 0
@@ -7011,7 +7100,6 @@ GameObject:
   - component: {fileID: 2102115444}
   - component: {fileID: 2102115443}
   - component: {fileID: 2102115442}
-  - component: {fileID: 2102115441}
   m_Layer: 11
   m_Name: 'Right Footstep Particle '
   m_TagString: Untagged
@@ -7033,46 +7121,6 @@ Transform:
   m_Father: {fileID: 2133224158}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: -90.807, y: 0, z: 0}
---- !u!114 &2102115441
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 114793441365012798, guid: eca1f6f13be6e44dbb51e1847fe990ba,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2102115439}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49f6547d83024ddd8a04591281fac94a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterTransform: {fileID: 434761007}
-  maxSpeed: 4
-  particleScaleFromNormalizedSpeed:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  minScale: 1
-  minSpeedForParticleEmission: 0.5
 --- !u!114 &2102115442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7086,6 +7134,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   setRotation: 0
+  normalizedEffectMagnitudeBasedOnNormalizedSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  maximumLocalScale: 1
+  minimumLocalScale: 1
 --- !u!199 &2102115443
 ParticleSystemRenderer:
   serializedVersion: 6

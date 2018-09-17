@@ -18,8 +18,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField, Tooltip("Third person character brain")]
 		protected ThirdPersonBrain brain;
 		
-		[DisableEditAtRuntime()]
-		[SerializeField]
+		[DisableEditAtRuntime(), SerializeField, Tooltip("Define the starting camera mode")]
 		protected ThirdPersonCameraType startingCameraMode = ThirdPersonCameraType.Exploration;
 
 		[SerializeField, Tooltip("Input Response for changing camera mode and camera recenter")]
@@ -56,6 +55,17 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private bool isChangingMode;
 
+		/// <inheritdoc/>
+		protected override void Start()
+		{
+			base.Start();
+			
+			isForwardUnlocked = startingCameraMode == ThirdPersonCameraType.Exploration;
+			SetForwardModeArray();
+			SetAnimation(currentCameraModeStateNames[cameraIndex]);
+			PlayForwardModeEvent();
+		}
+		
 		private void Awake()
 		{
 			thirdPersonStateDrivenCamera = GetComponent<CinemachineStateDrivenCamera>();
@@ -70,24 +80,9 @@ namespace StandardAssets.Characters.ThirdPerson
 				recenterCameraInput.Init();
 			}
 		}
-
-		protected override void Start()
-		{
-			base.Start();
-			
-			if (brain != null)
-			{
-				brain.currentMotor.landed += OnLanded;
-			}
-			
-			isForwardUnlocked = startingCameraMode == ThirdPersonCameraType.Exploration;
-			SetForwardModeArray();
-			SetAnimation(currentCameraModeStateNames[cameraIndex]);
-			PlayForwardModeEvent();
-		}
 		
 		/// <summary>
-		/// Subscribe to input events 
+		/// Subscribe to input and <see cref="IThirdPersonMotor.landed"/> events.
 		/// </summary>
 		private void OnEnable()
 		{
@@ -102,10 +97,15 @@ namespace StandardAssets.Characters.ThirdPerson
 				recenterCameraInput.started += RecenterCamera;
 				recenterCameraInput.ended += RecenterCamera;
 			}
+			
+			if (brain != null)
+			{
+				brain.currentMotor.landed += OnLanded;
+			}
 		}
 		
 		/// <summary>
-		/// Unsubscribe from input events
+		/// Unsubscribe from input and <see cref="IThirdPersonMotor.landed"/> events.
 		/// </summary>
 		private void OnDisable()
 		{
@@ -119,6 +119,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				recenterCameraInput.started -= RecenterCamera;
 				recenterCameraInput.ended -= RecenterCamera;
+			}
+			
+			if (brain != null)
+			{
+				brain.currentMotor.landed -= OnLanded;
 			}
 		}
 		
@@ -288,11 +293,5 @@ namespace StandardAssets.Characters.ThirdPerson
 				cameraObject.SetActive(isActive);
 			}
 		}
-	}
-
-	public enum ThirdPersonCameraType
-	{
-		Exploration,
-		Strafe
 	}
 }
