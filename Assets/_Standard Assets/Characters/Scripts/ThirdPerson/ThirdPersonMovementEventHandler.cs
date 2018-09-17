@@ -23,9 +23,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		private ThirdPersonBrain brain;
 
 		/// <summary>
-		/// Gives the <see cref="ThirdPersonMovementEventHandler"/> ThirdPersonMovementEventHandler context of the <see cref="ThirdPersonBrain"/>
+		/// Gives the <see cref="ThirdPersonMovementEventHandler"/> context of the <see cref="ThirdPersonBrain"/>
 		/// </summary>
-		/// <param name="brainToUse"></param>
+		/// <param name="brainToUse">The <see cref="ThirdPersonBrain"/> that called Init</param>
 		public void Init(ThirdPersonBrain brainToUse)
 		{
 			base.Init();
