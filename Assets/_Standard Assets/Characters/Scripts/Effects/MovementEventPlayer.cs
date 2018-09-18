@@ -13,25 +13,25 @@ namespace StandardAssets.Characters.Effects
 		/// <summary>
 		/// Plays the movement event at a set location
 		/// </summary>
-		/// <param name="movementEvent"></param>
-		public void Play(MovementEvent movementEvent)
+		/// <param name="movementEventData"></param>
+		public void Play(MovementEventData movementEventData)
 		{
-			if (movementEvent.firedFrom != null)
+			if (movementEventData.firedFrom != null)
 			{
-				transform.position = movementEvent.firedFrom.position;
+				transform.position = movementEventData.firedFrom.position;
 				if (setRotation)
 				{
-					transform.rotation = movementEvent.firedFrom.rotation;
+					transform.rotation = movementEventData.firedFrom.rotation;
 				}
 			}
 
-			PlayMovementEvent(movementEvent);
+			PlayMovementEvent(movementEventData);
 		}
 
 		/// <summary>
 		/// Does the actual playing of the event
 		/// </summary>
-		/// <param name="movementEvent"></param>
-		protected abstract void PlayMovementEvent(MovementEvent movementEvent);
+		/// <param name="movementEventData"></param>
+		protected abstract void PlayMovementEvent(MovementEventData movementEventData);
 	}
 }

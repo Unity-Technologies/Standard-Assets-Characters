@@ -20,7 +20,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField]
 		protected float maximumSpeed = 10f;
 
-		private ThirdPersonBrain brain;
+		private ThirdPersonBrain thirdPersonBrain;
 
 		/// <summary>
 		/// Gives the <see cref="ThirdPersonMovementEventHandler"/> context of the <see cref="ThirdPersonBrain"/>
@@ -28,8 +28,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <param name="brainToUse">The <see cref="ThirdPersonBrain"/> that called Init</param>
 		public void Init(ThirdPersonBrain brainToUse)
 		{
-			base.Init();
-			brain = brainToUse;
+			base.Init(brainToUse);
+			thirdPersonBrain = brainToUse;
 		}
 
 		/// <summary>
@@ -56,18 +56,17 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public void Jumped()
 		{
-			BroadcastMovementEvent(jumpId);
+			//BroadcastMovementEvent(jumpId);
 		}
 
 		public void Landed()
 		{
-			BroadcastMovementEvent(landingId);
 		}
 
-		private void HandleMove(MovementEvent movementEvent)
+		private void HandleMove(MovementEventData movementEventData)
 		{
-			movementEvent.normalizedSpeed = Mathf.Clamp01(brain.planarSpeed/maximumSpeed);
-			BroadcastMovementEvent(movementEvent);
+			movementEventData.normalizedSpeed = Mathf.Clamp01(thirdPersonBrain.planarSpeed/maximumSpeed);
+			//BroadcastMovementEvent(movementEventData);
 		}
 	}
 }

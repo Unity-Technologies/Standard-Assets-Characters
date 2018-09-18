@@ -51,9 +51,9 @@ namespace StandardAssets.Characters.Effects
 		/// <summary>
 		/// Selects an audio clip (by cycling through them) and changes the volume based on <paramref name="effectMagnitude"/>
 		/// </summary>
-		/// <param name="movementEvent">The <see cref="MovementEvent"/> data</param>
+		/// <param name="movementEventData">The <see cref="MovementEventData"/> data</param>
 		/// <param name="effectMagnitude">The magnitude of the effect</param>
-		protected override void PlayMovementEvent(MovementEvent movementEvent, float effectMagnitude)
+		protected override void PlayMovementEvent(MovementEventData movementEventData, float effectMagnitude)
 		{
 			if (source == null)
 			{

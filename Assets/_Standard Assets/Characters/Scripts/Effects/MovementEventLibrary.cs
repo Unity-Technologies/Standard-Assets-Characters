@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace StandardAssets.Characters.Effects
@@ -8,47 +9,59 @@ namespace StandardAssets.Characters.Effects
 	/// This is what would be swapped out for different zones.
 	/// e.g. walking on dirt versus walking on metal.
 	/// </summary>
-	public class MovementEventLibrary : MonoBehaviour
+	[Serializable]
+	public class MovementEventLibrary
 	{
-		/// <summary>
-		/// The definable list of movement effects
-		/// </summary>
-		[SerializeField, Tooltip("List of Movement Events and their corresponding Movement Event Players")]
-		protected List<MovementEventLibraryEntry> movementEvents;
+		[SerializeField, Tooltip("The movement event player prefab for handling left foot step")]
+		protected MovementEventPlayer leftFootStepPrefab;
+		
+		[SerializeField, Tooltip("The movement event player prefab for handling right foot step")]
+		protected MovementEventPlayer rightFootStepPrefab;
+
+		[SerializeField, Tooltip("The movement event player prefab for handling landing")]
+		protected MovementEventPlayer landingPrefab;
+
+		[SerializeField, Tooltip("The movement event player prefab for handling jumping")]
+		protected MovementEventPlayer jumpingPrefab;
 
 		/// <summary>
-		/// A dictionary of movement effects for optimized lookup
+		/// Cache of the various instances so that the prefab is only spawned once
 		/// </summary>
-		private readonly Dictionary<string, MovementEventLibraryEntry> movementEventsDictionary =
-			new Dictionary<string, MovementEventLibraryEntry>();
+		protected MovementEventPlayer leftFootStepInstance, rightFootStepInstance, landingInstance, jumpingInstance;
 
-		/// <summary>
-		/// Set up dictionary from public list
-		/// </summary>
-		private void Awake()
+		protected void PlayInstancedEvent(MovementEventData movementEventData, MovementEventPlayer prefab, MovementEventPlayer instance)
 		{
-			//Set up the dictionary
-			foreach (MovementEventLibraryEntry movementEvent in movementEvents)
+			if (prefab == null)
 			{
-				movementEventsDictionary.Add(movementEvent.identifier, movementEvent);
+				return;
 			}
+
+			if (instance == null)
+			{
+				instance = GameObject.Instantiate<MovementEventPlayer>(prefab);
+			}
+			
+			instance.Play(movementEventData);
 		}
 
-		/// <summary>
-		/// Gets the MovementEventPlayers for a movement event and plays them
-		/// </summary>
-		/// <param name="movementEvent"></param>
-		public void PlayEvent(MovementEvent movementEvent)
+		public void PlayLeftFoot(MovementEventData movementEventData)
 		{
-			//Play the movement event
-			MovementEventLibraryEntry entry;
-			if (movementEventsDictionary.TryGetValue(movementEvent.id, out entry))
-			{
-				foreach (MovementEventPlayer movementEventPlayer in entry.movementPlayers)
-				{
-					movementEventPlayer.Play(movementEvent);
-				}
-			}
+			PlayInstancedEvent(movementEventData, leftFootStepPrefab, leftFootStepInstance);
+		}
+		
+		public void PlayRightFoot(MovementEventData movementEventData)
+		{
+			PlayInstancedEvent(movementEventData, rightFootStepPrefab, rightFootStepInstance);
+		}
+		
+		public void PlayLanding(MovementEventData movementEventData)
+		{
+			PlayInstancedEvent(movementEventData, landingPrefab, landingInstance);
+		}
+		
+		public void PlayJumping(MovementEventData movementEventData)
+		{
+			PlayInstancedEvent(movementEventData, jumpingPrefab, jumpingInstance);
 		}
 	}
 }

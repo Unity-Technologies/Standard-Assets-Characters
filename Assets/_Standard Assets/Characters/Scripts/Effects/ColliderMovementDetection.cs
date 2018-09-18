@@ -4,7 +4,7 @@ using UnityEngine;
 namespace StandardAssets.Characters.Effects
 {
 	/// <summary>
-	/// Detect collisions or triggers and broadcast <see cref="MovementEvent"/>
+	/// Detect collisions or triggers and broadcast <see cref="MovementEventData"/>
 	/// e.g. BoxColliders on the feet for ThirdPerson character
 	/// </summary>
 	[RequireComponent(typeof(Collider))]
@@ -22,7 +22,7 @@ namespace StandardAssets.Characters.Effects
 		/// <summary>
 		/// Fired when movement is detected
 		/// </summary>
-		public event Action<MovementEvent> detection;
+		public event Action<MovementEventData> detection;
 
 		private bool isTrigger;
 		
@@ -44,10 +44,9 @@ namespace StandardAssets.Characters.Effects
 				return;
 			}
 
-			MovementEvent movementEvent = new MovementEvent();
-			movementEvent.id = id;
-			movementEvent.firedFrom = transform;
-			OnDetection(movementEvent);			
+			MovementEventData movementEventData = new MovementEventData();
+			movementEventData.firedFrom = transform;
+			OnDetection(movementEventData);			
 		}
 		
 		private void OnCollisionEnter(Collision other)
@@ -62,24 +61,23 @@ namespace StandardAssets.Characters.Effects
 				return;
 			}
 			
-			MovementEvent movementEvent = new MovementEvent();
-			movementEvent.id = id;
-			movementEvent.firedFrom = transform;
-			OnDetection(movementEvent);
+			MovementEventData movementEventData = new MovementEventData();
+			movementEventData.firedFrom = transform;
+			OnDetection(movementEventData);
 		}
 
 		/// <summary>
 		/// Safely broadcast movement event after collider detection
 		/// </summary>
-		/// <param name="movementEvent">Movement event data</param>
-		private void OnDetection(MovementEvent movementEvent)
+		/// <param name="movementEventData">Movement event data</param>
+		private void OnDetection(MovementEventData movementEventData)
 		{
 			if (detection == null)
 			{
 				return;
 			}
 			
-			detection(movementEvent);
+			detection(movementEventData);
 		}
 	}
 }

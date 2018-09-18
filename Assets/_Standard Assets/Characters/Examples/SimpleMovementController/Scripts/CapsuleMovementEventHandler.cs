@@ -47,9 +47,9 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// Precalculate the square of the threshold
 		/// Set the previous position
 		/// </summary>
-		public void Init(Transform newTransform, ICharacterPhysics physics)
+		public void Init(CapsuleBrain brainToUse, Transform newTransform, ICharacterPhysics physics)
 		{
-			base.Init();
+			base.Init(brain);
 			sqrDistanceThreshold = walkDistanceThreshold * walkDistanceThreshold;
 			transform = newTransform;
 			previousPosition = transform.position;
@@ -113,7 +113,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 				currentIdIndex = 0;
 			}
 
-			BroadcastMovementEvent(footIds[currentIdIndex], transform);
+			//BroadcastMovementEvent(footIds[currentIdIndex], transform);
 		}
 		
 		/// <summary>
@@ -121,7 +121,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// </summary>
 		void Jumped()
 		{
-			BroadcastMovementEvent(jumpId);
+			//BroadcastMovementEvent(jumpId);
 		}
 		
 		/// <summary>
@@ -129,7 +129,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// </summary>
 		void Landed()
 		{
-			BroadcastMovementEvent(landingId);
+			//BroadcastMovementEvent(landingId);
 		}  
 		
 		/// <summary>

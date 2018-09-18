@@ -23,20 +23,20 @@ namespace StandardAssets.Characters.Effects
 		/// <summary>
 		/// Intercepts the movement event call, calculates and appends the effect magnitude
 		/// </summary>
-		/// <param name="movementEvent">The <see cref="MovementEvent"/> that is intercepted</param>
-		protected override void PlayMovementEvent(MovementEvent movementEvent)
+		/// <param name="movementEventData">The <see cref="MovementEventData"/> that is intercepted</param>
+		protected override void PlayMovementEvent(MovementEventData movementEventData)
 		{
 			float effectMagnitude =
-				normalizedEffectMagnitudeBasedOnNormalizedSpeed.Evaluate(movementEvent.normalizedSpeed) * (maxValue - minValue) + minValue;
+				normalizedEffectMagnitudeBasedOnNormalizedSpeed.Evaluate(movementEventData.normalizedSpeed) * (maxValue - minValue) + minValue;
 			
-			PlayMovementEvent(movementEvent, effectMagnitude);
+			PlayMovementEvent(movementEventData, effectMagnitude);
 		}
 
 		/// <summary>
 		/// Plays the event using the effectMagnitude
 		/// </summary>
-		/// <param name="movementEvent">The current <see cref="MovementEvent"/> to be played</param>
+		/// <param name="movementEventData">The current <see cref="MovementEventData"/> to be played</param>
 		/// <param name="effectMagnitude">The magnitude of the effect - this is the actual value and not a normalized value</param>
-		protected abstract void PlayMovementEvent(MovementEvent movementEvent, float effectMagnitude);
+		protected abstract void PlayMovementEvent(MovementEventData movementEventData, float effectMagnitude);
 	}
 }

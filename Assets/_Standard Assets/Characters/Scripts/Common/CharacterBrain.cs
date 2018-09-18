@@ -1,3 +1,4 @@
+using System;
 using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Effects;
 using StandardAssets.Characters.Physics;
@@ -12,6 +13,8 @@ namespace StandardAssets.Characters.Common
 	[RequireComponent(typeof(ICharacterInput))]
 	public abstract class CharacterBrain : MonoBehaviour, INormalizedForwardSpeedContainer
 	{
+		public Action<string> changeMovementZone;
+		
 		/// <summary>
 		/// The Physic implementation used to do the movement
 		/// e.g. CharacterController or Rigidbody (or New C# CharacterController analog)
@@ -91,6 +94,14 @@ namespace StandardAssets.Characters.Common
 			float displacement = (lastPosition - newPosition).magnitude;
 			planarSpeed = displacement / Time.deltaTime;
 			lastPosition = newPosition;
+		}
+
+		public void ChangeMovementZone(string zoneId)
+		{
+			if (changeMovementZone != null)
+			{
+				changeMovementZone(zoneId);
+			}
 		}
 	}
 }

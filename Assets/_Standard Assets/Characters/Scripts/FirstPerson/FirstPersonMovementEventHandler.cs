@@ -39,9 +39,9 @@ namespace StandardAssets.Characters.FirstPerson
 		private Transform transform;
 
 		/// <summary>
-		/// The character brain for used in speed scaling
+		/// The character firstPersonBrain for used in speed scaling
 		/// </summary>
-		private FirstPersonBrain brain;
+		private FirstPersonBrain firstPersonBrain;
 
 		/// <summary>
 		/// Initialize:
@@ -50,10 +50,10 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		public void Init(FirstPersonBrain brainToUse)
 		{
-			base.Init();
+			base.Init(brainToUse);
 			transform = brainToUse.transform;
 			previousPosition = transform.position;
-			brain = brainToUse;
+			firstPersonBrain = brainToUse;
 		}
 
 		public void Tick()
@@ -61,7 +61,7 @@ namespace StandardAssets.Characters.FirstPerson
 			Vector3 currentPosition = transform.position;
 
 			//Optimization - prevents the rest of the logic, which includes vector magnitude calculations, from being called if the character has not moved
-			if (currentPosition == previousPosition || !brain.physicsForCharacter.isGrounded)
+			if (currentPosition == previousPosition || !firstPersonBrain.physicsForCharacter.isGrounded)
 			{
 				previousPosition = currentPosition;
 				return;
@@ -83,8 +83,8 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		public void Subscribe()
 		{
-			brain.physicsForCharacter.landed += Landed;
-			brain.physicsForCharacter.jumpVelocitySet += Jumped;
+			firstPersonBrain.physicsForCharacter.landed += Landed;
+			firstPersonBrain.physicsForCharacter.jumpVelocitySet += Jumped;
 		}
 
 		/// <summary>
@@ -92,8 +92,8 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		public void Unsubscribe()
 		{
-			brain.physicsForCharacter.landed -= Landed;
-			brain.physicsForCharacter.jumpVelocitySet -= Jumped;
+			firstPersonBrain.physicsForCharacter.landed -= Landed;
+			firstPersonBrain.physicsForCharacter.jumpVelocitySet -= Jumped;
 		}
 
 		/// <summary>
@@ -113,7 +113,7 @@ namespace StandardAssets.Characters.FirstPerson
 				currentIdIndex = 0;
 			}
 
-			BroadcastMovementEvent(footIds[currentIdIndex], transform, Mathf.Clamp01(brain.planarSpeed / maximumSpeed));
+			//BroadcastMovementEvent(footIds[currentIdIndex], transform, Mathf.Clamp01(firstPersonBrain.planarSpeed / maximumSpeed));
 		}
 
 		/// <summary>
@@ -121,7 +121,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		private void Jumped()
 		{
-			BroadcastMovementEvent(jumpId, transform);
+			//BroadcastMovementEvent(jumpId, transform);
 		}
 
 		/// <summary>
@@ -129,7 +129,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		private void Landed()
 		{
-			BroadcastMovementEvent(landingId, transform);
+			//BroadcastMovementEvent(landingId, transform);
 		}
 
 		/// <summary>

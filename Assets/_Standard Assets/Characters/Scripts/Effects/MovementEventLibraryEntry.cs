@@ -4,7 +4,7 @@ using UnityEngine;
 namespace StandardAssets.Characters.Effects
 {
 	/// <summary>
-	/// An entry in the movement event library which maps the MovementEvent unique ID to a set of movement event players
+	/// An entry in the movement event library which maps the MovementEventData unique ID to a set of movement event players
 	/// </summary>
 	[Serializable]
 	public class MovementEventLibraryEntry

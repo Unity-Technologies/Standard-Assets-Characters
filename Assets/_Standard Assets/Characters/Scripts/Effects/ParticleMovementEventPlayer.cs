@@ -31,7 +31,7 @@ namespace StandardAssets.Characters.Effects
 			get { return maximumLocalScale; }
 		}
 
-		protected override void PlayMovementEvent(MovementEvent movementEvent, float effectMagnitude)
+		protected override void PlayMovementEvent(MovementEventData movementEventData, float effectMagnitude)
 		{
 			Vector3 scale = Vector3.one * effectMagnitude;
 			foreach (ParticleSystem particleSource in particleSources)

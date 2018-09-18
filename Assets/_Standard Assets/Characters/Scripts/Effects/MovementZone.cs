@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using StandardAssets.Characters.Common;
+using UnityEngine;
 
 namespace StandardAssets.Characters.Effects
 {
@@ -7,38 +8,35 @@ namespace StandardAssets.Characters.Effects
 	/// </summary>
 	public abstract class MovementZone : MonoBehaviour
 	{
-		/// <summary>
-		/// The library of events to be played 
-		/// </summary>
 		[SerializeField]
-		protected MovementEventLibrary library;
+		protected string zoneId;
 
 		/// <summary>
 		/// Helper method for triggering movement events
 		/// </summary>
-		/// <param name="handler"></param>
-		protected void Trigger(MovementEventHandler handler)
+		/// <param name="brain"></param>
+		protected void Trigger(CharacterBrain brain)
 		{
-			if (handler == null)
+			if (brain == null)
 			{
 				return;
 			}
 			
-			handler.SetCurrentMovementEventLibrary(library);
+			brain.ChangeMovementZone(zoneId);
 		}
 		
 		/// <summary>
 		/// Triggering movement event that resets event library to default 
 		/// </summary>
-		/// <param name="handler"></param>
-		protected void ExitTrigger(MovementEventHandler handler)
+		/// <param name="brain"></param>
+		protected void ExitTrigger(CharacterBrain brain)
 		{
-			if (handler == null)
+			if (brain == null)
 			{
 				return;
 			}
 			
-			handler.SetStartingMovementEventLibrary();
+			//handler.SetStartingMovementEventLibrary();
 		}
 	}
 }

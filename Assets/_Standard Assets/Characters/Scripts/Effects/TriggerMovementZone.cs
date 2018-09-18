@@ -18,7 +18,7 @@ namespace StandardAssets.Characters.Effects
 			CharacterBrain brain = other.GetComponent<CharacterBrain>();
 			if (brain != null)
 			{
-				Trigger(brain.movementEventHandler);
+				Trigger(brain);
 			}
 		}
 		
@@ -31,7 +31,7 @@ namespace StandardAssets.Characters.Effects
 			CharacterBrain brain = other.GetComponent<CharacterBrain>();
 			if (brain != null)
 			{
-				ExitTrigger(brain.movementEventHandler);
+				ExitTrigger(brain);
 			}
 		}
 	}

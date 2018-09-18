@@ -78,7 +78,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		{
 			base.Awake();
 			ChangeState(startingMovementProperties);
-			capsuleMovementEventHandler.Init(transform, characterPhysics);
+			capsuleMovementEventHandler.Init(this, transform, characterPhysics);
 			mainCameraTransform = Camera.main.transform;
 		}
 
