@@ -123,7 +123,7 @@ Prefab:
     - target: {fileID: 114403526203746496, guid: 6efca73135551334aa92deaf128cdd43,
         type: 2}
       propertyPath: thirdPersonMovementEventHandler.movementZoneLibraries.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4076727408819664, guid: 6efca73135551334aa92deaf128cdd43, type: 2}
       propertyPath: m_LocalPosition.x
@@ -181,25 +181,83 @@ Prefab:
         type: 2}
       propertyPath: thirdPersonMovementEventHandler.movementZoneLibraries.Array.data[0].zoneLibrary.leftFootStepPrefab
       value: 
-      objectReference: {fileID: 114805303375849546, guid: ecb7fd2a290b048dabc44bf7feffd33e,
+      objectReference: {fileID: 114311900519629896, guid: 7768038ceb1534eb290b18f8f1b9fc91,
         type: 2}
     - target: {fileID: 114403526203746496, guid: 6efca73135551334aa92deaf128cdd43,
         type: 2}
       propertyPath: thirdPersonMovementEventHandler.movementZoneLibraries.Array.data[0].zoneLibrary.rightFootStepPrefab
       value: 
-      objectReference: {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868,
+      objectReference: {fileID: 114967407487660778, guid: 1042bcfeb6da64b59be44196325254b9,
         type: 2}
     - target: {fileID: 114403526203746496, guid: 6efca73135551334aa92deaf128cdd43,
         type: 2}
       propertyPath: thirdPersonMovementEventHandler.movementZoneLibraries.Array.data[0].zoneLibrary.landingPrefab
       value: 
-      objectReference: {fileID: 114311900519629896, guid: a0865b7ba94ac4fd49e0ca925b0e000d,
+      objectReference: {fileID: 114805303375849546, guid: 748c8b8d01da94ec0b0a8bd7c5de6aca,
         type: 2}
     - target: {fileID: 114403526203746496, guid: 6efca73135551334aa92deaf128cdd43,
         type: 2}
       propertyPath: thirdPersonMovementEventHandler.movementZoneLibraries.Array.data[0].zoneLibrary.jumpingPrefab
       value: 
-      objectReference: {fileID: 114967407487660778, guid: 9461adc39c7dd4bf186ac2ec83478b25,
+      objectReference: {fileID: 114403976645686668, guid: b0260e6943db045a78e78acb245c1db5,
+        type: 2}
+    - target: {fileID: 114403526203746496, guid: 6efca73135551334aa92deaf128cdd43,
+        type: 2}
+      propertyPath: thirdPersonMovementEventHandler.movementZoneLibraries.Array.data[1].zoneId
+      value: gravel
+      objectReference: {fileID: 0}
+    - target: {fileID: 114403526203746496, guid: 6efca73135551334aa92deaf128cdd43,
+        type: 2}
+      propertyPath: thirdPersonMovementEventHandler.movementZoneLibraries.Array.data[1].zoneLibrary.leftFootStepPrefab
+      value: 
+      objectReference: {fileID: 114311900519629896, guid: cbbf268b858c849ef92b2a5317360b96,
+        type: 2}
+    - target: {fileID: 114403526203746496, guid: 6efca73135551334aa92deaf128cdd43,
+        type: 2}
+      propertyPath: thirdPersonMovementEventHandler.movementZoneLibraries.Array.data[1].zoneLibrary.rightFootStepPrefab
+      value: 
+      objectReference: {fileID: 114967407487660778, guid: ed747ea00ffbd4f03bea6d08a3f23d68,
+        type: 2}
+    - target: {fileID: 114403526203746496, guid: 6efca73135551334aa92deaf128cdd43,
+        type: 2}
+      propertyPath: thirdPersonMovementEventHandler.movementZoneLibraries.Array.data[1].zoneLibrary.landingPrefab
+      value: 
+      objectReference: {fileID: 114805303375849546, guid: ecb7fd2a290b048dabc44bf7feffd33e,
+        type: 2}
+    - target: {fileID: 114403526203746496, guid: 6efca73135551334aa92deaf128cdd43,
+        type: 2}
+      propertyPath: thirdPersonMovementEventHandler.movementZoneLibraries.Array.data[1].zoneLibrary.jumpingPrefab
+      value: 
+      objectReference: {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868,
+        type: 2}
+    - target: {fileID: 114403526203746496, guid: 6efca73135551334aa92deaf128cdd43,
+        type: 2}
+      propertyPath: thirdPersonMovementEventHandler.movementZoneLibraries.Array.data[2].zoneId
+      value: grass
+      objectReference: {fileID: 0}
+    - target: {fileID: 114403526203746496, guid: 6efca73135551334aa92deaf128cdd43,
+        type: 2}
+      propertyPath: thirdPersonMovementEventHandler.movementZoneLibraries.Array.data[2].zoneLibrary.leftFootStepPrefab
+      value: 
+      objectReference: {fileID: 114703649657986578, guid: 73c4ea376d906458eaa1ecc057497fe4,
+        type: 2}
+    - target: {fileID: 114403526203746496, guid: 6efca73135551334aa92deaf128cdd43,
+        type: 2}
+      propertyPath: thirdPersonMovementEventHandler.movementZoneLibraries.Array.data[2].zoneLibrary.rightFootStepPrefab
+      value: 
+      objectReference: {fileID: 114303766495856896, guid: ac35542f86e3c485b8b686cd56dd261c,
+        type: 2}
+    - target: {fileID: 114403526203746496, guid: 6efca73135551334aa92deaf128cdd43,
+        type: 2}
+      propertyPath: thirdPersonMovementEventHandler.movementZoneLibraries.Array.data[2].zoneLibrary.landingPrefab
+      value: 
+      objectReference: {fileID: 114805303375849546, guid: ecb7fd2a290b048dabc44bf7feffd33e,
+        type: 2}
+    - target: {fileID: 114403526203746496, guid: 6efca73135551334aa92deaf128cdd43,
+        type: 2}
+      propertyPath: thirdPersonMovementEventHandler.movementZoneLibraries.Array.data[2].zoneLibrary.jumpingPrefab
+      value: 
+      objectReference: {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6efca73135551334aa92deaf128cdd43, type: 2}
@@ -613,7 +671,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1195975884
 Transform:
   m_ObjectHideFlags: 0
