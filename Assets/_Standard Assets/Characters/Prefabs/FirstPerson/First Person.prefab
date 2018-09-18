@@ -206,14 +206,18 @@ MonoBehaviour:
       type: 2}
   mainCamera: {fileID: 0}
   firstPersonMovementEventHandler:
-    startingMovementEventLibrary: {fileID: 0}
-    jumpId: jump
-    landingId: landing
-    footIds:
-    - firstPerson_leftfoot
-    - firstPerson_rightfoot
+    defaultMovementEventLibrary:
+      leftFootStepPrefab: {fileID: 114018542558808070, guid: a49cf8c1a6bce4d5c8365517aa993e06,
+        type: 2}
+      rightFootStepPrefab: {fileID: 114949780270383460, guid: 24d0ee9377dac400c95b56ebc871df0b,
+        type: 2}
+      landingPrefab: {fileID: 114805303375849546, guid: 9659ef86bd23c48ec90e79e94719f33b,
+        type: 2}
+      jumpingPrefab: {fileID: 114403976645686668, guid: a56d93cc8e1fa4739bb010c2bb3bd2de,
+        type: 2}
+    movementZoneLibraries: []
+    maximumSpeed: 10
   cameraAnimations: {fileID: 0}
-  cameraInvertY: 0
 --- !u!136 &136368833332200808
 CapsuleCollider:
   m_ObjectHideFlags: 1

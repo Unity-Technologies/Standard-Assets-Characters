@@ -2286,12 +2286,18 @@ MonoBehaviour:
     normalizedRunSpeedThreshold: 0.4
     crossfadeDuration: 0.5
   thirdPersonMovementEventHandler:
-    startingMovementEventLibrary: {fileID: 0}
-    jumpId: jump
-    landingId: landing
-    movementDetections:
-    - {fileID: 114447118663720106}
-    - {fileID: 114449538320415148}
+    defaultMovementEventLibrary:
+      leftFootStepPrefab: {fileID: 114958508550175952, guid: 394a8cff30d674216ab8a2697ff41bf5,
+        type: 2}
+      rightFootStepPrefab: {fileID: 114573446991303072, guid: 28245b52fbd7344629177cbdb3f67dc3,
+        type: 2}
+      landingPrefab: {fileID: 114805303375849546, guid: ecb7fd2a290b048dabc44bf7feffd33e,
+        type: 2}
+      jumpingPrefab: {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868,
+        type: 2}
+    movementZoneLibraries: []
+    leftFootDetection: {fileID: 114447118663720106}
+    rightFootDetection: {fileID: 114449538320415148}
     maximumSpeed: 6
 --- !u!114 &114436560949563180
 MonoBehaviour:

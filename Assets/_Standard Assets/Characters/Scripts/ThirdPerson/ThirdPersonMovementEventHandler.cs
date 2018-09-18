@@ -15,7 +15,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// The movement detection colliders attached to the feet of the Third Person Character
 		/// </summary>
 		[SerializeField]
-		protected ColliderMovementDetection[] movementDetections;
+		protected ColliderMovementDetection leftFootDetection;
+		
+		[SerializeField]
+		protected ColliderMovementDetection rightFootDetection;
 
 		[SerializeField]
 		protected float maximumSpeed = 10f;
@@ -37,10 +40,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		public void Subscribe()
 		{
-			foreach (ColliderMovementDetection colliderMovementDetection in movementDetections)
-			{
-				colliderMovementDetection.detection += HandleMove;
-			}
+			leftFootDetection.detection += HandleLeftFoot;
+			rightFootDetection.detection += HandleRightFoot;
 		}
 
 		/// <summary>
@@ -48,25 +49,30 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		public void Unsubscribe()
 		{
-			foreach (ColliderMovementDetection colliderMovementDetection in movementDetections)
-			{
-				colliderMovementDetection.detection -= HandleMove;
-			}
+			leftFootDetection.detection -= HandleLeftFoot;
+			rightFootDetection.detection -= HandleRightFoot;
 		}
 
 		public void Jumped()
 		{
-			//BroadcastMovementEvent(jumpId);
+			PlayJumping(new MovementEventData(brain.transform));
 		}
 
 		public void Landed()
 		{
+			PlayLanding(new MovementEventData(brain.transform));
 		}
 
-		private void HandleMove(MovementEventData movementEventData)
+		private void HandleLeftFoot(MovementEventData movementEventData)
 		{
 			movementEventData.normalizedSpeed = Mathf.Clamp01(thirdPersonBrain.planarSpeed/maximumSpeed);
-			//BroadcastMovementEvent(movementEventData);
+			PlayLeftFoot(movementEventData);
+		}
+		
+		private void HandleRightFoot(MovementEventData movementEventData)
+		{
+			movementEventData.normalizedSpeed = Mathf.Clamp01(thirdPersonBrain.planarSpeed/maximumSpeed);
+			PlayRightFoot(movementEventData);
 		}
 	}
 }
