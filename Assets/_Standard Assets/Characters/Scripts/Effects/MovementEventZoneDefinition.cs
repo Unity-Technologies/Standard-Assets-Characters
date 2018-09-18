@@ -20,7 +20,7 @@ namespace StandardAssets.Characters.Effects
 
 		public MovementEventLibrary library
 		{
-			get { return library; }
+			get { return zoneLibrary; }
 		}
 	}
 }

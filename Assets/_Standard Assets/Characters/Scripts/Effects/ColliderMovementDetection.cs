@@ -10,12 +10,6 @@ namespace StandardAssets.Characters.Effects
 	[RequireComponent(typeof(Collider))]
 	public class ColliderMovementDetection : MonoBehaviour
 	{
-		/// <summary>
-		/// The movement event ID corresponding to the <see cref="MovementEventHandler"/>
-		/// </summary>
-		[SerializeField, Tooltip("This should correspond to the footstep ID e.g. leftfoot")]
-		protected string id;
-
 		[SerializeField, Tooltip("The layer that will trigger the broadcast of this movement event handler ID")]
 		protected LayerMask layerMask;
 		

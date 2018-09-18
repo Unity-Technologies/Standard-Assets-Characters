@@ -41,7 +41,7 @@ namespace StandardAssets.Characters.Effects
 		}
 
 		private void ChangeMovementZone(string zoneId)
-		{
+		{		
 			foreach (MovementEventZoneDefinition movementEventZoneDefinition in movementZoneLibraries)
 			{
 				if (movementEventZoneDefinition.id == zoneId)
