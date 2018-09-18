@@ -10,9 +10,7 @@ namespace StandardAssets.Characters.FirstPerson
 	public class FirstPersonMovementEventHandler : DistanceMovementEventHandler
 	{
 		/// <summary>
-		/// Initialize:
-		/// Precalculate the square of the threshold
-		/// Set the previous position
+		/// Sets the brain to be used
 		/// </summary>
 		public void Init(FirstPersonBrain brainToUse)
 		{
