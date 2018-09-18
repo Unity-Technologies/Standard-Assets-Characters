@@ -64,6 +64,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		private float timeOfLastPhysicsJumpLand;
 		// reference to the ThirdPersonBrain
 		private ThirdPersonBrain thirdPersonBrain;
+		// whether locomotion mode is set to strafe
+		private bool isStrafing;
 
 		/// <summary>
 		/// Gets the animation state of the character.
@@ -381,17 +383,18 @@ namespace StandardAssets.Characters.ThirdPerson
 					bool rightFoot = animator.GetBool(hashGroundedFootRight);
 					float duration = configuration.jumpEndTransitionByForwardSpeed.Evaluate(
 						Mathf.Abs(animator.GetFloat(configuration.jumpedForwardSpeedParameterName)));
-					animator.CrossFadeInFixedTime(configuration.locomotionStateName, duration, 0, rightFoot ? 
+					string locomotion = isStrafing ? configuration.strafeLocomotionStateName : 
+						                    configuration.locomotionStateName;
+					animator.CrossFadeInFixedTime(locomotion, duration, 0, rightFoot ? 
 										  configuration.rightFootPhysicsJumpLandAnimationOffset
 										: configuration.leftFootPhysicsJumpLandAnimationOffset);
 					timeOfLastPhysicsJumpLand = Time.time;
 					break;
 				case AnimationState.Falling:
 					// strafe mode does not have a landing animation so transition directly to locomotion
-					var rootMotionMotor = motor as RootMotionThirdPersonMotor;
-					if (rootMotionMotor != null && rootMotionMotor.movementMode == ThirdPersonMotorMovementMode.Strafe)
+					if (isStrafing)
 					{
-						animator.CrossFade(configuration.locomotionStateName, configuration.landAnimationBlendDuration);
+						animator.CrossFade(configuration.strafeParameterName, configuration.landAnimationBlendDuration);
 					}
 					else
 					{
@@ -420,7 +423,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private void OnStrafeStarted()
 		{
-			animator.SetBool(configuration.strafeParameterName, true);
+			isStrafing = true;
+			animator.SetBool(configuration.strafeParameterName, isStrafing);
 		}
 		
 		/// <summary>
@@ -428,7 +432,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private void OnStrafeEnded()
 		{
-			animator.SetBool(configuration.strafeParameterName, false);
+			isStrafing = false;
+			animator.SetBool(configuration.strafeParameterName, isStrafing);
 		}
 
 		/// <summary>

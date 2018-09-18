@@ -17,7 +17,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected string locomotion = "Locomotion Blend";
 
 		[SerializeField, AnimatorStateName("thirdPersonAnimator")]
-		protected string rightFootRootMotionJump = "RightFootRootMotionJump",
+		protected string strafeLocomotion = "Strafe Locomotion",
+						 rightFootRootMotionJump = "RightFootRootMotionJump",
 						 leftFootRootMotionJump = "LeftFootRootMotionJump",
 						 rightFootJump = "RightFootPhysicsJump",
 						 leftFootJump = "LeftFootPhysicsJump",
@@ -334,6 +335,14 @@ namespace StandardAssets.Characters.ThirdPerson
 		public string locomotionStateName
 		{
 			get { return locomotion; }
+		}
+		
+		/// <summary>
+		/// Gets the strafe locomotion animator state name.
+		/// </summary>
+		public string strafeLocomotionStateName
+		{
+			get { return strafeLocomotion; }
 		}
 
 		/// <summary>
