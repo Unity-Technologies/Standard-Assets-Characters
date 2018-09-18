@@ -6,6 +6,11 @@ using UnityEngine;
 
 namespace StandardAssets.Characters.Attributes.Editor
 {
+	/// <summary>
+	/// Custom property drawer for the <see cref="AnimatorFloatParameterAttribute"/>.
+	/// This will use the given animator to retrieve the float parameters and display a drop down for the parameter
+	/// name of a <see cref="StandardAssets.Characters.ThirdPerson.AnimationFloatParameter"/>.
+	/// </summary>
 	[CustomPropertyDrawer(typeof(AnimatorStateNameAttribute))]
 	public class AnimatorStateNamePropertyDrawer : PropertyDrawer
 	{	
@@ -30,15 +35,8 @@ namespace StandardAssets.Characters.Attributes.Editor
 
 		private int GetIndex(string selected, IList<string> names)
 		{
-			for (int index = 0; index < names.Count; index++)
-			{
-				string stateName = names[index];
-				if (stateName == selected)
-				{
-					return index;
-				}
-			}
-			return 0;
+			int index = names.IndexOf(selected);
+			return index < 0 ? 0 : index;
 		}
 	}
 }

@@ -11,7 +11,7 @@ namespace StandardAssets.GizmosHelpers
 		/// <param name="bottomSphereCenter">Bottom sphere center (world position).</param>
 		/// <param name="radius">Radius.</param>
 		/// <param name="color">Color.</param>
-		static public void DrawCapsule(Vector3 topSphereCenter, Vector3 bottomSphereCenter, float radius, Color color)
+		public static void DrawCapsule(Vector3 topSphereCenter, Vector3 bottomSphereCenter, float radius, Color color)
 		{
 			Gizmos.color = color;
 			

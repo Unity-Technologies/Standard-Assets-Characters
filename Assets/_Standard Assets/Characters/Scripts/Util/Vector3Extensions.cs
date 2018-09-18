@@ -4,6 +4,12 @@ namespace Util
 {
 	public static class Vector3Extensions
 	{
+		/// <summary>
+		/// Gets the magnitude on an axis given a <see cref="Vector3"/>.
+		/// </summary>
+		/// <param name="vector">The vector.</param>
+		/// <param name="axis">The axis on which to calculate the magnitude.</param>
+		/// <returns>The magnitude.</returns>
 		public static float GetMagnitudeOnAxis(this Vector3 vector, Vector3 axis)
 		{
 			float vectorMagnitude = vector.magnitude;

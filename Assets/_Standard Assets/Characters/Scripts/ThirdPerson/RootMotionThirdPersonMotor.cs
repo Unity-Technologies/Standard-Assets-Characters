@@ -57,7 +57,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Gets the current target y rotation.
 		/// </summary>
-		/// <value>The current y rotation, in degrees, used by the <see cref="rotator"/>.</value>
+		/// <value>The current y rotation, in degrees.</value>
 		public float targetYRotation { get; private set; }
 
 		/// <summary>

@@ -11,12 +11,12 @@ namespace StandardAssets.Characters.FirstPerson
 	{
 		[SerializeField, Tooltip("The maximum speed of the character")]
 		protected float maximumSpeed = 10f;
-		
+
 		/// <summary>
 		/// List of IDs for walking events
 		/// </summary>
 		[SerializeField]
-		protected string[] footIds = new string[]{"leftfoot", "rightfoot"};
+		protected string[] footIds = new string[] {"leftfoot", "rightfoot"};
 
 		/// <summary>
 		/// The current index of the 
@@ -42,7 +42,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// The character brain for used in speed scaling
 		/// </summary>
 		private FirstPersonBrain brain;
-		
+
 		/// <summary>
 		/// Initialize:
 		/// Precalculate the square of the threshold
@@ -59,14 +59,14 @@ namespace StandardAssets.Characters.FirstPerson
 		public void Tick()
 		{
 			Vector3 currentPosition = transform.position;
-			
+
 			//Optimization - prevents the rest of the logic, which includes vector magnitude calculations, from being called if the character has not moved
 			if (currentPosition == previousPosition || !brain.physicsForCharacter.isGrounded)
 			{
 				previousPosition = currentPosition;
 				return;
 			}
-			
+
 			sqrTravelledDistance += (currentPosition - previousPosition).sqrMagnitude;
 
 			if (sqrTravelledDistance >= sqrDistanceThreshold)
@@ -74,10 +74,10 @@ namespace StandardAssets.Characters.FirstPerson
 				sqrTravelledDistance = 0;
 				Moved();
 			}
-			
+
 			previousPosition = currentPosition;
 		}
-		
+
 		/// <summary>
 		/// Subscribe
 		/// </summary>
@@ -94,8 +94,8 @@ namespace StandardAssets.Characters.FirstPerson
 		{
 			brain.physicsForCharacter.landed -= Landed;
 			brain.physicsForCharacter.jumpVelocitySet -= Jumped;
-		}    
-		
+		}
+
 		/// <summary>
 		/// Handle the broadcasting of the movement event
 		/// </summary>
@@ -113,9 +113,9 @@ namespace StandardAssets.Characters.FirstPerson
 				currentIdIndex = 0;
 			}
 
-			BroadcastMovementEvent(footIds[currentIdIndex], transform, Mathf.Clamp01(brain.planarSpeed/maximumSpeed));
+			BroadcastMovementEvent(footIds[currentIdIndex], transform, Mathf.Clamp01(brain.planarSpeed / maximumSpeed));
 		}
-		
+
 		/// <summary>
 		/// Calls PlayEvent on the jump ID
 		/// </summary>
@@ -123,7 +123,7 @@ namespace StandardAssets.Characters.FirstPerson
 		{
 			BroadcastMovementEvent(jumpId, transform);
 		}
-		
+
 		/// <summary>
 		/// Calls PlayEvent on the landing ID
 		/// </summary>
@@ -131,13 +131,13 @@ namespace StandardAssets.Characters.FirstPerson
 		{
 			BroadcastMovementEvent(landingId, transform);
 		}
-		
+
 		/// <summary>
 		/// Change the distance that footstep sounds are played
 		/// </summary>
 		/// <param name="strideLength"></param>
 		public void AdjustAudioTriggerThreshold(float strideLength)
-		{		
+		{
 			sqrDistanceThreshold = strideLength * strideLength;
 		}
 	}

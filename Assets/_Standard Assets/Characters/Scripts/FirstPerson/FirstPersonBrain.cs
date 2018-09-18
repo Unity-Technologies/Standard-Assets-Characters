@@ -284,9 +284,7 @@ namespace StandardAssets.Characters.FirstPerson
 		
 			Vector3 forward = transform.forward * input.y;
 			Vector3 sideways = transform.right * input.x;
-			
 			characterPhysics.Move((forward + sideways) * currentSpeed * Time.fixedDeltaTime, Time.fixedDeltaTime);
-
 			previouslyHasInput = characterInput.hasMovementInput;
 		}	
 
@@ -296,7 +294,7 @@ namespace StandardAssets.Characters.FirstPerson
 		private void Accelerate()
 		{
 			movementTime += Time.fixedDeltaTime;
-			movementTime = Mathf.Clamp(movementTime, 0f, currentMovementProperties.accelerationCurve.maxValue);
+			movementTime = Mathf.Clamp(movementTime, 0f, currentMovementProperties.accelerationCurve.maximumValue);
 			currentSpeed = currentMovementProperties.accelerationCurve.Evaluate(movementTime) * currentMovementProperties.maximumSpeed;
 		}
 		
@@ -351,8 +349,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		public void ResetState()
 		{
-			ChangeState(startingMovementProperties);
-			
+			ChangeState(startingMovementProperties);	
 		}
 	}
 }

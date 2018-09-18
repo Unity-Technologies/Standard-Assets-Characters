@@ -8,9 +8,8 @@ using UnityEngine;
 namespace StandardAssets.Characters.Attributes.Editor
 {
 	/// <summary>
-	/// Custom property drawer for the <see cref="AnimatorFloatParameterAttribute"/>.
-	/// This will use the given animator to retrieve the float parameters and display a drop down for the parameter
-	/// name of a <see cref="StandardAssets.Characters.ThirdPerson.AnimationFloatParameter"/>.
+	/// Custom property drawer for the <see cref="AnimatorStateNameAttribute"/>.
+	/// This will use the given animator to retrieve the state names and display a drop down.
 	/// </summary>
 	[CustomPropertyDrawer(typeof(AnimatorFloatParameterAttribute))]
 	public class AnimatorFloatParameterPropertyDrawer : PropertyDrawer
@@ -19,6 +18,10 @@ namespace StandardAssets.Characters.Attributes.Editor
 		private const float k_DefaultHeight = 16;
 		private bool shouldDisplay;
 		
+		/// <summary>
+		/// Gets the property height based on if the foldout is open.
+		/// </summary>
+		/// <returns>The property height</returns>
 		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
 		{
 			return shouldDisplay ? 64 : k_DefaultHeight;

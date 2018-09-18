@@ -32,7 +32,7 @@ namespace StandardAssets.Characters.Effects
 		protected MovementEventLibrary movementEventLibrary;
 
 		/// <summary>
-		/// Sets the current <see cref="movementEventLibrary"/>
+		/// Sets the current <see cref="MovementEventLibrary"/>
 		/// </summary>
 		/// <param name="newMovementEventLibrary">Movement event library data</param>
 		public void SetCurrentMovementEventLibrary(MovementEventLibrary newMovementEventLibrary)
@@ -59,7 +59,7 @@ namespace StandardAssets.Characters.Effects
 		/// <summary>
 		/// Helper for playing <see cref="MovementEvent"/> via the current library
 		/// </summary>
-		/// <param name="movementEvent"></param>
+		/// <param name="movementEvent">The <see cref="MovementEvent"/> data</param>
 		protected void OnMoved(MovementEvent movementEvent)
 		{
 			if (movementEventLibrary == null)
@@ -81,8 +81,7 @@ namespace StandardAssets.Characters.Effects
 		/// <param name="id">The ID of the movement event</param>
 		protected virtual void BroadcastMovementEvent(string id)
 		{
-			MovementEvent movementEvent = new MovementEvent();
-			movementEvent.id = id;
+			MovementEvent movementEvent = new MovementEvent(id);
 			BroadcastMovementEvent(movementEvent);
 		}
 		
@@ -93,9 +92,7 @@ namespace StandardAssets.Characters.Effects
 		/// <param name="firedFrom">The transform of where the movement event was fire from</param>
 		protected virtual void BroadcastMovementEvent(string id, Transform firedFrom)
 		{
-			MovementEvent movementEvent = new MovementEvent();
-			movementEvent.id = id;
-			movementEvent.firedFrom = firedFrom;
+			MovementEvent movementEvent = new MovementEvent(id, firedFrom);
 			BroadcastMovementEvent(movementEvent);
 		}
 
@@ -107,12 +104,8 @@ namespace StandardAssets.Characters.Effects
 		/// <param name="normalizedSpeed">The normalized speed of the character</param>
 		protected virtual void BroadcastMovementEvent(string id, Transform firedFrom, float normalizedSpeed)
 		{
-			MovementEvent movementEvent = new MovementEvent();
-			movementEvent.id = id;
-			movementEvent.firedFrom = firedFrom;
-			movementEvent.normalizedSpeed = normalizedSpeed;
+			MovementEvent movementEvent = new MovementEvent(id, firedFrom, normalizedSpeed);
 			BroadcastMovementEvent(movementEvent);
 		}
-
 	}
 }
