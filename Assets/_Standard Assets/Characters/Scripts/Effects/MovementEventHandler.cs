@@ -14,7 +14,7 @@ namespace StandardAssets.Characters.Effects
 		protected MovementEventLibrary defaultMovementEventLibrary;
 
 		[SerializeField, Tooltip("List of movement event libraries for different movement zones")]
-		protected MovementEventZoneDefinition[] movementZoneLibraries;
+		protected MovementEventZoneDefinitionList zoneDefinition;
 
 		protected MovementEventLibrary currentMovementEventLibrary;
 
@@ -41,14 +41,13 @@ namespace StandardAssets.Characters.Effects
 		}
 
 		private void ChangeMovementZone(string zoneId)
-		{		
-			foreach (MovementEventZoneDefinition movementEventZoneDefinition in movementZoneLibraries)
+		{
+			MovementEventLibrary library = zoneDefinition[zoneId];
+
+			if (library != null)
 			{
-				if (movementEventZoneDefinition.id == zoneId)
-				{
-					SetCurrentMovementEventLibrary(movementEventZoneDefinition.library);
-					return;
-				}
+				SetCurrentMovementEventLibrary(library);
+				return;
 			}
 			
 			SetCurrentMovementEventLibrary(defaultMovementEventLibrary);

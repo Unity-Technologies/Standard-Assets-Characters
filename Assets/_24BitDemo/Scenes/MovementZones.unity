@@ -125,6 +125,11 @@ Prefab:
       propertyPath: thirdPersonMovementEventHandler.movementZoneLibraries.Array.size
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114403526203746496, guid: 6efca73135551334aa92deaf128cdd43,
+        type: 2}
+      propertyPath: thirdPersonMovementEventHandler.movementZoneLibraries.movementZoneLibraries.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4076727408819664, guid: 6efca73135551334aa92deaf128cdd43, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -200,6 +205,23 @@ Prefab:
       propertyPath: thirdPersonMovementEventHandler.movementZoneLibraries.Array.data[0].zoneLibrary.jumpingPrefab
       value: 
       objectReference: {fileID: 114967407487660778, guid: 9461adc39c7dd4bf186ac2ec83478b25,
+        type: 2}
+    - target: {fileID: 114403526203746496, guid: 6efca73135551334aa92deaf128cdd43,
+        type: 2}
+      propertyPath: thirdPersonMovementEventHandler.movementZoneLibraries.movementZoneLibraries.Array.data[0].zoneId
+      value: metal
+      objectReference: {fileID: 0}
+    - target: {fileID: 114403526203746496, guid: 6efca73135551334aa92deaf128cdd43,
+        type: 2}
+      propertyPath: thirdPersonMovementEventHandler.movementZoneLibraries.movementZoneLibraries.Array.data[0].zoneLibrary.leftFootStepPrefab
+      value: 
+      objectReference: {fileID: 114805303375849546, guid: ecb7fd2a290b048dabc44bf7feffd33e,
+        type: 2}
+    - target: {fileID: 114403526203746496, guid: 6efca73135551334aa92deaf128cdd43,
+        type: 2}
+      propertyPath: thirdPersonMovementEventHandler.movementZoneLibraries.movementZoneLibraries.Array.data[0].zoneLibrary.rightFootStepPrefab
+      value: 
+      objectReference: {fileID: 114805303375849546, guid: ecb7fd2a290b048dabc44bf7feffd33e,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6efca73135551334aa92deaf128cdd43, type: 2}
