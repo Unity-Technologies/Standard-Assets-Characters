@@ -9,6 +9,11 @@ namespace StandardAssets.Characters.Effects
 		
 		public static LevelMovementZoneManager instance { get; private set; }
 
+		public static bool instanceExists
+		{
+			get { return instance != null; }
+		}
+		
 		public static LevelMovementZoneConfiguration config
 		{
 			get

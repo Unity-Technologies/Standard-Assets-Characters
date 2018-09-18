@@ -1,4 +1,5 @@
 ﻿using System;
+using StandardAssets.Characters.Attributes;
 using StandardAssets.Characters.Common;
 using UnityEngine;
 
@@ -10,13 +11,33 @@ namespace StandardAssets.Characters.Effects
 	[Serializable]
 	public abstract class MovementEventHandler
 	{
-		[SerializeField, Tooltip("This is default event library that used")]
+		[SerializeField, Tooltip("Use the level default movement event library instead of the character library")]
+		protected bool useLevelDefaultMovementEventLibrary;
+		
+		[VisibleIf("useLevelDefaultMovementEventLibrary", false), SerializeField, Tooltip("This is default event library that used")]
 		protected MovementEventLibrary defaultMovementEventLibrary;
 
 		[SerializeField, Tooltip("List of movement event libraries for different movement zones")]
 		protected MovementEventZoneDefinitionList zonesDefinition;
 
 		protected MovementEventLibrary currentMovementEventLibrary;
+
+		protected MovementEventLibrary defaultLibrary
+		{
+			get
+			{
+				if (useLevelDefaultMovementEventLibrary)
+				{
+					LevelMovementZoneConfiguration configuration = LevelMovementZoneManager.config;
+					if (configuration != null)
+					{
+						return configuration.defaultLibrary;
+					}
+				}
+
+				return defaultMovementEventLibrary;
+			}
+		}
 
 		protected CharacterBrain brain;
 		
@@ -37,7 +58,7 @@ namespace StandardAssets.Characters.Effects
 		{
 			brain = brainToUse;
 			brain.changeMovementZone += ChangeMovementZone;
-			SetCurrentMovementEventLibrary(defaultMovementEventLibrary);
+			SetCurrentMovementEventLibrary(defaultLibrary);
 		}
 
 		private void ChangeMovementZone(string zoneId)
@@ -62,7 +83,7 @@ namespace StandardAssets.Characters.Effects
 				}
 			}
 			
-			SetCurrentMovementEventLibrary(defaultMovementEventLibrary);
+			SetCurrentMovementEventLibrary(defaultLibrary);
 		}
 
 		protected virtual void PlayLeftFoot(MovementEventData data)
