@@ -1,4 +1,5 @@
-﻿using StandardAssets.Characters.Common;
+﻿using StandardAssets.Characters.Attributes;
+using StandardAssets.Characters.Common;
 using UnityEngine;
 
 namespace StandardAssets.Characters.Effects
@@ -8,7 +9,7 @@ namespace StandardAssets.Characters.Effects
 	/// </summary>
 	public abstract class MovementZone : MonoBehaviour
 	{
-		[SerializeField]
+		[MovementZoneId, SerializeField]
 		protected string zoneId;
 
 		/// <summary>

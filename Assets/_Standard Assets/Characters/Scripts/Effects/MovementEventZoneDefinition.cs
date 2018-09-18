@@ -1,4 +1,5 @@
 using System;
+using StandardAssets.Characters.Attributes;
 using UnityEngine;
 
 namespace StandardAssets.Characters.Effects
@@ -6,7 +7,7 @@ namespace StandardAssets.Characters.Effects
 	[Serializable]
 	public class MovementEventZoneDefinition
 	{
-		[SerializeField, Tooltip("The ID of the zone used to play the effect")]
+		[MovementZoneId, SerializeField, Tooltip("The ID of the zone used to play the effect")]
 		protected string zoneId = "concrete";
 
 		[SerializeField, Tooltip("The corresponding library of effects")]
