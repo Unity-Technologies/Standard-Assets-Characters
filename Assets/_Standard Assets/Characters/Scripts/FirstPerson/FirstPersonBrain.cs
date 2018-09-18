@@ -159,6 +159,7 @@ namespace StandardAssets.Characters.FirstPerson
 		{
 			base.Awake();
 			firstPersonMovementEventHandler.Init(this);
+			
 			if (mainCamera == null)
 			{
 				mainCamera = Camera.main;
@@ -172,7 +173,7 @@ namespace StandardAssets.Characters.FirstPerson
 		private void OnEnable()
 		{
 			characterInput.jumpPressed += OnJumpPressed;
-			firstPersonMovementEventHandler.Subscribe();
+			//firstPersonMovementEventHandler.Subscribe();
 
 			foreach (FirstPersonMovementProperties movementProperties in allMovementProperties)
 			{

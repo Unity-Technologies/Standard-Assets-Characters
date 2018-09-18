@@ -33,7 +33,7 @@ namespace StandardAssets.Characters.Effects
 		/// <summary>
 		/// Sets the current event library to the starting event library
 		/// </summary>
-		public void Init(CharacterBrain brainToUse)
+		public virtual void Init(CharacterBrain brainToUse)
 		{
 			brain = brainToUse;
 			brain.changeMovementZone += ChangeMovementZone;

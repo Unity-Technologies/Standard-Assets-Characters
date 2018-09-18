@@ -29,7 +29,7 @@ namespace StandardAssets.Characters.Effects
 		/// </summary>
 		protected MovementEventPlayer leftFootStepInstance, rightFootStepInstance, landingInstance, jumpingInstance;
 
-		protected void PlayInstancedEvent(MovementEventData movementEventData, MovementEventPlayer prefab, MovementEventPlayer instance)
+		protected void PlayInstancedEvent(MovementEventData movementEventData, MovementEventPlayer prefab, ref MovementEventPlayer instance)
 		{
 			if (prefab == null)
 			{
@@ -38,30 +38,30 @@ namespace StandardAssets.Characters.Effects
 
 			if (instance == null)
 			{
-				instance = GameObject.Instantiate<MovementEventPlayer>(prefab);
+				instance = GameObject.Instantiate(prefab);
 			}
-			
+					
 			instance.Play(movementEventData);
 		}
 
 		public void PlayLeftFoot(MovementEventData movementEventData)
 		{
-			PlayInstancedEvent(movementEventData, leftFootStepPrefab, leftFootStepInstance);
+			PlayInstancedEvent(movementEventData, leftFootStepPrefab, ref leftFootStepInstance);
 		}
 		
 		public void PlayRightFoot(MovementEventData movementEventData)
 		{
-			PlayInstancedEvent(movementEventData, rightFootStepPrefab, rightFootStepInstance);
+			PlayInstancedEvent(movementEventData, rightFootStepPrefab, ref rightFootStepInstance);
 		}
 		
 		public void PlayLanding(MovementEventData movementEventData)
 		{
-			PlayInstancedEvent(movementEventData, landingPrefab, landingInstance);
+			PlayInstancedEvent(movementEventData, landingPrefab, ref landingInstance);
 		}
 		
 		public void PlayJumping(MovementEventData movementEventData)
 		{
-			PlayInstancedEvent(movementEventData, jumpingPrefab, jumpingInstance);
+			PlayInstancedEvent(movementEventData, jumpingPrefab, ref jumpingInstance);
 		}
 	}
 }
