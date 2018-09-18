@@ -20,40 +20,6 @@ namespace StandardAssets.Characters.FirstPerson
 		}
 
 		/// <summary>
-		/// Subscribe
-		/// </summary>
-		public void Subscribe()
-		{
-			brain.physicsForCharacter.landed += Landed;
-			brain.physicsForCharacter.jumpVelocitySet += Jumped;
-		}
-
-		/// <summary>
-		/// Unsubscribe
-		/// </summary>
-		public void Unsubscribe()
-		{
-			brain.physicsForCharacter.landed -= Landed;
-			brain.physicsForCharacter.jumpVelocitySet -= Jumped;
-		}
-		
-		/// <summary>
-		/// Calls PlayEvent on the jump ID
-		/// </summary>
-		private void Jumped()
-		{
-			//BroadcastMovementEvent(jumpId, transform);
-		}
-
-		/// <summary>
-		/// Calls PlayEvent on the landing ID
-		/// </summary>
-		private void Landed()
-		{
-			//BroadcastMovementEvent(landingId, transform);
-		}
-
-		/// <summary>
 		/// Change the distance that footstep sounds are played
 		/// </summary>
 		/// <param name="strideLength"></param>

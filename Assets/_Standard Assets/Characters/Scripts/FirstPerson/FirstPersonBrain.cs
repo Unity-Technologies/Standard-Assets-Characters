@@ -173,7 +173,7 @@ namespace StandardAssets.Characters.FirstPerson
 		private void OnEnable()
 		{
 			characterInput.jumpPressed += OnJumpPressed;
-			//firstPersonMovementEventHandler.Subscribe();
+			firstPersonMovementEventHandler.Subscribe();
 
 			foreach (FirstPersonMovementProperties movementProperties in allMovementProperties)
 			{

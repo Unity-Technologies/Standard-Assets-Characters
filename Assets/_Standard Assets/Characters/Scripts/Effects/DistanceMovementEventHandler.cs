@@ -58,5 +58,39 @@ namespace StandardAssets.Characters.Effects
 
 			previousPosition = currentPosition;
 		}
+		
+		/// <summary>
+		/// Subscribe
+		/// </summary>
+		public void Subscribe()
+		{
+			brain.physicsForCharacter.landed += Landed;
+			brain.physicsForCharacter.jumpVelocitySet += Jumped;
+		}
+
+		/// <summary>
+		/// Unsubscribe
+		/// </summary>
+		public void Unsubscribe()
+		{
+			brain.physicsForCharacter.landed -= Landed;
+			brain.physicsForCharacter.jumpVelocitySet -= Jumped;
+		}
+		
+		/// <summary>
+		/// Calls PlayEvent on the jump ID
+		/// </summary>
+		private void Jumped()
+		{
+			PlayJumping(new MovementEventData(transform));
+		}
+
+		/// <summary>
+		/// Calls PlayEvent on the landing ID
+		/// </summary>
+		private void Landed()
+		{
+			PlayLanding(new MovementEventData(transform));
+		}
 	}
 }
