@@ -16,6 +16,12 @@ namespace StandardAssets.Characters.CharacterInput
 		protected bool cameraInvertY;
 		
 		/// <summary>
+		/// Toggle the cursor lock mode while in play mode.
+		/// </summary>
+		[SerializeField, Tooltip("Toggle the Cursor Lock Mode, press ESCAPE during play mode")]
+		protected bool cursorLocked = true;
+		
+		/// <summary>
 		/// Instance property
 		/// </summary>
 		public static InputOptions Instance { get; private set; }
@@ -84,6 +90,22 @@ namespace StandardAssets.Characters.CharacterInput
 			{
 				Instance = this;
 			}
+
+			ToggleCursorLockState();
+		}
+
+		private void Update()
+		{
+			if (Input.GetKeyDown(KeyCode.Escape))
+			{
+				cursorLocked = !cursorLocked;
+				ToggleCursorLockState();
+			}
+		}
+		
+		private void ToggleCursorLockState()
+		{
+			Cursor.lockState = cursorLocked ? CursorLockMode.Locked : CursorLockMode.None;
 		}
 
 		/// <summary>
