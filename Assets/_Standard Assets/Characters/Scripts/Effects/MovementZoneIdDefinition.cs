@@ -10,9 +10,7 @@ namespace StandardAssets.Characters.Effects
 		menuName = "Standard Assets/Characters/Create Movement Zone IDs", order = 1)]
 	public class MovementZoneIdDefinition : ScriptableObject
 	{
-		[HelperBox(HelperBoxAttribute.HelperType.Warning, 
-		"This is a project wide setting - please ensure that there is only one in the project"),
-		SerializeField, Tooltip("All the zone IDs for the project")]
+		[SerializeField, Tooltip("All the zone IDs for the project")]
 		protected string[] zoneIds;
 
 		/// <summary>

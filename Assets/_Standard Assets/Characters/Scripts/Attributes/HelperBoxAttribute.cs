@@ -3,8 +3,6 @@ using UnityEngine;
 
 namespace StandardAssets.Characters.Attributes
 {
-
-
 	/// <summary>
 	/// An attribute used to generate a block of text above a field that should display relevant information about the field
 	/// Also has the ability to show a built-in icon based on the HelperType element specified
