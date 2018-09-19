@@ -3,15 +3,17 @@ using UnityEngine;
 
 namespace StandardAssets.Characters.Effects
 {
+	/// <summary>
+	/// Abstract base for all movement event handlers that use distance travelled while grounded to broadcast left and right footsteps
+	/// </summary>
 	public abstract class DistanceMovementEventHandler : MovementEventHandler
 	{
 		[SerializeField, Tooltip("The maximum speed of the character")]
 		protected float maximumSpeed = 10f;
 
 		protected float sqrTravelledDistance;
-		
+
 		protected float sqrDistanceThreshold;
-		
 
 		protected Vector3 previousPosition;
 
@@ -19,18 +21,25 @@ namespace StandardAssets.Characters.Effects
 
 		protected Transform transform;
 
+		/// <summary>
+		/// Initializes the handler with the correct character brain and sets up the transform and previousPosition needed to calculate distance travelled
+		/// </summary>
+		/// <param name="brainToUse"></param>
 		public override void Init(CharacterBrain brainToUse)
 		{
 			base.Init(brainToUse);
 			transform = brainToUse.transform;
 			previousPosition = transform.position;
 		}
-		
+
+		/// <summary>
+		/// Updates the distance travelled and checks if footstep events need to be fired
+		/// </summary>
 		public void Tick()
 		{
 			Vector3 currentPosition = transform.position;
 
-			//Optimization - prevents the rest of the logic, which includes vector magnitude calculations, from being called if the character has not moved
+			//If the character has not moved or is not grounded then ignore the calculations that follow
 			if (currentPosition == previousPosition || !brain.physicsForCharacter.isGrounded)
 			{
 				previousPosition = currentPosition;
@@ -58,7 +67,7 @@ namespace StandardAssets.Characters.Effects
 
 			previousPosition = currentPosition;
 		}
-		
+
 		/// <summary>
 		/// Subscribe
 		/// </summary>
@@ -76,7 +85,7 @@ namespace StandardAssets.Characters.Effects
 			brain.physicsForCharacter.landed -= Landed;
 			brain.physicsForCharacter.jumpVelocitySet -= Jumped;
 		}
-		
+
 		/// <summary>
 		/// Calls PlayEvent on the jump ID
 		/// </summary>
