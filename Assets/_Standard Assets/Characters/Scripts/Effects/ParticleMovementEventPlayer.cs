@@ -31,6 +31,11 @@ namespace StandardAssets.Characters.Effects
 			get { return maximumLocalScale; }
 		}
 
+		/// <summary>
+		/// Plays the particles and scales them based on magnitude
+		/// </summary>
+		/// <param name="movementEventData">The data driving the movement event</param>
+		/// <param name="effectMagnitude">The magnitude of the effect used for scaling the particle system size</param>
 		protected override void PlayMovementEvent(MovementEventData movementEventData, float effectMagnitude)
 		{
 			Vector3 scale = Vector3.one * effectMagnitude;
