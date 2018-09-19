@@ -11,12 +11,6 @@ namespace StandardAssets.Characters.Effects
 	[Serializable]
 	public abstract class MovementEventHandler
 	{
-		[SerializeField, Tooltip("Use the level default movement event library instead of the character library")]
-		protected bool useLevelDefaultMovementEventLibrary;
-		
-		[VisibleIf("useLevelDefaultMovementEventLibrary", false), SerializeField, Tooltip("This is default event library that used")]
-		protected MovementEventLibrary defaultMovementEventLibrary;
-
 		[SerializeField, Tooltip("List of movement event libraries for different movement zones")]
 		protected MovementEventZoneDefinitionList zonesDefinition;
 
@@ -26,21 +20,18 @@ namespace StandardAssets.Characters.Effects
 		{
 			get
 			{
-				if (useLevelDefaultMovementEventLibrary)
+				LevelMovementZoneConfiguration configuration = LevelMovementZoneManager.config;
+				if (configuration != null)
 				{
-					LevelMovementZoneConfiguration configuration = LevelMovementZoneManager.config;
-					if (configuration != null)
-					{
-						return configuration.defaultLibrary;
-					}
+					return configuration.defaultLibrary;
 				}
 
-				return defaultMovementEventLibrary;
+				return null;
 			}
 		}
 
 		protected CharacterBrain brain;
-		
+
 		/// <summary>
 		/// Sets the current <see cref="MovementEventLibrary"/>
 		/// </summary>
@@ -49,7 +40,6 @@ namespace StandardAssets.Characters.Effects
 		{
 			currentMovementEventLibrary = newMovementEventLibrary;
 		}
-		
 
 		/// <summary>
 		/// Sets the current event library to the starting event library
@@ -82,25 +72,28 @@ namespace StandardAssets.Characters.Effects
 					return;
 				}
 			}
-			
-			SetCurrentMovementEventLibrary(defaultLibrary);
+
+			if (defaultLibrary != null)
+			{
+				SetCurrentMovementEventLibrary(defaultLibrary);
+			}
 		}
 
 		protected virtual void PlayLeftFoot(MovementEventData data)
 		{
 			currentMovementEventLibrary.PlayLeftFoot(data);
 		}
-		
+
 		protected virtual void PlayRightFoot(MovementEventData data)
 		{
 			currentMovementEventLibrary.PlayRightFoot(data);
 		}
-		
+
 		protected virtual void PlayLanding(MovementEventData data)
 		{
 			currentMovementEventLibrary.PlayLanding(data);
 		}
-		
+
 		protected virtual void PlayJumping(MovementEventData data)
 		{
 			currentMovementEventLibrary.PlayJumping(data);
