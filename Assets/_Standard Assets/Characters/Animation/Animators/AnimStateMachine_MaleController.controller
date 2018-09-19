@@ -2414,7 +2414,7 @@ BlendTree:
     m_Mirror: 0
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 3ad76988cb96447baba231c250dc3149, type: 3}
-    m_Threshold: 0.11111111
+    m_Threshold: 0.11111112
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -2422,7 +2422,7 @@ BlendTree:
     m_Mirror: 0
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 6edf1dc8721fc4ff7ad920aece8abf67, type: 3}
-    m_Threshold: 0.22222222
+    m_Threshold: 0.22222224
     m_Position: {x: 0, y: 1}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -2438,7 +2438,7 @@ BlendTree:
     m_Mirror: 0
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: d210e0914e86a4640a5ff92bbb57f6c9, type: 3}
-    m_Threshold: 0.44444445
+    m_Threshold: 0.44444448
     m_Position: {x: -0.5, y: 0}
     m_TimeScale: -1
     m_CycleOffset: 0
@@ -2461,25 +2461,17 @@ BlendTree:
     m_DirectBlendParameter: ForwardSpeed
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 7324ed001a74c4c21bd9c6a02a17cb5b, type: 3}
+    m_Motion: {fileID: 7400000, guid: 965a81337dbc342ac8a19479d2051179, type: 3}
     m_Threshold: 0.7777778
     m_Position: {x: 0, y: -0.5}
-    m_TimeScale: -1
-    m_CycleOffset: 0
-    m_DirectBlendParameter: ForwardSpeed
-    m_Mirror: 0
-  - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 6edf1dc8721fc4ff7ad920aece8abf67, type: 3}
-    m_Threshold: 0.8888889
-    m_Position: {x: 0, y: -1}
-    m_TimeScale: -0.75
+    m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: ForwardSpeed
     m_Mirror: 0
   m_BlendParameter: LateralSpeed
   m_BlendParameterY: ForwardSpeed
   m_MinThreshold: 0
-  m_MaxThreshold: 0.8888889
+  m_MaxThreshold: 0.7777778
   m_UseAutomaticThresholds: 1
   m_NormalizedBlendValues: 0
   m_BlendType: 3
@@ -4167,12 +4159,12 @@ AnimatorStateMachine:
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions:
-  - first: {fileID: 1107877841531004928}
-    second:
-    - {fileID: 1109072331430154632}
   - first: {fileID: 1107563799764602758}
     second:
     - {fileID: 1109727769762428416}
+  - first: {fileID: 1107877841531004928}
+    second:
+    - {fileID: 1109072331430154632}
   - first: {fileID: 1107920703856779502}
     second:
     - {fileID: 1109091859386678670}
