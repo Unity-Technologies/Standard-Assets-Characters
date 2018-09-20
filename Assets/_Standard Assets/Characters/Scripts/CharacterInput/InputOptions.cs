@@ -99,10 +99,20 @@ namespace StandardAssets.Characters.CharacterInput
 			if (Input.GetKeyDown(KeyCode.Escape))
 			{
 				cursorLocked = !cursorLocked;
+				CheckCursorLockState();
 			}
-			CheckCursorLockState();
 		}
 		
+#if UNITY_EDITOR
+		private void OnValidate()
+		{
+			if (Application.isPlaying)
+			{
+				CheckCursorLockState();
+			}
+		}
+#endif
+
 		private void CheckCursorLockState()
 		{
 			Cursor.lockState = cursorLocked ? CursorLockMode.Locked : CursorLockMode.None;
