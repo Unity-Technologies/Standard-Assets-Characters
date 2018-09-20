@@ -91,7 +91,7 @@ namespace StandardAssets.Characters.CharacterInput
 				Instance = this;
 			}
 
-			ToggleCursorLockState();
+			CheckCursorLockState();
 		}
 
 		private void Update()
@@ -100,10 +100,10 @@ namespace StandardAssets.Characters.CharacterInput
 			{
 				cursorLocked = !cursorLocked;
 			}
-			ToggleCursorLockState();
+			CheckCursorLockState();
 		}
 		
-		private void ToggleCursorLockState()
+		private void CheckCursorLockState()
 		{
 			Cursor.lockState = cursorLocked ? CursorLockMode.Locked : CursorLockMode.None;
 		}
