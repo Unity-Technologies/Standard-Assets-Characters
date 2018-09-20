@@ -54,6 +54,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField, Tooltip("The maximum character forward movement allowed to trigger a standing forward jump.")]
 		protected float maxMovementThreshold = 0.01f;
 
+		[SerializeField, Tooltip("Time allowed after movement from idle that a standing jump can be triggered.")]
+		protected float standingJumpMoveTimeThreshold = 0.5f;
+
 		[Header("Falling")]
 		[SerializeField, Tooltip("The maximum forward speed while falling.")]
 		protected float fallingMaxForwardSpeed = 5;
@@ -311,6 +314,14 @@ namespace StandardAssets.Characters.ThirdPerson
 		public bool autoToggleSprintOnNoInput
 		{
 			get { return autoToggleSprint; }
+		}
+
+		/// <summary>
+		/// Gets the time, in seconds, allowed after movement from idle that a standing jump can be triggered.
+		/// </summary>
+		public float standingJumpMoveThresholdTime
+		{
+			get { return standingJumpMoveTimeThreshold; }
 		}
 	}
 }
