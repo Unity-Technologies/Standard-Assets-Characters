@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b5fe4d622d20f4a1ba07b37e3a032e84
+guid: 3ad76988cb96447baba231c250dc3149
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -143,8 +143,7 @@ ModelImporter:
     400134: Root
     400136: Spine
     400138: UpperChest
-    7400000: RunForwardsJump_Frame02
-    7400002: RunForwardsJump_Frame02_Mirror
+    7400000: StrafeIdle
     9500000: //RootNode
     2186277476908879412: ImportLogs
   externalObjects: {}
@@ -162,17 +161,14 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Bone length in
       copied configuration does not match position in animation file:\n\t'Spine' :
-      position error = 20.455515 mm\n"
+      position error = 3.309721 mm\n"
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
-      might lower retargeting quality:\nNote: Activate translation DOF on avatar to
-      improve retargeting quality.\n\t'Spine' has translation animation that will
-      be discarded.\n"
+    animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 3
+    animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -181,13 +177,13 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: RunForwardsJump_Frame02
+      name: StrafeIdle
       takeName: Take 001
       firstFrame: 1
-      lastFrame: 40
+      lastFrame: 91
       wrapMode: 0
       orientationOffsetY: 0
-      level: -1
+      level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
@@ -196,39 +192,11 @@ ModelImporter:
       loopBlendOrientation: 1
       loopBlendPositionY: 1
       loopBlendPositionXZ: 1
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 0
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0
       heightFromFeet: 0
       mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: RunForwardsJump_Frame02_Mirror
-      takeName: Take 001
-      firstFrame: 1
-      lastFrame: 40
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: -1
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 1
-      loopBlendOrientation: 1
-      loopBlendPositionY: 1
-      loopBlendPositionXZ: 1
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 0
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 1
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events: []

@@ -117,7 +117,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private SlidingAverage actionAverageForwardInput, strafeAverageForwardInput, strafeAverageLateralInput;
 
-		private float turnaroundMovementTime;
+		private float turnaroundMovementTime,
+		              lastIdleTime;
 		private bool jumpQueued;
 		private Animator animator;
 		private Vector3 fallDirection;
@@ -217,6 +218,11 @@ namespace StandardAssets.Characters.ThirdPerson
 				if (movementVelocity > 0)
 				{
 					averageForwardVelocity.Add(movementVelocity, HandleNegative.Absolute);
+				}
+
+				if (!characterInput.hasMovementInput)
+				{
+					lastIdleTime = Time.time;
 				}
 			}
 			else //aerial
@@ -743,6 +749,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				// check for a standing forward jump.
 				if (characterInput.moveInput.magnitude > configuration.standingJumpMinInputThreshold && 
+				    lastIdleTime + configuration.standingJumpMoveThresholdTime >= Time.time  &&
 					animator.deltaPosition.GetMagnitudeOnAxis(transform.forward) <= 
 					configuration.standingJumpMaxMovementThreshold * Time.deltaTime)
 				{

@@ -251,9 +251,10 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Send "OnOpenCharacterControllerHit" messages to game objects? Messages are sent when the character hits a collider while performing a move.
 		/// </summary>
-		[Tooltip("Send \"OnOpenCharacterControllerHit\" messages to game objects? Messages are sent when the character hits a collider while performing a move.")]
+		[Tooltip("Send \"OnOpenCharacterControllerHit\" messages to game objects? Messages are sent when the character " +
+		         "hits a collider while performing a move. WARNING: This does create garbage.")]
 		[SerializeField]
-		private bool sendColliderHitMessages = true;
+		private bool sendColliderHitMessages;
 
 		/// <summary>
 		/// Should cast queries hit trigger colliders?
@@ -355,6 +356,11 @@ namespace StandardAssets.Characters.Physics
 		/// Pending resize info to set when it is safe to do so.
 		/// </summary>
 		private readonly OpenCharacterControllerResizeInfo pendingResize = new OpenCharacterControllerResizeInfo();
+		
+		/// <summary>
+		/// Collider array used for <see cref="UnityEngine.Physics.OverlapCapsuleNonAlloc"/> in <see cref="GetPenetrationInfo"/>
+		/// </summary>	
+		private readonly Collider[] penetrationInfoColliders = new Collider[k_MaxOverlapColliders];
 		
 		/// <summary>
 		/// Is the character on the ground? This is updated during Move or SetPosition.
@@ -2223,7 +2229,6 @@ namespace StandardAssets.Characters.Physics
 			getDistance = 0.0f;
 			getDirection = Vector3.zero;
 
-			Collider[] colliders = new Collider[k_MaxOverlapColliders];
 			Vector3 offset = offsetPosition != null
 				? offsetPosition.Value
 				: Vector3.zero;
@@ -2233,11 +2238,11 @@ namespace StandardAssets.Characters.Physics
 			int overlapCount = UnityEngine.Physics.OverlapCapsuleNonAlloc(GetTopSphereWorldPosition() + offset,
 			                                                              GetBottomSphereWorldPosition() + offset,
 			                                                              scaledRadius + tempSkinWidth,
-			                                                              colliders,
+			                                                              penetrationInfoColliders,
 			                                                              GetCollisionLayerMask(),
 			                                                              queryTriggerInteraction);
 			if (overlapCount <= 0 ||
-			    colliders.Length <= 0)
+			    penetrationInfoColliders.Length <= 0)
 			{
 				return false;
 			}
@@ -2246,7 +2251,7 @@ namespace StandardAssets.Characters.Physics
 			Vector3 localPos = Vector3.zero;
 			for (int i = 0; i < overlapCount; i++)
 			{
-				Collider collider = colliders[i];
+				Collider collider = penetrationInfoColliders[i];
 				if (collider == null)
 				{
 					break;
