@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 979c01115def454ba10ad1af450a9bdf, type: 3}
+  m_Name: Level Movement Zone Configuration
+  m_EditorClassIdentifier: 
+  defaultZoneId: concrete
+  zonesDefinition:
+    movementZoneLibraries:
+    - zoneId: concrete
+      zoneLibrary:
+        leftFootStepPrefab: {fileID: 114311900519629896, guid: a0865b7ba94ac4fd49e0ca925b0e000d,
+          type: 2}
+        rightFootStepPrefab: {fileID: 114967407487660778, guid: 9461adc39c7dd4bf186ac2ec83478b25,
+          type: 2}
+        landingPrefab: {fileID: 114805303375849546, guid: ecb7fd2a290b048dabc44bf7feffd33e,
+          type: 2}
+        jumpingPrefab: {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868,
+          type: 2}
+    - zoneId: metal
+      zoneLibrary:
+        leftFootStepPrefab: {fileID: 114311900519629896, guid: 7768038ceb1534eb290b18f8f1b9fc91,
+          type: 2}
+        rightFootStepPrefab: {fileID: 114967407487660778, guid: 1042bcfeb6da64b59be44196325254b9,
+          type: 2}
+        landingPrefab: {fileID: 114805303375849546, guid: 748c8b8d01da94ec0b0a8bd7c5de6aca,
+          type: 2}
+        jumpingPrefab: {fileID: 114805303375849546, guid: cfff8b50195ea4bf491836ee1bdfe817,
+          type: 2}
