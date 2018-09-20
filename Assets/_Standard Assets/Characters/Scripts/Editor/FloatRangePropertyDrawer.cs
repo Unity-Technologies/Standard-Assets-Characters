@@ -27,32 +27,34 @@ namespace StandardAssets._Standard_Assets.Characters.Scripts.Editor
 
 			float rangeMin = 0;
 			float rangeMax = 1;
+			int decimalPoints = 2;
 
-			var ranges = (MinMaxRangeAttribute[])fieldInfo.GetCustomAttributes(typeof (MinMaxRangeAttribute), true);
+			var ranges = (FloatRangeSetupAttribute[]) fieldInfo.GetCustomAttributes(typeof(FloatRangeSetupAttribute), true);
 			if (ranges.Length > 0)
 			{
 				rangeMin = ranges[0].min;
 				rangeMax = ranges[0].max;
+				decimalPoints = ranges[0].decimalPoints;
 			}
 
 			const float rangeBoundsLabelWidth = 40f;
-
 			var rangeBoundsLabel1Rect = new Rect(position);
 			rangeBoundsLabel1Rect.width = rangeBoundsLabelWidth;
-			GUI.Label(rangeBoundsLabel1Rect, new GUIContent(minValue.ToString("F2")));
 			position.xMin += rangeBoundsLabelWidth;
 
 			var rangeBoundsLabel2Rect = new Rect(position);
 			rangeBoundsLabel2Rect.xMin = rangeBoundsLabel2Rect.xMax - rangeBoundsLabelWidth;
-			GUI.Label(rangeBoundsLabel2Rect, new GUIContent(maxValue.ToString("F2")));
 			position.xMax -= rangeBoundsLabelWidth;
 
 			EditorGUI.BeginChangeCheck();
+			minValue = Mathf.Clamp(EditorGUI.FloatField(rangeBoundsLabel1Rect, minValue), rangeMin, maxValue);
+			maxValue = Mathf.Clamp(EditorGUI.FloatField(rangeBoundsLabel2Rect, maxValue), minValue, rangeMax);
+
 			EditorGUI.MinMaxSlider(position, ref minValue, ref maxValue, rangeMin, rangeMax);
 			if (EditorGUI.EndChangeCheck())
 			{
-				minProp.floatValue = minValue;
-				maxProp.floatValue = maxValue;
+				minProp.floatValue = (float) System.Math.Round(minValue, decimalPoints);
+				maxProp.floatValue = (float) System.Math.Round(maxValue, decimalPoints);
 			}
 
 			EditorGUI.EndProperty();

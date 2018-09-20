@@ -10,7 +10,7 @@ namespace StandardAssets.Characters.Effects
 	[RequireComponent(typeof(ParticleSystem))]
 	public class ParticleMovementEventPlayer : NormalizedSpeedMovementEventPlayer
 	{
-		[SerializeField, MinMaxRange(0f, 5f), Tooltip("The local scale range of the particle systems")]
+		[SerializeField, FloatRangeSetup(0f, 5f), Tooltip("The local scale range of the particle systems")]
 		protected FloatRange scale;
 		
 		private ParticleSystem[] particleSources;
