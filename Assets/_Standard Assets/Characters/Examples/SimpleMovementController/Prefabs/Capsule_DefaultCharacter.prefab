@@ -11,22 +11,6 @@ Prefab:
   m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1147844468901238}
   m_IsPrefabAsset: 1
---- !u!1 &1041425115069460
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4203531669570516}
-  - component: {fileID: 114083993203440970}
-  m_Layer: 11
-  m_Name: StandaloneInput
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1147844468901238
 GameObject:
   m_ObjectHideFlags: 0
@@ -66,35 +50,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1502392988072954
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4722408043553854}
-  - component: {fileID: 114349397075202082}
-  m_Layer: 11
-  m_Name: MobileInput
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4203531669570516
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1041425115069460}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4419779542664316}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4350250097785350
 Transform:
   m_ObjectHideFlags: 1
@@ -115,27 +70,12 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1147844468901238}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 21.16, y: -0.72, z: -11.82}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4350250097785350}
-  - {fileID: 4203531669570516}
-  - {fileID: 4722408043553854}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4722408043553854
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1502392988072954}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4419779542664316}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &23033913543870552
 MeshRenderer:
@@ -244,8 +184,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14dd74d1cf9b4277b2858750e8e81811, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  standaloneInput: {fileID: 114083993203440970}
-  mobileInput: {fileID: 114349397075202082}
+  standaloneInput: {fileID: 0}
+  mobileInput: {fileID: 0}
   debugOnScreenControls: 0
 --- !u!114 &114080392429497764
 MonoBehaviour:
@@ -336,41 +276,6 @@ MonoBehaviour:
   groundCheckMask:
     serializedVersion: 2
     m_Bits: 256
---- !u!114 &114083993203440970
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1041425115069460}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1052986cb0c4fe4b8cfbdfeba746ea0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cinemachineLookXAxisName: Horizontal
-  cinemachineLookYAxisName: Vertical
-  lookXAxisName: LookX
-  lookYAxisName: LookY
-  useMouseLookOnly: 0
-  horizontalAxisName: Horizontal
-  verticalAxisName: Vertical
-  keyboardJumpName: Jump
---- !u!114 &114349397075202082
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1502392988072954}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2dccffe17c4b4678912f9f7cee52230c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cinemachineLookXAxisName: Horizontal
-  cinemachineLookYAxisName: Vertical
-  moveInputJoystick: {fileID: 0}
-  lookInputJoystick: {fileID: 0}
-  childControls: {fileID: 0}
 --- !u!114 &114597824395993790
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -385,14 +290,10 @@ MonoBehaviour:
   startingMovementProperties: {fileID: 11400000, guid: d412b2493e9e746aabb1838f1a9e6cc6,
     type: 2}
   capsuleMovementEventHandler:
-    startingMovementEventLibrary: {fileID: 0}
-    jumpId: jump
-    landingId: landing
-    movementEventLibrary: {fileID: 0}
+    zonesDefinition:
+      movementZoneLibraries: []
+    maximumSpeed: 10
     walkDistanceThreshold: 0.5
-    footIds:
-    - leftfoot
-    - rightfoot
   turnSpeed: 300
 --- !u!143 &143417532114150374
 CharacterController:
