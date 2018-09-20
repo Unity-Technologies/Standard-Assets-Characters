@@ -449,14 +449,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			isGrounded = false;
 
 			float jumpForward = animatorForwardSpeed;
-			// TODO any non zero standing jump will blend into moving jump which is ugly. This should be fixed by new animation
-			if (jumpForward < 0.1f)
-			{
-				jumpForward = 0;
-			}
-
 			SetJumpForward(jumpForward);
-
 			bool rightFoot = animator.GetBool(hashGroundedFootRight);
 
 			float duration = configuration.jumpTransitionDurationFactorOfSpeed.Evaluate(jumpForward);
@@ -476,7 +469,17 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			else // lateral or backwards jump;: root motion
 			{
-				animator.SetFloat(hashJumpedLateralSpeed, motor.normalizedLateralSpeed);
+				// disallow diagonal jumps
+				if (Mathf.Abs(motor.normalizedForwardSpeed) > Mathf.Abs(motor.normalizedLateralSpeed))
+				{
+					animator.SetFloat(hashJumpedForwardSpeed, motor.normalizedForwardSpeed);
+					animator.SetFloat(hashJumpedLateralSpeed, 0);
+				}
+				else
+				{
+					animator.SetFloat(hashJumpedLateralSpeed, motor.normalizedLateralSpeed);
+					animator.SetFloat(hashJumpedForwardSpeed, 0);
+				}
 				animator.CrossFade(rightFoot ? configuration.rightFootRootMotionJumpStateName 
 											 : configuration.leftFootRootMotionJumpStateName, duration);
 				state = AnimationState.RootMotionJump;
