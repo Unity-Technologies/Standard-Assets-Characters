@@ -153,9 +153,9 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
@@ -163,8 +163,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: 1
+      outSlope: 1
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
@@ -177,5 +177,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e749ca6855dde405aa8f5ff21aa27ec4, type: 3}
   - {fileID: 8300000, guid: a1e9f750a495c4beba0a43e9f1e719e7, type: 3}
   - {fileID: 8300000, guid: 237cd18e1619142249bb5f328aae90e1, type: 3}
-  maximumVolume: 1
-  minimumVolume: 0.1
+  volume:
+    minValue: 0.09725955
+    maxValue: 1

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using StandardAssets.Characters.Attributes;
+using UnityEngine;
+using Util;
 
 namespace StandardAssets.Characters.Effects
 {
@@ -20,27 +22,21 @@ namespace StandardAssets.Characters.Effects
 		protected AudioClip[] clips;
 
 		/// <summary>
-		/// The maximum volume that the clip is played at
+		/// The minimum and maximum volumes that the clip is played at
 		/// </summary>
-		[SerializeField, Tooltip("The maximum volume that the clip is played at"), Range(0f, 1f)]
-		protected float maximumVolume = 1f;
-		
-		/// <summary>
-		/// The minimum volume that the clip is played at
-		/// </summary>
-		[SerializeField, Tooltip("The minimum volume that the clip is played at"), Range(0f, 1f)]
-		protected float minimumVolume;
+		[SerializeField, Tooltip("The minimum and maximum volumes that the clip is played at")]
+		protected FloatRange volume;
 
 		private int currentSoundIndex;
 
 		protected override float minValue
 		{
-			get { return minimumVolume; }
+			get { return volume.minValue; }
 		}
 
 		protected override float maxValue
 		{
-			get { return maximumVolume; }
+			get { return volume.maxValue; }
 		}
 		
 		private void Awake()
