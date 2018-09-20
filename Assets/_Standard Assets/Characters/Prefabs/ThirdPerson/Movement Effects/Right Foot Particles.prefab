@@ -118,8 +118,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  maximumLocalScale: 1
-  minimumLocalScale: 0
+  scale:
+    minValue: 0
+    maxValue: 1.0033444
 --- !u!198 &198810899959303880
 ParticleSystem:
   m_ObjectHideFlags: 1

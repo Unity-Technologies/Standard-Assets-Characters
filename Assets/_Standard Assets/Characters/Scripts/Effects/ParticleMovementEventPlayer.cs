@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using StandardAssets.Characters.Attributes;
+using UnityEngine;
+using Util;
 
 namespace StandardAssets.Characters.Effects
 {
@@ -8,11 +10,8 @@ namespace StandardAssets.Characters.Effects
 	[RequireComponent(typeof(ParticleSystem))]
 	public class ParticleMovementEventPlayer : NormalizedSpeedMovementEventPlayer
 	{
-		[SerializeField, Tooltip("The maximum local scale of the particle player object")]
-		protected float maximumLocalScale = 1f;
-
-		[SerializeField, Tooltip("The minimum local scale of the particle player object")]
-		protected float minimumLocalScale;
+		[SerializeField, MinMaxRange(0f, 5f), Tooltip("The local scale range of the particle systems")]
+		protected FloatRange scale;
 		
 		private ParticleSystem[] particleSources;
 
@@ -23,12 +22,12 @@ namespace StandardAssets.Characters.Effects
 
 		protected override float minValue
 		{
-			get { return minimumLocalScale; }
+			get { return scale.minValue; }
 		}
 
 		protected override float maxValue
 		{
-			get { return maximumLocalScale; }
+			get { return scale.maxValue; }
 		}
 
 		/// <summary>
