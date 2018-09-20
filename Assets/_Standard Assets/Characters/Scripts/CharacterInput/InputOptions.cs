@@ -99,8 +99,8 @@ namespace StandardAssets.Characters.CharacterInput
 			if (Input.GetKeyDown(KeyCode.Escape))
 			{
 				cursorLocked = !cursorLocked;
-				ToggleCursorLockState();
 			}
+			ToggleCursorLockState();
 		}
 		
 		private void ToggleCursorLockState()
