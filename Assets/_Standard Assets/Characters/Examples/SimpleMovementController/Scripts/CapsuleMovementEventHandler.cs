@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace StandardAssets.Characters.Examples.SimpleMovementController
 {
+	/// <summary>
+	/// <see cref="MovementEventHandler"/> for the Capsule Character example 
+	/// </summary>
 	[Serializable]
 	public class CapsuleMovementEventHandler : DistanceMovementEventHandler
 	{
@@ -21,51 +24,16 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// </summary>
 		public void Init(CapsuleBrain brainToUse, Transform newTransform, ICharacterPhysics physics)
 		{
-			base.Init(brain);
+			base.Init(brainToUse);
 			sqrDistanceThreshold = walkDistanceThreshold * walkDistanceThreshold;
 			transform = newTransform;
 			previousPosition = transform.position;
 		}
 		
 		/// <summary>
-		/// Subscribe
-		/// </summary>
-		public void Subscribe()
-		{
-			brain.physicsForCharacter.landed += Landed;
-			brain.physicsForCharacter.jumpVelocitySet += Jumped;
-		}
-
-		/// <summary>
-		/// Unsubscribe
-		/// </summary>
-		public void Unsubscribe()
-		{
-			brain.physicsForCharacter.landed -= Landed;
-			brain.physicsForCharacter.jumpVelocitySet -= Jumped;
-		}    
-		
-	
-		/// <summary>
-		/// Calls PlayEvent on the jump ID
-		/// </summary>
-		void Jumped()
-		{
-			//BroadcastMovementEvent(jumpId);
-		}
-		
-		/// <summary>
-		/// Calls PlayEvent on the landing ID
-		/// </summary>
-		void Landed()
-		{
-			//BroadcastMovementEvent(landingId);
-		}  
-		
-		/// <summary>
 		/// Change the distance that footstep sounds are played
 		/// </summary>
-		/// <param name="strideLength"></param>
+		/// <param name="strideLength">the length of a stride for a specific movement type</param>
 		public void AdjustAudioTriggerThreshold(float strideLength)
 		{
 			sqrDistanceThreshold = strideLength * strideLength;

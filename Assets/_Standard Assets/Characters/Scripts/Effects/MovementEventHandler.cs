@@ -16,6 +16,8 @@ namespace StandardAssets.Characters.Effects
 
 		protected MovementEventLibrary currentMovementEventLibrary;
 
+		protected CharacterBrain brain;
+
 		protected MovementEventLibrary defaultLibrary
 		{
 			get
@@ -30,7 +32,10 @@ namespace StandardAssets.Characters.Effects
 			}
 		}
 
-		protected CharacterBrain brain;
+		protected bool canPlayEffect
+		{
+			get { return currentMovementEventLibrary != null; }
+		}
 
 		/// <summary>
 		/// Sets the current <see cref="MovementEventLibrary"/>
@@ -81,22 +86,34 @@ namespace StandardAssets.Characters.Effects
 
 		protected virtual void PlayLeftFoot(MovementEventData data)
 		{
-			currentMovementEventLibrary.PlayLeftFoot(data);
+			if (canPlayEffect)
+			{
+				currentMovementEventLibrary.PlayLeftFoot(data);
+			}
 		}
 
 		protected virtual void PlayRightFoot(MovementEventData data)
 		{
-			currentMovementEventLibrary.PlayRightFoot(data);
+			if (canPlayEffect)
+			{
+				currentMovementEventLibrary.PlayRightFoot(data);
+			}
 		}
 
 		protected virtual void PlayLanding(MovementEventData data)
 		{
-			currentMovementEventLibrary.PlayLanding(data);
+			if (canPlayEffect)
+			{
+				currentMovementEventLibrary.PlayLanding(data);
+			}
 		}
 
 		protected virtual void PlayJumping(MovementEventData data)
 		{
-			currentMovementEventLibrary.PlayJumping(data);
+			if (canPlayEffect)
+			{
+				currentMovementEventLibrary.PlayJumping(data);
+			}
 		}
 	}
 }

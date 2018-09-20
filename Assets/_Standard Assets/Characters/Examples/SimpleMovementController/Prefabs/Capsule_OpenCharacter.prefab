@@ -11,22 +11,6 @@ Prefab:
   m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1942727258898328}
   m_IsPrefabAsset: 1
---- !u!1 &1654058669335404
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4203589209119148}
-  - component: {fileID: 114936610752964274}
-  m_Layer: 11
-  m_Name: MobileInput
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1942727258898328
 GameObject:
   m_ObjectHideFlags: 0
@@ -66,22 +50,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1986302780883854
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4510057475636704}
-  - component: {fileID: 114771327466587272}
-  m_Layer: 11
-  m_Name: StandaloneInput
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!4 &4108449266627228
 Transform:
   m_ObjectHideFlags: 1
@@ -95,32 +63,6 @@ Transform:
   m_Father: {fileID: 4764484892688854}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4203589209119148
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1654058669335404}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4764484892688854}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4510057475636704
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1986302780883854}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4764484892688854}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4764484892688854
 Transform:
   m_ObjectHideFlags: 1
@@ -132,8 +74,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4108449266627228}
-  - {fileID: 4510057475636704}
-  - {fileID: 4203589209119148}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -258,26 +198,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingMovementProperties: {fileID: 11400000, guid: d412b2493e9e746aabb1838f1a9e6cc6,
     type: 2}
+  capsuleMovementEventHandler:
+    zonesDefinition:
+      movementZoneLibraries: []
+    maximumSpeed: 10
+    walkDistanceThreshold: 1
   turnSpeed: 300
---- !u!114 &114771327466587272
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1986302780883854}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1052986cb0c4fe4b8cfbdfeba746ea0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cinemachineLookXAxisName: Horizontal
-  cinemachineLookYAxisName: Vertical
-  lookXAxisName: LookX
-  lookYAxisName: LookY
-  useMouseLookOnly: 0
-  horizontalAxisName: Horizontal
-  verticalAxisName: Vertical
-  keyboardJumpName: Jump
 --- !u!114 &114816713393816442
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -290,8 +216,79 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terminalVelocity: 10
-  fallGravityMultiplier: 2.5
-  minJumpHeightMultiplier: 2
+  jumpGravityMultiplierAsAFactorOfForwardSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: -0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  fallGravityMultiplierAsAFactorOfForwardSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: -0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  minJumpHeightMultiplierAsAFactorOfForwardSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: -0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  gravityChangeSpeed: 10
   characterController:
     playerRootTransform: {fileID: 0}
     rootTransformOffset: {x: 0, y: 0, z: 0}
@@ -318,21 +315,6 @@ MonoBehaviour:
     slideDownStartDuration: 0.25
     enableDebug: 0
     debugDrawMoveVector: 0
---- !u!114 &114936610752964274
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1654058669335404}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2dccffe17c4b4678912f9f7cee52230c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cinemachineLookXAxisName: Horizontal
-  cinemachineLookYAxisName: Vertical
-  leftOnScreenJoystick: {fileID: 0}
-  rightOnScreenJoystick: {fileID: 0}
 --- !u!114 &114984393507249552
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -344,6 +326,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14dd74d1cf9b4277b2858750e8e81811, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  standaloneInput: {fileID: 114771327466587272}
-  mobileInput: {fileID: 114936610752964274}
+  standaloneInput: {fileID: 0}
+  mobileInput: {fileID: 0}
   debugOnScreenControls: 0
