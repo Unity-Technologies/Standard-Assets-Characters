@@ -77,21 +77,21 @@ AnimatorStateMachine:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Strafe
+  m_Name: ThirdPerson
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 1102745914397060628}
-    m_Position: {x: 384, y: -156, z: 0}
+    m_Position: {x: 384, y: -168, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102283654203956994}
-    m_Position: {x: 516, y: 12, z: 0}
+    m_Position: {x: 396, y: -108, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 84, y: -144, z: 0}
-  m_EntryPosition: {x: 50, y: 120, z: 0}
-  m_ExitPosition: {x: 800, y: 120, z: 0}
+  m_AnyStatePosition: {x: 192, y: -168, z: 0}
+  m_EntryPosition: {x: 408, y: -252, z: 0}
+  m_ExitPosition: {x: 408, y: -300, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 1102745914397060628}
