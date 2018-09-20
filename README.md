@@ -27,7 +27,7 @@ For more detailed documentation, please see the WIP Google Docs:
 
 * Movement Effects:
 
-	https://docs.google.com/document/d/17QTANYLrB4h2iZIzeaz3bop_Bzghp1Z65NssqIxvH5Q/edit?usp=sharing	
+	https://docs.google.com/document/d/1544ZvaGuWcW47CViHq1lHZkiuuqwVaxz7Cd4htyea-A/edit?usp=sharing	
 
 
 ## Quick Start

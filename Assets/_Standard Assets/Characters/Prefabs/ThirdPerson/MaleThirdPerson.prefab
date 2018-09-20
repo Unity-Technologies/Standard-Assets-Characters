@@ -2286,16 +2286,8 @@ MonoBehaviour:
     normalizedRunSpeedThreshold: 0.4
     crossfadeDuration: 0.5
   thirdPersonMovementEventHandler:
-    defaultMovementEventLibrary:
-      leftFootStepPrefab: {fileID: 114311900519629896, guid: a0865b7ba94ac4fd49e0ca925b0e000d,
-        type: 2}
-      rightFootStepPrefab: {fileID: 114967407487660778, guid: 9461adc39c7dd4bf186ac2ec83478b25,
-        type: 2}
-      landingPrefab: {fileID: 114805303375849546, guid: ecb7fd2a290b048dabc44bf7feffd33e,
-        type: 2}
-      jumpingPrefab: {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868,
-        type: 2}
-    movementZoneLibraries: []
+    zonesDefinition:
+      movementZoneLibraries: []
     leftFootDetection: {fileID: 114447118663720106}
     rightFootDetection: {fileID: 114449538320415148}
     maximumSpeed: 6
@@ -2324,7 +2316,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcb74f21ba404856bb13390a1b5f29ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: thirdPerson_leftfoot
   layerMask:
     serializedVersion: 2
     m_Bits: 256
@@ -2339,7 +2330,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcb74f21ba404856bb13390a1b5f29ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: thirdPerson_rightfoot
   layerMask:
     serializedVersion: 2
     m_Bits: 256
