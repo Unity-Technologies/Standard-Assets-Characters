@@ -426,7 +426,7 @@ namespace StandardAssets.Characters.ThirdPerson
 					// strafe mode does not have a landing animation so transition directly to locomotion
 					if (isStrafing)
 					{
-						animator.CrossFade(configuration.strafeParameterName, configuration.landAnimationBlendDuration);
+						animator.CrossFade(configuration.strafeLocomotionStateName, configuration.landAnimationBlendDuration);
 					}
 					else
 					{
