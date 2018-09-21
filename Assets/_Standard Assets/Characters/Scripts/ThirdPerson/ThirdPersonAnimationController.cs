@@ -63,7 +63,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private float headAngle;
 
 		// cached default animator speed
-		private float cachedAnimatorSpeed = 1;
+		private float cachedAnimatorSpeed = 1.0f;
 
 		// time of the last physics jump
 		private float timeOfLastPhysicsJumpLand;
@@ -512,7 +512,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			// is it a root motion or physics jump
 			if (Mathf.Abs(motor.normalizedLateralSpeed) <= Mathf.Abs(motor.normalizedForwardSpeed)
-			    && motor.normalizedForwardSpeed >= 0) // forward jump: physics
+			    && motor.normalizedForwardSpeed >= 0.0f) // forward jump: physics
 			{
 				float duration = configuration.jumpTransitionDurationFactorOfSpeed.Evaluate(jumpForward);
 				// keep track of the last jump so legs can be alternated if necessary. ie a skip.
