@@ -42,6 +42,12 @@ namespace StandardAssets.Characters.ThirdPerson
 		 AnimatorParameterName("thirdPersonAnimator", AnimatorControllerParameterType.Bool)]
 		protected string strafeParameter = "Strafe";
 		
+		[SerializeField, Tooltip("The change in input required to trigger a rapid strafe directionChange")]
+		protected float strafeRapidDirectionChangeThreshold = 1.5f;
+		
+		[SerializeField, Tooltip("The number of frames to wait after a rapid direction change if triggered within the transition range")]
+		protected int strafeRapidDirectionFrameWait = 5;
+		
 		[Header("Jumping"), AnimatorParameterName("thirdPersonAnimator", AnimatorControllerParameterType.Float)]
 		[SerializeField]
 		protected string verticalSpeedParameter = "VerticalSpeed";
@@ -110,6 +116,22 @@ namespace StandardAssets.Characters.ThirdPerson
 		[VisibleIf("disableHeadTurn",false)]
 		[SerializeField, Tooltip("Configuration for the head turning/looking")]
 		protected HeadTurnProperties headTurnProperties;
+
+		/// <summary>
+		/// Gets input delta for triggering a rapid direction change during strafe.
+		/// </summary>
+		public float strafeRapidChangeThreshold
+		{
+			get { return strafeRapidDirectionChangeThreshold; }
+		}
+
+		/// <summary>
+		/// Gets the number of frames to wait if rapid strafe direction change is triggered within transition range.
+		/// </summary>
+		public int strafeRapidDirectionFrameWaitCount
+		{
+			get { return strafeRapidDirectionFrameWait; }
+		}
 
 		/// <summary>
 		/// Gets the forward speed parameter configuration

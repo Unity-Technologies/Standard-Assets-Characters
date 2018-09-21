@@ -66,7 +66,12 @@ namespace StandardAssets.Characters.ThirdPerson
 		private ThirdPersonBrain thirdPersonBrain;
 		// whether locomotion mode is set to strafe
 		private bool isStrafing;
-
+		
+		private bool triggeredRapidDirectionChange;
+		private int framesToWait;
+		
+		private const float k_Margin = 0.025f,
+		                    k_StartInMargin = 0.05f;
 		/// <summary>
 		/// Gets the animation state of the character.
 		/// </summary>
@@ -205,7 +210,7 @@ namespace StandardAssets.Characters.ThirdPerson
 							  configuration.forwardSpeed.GetInterpolationTime(animatorForwardSpeed, newSpeed),
 							  deltaTime);
 		}
-
+		
 		/// <summary>
 		/// Update the animator lateral speed parameter.
 		/// </summary>
@@ -213,6 +218,33 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <param name="deltaTime">Interpolation delta time</param>
 		public void UpdateLateralSpeed(float newSpeed, float deltaTime)
 		{
+			if (triggeredRapidDirectionChange)
+			{
+				if (framesToWait-- > 0)
+				{
+					return;
+				}
+				if (IsNormalizedTimeCloseToZeroOrHalf(k_Margin))
+				{
+					animator.SetFloat(hashLateralSpeed, -animatorLateralSpeed);
+					triggeredRapidDirectionChange = false;
+				}
+				return;
+			}
+			
+			// check if a rapid direction change has occured.
+			float delta = Mathf.Abs(thirdPersonBrain.inputForCharacter.moveInput.x - animatorLateralSpeed);
+			if (delta >= configuration.strafeRapidChangeThreshold)
+			{
+				triggeredRapidDirectionChange = true;
+				// if we instant change within the viable range there is a pop so wait a few frames 
+				if (IsNormalizedTimeCloseToZeroOrHalf(k_StartInMargin))
+				{
+					framesToWait = configuration.strafeRapidDirectionFrameWaitCount;
+				}
+				return;
+			}
+			
 			animator.SetFloat(hashLateralSpeed, newSpeed,
 							  configuration.lateralSpeed.GetInterpolationTime(animatorLateralSpeed, newSpeed),
 							  deltaTime);
@@ -484,6 +516,13 @@ namespace StandardAssets.Characters.ThirdPerson
 											 : configuration.leftFootRootMotionJumpStateName, duration);
 				state = AnimationState.RootMotionJump;
 			}
+		}
+
+		private bool IsNormalizedTimeCloseToZeroOrHalf(float margin)
+		{
+			float value = animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1.0f;
+			return (value > 1.0f - margin || value < margin ||
+			        (value > 0.5f - margin && value < 0.5f + margin));
 		}
 
 		private void SetJumpForward(float jumpForward)
