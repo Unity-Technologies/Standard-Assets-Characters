@@ -16,6 +16,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		Falling,
 		Landing
 	}
+
 	/// <summary>
 	/// Class that sends Third Person locomotion to the Animator.
 	/// </summary>
@@ -36,7 +37,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// The animator
 		/// </summary>
 		private Animator animator;
-		
+
 		/// <summary>
 		/// The character's GameObject
 		/// </summary>
@@ -54,18 +55,30 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		// is the character grounded
 		private bool isGrounded;
+
 		// was the last physics jump taken during a planted right foot
 		private bool lastPhysicsJumpRightRoot;
+
 		// angle of the head for look direction
 		private float headAngle;
+
 		// cached default animator speed
-		private float cachedAnimatorSpeed = 1;
+		private float cachedAnimatorSpeed = 1.0f;
+
 		// time of the last physics jump
 		private float timeOfLastPhysicsJumpLand;
+
 		// reference to the ThirdPersonBrain
 		private ThirdPersonBrain thirdPersonBrain;
+
 		// whether locomotion mode is set to strafe
 		private bool isStrafing;
+
+		private bool triggeredRapidDirectionChange;
+		private int framesToWait;
+
+		private const float k_Margin = 0.025f,
+		                    k_StartInMargin = 0.05f;
 
 		/// <summary>
 		/// Gets the animation state of the character.
@@ -81,7 +94,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			get { return animator; }
 		}
-		
+
 		/// <summary>
 		/// Gets the animator forward speed.
 		/// </summary>
@@ -99,7 +112,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			get { return animator.GetFloat(hashTurningSpeed); }
 		}
-		
+
 		/// <summary>
 		/// The value of the animator lateral speed parameter.
 		/// </summary>
@@ -120,9 +133,12 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <value>True if the state is in a grounded state; false if aerial.</value>
 		public bool isRootMotionState
 		{
-			get { return state == AnimationState.Locomotion || 
-						  state == AnimationState.RootMotionJump ||
-						  state == AnimationState.Landing; }
+			get
+			{
+				return state == AnimationState.Locomotion ||
+				       state == AnimationState.RootMotionJump ||
+				       state == AnimationState.Landing;
+			}
 		}
 
 		/// <summary>
@@ -135,6 +151,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				state = AnimationState.Locomotion;
 			}
+
 			animator.speed = cachedAnimatorSpeed;
 		}
 
@@ -202,8 +219,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		public void UpdateForwardSpeed(float newSpeed, float deltaTime)
 		{
 			animator.SetFloat(hashForwardSpeed, newSpeed,
-							  configuration.forwardSpeed.GetInterpolationTime(animatorForwardSpeed, newSpeed),
-							  deltaTime);
+			                  configuration.forwardSpeed.GetInterpolationTime(animatorForwardSpeed, newSpeed),
+			                  deltaTime);
 		}
 
 		/// <summary>
@@ -213,9 +230,39 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <param name="deltaTime">Interpolation delta time</param>
 		public void UpdateLateralSpeed(float newSpeed, float deltaTime)
 		{
+			if (triggeredRapidDirectionChange)
+			{
+				if (framesToWait-- > 0)
+				{
+					return;
+				}
+
+				if (IsNormalizedTimeCloseToZeroOrHalf(k_Margin))
+				{
+					animator.SetFloat(hashLateralSpeed, -animatorLateralSpeed);
+					triggeredRapidDirectionChange = false;
+				}
+
+				return;
+			}
+
+			// check if a rapid direction change has occured.
+			float delta = Mathf.Abs(thirdPersonBrain.inputForCharacter.moveInput.x - animatorLateralSpeed);
+			if (delta >= configuration.strafeRapidChangeThreshold)
+			{
+				triggeredRapidDirectionChange = true;
+				// if we instant change within the viable range there is a pop so wait a few frames 
+				if (IsNormalizedTimeCloseToZeroOrHalf(k_StartInMargin))
+				{
+					framesToWait = configuration.strafeRapidDirectionFrameWaitCount;
+				}
+
+				return;
+			}
+
 			animator.SetFloat(hashLateralSpeed, newSpeed,
-							  configuration.lateralSpeed.GetInterpolationTime(animatorLateralSpeed, newSpeed),
-							  deltaTime);
+			                  configuration.lateralSpeed.GetInterpolationTime(animatorLateralSpeed, newSpeed),
+			                  deltaTime);
 		}
 
 		/// <summary>
@@ -226,8 +273,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		public void UpdateTurningSpeed(float newSpeed, float deltaTime)
 		{
 			animator.SetFloat(hashTurningSpeed, newSpeed,
-							  configuration.turningSpeed.GetInterpolationTime(animatorTurningSpeed, newSpeed),
-							  deltaTime);
+			                  configuration.turningSpeed.GetInterpolationTime(animatorTurningSpeed, newSpeed),
+			                  deltaTime);
 		}
 
 		/// <summary>
@@ -260,11 +307,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			bool fullyGrounded = isGrounded && state != AnimationState.Landing;
 			// only update during landing if there is input to inhibit a jarring stop post land animation.
 			bool landingWithInput = state == AnimationState.Landing &&
-									(CheckHasSpeed(motor.normalizedForwardSpeed) ||
-									 CheckHasSpeed(motor.normalizedLateralSpeed));
-			
+			                        (CheckHasSpeed(motor.normalizedForwardSpeed) ||
+			                         CheckHasSpeed(motor.normalizedLateralSpeed));
+
 			if (fullyGrounded || landingWithInput
-				|| state == AnimationState.Falling) // update during falling as landing animation depends on forward speed.
+			                  || state == AnimationState.Falling
+			) // update during falling as landing animation depends on forward speed.
 			{
 				UpdateForwardSpeed(motor.normalizedForwardSpeed, Time.deltaTime);
 				UpdateLateralSpeed(motor.normalizedLateralSpeed, Time.deltaTime);
@@ -287,13 +335,13 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 			if (motor.currentAerialMovementState != ThirdPersonAerialMovementState.Grounded &&
-				!configuration.lookAtWhileAerial)
+			    !configuration.lookAtWhileAerial)
 			{
 				return;
 			}
 
 			if (motor.currentGroundMovementState == ThirdPersonGroundMovementState.TurningAround &&
-				!configuration.lookAtWhileTurnaround)
+			    !configuration.lookAtWhileTurnaround)
 			{
 				return;
 			}
@@ -320,7 +368,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			headAngle = Mathf.LerpAngle(headAngle, targetHeadAngle, headTurn);
 
 			Vector3 lookAtPos = animator.transform.position +
-								Quaternion.AngleAxis(headAngle, Vector3.up) * animator.transform.forward * 100f;
+			                    Quaternion.AngleAxis(headAngle, Vector3.up) * animator.transform.forward * 100f;
 			animator.SetLookAtPosition(lookAtPos);
 		}
 
@@ -352,7 +400,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				motor.landed -= OnLanding;
 				motor.fallStarted -= OnFallStarted;
 			}
-			
+
 			thirdPersonBrain.thirdPersonCameraAnimationManager.forwardLockedModeStarted -=
 				OnStrafeStarted;
 			thirdPersonBrain.thirdPersonCameraAnimationManager.forwardUnlockedModeStarted -=
@@ -382,31 +430,39 @@ namespace StandardAssets.Characters.ThirdPerson
 				case AnimationState.PhysicsJump:
 					bool rightFoot = animator.GetBool(hashGroundedFootRight);
 					float duration = configuration.jumpEndTransitionByForwardSpeed.Evaluate(
-						Mathf.Abs(animator.GetFloat(configuration.jumpedForwardSpeedParameterName)));
-					string locomotion = isStrafing ? configuration.strafeLocomotionStateName : 
-						                    configuration.locomotionStateName;
-					animator.CrossFadeInFixedTime(locomotion, duration, 0, rightFoot ? 
-										  configuration.rightFootPhysicsJumpLandAnimationOffset
-										: configuration.leftFootPhysicsJumpLandAnimationOffset);
+						Mathf.Abs(animator.GetFloat(
+							          configuration.jumpedForwardSpeedParameterName)));
+					string locomotion = isStrafing
+						                    ? configuration.strafeLocomotionStateName
+						                    : configuration.locomotionStateName;
+					animator.CrossFadeInFixedTime(locomotion, duration, 0, rightFoot
+						                                                       ? configuration
+							                                                       .rightFootPhysicsJumpLandAnimationOffset
+						                                                       : configuration
+							                                                       .leftFootPhysicsJumpLandAnimationOffset);
 					timeOfLastPhysicsJumpLand = Time.time;
 					break;
 				case AnimationState.Falling:
 					// strafe mode does not have a landing animation so transition directly to locomotion
 					if (isStrafing)
 					{
-						animator.CrossFade(configuration.strafeParameterName, configuration.landAnimationBlendDuration);
+						animator.CrossFade(configuration.strafeLocomotionStateName,
+						                   configuration.landAnimationBlendDuration);
 					}
 					else
 					{
-						if (motor.normalizedForwardSpeed > configuration.forwardSpeedToRoll) // moving fast enough to roll
+						if (motor.normalizedForwardSpeed > configuration.forwardSpeedToRoll
+						) // moving fast enough to roll
 						{
 							if (motor.fallTime > configuration.fallTimeRequiredToRoll) // play roll
 							{
-								animator.CrossFade(configuration.rollLandStateName, configuration.rollAnimationBlendDuration);
+								animator.CrossFade(configuration.rollLandStateName,
+								                   configuration.rollAnimationBlendDuration);
 							}
 							else // has not fallen for long enough to roll
 							{
-								animator.CrossFade(configuration.locomotionStateName, configuration.landAnimationBlendDuration);
+								animator.CrossFade(configuration.locomotionStateName,
+								                   configuration.landAnimationBlendDuration);
 							}
 						}
 						else // play land 
@@ -414,10 +470,11 @@ namespace StandardAssets.Characters.ThirdPerson
 							animator.CrossFade(configuration.landStateName, configuration.landAnimationBlendDuration);
 						}
 					}
+
 					break;
 			}
 		}
-		
+
 		/// <summary>
 		/// Sets the animator strafe parameter to true.
 		/// </summary>
@@ -426,7 +483,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			isStrafing = true;
 			animator.SetBool(configuration.strafeParameterName, isStrafing);
 		}
-		
+
 		/// <summary>
 		/// Sets the animator strafe parameter to false.
 		/// </summary>
@@ -446,25 +503,27 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				return;
 			}
+
 			isGrounded = false;
 
 			float jumpForward = animatorForwardSpeed;
 			SetJumpForward(jumpForward);
 			bool rightFoot = animator.GetBool(hashGroundedFootRight);
 
-			float duration = configuration.jumpTransitionDurationFactorOfSpeed.Evaluate(jumpForward);
 			// is it a root motion or physics jump
 			if (Mathf.Abs(motor.normalizedLateralSpeed) <= Mathf.Abs(motor.normalizedForwardSpeed)
-				&& motor.normalizedForwardSpeed >= 0) // forward jump: physics
+			    && motor.normalizedForwardSpeed >= 0.0f) // forward jump: physics
 			{
+				float duration = configuration.jumpTransitionDurationFactorOfSpeed.Evaluate(jumpForward);
 				// keep track of the last jump so legs can be alternated if necessary. ie a skip.
 				if (timeOfLastPhysicsJumpLand + configuration.skipJumpWindow >= Time.time)
 				{
 					rightFoot = !lastPhysicsJumpRightRoot;
 				}
-				animator.SetFloat(hashJumpedLateralSpeed, 0);
-				animator.CrossFade(rightFoot ? configuration.rightFootJumpStateName :
-											   configuration.leftFootJumpStateName, duration);
+
+				animator.SetFloat(hashJumpedLateralSpeed, 0.0f);
+				animator.CrossFade(
+					rightFoot ? configuration.rightFootJumpStateName : configuration.leftFootJumpStateName, duration);
 				lastPhysicsJumpRightRoot = rightFoot;
 			}
 			else // lateral or backwards jump;: root motion
@@ -473,25 +532,34 @@ namespace StandardAssets.Characters.ThirdPerson
 				if (Mathf.Abs(motor.normalizedForwardSpeed) > Mathf.Abs(motor.normalizedLateralSpeed))
 				{
 					animator.SetFloat(hashJumpedForwardSpeed, motor.normalizedForwardSpeed);
-					animator.SetFloat(hashJumpedLateralSpeed, 0);
+					animator.SetFloat(hashJumpedLateralSpeed, 0.0f);
 				}
 				else
 				{
 					animator.SetFloat(hashJumpedLateralSpeed, motor.normalizedLateralSpeed);
-					animator.SetFloat(hashJumpedForwardSpeed, 0);
+					animator.SetFloat(hashJumpedForwardSpeed, 0.0f);
 				}
-				animator.CrossFade(rightFoot ? configuration.rightFootRootMotionJumpStateName 
-											 : configuration.leftFootRootMotionJumpStateName, duration);
+
+				animator.CrossFadeInFixedTime(rightFoot
+					                              ? configuration.rightFootRootMotionJumpStateName
+					                              : configuration.leftFootRootMotionJumpStateName,
+				                              configuration.rootMotionJumpCrossfadeDuration);
 				state = AnimationState.RootMotionJump;
 			}
+		}
+
+		private bool IsNormalizedTimeCloseToZeroOrHalf(float margin)
+		{
+			float value = animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1.0f;
+			return (value > 1.0f - margin || value < margin ||
+			        (value > 0.5f - margin && value < 0.5f + margin));
 		}
 
 		private void SetJumpForward(float jumpForward)
 		{
 			jumpForward = jumpForward.Remap01(configuration.standingJumpNormalizedSpeedThreshold,
-															configuration.runningJumpNormalizedSpeedThreshold);
+			                                  configuration.runningJumpNormalizedSpeedThreshold);
 			animator.SetFloat(hashJumpedForwardSpeed, jumpForward);
-			
 		}
 
 		/// <summary>
@@ -503,9 +571,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			var animationNormalizedProgress = MathUtilities.GetFraction(stateInfo.normalizedTime);
 			//TODO: remove zero index
 			if (MathUtilities.Wrap1(animationNormalizedProgress +
-									configuration.groundedFootThresholdOffsetValue) >
-				MathUtilities.Wrap1(configuration.groundedFootThresholdValue +
-									configuration.groundedFootThresholdOffsetValue))
+			                        configuration.groundedFootThresholdOffsetValue) >
+			    MathUtilities.Wrap1(configuration.groundedFootThresholdValue +
+			                        configuration.groundedFootThresholdOffsetValue))
 			{
 				SetGroundedFootRight(!configuration.invertFoot);
 				return;
@@ -513,7 +581,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			SetGroundedFootRight(configuration.invertFoot);
 		}
-		
+
 		/// <summary>
 		/// Sets the grounded foot of the animator. This is used to play the appropriate footed animations.
 		/// </summary>
@@ -527,14 +595,14 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 			// while strafing a foot is preferred depending on lateral direction
-			bool lateralSpeedRight = motor.normalizedLateralSpeed < 0;
+			bool lateralSpeedRight = motor.normalizedLateralSpeed < 0.0f;
 			animator.SetBool(hashGroundedFootRight, lateralSpeedRight);
 			isRightFootPlanted = lateralSpeedRight;
 		}
 
 		private static bool CheckHasSpeed(float speed)
 		{
-			return Mathf.Abs(speed) > 0;
+			return Mathf.Abs(speed) > 0.0f;
 		}
 	}
 }

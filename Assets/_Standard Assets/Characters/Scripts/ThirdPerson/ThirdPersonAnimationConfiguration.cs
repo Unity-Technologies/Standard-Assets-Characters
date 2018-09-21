@@ -42,6 +42,12 @@ namespace StandardAssets.Characters.ThirdPerson
 		 AnimatorParameterName("thirdPersonAnimator", AnimatorControllerParameterType.Bool)]
 		protected string strafeParameter = "Strafe";
 		
+		[SerializeField, Tooltip("The change in input required to trigger a rapid strafe directionChange")]
+		protected float strafeRapidDirectionChangeThreshold = 1.5f;
+		
+		[SerializeField, Tooltip("The number of frames to wait after a rapid direction change if triggered within the transition range")]
+		protected int strafeRapidDirectionFrameWait = 5;
+		
 		[Header("Jumping"), AnimatorParameterName("thirdPersonAnimator", AnimatorControllerParameterType.Float)]
 		[SerializeField]
 		protected string verticalSpeedParameter = "VerticalSpeed";
@@ -52,6 +58,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField, Tooltip("Curve used to determine the cross fade duration of the transition into the jump " +
 								 "animation state")]
 		protected AnimationCurve jumpTransitionAsAFactorOfSpeed = AnimationCurve.Constant(0, 1, 0.15f);
+
+		[SerializeField, Tooltip("Duration, in seconds, of crossfade into root motion jump.")]
+		protected float rootMotionJumpTransitionDuration = 0.25f;
 
 		[SerializeField, Tooltip("Curve used to determine the cross fade duration of the transition into the " +
 								 "locomotion animation from the jump animation state")]
@@ -110,6 +119,22 @@ namespace StandardAssets.Characters.ThirdPerson
 		[VisibleIf("disableHeadTurn",false)]
 		[SerializeField, Tooltip("Configuration for the head turning/looking")]
 		protected HeadTurnProperties headTurnProperties;
+
+		/// <summary>
+		/// Gets input delta for triggering a rapid direction change during strafe.
+		/// </summary>
+		public float strafeRapidChangeThreshold
+		{
+			get { return strafeRapidDirectionChangeThreshold; }
+		}
+
+		/// <summary>
+		/// Gets the number of frames to wait if rapid strafe direction change is triggered within transition range.
+		/// </summary>
+		public int strafeRapidDirectionFrameWaitCount
+		{
+			get { return strafeRapidDirectionFrameWait; }
+		}
 
 		/// <summary>
 		/// Gets the forward speed parameter configuration
@@ -399,6 +424,14 @@ namespace StandardAssets.Characters.ThirdPerson
 		public AnimationCurve jumpTransitionDurationFactorOfSpeed
 		{
 			get { return jumpTransitionAsAFactorOfSpeed; }
+		}
+		
+		/// <summary>
+		/// Gets the duration of the crossfade to a root motion jump.
+		/// </summary>
+		public float rootMotionJumpCrossfadeDuration
+		{
+			get { return rootMotionJumpTransitionDuration; }
 		}
 
 		/// <summary>
