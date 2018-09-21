@@ -34,7 +34,7 @@ For more detailed documentation, please see the WIP Google Docs:
 	https://docs.google.com/document/d/1544ZvaGuWcW47CViHq1lHZkiuuqwVaxz7Cd4htyea-A/edit?usp=sharing	
 
 
-## Quick Start
+## Getting Started
 
 * Pull the repository and open the project in the relevant version of Unity
 * Open the Protoland Scene
@@ -132,56 +132,7 @@ For more detailed documentation, please see the WIP Google Docs:
 
 ## Character Controller Setup Instructions
 
-### Base Setup:
-	1) Drag in InputManager prefab
-	2) Drag in Main Camera prefab
-
-
-### First Person Controller:
-	1) Drag in First Person Cameras prefab
-	2) Drag in FirstPersonInput prefab
-	3) Drag in FirstPerson prefab
-	4) Select First Person Cameras
-		a) On the Cinemachine State Driven Camera, drag FirstPerson onto the Follow property		
-	5) Select FirstPerson
-		a) On the First Person Brain, drag First Person Cameras onto the Camera Animations property
-		b) On the Legacy Cross Platform Character Input, drag FirstPersonInput onto the Standalone and Mobile Input properties
-		c) *OPTIONAL* If the scene has a Movement Effects Library, drag it onto the Starting Movement Effect Library property located under the First Person Movement Effect Handler object 
-
-
-### Third Person Controller:
-	1) Drag in Third Person Cameras prefab
-	2) Drag in ThirdPersonInput prefab
-	3) Drag in MaleThirdPerson prefab
-	4) Select Third Person Cameras
-		a) On the Cinemachine State Driven Camera, drag MaleThirdPerson onto the Follow and Look At properties
-		b) On the Third Person Camera Animation Manager:
-			i) Drag MaleThirdPerson onto the Brain prooperty
-			ii) Drag MobileInput and StandaloneInput onto the Mobile and Standalone Character Input properties
-	5) Select Exploration Camera under Third Person Cameras
-		a) On the Cinemachine State Driven Camera, drag MaleThirdPerson to the Look At Override and Animated Target properties
-	6) Repeat above step for Strafe under MaleThirdPerson
-	7) Select MaleThirdPerson
-		a) On the Third Person Brain, drag Third Person Cameras onto the Camera Animation Manager property
-		b) On the Legacy Cross Platform Character Input, drag ThirdPersonInput onto the Standalone and Mobile Input properties
-		c) *OPTIONAL* If the scene has a Movement Effects Library, drag it onto the Starting Movement Effect Library property located under the Third Person Movement Effect Handler object 
-	8) Select ThirdPersonInput
-		a) On the Third Person Character Input Modifier, drag MaleThirdPerson onto the Character Brain property
-
-
-### Demo Scene (optional, for dev testing purposes):
-	1) Drag in PlayerManager and Select it
-		a) Drag Current Camera Text onto the Third Person Camera Mode Text property
-		b) Drag MaleThirdPerson onto the Third Person Brain property, as well as under the List of Third Person Game Objects
-		c) Drag FirstPersonLegacyInput onto the First Person Brain property, as well as under the List of First Person Game Objects
-		d) Drag Third Person Camaeras onto the Third Person Main State Driven Camera property
-		e) Drag Third Person Camaeras onto the Third Person Main State Driven Camera property
-
-
-### Invert camera Y axis (optional):
-	1) Select InputManager
-		a) On the Input Options, tick the Camera Invert Y property
-
+### See the above Quick Start Guide
 
 
 ## Camera Setup Overview
@@ -224,7 +175,6 @@ For more detailed documentation, please see the WIP Google Docs:
 	* First Person Controller
 		** Code and Design Structure
 		** Behaviour and Functionality for Walk, Sprint, Crouch, Jump
-		** Head Bobbing System using Cinemachine Impulses
 		** Inspector UX Review
 		** Code Review and Commenting
 
@@ -258,14 +208,12 @@ For more detailed documentation, please see the WIP Google Docs:
 		** Effects Detection System for Character Feet
 		** Strafing Locomotion Behaviour & Blends
 		** New Strafing Animations
+		** Strafing Camera / Transitions
 	
+	* Garbage Generation and Optimation Pass
+
 
 ### Still Requires Work:
 
-	* Cinemachine Camera Setups [By CM Team?]
-		** First Person Cameras
-		** Third Person Cameras
-
-	* Garbage Generation and Optimation Pass
-	* Addition of Female Avatar & Aniamtion Set
+	* Addition of Female Avatar & Animation Set
 
