@@ -462,7 +462,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				{
 					rightFoot = !lastPhysicsJumpRightRoot;
 				}
-				animator.SetFloat(hashJumpedLateralSpeed, 0);
+				animator.SetFloat(hashJumpedLateralSpeed, 0.0f);
 				animator.CrossFade(rightFoot ? configuration.rightFootJumpStateName :
 											   configuration.leftFootJumpStateName, duration);
 				lastPhysicsJumpRightRoot = rightFoot;
@@ -473,12 +473,12 @@ namespace StandardAssets.Characters.ThirdPerson
 				if (Mathf.Abs(motor.normalizedForwardSpeed) > Mathf.Abs(motor.normalizedLateralSpeed))
 				{
 					animator.SetFloat(hashJumpedForwardSpeed, motor.normalizedForwardSpeed);
-					animator.SetFloat(hashJumpedLateralSpeed, 0);
+					animator.SetFloat(hashJumpedLateralSpeed, 0.0f);
 				}
 				else
 				{
 					animator.SetFloat(hashJumpedLateralSpeed, motor.normalizedLateralSpeed);
-					animator.SetFloat(hashJumpedForwardSpeed, 0);
+					animator.SetFloat(hashJumpedForwardSpeed, 0.0f);
 				}
 				animator.CrossFade(rightFoot ? configuration.rightFootRootMotionJumpStateName 
 											 : configuration.leftFootRootMotionJumpStateName, duration);
@@ -527,14 +527,14 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 			// while strafing a foot is preferred depending on lateral direction
-			bool lateralSpeedRight = motor.normalizedLateralSpeed < 0;
+			bool lateralSpeedRight = motor.normalizedLateralSpeed < 0.0f;
 			animator.SetBool(hashGroundedFootRight, lateralSpeedRight);
 			isRightFootPlanted = lateralSpeedRight;
 		}
 
 		private static bool CheckHasSpeed(float speed)
 		{
-			return Mathf.Abs(speed) > 0;
+			return Mathf.Abs(speed) > 0.0f;
 		}
 	}
 }
