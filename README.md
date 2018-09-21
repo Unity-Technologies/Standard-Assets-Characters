@@ -9,6 +9,10 @@ For more detailed documentation, please see the WIP Google Docs:
 
 	https://docs.google.com/document/d/15bda-1wa4fn_ecUcWXTvxAZsNBIsI89zztKf2UxoQY4/edit?usp=sharing
 
+* Quick Start Guide:
+
+	https://docs.google.com/document/d/1DiyRG4FYeMhka8LfzXbkPFBS7oaYJo0Cg9asBbvYsDs/edit?usp=sharing
+
 * Open Character Controller:
 
 	https://docs.google.com/document/d/1TAodMmM8OlbFibyWvOKEU-zj-HI-yI4YJJx45S-hwTo/edit?usp=sharing	
