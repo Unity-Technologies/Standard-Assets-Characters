@@ -33,9 +33,17 @@ namespace StandardAssets.Characters.CharacterInput
 		/// </summary>
 		protected ILegacyCharacterInputModifier inputModifier;
 
+		private string resolvedXLook, resolvedYLook, resolvedJumpControl;
+
 		private void Awake()
 		{
 			inputModifier = GetComponent<ILegacyCharacterInputModifier>();
+			
+			// cache input strings
+			resolvedXLook = LegacyCharacterInputDevicesCache.ResolveControl(lookXAxisName);
+			resolvedYLook = LegacyCharacterInputDevicesCache.ResolveControl(lookYAxisName);
+			resolvedJumpControl = LegacyCharacterInputDevicesCache.ResolveControl(keyboardJumpName);
+
 		}
 		
 		/// <inheritdoc />
@@ -65,11 +73,8 @@ namespace StandardAssets.Characters.CharacterInput
 				return;
 			}
 
-			string lookX = LegacyCharacterInputDevicesCache.ResolveControl(lookXAxisName);
-			string lookY = LegacyCharacterInputDevicesCache.ResolveControl(lookYAxisName);
-
-			lookInputVector.x = Input.GetAxis(lookX);
-			lookInputVector.y = Input.GetAxis(lookY);
+			lookInputVector.x = Input.GetAxis(resolvedXLook);
+			lookInputVector.y = Input.GetAxis(resolvedYLook);
 		}
 
 		/// <summary>
@@ -94,8 +99,6 @@ namespace StandardAssets.Characters.CharacterInput
 		/// </summary>
 		private void UpdateJump()
 		{
-			string resolvedJumpControl = LegacyCharacterInputDevicesCache.ResolveControl(keyboardJumpName);
-
 			if (Input.GetButtonDown(resolvedJumpControl) ||
 			    Input.GetButtonDown("Jump"))
 			{
