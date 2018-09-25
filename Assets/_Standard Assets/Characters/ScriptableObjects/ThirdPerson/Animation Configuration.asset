@@ -13,6 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thirdPersonAnimator: {fileID: 9100000, guid: 9250483fadc19a444bcc66715ab615e9, type: 2}
   locomotion: Action Locomotion
+  strafeLocomotion: Strafe Locomotion
   rightFootRootMotionJump: RightFootRootMotionJump
   leftFootRootMotionJump: LeftFootRootMotionJump
   rightFootJump: RightFootPhysicsJump
@@ -25,12 +26,15 @@ MonoBehaviour:
     maxInterpolationTime: 0.2
   lateralSpeedParameter:
     parameterName: LateralSpeed
-    minInterpolationTime: 0.01
-    maxInterpolationTime: 0.05
+    minInterpolationTime: 0.15
+    maxInterpolationTime: 0.2
   turningSpeedParameter:
     parameterName: TurningSpeed
     minInterpolationTime: 0.01
     maxInterpolationTime: 0.05
+  strafeParameter: Strafe
+  strafeRapidDirectionChangeThreshold: 1.5
+  strafeRapidDirectionFrameWait: 5
   verticalSpeedParameter: VerticalSpeed
   fallParameter: Fall
   jumpTransitionAsAFactorOfSpeed:
@@ -57,6 +61,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  rootMotionJumpTransitionDuration: 0.25
   jumpEndTransitionDurationByForwardSpeed:
     serializedVersion: 2
     m_Curve:
