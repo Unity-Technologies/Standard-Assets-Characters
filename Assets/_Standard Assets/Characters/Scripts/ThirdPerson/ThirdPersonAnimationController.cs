@@ -261,7 +261,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				{
 					framesToWait = configuration.strafeRapidDirectionFrameWaitCount;
 				}
-				currentRootMotionModifier = new Vector3(-1, 1, 1);
+				currentRootMotionModifier = new Vector3(-1.0f, 1.0f, 1.0f);
 				return;
 			}
 
