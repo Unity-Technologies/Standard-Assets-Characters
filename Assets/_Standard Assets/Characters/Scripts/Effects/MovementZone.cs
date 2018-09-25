@@ -37,7 +37,7 @@ namespace StandardAssets.Characters.Effects
 				return;
 			}
 			
-			//handler.SetStartingMovementEventLibrary();
+			brain.ChangeMovementZone(string.Empty);
 		}
 	}
 }
