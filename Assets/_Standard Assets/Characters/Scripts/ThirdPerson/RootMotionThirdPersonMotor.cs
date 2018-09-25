@@ -209,7 +209,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (animationController.isRootMotionState)
 			{
 				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
-				groundMovementVector.y = 0;
+				groundMovementVector.y = 0.0f;
 				
 				groundMovementVector.x *= animationController.currentRootMotionModifier.x;
 				groundMovementVector.z *= animationController.currentRootMotionModifier.z;
