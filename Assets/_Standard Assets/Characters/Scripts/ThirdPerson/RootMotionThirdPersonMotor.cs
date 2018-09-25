@@ -210,6 +210,10 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
 				groundMovementVector.y = 0;
+				
+				groundMovementVector.x *= animationController.currentRootMotionModifier.x;
+				groundMovementVector.z *= animationController.currentRootMotionModifier.z;
+				
 				characterPhysics.Move(groundMovementVector, Time.deltaTime);
 				
 				//Update the average movement speed

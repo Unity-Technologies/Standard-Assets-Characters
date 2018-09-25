@@ -86,6 +86,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <value>The current <see cref="AnimationState"/></value>
 		public AnimationState state { get; private set; }
 
+		public Vector3 currentRootMotionModifier { get; private set; }
+
 		/// <summary>
 		/// Gets the character animator.
 		/// </summary>
@@ -242,7 +244,7 @@ namespace StandardAssets.Characters.ThirdPerson
 					animator.SetFloat(hashLateralSpeed, -animatorLateralSpeed);
 					triggeredRapidDirectionChange = false;
 				}
-
+				currentRootMotionModifier = Vector3.one;
 				return;
 			}
 
@@ -256,7 +258,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				{
 					framesToWait = configuration.strafeRapidDirectionFrameWaitCount;
 				}
-
+				currentRootMotionModifier = new Vector3(-1, 1, 1);
 				return;
 			}
 
@@ -295,6 +297,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			animator = gameObject.GetComponent<Animator>();
 			cachedAnimatorSpeed = animator.speed;
 			thirdPersonBrain = brain;
+			currentRootMotionModifier = Vector3.one;
 		}
 
 		/// <summary>
