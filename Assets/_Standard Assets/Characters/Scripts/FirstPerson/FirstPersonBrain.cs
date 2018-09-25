@@ -62,6 +62,11 @@ namespace StandardAssets.Characters.FirstPerson
 		/// A check to see if input was previous being applied
 		/// </summary>
 		private bool previouslyHasInput;
+		
+		/// <summary>
+		/// Backing field to prevent the currentProperties from being null
+		/// </summary>
+		private FirstPersonMovementProperties currentProperties;
 
 		/// <summary>
 		/// Gets the referenced <see cref="CameraAnimationManager"/>
@@ -95,10 +100,23 @@ namespace StandardAssets.Characters.FirstPerson
 			}
 		}
 
+
 		/// <summary>
 		/// Gets current motor state - controls how the character moves in different states
 		/// </summary>
-		public FirstPersonMovementProperties currentMovementProperties { get; protected set; }
+		public FirstPersonMovementProperties currentMovementProperties 
+		{
+			get
+			{
+				if (currentProperties == null)
+				{
+					currentProperties = startingMovementProperties;
+				}
+
+				return currentProperties;
+			}
+			protected set { currentProperties = value; } 
+		}
 		
 		/// <summary>
 		/// Gets the MovementEventHandler
