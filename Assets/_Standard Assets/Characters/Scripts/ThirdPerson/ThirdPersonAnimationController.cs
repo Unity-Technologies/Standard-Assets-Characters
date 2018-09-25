@@ -86,6 +86,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <value>The current <see cref="AnimationState"/></value>
 		public AnimationState state { get; private set; }
 
+		/// <summary>
+		/// Gets the current root motion movement modifier.
+		/// </summary>
 		public Vector3 currentRootMotionModifier { get; private set; }
 
 		/// <summary>
