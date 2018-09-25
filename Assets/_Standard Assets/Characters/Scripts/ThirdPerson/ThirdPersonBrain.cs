@@ -81,7 +81,10 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public override float targetYRotation { get; set; }
 
-		public IThirdPersonMotor currentMotor { get; private set; }
+		public IThirdPersonMotor currentMotor
+		{
+			get { return GetCurrentMotor(); }
+		}
 
 		public ThirdPersonCameraAnimationManager thirdPersonCameraAnimationManager
 		{
@@ -98,7 +101,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			blendspaceTurnaroundBehaviour.Init(this);
 			animationTurnaroundBehaviour.Init(this);
 			currentTurnaroundBehaviour = GetCurrentTurnaroundBehaviour();
-			currentMotor = GetCurrentMotor();
 			currentMotor.Init(this);
 			
 			if (animationController != null)
