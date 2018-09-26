@@ -16,19 +16,13 @@ namespace StandardAssets.Characters.ThirdPerson
 		public event Action forwardUnlockedModeStarted, forwardLockedModeStarted;
 
 		[SerializeField, Tooltip("Third person character brain")]
-		protected ThirdPersonBrain brain;
+		protected ThirdPersonBrain thirdPersonBrain;
 		
 		[DisableEditAtRuntime(), SerializeField, Tooltip("Define the starting camera mode")]
 		protected ThirdPersonCameraType startingCameraMode = ThirdPersonCameraType.Exploration;
 
 		[SerializeField, Tooltip("Input Response for changing camera mode and camera recenter")]
 		protected InputResponse cameraModeInput, recenterCameraInput;
-
-		[SerializeField, Tooltip("Legacy on screen character input")]
-		protected LegacyOnScreenCharacterInput mobileCharacterInput;
-		
-		[SerializeField, Tooltip("Legacy stand alone character input")]
-		protected LegacyCharacterInput standAloneCharacterInput;
 
 		[SerializeField, Tooltip("State Driven Camera state names")]
 		protected string[] explorationCameraStates, strafeCameraStates;
@@ -70,6 +64,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			thirdPersonStateDrivenCamera = GetComponent<CinemachineStateDrivenCamera>();
 
+			CheckBrain();
+
 			if (cameraModeInput != null)
 			{
 				cameraModeInput.Init();
@@ -78,6 +74,30 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (recenterCameraInput != null)
 			{
 				recenterCameraInput.Init();
+			}
+		}
+
+		/// <summary>
+		/// Helper for checking if the brain has been assigned - otherwise looks for it in the scene
+		/// </summary>
+		private void CheckBrain()
+		{
+			if (thirdPersonBrain == null)
+			{
+				Debug.Log("No ThirdPersonBrain setup - using FindObjectOfType");
+				ThirdPersonBrain[] brainsInScene = FindObjectsOfType<ThirdPersonBrain>();
+				if (brainsInScene.Length == 0)
+				{
+					Debug.LogError("No ThirdPersonBrain objects in scene!");
+					return;
+				}
+				
+				if (brainsInScene.Length > 1)
+				{
+					Debug.LogWarning("Too many ThirdPersonBrain objects in scene - using the first instance");
+				}
+
+				thirdPersonBrain = brainsInScene[0];
 			}
 		}
 		
@@ -98,9 +118,9 @@ namespace StandardAssets.Characters.ThirdPerson
 				recenterCameraInput.ended += RecenterCamera;
 			}
 			
-			if (brain != null)
+			if (thirdPersonBrain != null)
 			{
-				brain.currentMotor.landed += OnLanded;
+				thirdPersonBrain.currentMotor.landed += OnLanded;
 			}
 		}
 		
@@ -121,9 +141,9 @@ namespace StandardAssets.Characters.ThirdPerson
 				recenterCameraInput.ended -= RecenterCamera;
 			}
 			
-			if (brain != null)
+			if (thirdPersonBrain != null)
 			{
-				brain.currentMotor.landed -= OnLanded;
+				thirdPersonBrain.currentMotor.landed -= OnLanded;
 			}
 		}
 		
@@ -131,7 +151,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			isChangingMode = true;
 
-			if (brain.physicsForCharacter != null && brain.physicsForCharacter.isGrounded)
+			if (thirdPersonBrain.physicsForCharacter != null && thirdPersonBrain.physicsForCharacter.isGrounded)
 			{
 				PerformCameraModeChange();
 			}
@@ -139,13 +159,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		private void RecenterCamera()
 		{
-#if UNITY_ANDROID || UNITY_IOS
-			if (!mobileCharacterInput.hasMovementInput)
-			{
-				RecenterFreeLookCam(idleCamera);
-			}
-#endif		
-			if (!standAloneCharacterInput.hasMovementInput)
+			if (!thirdPersonBrain.inputForCharacter.hasMovementInput)
 			{
 				RecenterFreeLookCam(idleCamera);
 			}
@@ -209,19 +223,12 @@ namespace StandardAssets.Characters.ThirdPerson
 					SetCameraObjectsActive(strafeCameraObjects);
 				}
 			}
-			
-#if UNITY_ANDROID || UNITY_IOS
-			if (mobileCharacterInput.hasMovementInput
-			    || mobileCharacterInput.lookInput != Vector2.zero)
+
+			if (thirdPersonBrain.inputForCharacter.hasMovementInput ||
+			    thirdPersonBrain.inputForCharacter.lookInput != Vector2.zero)
 			{
 				TurnOffFreeLookCamRecenter(idleCamera);
-			}		
-#endif		
-			if (standAloneCharacterInput.hasMovementInput
-			    || standAloneCharacterInput.lookInput != Vector2.zero)
-			{
-				TurnOffFreeLookCamRecenter(idleCamera);
-			}		
+			}	
 		}
 		
 		private void SetCameraState()
