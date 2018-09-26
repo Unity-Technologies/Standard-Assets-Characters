@@ -153,7 +153,7 @@ namespace StandardAssets.Characters.CharacterInput
 				mobileInput = GetInputInSibling<LegacyOnScreenCharacterInput>();
 				if (mobileInput == null)
 				{
-					Debug.LogWarning("No parent/siblin found - cannot auto-populate with sibling - searching scene");
+					Debug.LogWarning("No parent/sibling found - cannot auto-populate with sibling - searching scene");
 					if (mobileInput == null)
 					{
 						mobileInput = GetInputInScene<LegacyOnScreenCharacterInput>();
