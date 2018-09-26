@@ -1,3 +1,4 @@
+using Cinemachine;
 using StandardAssets.Characters.Common;
 
 namespace StandardAssets.Characters.FirstPerson
@@ -7,7 +8,17 @@ namespace StandardAssets.Characters.FirstPerson
     /// </summary>
     public class FirstPersonCameraAnimationManager : CameraAnimationManager
     {
-        //This is empty as the base class is sufficient (for now), however, this is needed for the auto set-up to
-        //be able to distinguish between this and the third person camera manager
+        /// <summary>
+        /// Sends through the <see cref="FirstPersonBrain"/> and allows the SDC to setup correct follow
+        /// </summary>
+        /// <param name="brainToUse"></param>
+        public void SetupBrain(FirstPersonBrain brainToUse)
+        {
+            CinemachineStateDrivenCamera rootSdc = GetComponent<CinemachineStateDrivenCamera>();
+            if (rootSdc != null)
+            {
+                rootSdc.m_Follow = brainToUse.transform;
+            }
+        }
     }
 }

@@ -213,6 +213,8 @@ namespace StandardAssets.Characters.FirstPerson
 
 				cameraManager = cameraManagers[0];
 			}
+			
+			cameraManager.SetupBrain(this);
 		}
 
 		/// <summary>
