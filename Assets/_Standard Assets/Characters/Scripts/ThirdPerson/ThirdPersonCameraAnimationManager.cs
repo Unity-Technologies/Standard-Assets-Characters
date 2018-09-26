@@ -279,6 +279,24 @@ namespace StandardAssets.Characters.ThirdPerson
 		public void SetThirdPersonBrain(ThirdPersonBrain brainToUse)
 		{
 			thirdPersonBrain = brainToUse;
+
+			//Automatically handle Cinemachine setup
+			if (strafeStateDrivenCamera.m_AnimatedTarget == null)
+			{
+				strafeStateDrivenCamera.m_AnimatedTarget = thirdPersonBrain.GetComponent<Animator>();
+			}
+			
+			if (explorationStateDrivenCamera.m_AnimatedTarget == null)
+			{
+				explorationStateDrivenCamera.m_AnimatedTarget = thirdPersonBrain.GetComponent<Animator>();
+			}
+
+			CinemachineStateDrivenCamera rootSdc = GetComponent<CinemachineStateDrivenCamera>();
+			if (rootSdc != null)
+			{
+				rootSdc.m_LookAt = thirdPersonBrain.transform;
+				rootSdc.m_Follow = thirdPersonBrain.transform;
+			}
 		}
 	}
 }
