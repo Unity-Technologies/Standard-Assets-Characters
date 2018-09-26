@@ -72,7 +72,7 @@ GameObject:
   - component: {fileID: 4730336570013298}
   - component: {fileID: 114606050984079190}
   - component: {fileID: 95320754008123142}
-  - component: {fileID: 114978622214952858}
+  - component: {fileID: 114512109272714784}
   - component: {fileID: 114153616964671878}
   m_Layer: 11
   m_Name: First Person Cameras
@@ -526,6 +526,17 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114512109272714784
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1235494828403966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f2314e74bc54f77a8ed7ed926b7d948, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114573894055831910
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -782,17 +793,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114978622214952858
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1235494828403966}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b47216618e54cb19f75a56e601bb515, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!222 &222928917066216068

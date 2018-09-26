@@ -109,6 +109,38 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			
 			thirdPersonMovementEventHandler.Init(this);
+			CheckCameraAnimationManager();
+		}
+
+		/// <summary>
+		/// Helper for checking if the <see cref="ThirdPersonCameraAnimationManager"/> has been assigned - otherwise looks for it in the scene
+		/// </summary>
+		private void CheckCameraAnimationManager()
+		{
+			if (cameraAnimationManager == null)
+			{
+				Debug.Log("No ThirdPersonCameraAnimationManager set up. Searching scene...");
+				ThirdPersonCameraAnimationManager[] cameraAnimationManagers =
+					FindObjectsOfType<ThirdPersonCameraAnimationManager>();
+
+				if (cameraAnimationManagers.Length == 0)
+				{
+					Debug.LogError("No ThirdPersonCameraAnimationManagers in scene! Disabling Brain");
+					gameObject.SetActive(false);
+					return;
+				}
+				
+				if (cameraAnimationManagers.Length > 1)
+				{
+					Debug.LogError("Too many ThirdPersonCameraAnimationManagers in scene! Disabling Brain");
+					gameObject.SetActive(false);
+					return;
+				}
+
+				cameraAnimationManager = cameraAnimationManagers[0];
+			}
+			
+			cameraAnimationManager.SetThirdPersonBrain(this);
 		}
 
 		private TurnaroundBehaviour GetCurrentTurnaroundBehaviour()

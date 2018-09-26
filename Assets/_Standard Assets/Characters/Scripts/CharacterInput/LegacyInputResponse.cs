@@ -37,6 +37,12 @@ namespace StandardAssets.Characters.CharacterInput
 
 				axis = gamePadAxisName;
 			}
+
+			if (!LegacyInputResponsePollerManager.instanceExists)
+			{
+				Debug.LogError("The Input Manager prefab is not in the scene - LegacyInputResponses will not work");
+				return;
+			}
 			
 			LegacyInputResponsePollerManager.instance.InitPoller(this, behaviour, axis, useAxisAsButton);
 		}

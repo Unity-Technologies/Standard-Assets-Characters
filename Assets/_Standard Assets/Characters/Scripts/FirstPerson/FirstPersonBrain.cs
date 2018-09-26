@@ -42,7 +42,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// The movement state is passed to the camera manager so that there can be different cameras e.g. crouch
 		/// </summary>
 		[SerializeField, Tooltip("The movement state is passed to the camera manager so that there can be different cameras e.g. crouch")]
-		protected CameraAnimationManager cameraAnimations;
+		protected FirstPersonCameraAnimationManager cameraManager;
 		
 		protected FirstPersonMovementProperties[] allMovement;
 
@@ -73,7 +73,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		public CameraAnimationManager cameraAnimationManager
 		{
-			get { return cameraAnimations; }
+			get { return cameraManager; }
 		}
 		
 		/// <summary>
@@ -161,13 +161,13 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <param name="animation">The case sensitive name of the animation state</param>
 		protected void SetAnimation(string animation)
 		{
-			if (cameraAnimations == null)
+			if (cameraManager == null)
 			{
 				Debug.LogWarning("No camera animation manager setup");
 				return;
 			}
 			
-			cameraAnimations.SetAnimation(animation);
+			cameraManager.SetAnimation(animation);
 		}
 
 		/// <summary>
@@ -176,6 +176,7 @@ namespace StandardAssets.Characters.FirstPerson
 		protected override void Awake()
 		{
 			base.Awake();
+			CheckCameraAnimationManager();
 			firstPersonMovementEventHandler.Init(this);
 			
 			if (mainCamera == null)
@@ -183,6 +184,35 @@ namespace StandardAssets.Characters.FirstPerson
 				mainCamera = Camera.main;
 			}
 			ChangeState(startingMovementProperties);
+		}
+
+		/// <summary>
+		/// Checks if the <see cref="FirstPersonCameraAnimationManager"/> otherwise finds it in the scene
+		/// </summary>
+		private void CheckCameraAnimationManager()
+		{
+			if (cameraManager == null)
+			{
+				Debug.LogWarning("Camera Animation Manager not set - looking in scene");
+				FirstPersonCameraAnimationManager[] cameraManagers =
+					FindObjectsOfType<FirstPersonCameraAnimationManager>();
+
+				if (cameraManagers.Length == 0)
+				{
+					Debug.LogError("No Camera Manager found - disabling gameobject");
+					gameObject.SetActive(false);
+					return;
+				}
+				
+				if (cameraManagers.Length > 1)
+				{
+					Debug.LogError("More than 1 Camera Manager found - disabling gameobject");
+					gameObject.SetActive(false);
+					return;
+				}
+
+				cameraManager = cameraManagers[0];
+			}
 		}
 
 		/// <summary>
