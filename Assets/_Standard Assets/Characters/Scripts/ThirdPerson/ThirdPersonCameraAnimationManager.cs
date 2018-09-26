@@ -14,9 +14,6 @@ namespace StandardAssets.Characters.ThirdPerson
 	public class ThirdPersonCameraAnimationManager : CameraAnimationManager
 	{
 		public event Action forwardUnlockedModeStarted, forwardLockedModeStarted;
-
-		[SerializeField, Tooltip("Third person character brain")]
-		protected ThirdPersonBrain thirdPersonBrain;
 		
 		[DisableEditAtRuntime(), SerializeField, Tooltip("Define the starting camera mode")]
 		protected ThirdPersonCameraType startingCameraMode = ThirdPersonCameraType.Exploration;
@@ -48,6 +45,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		private CinemachineStateDrivenCamera thirdPersonStateDrivenCamera;
 
 		private bool isChangingMode;
+		
+		private ThirdPersonBrain thirdPersonBrain;
 
 		/// <inheritdoc/>
 		protected override void Start()
@@ -63,41 +62,13 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void Awake()
 		{
 			thirdPersonStateDrivenCamera = GetComponent<CinemachineStateDrivenCamera>();
-
-			CheckBrain();
-
 			if (cameraModeInput != null)
 			{
 				cameraModeInput.Init();
-			}
-			
+			}		
 			if (recenterCameraInput != null)
 			{
 				recenterCameraInput.Init();
-			}
-		}
-
-		/// <summary>
-		/// Helper for checking if the brain has been assigned - otherwise looks for it in the scene
-		/// </summary>
-		private void CheckBrain()
-		{
-			if (thirdPersonBrain == null)
-			{
-				Debug.Log("No ThirdPersonBrain setup - using FindObjectOfType");
-				ThirdPersonBrain[] brainsInScene = FindObjectsOfType<ThirdPersonBrain>();
-				if (brainsInScene.Length == 0)
-				{
-					Debug.LogError("No ThirdPersonBrain objects in scene!");
-					return;
-				}
-				
-				if (brainsInScene.Length > 1)
-				{
-					Debug.LogWarning("Too many ThirdPersonBrain objects in scene - using the first instance");
-				}
-
-				thirdPersonBrain = brainsInScene[0];
 			}
 		}
 		
@@ -299,6 +270,15 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				cameraObject.SetActive(isActive);
 			}
+		}
+
+		/// <summary>
+		/// Used for setting the <see cref="ThirdPersonBrain"/> 
+		/// </summary>
+		/// <param name="brainToUse">The third person brain to use</param>
+		public void SetThirdPersonBrain(ThirdPersonBrain brainToUse)
+		{
+			thirdPersonBrain = brainToUse;
 		}
 	}
 }
