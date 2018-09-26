@@ -40,8 +40,14 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		public void Subscribe()
 		{
-			leftFootDetection.detection += HandleLeftFoot;
-			rightFootDetection.detection += HandleRightFoot;
+			if (leftFootDetection != null)
+			{
+				leftFootDetection.detection += HandleLeftFoot;
+			}
+			if (rightFootDetection != null)
+			{
+				rightFootDetection.detection += HandleRightFoot;
+			}
 		}
 
 		/// <summary>
@@ -49,8 +55,14 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		public void Unsubscribe()
 		{
-			leftFootDetection.detection -= HandleLeftFoot;
-			rightFootDetection.detection -= HandleRightFoot;
+			if (leftFootDetection != null)
+			{
+				leftFootDetection.detection -= HandleLeftFoot;
+			}
+			if (rightFootDetection != null)
+			{
+				rightFootDetection.detection -= HandleRightFoot;
+			}
 		}
 
 		public void Jumped()
