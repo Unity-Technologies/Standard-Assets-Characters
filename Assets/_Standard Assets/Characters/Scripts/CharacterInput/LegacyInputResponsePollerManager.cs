@@ -14,6 +14,14 @@ namespace StandardAssets.Characters.CharacterInput
 		public static LegacyInputResponsePollerManager instance { get; private set; }
 
 		/// <summary>
+		/// Gets whether or not the instance already exists
+		/// </summary>
+		public static bool instanceExists
+		{
+			get { return instance != null; }
+		}
+
+		/// <summary>
 		/// Mapping of the Input Response to a poller
 		/// </summary>
 		private Dictionary<LegacyInputResponse, LegacyInputResponsePoller> pollers = new Dictionary<LegacyInputResponse, LegacyInputResponsePoller>();
@@ -23,7 +31,7 @@ namespace StandardAssets.Characters.CharacterInput
 		/// </summary>
 		private void Awake()
 		{
-			if (instance != null)
+			if (instanceExists)
 			{
 				Destroy(gameObject);
 			}
