@@ -9,58 +9,46 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1307393710940740}
+  m_RootGameObject: {fileID: 1410714588471532}
   m_IsPrefabAsset: 1
---- !u!1 &1307393710940740
+--- !u!1 &1410714588471532
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4391529600026232}
-  - component: {fileID: 114045997110041884}
-  - component: {fileID: 114544196139358100}
+  - component: {fileID: 4739831823684612}
+  - component: {fileID: 114208672856781246}
   m_Layer: 0
-  m_Name: InputManager
+  m_Name: Level Movement Zone Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4391529600026232
+--- !u!4 &4739831823684612
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1307393710940740}
+  m_GameObject: {fileID: 1410714588471532}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 50, y: 0.9000001, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114045997110041884
+--- !u!114 &114208672856781246
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1307393710940740}
+  m_GameObject: {fileID: 1410714588471532}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79d020b3881e4b78b5dab46275b91411, type: 3}
+  m_Script: {fileID: 11500000, guid: 5cc8290fef6a4e559d7b6ab52051632c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114544196139358100
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1307393710940740}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48709ccad9444462896a23bcf75d2eed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraInvertY: 0
+  configuration: {fileID: 11400000, guid: 7c7037ebad9fc4a688dbb4bcad4b9037, type: 2}

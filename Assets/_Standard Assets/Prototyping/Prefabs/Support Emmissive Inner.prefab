@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114786288227875908}
   - component: {fileID: 64715890356321960}
   m_Layer: 0
-  m_Name: Support_EmmissiveInner
+  m_Name: Support Emmissive Inner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -71,7 +71,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 0
+  m_SelectedEditorRenderState: 2
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -574,63 +574,63 @@ MonoBehaviour:
       m_Anchor: 9
     m_Material: {fileID: 2100000, guid: 679db27924563254a92fb60df031a6d7, type: 2}
     elementGroup: 0
-  m_SharedVertexes:
-  - m_Vertexes: 000000000d000000
-  - m_Vertexes: 0100000004000000
-  - m_Vertexes: 020000000f0000005d00000077000000
-  - m_Vertexes: 03000000060000005e00000069000000
-  - m_Vertexes: 0500000008000000
-  - m_Vertexes: 070000000a000000610000006a000000
-  - m_Vertexes: 090000000c000000
-  - m_Vertexes: 0b0000000e0000006200000076000000
-  - m_Vertexes: 1000000020000000540000006e000000
-  - m_Vertexes: 110000001d00000025000000
-  - m_Vertexes: 120000001c000000
-  - m_Vertexes: 13000000
-  - m_Vertexes: 140000003e000000
-  - m_Vertexes: 1500000041000000570000006f000000
-  - m_Vertexes: 160000003d000000
-  - m_Vertexes: 17000000
-  - m_Vertexes: 180000002c000000
-  - m_Vertexes: 19000000220000002b000000
-  - m_Vertexes: 1a000000210000005300000068000000
-  - m_Vertexes: 1b0000003a0000005a00000067000000
-  - m_Vertexes: 1e000000240000002f00000032000000
-  - m_Vertexes: 1f0000002e000000
-  - m_Vertexes: 230000002a0000003300000036000000
-  - m_Vertexes: 2600000030000000
-  - m_Vertexes: 270000003100000034000000
-  - m_Vertexes: 280000003500000038000000
-  - m_Vertexes: 2900000039000000
-  - m_Vertexes: 2d00000037000000
-  - m_Vertexes: 3b000000470000004e00000059000000
-  - m_Vertexes: 3c00000046000000
-  - m_Vertexes: 3f0000004b000000
-  - m_Vertexes: 400000004a0000004f00000058000000
-  - m_Vertexes: 420000004d000000
-  - m_Vertexes: 4300000048000000
-  - m_Vertexes: 440000004900000050000000
-  - m_Vertexes: 450000004c00000051000000
-  - m_Vertexes: 5200000064000000
-  - m_Vertexes: 5500000072000000
-  - m_Vertexes: 56000000700000007b00000082000000
-  - m_Vertexes: 5b00000066000000780000007d000000
-  - m_Vertexes: 5c00000073000000
-  - m_Vertexes: 5f0000006d000000
-  - m_Vertexes: 600000006b0000008500000088000000
-  - m_Vertexes: 6300000075000000860000008c000000
-  - m_Vertexes: 650000007e000000
-  - m_Vertexes: 6c0000008b000000
-  - m_Vertexes: 7100000081000000
-  - m_Vertexes: 740000008d000000
-  - m_Vertexes: 790000007c000000
-  - m_Vertexes: 7a00000083000000
-  - m_Vertexes: 7f000000
-  - m_Vertexes: 80000000
-  - m_Vertexes: 8400000089000000
-  - m_Vertexes: 870000008f000000
-  - m_Vertexes: 8a000000
-  - m_Vertexes: 8e000000
+  m_SharedVertices:
+  - m_Vertices: 000000000d000000
+  - m_Vertices: 0100000004000000
+  - m_Vertices: 020000000f0000005d00000077000000
+  - m_Vertices: 03000000060000005e00000069000000
+  - m_Vertices: 0500000008000000
+  - m_Vertices: 070000000a000000610000006a000000
+  - m_Vertices: 090000000c000000
+  - m_Vertices: 0b0000000e0000006200000076000000
+  - m_Vertices: 1000000020000000540000006e000000
+  - m_Vertices: 110000001d00000025000000
+  - m_Vertices: 120000001c000000
+  - m_Vertices: 13000000
+  - m_Vertices: 140000003e000000
+  - m_Vertices: 1500000041000000570000006f000000
+  - m_Vertices: 160000003d000000
+  - m_Vertices: 17000000
+  - m_Vertices: 180000002c000000
+  - m_Vertices: 19000000220000002b000000
+  - m_Vertices: 1a000000210000005300000068000000
+  - m_Vertices: 1b0000003a0000005a00000067000000
+  - m_Vertices: 1e000000240000002f00000032000000
+  - m_Vertices: 1f0000002e000000
+  - m_Vertices: 230000002a0000003300000036000000
+  - m_Vertices: 2600000030000000
+  - m_Vertices: 270000003100000034000000
+  - m_Vertices: 280000003500000038000000
+  - m_Vertices: 2900000039000000
+  - m_Vertices: 2d00000037000000
+  - m_Vertices: 3b000000470000004e00000059000000
+  - m_Vertices: 3c00000046000000
+  - m_Vertices: 3f0000004b000000
+  - m_Vertices: 400000004a0000004f00000058000000
+  - m_Vertices: 420000004d000000
+  - m_Vertices: 4300000048000000
+  - m_Vertices: 440000004900000050000000
+  - m_Vertices: 450000004c00000051000000
+  - m_Vertices: 5200000064000000
+  - m_Vertices: 5500000072000000
+  - m_Vertices: 56000000700000007b00000082000000
+  - m_Vertices: 5b00000066000000780000007d000000
+  - m_Vertices: 5c00000073000000
+  - m_Vertices: 5f0000006d000000
+  - m_Vertices: 600000006b0000008500000088000000
+  - m_Vertices: 6300000075000000860000008c000000
+  - m_Vertices: 650000007e000000
+  - m_Vertices: 6c0000008b000000
+  - m_Vertices: 7100000081000000
+  - m_Vertices: 740000008d000000
+  - m_Vertices: 790000007c000000
+  - m_Vertices: 7a00000083000000
+  - m_Vertices: 7f000000
+  - m_Vertices: 80000000
+  - m_Vertices: 8400000089000000
+  - m_Vertices: 870000008f000000
+  - m_Vertices: 8a000000
+  - m_Vertices: 8e000000
   m_SharedTextures: []
   m_Positions:
   - {x: 0, y: 0, z: 0}
@@ -1078,6 +1078,6 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_IsSelectable: 1
-  m_selectedFaces: 
+  m_SelectedFaces: 
   m_SelectedEdges: []
-  m_selectedTriangles: 
+  m_SelectedTriangles: 

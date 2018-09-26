@@ -142,7 +142,7 @@ GameObject:
   - component: {fileID: 114259741550361366}
   - component: {fileID: 114392513456026218}
   m_Layer: 0
-  m_Name: ThirdPersonInput
+  m_Name: Third Person Input
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -499,8 +499,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterBrain: {fileID: 0}
-  turnSpeed: 305
-  stopTurningWhenNoInput: 0
+  changeIdleDelay: 0.1
+  changeIdleToMoveDelay: 0.1
+  changeRotateToMoveDelay: 0.1
+  startMoveMaxAngle: 1
+  startRotateInCircleMinTime: 1.5
+  startRotateInCircleMinTotalAngle: 270
+  startRotateInCircleMinAngle: 2
+  maxRotateAngle: 20
+  catchUpToInputMinAngle: 90
+  disableRapidTurnBeforeRotateMinTime: 1
+  disableRapidTurnBeforeRotateMinAngle: 180
+  disableRapidTurnBeforeRotateMinAngleLowFrameRate: 90
   debugEnabled: 0
   debugOffsetY: 0
 --- !u!114 &114392768449442272
