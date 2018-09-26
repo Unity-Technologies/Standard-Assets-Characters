@@ -35,6 +35,7 @@ namespace StandardAssets.Characters.CharacterInput
 			{
 				if (currentInputSystem == null)
 				{
+					CheckInputsAreSetUp();
 					SetControls();
 				}
 
@@ -128,6 +129,76 @@ namespace StandardAssets.Characters.CharacterInput
 			{
 				mobileInput.enabled = false;
 			}
+		}
+
+		/// <summary>
+		/// Ensures inputs are auto-setup if missing
+		/// </summary>
+		private void CheckInputsAreSetUp()
+		{
+			if (standaloneInput == null)
+			{
+				Debug.LogWarning("Standlone Input not set - looking at siblings");
+				standaloneInput = GetInputInSibling<LegacyCharacterInput>();
+				if (standaloneInput == null)
+				{
+					standaloneInput = GetInputInScene<LegacyCharacterInput>();
+				}
+			}
+			
+			if (mobileInput == null)
+			{
+				Debug.LogWarning("Mobile Input not set - looking at siblings");
+				mobileInput = GetInputInSibling<LegacyOnScreenCharacterInput>();
+				if (mobileInput == null)
+				{
+					Debug.LogWarning("No parent found - cannot auto-populate with sibling - searching scene");
+					if (mobileInput == null)
+					{
+						mobileInput = GetInputInScene<LegacyOnScreenCharacterInput>();
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Finds the specified input on sibling
+		/// </summary>
+		/// <typeparam name="T"><see cref="LegacyCharacterInputBase"/> to look for</typeparam>
+		/// <returns><see cref="LegacyCharacterInputBase"/> if found, null otherwise</returns>
+		private T GetInputInSibling<T>() where T : LegacyCharacterInputBase
+		{
+			if (transform.parent != null)
+			{
+				return transform.parent.GetComponentInChildren<T>();
+			}
+			
+			return null;
+		}
+
+		/// <summary>
+		/// Searches for specified input in scene
+		/// </summary>
+		/// <typeparam name="T"><see cref="LegacyCharacterInputBase"/> to look for</typeparam>
+		/// <returns><see cref="LegacyCharacterInputBase"/> if found, null otherwise</returns>
+		private T GetInputInScene<T>() where T : LegacyCharacterInputBase
+		{
+			T[] inSceneObjects = FindObjectsOfType<T>();
+			if (inSceneObjects.Length == 0)
+			{
+				Debug.LogError("Cannot find Input in scene");
+				gameObject.SetActive(false);
+				return null;
+			}
+
+			if (inSceneObjects.Length > 1)
+			{
+				Debug.LogError("Found too many Inputs in scene - be sure to group your 3 character prefabs under one object so that sibling search can be used");
+				gameObject.SetActive(false);
+				return null;
+			}
+
+			return inSceneObjects[0];
 		}
 	}
 }
