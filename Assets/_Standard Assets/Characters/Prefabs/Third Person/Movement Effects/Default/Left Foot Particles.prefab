@@ -88,8 +88,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   scale:
-    minValue: 0
-    maxValue: 1.0033444
+    minValue: 0.31
+    maxValue: 1.14
 --- !u!198 &198374258200183168
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -276,7 +276,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 0.754717, g: 0.754717, b: 0.754717, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -1301,7 +1301,7 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.16981131, g: 0.16981131, b: 0.16981131, a: 1}
+        key0: {r: 0.6792453, g: 0.6792453, b: 0.6792453, a: 1}
         key1: {r: 0.38688147, g: 0.4871767, b: 0.509434, a: 1}
         key2: {r: 0.06666666, g: 0.34724742, b: 1, a: 0}
         key3: {r: 0, g: 1, b: 0.979579, a: 0}
@@ -1309,7 +1309,7 @@ ParticleSystem:
         key5: {r: 0, g: 0.26072884, b: 1, a: 0}
         key6: {r: 0.03529412, g: 0.17254902, b: 0.35686275, a: 0}
         key7: {r: 0, g: 0.17254902, b: 1, a: 0}
-        ctime0: 0
+        ctime0: 578
         ctime1: 65535
         ctime2: 12529
         ctime3: 22552
