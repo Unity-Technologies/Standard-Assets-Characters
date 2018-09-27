@@ -123,16 +123,15 @@ namespace StandardAssets.Characters.ThirdPerson
 				ThirdPersonCameraAnimationManager[] cameraAnimationManagers =
 					FindObjectsOfType<ThirdPersonCameraAnimationManager>();
 
-				if (cameraAnimationManagers.Length == 0)
+				int length = cameraAnimationManagers.Length; 
+				if (length != 1)
 				{
-					Debug.LogError("No ThirdPersonCameraAnimationManagers in scene! Disabling Brain");
-					gameObject.SetActive(false);
-					return;
-				}
-				
-				if (cameraAnimationManagers.Length > 1)
-				{
-					Debug.LogError("Too many ThirdPersonCameraAnimationManagers in scene! Disabling Brain");
+					string errorMessage = "No ThirdPersonCameraAnimationManagers in scene! Disabling Brain";
+					if (length > 1)
+					{
+						errorMessage = "Too many ThirdPersonCameraAnimationManagers in scene! Disabling Brain";
+					}
+					Debug.LogError(errorMessage);
 					gameObject.SetActive(false);
 					return;
 				}
