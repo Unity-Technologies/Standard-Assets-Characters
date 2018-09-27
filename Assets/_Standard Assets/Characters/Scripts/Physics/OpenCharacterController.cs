@@ -55,7 +55,7 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// The maximum move itterations. Mainly used as a fail safe to prevent an infinite loop.
 		/// </summary>
-		private const int k_MaxMoveItterations = 20;
+		private const int k_MaxMoveIterations = 20;
 
 		/// <summary>
 		/// Stick to the ground if it is less than this distance from the character.
@@ -1434,7 +1434,7 @@ namespace StandardAssets.Characters.Physics
 			stuckInfo.OnMoveLoop();
 
 			// The loop
-			for (int i = 0; i < k_MaxMoveItterations; i++)
+			for (int i = 0; i < k_MaxMoveIterations; i++)
 			{
 				bool collided = MoveMajorStep(ref remainingMoveVector.moveVector,
 				                              remainingMoveVector.canSlide,
@@ -1484,10 +1484,10 @@ namespace StandardAssets.Characters.Physics
 
 #if UNITY_EDITOR
 				if (enableDebug &&
-				    i == k_MaxMoveItterations - 1)
+				    i == k_MaxMoveIterations - 1)
 				{
 					Debug.LogWarning(string.Format(
-						                 "reached k_MaxMoveItterations!     (remainingMoveVector: {0}, {1}, {2})     " +
+						                 "reached k_MaxMoveIterations!     (remainingMoveVector: {0}, {1}, {2})     " +
 						                 "(moveVector: {3}, {4}, {5})     hitCount: {6}",
 						                 remainingMoveVector.moveVector.x, remainingMoveVector.moveVector.y,
 						                 remainingMoveVector.moveVector.z,
