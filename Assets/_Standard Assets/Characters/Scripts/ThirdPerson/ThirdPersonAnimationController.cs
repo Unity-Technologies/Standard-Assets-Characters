@@ -388,10 +388,13 @@ namespace StandardAssets.Characters.ThirdPerson
 			motor.landed += OnLanding;
 			motor.fallStarted += OnFallStarted;
 
-			thirdPersonBrain.thirdPersonCameraAnimationManager.forwardLockedModeStarted +=
-				OnStrafeStarted;
-			thirdPersonBrain.thirdPersonCameraAnimationManager.forwardUnlockedModeStarted +=
-				OnStrafeEnded;
+			if (thirdPersonBrain != null && thirdPersonBrain.thirdPersonCameraAnimationManager != null)
+			{
+				thirdPersonBrain.thirdPersonCameraAnimationManager.forwardLockedModeStarted +=
+					OnStrafeStarted;
+				thirdPersonBrain.thirdPersonCameraAnimationManager.forwardUnlockedModeStarted +=
+					OnStrafeEnded;
+			}
 		}
 
 		/// <summary>
@@ -407,10 +410,13 @@ namespace StandardAssets.Characters.ThirdPerson
 				motor.fallStarted -= OnFallStarted;
 			}
 
-			thirdPersonBrain.thirdPersonCameraAnimationManager.forwardLockedModeStarted -=
-				OnStrafeStarted;
-			thirdPersonBrain.thirdPersonCameraAnimationManager.forwardUnlockedModeStarted -=
-				OnStrafeEnded;
+			if (thirdPersonBrain != null && thirdPersonBrain.thirdPersonCameraAnimationManager != null)
+			{
+				thirdPersonBrain.thirdPersonCameraAnimationManager.forwardLockedModeStarted -=
+					OnStrafeStarted;
+				thirdPersonBrain.thirdPersonCameraAnimationManager.forwardUnlockedModeStarted -=
+					OnStrafeEnded;
+			}
 		}
 
 		/// <summary>

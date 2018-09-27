@@ -400,12 +400,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4076727408819664}
+  - component: {fileID: 54341791654325916}
+  - component: {fileID: 136667864244899260}
   - component: {fileID: 95372130055387216}
   - component: {fileID: 114484545000245226}
   - component: {fileID: 114436560949563180}
   - component: {fileID: 114403526203746496}
-  - component: {fileID: 54341791654325916}
-  - component: {fileID: 136667864244899260}
   m_Layer: 11
   m_Name: Third Person (Male)
   m_TagString: Player
@@ -2156,6 +2156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 475c226dbac9416ea06c859daeb6d183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useSimpleCameras: 0
   cameraAnimationManager: {fileID: 0}
   rootMotionMotor:
     configuration: {fileID: 11400000, guid: 33e0d88026c128b4ca3076e2e5149510, type: 2}
@@ -2460,8 +2461,6 @@ MonoBehaviour:
     center: {x: 0, y: 0.87, z: 0}
     radius: 0.4
     height: 1.6
-    addKinematicRigidbody: 1
-    addColliderAsAChild: 1
     colliderLayer: 
     collisionLayerMask:
       serializedVersion: 2

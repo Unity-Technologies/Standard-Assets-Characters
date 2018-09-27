@@ -2,6 +2,8 @@ using UnityEngine;
 
 namespace StandardAssets.Characters.Physics
 {
+	[RequireComponent(typeof(CapsuleCollider))]
+	[RequireComponent(typeof(Rigidbody))]
 	public class OpenCharacterControllerPhysics : BaseCharacterPhysics
 	{
 		[SerializeField]

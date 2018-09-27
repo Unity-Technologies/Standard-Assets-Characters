@@ -10,7 +10,11 @@ namespace StandardAssets.Characters.ThirdPerson
 	{
 		[HelperBox(HelperBoxAttribute.HelperType.Info,
 			"Configurations are separate assets (ScriptableObjects). Click on the associated configuration to locate it in the Project View. Values can be edited here during runtime and not be lost. It also allows one to create different settings and swap between them. To create a new setting Right click -> Create -> Standard Assets -> Characters -> ...")]
-		[SerializeField]
+		
+		[SerializeField, Tooltip("Set to true if you do not want to use the Camera animation manager"), DisableEditAtRuntime()]
+		protected bool useSimpleCameras;
+		
+		[SerializeField, VisibleIf("useSimpleCameras",false), Tooltip("The camera animation manager to use")]
 		protected ThirdPersonCameraAnimationManager cameraAnimationManager;
 		
 		[SerializeField, Tooltip("Properties of the root motion motor")]
@@ -32,6 +36,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		[SerializeField]
 		protected ThirdPersonMovementEventHandler thirdPersonMovementEventHandler;
+
+		
 
 		private TurnaroundBehaviour currentTurnaroundBehaviour;
 
@@ -117,6 +123,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private void CheckCameraAnimationManager()
 		{
+			if (useSimpleCameras)
+			{
+				return;
+			}
+			
 			if (cameraAnimationManager == null)
 			{
 				Debug.Log("No ThirdPersonCameraAnimationManager set up. Searching scene...");
