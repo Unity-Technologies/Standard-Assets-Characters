@@ -1,5 +1,12 @@
 # Standard Assets: Character Package
 
+
+## READ ME FIRST
+
+* All project items currently under ** /Assets/_24BitDemo/**  are merely temporary assets used for prototyping and testing purposes and should be ignored.
+
+
+
 ## Overview
 
 This repository contains the new **Standard Assets Character Controller Package**, consisting of both code to drive a more advanced version of First and Third Person Characters than the old Standard Assets Character, as well as a demo scene and setup for Character prototyping purposes and example setup of First and Third Person Characters.
