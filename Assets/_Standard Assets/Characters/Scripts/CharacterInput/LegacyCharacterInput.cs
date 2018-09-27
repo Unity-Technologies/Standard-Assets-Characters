@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using StandardAssets.Characters.Attributes;
+using UnityEngine;
 
 namespace StandardAssets.Characters.CharacterInput
 {
@@ -9,10 +10,12 @@ namespace StandardAssets.Characters.CharacterInput
 	/// <seealso cref="LegacyCharacterInputBase"/>
 	public class LegacyCharacterInput : LegacyCharacterInputBase
 	{
-		[SerializeField, Tooltip("Name of the Input Manager axis that controls the horizontal look")]
+		[SerializeField, Tooltip("Name of the Input Manager axis that controls the horizontal look"), 
+		 DisableEditAtRuntime()]
 		protected string lookXAxisName = "LookX";
 
-		[SerializeField, Tooltip("Name of the Input Manager axis that controls the vertical look")]
+		[SerializeField, Tooltip("Name of the Input Manager axis that controls the vertical look"),
+		 DisableEditAtRuntime()]
 		protected string lookYAxisName = "LookY";
 
 		[SerializeField, Tooltip("Ignores any attached controllers and forces the mouse look to be used as a priority")]
@@ -25,7 +28,7 @@ namespace StandardAssets.Characters.CharacterInput
 		[SerializeField, Tooltip("Name of the Input Manager axis that controls the vertical movement")]
 		protected string verticalAxisName = "Vertical";
 
-		[SerializeField, Tooltip("Name of the Input Manager axis for jumping")]
+		[SerializeField, Tooltip("Name of the Input Manager axis for jumping"), DisableEditAtRuntime()]
 		protected string keyboardJumpName = "Jump";
 		
 		/// <summary>
