@@ -113,7 +113,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 
 		/// <summary>
-		/// Helper for checking if the <see cref="ThirdPersonCameraAnimationManager"/> has been assigned - otherwise looks for it in the scene
+		/// Checks if <see cref="ThirdPersonCameraAnimationManager"/> has been assigned - otherwise looks for it in the scene
 		/// </summary>
 		private void CheckCameraAnimationManager()
 		{

@@ -273,7 +273,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 
 		/// <summary>
-		/// Used for setting the <see cref="ThirdPersonBrain"/> 
+		/// Sets the <see cref="ThirdPersonBrain"/> and automatically sets up the required fields for the Cinemachine cameras
 		/// </summary>
 		/// <param name="brainToUse">The third person brain to use</param>
 		public void SetThirdPersonBrain(ThirdPersonBrain brainToUse)

@@ -187,7 +187,7 @@ namespace StandardAssets.Characters.FirstPerson
 		}
 
 		/// <summary>
-		/// Checks if the <see cref="FirstPersonCameraAnimationManager"/> otherwise finds it in the scene
+		/// Checks if the <see cref="FirstPersonCameraAnimationManager"/> has been assigned otherwise finds it in the scene
 		/// </summary>
 		private void CheckCameraAnimationManager()
 		{

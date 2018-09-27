@@ -9,9 +9,9 @@ namespace StandardAssets.Characters.FirstPerson
     public class FirstPersonCameraAnimationManager : CameraAnimationManager
     {
         /// <summary>
-        /// Sends through the <see cref="FirstPersonBrain"/> and allows the SDC to setup correct follow
+        /// Sends through the <see cref="FirstPersonBrain"/> and allows Follow field of <see cref="CinemachineStateDrivenCamera"/> to be set correctly
         /// </summary>
-        /// <param name="brainToUse"></param>
+        /// <param name="brainToUse">The FirstPersonBrain component which has a transform for the <see cref="CinemachineStateDrivenCamera"/> to follow</param>
         public void SetupBrain(FirstPersonBrain brainToUse)
         {
             CinemachineStateDrivenCamera rootSdc = GetComponent<CinemachineStateDrivenCamera>();
