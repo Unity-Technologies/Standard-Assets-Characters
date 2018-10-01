@@ -442,7 +442,11 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private void Awake()
 		{
-			CheckBrain();
+			if (!CheckBrain())
+			{
+				gameObject.SetActive(false);
+				return;
+			}
 			characterTransform = characterBrain.transform;
 			rootMotionMotor = characterBrain.rootMotionThirdPersonMotor;
 			characterPhysics = characterTransform.GetComponent<ICharacterPhysics>();
@@ -463,7 +467,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Helper for checking if the <see cref="ThirdPersonBrain"/> has been assigned - otherwise looks for it in the scene
 		/// </summary>
-		private void CheckBrain()
+		private bool CheckBrain()
 		{
 			if (characterBrain == null)
 			{
@@ -472,22 +476,29 @@ namespace StandardAssets.Characters.ThirdPerson
 				if (brainsInScene.Length == 0)
 				{
 					Debug.LogError("No ThirdPersonBrain objects in scene!");
-					return;
+					return false;
 				}
 				
 				if (brainsInScene.Length > 1)
 				{
-					Debug.LogWarning("Too many ThirdPersonBrain objects in scene - using the first instance");
+					Debug.LogWarning("Too many ThirdPersonBrain objects in scene");
+					return false;
 				}
 
 				characterBrain = brainsInScene[0];
 			}
+
+			return true;
 		}
 
 		private void OnDisable()
 		{
 			wasDisabled = true;
-			rootMotionMotor.EnableRapidTurn(this);
+			
+			if (rootMotionMotor != null)
+			{
+				rootMotionMotor.EnableRapidTurn(this);
+			}
 		}
 
 		/// <summary>

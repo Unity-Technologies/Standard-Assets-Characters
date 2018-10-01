@@ -187,6 +187,13 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		private void Update()
 		{
+			if (thirdPersonBrain == null)
+			{
+				Debug.LogError("No Third Person Brain in the scene", gameObject);
+				gameObject.SetActive(false);
+				return;
+			}
+			
 			if (!isForwardUnlocked)
 			{
 				if (!thirdPersonStateDrivenCamera.IsBlending)
