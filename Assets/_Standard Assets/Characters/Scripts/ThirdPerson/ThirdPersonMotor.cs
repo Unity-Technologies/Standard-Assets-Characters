@@ -779,4 +779,33 @@ namespace StandardAssets.Characters.ThirdPerson
 			return false;
 		}
 	}
+	
+	/// <summary>
+	/// Enum used to describe the third person aerial movement state.
+	/// </summary>
+	public enum ThirdPersonAerialMovementState
+	{
+		Grounded,
+		Jumping,
+		Falling
+	}
+	
+	/// <summary>
+	/// Enum used to describe the third person ground movement state.
+	/// </summary>
+	public enum ThirdPersonGroundMovementState
+	{
+		Walking,
+		Running,
+		TurningAround
+	}
+	
+	/// <summary>
+	/// Enum used to describe the third person movement mode.
+	/// </summary>
+	public enum ThirdPersonMotorMovementMode
+	{
+		Action,
+		Strafe
+	}
 }
