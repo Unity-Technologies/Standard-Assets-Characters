@@ -26,7 +26,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private const float k_HeadTurnSnapBackScale = 100f;
 
 		[SerializeField, Tooltip("Configuration settings for the animator")]
-		protected ThirdPersonAnimationConfiguration configuration;
+		protected AnimationConfig configuration;
 
 		/// <summary>
 		/// Required motor

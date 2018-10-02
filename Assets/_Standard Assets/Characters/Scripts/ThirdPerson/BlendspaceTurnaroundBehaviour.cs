@@ -17,14 +17,14 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[VisibleIf("configureBlendspace")]
 		[SerializeField, Tooltip("The configuration settings of the turnaround.")]
-		protected BlendspaceTurnaroundConfiguration configuration;
+		protected BlendspaceProperties configuration;
 
 		private bool isSmallTurn;
 		private float turningTime;
 		private float currentForwardSpeed;
 		private float currentTurningSpeed;
 		private float targetAngle;
-		
+
 		private Vector3 startRotation;
 		private Vector3 movementVector;
 
@@ -40,7 +40,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		private AnimationCurve defaultTurn180MovementCurve = AnimationCurve.Linear(0.0f, 1.0f, 1.0f, 1.0f);
 		private AnimationCurve defaultTurn90MovementCurve = AnimationCurve.Linear(0.0f, 1.0f, 1.0f, 1.0f);
 
-
 		private float timeToTurn
 		{
 			get { return configureBlendspace ? configuration.turnTime : k_DefaultTurnTime; }
@@ -51,9 +50,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return configureBlendspace ? configuration.forwardSpeedOverTime : defaultForwardCurve; }
 		}
 
-		private Calculation forwardSpeedCalculation
+		private BlendspaceCalculation forwardSpeedCalculation
 		{
-			get { return configureBlendspace ? configuration.forwardSpeedCalc : Calculation.Additive; }
+			get { return configureBlendspace ? configuration.forwardSpeedCalc : BlendspaceCalculation.Additive; }
 		}
 
 		private float classificationAngle
@@ -155,7 +154,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			float forwardSpeedValue = forwardSpeed.Evaluate(normalizedTime);
 
-			if (forwardSpeedCalculation == Calculation.Multiplicative)
+			if (forwardSpeedCalculation == BlendspaceCalculation.Multiplicative)
 			{
 				forwardSpeedValue = forwardSpeedValue * currentForwardSpeed;
 			}
@@ -169,6 +168,110 @@ namespace StandardAssets.Characters.ThirdPerson
 			Vector3 newRotation =
 				startRotation + new Vector3(0.0f, rotationOverTime.Evaluate(normalizedTime) * targetAngle, 0.0f);
 			transform.rotation = Quaternion.Euler(newRotation);
+		}
+		
+		/// <summary>
+		/// Data class used to store configuration settings used by <see cref="BlendspaceTurnaroundBehaviour"/>.
+		/// </summary>
+		[Serializable]
+		protected class BlendspaceProperties
+		{
+			[SerializeField, Tooltip("Duration of the turnaround.")]
+			protected float timeToTurn = 0.2f;
+
+			[SerializeField, Tooltip("Curve used to evaluate rotation throughout turnaround.")]
+			protected AnimationCurve rotationDuringTurn = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
+
+			[SerializeField, Tooltip("Curve used to evaluate forward speed throughout turnaround.")]
+			protected AnimationCurve forwardSpeed = AnimationCurve.Linear(0.0f, 1.0f, 1.0f, 1.0f);
+
+			[SerializeField, Tooltip("Method to apply forward speed during turnaround.")]
+			protected BlendspaceCalculation forwardSpeedCalculation = BlendspaceCalculation.Multiplicative;
+
+			[SerializeField, Tooltip("An angle less than this is classified as a small turn.")]
+			protected float turnClassificationAngle = 150.0f;
+
+			[SerializeField, Tooltip("Curve used to evaluate movement throughout a 180° turnaround.")]
+			protected AnimationCurve movementDuring180Turn = AnimationCurve.Linear(0.0f, 1.0f, 1.0f, 1.0f);
+
+			[SerializeField, Tooltip("Curve used to evaluate movement throughout a 90° turnaround.")]
+			protected AnimationCurve movementDuring90Turn = AnimationCurve.Linear(0.0f, 1.0f, 1.0f, 1.0f);
+
+			[SerializeField, Tooltip("Head look at angle scale during animation.")]
+			protected float headTurnMultiplier = 1.0f;
+
+			/// <summary>
+			/// Gets the turn duration in seconds.
+			/// </summary>
+			public float turnTime
+			{
+				get { return timeToTurn; }
+			}
+
+			/// <summary>
+			/// Gets the curve to evaluate forward speed over time.
+			/// </summary>
+			public AnimationCurve forwardSpeedOverTime
+			{
+				get { return forwardSpeed; }
+			}
+
+			/// <summary>
+			/// Gets the method of applying forward speed.
+			/// </summary>
+			public BlendspaceCalculation forwardSpeedCalc
+			{
+				get { return forwardSpeedCalculation; }
+			}
+
+			/// <summary>
+			/// Gets the angle used for small turn classification.
+			/// </summary>
+			public float classificationAngle
+			{
+				get { return turnClassificationAngle; }
+			}
+
+			/// <summary>
+			/// Gets the curve used to evaluate movement throughout a 180° turnaround.
+			/// </summary>
+			public AnimationCurve turn180MovementOverTime
+			{
+				get { return movementDuring180Turn; }
+			}
+
+			/// <summary>
+			/// Gets the curve used to evaluate movement throughout a 90° turnaround.
+			/// </summary>
+			public AnimationCurve turn90MovementOverTime
+			{
+				get { return movementDuring90Turn; }
+			}
+
+			/// <summary>
+			/// Gets the curve used to evaluate rotation over time.
+			/// </summary>
+			public AnimationCurve rotationOverTime
+			{
+				get { return rotationDuringTurn; }
+			}
+
+			/// <summary>
+			/// Gets the head turn scale to be applied during a turnaround.
+			/// </summary>
+			public float headTurnScale
+			{
+				get { return headTurnMultiplier; }
+			}
+		}
+		
+		/// <summary>
+		/// Enum describing a mathematics operation.
+		/// </summary>
+		public enum BlendspaceCalculation
+		{
+			Additive,
+			Multiplicative
 		}
 	}
 }

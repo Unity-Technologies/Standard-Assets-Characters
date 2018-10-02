@@ -1,4 +1,5 @@
-﻿using StandardAssets.Characters.Attributes;
+﻿using System;
+using StandardAssets.Characters.Attributes;
 using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson
@@ -8,7 +9,7 @@ namespace StandardAssets.Characters.ThirdPerson
 	/// </summary>
 	[CreateAssetMenu(fileName = "Third Person Root Motion Configuration",
 		menuName = "Standard Assets/Characters/Third Person Root Motion Configuration", order = 1)]
-	public class ThirdPersonRootMotionConfiguration : ScriptableObject
+	public class MotorConfig : ScriptableObject
 	{
 		[Header("Ground Motion")]
 		[SerializeField, Tooltip("When using a controller should sprint auto turn off when releasing the left analogue stick?")]
@@ -322,6 +323,24 @@ namespace StandardAssets.Characters.ThirdPerson
 		public float standingJumpMoveThresholdTime
 		{
 			get { return standingJumpMoveTimeThreshold; }
+		}
+	}
+	
+	/// <summary>
+	/// Class used to store the forward input window size during action mode.
+	/// </summary>
+	[Serializable]
+	public class ActionProperties
+	{
+		[SerializeField, Tooltip("Number of samples used for forward input smoothing.")]
+		protected int forwardInputSamples = 1;
+		
+		/// <summary>
+		/// Gets the forward input window size used to create a moving average.
+		/// </summary>
+		public int forwardInputWindowSize
+		{
+			get { return forwardInputSamples; }
 		}
 	}
 }

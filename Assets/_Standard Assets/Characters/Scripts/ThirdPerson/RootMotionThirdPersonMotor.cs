@@ -22,7 +22,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// Various configuration settings more movement.
 		/// </summary>
 		[SerializeField, Tooltip("Reference to the configuration with all the movement settings")]
-		protected ThirdPersonRootMotionConfiguration configuration;
+		protected MotorConfig configuration;
 		
 		[SerializeField, Tooltip("Input response to trigger sprint")]
 		protected InputResponse sprintInput;
