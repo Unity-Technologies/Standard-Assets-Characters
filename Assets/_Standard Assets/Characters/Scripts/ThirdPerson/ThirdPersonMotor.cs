@@ -689,7 +689,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				return false;
 			}
-
 			
 			float angle;
 

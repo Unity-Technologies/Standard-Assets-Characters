@@ -8,7 +8,7 @@ using StandardAssets.GizmosHelpers;
 using Util;
 
 
-namespace StandardAssets.Characters.ThirdPerson
+namespace Demo
 {
 	[RequireComponent(typeof(ICharacterPhysics))]
 	[RequireComponent(typeof(ICharacterInput))]
