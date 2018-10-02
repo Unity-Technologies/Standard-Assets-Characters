@@ -52,6 +52,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private int hashJumpedForwardSpeed;
 		private int hashJumpedLateralSpeed;
 		private int hashFall;
+		private int hashstrafe;
 
 		// is the character grounded
 		private bool isGrounded;
@@ -295,6 +296,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			hashGroundedFootRight = Animator.StringToHash(configuration.groundedFootRightParameterName);
 			hashJumpedForwardSpeed = Animator.StringToHash(configuration.jumpedForwardSpeedParameterName);
 			hashJumpedLateralSpeed = Animator.StringToHash(configuration.jumpedLateralSpeedParameterName);
+			hashstrafe = Animator.StringToHash(configuration.strafeParameterName);
 			hashFall = Animator.StringToHash(configuration.fallParameterName);
 			motor = motorToUse;
 			animator = gameObject.GetComponent<Animator>();
@@ -493,7 +495,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void OnStrafeStarted()
 		{
 			isStrafing = true;
-			animator.SetBool(configuration.strafeParameterName, isStrafing);
+			animator.SetBool(hashstrafe, isStrafing);
 		}
 
 		/// <summary>
@@ -502,7 +504,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void OnStrafeEnded()
 		{
 			isStrafing = false;
-			animator.SetBool(configuration.strafeParameterName, isStrafing);
+			animator.SetBool(hashstrafe, isStrafing);
 		}
 
 		/// <summary>
