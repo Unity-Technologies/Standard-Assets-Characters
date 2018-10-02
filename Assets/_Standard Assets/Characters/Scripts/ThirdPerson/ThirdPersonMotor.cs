@@ -126,6 +126,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private GameObject gameObject;
 		private ThirdPersonBrain thirdPersonBrain;
 		private SizedQueue<Vector2> previousInputs;
+		private Camera mainCamera;
 		
 		/// <summary>
 		/// Gets whether to track height above the ground.
@@ -256,6 +257,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public void Init(ThirdPersonBrain brain)
 		{
+			mainCamera = Camera.main;
 			gameObject = brain.gameObject;
 			transform = brain.transform;
 			thirdPersonBrain = brain;
@@ -633,18 +635,27 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected virtual Vector3 CalculateLocalInputDirection()
 		{
 			var localMovementDirection = new Vector3(characterInput.moveInput.x, 0f, characterInput.moveInput.y);
-			return Quaternion.AngleAxis(thirdPersonBrain.bearingOfCharacter.cameraMain.eulerAngles.y, Vector3.up) * 
+			return Quaternion.AngleAxis(mainCamera.transform.eulerAngles.y, Vector3.up) * 
 			       localMovementDirection.normalized;
 		}
 
 		protected virtual Quaternion CalculateTargetRotation(Vector3 localDirection)
 		{
-			Vector3 flatForward = thirdPersonBrain.bearingOfCharacter.CalculateCharacterBearing();
+			Vector3 flatForward = CalculateCharacterBearing();
 			
 			Quaternion cameraToInputOffset = Quaternion.FromToRotation(Vector3.forward, localDirection);
 			cameraToInputOffset.eulerAngles = new Vector3(0f, cameraToInputOffset.eulerAngles.y, 0f);
 
 			return Quaternion.LookRotation(cameraToInputOffset * flatForward);
+		}
+		
+		public virtual Vector3 CalculateCharacterBearing()
+		{
+			Vector3 bearing = mainCamera.transform.forward;
+			bearing.y = 0f;
+			bearing.Normalize();
+
+			return bearing;
 		}
 
 		/// <summary>

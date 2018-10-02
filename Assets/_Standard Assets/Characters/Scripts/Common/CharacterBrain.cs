@@ -28,11 +28,6 @@ namespace StandardAssets.Characters.Common
 		protected ICharacterInput characterInput;
 
 		/// <summary>
-		/// Used to report the character bearing for different kinds of movement
-		/// </summary>
-		protected CharacterBearing characterBearing;
-
-		/// <summary>
 		/// Gets the physics implementation used by the Character
 		/// </summary>
 		public ICharacterPhysics physicsForCharacter
@@ -46,14 +41,6 @@ namespace StandardAssets.Characters.Common
 		public ICharacterInput inputForCharacter
 		{
 			get { return characterInput; }
-		}
-
-		/// <summary>
-		/// Gets the bearing of the character to be used by different movements 
-		/// </summary>
-		public CharacterBearing bearingOfCharacter
-		{
-			get { return characterBearing; }
 		}
 
 		/// <summary>
