@@ -2158,12 +2158,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useSimpleCameras: 0
   cameraAnimationManager: {fileID: 0}
-  rootMotionMotor:
+  motor:
     configuration: {fileID: 11400000, guid: 33e0d88026c128b4ca3076e2e5149510, type: 2}
-    sprintInput: {fileID: 11400000, guid: c7d1f7ecb7c41493abf956822fc79f32, type: 2}
+    sprintInput: {fileID: 11400000, guid: 4536a47671291463386c18678dd23194, type: 2}
   animationController:
     configuration: {fileID: 11400000, guid: 16861f506e03f4b39a1b25e1bb3e307f, type: 2}
-  turnaroundType: 1
+  turnaroundType: 2
   blendspaceTurnaroundBehaviour:
     configureBlendspace: 0
     configuration:

@@ -91,7 +91,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			if (thirdPersonBrain != null)
 			{
-				thirdPersonBrain.currentMotor.landed += OnLanded;
+				thirdPersonBrain.thirdPersonMotor.landed += OnLanded;
 			}
 		}
 		
@@ -114,7 +114,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			if (thirdPersonBrain != null)
 			{
-				thirdPersonBrain.currentMotor.landed -= OnLanded;
+				thirdPersonBrain.thirdPersonMotor.landed -= OnLanded;
 			}
 		}
 		

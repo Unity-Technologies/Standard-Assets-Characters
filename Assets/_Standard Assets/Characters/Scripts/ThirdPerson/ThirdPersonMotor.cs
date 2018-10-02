@@ -11,7 +11,7 @@ namespace StandardAssets.Characters.ThirdPerson
 	/// IThirdPersonMotor implementation that uses, primarily, root motion from the animator to move the character.
 	/// </summary>
 	[Serializable]
-	public class RootMotionThirdPersonMotor : IThirdPersonMotor
+	public class ThirdPersonMotor
 	{
 		/// <summary>
 		/// Track distance above the ground at these frame intervals (to prevent checking every frame)

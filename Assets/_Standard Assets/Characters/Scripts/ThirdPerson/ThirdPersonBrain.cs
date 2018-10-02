@@ -18,7 +18,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected ThirdPersonCameraAnimationManager cameraAnimationManager;
 		
 		[SerializeField, Tooltip("Properties of the root motion motor")]
-		protected RootMotionThirdPersonMotor rootMotionMotor;
+		protected ThirdPersonMotor motor;
 
 		[SerializeField, Tooltip("Properties of the animation controller")]
 		protected ThirdPersonAnimationController animationController;
@@ -43,9 +43,9 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private TurnaroundBehaviour[] turnaroundBehaviours;
 		
-		public RootMotionThirdPersonMotor rootMotionThirdPersonMotor
+		public ThirdPersonMotor thirdPersonMotor
 		{
-			get { return rootMotionMotor; }
+			get { return motor; }
 		}
 
 		public ThirdPersonAnimationController animationControl
@@ -77,7 +77,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <inheritdoc/>
 		public override float normalizedForwardSpeed
 		{
-			get { return currentMotor.normalizedForwardSpeed; }
+			get { return motor.normalizedForwardSpeed; }
 		}
 
 		public override MovementEventHandler movementEventHandler
@@ -87,10 +87,6 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public override float targetYRotation { get; set; }
 
-		public IThirdPersonMotor currentMotor
-		{
-			get { return GetCurrentMotor(); }
-		}
 
 		public ThirdPersonCameraAnimationManager thirdPersonCameraAnimationManager
 		{
@@ -107,11 +103,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			blendspaceTurnaroundBehaviour.Init(this);
 			animationTurnaroundBehaviour.Init(this);
 			currentTurnaroundBehaviour = GetCurrentTurnaroundBehaviour();
-			currentMotor.Init(this);
+			motor.Init(this);
 			
 			if (animationController != null)
 			{
-				animationController.Init(this, currentMotor);
+				animationController.Init(this, motor);
 			}
 			
 			thirdPersonMovementEventHandler.Init(this);
@@ -167,11 +163,6 @@ namespace StandardAssets.Characters.ThirdPerson
 						return null;
 			}
 		}
-		
-		private IThirdPersonMotor GetCurrentMotor()
-		{
-			return rootMotionMotor;
-		}
 
 		private void OnEnable()
 		{
@@ -185,7 +176,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				animationController.Subscribe();
 			}
 			
-			currentMotor.Subscribe();
+			motor.Subscribe();
 			thirdPersonMovementEventHandler.Subscribe();
 		}
 		
@@ -198,7 +189,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				animationController.Unsubscribe();
 			}
 			
-			currentMotor.Unsubscribe();
+			motor.Unsubscribe();
 			thirdPersonMovementEventHandler.Unsubscribe();
 			
 		}
@@ -212,14 +203,14 @@ namespace StandardAssets.Characters.ThirdPerson
 				animationController.Update();
 			}
 			
-			currentMotor.Update();
+			motor.Update();
 
 			if (currentTurnaroundBehaviour != null)
 			{
 				currentTurnaroundBehaviour.Update();
 			}
 			
-			targetYRotation = currentMotor.targetYRotation;
+			targetYRotation = motor.targetYRotation;
 		
 			//Just for build testing
 			if (Input.GetKeyDown(KeyCode.T))
@@ -231,7 +222,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private void OnAnimatorMove()
 		{
-			currentMotor.OnAnimatorMove();
+			motor.OnAnimatorMove();
 		}
 
 		private void OnAnimatorIK(int layerIndex)

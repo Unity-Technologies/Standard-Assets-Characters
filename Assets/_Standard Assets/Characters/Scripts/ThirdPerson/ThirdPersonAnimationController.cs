@@ -31,7 +31,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Required motor
 		/// </summary>
-		private IThirdPersonMotor motor;
+		private ThirdPersonMotor motor;
 
 		/// <summary>
 		/// The animator
@@ -286,7 +286,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Gets the required components.
 		/// </summary>
-		public void Init(ThirdPersonBrain brain, IThirdPersonMotor motorToUse)
+		public void Init(ThirdPersonBrain brain, ThirdPersonMotor motorToUse)
 		{
 			gameObject = brain.gameObject;
 			hashForwardSpeed = Animator.StringToHash(configuration.forwardSpeed.parameter);

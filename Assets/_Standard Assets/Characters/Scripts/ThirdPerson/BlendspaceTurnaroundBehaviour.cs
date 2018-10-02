@@ -139,7 +139,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			startRotation = transform.eulerAngles;
 
-			RootMotionThirdPersonMotor motor = thirdPersonBrain.currentMotor as RootMotionThirdPersonMotor;
+			ThirdPersonMotor motor = thirdPersonBrain.thirdPersonMotor;
 			if (motor != null)
 			{
 				Vector3 rotatedVector = Quaternion.AngleAxis(angle, Vector3.up) * transform.forward;

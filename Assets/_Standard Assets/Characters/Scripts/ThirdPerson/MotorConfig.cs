@@ -5,7 +5,7 @@ using UnityEngine;
 namespace StandardAssets.Characters.ThirdPerson
 {
 	/// <summary>
-	/// Data model class containing various settings for the <see cref="RootMotionThirdPersonMotor"/>.
+	/// Data model class containing various settings for the <see cref="ThirdPersonMotor"/>.
 	/// </summary>
 	[CreateAssetMenu(fileName = "Third Person Root Motion Configuration",
 		menuName = "Standard Assets/Characters/Third Person Root Motion Configuration", order = 1)]

@@ -276,7 +276,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// The root motion motor.
 		/// </summary>
-		private RootMotionThirdPersonMotor rootMotionMotor;
+		private ThirdPersonMotor motor;
 		
 		/// <summary>
 		/// The character physics.
@@ -367,12 +367,12 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <inheritdoc />
 		public void ModifyMoveInput(ref Vector2 moveInput)
 		{
-			rootMotionMotor.EnableRapidTurn(this);
+			motor.EnableRapidTurn(this);
 			
 			// Only modify when enabled, character is grounded, and not straffing
 			if (!enabled ||  
 			    !characterPhysics.isGrounded || 
-			    rootMotionMotor.movementMode == ThirdPersonMotorMovementMode.Strafe)
+			    motor.movementMode == ThirdPersonMotorMovementMode.Strafe)
 			{
 				wasDisabled = true;
 				return;
@@ -448,7 +448,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				return;
 			}
 			characterTransform = characterBrain.transform;
-			rootMotionMotor = characterBrain.rootMotionThirdPersonMotor;
+			motor = characterBrain.thirdPersonMotor;
 			characterPhysics = characterTransform.GetComponent<ICharacterPhysics>();
 
 			if (unityCamera == null)
@@ -495,9 +495,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			wasDisabled = true;
 			
-			if (rootMotionMotor != null)
+			if (motor != null)
 			{
-				rootMotionMotor.EnableRapidTurn(this);
+				motor.EnableRapidTurn(this);
 			}
 		}
 
@@ -715,7 +715,7 @@ namespace StandardAssets.Characters.ThirdPerson
 						if (continuousInfo.averageInputDirectionTime > disableRapidTurnBeforeRotateMinTime ||
 						    continuousInfo.averageInputRotatingTotalAngle > angle)
 						{
-							rootMotionMotor.DisableRapidTurn(this);
+							motor.DisableRapidTurn(this);
 						}
 						
 						return rotatedLongOrFarEnough;
@@ -783,7 +783,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				return;
 			}
-			rootMotionMotor.DisableRapidTurn(this);
+			motor.DisableRapidTurn(this);
 			
 			// Note: We don't use delta time for the rotation, because it may get out of sync with the
 			// character's forward vector. Which will cause jerky movement. The character itself will rotate smoothly 

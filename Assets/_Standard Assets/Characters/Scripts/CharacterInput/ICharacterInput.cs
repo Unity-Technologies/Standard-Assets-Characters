@@ -1,11 +1,12 @@
 ﻿using System;
+using StandardAssets.Characters.ThirdPerson;
 using UnityEngine;
 
 namespace StandardAssets.Characters.CharacterInput
 {
 	/// <summary>
 	/// Interface for relaying input state to characters (First Person and Third Person).
-	/// Consumed by the <see cref="StandardAssets.Characters.ThirdPerson.RootMotionThirdPersonMotor"/> and <see cref="StandardAssets.Characters.FirstPerson.FirstPersonBrain"/>.
+	/// Consumed by the <see cref="ThirdPersonMotor"/> and <see cref="StandardAssets.Characters.FirstPerson.FirstPersonBrain"/>.
 	/// Allows developers to change Input from Unity's Input Manager to a different implementation.
 	/// </summary>
 	/// <seealso cref="LegacyCharacterInputBase"/>
