@@ -461,8 +461,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		public void UpdateForwardSpeed(float newSpeed, float deltaTime)
 		{
 			animator.SetFloat(hashForwardSpeed, newSpeed,
-			                  configuration.forwardSpeed.GetInterpolationTime(animatorForwardSpeed, newSpeed),
-			                  deltaTime);
+			                  configuration.forwardSpeedInterpolation.GetInterpolationTime(animatorForwardSpeed, 
+			                                                        newSpeed), deltaTime);
 		}
 
 		/// <summary>
@@ -503,8 +503,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 			animator.SetFloat(hashLateralSpeed, newSpeed,
-			                  configuration.lateralSpeed.GetInterpolationTime(animatorLateralSpeed, newSpeed),
-			                  deltaTime);
+			                  configuration.lateralSpeedInterpolation.GetInterpolationTime(animatorLateralSpeed, 
+			                                                        newSpeed), deltaTime);
 		}
 
 		/// <summary>
@@ -515,8 +515,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		public void UpdateTurningSpeed(float newSpeed, float deltaTime)
 		{
 			animator.SetFloat(hashTurningSpeed, newSpeed,
-			                  configuration.turningSpeed.GetInterpolationTime(animatorTurningSpeed, newSpeed),
-			                  deltaTime);
+			                  configuration.turningSpeedInterpolation.GetInterpolationTime(animatorTurningSpeed, 
+			                                                        newSpeed),deltaTime);
 		}
 
 		/// <summary>
@@ -525,15 +525,15 @@ namespace StandardAssets.Characters.ThirdPerson
 		public void Init(ThirdPersonBrain brain, ThirdPersonMotor motorToUse)
 		{
 			gameObject = brain.gameObject;
-			hashForwardSpeed = Animator.StringToHash(configuration.forwardSpeed.parameter);
-			hashLateralSpeed = Animator.StringToHash(configuration.lateralSpeed.parameter);
-			hashTurningSpeed = Animator.StringToHash(configuration.turningSpeed.parameter);
-			hashVerticalSpeed = Animator.StringToHash(configuration.verticalSpeedParameterName);
-			hashGroundedFootRight = Animator.StringToHash(configuration.groundedFootRightParameterName);
-			hashJumpedForwardSpeed = Animator.StringToHash(configuration.jumpedForwardSpeedParameterName);
-			hashJumpedLateralSpeed = Animator.StringToHash(configuration.jumpedLateralSpeedParameterName);
-			hashStrafe = Animator.StringToHash(configuration.strafeParameterName);
-			hashFall = Animator.StringToHash(configuration.fallParameterName);
+			hashForwardSpeed = Animator.StringToHash(AnimationControllerInfo.k_ForwardSpeedParameter);
+			hashLateralSpeed = Animator.StringToHash(AnimationControllerInfo.k_LateralSpeedParameter);
+			hashTurningSpeed = Animator.StringToHash(AnimationControllerInfo.k_TurningSpeedParameter);
+			hashVerticalSpeed = Animator.StringToHash(AnimationControllerInfo.k_VerticalSpeedParameter);
+			hashGroundedFootRight = Animator.StringToHash(AnimationControllerInfo.k_GroundedFootRightParameter);
+			hashJumpedForwardSpeed = Animator.StringToHash(AnimationControllerInfo.k_JumpedForwardSpeedParameter);
+			hashJumpedLateralSpeed = Animator.StringToHash(AnimationControllerInfo.k_JumpedLateralSpeedParameter);
+			hashStrafe = Animator.StringToHash(AnimationControllerInfo.k_StrafeParameter);
+			hashFall = Animator.StringToHash(AnimationControllerInfo.k_FallParameter);
 			motor = motorToUse;
 			animator = gameObject.GetComponent<Animator>();
 			cachedAnimatorSpeed = animator.speed;
@@ -680,11 +680,10 @@ namespace StandardAssets.Characters.ThirdPerson
 				case AnimationState.PhysicsJump:
 					bool rightFoot = animator.GetBool(hashGroundedFootRight);
 					float duration = configuration.jumpEndTransitionByForwardSpeed.Evaluate(
-						Mathf.Abs(animator.GetFloat(
-							          configuration.jumpedForwardSpeedParameterName)));
+						Mathf.Abs(animator.GetFloat(AnimationControllerInfo.k_JumpedForwardSpeedParameter)));
 					string locomotion = isStrafing
-						                    ? configuration.strafeLocomotionStateName
-						                    : configuration.locomotionStateName;
+						                    ? AnimationControllerInfo.k_StrafeLocomotionState
+						                    : AnimationControllerInfo.k_LocomotionState;
 					animator.CrossFadeInFixedTime(locomotion, duration, 0, rightFoot
 						                                                       ? configuration
 							                                                       .rightFootPhysicsJumpLandAnimationOffset
@@ -696,7 +695,7 @@ namespace StandardAssets.Characters.ThirdPerson
 					// strafe mode does not have a landing animation so transition directly to locomotion
 					if (isStrafing)
 					{
-						animator.CrossFade(configuration.strafeLocomotionStateName,
+						animator.CrossFade(AnimationControllerInfo.k_StrafeLocomotionState,
 						                   configuration.landAnimationBlendDuration);
 					}
 					else
@@ -706,18 +705,18 @@ namespace StandardAssets.Characters.ThirdPerson
 						{
 							if (motor.fallTime > configuration.fallTimeRequiredToRoll) // play roll
 							{
-								animator.CrossFade(configuration.rollLandStateName,
+								animator.CrossFade(AnimationControllerInfo.k_RollLandState,
 								                   configuration.rollAnimationBlendDuration);
 							}
 							else // has not fallen for long enough to roll
 							{
-								animator.CrossFade(configuration.locomotionStateName,
+								animator.CrossFade(AnimationControllerInfo.k_LocomotionState,
 								                   configuration.landAnimationBlendDuration);
 							}
 						}
 						else // play land 
 						{
-							animator.CrossFade(configuration.landStateName, configuration.landAnimationBlendDuration);
+							animator.CrossFade(AnimationControllerInfo.k_LandState, configuration.landAnimationBlendDuration);
 						}
 					}
 
@@ -773,7 +772,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 				animator.SetFloat(hashJumpedLateralSpeed, 0.0f);
 				animator.CrossFade(
-					rightFoot ? configuration.rightFootJumpStateName : configuration.leftFootJumpStateName, duration);
+					rightFoot ? AnimationControllerInfo.k_RightFootJumpState : AnimationControllerInfo.k_LeftFootJumpState, duration);
 				lastPhysicsJumpRightRoot = rightFoot;
 			}
 			else // lateral or backwards jump;: root motion
@@ -791,8 +790,8 @@ namespace StandardAssets.Characters.ThirdPerson
 				}
 
 				animator.CrossFadeInFixedTime(rightFoot
-					                              ? configuration.rightFootRootMotionJumpStateName
-					                              : configuration.leftFootRootMotionJumpStateName,
+					                              ? AnimationControllerInfo.k_RightFootRootMotionJumpState
+					                              : AnimationControllerInfo.k_LeftFootRootMotionJumpState,
 				                              configuration.rootMotionJumpCrossfadeDuration);
 				state = AnimationState.RootMotionJump;
 			}
