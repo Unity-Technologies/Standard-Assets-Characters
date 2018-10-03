@@ -281,7 +281,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// The character physics.
 		/// </summary>
-		private ICharacterPhysics characterPhysics;
+		private CharacterPhysics characterPhysics;
 
 		/// <summary>
 		/// The camera to use for transforming input. It can be changed via SetCamera.
@@ -449,7 +449,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			characterTransform = characterBrain.transform;
 			motor = characterBrain.thirdPersonMotor;
-			characterPhysics = characterTransform.GetComponent<ICharacterPhysics>();
+			characterPhysics = characterTransform.GetComponent<CharacterPhysics>();
 
 			if (unityCamera == null)
 			{

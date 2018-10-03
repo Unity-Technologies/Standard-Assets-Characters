@@ -10,7 +10,7 @@ using Util;
 
 namespace Demo
 {
-	[RequireComponent(typeof(ICharacterPhysics))]
+	[RequireComponent(typeof(CharacterPhysics))]
 	[RequireComponent(typeof(ICharacterInput))]
 	[RequireComponent(typeof(CharacterBrain))]
 	public class ThirdPersonVisualMarkers : MonoBehaviour

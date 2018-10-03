@@ -12,7 +12,7 @@ namespace StandardAssets.Characters.Physics
 	/// </summary>
 	[RequireComponent(typeof(ICharacterInput))]
 	[RequireComponent(typeof(INormalizedForwardSpeedContainer))]
-	public abstract class BaseCharacterPhysics : MonoBehaviour, ICharacterPhysics
+	public abstract class CharacterPhysics : MonoBehaviour
 	{
 		/// <summary>
 		/// Used as a clamp for downward velocity.

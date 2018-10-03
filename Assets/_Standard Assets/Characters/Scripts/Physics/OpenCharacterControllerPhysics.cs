@@ -4,7 +4,7 @@ namespace StandardAssets.Characters.Physics
 {
 	[RequireComponent(typeof(CapsuleCollider))]
 	[RequireComponent(typeof(Rigidbody))]
-	public class OpenCharacterControllerPhysics : BaseCharacterPhysics
+	public class OpenCharacterControllerPhysics : CharacterPhysics
 	{
 		[SerializeField]
 		protected OpenCharacterController characterController;

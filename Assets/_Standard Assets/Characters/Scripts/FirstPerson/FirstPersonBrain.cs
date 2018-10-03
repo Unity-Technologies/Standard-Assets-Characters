@@ -10,7 +10,7 @@ namespace StandardAssets.Characters.FirstPerson
 	/// The main controller of first person character
 	/// Ties together the input and physics implementations
 	/// </summary>
-	[RequireComponent(typeof(ICharacterPhysics))]
+	[RequireComponent(typeof(CharacterPhysics))]
 	[RequireComponent(typeof(ICharacterInput))]
 	public class FirstPersonBrain : CharacterBrain
 	{

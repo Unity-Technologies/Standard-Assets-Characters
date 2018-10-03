@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace StandardAssets.Characters.Examples.SimpleMovementController
 {
-	[RequireComponent(typeof(ICharacterPhysics))]
+	[RequireComponent(typeof(CharacterPhysics))]
 	[RequireComponent(typeof(ICharacterInput))]
 	public class CapsuleBrain : CharacterBrain
 	{

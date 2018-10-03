@@ -9,7 +9,7 @@ namespace StandardAssets.Characters.Common
 	/// <summary>
 	/// Abstract bass class for character brains
 	/// </summary>
-	[RequireComponent(typeof(ICharacterPhysics))]
+	[RequireComponent(typeof(CharacterPhysics))]
 	[RequireComponent(typeof(ICharacterInput))]
 	public abstract class CharacterBrain : MonoBehaviour, INormalizedForwardSpeedContainer
 	{
@@ -19,7 +19,7 @@ namespace StandardAssets.Characters.Common
 		/// The Physic implementation used to do the movement
 		/// e.g. CharacterController or Rigidbody (or New C# CharacterController analog)
 		/// </summary>
-		protected ICharacterPhysics characterPhysics;
+		protected CharacterPhysics characterPhysics;
 
 		/// <summary>
 		/// The Input implementation to be used
@@ -30,7 +30,7 @@ namespace StandardAssets.Characters.Common
 		/// <summary>
 		/// Gets the physics implementation used by the Character
 		/// </summary>
-		public ICharacterPhysics physicsForCharacter
+		public CharacterPhysics physicsForCharacter
 		{
 			get { return characterPhysics; }
 		}
@@ -65,7 +65,7 @@ namespace StandardAssets.Characters.Common
 		/// </summary>
 		protected virtual void Awake()
 		{
-			characterPhysics = GetComponent<ICharacterPhysics>();
+			characterPhysics = GetComponent<CharacterPhysics>();
 			characterInput = GetComponent<ICharacterInput>();
 			lastPosition = transform.position;
 		}

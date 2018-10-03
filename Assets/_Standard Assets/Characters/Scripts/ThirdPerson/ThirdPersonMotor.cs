@@ -101,7 +101,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// The physic implementation
 		/// </summary>
-		protected ICharacterPhysics characterPhysics;
+		protected CharacterPhysics characterPhysics;
 
 		protected ThirdPersonAnimationController animationController;
 
@@ -173,7 +173,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <remarks>Should only be called by a root motion jump StateMachineBehaviour</remarks>
 		public void OnJumpAnimationComplete()
 		{
-			var baseCharacterPhysics = characterPhysics as BaseCharacterPhysics;
+			var baseCharacterPhysics = characterPhysics as CharacterPhysics;
 			if (baseCharacterPhysics == null)
 			{
 				return;
@@ -414,7 +414,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				if (Time.frameCount % k_TrackGroundFrameIntervals == 0)
 				{
-					var baseCharacterPhysics = characterPhysics as BaseCharacterPhysics;
+					var baseCharacterPhysics = characterPhysics as CharacterPhysics;
 					if (baseCharacterPhysics != null)
 					{
 						float distance = baseCharacterPhysics.GetPredictedFallDistance();

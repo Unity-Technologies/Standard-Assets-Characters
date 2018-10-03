@@ -22,7 +22,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// Precalculate the square of the threshold
 		/// Set the previous position
 		/// </summary>
-		public void Init(CapsuleBrain brainToUse, Transform newTransform, ICharacterPhysics physics)
+		public void Init(CapsuleBrain brainToUse, Transform newTransform, CharacterPhysics physics)
 		{
 			base.Init(brainToUse);
 			sqrDistanceThreshold = walkDistanceThreshold * walkDistanceThreshold;
