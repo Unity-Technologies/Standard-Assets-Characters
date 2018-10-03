@@ -13,10 +13,19 @@ namespace StandardAssets.Characters.ThirdPerson
 	/// </summary>
 	public class ThirdPersonCameraAnimationManager : CameraAnimationManager
 	{
+		/// <summary>
+		/// Enum used to describe third person camera type.
+		/// </summary>
+		protected enum CameraType
+		{
+			Exploration,
+			Strafe
+		}
+		
 		public event Action forwardUnlockedModeStarted, forwardLockedModeStarted;
 		
 		[DisableEditAtRuntime(), SerializeField, Tooltip("Define the starting camera mode")]
-		protected ThirdPersonCameraType startingCameraMode = ThirdPersonCameraType.Exploration;
+		protected CameraType startingCameraMode = CameraType.Exploration;
 
 		[SerializeField, Tooltip("Input Response for changing camera mode and camera recenter")]
 		protected InputResponse cameraModeInput, recenterCameraInput;
@@ -53,7 +62,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			base.Start();
 			
-			isForwardUnlocked = startingCameraMode == ThirdPersonCameraType.Exploration;
+			isForwardUnlocked = startingCameraMode == CameraType.Exploration;
 			SetForwardModeArray();
 			SetAnimation(currentCameraModeStateNames[cameraIndex]);
 			PlayForwardModeEvent();
