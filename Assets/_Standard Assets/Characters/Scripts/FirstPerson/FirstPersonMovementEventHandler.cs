@@ -21,7 +21,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// Change the distance that footstep sounds are played
 		/// </summary>
 		/// <param name="strideLength"></param>
-		public void AdjustAudioTriggerThreshold(float strideLength)
+		public void AdjustTriggerThreshold(float strideLength)
 		{
 			sqrDistanceThreshold = strideLength * strideLength;
 		}

@@ -154,8 +154,6 @@ MonoBehaviour:
     center: {x: 0, y: 0, z: 0}
     radius: 0.2
     height: 2
-    addKinematicRigidbody: 1
-    addColliderAsAChild: 1
     colliderLayer: 
     collisionLayerMask:
       serializedVersion: 2
@@ -195,21 +193,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eec248ab0c3e4eeaafde0796225ff6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingMovementProperties: {fileID: 11400000, guid: 94a57537c57334a9091fcb1053cb89b7,
-    type: 2}
-  movementModifiers:
-  - inputResponse: {fileID: 11400000, guid: 4536a47671291463386c18678dd23194, type: 2}
-    movementProperties: {fileID: 11400000, guid: 2a3c8aa86c95f4f97b505bb4fcbcaf72,
-      type: 2}
-  - inputResponse: {fileID: 11400000, guid: efd28e54320836844815e53240c38fe4, type: 2}
-    movementProperties: {fileID: 11400000, guid: f46dd2b548b744486aad10967e640797,
-      type: 2}
+  walking:
+    maxSpeed: 5
+    jumpSpeed: 5
+    strideLength: 2
+  sprinting:
+    maxSpeed: 0
+    jumpSpeed: 0
+    strideLength: 0
+  crouching:
+    maxSpeed: 0
+    jumpSpeed: 0
+    strideLength: 0
   mainCamera: {fileID: 0}
   firstPersonMovementEventHandler:
     zonesDefinition:
       movementZoneLibraries: []
     maximumSpeed: 10
-  cameraManager: {fileID: 0}
+  firstPersonCameraController: {fileID: 0}
 --- !u!136 &136368833332200808
 CapsuleCollider:
   m_ObjectHideFlags: 1

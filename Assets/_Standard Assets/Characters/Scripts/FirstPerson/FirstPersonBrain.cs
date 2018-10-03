@@ -1,4 +1,5 @@
-﻿using StandardAssets.Characters.CharacterInput;
+﻿using System;
+using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Common;
 using StandardAssets.Characters.Effects;
 using StandardAssets.Characters.Physics;
@@ -14,17 +15,53 @@ namespace StandardAssets.Characters.FirstPerson
 	[RequireComponent(typeof(ICharacterInput))]
 	public class FirstPersonBrain : CharacterBrain
 	{
+		[Serializable]
+		public class MovementProperties
+		{
+			/// <summary>
+			/// The maximum movement speed
+			/// </summary>
+			[SerializeField, Tooltip("The maximum movement speed of the character"), Range(0f,30f)]
+			public float maxSpeed;
+
+			/// <summary>
+			/// The initial Y velocity of a Jump
+			/// </summary>
+			[SerializeField, Tooltip("The initial Y velocity of a Jump"), Range(0f,30f)]
+			public float jumpSpeed;
+
+			/// <summary>
+			/// The length of a stride
+			/// </summary>
+			[SerializeField, Tooltip("Distance that is considered a stride"), Range(0f,30f)]
+			public float strideLength;
+
+			/// <summary>
+			/// Can the first person character jump in this state
+			/// </summary>
+			public bool canJump
+			{
+				get { return jumpSpeed > Mathf.Epsilon; }
+			}
+		}
+		
 		/// <summary>
 		/// The state that first person motor starts in
 		/// </summary>
-		[SerializeField, Tooltip("The state that first person motor starts in")]
-		protected FirstPersonMovementProperties startingMovementProperties;
-
+		[SerializeField, Tooltip("Movement properties of the character while walking")]
+		protected MovementProperties walking;
+		
 		/// <summary>
-		/// List of possible state modifiers
+		/// The state that first person motor starts in
 		/// </summary>
-		[SerializeField, Tooltip("List of possible state modifiers")] 
-		protected FirstPersonMovementModification[] movementModifiers;
+		[SerializeField, Tooltip("Movement properties of the character while sprinting")]
+		protected MovementProperties sprinting;
+		
+		/// <summary>
+		/// The state that first person motor starts in
+		/// </summary>
+		[SerializeField, Tooltip("Movement properties of the character while crouching")]
+		protected MovementProperties crouching;
 		
 		/// <summary>
 		/// Main Camera that is using the POV camera
@@ -44,9 +81,6 @@ namespace StandardAssets.Characters.FirstPerson
 		[SerializeField, Tooltip("The movement state is passed to the camera manager so that there can be different cameras e.g. crouch")]
 		protected FirstPersonCameraController firstPersonCameraController;
 		
-		protected FirstPersonMovementProperties[] allMovement;
-
-		protected FirstPersonMovementProperties newMovementProperties;
 		
 		/// <summary>
 		/// The current movement properties
@@ -56,8 +90,10 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// Backing field to prevent the currentProperties from being null
 		/// </summary>
-		private FirstPersonMovementProperties currentProperties;
+		private MovementProperties currentMovementProperties;
 
+		private MovementProperties newMovementProperties;
+		
 		/// <summary>
 		/// Gets the referenced <see cref="CameraController"/>
 		/// </summary>
@@ -65,47 +101,19 @@ namespace StandardAssets.Characters.FirstPerson
 		{
 			get { return firstPersonCameraController; }
 		}
-		
-		/// <summary>
-		/// Gets the movement properties array for use in UI 
-		/// </summary>
-		public FirstPersonMovementModification[] exposedMovementModifiers
-		{
-			get { return movementModifiers; }
-		}
 
 		/// <inheritdoc/>
 		public override float normalizedForwardSpeed
 		{
 			get
 			{
-				float maxSpeed = currentMovementProperties == null
-					? startingMovementProperties.maximumSpeed
-					: currentMovementProperties.maximumSpeed;
+				float maxSpeed = currentMovementProperties.maxSpeed;
 				if (maxSpeed <= 0)
 				{
 					return 1;
 				}
 				return currentSpeed / maxSpeed;
 			}
-		}
-
-
-		/// <summary>
-		/// Gets current motor state - controls how the character moves in different states
-		/// </summary>
-		public FirstPersonMovementProperties currentMovementProperties 
-		{
-			get
-			{
-				if (currentProperties == null)
-				{
-					currentProperties = startingMovementProperties;
-				}
-
-				return currentProperties;
-			}
-			protected set { currentProperties = value; } 
 		}
 		
 		/// <summary>
@@ -120,30 +128,6 @@ namespace StandardAssets.Characters.FirstPerson
 		/// Gets the target Y rotation of the character
 		/// </summary>
 		public override float targetYRotation { get; set; }
-
-		/// <summary>
-		/// Gets all of the movement properties, including the starting movement properties
-		/// </summary>
-		public FirstPersonMovementProperties[] allMovementProperties
-		{
-			get
-			{
-				if (allMovement == null)
-				{
-					allMovement = new FirstPersonMovementProperties[movementModifiers.Length + 1];
-					allMovement[0] = startingMovementProperties;
-					int i = 0;
-					foreach (FirstPersonMovementModification modifier in movementModifiers)
-					{
-						i++;
-						modifier.Init(this);
-						allMovementProperties[i] = modifier.GetMovementProperty();
-					}
-				}
-				
-				return allMovement;
-			}
-		}
 		
 		/// <summary>
 		/// Helper method for setting the animation
@@ -166,6 +150,7 @@ namespace StandardAssets.Characters.FirstPerson
 		protected override void Awake()
 		{
 			base.Awake();
+			currentMovementProperties = walking;
 			CheckCameraAnimationManager();
 			firstPersonMovementEventHandler.Init(this);
 			
@@ -173,7 +158,6 @@ namespace StandardAssets.Characters.FirstPerson
 			{
 				mainCamera = Camera.main;
 			}
-			ChangeState(startingMovementProperties);
 		}
 
 		/// <summary>
@@ -213,12 +197,6 @@ namespace StandardAssets.Characters.FirstPerson
 		{
 			characterInput.jumpPressed += OnJumpPressed;
 			firstPersonMovementEventHandler.Subscribe();
-
-			foreach (FirstPersonMovementProperties movementProperties in allMovementProperties)
-			{
-				movementProperties.enterState += SetAnimation;
-			}
-
 			characterPhysics.landed += OnLanded;
 		}
 
@@ -234,12 +212,6 @@ namespace StandardAssets.Characters.FirstPerson
 			}
 			
 			characterInput.jumpPressed -= OnJumpPressed;
-			
-			foreach (FirstPersonMovementProperties movementProperties in allMovementProperties)
-			{
-				movementProperties.enterState -= SetAnimation;
-			}
-			
 			characterPhysics.landed -= OnLanded;
 		}
 		
@@ -248,21 +220,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		private void OnLanded()
 		{
-			SetNewMovementProperties();
-		}
-
-		/// <summary>
-		/// Sets the movement properties to the new state
-		/// </summary>
-		private void SetNewMovementProperties()
-		{
-			if (currentMovementProperties != null)
-			{
-				currentMovementProperties.ExitState();
-			}
-
-			currentMovementProperties = newMovementProperties;
-			currentMovementProperties.EnterState();
+			SetMovementProperties();
 		}
 
 		/// <summary>
@@ -272,7 +230,7 @@ namespace StandardAssets.Characters.FirstPerson
 		{
 			if (characterPhysics.isGrounded && currentMovementProperties.canJump)
 			{
-				characterPhysics.SetJumpVelocity(currentMovementProperties.jumpingSpeed);
+				characterPhysics.SetJumpVelocity(currentMovementProperties.jumpSpeed);
 			}	
 		}
 
@@ -306,7 +264,7 @@ namespace StandardAssets.Characters.FirstPerson
 		
 			Vector3 forward = transform.forward * input.y;
 			Vector3 sideways = transform.right * input.x;
-			Vector3 currentVelocity = (forward + sideways) * currentMovementProperties.maximumSpeed;
+			Vector3 currentVelocity = (forward + sideways) * currentMovementProperties.maxSpeed;
 			currentSpeed = currentVelocity.magnitude;
 			characterPhysics.Move(currentVelocity * Time.fixedDeltaTime, Time.fixedDeltaTime);
 		}	
@@ -315,28 +273,33 @@ namespace StandardAssets.Characters.FirstPerson
 		/// Changes the current motor state and play events associated with state change
 		/// </summary>
 		/// <param name="newState"></param>
-		protected virtual void ChangeState(FirstPersonMovementProperties newState)
+		protected virtual void ChangeState(MovementProperties newState)
 		{
-			if (newState == null)
-			{
-				return;
-			}
-
 			newMovementProperties = newState;
 			
 			if (characterPhysics.isGrounded)
 			{
-				SetNewMovementProperties();
+				SetMovementProperties();
 			}
 			
-			firstPersonMovementEventHandler.AdjustAudioTriggerThreshold(newState.strideLengthDistance);
+			firstPersonMovementEventHandler.AdjustTriggerThreshold(newState.strideLength);
+		}
+
+		protected virtual void SetMovementProperties()
+		{
+			if (newMovementProperties == null)
+			{
+				return;
+			}
+
+			currentMovementProperties = newMovementProperties;
 		}
 		
 		/// <summary>
 		/// Change state to the new state and adds to previous state stack
 		/// </summary>
 		/// <param name="newState">The new first person movement properties to be used</param>
-		public void EnterNewState(FirstPersonMovementProperties newState)
+		public void EnterNewState(MovementProperties newState)
 		{
 			ChangeState(newState);
 		}
@@ -346,7 +309,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		public void ResetState()
 		{
-			ChangeState(startingMovementProperties);	
+			ChangeState(walking);	
 		}
 	}
 }
