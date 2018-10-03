@@ -42,7 +42,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// The movement state is passed to the camera manager so that there can be different cameras e.g. crouch
 		/// </summary>
 		[SerializeField, Tooltip("The movement state is passed to the camera manager so that there can be different cameras e.g. crouch")]
-		protected FirstPersonCameraAnimationManager cameraManager;
+		protected FirstPersonCameraController firstPersonCameraController;
 		
 		protected FirstPersonMovementProperties[] allMovement;
 
@@ -69,11 +69,11 @@ namespace StandardAssets.Characters.FirstPerson
 		private FirstPersonMovementProperties currentProperties;
 
 		/// <summary>
-		/// Gets the referenced <see cref="CameraAnimationManager"/>
+		/// Gets the referenced <see cref="CameraController"/>
 		/// </summary>
-		public CameraAnimationManager cameraAnimationManager
+		public CameraController cameraController
 		{
-			get { return cameraManager; }
+			get { return firstPersonCameraController; }
 		}
 		
 		/// <summary>
@@ -161,13 +161,13 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <param name="animation">The case sensitive name of the animation state</param>
 		protected void SetAnimation(string animation)
 		{
-			if (cameraManager == null)
+			if (firstPersonCameraController == null)
 			{
 				Debug.LogWarning("No camera animation manager setup");
 				return;
 			}
 			
-			cameraManager.SetAnimation(animation);
+			firstPersonCameraController.SetAnimation(animation);
 		}
 
 		/// <summary>
@@ -187,17 +187,17 @@ namespace StandardAssets.Characters.FirstPerson
 		}
 
 		/// <summary>
-		/// Checks if the <see cref="FirstPersonCameraAnimationManager"/> has been assigned otherwise finds it in the scene
+		/// Checks if the <see cref="FirstPersonCameraController"/> has been assigned otherwise finds it in the scene
 		/// </summary>
 		private void CheckCameraAnimationManager()
 		{
-			if (cameraManager == null)
+			if (firstPersonCameraController == null)
 			{
 				Debug.LogWarning("Camera Animation Manager not set - looking in scene");
-				FirstPersonCameraAnimationManager[] cameraManagers =
-					FindObjectsOfType<FirstPersonCameraAnimationManager>();
+				FirstPersonCameraController[] firstPersonCameraControllers =
+					FindObjectsOfType<FirstPersonCameraController>();
 				
-				int length = cameraManagers.Length; 
+				int length = firstPersonCameraControllers.Length; 
 				if (length != 1)
 				{
 					string errorMessage = "No FirstPersonCameraAnimationManagers in scene! Disabling Brain";
@@ -210,10 +210,10 @@ namespace StandardAssets.Characters.FirstPerson
 					return;
 				}
 
-				cameraManager = cameraManagers[0];
+				firstPersonCameraController = firstPersonCameraControllers[0];
 			}
 			
-			cameraManager.SetupBrain(this);
+			firstPersonCameraController.SetupBrain(this);
 		}
 
 		/// <summary>

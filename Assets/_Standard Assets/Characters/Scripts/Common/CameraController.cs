@@ -7,7 +7,7 @@ namespace StandardAssets.Characters.Common
 	/// Needed to play dummy animations so that the SDC can respond
 	/// </summary>
 	[RequireComponent(typeof(Animator))]
-	public class CameraAnimationManager : MonoBehaviour
+	public class CameraController: MonoBehaviour
 	{
 		/// <summary>
 		/// The animator

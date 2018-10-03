@@ -289,10 +289,10 @@ namespace StandardAssets.Characters.ThirdPerson
 			characterPhysics.startedFalling += OnStartedFalling;
 			characterInput.jumpPressed += OnJumpPressed;
 			
-			if (thirdPersonBrain.thirdPersonCameraAnimationManager != null)
+			if (thirdPersonBrain.thirdPersonCameraController != null)
 			{
-				thirdPersonBrain.thirdPersonCameraAnimationManager.forwardLockedModeStarted += OnStrafeStarted;
-				thirdPersonBrain.thirdPersonCameraAnimationManager.forwardUnlockedModeStarted += OnStrafeEnded;
+				thirdPersonBrain.thirdPersonCameraController.forwardLockedModeStarted += OnStrafeStarted;
+				thirdPersonBrain.thirdPersonCameraController.forwardUnlockedModeStarted += OnStrafeEnded;
 			}
 			
 			if (sprintInput != null)
@@ -336,10 +336,10 @@ namespace StandardAssets.Characters.ThirdPerson
 				characterInput.jumpPressed -= OnJumpPressed;
 			}
 
-			if (thirdPersonBrain.thirdPersonCameraAnimationManager != null)
+			if (thirdPersonBrain.thirdPersonCameraController != null)
 			{
-				thirdPersonBrain.thirdPersonCameraAnimationManager.forwardLockedModeStarted -= OnStrafeStarted;
-				thirdPersonBrain.thirdPersonCameraAnimationManager.forwardUnlockedModeStarted -= OnStrafeEnded;
+				thirdPersonBrain.thirdPersonCameraController.forwardLockedModeStarted -= OnStrafeStarted;
+				thirdPersonBrain.thirdPersonCameraController.forwardUnlockedModeStarted -= OnStrafeEnded;
 			}
 			
 			if (sprintInput != null)
@@ -495,7 +495,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Changes movement mode to <see cref="ThirdPersonMotorMovementMode.Strafe"/>
 		/// </summary>
-		/// <remarks>This subscribes <see cref="ThirdPersonCameraAnimationManager.forwardLockedModeStarted"/></remarks>
+		/// <remarks>This subscribes <see cref="ThirdPersonCameraController.forwardLockedModeStarted"/></remarks>
 		protected virtual void OnStrafeStarted()
 		{
 			if (movementMode == ThirdPersonMotorMovementMode.Strafe)
@@ -509,7 +509,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Changes movement mode to <see cref="ThirdPersonMotorMovementMode.Action"/>
 		/// </summary>
-		/// <remarks>This subscribes <see cref="ThirdPersonCameraAnimationManager.forwardUnlockedModeStarted"/></remarks>
+		/// <remarks>This subscribes <see cref="ThirdPersonCameraController.forwardUnlockedModeStarted"/></remarks>
 		protected virtual void OnStrafeEnded()
 		{
 			movementMode = ThirdPersonMotorMovementMode.Action;

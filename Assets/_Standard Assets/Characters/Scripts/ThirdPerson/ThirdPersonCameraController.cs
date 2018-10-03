@@ -9,9 +9,9 @@ using UnityEngine;
 namespace StandardAssets.Characters.ThirdPerson
 {
 	/// <summary>
-	/// Implementation of <see cref="CameraAnimationManager"/> to manage third person camera states 
+	/// Implementation of <see cref="CameraController"/> to manage third person camera states 
 	/// </summary>
-	public class ThirdPersonCameraAnimationManager : CameraAnimationManager
+	public class ThirdPersonCameraController : CameraController
 	{
 		/// <summary>
 		/// Enum used to describe third person camera type.

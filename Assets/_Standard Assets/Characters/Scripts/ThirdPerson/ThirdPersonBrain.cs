@@ -16,7 +16,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected bool useSimpleCameras;
 		
 		[SerializeField, VisibleIf("useSimpleCameras",false), Tooltip("The camera animation manager to use")]
-		protected ThirdPersonCameraAnimationManager cameraAnimationManager;
+		protected ThirdPersonCameraController cameraController;
 		
 		[SerializeField, Tooltip("Properties of the root motion motor")]
 		protected ThirdPersonMotor motor;
@@ -89,11 +89,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		public override float targetYRotation { get; set; }
 
 
-		public ThirdPersonCameraAnimationManager thirdPersonCameraAnimationManager
+		public ThirdPersonCameraController thirdPersonCameraController
 		{
 			get
 			{
-				return cameraAnimationManager;
+				return cameraController;
 			}
 		}
 		
@@ -115,7 +115,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 
 		/// <summary>
-		/// Checks if <see cref="ThirdPersonCameraAnimationManager"/> has been assigned - otherwise looks for it in the scene
+		/// Checks if <see cref="ThirdPersonCameraController"/> has been assigned - otherwise looks for it in the scene
 		/// </summary>
 		private void CheckCameraAnimationManager()
 		{
@@ -124,13 +124,13 @@ namespace StandardAssets.Characters.ThirdPerson
 				return;
 			}
 			
-			if (cameraAnimationManager == null)
+			if (cameraController == null)
 			{
-				Debug.Log("No ThirdPersonCameraAnimationManager set up. Searching scene...");
-				ThirdPersonCameraAnimationManager[] cameraAnimationManagers =
-					FindObjectsOfType<ThirdPersonCameraAnimationManager>();
+				Debug.Log("No ThirdPersonCameraController set up. Searching scene...");
+				ThirdPersonCameraController[] cameraControllers =
+					FindObjectsOfType<ThirdPersonCameraController>();
 
-				int length = cameraAnimationManagers.Length; 
+				int length = cameraControllers.Length; 
 				if (length != 1)
 				{
 					string errorMessage = "No ThirdPersonCameraAnimationManagers in scene! Disabling Brain";
@@ -143,10 +143,10 @@ namespace StandardAssets.Characters.ThirdPerson
 					return;
 				}
 
-				cameraAnimationManager = cameraAnimationManagers[0];
+				cameraController = cameraControllers[0];
 			}
 			
-			cameraAnimationManager.SetThirdPersonBrain(this);
+			cameraController.SetThirdPersonBrain(this);
 		}
 
 		private TurnaroundBehaviour GetCurrentTurnaroundBehaviour()
@@ -626,11 +626,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			motor.landed += OnLanding;
 			motor.fallStarted += OnFallStarted;
 
-			if (thirdPersonBrain != null && thirdPersonBrain.thirdPersonCameraAnimationManager != null)
+			if (thirdPersonBrain != null && thirdPersonBrain.thirdPersonCameraController != null)
 			{
-				thirdPersonBrain.thirdPersonCameraAnimationManager.forwardLockedModeStarted +=
+				thirdPersonBrain.thirdPersonCameraController.forwardLockedModeStarted +=
 					OnStrafeStarted;
-				thirdPersonBrain.thirdPersonCameraAnimationManager.forwardUnlockedModeStarted +=
+				thirdPersonBrain.thirdPersonCameraController.forwardUnlockedModeStarted +=
 					OnStrafeEnded;
 			}
 		}
@@ -648,11 +648,11 @@ namespace StandardAssets.Characters.ThirdPerson
 				motor.fallStarted -= OnFallStarted;
 			}
 
-			if (thirdPersonBrain != null && thirdPersonBrain.thirdPersonCameraAnimationManager != null)
+			if (thirdPersonBrain != null && thirdPersonBrain.thirdPersonCameraController != null)
 			{
-				thirdPersonBrain.thirdPersonCameraAnimationManager.forwardLockedModeStarted -=
+				thirdPersonBrain.thirdPersonCameraController.forwardLockedModeStarted -=
 					OnStrafeStarted;
-				thirdPersonBrain.thirdPersonCameraAnimationManager.forwardUnlockedModeStarted -=
+				thirdPersonBrain.thirdPersonCameraController.forwardUnlockedModeStarted -=
 					OnStrafeEnded;
 			}
 		}

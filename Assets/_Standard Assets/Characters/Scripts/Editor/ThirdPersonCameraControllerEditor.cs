@@ -6,8 +6,8 @@ using UnityEngine;
 
 namespace Editor
 {
-	[CustomEditor(typeof(ThirdPersonCameraAnimationManager))]
-	public class ThirdPersonAnimationManagerEditor : UnityEditor.Editor
+	[CustomEditor(typeof(ThirdPersonCameraController))]
+	public class ThirdPersonCameraControllerEditor : UnityEditor.Editor
 	{
 		private static readonly string[] s_Exclude =
 		{
@@ -17,7 +17,7 @@ namespace Editor
 
 		private readonly List<string> controllerStatesNames = new List<string>();
 
-		private ThirdPersonCameraAnimationManager manager;
+		private ThirdPersonCameraController manager;
 		private Animator animator;
 		private AnimatorController controller;
 
@@ -57,7 +57,7 @@ namespace Editor
 
 		private void RefreshTarget()
 		{
-			manager = target as ThirdPersonCameraAnimationManager;
+			manager = target as ThirdPersonCameraController;
 			if (manager != null)
 			{
 				animator = manager.GetComponent<Animator>();

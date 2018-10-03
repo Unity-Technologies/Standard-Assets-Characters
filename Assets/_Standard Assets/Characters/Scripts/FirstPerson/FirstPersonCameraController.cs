@@ -4,9 +4,9 @@ using StandardAssets.Characters.Common;
 namespace StandardAssets.Characters.FirstPerson
 {
     /// <summary>
-    /// Implementation of <see cref="CameraAnimationManager"/> to manage first person cameras 
+    /// Implementation of <see cref="CameraController"/> to manage first person cameras 
     /// </summary>
-    public class FirstPersonCameraAnimationManager : CameraAnimationManager
+    public class FirstPersonCameraController : CameraController
     {
         /// <summary>
         /// Sends through the <see cref="FirstPersonBrain"/> and allows Follow field of <see cref="CinemachineStateDrivenCamera"/> to be set correctly
