@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3ad76988cb96447baba231c250dc3149
+guid: 56766dcc8291e409e8338b5a779fba77
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -143,9 +143,8 @@ ModelImporter:
     400134: Root
     400136: Spine
     400138: UpperChest
-    7400000: StrafeIdle
+    7400000: RapidStrafeLeft
     9500000: //RootNode
-    2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -175,10 +174,10 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: StrafeIdle
+      name: RapidStrafeLeft
       takeName: Take 001
       firstFrame: 1
-      lastFrame: 91
+      lastFrame: 19
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -189,7 +188,7 @@ ModelImporter:
       loopBlend: 1
       loopBlendOrientation: 1
       loopBlendPositionY: 1
-      loopBlendPositionXZ: 1
+      loopBlendPositionXZ: 0
       keepOriginalOrientation: 1
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0
