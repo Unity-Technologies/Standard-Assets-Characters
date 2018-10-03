@@ -11,32 +11,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a968cd77fa044ffdaab9a7f295931436, type: 3}
   m_Name: Animation Configuration
   m_EditorClassIdentifier: 
-  thirdPersonAnimator: {fileID: 9100000, guid: 9250483fadc19a444bcc66715ab615e9, type: 2}
-  locomotion: Action Locomotion
-  strafeLocomotion: Strafe Locomotion
-  rightFootRootMotionJump: RightFootRootMotionJump
-  leftFootRootMotionJump: LeftFootRootMotionJump
-  rightFootJump: RightFootPhysicsJump
-  leftFootJump: LeftFootPhysicsJump
-  rollLand: RollLand
-  land: Land
-  forwardSpeedParameter:
-    parameterName: ForwardSpeed
-    minInterpolationTime: 0.15
-    maxInterpolationTime: 0.2
-  lateralSpeedParameter:
-    parameterName: LateralSpeed
-    minInterpolationTime: 0.15
-    maxInterpolationTime: 0.2
-  turningSpeedParameter:
-    parameterName: TurningSpeed
-    minInterpolationTime: 0.01
-    maxInterpolationTime: 0.05
-  strafeParameter: Strafe
+  forwardSpeedInterpolationRange:
+    minValue: 0.15
+    maxValue: 0.2
+  lateralSpeedInterpolationRange:
+    minValue: 0.15
+    maxValue: 0.2
+  turningSpeedInterpolationRange:
+    minValue: 0.01
+    maxValue: 0.05
   strafeRapidDirectionChangeThreshold: 1.5
   strafeRapidDirectionFrameWait: 5
-  verticalSpeedParameter: VerticalSpeed
-  fallParameter: Fall
   jumpTransitionAsAFactorOfSpeed:
     serializedVersion: 2
     m_Curve:
@@ -88,8 +73,6 @@ MonoBehaviour:
     m_RotationOrder: 4
   rightFootPhysicsJumpLandAnimationTimeOffset: 0.6
   leftFootPhysicsJumpLandAnimationTimeOffset: 0.3
-  jumpedLateralSpeedParameter: JumpedLateralSpeed
-  jumpedForwardSpeedParameter: JumpedForwardSpeed
   skipJumpLandWindow: 0.38
   standingJumpNormalizedSpeedMaxThreshold: 0.25
   runningJumpNormalizedSpeedMinThreshold: 0.8
@@ -121,7 +104,6 @@ MonoBehaviour:
   fallTimeRequiredToTriggerRoll: 0.75
   rollAnimationBlendTime: 0.15
   landAnimationBlendTime: 0.11
-  groundedFootRightParameter: OnRightFoot
   startRightFootGrounded: 0
   groundedFootThreshold: 0.25
   groundedFootThresholdOffset: 0.25
