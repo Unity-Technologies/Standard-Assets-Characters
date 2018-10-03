@@ -1,9 +1,6 @@
 ﻿using System;
 using UnityEngine;
 using Util;
-#if UNITY_EDITOR
-using UnityEditor.Animations;
-#endif
 
 namespace StandardAssets.Characters.ThirdPerson
 {
