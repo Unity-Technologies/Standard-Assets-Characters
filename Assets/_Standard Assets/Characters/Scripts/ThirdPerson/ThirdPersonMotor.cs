@@ -103,8 +103,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		protected CharacterPhysics characterPhysics;
 
-		protected ThirdPersonAnimationController animationController;
-
 		protected ThirdPersonGroundMovementState preTurnMovementState;
 		protected ThirdPersonGroundMovementState movementState = ThirdPersonGroundMovementState.Walking;
 
@@ -207,13 +205,13 @@ namespace StandardAssets.Characters.ThirdPerson
 				return;
 			}
 
-			if (animationController.isRootMotionState)
+			if (thirdPersonBrain.isRootMotionState)
 			{
 				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
 				groundMovementVector.y = 0.0f;
 				
-				groundMovementVector.x *= animationController.currentRootMotionModifier.x;
-				groundMovementVector.z *= animationController.currentRootMotionModifier.z;
+				groundMovementVector.x *= thirdPersonBrain.currentRootMotionModifier.x;
+				groundMovementVector.z *= thirdPersonBrain.currentRootMotionModifier.z;
 				
 				characterPhysics.Move(groundMovementVector, Time.deltaTime);
 				
@@ -264,7 +262,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			characterInput = brain.inputForCharacter;
 			characterPhysics = brain.physicsForCharacter;
 			animator = gameObject.GetComponent<Animator>();
-			animationController = brain.animationControl;
 			averageForwardVelocity = new SlidingAverage(configuration.jumpGroundVelocityWindowSize);
 			actionAverageForwardInput = new SlidingAverage(configuration.forwardInputWindowSize);
 			strafeAverageForwardInput = new SlidingAverage(configuration.strafeInputWindowSize);
@@ -748,11 +745,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		private bool TryJump()
 		{
 			if (movementState == ThirdPersonGroundMovementState.TurningAround || 
-				animationController.state == AnimationState.Landing)
+			    thirdPersonBrain.animatorState == ThirdPersonBrain.AnimatorState.Landing)
 			{
 				return true;
 			}
-			if (!IsGrounded || characterPhysics.startedSlide || !animationController.isRootMotionState)
+			if (!IsGrounded || characterPhysics.startedSlide || !thirdPersonBrain.isRootMotionState)
 			{
 				return false;
 			}
@@ -769,7 +766,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				{
 					cachedForwardVelocity = configuration.standingJumpSpeed;
 					normalizedForwardSpeed = 1;
-					animationController.UpdateForwardSpeed(normalizedForwardSpeed, 1);
+					thirdPersonBrain.UpdateForwardSpeed(normalizedForwardSpeed, 1);
 				}
 				else
 				{

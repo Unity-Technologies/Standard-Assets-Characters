@@ -29,7 +29,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		private Vector3 movementVector;
 
 		private ThirdPersonBrain thirdPersonBrain;
-		private ThirdPersonAnimationController animationController;
 		private Transform transform;
 
 		// defaults used if configureBlendspace is false
@@ -86,7 +85,6 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public override void Init(ThirdPersonBrain brain)
 		{
-			animationController = brain.animationControl;
 			transform = brain.transform;
 			thirdPersonBrain = brain;
 		}
@@ -121,8 +119,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			turningTime = timeToTurn;
 			EvaluateTurn();
-			animationController.UpdateForwardSpeed(currentForwardSpeed, Time.deltaTime);
-			animationController.UpdateTurningSpeed(currentTurningSpeed, Time.deltaTime);
+			thirdPersonBrain.UpdateForwardSpeed(currentForwardSpeed, Time.deltaTime);
+			thirdPersonBrain.UpdateTurningSpeed(currentTurningSpeed, Time.deltaTime);
 		}
 
 		/// <summary>
@@ -134,8 +132,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			isSmallTurn = Mathf.Abs(angle) < classificationAngle;
 			targetAngle = MathUtilities.Wrap180(angle);
 			turningTime = 0.0f;
-			currentForwardSpeed = animationController.animatorForwardSpeed;
-			currentTurningSpeed = animationController.animatorTurningSpeed;
+			currentForwardSpeed = thirdPersonBrain.animatorForwardSpeed;
+			currentTurningSpeed = thirdPersonBrain.animatorTurningSpeed;
 
 			startRotation = transform.eulerAngles;
 
@@ -163,7 +161,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				forwardSpeedValue = forwardSpeedValue + currentForwardSpeed;
 			}
 
-			animationController.UpdateForwardSpeed(forwardSpeedValue, Time.deltaTime);
+			thirdPersonBrain.UpdateForwardSpeed(forwardSpeedValue, Time.deltaTime);
 
 			Vector3 newRotation =
 				startRotation + new Vector3(0.0f, rotationOverTime.Evaluate(normalizedTime) * targetAngle, 0.0f);

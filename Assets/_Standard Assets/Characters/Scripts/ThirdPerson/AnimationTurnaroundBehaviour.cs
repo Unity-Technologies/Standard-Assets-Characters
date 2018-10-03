@@ -71,7 +71,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			cacheForwardSpeed; // forwards speed of the motor prior to starting an animation turnaround
 		private Quaternion startRotation; // rotation of the character as turnaround is started
 		private AnimationInfo currentAnimationInfo; // currently selected animation info
-		private ThirdPersonAnimationController animationController;
+		private ThirdPersonBrain thirdPersonBrain;
 		private Transform transform; // character's transform
 		private State state; // state used to determine where to retrieve animator normalized time from
 
@@ -86,13 +86,13 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private Animator animator
 		{
-			get { return animationController.unityAnimator; }
+			get { return thirdPersonBrain.animator; }
 		}
 
 		/// <inheritdoc/>
 		public override void Init(ThirdPersonBrain brain)
 		{
-			animationController = brain.animationControl;
+			thirdPersonBrain = brain;
 			transform = brain.transform;
 		}
 
@@ -149,7 +149,7 @@ namespace StandardAssets.Characters.ThirdPerson
 					return; // don't rotate character
 			}
 			
-			animationController.UpdateForwardSpeed(cacheForwardSpeed, float.MaxValue);
+			thirdPersonBrain.UpdateForwardSpeed(cacheForwardSpeed, float.MaxValue);
 			
 			float rotationProgress = rotationCurve.Evaluate(normalizedTime);
 			transform.rotation = Quaternion.AngleAxis(rotationProgress * targetAngle, Vector3.up) * startRotation;
@@ -177,8 +177,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected override void StartTurningAround(float angle)
 		{
 			targetAngle = MathUtilities.Wrap180(angle);
-			currentAnimationInfo = GetCurrent(animationController.animatorForwardSpeed, angle > 0.0f,
-				!animationController.isRightFootPlanted);
+			currentAnimationInfo = GetCurrent(thirdPersonBrain.animatorForwardSpeed, angle > 0.0f,
+				!thirdPersonBrain.isRightFootPlanted);
 
 			startRotation = transform.rotation;
 			animator.CrossFade(currentAnimationInfo.name, crossfadeDuration, 0, 0.0f);
@@ -186,7 +186,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			cachedAnimatorSpeed = animator.speed;
 			animator.speed = currentAnimationInfo.speed;
 
-			cacheForwardSpeed = animationController.animatorForwardSpeed;
+			cacheForwardSpeed = thirdPersonBrain.animatorForwardSpeed;
 
 			state = State.WaitingForTransition;
 		}

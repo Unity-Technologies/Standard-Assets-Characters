@@ -6,10 +6,10 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 	{
 		public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			var animationControl = animator.GetComponent<ThirdPersonBrain>().animationControl;
-			if (animationControl != null)
+			var thirdPersonBrain = animator.GetComponent<ThirdPersonBrain>();
+			if (thirdPersonBrain != null)
 			{
-				animationControl.OnFallingLoopAnimationEnter();
+				thirdPersonBrain.OnFallingLoopAnimationEnter();
 			}
 		}
 	}

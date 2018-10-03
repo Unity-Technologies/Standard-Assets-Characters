@@ -7,19 +7,19 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 	{
 		public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			var animationController = animator.GetComponent<ThirdPersonBrain>().animationControl;
-			if (animationController != null)
+			var thirdPersonBrain = animator.GetComponent<ThirdPersonBrain>();
+			if (thirdPersonBrain != null)
 			{
-				animationController.OnPhysicsJumpAnimationExit();
+				thirdPersonBrain.OnPhysicsJumpAnimationExit();
 			}
 		}
 		
 		public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			var animationController = animator.GetComponent<ThirdPersonBrain>().animationControl;
-			if (animationController != null)
+			var thirdPersonBrain = animator.GetComponent<ThirdPersonBrain>();
+			if (thirdPersonBrain != null)
 			{
-				animationController.OnPhysicsJumpAnimationEnter();
+				thirdPersonBrain.OnPhysicsJumpAnimationEnter();
 			}
 		}
 	}
