@@ -198,13 +198,15 @@ MonoBehaviour:
     jumpSpeed: 5
     strideLength: 2
   sprinting:
-    maxSpeed: 0
-    jumpSpeed: 0
-    strideLength: 0
+    maxSpeed: 10
+    jumpSpeed: 10
+    strideLength: 3
   crouching:
-    maxSpeed: 0
-    jumpSpeed: 0
+    maxSpeed: 2
+    jumpSpeed: 2
     strideLength: 0
+  sprintInput: {fileID: 11400000, guid: 4536a47671291463386c18678dd23194, type: 2}
+  crouchInput: {fileID: 11400000, guid: efd28e54320836844815e53240c38fe4, type: 2}
   mainCamera: {fileID: 0}
   firstPersonMovementEventHandler:
     zonesDefinition:
