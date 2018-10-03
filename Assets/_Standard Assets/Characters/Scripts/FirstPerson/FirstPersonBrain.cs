@@ -52,16 +52,6 @@ namespace StandardAssets.Characters.FirstPerson
 		/// The current movement properties
 		/// </summary>
 		private float currentSpeed;
-
-		/// <summary>
-		/// The current movement properties
-		/// </summary>
-		private float movementTime;
-
-		/// <summary>
-		/// A check to see if input was previous being applied
-		/// </summary>
-		private bool previouslyHasInput;
 		
 		/// <summary>
 		/// Backing field to prevent the currentProperties from being null
@@ -303,29 +293,11 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		private void Move()
 		{
-			if (startingMovementProperties == null)
+			if (!characterInput.hasMovementInput)
 			{
-				return;
+				currentSpeed = 0f;
 			}
-
-			if (characterInput.hasMovementInput)
-			{
-				if (!previouslyHasInput)
-				{
-					movementTime = 0f;
-				}
-				Accelerate();
-			}
-			else
-			{
-				if (previouslyHasInput)
-				{
-					movementTime = 0f;
-				}
-
-				Stop();
-			}
-
+			
 			Vector2 input = characterInput.moveInput;
 			if (input.sqrMagnitude > 1)
 			{
@@ -334,35 +306,10 @@ namespace StandardAssets.Characters.FirstPerson
 		
 			Vector3 forward = transform.forward * input.y;
 			Vector3 sideways = transform.right * input.x;
-			characterPhysics.Move((forward + sideways) * currentSpeed * Time.fixedDeltaTime, Time.fixedDeltaTime);
-			previouslyHasInput = characterInput.hasMovementInput;
+			Vector3 currentVelocity = (forward + sideways) * currentMovementProperties.maximumSpeed;
+			currentSpeed = currentVelocity.magnitude;
+			characterPhysics.Move(currentVelocity * Time.fixedDeltaTime, Time.fixedDeltaTime);
 		}	
-
-		/// <summary>
-		/// Calculates current speed based on acceleration anim curve
-		/// </summary>
-		private void Accelerate()
-		{
-			movementTime += Time.fixedDeltaTime;
-			movementTime = Mathf.Clamp(movementTime, 0f, currentMovementProperties.accelerationCurve.maximumValue);
-			currentSpeed = currentMovementProperties.accelerationCurve.Evaluate(movementTime) * currentMovementProperties.maximumSpeed;
-		}
-		
-		/// <summary>
-		/// Stops the movement
-		/// </summary>
-		private void Stop()
-		{
-			currentSpeed = 0f;
-		}
-
-		/// <summary>
-		/// Clamps the current speed
-		/// </summary>
-		private void ClampCurrentSpeed()
-		{
-			currentSpeed = Mathf.Clamp(currentSpeed, 0f, currentMovementProperties.maximumSpeed);
-		}
 		
 		/// <summary>
 		/// Changes the current motor state and play events associated with state change

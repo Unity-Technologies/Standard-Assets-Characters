@@ -27,14 +27,8 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// The maximum movement speed
 		/// </summary>
-		[SerializeField, Tooltip("The maximum movement speed of the character")]
+		[SerializeField, Tooltip("The maximum movement speed of the character"), Range(0f,100f)]
 		protected float maxSpeed = 5f;
-
-		/// <summary>
-		/// The curve evaluator for acceleration
-		/// </summary>
-		[SerializeField, Tooltip("Value is the time is takes accelerate to max speed")]
-		protected CurveEvaluator acceleration;
 
 		/// <summary>
 		/// The initial Y velocity of a Jump
@@ -63,14 +57,6 @@ namespace StandardAssets.Characters.FirstPerson
 		{
 			get { return maxSpeed; }
 			set { maxSpeed = value; }
-		}
-
-		/// <summary>
-		/// Gets the curve
-		/// </summary>
-		public CurveEvaluator accelerationCurve
-		{
-			get { return acceleration; }
 		}
 
 		/// <summary>
@@ -115,18 +101,5 @@ namespace StandardAssets.Characters.FirstPerson
 				action(id);
 			}
 		}
-
-#if UNITY_EDITOR
-		private const float k_MinimumMaxSpeed = 0.001f;
-		
-		// ensure that maxSpeed is above 0.
-		private void OnValidate()
-		{
-			if (maxSpeed <= 0)
-			{
-				maxSpeed = k_MinimumMaxSpeed;
-			}
-		}
-#endif
 	}
 }
