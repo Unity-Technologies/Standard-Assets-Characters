@@ -25,19 +25,19 @@ namespace StandardAssets.Characters.FirstPerson
 			/// <summary>
 			/// The maximum movement speed
 			/// </summary>
-			[SerializeField, Tooltip("The maximum movement speed of the character"), Range(0f, 30f)]
+			[SerializeField, Tooltip("The maximum movement speed of the character"), Range(0f, 20f)]
 			public float maxSpeed;
 
 			/// <summary>
 			/// The initial Y velocity of a Jump
 			/// </summary>
-			[SerializeField, Tooltip("The initial Y velocity of a Jump"), Range(0f, 30f)]
+			[SerializeField, Tooltip("The initial Y velocity of a Jump"), Range(0f, 10f)]
 			public float jumpSpeed;
 
 			/// <summary>
 			/// The length of a stride
 			/// </summary>
-			[SerializeField, Tooltip("Distance that is considered a stride"), Range(0f, 30f)]
+			[SerializeField, Tooltip("Distance that is considered a stride"), Range(0f, 1f)]
 			public float strideLength;
 
 			/// <summary>
@@ -166,9 +166,10 @@ namespace StandardAssets.Characters.FirstPerson
 		protected override void Awake()
 		{
 			base.Awake();
-			currentMovementProperties = walking;
 			CheckCameraAnimationManager();
 			firstPersonMovementEventHandler.Init(this);
+			currentMovementProperties = walking;
+			firstPersonMovementEventHandler.AdjustTriggerThreshold(currentMovementProperties.strideLength);
 
 			if (mainCamera == null)
 			{
