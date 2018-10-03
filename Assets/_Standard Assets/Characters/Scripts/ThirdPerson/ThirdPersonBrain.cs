@@ -1,4 +1,3 @@
-using System;
 using StandardAssets.Characters.Attributes;
 using StandardAssets.Characters.Common;
 using StandardAssets.Characters.Effects;
@@ -9,6 +8,18 @@ namespace StandardAssets.Characters.ThirdPerson
 {
 	public class ThirdPersonBrain : CharacterBrain
 	{
+		/// <summary>
+		/// Character animation states
+		/// </summary>
+		public enum AnimatorState
+		{
+			Locomotion,
+			PhysicsJump,
+			RootMotionJump,
+			Falling,
+			Landing
+		}
+		
 		[HelperBox(HelperBoxAttribute.HelperType.Info,
 			"Configurations are separate assets (ScriptableObjects). Click on the associated configuration to locate it in the Project View. Values can be edited here during runtime and not be lost. It also allows one to create different settings and swap between them. To create a new setting Right click -> Create -> Standard Assets -> Characters -> ...")]
 		
@@ -20,9 +31,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		[SerializeField, Tooltip("Properties of the root motion motor")]
 		protected ThirdPersonMotor motor;
-
-		[SerializeField, Tooltip("Properties of the animation controller")]
-		protected ThirdPersonAnimationController animationController;
 		
 		[SerializeField]
 		protected TurnaroundType turnaroundType;
@@ -37,10 +45,46 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		[SerializeField]
 		protected ThirdPersonMovementEventHandler thirdPersonMovementEventHandler;
+				
+		private const float k_HeadTurnSnapBackScale = 100f;
 
-		
+		[SerializeField, Tooltip("Configuration settings for the animator")]
+		protected AnimationConfig configuration;
 
-		private TurnaroundBehaviour currentTurnaroundBehaviour;
+		// Hashes of the animator parameters
+		private int hashForwardSpeed;
+		private int hashLateralSpeed;
+		private int hashTurningSpeed;
+		private int hashVerticalSpeed;
+		private int hashGroundedFootRight;
+		private int hashJumpedForwardSpeed;
+		private int hashJumpedLateralSpeed;
+		private int hashFall;
+		private int hashStrafe;
+
+		// is the character grounded
+		private bool isGrounded;
+
+		// was the last physics jump taken during a planted right foot
+		private bool lastPhysicsJumpRightRoot;
+
+		// angle of the head for look direction
+		private float headAngle;
+
+		// cached default animator speed
+		private float cachedAnimatorSpeed = 1.0f;
+
+		// time of the last physics jump
+		private float timeOfLastPhysicsJumpLand;
+
+		// whether locomotion mode is set to strafe
+		private bool isStrafing;
+
+		private bool triggeredRapidDirectionChange;
+		private int framesToWait;
+
+		private const float k_StrafeRapidDirectionChangeRangeMargin = 0.025f,
+		                    k_StrafeRapidDirectionChangeRangeStartInMargin = 0.05f;
 
 		private TurnaroundBehaviour[] turnaroundBehaviours;
 		
@@ -49,15 +93,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return motor; }
 		}
 
-		public ThirdPersonAnimationController animationControl
-		{
-			get { return animationController; }
-		}
-
-		public TurnaroundBehaviour turnaround
-		{
-			get { return currentTurnaroundBehaviour; }
-		}
+		public TurnaroundBehaviour turnaround { get; private set; }
 
 		public TurnaroundBehaviour[] turnaroundOptions
 		{
@@ -88,7 +124,6 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public override float targetYRotation { get; set; }
 
-
 		public ThirdPersonCameraController thirdPersonCameraController
 		{
 			get
@@ -96,22 +131,268 @@ namespace StandardAssets.Characters.ThirdPerson
 				return cameraController;
 			}
 		}
+
+		/// <summary>
+		/// Gets the animation state of the character.
+		/// </summary>
+		/// <value>The current <see cref="AnimatorState"/></value>
+		public AnimatorState animatorState { get; private set; }
+
+		/// <summary>
+		/// Gets the current root motion movement modifier.
+		/// </summary>
+		public Vector3 currentRootMotionModifier { get; private set; }
+
+		/// <summary>
+		/// Gets the character animator.
+		/// </summary>
+		/// <value>The Unity Animator component</value>
+		public Animator animator { get; private set; }
+
+		/// <summary>
+		/// Gets the animator forward speed.
+		/// </summary>
+		/// <value>The animator forward speed parameter.</value>
+		public float animatorForwardSpeed
+		{
+			get { return animator.GetFloat(hashForwardSpeed); }
+		}
+
+		/// <summary>
+		/// Gets the animator turning speed.
+		/// </summary>
+		/// <value>The animator forward speed parameter.</value>
+		public float animatorTurningSpeed
+		{
+			get { return animator.GetFloat(hashTurningSpeed); }
+		}
+
+		/// <summary>
+		/// Gets whether the right foot is planted
+		/// </summary>
+		/// <value>True is the right foot is planted; false if the left.</value>
+		public bool isRightFootPlanted { get; private set; }
+
+		/// <summary>
+		/// Gets whether the character in a root motion state.
+		/// </summary>
+		/// <value>True if the state is in a grounded state; false if aerial.</value>
+		public bool isRootMotionState
+		{
+			get
+			{
+				return animatorState == AnimatorState.Locomotion ||
+				       animatorState == AnimatorState.RootMotionJump ||
+				       animatorState == AnimatorState.Landing;
+			}
+		}
+		
+		/// <summary>
+		/// The value of the animator lateral speed parameter.
+		/// </summary>
+		private float animatorLateralSpeed
+		{
+			get { return animator.GetFloat(hashLateralSpeed); }
+		}
+
+		/// <summary>
+		/// Called on the exit of the land animation.
+		/// </summary>
+		/// <remarks>Should only be called by a land StateMachineBehaviour</remarks>
+		public void OnLandAnimationExit()
+		{
+			if (isGrounded)
+			{
+				animatorState = AnimatorState.Locomotion;
+			}
+
+			animator.speed = cachedAnimatorSpeed;
+		}
+
+		/// <summary>
+		/// Called on the enter of the land animation.
+		/// </summary>
+		/// <remarks>Should only be called by a land StateMachineBehaviour</remarks>
+		/// <param name="adjustAnimationSpeedBasedOnForwardSpeed">Should the animator speed be adjusted during the land animation</param>
+		public void OnLandAnimationEnter(bool adjustAnimationSpeedBasedOnForwardSpeed)
+		{
+			animatorState = AnimatorState.Landing;
+			if (adjustAnimationSpeedBasedOnForwardSpeed)
+			{
+				animator.speed = configuration.landSpeedAsAFactorSpeed.Evaluate(motor.normalizedForwardSpeed);
+			}
+		}
+
+		/// <summary>
+		/// Called on the exit of the physics jump animation.
+		/// </summary>
+		/// <remarks>Should only be called by a physics jump StateMachineBehaviour</remarks>
+		public void OnPhysicsJumpAnimationExit()
+		{
+			if (animatorState == AnimatorState.PhysicsJump)
+			{
+				animatorState = AnimatorState.Locomotion;
+			}
+		}
+
+		/// <summary>
+		/// Called on the enter of the physics jump animation.
+		/// </summary>
+		/// <remarks>Should only be called by a physics jump StateMachineBehaviour</remarks>
+		public void OnPhysicsJumpAnimationEnter()
+		{
+			animatorState = AnimatorState.PhysicsJump;
+		}
+
+		/// <summary>
+		/// Called on the enter of the locomotion animation.
+		/// </summary>
+		/// <remarks>Should only be called by a locomotion StateMachineBehaviour</remarks>
+		public void OnLocomotionAnimationEnter()
+		{
+			if (animatorState == AnimatorState.RootMotionJump || animatorState == AnimatorState.Falling)
+			{
+				animatorState = AnimatorState.Locomotion;
+			}
+		}
+
+		/// <summary>
+		/// Called on the enter of the falling animation.
+		/// </summary>
+		/// <remarks>Should only be called by a falling StateMachineBehaviour</remarks>
+		public void OnFallingLoopAnimationEnter()
+		{
+			animatorState = AnimatorState.Falling;
+		}
+
+		/// <summary>
+		/// Update the animator forward speed parameter.
+		/// </summary>
+		/// <param name="newSpeed">New forward speed</param>
+		/// <param name="deltaTime">Interpolation delta time</param>
+		public void UpdateForwardSpeed(float newSpeed, float deltaTime)
+		{
+			animator.SetFloat(hashForwardSpeed, newSpeed,
+			                  configuration.forwardSpeedInterpolation.GetInterpolationTime(animatorForwardSpeed, 
+			                                                        newSpeed), deltaTime);
+		}
+
+		/// <summary>
+		/// Update the animator lateral speed parameter.
+		/// </summary>
+		/// <param name="newSpeed">New lateral speed</param>
+		/// <param name="deltaTime">Interpolation delta time</param>
+		public void UpdateLateralSpeed(float newSpeed, float deltaTime)
+		{
+			if (triggeredRapidDirectionChange)
+			{
+				if (framesToWait-- > 0)
+				{
+					return;
+				}
+
+				if (IsNormalizedTimeCloseToZeroOrHalf(k_StrafeRapidDirectionChangeRangeMargin))
+				{
+					animator.SetFloat(hashLateralSpeed, -animatorLateralSpeed);
+					triggeredRapidDirectionChange = false;
+				}
+				currentRootMotionModifier = Vector3.one;
+				return;
+			}
+
+			// check if a rapid direction change has occured.
+			float delta = Mathf.Abs(inputForCharacter.moveInput.x - animatorLateralSpeed);
+			if (delta >= configuration.strafeRapidChangeThreshold)
+			{
+				triggeredRapidDirectionChange = true;
+				// if we instant change within the viable range there is a pop so wait a few frames 
+				if (IsNormalizedTimeCloseToZeroOrHalf(k_StrafeRapidDirectionChangeRangeStartInMargin))
+				{
+					framesToWait = configuration.strafeRapidDirectionFrameWaitCount;
+				}
+				currentRootMotionModifier = new Vector3(-1.0f, 1.0f, 1.0f);
+				return;
+			}
+
+			animator.SetFloat(hashLateralSpeed, newSpeed,
+			                  configuration.lateralSpeedInterpolation.GetInterpolationTime(animatorLateralSpeed, 
+			                                                        newSpeed), deltaTime);
+		}
+
+		/// <summary>
+		/// Update the animator turning speed parameter.
+		/// </summary>
+		/// <param name="newSpeed">New turning speed</param>
+		/// <param name="deltaTime">Interpolation delta time</param>
+		public void UpdateTurningSpeed(float newSpeed, float deltaTime)
+		{
+			animator.SetFloat(hashTurningSpeed, newSpeed,
+			                  configuration.turningSpeedInterpolation.GetInterpolationTime(animatorTurningSpeed, 
+			                                                        newSpeed),deltaTime);
+		}
 		
 		protected override void Awake()
 		{
 			base.Awake();
 			blendspaceTurnaroundBehaviour.Init(this);
 			animationTurnaroundBehaviour.Init(this);
-			currentTurnaroundBehaviour = GetCurrentTurnaroundBehaviour();
+			turnaround = GetCurrentTurnaroundBehaviour();
 			motor.Init(this);
 			
-			if (animationController != null)
-			{
-				animationController.Init(this, motor);
-			}
+			InitAnimator();
 			
 			thirdPersonMovementEventHandler.Init(this);
 			CheckCameraAnimationManager();
+		}
+		
+		protected override void Update()
+		{
+			base.Update();
+
+			UpdateAnimatorParameters();
+			
+			motor.Update();
+
+			if (turnaround != null)
+			{
+				turnaround.Update();
+			}
+			
+			targetYRotation = motor.targetYRotation;
+		
+			//Just for build testing
+			if (Input.GetKeyDown(KeyCode.T))
+			{
+				turnaroundType = turnaroundType == TurnaroundType.Animation ? TurnaroundType.None : turnaroundType + 1;
+				turnaround = GetCurrentTurnaroundBehaviour();
+			}
+		}
+		
+		/// <summary>
+		/// Sets the Animator parameters.
+		/// </summary>
+		private void UpdateAnimatorParameters()
+		{
+			UpdateTurningSpeed(motor.normalizedTurningSpeed, Time.deltaTime);
+
+			bool fullyGrounded = isGrounded && animatorState != AnimatorState.Landing;
+			// only update during landing if there is input to inhibit a jarring stop post land animation.
+			bool landingWithInput = animatorState == AnimatorState.Landing &&
+			                        (CheckHasSpeed(motor.normalizedForwardSpeed) ||
+			                         CheckHasSpeed(motor.normalizedLateralSpeed));
+
+			if (fullyGrounded || landingWithInput
+			                  || animatorState == AnimatorState.Falling
+			) // update during falling as landing animation depends on forward speed.
+			{
+				UpdateForwardSpeed(motor.normalizedForwardSpeed, Time.deltaTime);
+				UpdateLateralSpeed(motor.normalizedLateralSpeed, Time.deltaTime);
+				UpdateFoot();
+			}
+			else
+			{
+				animator.SetFloat(hashVerticalSpeed, motor.normalizedVerticalSpeed);
+			}
 		}
 
 		/// <summary>
@@ -166,58 +447,40 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private void OnEnable()
 		{
-
 			physicsForCharacter.jumpVelocitySet += thirdPersonMovementEventHandler.Jumped;
 			physicsForCharacter.landed += thirdPersonMovementEventHandler.Landed;
 				
-				
-			if (animationController != null)
+			motor.jumpStarted += OnJumpStarted;
+			motor.landed += OnLanding;
+			motor.fallStarted += OnFallStarted;
+			motor.Subscribe();
+
+			if (thirdPersonCameraController != null)
 			{
-				animationController.Subscribe();
+				thirdPersonCameraController.forwardLockedModeStarted += OnStrafeStarted;
+				thirdPersonCameraController.forwardUnlockedModeStarted += OnStrafeEnded;
 			}
 			
-			motor.Subscribe();
 			thirdPersonMovementEventHandler.Subscribe();
 		}
 		
 		private void OnDisable()
 		{
-			
-			
-			if (animationController != null)
+			if (motor != null)
 			{
-				animationController.Unsubscribe();
+				motor.jumpStarted -= OnJumpStarted;
+				motor.landed -= OnLanding;
+				motor.fallStarted -= OnFallStarted;
+				motor.Unsubscribe();
+			}
+
+			if (thirdPersonCameraController != null)
+			{
+				thirdPersonCameraController.forwardLockedModeStarted -= OnStrafeStarted;
+				thirdPersonCameraController.forwardUnlockedModeStarted -= OnStrafeEnded;
 			}
 			
-			motor.Unsubscribe();
 			thirdPersonMovementEventHandler.Unsubscribe();
-			
-		}
-
-		protected override void Update()
-		{
-			base.Update();
-			
-			if (animationController != null)
-			{
-				animationController.Update();
-			}
-			
-			motor.Update();
-
-			if (currentTurnaroundBehaviour != null)
-			{
-				currentTurnaroundBehaviour.Update();
-			}
-			
-			targetYRotation = motor.targetYRotation;
-		
-			//Just for build testing
-			if (Input.GetKeyDown(KeyCode.T))
-			{
-				turnaroundType = turnaroundType == TurnaroundType.Animation ? TurnaroundType.None : turnaroundType + 1;
-				currentTurnaroundBehaviour = GetCurrentTurnaroundBehaviour();
-			}
 		}
 
 		private void OnAnimatorMove()
@@ -227,351 +490,13 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private void OnAnimatorIK(int layerIndex)
 		{
-			if (animationController != null)
-			{
-				animationController.HeadTurn();
-			}
+			HeadTurn();
 		}
 		
-		#if UNITY_EDITOR
-		private void OnValidate()
-		{
-			currentTurnaroundBehaviour = GetCurrentTurnaroundBehaviour();
-		}
-		#endif
-	}
-	
-	/// <summary>
-	/// Character animation states
-	/// </summary>
-	public enum AnimationState
-	{
-		Locomotion,
-		PhysicsJump,
-		RootMotionJump,
-		Falling,
-		Landing
-	}
-
-	/// <summary>
-	/// Class that sends Third Person locomotion to the Animator.
-	/// </summary>
-	[Serializable]
-	public class ThirdPersonAnimationController
-	{
-		private const float k_HeadTurnSnapBackScale = 100f;
-
-		[SerializeField, Tooltip("Configuration settings for the animator")]
-		protected AnimationConfig configuration;
-
-		/// <summary>
-		/// Required motor
-		/// </summary>
-		private ThirdPersonMotor motor;
-
-		/// <summary>
-		/// The animator
-		/// </summary>
-		private Animator animator;
-
-		/// <summary>
-		/// The character's GameObject
-		/// </summary>
-		private GameObject gameObject;
-
-		// Hashes of the animator parameters
-		private int hashForwardSpeed;
-		private int hashLateralSpeed;
-		private int hashTurningSpeed;
-		private int hashVerticalSpeed;
-		private int hashGroundedFootRight;
-		private int hashJumpedForwardSpeed;
-		private int hashJumpedLateralSpeed;
-		private int hashFall;
-		private int hashStrafe;
-
-		// is the character grounded
-		private bool isGrounded;
-
-		// was the last physics jump taken during a planted right foot
-		private bool lastPhysicsJumpRightRoot;
-
-		// angle of the head for look direction
-		private float headAngle;
-
-		// cached default animator speed
-		private float cachedAnimatorSpeed = 1.0f;
-
-		// time of the last physics jump
-		private float timeOfLastPhysicsJumpLand;
-
-		// reference to the ThirdPersonBrain
-		private ThirdPersonBrain thirdPersonBrain;
-
-		// whether locomotion mode is set to strafe
-		private bool isStrafing;
-
-		private bool triggeredRapidDirectionChange;
-		private int framesToWait;
-
-		private const float k_Margin = 0.025f,
-		                    k_StartInMargin = 0.05f;
-
-		/// <summary>
-		/// Gets the animation state of the character.
-		/// </summary>
-		/// <value>The current <see cref="AnimationState"/></value>
-		public AnimationState state { get; private set; }
-
-		/// <summary>
-		/// Gets the current root motion movement modifier.
-		/// </summary>
-		public Vector3 currentRootMotionModifier { get; private set; }
-
-		/// <summary>
-		/// Gets the character animator.
-		/// </summary>
-		/// <value>The Unity Animator component</value>
-		public Animator unityAnimator
-		{
-			get { return animator; }
-		}
-
-		/// <summary>
-		/// Gets the animator forward speed.
-		/// </summary>
-		/// <value>The animator forward speed parameter.</value>
-		public float animatorForwardSpeed
-		{
-			get { return animator.GetFloat(hashForwardSpeed); }
-		}
-
-		/// <summary>
-		/// Gets the animator turning speed.
-		/// </summary>
-		/// <value>The animator forward speed parameter.</value>
-		public float animatorTurningSpeed
-		{
-			get { return animator.GetFloat(hashTurningSpeed); }
-		}
-
-		/// <summary>
-		/// The value of the animator lateral speed parameter.
-		/// </summary>
-		private float animatorLateralSpeed
-		{
-			get { return animator.GetFloat(hashLateralSpeed); }
-		}
-
-		/// <summary>
-		/// Gets whether the right foot is planted
-		/// </summary>
-		/// <value>True is the right foot is planted; false if the left.</value>
-		public bool isRightFootPlanted { get; private set; }
-
-		/// <summary>
-		/// Gets whether the character in a root motion state.
-		/// </summary>
-		/// <value>True if the state is in a grounded state; false if aerial.</value>
-		public bool isRootMotionState
-		{
-			get
-			{
-				return state == AnimationState.Locomotion ||
-				       state == AnimationState.RootMotionJump ||
-				       state == AnimationState.Landing;
-			}
-		}
-
-		/// <summary>
-		/// Called on the exit of the land animation.
-		/// </summary>
-		/// <remarks>Should only be called by a land StateMachineBehaviour</remarks>
-		public void OnLandAnimationExit()
-		{
-			if (isGrounded)
-			{
-				state = AnimationState.Locomotion;
-			}
-
-			animator.speed = cachedAnimatorSpeed;
-		}
-
-		/// <summary>
-		/// Called on the enter of the land animation.
-		/// </summary>
-		/// <remarks>Should only be called by a land StateMachineBehaviour</remarks>
-		/// <param name="adjustAnimationSpeedBasedOnForwardSpeed">Should the animator speed be adjusted during the land animation</param>
-		public void OnLandAnimationEnter(bool adjustAnimationSpeedBasedOnForwardSpeed)
-		{
-			state = AnimationState.Landing;
-			if (adjustAnimationSpeedBasedOnForwardSpeed)
-			{
-				animator.speed = configuration.landSpeedAsAFactorSpeed.Evaluate(motor.normalizedForwardSpeed);
-			}
-		}
-
-		/// <summary>
-		/// Called on the exit of the physics jump animation.
-		/// </summary>
-		/// <remarks>Should only be called by a physics jump StateMachineBehaviour</remarks>
-		public void OnPhysicsJumpAnimationExit()
-		{
-			if (state == AnimationState.PhysicsJump)
-			{
-				state = AnimationState.Locomotion;
-			}
-		}
-
-		/// <summary>
-		/// Called on the enter of the physics jump animation.
-		/// </summary>
-		/// <remarks>Should only be called by a physics jump StateMachineBehaviour</remarks>
-		public void OnPhysicsJumpAnimationEnter()
-		{
-			state = AnimationState.PhysicsJump;
-		}
-
-		/// <summary>
-		/// Called on the enter of the locomotion animation.
-		/// </summary>
-		/// <remarks>Should only be called by a locomotion StateMachineBehaviour</remarks>
-		public void OnLocomotionAnimationEnter()
-		{
-			if (state == AnimationState.RootMotionJump || state == AnimationState.Falling)
-			{
-				state = AnimationState.Locomotion;
-			}
-		}
-
-		/// <summary>
-		/// Called on the enter of the falling animation.
-		/// </summary>
-		/// <remarks>Should only be called by a falling StateMachineBehaviour</remarks>
-		public void OnFallingLoopAnimationEnter()
-		{
-			state = AnimationState.Falling;
-		}
-
-		/// <summary>
-		/// Update the animator forward speed parameter.
-		/// </summary>
-		/// <param name="newSpeed">New forward speed</param>
-		/// <param name="deltaTime">Interpolation delta time</param>
-		public void UpdateForwardSpeed(float newSpeed, float deltaTime)
-		{
-			animator.SetFloat(hashForwardSpeed, newSpeed,
-			                  configuration.forwardSpeedInterpolation.GetInterpolationTime(animatorForwardSpeed, 
-			                                                        newSpeed), deltaTime);
-		}
-
-		/// <summary>
-		/// Update the animator lateral speed parameter.
-		/// </summary>
-		/// <param name="newSpeed">New lateral speed</param>
-		/// <param name="deltaTime">Interpolation delta time</param>
-		public void UpdateLateralSpeed(float newSpeed, float deltaTime)
-		{
-			if (triggeredRapidDirectionChange)
-			{
-				if (framesToWait-- > 0)
-				{
-					return;
-				}
-
-				if (IsNormalizedTimeCloseToZeroOrHalf(k_Margin))
-				{
-					animator.SetFloat(hashLateralSpeed, -animatorLateralSpeed);
-					triggeredRapidDirectionChange = false;
-				}
-				currentRootMotionModifier = Vector3.one;
-				return;
-			}
-
-			// check if a rapid direction change has occured.
-			float delta = Mathf.Abs(thirdPersonBrain.inputForCharacter.moveInput.x - animatorLateralSpeed);
-			if (delta >= configuration.strafeRapidChangeThreshold)
-			{
-				triggeredRapidDirectionChange = true;
-				// if we instant change within the viable range there is a pop so wait a few frames 
-				if (IsNormalizedTimeCloseToZeroOrHalf(k_StartInMargin))
-				{
-					framesToWait = configuration.strafeRapidDirectionFrameWaitCount;
-				}
-				currentRootMotionModifier = new Vector3(-1.0f, 1.0f, 1.0f);
-				return;
-			}
-
-			animator.SetFloat(hashLateralSpeed, newSpeed,
-			                  configuration.lateralSpeedInterpolation.GetInterpolationTime(animatorLateralSpeed, 
-			                                                        newSpeed), deltaTime);
-		}
-
-		/// <summary>
-		/// Update the animator turning speed parameter.
-		/// </summary>
-		/// <param name="newSpeed">New turning speed</param>
-		/// <param name="deltaTime">Interpolation delta time</param>
-		public void UpdateTurningSpeed(float newSpeed, float deltaTime)
-		{
-			animator.SetFloat(hashTurningSpeed, newSpeed,
-			                  configuration.turningSpeedInterpolation.GetInterpolationTime(animatorTurningSpeed, 
-			                                                        newSpeed),deltaTime);
-		}
-
-		/// <summary>
-		/// Gets the required components.
-		/// </summary>
-		public void Init(ThirdPersonBrain brain, ThirdPersonMotor motorToUse)
-		{
-			gameObject = brain.gameObject;
-			hashForwardSpeed = Animator.StringToHash(AnimationControllerInfo.k_ForwardSpeedParameter);
-			hashLateralSpeed = Animator.StringToHash(AnimationControllerInfo.k_LateralSpeedParameter);
-			hashTurningSpeed = Animator.StringToHash(AnimationControllerInfo.k_TurningSpeedParameter);
-			hashVerticalSpeed = Animator.StringToHash(AnimationControllerInfo.k_VerticalSpeedParameter);
-			hashGroundedFootRight = Animator.StringToHash(AnimationControllerInfo.k_GroundedFootRightParameter);
-			hashJumpedForwardSpeed = Animator.StringToHash(AnimationControllerInfo.k_JumpedForwardSpeedParameter);
-			hashJumpedLateralSpeed = Animator.StringToHash(AnimationControllerInfo.k_JumpedLateralSpeedParameter);
-			hashStrafe = Animator.StringToHash(AnimationControllerInfo.k_StrafeParameter);
-			hashFall = Animator.StringToHash(AnimationControllerInfo.k_FallParameter);
-			motor = motorToUse;
-			animator = gameObject.GetComponent<Animator>();
-			cachedAnimatorSpeed = animator.speed;
-			thirdPersonBrain = brain;
-			currentRootMotionModifier = Vector3.one;
-		}
-
-		/// <summary>
-		/// Sets the Animator parameters.
-		/// </summary>
-		public void Update()
-		{
-			UpdateTurningSpeed(motor.normalizedTurningSpeed, Time.deltaTime);
-
-			bool fullyGrounded = isGrounded && state != AnimationState.Landing;
-			// only update during landing if there is input to inhibit a jarring stop post land animation.
-			bool landingWithInput = state == AnimationState.Landing &&
-			                        (CheckHasSpeed(motor.normalizedForwardSpeed) ||
-			                         CheckHasSpeed(motor.normalizedLateralSpeed));
-
-			if (fullyGrounded || landingWithInput
-			                  || state == AnimationState.Falling
-			) // update during falling as landing animation depends on forward speed.
-			{
-				UpdateForwardSpeed(motor.normalizedForwardSpeed, Time.deltaTime);
-				UpdateLateralSpeed(motor.normalizedLateralSpeed, Time.deltaTime);
-				UpdateFoot();
-			}
-			else
-			{
-				animator.SetFloat(hashVerticalSpeed, motor.normalizedVerticalSpeed);
-			}
-		}
-
 		/// <summary>
 		/// Handles the head turning.
 		/// </summary>
-		public void HeadTurn()
+		private void HeadTurn()
 		{
 			if (!configuration.enableHeadLookAt)
 			{
@@ -615,46 +540,24 @@ namespace StandardAssets.Characters.ThirdPerson
 			                    Quaternion.AngleAxis(headAngle, Vector3.up) * animator.transform.forward * 100f;
 			animator.SetLookAtPosition(lookAtPos);
 		}
-
+		
 		/// <summary>
-		/// Subscribe to motor events.
+		/// Gets the required components.
 		/// </summary>
-		/// <remarks>Should be called by OnEnable</remarks>
-		public void Subscribe()
+		private void InitAnimator()
 		{
-			motor.jumpStarted += OnJumpStarted;
-			motor.landed += OnLanding;
-			motor.fallStarted += OnFallStarted;
-
-			if (thirdPersonBrain != null && thirdPersonBrain.thirdPersonCameraController != null)
-			{
-				thirdPersonBrain.thirdPersonCameraController.forwardLockedModeStarted +=
-					OnStrafeStarted;
-				thirdPersonBrain.thirdPersonCameraController.forwardUnlockedModeStarted +=
-					OnStrafeEnded;
-			}
-		}
-
-		/// <summary>
-		/// Unsubscribe from events.
-		/// </summary>
-		/// <remarks>Should be called by OnDisable</remarks>
-		public void Unsubscribe()
-		{
-			if (motor != null)
-			{
-				motor.jumpStarted -= OnJumpStarted;
-				motor.landed -= OnLanding;
-				motor.fallStarted -= OnFallStarted;
-			}
-
-			if (thirdPersonBrain != null && thirdPersonBrain.thirdPersonCameraController != null)
-			{
-				thirdPersonBrain.thirdPersonCameraController.forwardLockedModeStarted -=
-					OnStrafeStarted;
-				thirdPersonBrain.thirdPersonCameraController.forwardUnlockedModeStarted -=
-					OnStrafeEnded;
-			}
+			hashForwardSpeed = Animator.StringToHash(AnimationControllerInfo.k_ForwardSpeedParameter);
+			hashLateralSpeed = Animator.StringToHash(AnimationControllerInfo.k_LateralSpeedParameter);
+			hashTurningSpeed = Animator.StringToHash(AnimationControllerInfo.k_TurningSpeedParameter);
+			hashVerticalSpeed = Animator.StringToHash(AnimationControllerInfo.k_VerticalSpeedParameter);
+			hashGroundedFootRight = Animator.StringToHash(AnimationControllerInfo.k_GroundedFootRightParameter);
+			hashJumpedForwardSpeed = Animator.StringToHash(AnimationControllerInfo.k_JumpedForwardSpeedParameter);
+			hashJumpedLateralSpeed = Animator.StringToHash(AnimationControllerInfo.k_JumpedLateralSpeedParameter);
+			hashStrafe = Animator.StringToHash(AnimationControllerInfo.k_StrafeParameter);
+			hashFall = Animator.StringToHash(AnimationControllerInfo.k_FallParameter);
+			animator = GetComponent<Animator>();
+			cachedAnimatorSpeed = animator.speed;
+			currentRootMotionModifier = Vector3.one;
 		}
 
 		/// <summary>
@@ -674,10 +577,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			isGrounded = true;
 
-			switch (state)
+			switch (animatorState)
 			{
 				// if coming from a physics jump handle animation transition
-				case AnimationState.PhysicsJump:
+				case AnimatorState.PhysicsJump:
 					bool rightFoot = animator.GetBool(hashGroundedFootRight);
 					float duration = configuration.jumpEndTransitionByForwardSpeed.Evaluate(
 						Mathf.Abs(animator.GetFloat(AnimationControllerInfo.k_JumpedForwardSpeedParameter)));
@@ -691,7 +594,7 @@ namespace StandardAssets.Characters.ThirdPerson
 							                                                       .leftFootPhysicsJumpLandAnimationOffset);
 					timeOfLastPhysicsJumpLand = Time.time;
 					break;
-				case AnimationState.Falling:
+				case AnimatorState.Falling:
 					// strafe mode does not have a landing animation so transition directly to locomotion
 					if (isStrafing)
 					{
@@ -793,7 +696,7 @@ namespace StandardAssets.Characters.ThirdPerson
 					                              ? AnimationControllerInfo.k_RightFootRootMotionJumpState
 					                              : AnimationControllerInfo.k_LeftFootRootMotionJumpState,
 				                              configuration.rootMotionJumpCrossfadeDuration);
-				state = AnimationState.RootMotionJump;
+				animatorState = AnimatorState.RootMotionJump;
 			}
 		}
 
@@ -853,5 +756,13 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			return Mathf.Abs(speed) > 0.0f;
 		}
+		
+#if UNITY_EDITOR
+		private void OnValidate()
+		{
+			turnaround = GetCurrentTurnaroundBehaviour();
+		}
+#endif
+
 	}
 }
