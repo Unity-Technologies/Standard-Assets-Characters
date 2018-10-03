@@ -16,7 +16,337 @@ namespace StandardAssets.Characters.Physics
 	/// </summary>
 	[Serializable]
 	public class OpenCharacterController
-	{
+	{	
+		/// <summary>
+		/// Collision info used by the OpenCharacterController and sent to the OnOpenCharacterControllerHit message.
+		/// </summary>
+		private struct CollisionInfo
+		{
+			/// <summary>
+			/// The collider that was hit by the controller.
+			/// </summary>
+			public readonly Collider collider;
+	
+			/// <summary>
+			/// The controller that hit the collider.
+			/// </summary>
+			public readonly OpenCharacterController controller;
+	
+			/// <summary>
+			/// The game object that was hit by the controller.
+			/// </summary>
+			public readonly GameObject gameObject;
+	
+			/// <summary>
+			/// The direction the character Controller was moving in when the collision occured.
+			/// </summary>
+			public readonly Vector3 moveDirection;
+	
+			/// <summary>
+			/// How far the character has travelled until it hit the collider.
+			/// </summary>
+			public readonly float moveLength;
+	
+			/// <summary>
+			/// The normal of the surface we collided with in world space.
+			/// </summary>
+			public readonly Vector3 normal;
+	
+			/// <summary>
+			/// The impact point in world space.
+			/// </summary>
+			public readonly Vector3 point;
+	
+			/// <summary>
+			/// The rigidbody that was hit by the controller.
+			/// </summary>
+			public readonly Rigidbody rigidbody;
+	
+			/// <summary>
+			/// The transform that was hit by the controller.
+			/// </summary>
+			public readonly Transform transform;
+	
+			/// <summary>
+			/// Constructor.
+			/// </summary>
+			/// <param name="openCharacterController">The character controller that hit.</param>
+			/// <param name="hitInfo">The hit info.</param>
+			/// <param name="directionMoved">Direction moved when collision occured.</param>
+			/// <param name="distanceMoved">How far the character has travelled until it hit the collider.</param>
+			public CollisionInfo(OpenCharacterController openCharacterController,
+													  RaycastHit hitInfo,
+													  Vector3 directionMoved,
+													  float distanceMoved)
+			{
+				collider = hitInfo.collider;
+				controller = openCharacterController;
+				gameObject = hitInfo.collider.gameObject;
+				moveDirection = directionMoved;
+				moveLength = distanceMoved;
+				normal = hitInfo.normal;
+				point = hitInfo.point;
+				rigidbody = hitInfo.rigidbody;
+				transform = hitInfo.transform;
+			}
+		}
+		
+		/// <summary>
+		/// A vector used by the OpenCharacterController.
+		/// </summary>
+		private struct MoveVector
+		{
+			/// <summary>
+			/// The move vector.
+			/// Note: This gets used up during the move loop, so will be zero by the end of the loop.
+			/// </summary>
+			public Vector3 moveVector;
+
+			/// <summary>
+			/// Can the movement slide along obstacles?
+			/// </summary>
+			public bool canSlide;
+		
+#if UNITY_EDITOR
+			public Vector3 debugOriginalVector;
+#endif
+
+			/// <summary>
+			/// Constructor.
+			/// </summary>
+			/// <param name="newMoveVector">The move vector.</param>
+			/// <param name="newCanSlide">Can the movement slide along obstacles?</param>
+			public MoveVector(Vector3 newMoveVector, bool newCanSlide = true)
+			{
+				moveVector = newMoveVector;
+				canSlide = newCanSlide;
+			
+#if UNITY_EDITOR
+				debugOriginalVector = newMoveVector;
+#endif
+			}
+		}
+		
+		/// <summary>
+		/// Resize info for OpenCharacterController (e.g. delayed resizing until it is safe to resize).
+		/// </summary>
+		private class ResizeInfo
+		{
+			/// <summary>
+			/// Intervals (seconds) in which to check if the capsule's height/center must be changed.
+			/// </summary>
+			private const float k_PendingUpdateIntervals = 1.0f;
+			
+			/// <summary>
+			/// Height to set.
+			/// </summary>
+			public float? height { get; private set; }
+			
+			/// <summary>
+			/// Center to set.
+			/// </summary>
+			public Vector3? center { get; private set; }
+			
+			/// <summary>
+			/// Time.time when the height must be set.
+			/// </summary>
+			public float? heightTime { get; private set; }
+			
+			/// <summary>
+			/// Time.time when the center must be set.
+			/// </summary>
+			public float? centerTime { get; private set; }
+	
+			/// <summary>
+			/// Set the pending height.
+			/// </summary>
+			public void SetHeight(float newHeight)
+			{
+				height = newHeight;
+				if (heightTime == null)
+				{
+					heightTime = Time.time + k_PendingUpdateIntervals;
+				}
+			}
+	
+			/// <summary>
+			/// Set the pending center.
+			/// </summary>
+			public void SetCenter(Vector3 newCenter)
+			{
+				center = newCenter;
+				if (centerTime == null)
+				{
+					centerTime = Time.time + k_PendingUpdateIntervals;
+				}
+			}
+	
+			/// <summary>
+			/// Set the pending height and center.
+			/// </summary>
+			public void SetHeightAndCenter(float newHeight, Vector3 newCenter)
+			{
+				SetHeight(newHeight);
+				SetCenter(newCenter);
+			}
+	
+			/// <summary>
+			/// Cancel the pending height.
+			/// </summary>
+			public void CancelHeight()
+			{
+				height = null;
+				heightTime = null;
+			}
+	
+			/// <summary>
+			/// Cancel the pending center.
+			/// </summary>
+			public void CancelCenter()
+			{
+				center = null;
+				centerTime = null;
+			}
+	
+			/// <summary>
+			/// Cancel the pending height and center.
+			/// </summary>
+			public void CancelHeightAndCenter()
+			{
+				CancelHeight();
+				CancelCenter();
+			}
+	
+			/// <summary>
+			/// Clear the timers.
+			/// </summary>
+			public void ClearTimers()
+			{
+				heightTime = null;
+				centerTime = null;
+			}
+		}
+		
+		/// <summary>
+		/// Stuck info and logic used by the OpenCharacterController.
+		/// </summary>
+		private class StuckInfo
+		{
+			/// <summary>
+			/// If character's position does not change by more than this amount then we assume the character is stuck.
+			/// </summary>
+			private const float k_StuckDistance = 0.001f;
+	
+			/// <summary>
+			/// If character's position does not change by more than this amount then we assume the character is stuck.
+			/// </summary>
+			private const float k_StuckSqrDistance = k_StuckDistance * k_StuckDistance;
+			
+			/// <summary>
+			/// If character collided this number of times during the movement loop then test if character is stuck by
+			/// examining the position
+			/// </summary>
+			private const int k_HitCountForStuck = 6;
+			
+			/// <summary>
+			/// Assume character is stuck if the position is the same for longer than this number of loop itterations
+			/// </summary>
+			private const int k_MaxStuckPositionCount = 1;
+			
+			/// <summary>
+			/// Is the character stuck in the current move loop itteration?
+			/// </summary>
+			public bool isStuck;
+			
+			/// <summary>
+			/// Count the number of collisions during movement, to determine when the character gets stuck.
+			/// </summary>
+			public int hitCount;
+	
+			/// <summary>
+			/// For keeping track of the character's position, to determine when the character gets stuck.
+			/// </summary>
+			private Vector3? stuckPosition;
+	
+			/// <summary>
+			/// Count how long the character is in the same position.
+			/// </summary>
+			private int stuckPositionCount;
+	
+			/// <summary>
+			/// Called when the move loop starts.
+			/// </summary>
+			public void OnMoveLoop()
+			{
+				hitCount = 0;
+				stuckPositionCount = 0;
+				stuckPosition = null;
+				isStuck = false;
+			}
+			
+			/// <summary>
+			/// Is the character stuck during the movement loop (e.g. bouncing between 2 or more colliders)?
+			/// </summary>
+			/// <param name="characterPosition">The character's position.</param>
+			/// <param name="currentMoveVector">Current move vector.</param>
+			/// <param name="originalMoveVector">Original move vector.</param>
+			/// <returns></returns>
+			public bool UpdateStuck(Vector3 characterPosition, Vector3 currentMoveVector, 
+									Vector3 originalMoveVector)
+			{
+				// First test
+				if (isStuck == false)
+				{
+					// From Quake2: "if velocity is against the original velocity, stop dead to avoid tiny occilations in sloping corners"
+					if (currentMoveVector.sqrMagnitude.NotEqualToZero() &&
+						Vector3.Dot(currentMoveVector, originalMoveVector) <= 0.0f)
+					{
+						isStuck = true;
+					}
+				}
+				
+				// Second test
+				if (isStuck == false)
+				{
+					// Test if collided and while position remains the same
+					if (hitCount < k_HitCountForStuck)
+					{
+						return false;
+					}
+	
+					if (stuckPosition == null)
+					{
+						stuckPosition = characterPosition;
+					}
+					else if (stuckPosition.Value.SqrMagnitudeFrom(characterPosition) <= k_StuckSqrDistance)
+					{
+						stuckPositionCount++;
+						if (stuckPositionCount > k_MaxStuckPositionCount)
+						{
+							isStuck = true;
+						}
+					}
+					else
+					{
+						stuckPositionCount = 0;
+						stuckPosition = null;
+					}
+				}
+	
+				if (isStuck)
+				{
+					isStuck = false;
+					hitCount = 0;
+					stuckPositionCount = 0;
+					stuckPosition = null;
+	
+					return true;
+				}
+	
+				return false;
+			}
+		}
+		
 		/// <summary>
 		/// Max slope limit.
 		/// </summary>
@@ -314,7 +644,7 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Movement vectors used in the move loop.
 		/// </summary>
-		private List<OpenCharacterControllerVector> moveVectors = new List<OpenCharacterControllerVector>();
+		private List<MoveVector> moveVectors = new List<MoveVector>();
 
 		/// <summary>
 		/// Next index in the moveVectors list.
@@ -329,13 +659,13 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Stuck info.
 		/// </summary>
-		private OpenCharacterControllerStuckInfo stuckInfo = new OpenCharacterControllerStuckInfo();
+		private StuckInfo stuckInfo = new StuckInfo();
 
 		/// <summary>
 		/// The collision info when hitting colliders.
 		/// </summary>
-		private Dictionary<Collider, OpenCharacterControllerCollisionInfo> collisionInfoDictionary =
-			new Dictionary<Collider, OpenCharacterControllerCollisionInfo>();
+		private Dictionary<Collider, CollisionInfo> collisionInfoDictionary =
+			new Dictionary<Collider, CollisionInfo>();
 
 		/// <summary>
 		/// Slight delay before stopping the sliding down slopes. 
@@ -345,7 +675,7 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Pending resize info to set when it is safe to do so.
 		/// </summary>
-		private readonly OpenCharacterControllerResizeInfo pendingResize = new OpenCharacterControllerResizeInfo();
+		private readonly ResizeInfo pendingResize = new ResizeInfo();
 
 		/// <summary>
 		/// Collider array used for <see cref="UnityEngine.Physics.OverlapCapsuleNonAlloc"/> in <see cref="GetPenetrationInfo"/>
@@ -1427,7 +1757,7 @@ namespace StandardAssets.Characters.Physics
 
 			// Split the move vector into horizontal and vertical components.
 			SplitMoveVector(moveVector, slideWhenMovingDown, doNotStepOffset);
-			OpenCharacterControllerVector remainingMoveVector = moveVectors[nextMoveVectorIndex];
+			MoveVector remainingMoveVector = moveVectors[nextMoveVectorIndex];
 			nextMoveVectorIndex++;
 
 			bool didTryToStickToGround = false;
@@ -1446,7 +1776,7 @@ namespace StandardAssets.Characters.Physics
 				                          moveVector))
 				{
 					// Stop current move loop vector
-					remainingMoveVector = new OpenCharacterControllerVector(Vector3.zero);
+					remainingMoveVector = new MoveVector(Vector3.zero);
 				}
 				else if (!localHumanControlled &&
 				         collided)
@@ -1795,7 +2125,7 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="canSlide">Can the movement slide along obstacles?</param>
 		private int AddMoveVector(Vector3 moveVector, bool canSlide = true)
 		{
-			moveVectors.Add(new OpenCharacterControllerVector(moveVector, canSlide));
+			moveVectors.Add(new MoveVector(moveVector, canSlide));
 			return moveVectors.Count - 1;
 		}
 
@@ -1815,11 +2145,11 @@ namespace StandardAssets.Characters.Physics
 
 			if (index >= moveVectors.Count)
 			{
-				moveVectors.Add(new OpenCharacterControllerVector(moveVector, canSlide));
+				moveVectors.Add(new MoveVector(moveVector, canSlide));
 				return moveVectors.Count - 1;
 			}
 
-			moveVectors.Insert(index, new OpenCharacterControllerVector(moveVector, canSlide));
+			moveVectors.Insert(index, new MoveVector(moveVector, canSlide));
 			return index;
 		}
 
@@ -1852,7 +2182,7 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		/// <param name="moveVector">The original movement vector.</param>
 		/// <param name="getDownVector">Get the down vector.</param>
-		private bool CanStickToGround(Vector3 moveVector, out OpenCharacterControllerVector getDownVector)
+		private bool CanStickToGround(Vector3 moveVector, out MoveVector getDownVector)
 		{
 			Vector3 moveVectorNoY = new Vector3(moveVector.x, 0.0f, moveVector.z);
 			float downDistance = Mathf.Max(moveVectorNoY.magnitude, k_MinStickToGroundDownDistance);
@@ -1863,11 +2193,11 @@ namespace StandardAssets.Characters.Physics
 
 			if (downDistance <= k_MaxStickToGroundDownDistance)
 			{
-				getDownVector = new OpenCharacterControllerVector(Vector3.down * downDistance, false);
+				getDownVector = new MoveVector(Vector3.down * downDistance, false);
 				return true;
 			}
 
-			getDownVector = new OpenCharacterControllerVector(Vector3.zero);
+			getDownVector = new MoveVector(Vector3.zero);
 			return false;
 		}
 
@@ -2311,8 +2641,8 @@ namespace StandardAssets.Characters.Physics
 				if (collisionInfoDictionary.ContainsKey(collider) == false)
 				{
 					Vector3 moved = cachedTransform.position - startPosition;
-					OpenCharacterControllerCollisionInfo newCollisionInfo =
-						new OpenCharacterControllerCollisionInfo(this,
+					CollisionInfo newCollisionInfo =
+						new CollisionInfo(this,
 						                                         hitInfo.Value,
 						                                         direction,
 						                                         moved.magnitude);
