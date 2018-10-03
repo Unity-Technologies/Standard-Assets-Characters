@@ -6,11 +6,10 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 	{
 		public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			var motor = animator.GetComponent<ThirdPersonBrain>().thirdPersonMotor;
-			if (motor != null)
+			var brain = animator.GetComponent<ThirdPersonBrain>();
+			if (brain != null)
 			{
-				motor.OnJumpAnimationComplete();
-				
+				brain.thirdPersonMotor.OnJumpAnimationComplete();
 			}
 		}
 	}

@@ -171,13 +171,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <remarks>Should only be called by a root motion jump StateMachineBehaviour</remarks>
 		public void OnJumpAnimationComplete()
 		{
-			var baseCharacterPhysics = characterPhysics as CharacterPhysics;
-			if (baseCharacterPhysics == null)
-			{
-				return;
-			}
-
-			var distance = baseCharacterPhysics.GetPredictedFallDistance();
+			float distance = characterPhysics.GetPredictedFallDistance();
 			if (distance <= configuration.maxFallDistanceToLand)
 			{
 				OnLanding();
