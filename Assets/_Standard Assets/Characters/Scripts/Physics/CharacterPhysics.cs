@@ -7,8 +7,8 @@ using UnityPhysics = UnityEngine.Physics;
 namespace StandardAssets.Characters.Physics
 {
 	/// <summary>
-	/// Abstract implementation of <see cref="ICharacterPhysics"/> that requires an <see cref="ICharacterInput"/> and
-	/// a <see cref="INormalizedForwardSpeedContainer"/>.
+	/// Abstract wrapper for the physics controllers so that character controllers are agnostic of the physic
+	/// implementation; requires an <see cref="INormalizedForwardSpeedContainer"/> and <see cref="ICharacterInput"/>.
 	/// </summary>
 	[RequireComponent(typeof(ICharacterInput))]
 	[RequireComponent(typeof(INormalizedForwardSpeedContainer))]
