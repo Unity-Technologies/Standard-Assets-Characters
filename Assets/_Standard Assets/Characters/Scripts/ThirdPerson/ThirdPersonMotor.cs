@@ -658,7 +658,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			float currentY = currentRotation.eulerAngles.y;
 			float newY = newRotation.eulerAngles.y;
-			float difference = (MathUtilities.Wrap180(newY) - MathUtilities.Wrap180(currentY)) / Time.deltaTime;
+			float difference = (newY - currentY).Wrap180() / Time.deltaTime;
 
 			normalizedTurningSpeed = Mathf.Lerp(normalizedTurningSpeed,Mathf.Clamp(
 													difference / configuration.turningYSpeed *
@@ -713,7 +713,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				previousInputs.Clear();
 				float currentY = transform.eulerAngles.y;
 				float newY = target.eulerAngles.y;
-				angle = MathUtilities.Wrap180(newY - currentY);
+				angle = (newY - currentY).Wrap180();
 				return Mathf.Abs(angle) > configuration.stationaryAngleRapidTurn;
 			}
 

@@ -173,7 +173,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <param name="angle">The target angle in degrees.</param>
 		protected override void StartTurningAround(float angle)
 		{
-			targetAngle = MathUtilities.Wrap180(angle);
+			targetAngle = angle.Wrap180();
 			currentAnimationInfo = GetCurrent(thirdPersonBrain.animatorForwardSpeed, angle > 0.0f,
 				!thirdPersonBrain.isRightFootPlanted);
 

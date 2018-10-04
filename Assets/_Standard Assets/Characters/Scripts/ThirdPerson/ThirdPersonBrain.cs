@@ -516,8 +516,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 			animator.SetLookAtWeight(configuration.lookAtWeight);
-			float targetHeadAngle = Mathf.Clamp(
-				MathUtilities.Wrap180(motor.targetYRotation - gameObject.transform.eulerAngles.y),
+			float targetHeadAngle = Mathf.Clamp((motor.targetYRotation - gameObject.transform.eulerAngles.y).Wrap180(),
 				-configuration.lookAtMaxRotation, configuration.lookAtMaxRotation);
 
 			float headTurn = Time.deltaTime * configuration.lookAtRotationSpeed;
@@ -720,12 +719,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void UpdateFoot()
 		{
 			AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-			var animationNormalizedProgress = MathUtilities.GetFraction(stateInfo.normalizedTime);
+			var animationNormalizedProgress = stateInfo.normalizedTime.GetFraction();
 			//TODO: remove zero index
-			if (MathUtilities.Wrap1(animationNormalizedProgress +
-			                        configuration.groundedFootThresholdOffsetValue) >
-			    MathUtilities.Wrap1(configuration.groundedFootThresholdValue +
-			                        configuration.groundedFootThresholdOffsetValue))
+			if ((animationNormalizedProgress + configuration.groundedFootThresholdOffsetValue).Wrap1() >
+			    (configuration.groundedFootThresholdValue + configuration.groundedFootThresholdOffsetValue).Wrap1())
 			{
 				SetGroundedFootRight(!configuration.invertFoot);
 				return;

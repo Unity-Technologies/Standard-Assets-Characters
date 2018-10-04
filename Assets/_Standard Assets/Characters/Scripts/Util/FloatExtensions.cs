@@ -75,5 +75,76 @@ namespace Util
 		{
 			return value.Remap(currentMin, currentMax, 0.0f, 1.0f);
 		}
+		
+		/// <summary>
+		/// Wraps a float between -180 and 180.
+		/// </summary>
+		/// <param name="toWrap">The float to wrap.</param>
+		/// <returns>A value between -180 and 180.</returns>
+		public static float Wrap180(this float toWrap)
+		{
+			while (toWrap < -180)
+			{
+				toWrap += 360;
+			}
+			
+			while (toWrap > 180)
+			{
+				toWrap -= 360;
+			}
+
+			return toWrap;
+		}
+
+		/// <summary>
+		/// Wraps a float between 0 and 360.
+		/// </summary>
+		/// <param name="toWrap">The float to wrap.</param>
+		/// <returns>A value between 0 and 360.</returns>
+		public static float Wrap360(this float toWrap)
+		{
+			return WrapX(toWrap, 360);
+		}
+
+		/// <summary>
+		/// Wraps a float between 0 and 1.
+		/// </summary>
+		/// <param name="toWrap">The float to wrap.</param>
+		/// <returns>A value between 0 and 1.</returns>
+		public static float Wrap1(this float toWrap)
+		{
+			return WrapX(toWrap, 1);
+		}
+
+		/// <summary>
+		/// Wraps a float between 0 and <paramref name="x"/>.
+		/// </summary>
+		/// <param name="toWrap">The float to wrap.</param>
+		/// <param name="x">The max value of the wrap range.</param>
+		/// <returns>A value between 0 and <paramref name="x"/>.</returns>
+		public static float WrapX(this float toWrap, float x)
+		{
+			while (toWrap < 0)
+			{
+				toWrap += x;
+			}
+
+			while (toWrap > x)
+			{
+				toWrap -= x;
+			}
+
+			return toWrap;
+		}
+
+		/// <summary>
+		/// Gets the fraction portion of a float.
+		/// </summary>
+		/// <param name="number">The float.</param>
+		/// <returns>The fraction portion of a float.</returns>
+		public static float GetFraction(this float number)
+		{
+			return number - Mathf.Floor(number);
+		}
 	}
 }
