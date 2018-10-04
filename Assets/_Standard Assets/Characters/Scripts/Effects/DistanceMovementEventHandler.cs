@@ -73,6 +73,10 @@ namespace StandardAssets.Characters.Effects
 		/// </summary>
 		public void Subscribe()
 		{
+			if (brain == null || brain.physicsForCharacter == null)
+			{
+				return;
+			}
 			brain.physicsForCharacter.landed += Landed;
 			brain.physicsForCharacter.jumpVelocitySet += Jumped;
 		}
@@ -82,6 +86,10 @@ namespace StandardAssets.Characters.Effects
 		/// </summary>
 		public void Unsubscribe()
 		{
+			if (brain == null || brain.physicsForCharacter == null)
+			{
+				return;
+			}
 			brain.physicsForCharacter.landed -= Landed;
 			brain.physicsForCharacter.jumpVelocitySet -= Jumped;
 		}

@@ -10,7 +10,11 @@ namespace StandardAssets.Characters.ThirdPerson
 	{
 		[HelperBox(HelperBoxAttribute.HelperType.Info,
 			"Configurations are separate assets (ScriptableObjects). Click on the associated configuration to locate it in the Project View. Values can be edited here during runtime and not be lost. It also allows one to create different settings and swap between them. To create a new setting Right click -> Create -> Standard Assets -> Characters -> ...")]
-		[SerializeField]
+		
+		[SerializeField, Tooltip("Set to true if you do not want to use the Camera animation manager"), DisableEditAtRuntime()]
+		protected bool useSimpleCameras;
+		
+		[SerializeField, VisibleIf("useSimpleCameras",false), Tooltip("The camera animation manager to use")]
 		protected ThirdPersonCameraAnimationManager cameraAnimationManager;
 		
 		[SerializeField, Tooltip("Properties of the root motion motor")]
@@ -32,6 +36,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		[SerializeField]
 		protected ThirdPersonMovementEventHandler thirdPersonMovementEventHandler;
+
+		
 
 		private TurnaroundBehaviour currentTurnaroundBehaviour;
 
@@ -113,26 +119,30 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 
 		/// <summary>
-		/// Helper for checking if the <see cref="ThirdPersonCameraAnimationManager"/> has been assigned - otherwise looks for it in the scene
+		/// Checks if <see cref="ThirdPersonCameraAnimationManager"/> has been assigned - otherwise looks for it in the scene
 		/// </summary>
 		private void CheckCameraAnimationManager()
 		{
+			if (useSimpleCameras)
+			{
+				return;
+			}
+			
 			if (cameraAnimationManager == null)
 			{
 				Debug.Log("No ThirdPersonCameraAnimationManager set up. Searching scene...");
 				ThirdPersonCameraAnimationManager[] cameraAnimationManagers =
 					FindObjectsOfType<ThirdPersonCameraAnimationManager>();
 
-				if (cameraAnimationManagers.Length == 0)
+				int length = cameraAnimationManagers.Length; 
+				if (length != 1)
 				{
-					Debug.LogError("No ThirdPersonCameraAnimationManagers in scene! Disabling Brain");
-					gameObject.SetActive(false);
-					return;
-				}
-				
-				if (cameraAnimationManagers.Length > 1)
-				{
-					Debug.LogError("Too many ThirdPersonCameraAnimationManagers in scene! Disabling Brain");
+					string errorMessage = "No ThirdPersonCameraAnimationManagers in scene! Disabling Brain";
+					if (length > 1)
+					{
+						errorMessage = "Too many ThirdPersonCameraAnimationManagers in scene! Disabling Brain";
+					}
+					Debug.LogError(errorMessage);
 					gameObject.SetActive(false);
 					return;
 				}
@@ -230,16 +240,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				animationController.HeadTurn();
 			}
-		}
-
-		private void OnGUI()
-		{
-			GUI.Label(new Rect(Screen.width * 0.8f, 0, Screen.width * 0.2f, Screen.height * 0.1f), 
-				string.Format("Turn around: {0}\nPress T to cycle", turnaroundType));
-			
-			
-			GUI.Label(new Rect(Screen.width * 0.8f, Screen.height * 0.1f, Screen.width * 0.2f, Screen.height * 0.1f), 
-				string.Format("Sprint: {0}", rootMotionMotor.sprint));
 		}
 		
 		#if UNITY_EDITOR

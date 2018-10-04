@@ -742,7 +742,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				return true;
 			}
-			if (!IsGrounded || characterPhysics.startedSlide || !animationController.isRootMotionState)
+			if (!IsGrounded || characterPhysics.startedSlide || !animationController.isRootMotionState || 
+			    movementMode == ThirdPersonMotorMovementMode.Strafe) //TODO temp disable of jumping while strafe
 			{
 				return false;
 			}

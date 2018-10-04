@@ -248,6 +248,17 @@ namespace StandardAssets.Characters.CharacterInput
 		}
 
 		/// <summary>
+		/// Fires the <see cref="jumpPressed"/> event.
+		/// </summary>
+		private void FireJumpEvent()
+		{
+			if (jumpPressed != null)
+			{
+				jumpPressed();
+			}
+		}
+
+		/// <summary>
 		/// Reset the agent's path and position
 		/// </summary>
 		private void ResetAgent()

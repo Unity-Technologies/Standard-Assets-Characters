@@ -48,12 +48,12 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 		/// Adjusted character scale.
 		/// </summary>
 		[SerializeField, VisibleIf("useNormalizedTime", false)]
-		private float heightScale = 1;
+		private float heightScale = 1.0f;
 		
 		/// <summary>
 		/// Scale character's collider and offset relative to character's height. 0.5 is center.
 		/// </summary>
-		[SerializeField, Range(0, 1)]
+		[SerializeField, Range(0.0f, 1.0f)]
 		private float heightOrigin = 0.5f;
 		
 		// if false, we will not restore collider on exit
@@ -112,42 +112,30 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 						time = stateInfo.normalizedTime;
 						break;
 					case NormalizedMode.Loop:
-						time = Mathf.Repeat(stateInfo.normalizedTime, 1);
+						time = Mathf.Repeat(stateInfo.normalizedTime, 1.0f);
 						break;
 					case NormalizedMode.PingPong:
-						time = Mathf.PingPong(stateInfo.normalizedTime, 1);
+						time = Mathf.PingPong(stateInfo.normalizedTime, 1.0f);
 						break; 
 				}  
 				currentScale 		=  curve.Evaluate(time);
 			}
 			else
 			{
-				if (duration <= 0.0f)
-				{
-					time = 1.0f;
-				}
-				else
-				{
-					time = Mathf.Clamp01(time + (Time.deltaTime * (1.0f / duration)));
-				}
-				currentScale 		=  Mathf.Lerp(entryScale, heightScale, time);
+				time = duration <= 0.0f ? 
+					       1.0f : 
+					       Mathf.Clamp01(time + (Time.deltaTime * (1.0f / duration)));
+				
+				currentScale =  Mathf.Lerp(entryScale, heightScale, time);
 			}
 			
-			float height 		= currentScale * controller.defaultHeight;
-			height = controller.ValidateHeight(height);
+			float height = controller.ValidateHeight(currentScale * controller.defaultHeight);
 
-			float offset;
+			float offset = useNormalizedTime ? 
+				         Mathf.Lerp(entryOffset, Center(), 1.0f - curve.Evaluate(time)) : 
+				         Mathf.Lerp(entryOffset, Center(), 1.0f - time);
 
-			if (useNormalizedTime)
-			{
-				offset 		= Mathf.Lerp(entryOffset, Center(height), curve.Evaluate(time));
-			}
-			else
-			{
-				offset 		= Mathf.Lerp(entryOffset, Center(height), time);
-			}
-
-			controller.SetHeightAndCenter(height, new Vector3(0, offset, 0), true, false);
+			controller.SetHeightAndCenter(height, new Vector3(0.0f, offset, 0.0f), true, false);
 		}
 	
 		public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -172,7 +160,7 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 				controller.ResetHeightAndCenter(true, false);
 			}
 	
-			time = 0;
+			time = 0.0f;
 		}
 		
 		private void OnValidate()
@@ -181,11 +169,13 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 			duration = Mathf.Max(0.0f, duration);
 		}
 		
-		private float Center(float currHeight)
+		private float Center()
 		{
 			float charHeight = controller.defaultHeight;
 			// collider is centered on character:
-			return   (((currHeight / charHeight) - (1.0f - heightOrigin)) * (charHeight / 2));  
+			float center = (currentScale * charHeight) * 0.5f;
+			float offset   = center * (heightOrigin - 0.5f);
+			return center + offset;
 		}
 	}
 }

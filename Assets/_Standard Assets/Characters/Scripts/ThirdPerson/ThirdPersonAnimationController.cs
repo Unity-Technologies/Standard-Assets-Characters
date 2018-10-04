@@ -52,6 +52,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private int hashJumpedForwardSpeed;
 		private int hashJumpedLateralSpeed;
 		private int hashFall;
+		private int hashStrafe;
 
 		// is the character grounded
 		private bool isGrounded;
@@ -295,6 +296,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			hashGroundedFootRight = Animator.StringToHash(configuration.groundedFootRightParameterName);
 			hashJumpedForwardSpeed = Animator.StringToHash(configuration.jumpedForwardSpeedParameterName);
 			hashJumpedLateralSpeed = Animator.StringToHash(configuration.jumpedLateralSpeedParameterName);
+			hashStrafe = Animator.StringToHash(configuration.strafeParameterName);
 			hashFall = Animator.StringToHash(configuration.fallParameterName);
 			motor = motorToUse;
 			animator = gameObject.GetComponent<Animator>();
@@ -388,10 +390,13 @@ namespace StandardAssets.Characters.ThirdPerson
 			motor.landed += OnLanding;
 			motor.fallStarted += OnFallStarted;
 
-			thirdPersonBrain.thirdPersonCameraAnimationManager.forwardLockedModeStarted +=
-				OnStrafeStarted;
-			thirdPersonBrain.thirdPersonCameraAnimationManager.forwardUnlockedModeStarted +=
-				OnStrafeEnded;
+			if (thirdPersonBrain != null && thirdPersonBrain.thirdPersonCameraAnimationManager != null)
+			{
+				thirdPersonBrain.thirdPersonCameraAnimationManager.forwardLockedModeStarted +=
+					OnStrafeStarted;
+				thirdPersonBrain.thirdPersonCameraAnimationManager.forwardUnlockedModeStarted +=
+					OnStrafeEnded;
+			}
 		}
 
 		/// <summary>
@@ -407,10 +412,13 @@ namespace StandardAssets.Characters.ThirdPerson
 				motor.fallStarted -= OnFallStarted;
 			}
 
-			thirdPersonBrain.thirdPersonCameraAnimationManager.forwardLockedModeStarted -=
-				OnStrafeStarted;
-			thirdPersonBrain.thirdPersonCameraAnimationManager.forwardUnlockedModeStarted -=
-				OnStrafeEnded;
+			if (thirdPersonBrain != null && thirdPersonBrain.thirdPersonCameraAnimationManager != null)
+			{
+				thirdPersonBrain.thirdPersonCameraAnimationManager.forwardLockedModeStarted -=
+					OnStrafeStarted;
+				thirdPersonBrain.thirdPersonCameraAnimationManager.forwardUnlockedModeStarted -=
+					OnStrafeEnded;
+			}
 		}
 
 		/// <summary>
@@ -487,7 +495,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void OnStrafeStarted()
 		{
 			isStrafing = true;
-			animator.SetBool(configuration.strafeParameterName, isStrafing);
+			animator.SetBool(hashStrafe, isStrafing);
 		}
 
 		/// <summary>
@@ -496,7 +504,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void OnStrafeEnded()
 		{
 			isStrafing = false;
-			animator.SetBool(configuration.strafeParameterName, isStrafing);
+			animator.SetBool(hashStrafe, isStrafing);
 		}
 
 		/// <summary>

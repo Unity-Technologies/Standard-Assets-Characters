@@ -448,6 +448,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4076727408819664}
+  - component: {fileID: 54847277216294630}
+  - component: {fileID: 136516862342659806}
   - component: {fileID: 95372130055387216}
   - component: {fileID: 114484545000245226}
   - component: {fileID: 114403526203746496}
@@ -1543,7 +1545,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1294013925418394}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 14.1, y: 2.92, z: 7.5}
+  m_LocalPosition: {x: 14.1, y: 0.898, z: 7.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4373934692070628}
@@ -2418,6 +2420,21 @@ Transform:
   m_Father: {fileID: 4222790675373152}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &54847277216294630
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1294013925418394}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!65 &65244173496618208
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -2775,14 +2792,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 475c226dbac9416ea06c859daeb6d183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useSimpleCameras: 1
   cameraAnimationManager: {fileID: 0}
   rootMotionMotor:
     configuration: {fileID: 11400000, guid: 33e0d88026c128b4ca3076e2e5149510, type: 2}
     sprintInput: {fileID: 0}
-    rotator:
-      angleThreshold: 10
-      changeThreshold: 270
-      zeroAngleAxis: {x: 0, y: 1}
   animationController:
     configuration: {fileID: 11400000, guid: 16861f506e03f4b39a1b25e1bb3e307f, type: 2}
   turnaroundType: 1
@@ -2814,7 +2828,6 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      turnSpeed: 0
       forwardSpeed:
         serializedVersion: 2
         m_Curve:
@@ -2895,32 +2908,26 @@ MonoBehaviour:
       name: RunForwardTurnLeft180
       speed: 1.25
       headTurnScale: 1
-      duration: 1.1333334
     runRightTurn:
       name: RunForwardTurnRight180_Mirror
       speed: 1.25
       headTurnScale: 1
-      duration: 1.1333334
     sprintLeftTurn:
       name: RunForwardTurnLeft180
       speed: 1.5
       headTurnScale: 1
-      duration: 1.1333334
     sprintRightTurn:
       name: RunForwardTurnRight180_Mirror
       speed: 1.5
       headTurnScale: 1
-      duration: 1.1333334
     idleLeftTurn:
       name: IdleTurnLeft180
       speed: 3
       headTurnScale: 1
-      duration: 1.8000001
     idleRightTurn:
       name: IdleTurnRight180_Mirror
       speed: 3
       headTurnScale: 1
-      duration: 1.8000001
     rotationCurve:
       serializedVersion: 2
       m_Curve:
@@ -2948,12 +2955,11 @@ MonoBehaviour:
     normalizedRunSpeedThreshold: 0.4
     crossfadeDuration: 0.5
   thirdPersonMovementEventHandler:
-    startingMovementEventLibrary: {fileID: 0}
-    jumpSoundId: jumpingSound
-    landSoundId: landingSound
-    movementDetections:
-    - {fileID: 114447118663720106}
-    - {fileID: 114449538320415148}
+    zonesDefinition:
+      movementZoneLibraries: []
+    leftFootDetection: {fileID: 0}
+    rightFootDetection: {fileID: 0}
+    maximumSpeed: 10
 --- !u!114 &114409830971381574
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2998,11 +3004,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcb74f21ba404856bb13390a1b5f29ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: leftfoot
   layerMask:
     serializedVersion: 2
     m_Bits: 256
-  minimumTimeInterval: 0.5
 --- !u!114 &114449538320415148
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3014,11 +3018,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcb74f21ba404856bb13390a1b5f29ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: rightfoot
   layerMask:
     serializedVersion: 2
     m_Bits: 256
-  minimumTimeInterval: 0.5
 --- !u!114 &114484545000245226
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3031,9 +3033,79 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terminalVelocity: 10
-  jumpGravityMultiplier: 1
-  fallGravityMultiplier: 1
-  minJumpHeightMultiplier: 1
+  jumpGravityMultiplierAsAFactorOfForwardSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: -0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  fallGravityMultiplierAsAFactorOfForwardSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: -0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  minJumpHeightMultiplierAsAFactorOfForwardSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: -0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  gravityChangeSpeed: 10
   characterController:
     playerRootTransform: {fileID: 4040340540093194}
     rootTransformOffset: {x: 0, y: -0.87, z: 0}
@@ -3044,8 +3116,6 @@ MonoBehaviour:
     center: {x: 0, y: 0, z: 0}
     radius: 0.4
     height: 1.6
-    addKinematicRigidbody: 1
-    addColliderAsAChild: 1
     colliderLayer: 
     collisionLayerMask:
       serializedVersion: 2
@@ -3404,6 +3474,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!136 &136516862342659806
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1294013925418394}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!137 &137464820802569840
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

@@ -187,7 +187,7 @@ namespace StandardAssets.Characters.FirstPerson
 		}
 
 		/// <summary>
-		/// Checks if the <see cref="FirstPersonCameraAnimationManager"/> otherwise finds it in the scene
+		/// Checks if the <see cref="FirstPersonCameraAnimationManager"/> has been assigned otherwise finds it in the scene
 		/// </summary>
 		private void CheckCameraAnimationManager()
 		{
@@ -196,23 +196,24 @@ namespace StandardAssets.Characters.FirstPerson
 				Debug.LogWarning("Camera Animation Manager not set - looking in scene");
 				FirstPersonCameraAnimationManager[] cameraManagers =
 					FindObjectsOfType<FirstPersonCameraAnimationManager>();
-
-				if (cameraManagers.Length == 0)
-				{
-					Debug.LogError("No Camera Manager found - disabling gameobject");
-					gameObject.SetActive(false);
-					return;
-				}
 				
-				if (cameraManagers.Length > 1)
+				int length = cameraManagers.Length; 
+				if (length != 1)
 				{
-					Debug.LogError("More than 1 Camera Manager found - disabling gameobject");
+					string errorMessage = "No FirstPersonCameraAnimationManagers in scene! Disabling Brain";
+					if (length > 1)
+					{
+						errorMessage = "Too many FirstPersonCameraAnimationManagers in scene! Disabling Brain";
+					}
+					Debug.LogError(errorMessage);
 					gameObject.SetActive(false);
 					return;
 				}
 
 				cameraManager = cameraManagers[0];
 			}
+			
+			cameraManager.SetupBrain(this);
 		}
 
 		/// <summary>

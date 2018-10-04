@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8fb5ce183e505584996aa54a50c16fc9
+guid: baaf5ed03836f479aa6d78000bf9e9fb
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -144,12 +144,10 @@ ModelImporter:
     400136: Spine
     400138: UpperChest
     7400000: RapidStrafeLeftRunBackwards
-    7400002: RapidStrafeRightRunBackwards_Mirror
     9500000: //RootNode
-    2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
-    importMaterials: 0
+    importMaterials: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -160,14 +158,9 @@ ModelImporter:
     optimizeGameObjects: 0
     motionNodeName: 
     rigImportErrors: 
-    rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Bone length in
-      copied configuration does not match position in animation file:\n\t'Spine' :
-      position error = 4.228436 mm\n"
+    rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
-      might lower retargeting quality:\nNote: Activate translation DOF on avatar to
-      improve retargeting quality.\n\t'Spine' has translation animation that will
-      be discarded.\n"
+    animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -184,11 +177,11 @@ ModelImporter:
       name: RapidStrafeLeftRunBackwards
       takeName: Take 001
       firstFrame: 1
-      lastFrame: 18
+      lastFrame: 19
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
-      cycleOffset: 0.15
+      cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 1
@@ -201,34 +194,6 @@ ModelImporter:
       keepOriginalPositionXZ: 0
       heightFromFeet: 0
       mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: RapidStrafeRightRunBackwards_Mirror
-      takeName: Take 001
-      firstFrame: 1
-      lastFrame: 16
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0.54
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 1
-      loopBlendOrientation: 1
-      loopBlendPositionY: 1
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 1
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 1
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events: []
