@@ -9,11 +9,17 @@ namespace StandardAssets.Characters.CharacterInput
 	/// </summary>
 	/// <seealso cref="ICharacterInput"/>
 	[RequireComponent(typeof(NavMeshAgent))]
-	public class NavMeshAgentInput : MonoBehaviour, ICharacterInput
+	public class NavMeshAgentInput : MonoBehaviour, IThirdPersonInput
 	{
 		/// <inheritdoc />
 		public event Action jumpPressed;
-		
+		public event Action sprintStarted;
+		public event Action sprintEnded;
+	
+		public void ResetSprint()
+		{
+		}
+
 		/// <summary>
 		/// Make input relative to the camera.
 		/// </summary>

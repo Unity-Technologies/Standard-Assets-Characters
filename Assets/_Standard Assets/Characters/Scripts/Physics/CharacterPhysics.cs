@@ -10,7 +10,7 @@ namespace StandardAssets.Characters.Physics
 	/// Abstract wrapper for the physics controllers so that character controllers are agnostic of the physic
 	/// implementation; requires an <see cref="INormalizedForwardSpeedContainer"/> and <see cref="ICharacterInput"/>.
 	/// </summary>
-	[RequireComponent(typeof(ICharacterInput))]
+	[RequireComponent(typeof(BaseInput))]
 	[RequireComponent(typeof(INormalizedForwardSpeedContainer))]
 	public abstract class CharacterPhysics : MonoBehaviour
 	{
@@ -129,7 +129,7 @@ namespace StandardAssets.Characters.Physics
 		/// <value><see cref="Vector3.zero"/> with a y based on <see cref="currentVerticalVelocity"/>.</value>
 		private Vector3 verticalVector = Vector3.zero;
 
-		private ICharacterInput characterInput;
+		private BaseInput characterInput;
 
 		/// <summary>
 		/// Gets the current jump gravity multiplier as a factor of normalized forward speed.
@@ -204,7 +204,7 @@ namespace StandardAssets.Characters.Physics
 		protected virtual void Awake()
 		{
 			normalizedVerticalSpeed = 0.0f;
-			characterInput = GetComponent<ICharacterInput>();
+			characterInput = GetComponent<BaseInput>();
 			normalizedForwardSpeedContainer = GetComponent<INormalizedForwardSpeedContainer>();
 
 			if (terminalVelocity > 0.0f)

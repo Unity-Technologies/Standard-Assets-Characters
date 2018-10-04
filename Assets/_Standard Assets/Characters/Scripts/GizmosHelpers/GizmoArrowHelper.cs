@@ -18,7 +18,7 @@ namespace StandardAssets.Characters.GizmosHelpers
 	/// </item>
 	/// </list>
 	/// </summary>
-	[RequireComponent(typeof(ICharacterInput))]
+	//[RequireComponent(typeof(ICharacterInput))]
 	[RequireComponent(typeof(CharacterBrain))]
 	public class GizmoArrowHelper : MonoBehaviour
 	{
@@ -32,7 +32,7 @@ namespace StandardAssets.Characters.GizmosHelpers
 		/// The Input implementation to be used
 		/// e.g. Default unity input or (in future) the new new input system
 		/// </summary>
-		protected ICharacterInput characterInput;
+		protected BaseInput characterInput;
 		protected CharacterBrain characterMotor;
 
 		private const string k_ArrowGizmoPath = "Gizmos/GizmoArrow";
@@ -47,7 +47,7 @@ namespace StandardAssets.Characters.GizmosHelpers
 		/// </summary>
 		protected virtual void Awake()
 		{
-			characterInput = GetComponent<ICharacterInput>();
+			characterInput = GetComponent<BaseInput>();
 			characterMotor = GetComponent<CharacterBrain>();
 		}
 

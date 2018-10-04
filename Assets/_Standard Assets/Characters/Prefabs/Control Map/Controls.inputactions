@@ -1,0 +1,212 @@
+{
+    "name": "Controls",
+    "maps": [
+        {
+            "name": "Movement",
+            "id": "5410a21c-d4fe-4eef-843a-7ae75e27fa27",
+            "actions": [
+                {
+                    "name": "move",
+                    "id": "be72212b-4f36-482d-aeba-44877c79677b",
+                    "expectedControlLayout": "",
+                    "bindings": []
+                },
+                {
+                    "name": "look",
+                    "id": "5437476d-6ea2-44f4-8b42-efb27e01dc84",
+                    "expectedControlLayout": "",
+                    "bindings": []
+                },
+                {
+                    "name": "jump",
+                    "id": "c5daca2a-552b-4786-850b-0813d6d6635a",
+                    "expectedControlLayout": "",
+                    "bindings": []
+                },
+                {
+                    "name": "strafe",
+                    "id": "0c43f624-0882-43ce-8036-64954f950d31",
+                    "expectedControlLayout": "",
+                    "bindings": []
+                },
+                {
+                    "name": "sprint",
+                    "id": "b853d4cb-c548-4f9d-b3dd-2d6128289162",
+                    "expectedControlLayout": "",
+                    "bindings": []
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "Dpad",
+                    "path": "Dpad",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "move",
+                    "chainWithPrevious": false,
+                    "isComposite": true,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "up",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "move",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": true,
+                    "modifiers": ""
+                },
+                {
+                    "name": "down",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "move",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": true,
+                    "modifiers": ""
+                },
+                {
+                    "name": "left",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "move",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": true,
+                    "modifiers": ""
+                },
+                {
+                    "name": "right",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "move",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": true,
+                    "modifiers": ""
+                },
+                {
+                    "name": "right",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "move",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "right",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "look",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "right",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "look",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "right",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "jump",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "right",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "jump",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "right",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "PressAndRelease()",
+                    "processors": "",
+                    "groups": "",
+                    "action": "strafe",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "right",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "PressAndRelease()",
+                    "processors": "",
+                    "groups": "",
+                    "action": "strafe",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "right",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "sprint",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "right",
+                    "path": "<Gamepad>/leftStickPress",
+                    "interactions": "Press()",
+                    "processors": "",
+                    "groups": "",
+                    "action": "sprint",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

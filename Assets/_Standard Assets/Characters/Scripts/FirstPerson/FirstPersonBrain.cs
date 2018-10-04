@@ -12,7 +12,7 @@ namespace StandardAssets.Characters.FirstPerson
 	/// Ties together the input and physics implementations
 	/// </summary>
 	[RequireComponent(typeof(CharacterPhysics))]
-	[RequireComponent(typeof(ICharacterInput))]
+	[RequireComponent(typeof(FirstPersonInput))]
 	public class FirstPersonBrain : CharacterBrain
 	{
 		private const string k_CrouchAnimationStateName = "Crouch",
@@ -72,10 +72,6 @@ namespace StandardAssets.Characters.FirstPerson
 		[SerializeField, Tooltip("Movement properties of the character while crouching")]
 		protected MovementProperties crouching;
 
-		//TODO remove Input Responses for easier to understand mechanism
-		[SerializeField]
-		protected InputResponse sprintInput, crouchInput;
-
 		/// <summary>
 		/// Main Camera that is using the POV camera
 		/// </summary>
@@ -108,6 +104,21 @@ namespace StandardAssets.Characters.FirstPerson
 		private MovementProperties currentMovementProperties;
 
 		private MovementProperties newMovementProperties;
+
+		private FirstPersonInput input;
+
+		private FirstPersonInput characterInput
+		{
+			get
+			{
+				if (input == null)
+				{
+					input = GetComponent<FirstPersonInput>();
+				}
+
+				return input;
+			}
+		}
 
 		/// <summary>
 		/// Gets the referenced <see cref="CameraController"/>
@@ -175,10 +186,6 @@ namespace StandardAssets.Characters.FirstPerson
 			{
 				mainCamera = Camera.main;
 			}
-
-			//TODO remove Input Responses for easier to understand mechanism
-			sprintInput.Init();
-			crouchInput.Init();
 		}
 
 		/// <summary>
@@ -218,14 +225,10 @@ namespace StandardAssets.Characters.FirstPerson
 		private void OnEnable()
 		{
 			characterInput.jumpPressed += OnJumpPressed;
+			characterInput.sprintStarted += StartSprinting;
+			characterInput.sprintEnded += StartWalking;
 			firstPersonMovementEventHandler.Subscribe();
 			characterPhysics.landed += OnLanded;
-
-			//TODO remove Input Responses for easier to understand mechanism
-			sprintInput.ended += StartWalking;
-			crouchInput.ended += StartWalking;
-			sprintInput.started += StartSprinting;
-			crouchInput.started += StartCrouching;
 		}
 
 		/// <summary>
@@ -240,13 +243,9 @@ namespace StandardAssets.Characters.FirstPerson
 			}
 
 			characterInput.jumpPressed -= OnJumpPressed;
+			characterInput.sprintStarted -= StartSprinting;
+			characterInput.sprintEnded -= StartWalking;
 			characterPhysics.landed -= OnLanded;
-
-			//TODO remove Input Responses for easier to understand mechanism
-			sprintInput.ended -= StartWalking;
-			crouchInput.ended -= StartWalking;
-			sprintInput.started -= StartSprinting;
-			crouchInput.started -= StartCrouching;
 		}
 
 		/// <summary>
@@ -290,14 +289,15 @@ namespace StandardAssets.Characters.FirstPerson
 				currentSpeed = 0f;
 			}
 
-			Vector2 input = characterInput.moveInput;
-			if (input.sqrMagnitude > 1)
+			Vector2 move
+				= characterInput.moveInput;
+			if (move.sqrMagnitude > 1)
 			{
-				input.Normalize();
+				move.Normalize();
 			}
 
-			Vector3 forward = transform.forward * input.y;
-			Vector3 sideways = transform.right * input.x;
+			Vector3 forward = transform.forward * move.y;
+			Vector3 sideways = transform.right * move.x;
 			Vector3 currentVelocity = (forward + sideways) * currentMovementProperties.maxSpeed;
 			currentSpeed = currentVelocity.magnitude;
 			characterPhysics.Move(currentVelocity * Time.fixedDeltaTime, Time.fixedDeltaTime);

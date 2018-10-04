@@ -1,4 +1,5 @@
 using StandardAssets.Characters.Attributes;
+using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Common;
 using StandardAssets.Characters.Effects;
 using StandardAssets.Characters.Helpers;
@@ -6,6 +7,7 @@ using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
+	[RequireComponent(typeof(IThirdPersonInput))]
 	public class ThirdPersonBrain : CharacterBrain
 	{
 		/// <summary>
@@ -86,6 +88,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		private const float k_StrafeRapidDirectionChangeRangeMargin = 0.025f,
 		                    k_StrafeRapidDirectionChangeRangeStartInMargin = 0.05f;
 
+		private IThirdPersonInput input;
+
 		private TurnaroundBehaviour[] turnaroundBehaviours;
 		
 		public ThirdPersonMotor thirdPersonMotor
@@ -129,6 +133,19 @@ namespace StandardAssets.Characters.ThirdPerson
 			get
 			{
 				return cameraController;
+			}
+		}
+
+		public IThirdPersonInput thirdPersonInput
+		{
+			get
+			{
+				if (input == null)
+				{
+					input = GetComponent<IThirdPersonInput>();
+				}
+
+				return input;
 			}
 		}
 
@@ -301,7 +318,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 			// check if a rapid direction change has occured.
-			float delta = Mathf.Abs(inputForCharacter.moveInput.x - animatorLateralSpeed);
+			float delta = Mathf.Abs(thirdPersonInput.moveInput.x - animatorLateralSpeed);
 			if (delta >= configuration.strafeRapidChangeThreshold)
 			{
 				triggeredRapidDirectionChange = true;

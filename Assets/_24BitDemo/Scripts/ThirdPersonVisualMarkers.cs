@@ -9,7 +9,7 @@ using StandardAssets.GizmosHelpers;
 namespace Demo
 {
 	[RequireComponent(typeof(CharacterPhysics))]
-	[RequireComponent(typeof(ICharacterInput))]
+	[RequireComponent(typeof(BaseInput))]
 	[RequireComponent(typeof(CharacterBrain))]
 	public class ThirdPersonVisualMarkers : MonoBehaviour
 	{
@@ -19,12 +19,12 @@ namespace Demo
 		/// The Input implementation to be used
 		/// e.g. Default unity input or (in future) the new new input system
 		/// </summary>
-		protected ICharacterInput characterInput;
+		protected BaseInput characterInput;
 
 
 		protected CharacterBrain characterMotor;
 
-		public ICharacterInput inputForCharacter
+		public BaseInput inputForCharacter
 		{
 			get { return characterInput; }
 		}
@@ -39,7 +39,7 @@ namespace Demo
 		/// </summary>
 		protected virtual void Awake()
 		{
-			characterInput = GetComponent<ICharacterInput>();
+			characterInput = GetComponent<BaseInput>();
 			characterMotor = GetComponent<CharacterBrain>();
 			
 			

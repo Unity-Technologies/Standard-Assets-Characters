@@ -23,9 +23,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		[SerializeField, Tooltip("Reference to the configuration with all the movement settings")]
 		protected MotorConfig configuration;
-		
-		[SerializeField, Tooltip("Input response to trigger sprint")]
-		protected InputResponse sprintInput;
 
 		/// <summary>
 		/// Gets the normalized turning speed
@@ -96,7 +93,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// The input implementation
 		/// </summary>
-		protected ICharacterInput characterInput;
+		protected IThirdPersonInput characterInput;
 
 		/// <summary>
 		/// The physic implementation
@@ -253,7 +250,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			gameObject = brain.gameObject;
 			transform = brain.transform;
 			thirdPersonBrain = brain;
-			characterInput = brain.inputForCharacter;
+			characterInput = brain.thirdPersonInput;
 			characterPhysics = brain.physicsForCharacter;
 			animator = gameObject.GetComponent<Animator>();
 			averageForwardVelocity = new SlidingAverage(configuration.jumpGroundVelocityWindowSize);
@@ -262,11 +259,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			strafeAverageLateralInput = new SlidingAverage(configuration.strafeInputWindowSize);
 			previousInputs = new SizedQueue<Vector2>(configuration.bufferSizeInput);
 			movementMode = ThirdPersonMotorMovementMode.Action;
-
-			if (sprintInput != null)
-			{
-				sprintInput.Init();
-			}
 
 			OnStrafeEnded();
 		}
@@ -279,17 +271,13 @@ namespace StandardAssets.Characters.ThirdPerson
 			characterPhysics.landed += OnLanding;
 			characterPhysics.startedFalling += OnStartedFalling;
 			characterInput.jumpPressed += OnJumpPressed;
+			characterInput.sprintStarted += OnSprintStarted;
+			characterInput.sprintEnded += OnSprintEnded;
 			
 			if (thirdPersonBrain.thirdPersonCameraController != null)
 			{
 				thirdPersonBrain.thirdPersonCameraController.forwardLockedModeStarted += OnStrafeStarted;
 				thirdPersonBrain.thirdPersonCameraController.forwardUnlockedModeStarted += OnStrafeEnded;
-			}
-			
-			if (sprintInput != null)
-			{
-				sprintInput.started += OnSprintStarted;
-				sprintInput.ended += OnSprintEnded;
 			}
 			
 			//Turnaround subscription for runtime support
@@ -325,18 +313,14 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (characterInput != null)
 			{
 				characterInput.jumpPressed -= OnJumpPressed;
+				characterInput.sprintStarted -= OnSprintStarted;
+				characterInput.sprintEnded -= OnSprintEnded;
 			}
 
 			if (thirdPersonBrain.thirdPersonCameraController != null)
 			{
 				thirdPersonBrain.thirdPersonCameraController.forwardLockedModeStarted -= OnStrafeStarted;
 				thirdPersonBrain.thirdPersonCameraController.forwardUnlockedModeStarted -= OnStrafeEnded;
-			}
-			
-			if (sprintInput != null)
-			{
-				sprintInput.started -= OnSprintStarted;
-				sprintInput.ended -= OnSprintEnded;
 			}
 
 			//Turnaround un-subscription for runtime support
@@ -353,7 +337,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			if (configuration.autoToggleSprintOnNoInput && sprint && !characterInput.hasMovementInput)
 			{
-				sprintInput.ManualInputEnded();
+				OnSprintEnded();
 			}
 			
 			HandleMovement();

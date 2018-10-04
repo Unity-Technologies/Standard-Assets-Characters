@@ -27,8 +27,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		[DisableEditAtRuntime(), SerializeField, Tooltip("Define the starting camera mode")]
 		protected CameraType startingCameraMode = CameraType.Exploration;
 
-		[SerializeField, Tooltip("Input Response for changing camera mode and camera recenter")]
-		protected InputResponse cameraModeInput, recenterCameraInput;
+//		[SerializeField, Tooltip("Input Response for changing camera mode and camera recenter")]
+//		protected InputResponse cameraModeInput, recenterCameraInput;
 
 		[SerializeField, Tooltip("State Driven Camera state names")]
 		protected string[] explorationCameraStates, strafeCameraStates;
@@ -71,14 +71,14 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void Awake()
 		{
 			thirdPersonStateDrivenCamera = GetComponent<CinemachineStateDrivenCamera>();
-			if (cameraModeInput != null)
-			{
-				cameraModeInput.Init();
-			}		
-			if (recenterCameraInput != null)
-			{
-				recenterCameraInput.Init();
-			}
+//			if (cameraModeInput != null)
+//			{
+//				cameraModeInput.Init();
+//			}		
+//			if (recenterCameraInput != null)
+//			{
+//				recenterCameraInput.Init();
+//			}
 		}
 		
 		/// <summary>
@@ -86,17 +86,17 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private void OnEnable()
 		{
-			if (cameraModeInput != null)
-			{
-				cameraModeInput.started += ChangeCameraMode;
-				cameraModeInput.ended += ChangeCameraMode;
-			}
-			
-			if (recenterCameraInput != null)
-			{
-				recenterCameraInput.started += RecenterCamera;
-				recenterCameraInput.ended += RecenterCamera;
-			}
+//			if (cameraModeInput != null)
+//			{
+//				cameraModeInput.started += ChangeCameraMode;
+//				cameraModeInput.ended += ChangeCameraMode;
+//			}
+//			
+//			if (recenterCameraInput != null)
+//			{
+//				recenterCameraInput.started += RecenterCamera;
+//				recenterCameraInput.ended += RecenterCamera;
+//			}
 			
 			if (thirdPersonBrain != null)
 			{
@@ -109,17 +109,17 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private void OnDisable()
 		{
-			if (cameraModeInput != null)
-			{
-				cameraModeInput.started -= ChangeCameraMode;
-				cameraModeInput.ended -= ChangeCameraMode;
-			}
-			
-			if (recenterCameraInput != null)
-			{
-				recenterCameraInput.started -= RecenterCamera;
-				recenterCameraInput.ended -= RecenterCamera;
-			}
+//			if (cameraModeInput != null)
+//			{
+//				cameraModeInput.started -= ChangeCameraMode;
+//				cameraModeInput.ended -= ChangeCameraMode;
+//			}
+//			
+//			if (recenterCameraInput != null)
+//			{
+//				recenterCameraInput.started -= RecenterCamera;
+//				recenterCameraInput.ended -= RecenterCamera;
+//			}
 			
 			if (thirdPersonBrain != null)
 			{
@@ -139,10 +139,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		private void RecenterCamera()
 		{
-			if (!thirdPersonBrain.inputForCharacter.hasMovementInput)
-			{
-				RecenterFreeLookCam(idleCamera);
-			}
+//			if (!thirdPersonBrain.inputForCharacter.hasMovementInput)
+//			{
+//				RecenterFreeLookCam(idleCamera);
+//			}
 		}
 		
 		private void OnLanded()
@@ -211,11 +211,11 @@ namespace StandardAssets.Characters.ThirdPerson
 				}
 			}
 
-			if (thirdPersonBrain.inputForCharacter.hasMovementInput ||
-			    thirdPersonBrain.inputForCharacter.lookInput != Vector2.zero)
-			{
-				TurnOffFreeLookCamRecenter(idleCamera);
-			}	
+//			if (thirdPersonBrain.inputForCharacter.hasMovementInput ||
+//			    thirdPersonBrain.inputForCharacter.lookInput != Vector2.zero)
+//			{
+//				TurnOffFreeLookCamRecenter(idleCamera);
+//			}	
 		}
 		
 		private void SetCameraState()

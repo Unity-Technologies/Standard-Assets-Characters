@@ -24,7 +24,6 @@ GameObject:
   - component: {fileID: 33370910563476246}
   - component: {fileID: 23257896333880788}
   - component: {fileID: 114816713393816442}
-  - component: {fileID: 114984393507249552}
   - component: {fileID: 114733511240769224}
   - component: {fileID: 114029035248450258}
   m_Layer: 11
@@ -331,20 +330,6 @@ MonoBehaviour:
     slideDownStartDuration: 0.25
     enableDebug: 0
     debugDrawMoveVector: 0
---- !u!114 &114984393507249552
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1942727258898328}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14dd74d1cf9b4277b2858750e8e81811, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  standaloneInput: {fileID: 0}
-  mobileInput: {fileID: 0}
-  debugOnScreenControls: 0
 --- !u!136 &136524137190470324
 CapsuleCollider:
   m_ObjectHideFlags: 1
