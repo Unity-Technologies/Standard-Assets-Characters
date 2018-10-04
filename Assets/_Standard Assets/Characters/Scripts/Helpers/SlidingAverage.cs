@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Util
+namespace StandardAssets.Characters.Helpers
 {
 	/// <summary>
 	/// Class that uses a <see cref="SizedQueue{T}"/> to store a set number of values so that an average can be requested.

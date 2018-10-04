@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using StandardAssets.Characters.Helpers;
 using UnityEngine;
-using Util;
 
 namespace Demo
 {

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Util
+namespace StandardAssets.Characters.Helpers
 {
 	/// <summary>
 	/// Struct for represent a set of min and max values

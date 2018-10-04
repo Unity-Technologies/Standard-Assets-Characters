@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using StandardAssets.Characters.CharacterInput;
+using StandardAssets.Characters.Helpers;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
-using Util;
 
 namespace StandardAssets.Characters.ThirdPerson
 {

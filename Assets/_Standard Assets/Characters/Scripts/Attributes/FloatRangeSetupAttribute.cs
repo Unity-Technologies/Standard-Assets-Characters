@@ -1,9 +1,10 @@
 using System;
+using StandardAssets.Characters.Helpers;
 
 namespace StandardAssets.Characters.Attributes
 {
 	/// <summary>
-	/// Attribute for set minimum and maximum values on <see cref="Util.FloatRange"/>
+	/// Attribute for set minimum and maximum values on <see cref="FloatRange"/>
 	/// </summary>
 	public class FloatRangeSetupAttribute : Attribute
 	{

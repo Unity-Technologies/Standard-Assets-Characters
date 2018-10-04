@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Util
+namespace StandardAssets.Characters.Helpers
 {
 	/// <summary>
 	/// Float extensions.

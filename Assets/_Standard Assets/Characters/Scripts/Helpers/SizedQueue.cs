@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Util
+namespace StandardAssets.Characters.Helpers
 {
 	/// <summary>
 	/// A class that wraps a <see cref="Queue{T}"/> and adds an immutable size. The queue is dequeued if a value is

@@ -1,8 +1,8 @@
 using StandardAssets.Characters.Attributes;
 using StandardAssets.Characters.Common;
 using StandardAssets.Characters.Effects;
+using StandardAssets.Characters.Helpers;
 using UnityEngine;
-using Util;
 
 namespace StandardAssets.Characters.ThirdPerson
 {

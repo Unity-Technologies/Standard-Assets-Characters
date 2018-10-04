@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Util
+namespace StandardAssets.Characters.Helpers
 {
 	public static class Vector3Extensions
 	{

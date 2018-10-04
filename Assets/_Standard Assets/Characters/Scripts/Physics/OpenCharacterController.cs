@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using StandardAssets.Characters.Attributes;
+using StandardAssets.Characters.Helpers;
 using UnityEngine;
-using Util;
+
 #if UNITY_EDITOR
 using StandardAssets.GizmosHelpers;
 

@@ -1,6 +1,6 @@
 ﻿using StandardAssets.Characters.Attributes;
+using StandardAssets.Characters.Helpers;
 using UnityEngine;
-using Util;
 
 namespace StandardAssets.Characters.Effects
 {

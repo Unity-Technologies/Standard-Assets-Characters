@@ -5,8 +5,6 @@ using StandardAssets.Characters.Physics;
 using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Common;
 using StandardAssets.GizmosHelpers;
-using Util;
-
 
 namespace Demo
 {
