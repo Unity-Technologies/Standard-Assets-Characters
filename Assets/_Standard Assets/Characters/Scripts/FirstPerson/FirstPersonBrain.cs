@@ -309,6 +309,7 @@ namespace StandardAssets.Characters.FirstPerson
 
 		private void StartWalking()
 		{
+			characterInput.ResetInputs();
 			ChangeState(walking);
 			SetAnimation(k_WalkAnimationStateName);
 		}

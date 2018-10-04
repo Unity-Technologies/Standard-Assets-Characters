@@ -45,13 +45,13 @@ namespace StandardAssets.Characters.CharacterInput
 			controls.Movement.move.performed += ctx => moveInputVector = ctx.ReadValue<Vector2>();
 			controls.Movement.look.performed += ctx => lookInputVector = ctx.ReadValue<Vector2>();
 			controls.Movement.jump.performed += Jump;
-			controls.Movement.sprint.performed += Sprint;
+			controls.Movement.sprint.performed += OnSprintInput;
 			RegisterAdditionalInputs();
 		}
 
 		protected abstract void RegisterAdditionalInputs();
 
-		private void Sprint(InputAction.CallbackContext obj)
+		protected virtual void OnSprintInput(InputAction.CallbackContext obj)
 		{
 			BroadcastInputAction(ref isSprinting, sprintStarted, sprintEnded);
 		}

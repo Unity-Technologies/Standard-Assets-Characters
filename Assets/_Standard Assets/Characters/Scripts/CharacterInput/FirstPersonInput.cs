@@ -11,12 +11,25 @@ namespace StandardAssets.Characters.CharacterInput
 		
 		protected override void RegisterAdditionalInputs()
 		{
-			controls.Movement.crouch.performed += Crouch;
+			controls.Movement.crouch.performed += OnCrouchInput;
 		}
 
-		private void Crouch(InputAction.CallbackContext obj)
+		protected override void OnSprintInput(InputAction.CallbackContext obj)
+		{
+			base.OnSprintInput(obj);
+			isCrouching = false;
+		}
+
+		private void OnCrouchInput(InputAction.CallbackContext obj)
 		{
 			BroadcastInputAction(ref isCrouching, crouchStarted, crouchEnded);
+			isSprinting = false;
+		}
+
+		public void ResetInputs()
+		{
+			isCrouching = false;
+			isSprinting = false;
 		}
 	}
 }
