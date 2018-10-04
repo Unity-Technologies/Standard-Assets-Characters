@@ -224,10 +224,12 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		private void OnEnable()
 		{
+			firstPersonMovementEventHandler.Subscribe();
 			characterInput.jumpPressed += OnJumpPressed;
 			characterInput.sprintStarted += StartSprinting;
 			characterInput.sprintEnded += StartWalking;
-			firstPersonMovementEventHandler.Subscribe();
+			characterInput.crouchStarted += StartCrouching;
+			characterInput.crouchEnded += StartWalking;
 			characterPhysics.landed += OnLanded;
 		}
 
@@ -245,6 +247,8 @@ namespace StandardAssets.Characters.FirstPerson
 			characterInput.jumpPressed -= OnJumpPressed;
 			characterInput.sprintStarted -= StartSprinting;
 			characterInput.sprintEnded -= StartWalking;
+			characterInput.crouchStarted -= StartCrouching;
+			characterInput.crouchEnded -= StartWalking;
 			characterPhysics.landed -= OnLanded;
 		}
 

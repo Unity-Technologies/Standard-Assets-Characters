@@ -25,6 +25,7 @@ public class Controls : InputActionAssetReference
         m_Movement_jump = m_Movement.GetAction("jump");
         m_Movement_strafe = m_Movement.GetAction("strafe");
         m_Movement_sprint = m_Movement.GetAction("sprint");
+        m_Movement_crouch = m_Movement.GetAction("crouch");
         m_Initialized = true;
     }
     private void Uninitialize()
@@ -35,6 +36,7 @@ public class Controls : InputActionAssetReference
         m_Movement_jump = null;
         m_Movement_strafe = null;
         m_Movement_sprint = null;
+        m_Movement_crouch = null;
         m_Initialized = false;
     }
     public void SwitchAsset(InputActionAsset newAsset)
@@ -54,6 +56,7 @@ public class Controls : InputActionAssetReference
     private InputAction m_Movement_jump;
     private InputAction m_Movement_strafe;
     private InputAction m_Movement_sprint;
+    private InputAction m_Movement_crouch;
     public struct MovementActions
     {
         private Controls m_Wrapper;
@@ -63,6 +66,7 @@ public class Controls : InputActionAssetReference
         public InputAction @jump { get { return m_Wrapper.m_Movement_jump; } }
         public InputAction @strafe { get { return m_Wrapper.m_Movement_strafe; } }
         public InputAction @sprint { get { return m_Wrapper.m_Movement_sprint; } }
+        public InputAction @crouch { get { return m_Wrapper.m_Movement_crouch; } }
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }

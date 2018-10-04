@@ -53,22 +53,7 @@ namespace StandardAssets.Characters.CharacterInput
 
 		private void Sprint(InputAction.CallbackContext obj)
 		{
-			isSprinting = !isSprinting;
-
-			if (isSprinting)
-			{
-				if (sprintStarted != null)
-				{
-					sprintStarted();
-				}
-			}
-			else
-			{
-				if (sprintEnded != null)
-				{
-					sprintEnded();
-				}
-			}
+			BroadcastInputAction(ref isSprinting, sprintStarted, sprintEnded);
 		}
 
 		private void OnEnable()
@@ -106,6 +91,26 @@ namespace StandardAssets.Characters.CharacterInput
 			{
 				jumpPressed();
 			}	
+		}
+		
+		protected void BroadcastInputAction(ref bool isDoingAction, Action started, Action ended)
+		{
+			isDoingAction = !isDoingAction;
+
+			if (isDoingAction)
+			{
+				if (started != null)
+				{
+					started();
+				}
+			}
+			else
+			{
+				if (ended != null)
+				{
+					ended();
+				}
+			}
 		}
 	}
 }
