@@ -213,14 +213,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ca96d7838ae4d2aae028f9e6c1ea082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingMovementProperties: {fileID: 11400000, guid: d412b2493e9e746aabb1838f1a9e6cc6,
-    type: 2}
+  maxSpeed: 5
+  timeToMaxSpeed: 0.5
+  turnSpeed: 300
+  jumpSpeed: 5
   capsuleMovementEventHandler:
     zonesDefinition:
       movementZoneLibraries: []
     maximumSpeed: 10
     walkDistanceThreshold: 1
-  turnSpeed: 300
 --- !u!114 &114816713393816442
 MonoBehaviour:
   m_ObjectHideFlags: 1

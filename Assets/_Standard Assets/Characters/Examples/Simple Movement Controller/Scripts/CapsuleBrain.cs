@@ -10,25 +10,23 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 	[RequireComponent(typeof(ICharacterInput))]
 	public class CapsuleBrain : CharacterBrain
 	{
-		/// <summary>
-		/// The state that first person motor starts in
-		/// </summary>
 		[SerializeField]
-		protected CapsuleMovementProperties startingMovementProperties;
+		protected float maxSpeed = 5f;
+
+		[SerializeField]
+		protected float timeToMaxSpeed = 0.5f;
+		
+		[SerializeField] 
+		protected float turnSpeed = 300f;
+
+		[SerializeField]
+		protected float jumpSpeed = 5f;
 		
 		/// <summary>
 		/// Manages movement events
 		/// </summary>
 		[SerializeField, Tooltip("The management of movement events e.g. footsteps")]
 		protected CapsuleMovementEventHandler capsuleMovementEventHandler;
-
-		[SerializeField] 
-		protected float turnSpeed = 300f;
-			
-		/// <summary>
-		/// The current motor state - controls how the character moves in different states
-		/// </summary>
-		public CapsuleMovementProperties currentMovementProperties { get; protected set; }
 	   
 		/// <summary>
 		/// The current movement properties
@@ -55,13 +53,6 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		{
 			get
 			{
-				float maxSpeed = currentMovementProperties == null
-					? startingMovementProperties.maximumSpeed
-					: currentMovementProperties.maximumSpeed;
-				if (maxSpeed <= 0)
-				{
-					return 1;
-				}
 				return currentSpeed / maxSpeed;
 			}
 		}
@@ -77,7 +68,6 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		protected override void Awake()
 		{
 			base.Awake();
-			ChangeState(startingMovementProperties);
 			capsuleMovementEventHandler.Init(this, transform, characterPhysics);
 			mainCameraTransform = Camera.main.transform;
 		}
@@ -134,9 +124,9 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// </summary>
 		private void OnJumpPressed()
 		{
-			if (characterPhysics.isGrounded && currentMovementProperties.canJump)
+			if (characterPhysics.isGrounded)
 			{
-				characterPhysics.SetJumpVelocity(currentMovementProperties.jumpingSpeed);
+				characterPhysics.SetJumpVelocity(jumpSpeed);
 			}	
 		}
 
@@ -154,11 +144,6 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// </summary>
 		private void Move()
 		{
-			if (startingMovementProperties == null)
-			{
-				return;
-			}
-
 			if (characterInput.hasMovementInput)
 			{
 				if (!previouslyHasInput)
@@ -197,8 +182,8 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		private void Accelerate()
 		{
 			movementTime += Time.fixedDeltaTime;
-			movementTime = Mathf.Clamp(movementTime, 0f, currentMovementProperties.accelerationCurve.maximumValue);
-			currentSpeed = currentMovementProperties.accelerationCurve.Evaluate(movementTime) * currentMovementProperties.maximumSpeed;
+			movementTime = Mathf.Clamp(movementTime, 0f, timeToMaxSpeed);
+			currentSpeed = movementTime / timeToMaxSpeed * maxSpeed;
 		}
 		
 		/// <summary>
@@ -207,46 +192,6 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		private void Stop()
 		{
 			currentSpeed = 0f;
-		}
-
-		/// <summary>
-		/// Changes the current motor state and play events associated with state change
-		/// </summary>
-		/// <param name="newState"></param>
-		protected virtual void ChangeState(CapsuleMovementProperties newState)
-		{
-			if (newState == null)
-			{
-				return;
-			}
-			
-			if (currentMovementProperties != null)
-			{
-				currentMovementProperties.ExitState();
-			}
-
-			currentMovementProperties = newState;
-			currentMovementProperties.EnterState();
-			
-			capsuleMovementEventHandler.AdjustAudioTriggerThreshold(newState.strideLengthDistance);
-		}
-
-		/// <summary>
-		/// Change state to the new state and adds to previous state stack
-		/// </summary>
-		/// <param name="newState"></param>
-		public void EnterNewState(CapsuleMovementProperties newState)
-		{
-			ChangeState(newState);
-		}
-
-		/// <summary>
-		/// Resets state to previous state
-		/// </summary>
-		public void ResetState()
-		{
-			ChangeState(startingMovementProperties);
-			
 		}
 	}
 }
