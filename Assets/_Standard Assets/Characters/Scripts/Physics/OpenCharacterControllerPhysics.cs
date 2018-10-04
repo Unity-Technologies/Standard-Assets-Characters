@@ -65,13 +65,6 @@ namespace StandardAssets.Characters.Physics
 			}
 		}
 
-		#if UNITY_EDITOR
-		private void OnValidate()
-		{
-			characterController.OnValidate();
-		}
-		#endif
-
 		private void Update()
 		{
 			characterController.Update();

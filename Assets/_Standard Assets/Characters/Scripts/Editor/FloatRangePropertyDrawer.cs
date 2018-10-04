@@ -1,12 +1,12 @@
 using StandardAssets.Characters.Attributes;
-using UnityEditor;
 using UnityEngine;
-using Util;
+using UnityEditor;
+using StandardAssets.Characters.Helpers;
 
 namespace StandardAssets._Standard_Assets.Characters.Scripts.Editor
 {
 	/// <summary>
-	/// Custom Drawer for the <see cref="Util.FloatRange"/>
+	/// Custom Drawer for the <see cref="StandardAssets.Characters.Helpers.FloatRange"/>
 	/// </summary>
 	[CustomPropertyDrawer(typeof(FloatRange), true)]
 	public class FloatRangePropertyDrawer : PropertyDrawer
