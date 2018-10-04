@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 23257896333880788}
   - component: {fileID: 114816713393816442}
   - component: {fileID: 114733511240769224}
-  - component: {fileID: 114029035248450258}
+  - component: {fileID: 114683979128912624}
   m_Layer: 11
   m_Name: Capsule_OpenCharacter
   m_TagString: Untagged
@@ -189,7 +189,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114029035248450258
+--- !u!114 &114683979128912624
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -197,10 +197,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1942727258898328}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ba03f3575494390a170eaa10483b92f, type: 3}
+  m_Script: {fileID: 11500000, guid: f789398defdd4003ac23dd2094bddaa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enablePowerDebug: 1
+  controls:
+    m_Asset: {fileID: 11400000, guid: 6b7e0365c2048446aafe64ff5b240173, type: 3}
 --- !u!114 &114733511240769224
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -23,8 +23,8 @@ GameObject:
   - component: {fileID: 23746671510245432}
   - component: {fileID: 143417532114150374}
   - component: {fileID: 114080392429497764}
-  - component: {fileID: 114049337821886454}
   - component: {fileID: 114597824395993790}
+  - component: {fileID: 114971844032385196}
   m_Layer: 11
   m_Name: Capsule_DefaultCharacter
   m_TagString: Untagged
@@ -173,20 +173,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114049337821886454
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1147844468901238}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14dd74d1cf9b4277b2858750e8e81811, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  standaloneInput: {fileID: 0}
-  mobileInput: {fileID: 0}
-  debugOnScreenControls: 0
 --- !u!114 &114080392429497764
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -287,14 +273,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ca96d7838ae4d2aae028f9e6c1ea082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingMovementProperties: {fileID: 11400000, guid: d412b2493e9e746aabb1838f1a9e6cc6,
-    type: 2}
+  maxSpeed: 5
+  timeToMaxSpeed: 0.5
+  turnSpeed: 300
+  jumpSpeed: 5
   capsuleMovementEventHandler:
     zonesDefinition:
       movementZoneLibraries: []
     maximumSpeed: 10
     walkDistanceThreshold: 0.5
-  turnSpeed: 300
+--- !u!114 &114971844032385196
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1147844468901238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f789398defdd4003ac23dd2094bddaa0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controls:
+    m_Asset: {fileID: 11400000, guid: 6b7e0365c2048446aafe64ff5b240173, type: 3}
 --- !u!143 &143417532114150374
 CharacterController:
   m_ObjectHideFlags: 1

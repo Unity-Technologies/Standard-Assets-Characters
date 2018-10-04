@@ -47,6 +47,22 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// </summary>
 		private Transform mainCameraTransform;
 
+		
+		private ThirdPersonInput input;
+
+		private ThirdPersonInput characterInput
+		{
+			get
+			{
+				if (input == null)
+				{
+					input = GetComponent<ThirdPersonInput>();
+				}
+
+				return input;
+			}
+		}
+
 		/// <inheritdoc/>
 		public override float normalizedForwardSpeed
 		{
@@ -73,7 +89,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 
 		private void OnEnable()
 		{
-//			characterInput.jumpPressed += OnJumpPressed;
+			characterInput.jumpPressed += OnJumpPressed;
 			capsuleMovementEventHandler.Subscribe();
 		}
 		
@@ -83,12 +99,12 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		private void OnDisable()
 		{
 			capsuleMovementEventHandler.Unsubscribe();
-//			if (characterInput == null)
-//			{
-//				return;
-//			}
-//			
-//			characterInput.jumpPressed -= OnJumpPressed;
+			if (characterInput == null)
+			{
+				return;
+			}
+			
+			characterInput.jumpPressed -= OnJumpPressed;
 		}
 		
 		/// <summary>
@@ -110,12 +126,12 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 			flatForward.y = 0f;
 			flatForward.Normalize();
 
-//			Vector3 localMovementDirection =
-//				new Vector3(characterInput.moveInput.x, 0f, characterInput.moveInput.y);
-//			Quaternion cameraToInputOffset = Quaternion.FromToRotation(Vector3.forward, localMovementDirection);
-//			cameraToInputOffset.eulerAngles = new Vector3(0f, cameraToInputOffset.eulerAngles.y, 0f);
-//
-//			return Quaternion.LookRotation(cameraToInputOffset * flatForward);
+			Vector3 localMovementDirection =
+				new Vector3(characterInput.moveInput.x, 0f, characterInput.moveInput.y);
+			Quaternion cameraToInputOffset = Quaternion.FromToRotation(Vector3.forward, localMovementDirection);
+			cameraToInputOffset.eulerAngles = new Vector3(0f, cameraToInputOffset.eulerAngles.y, 0f);
+
+			return Quaternion.LookRotation(cameraToInputOffset * flatForward);
 			return Quaternion.identity;
 		}
 
@@ -144,36 +160,36 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// </summary>
 		private void Move()
 		{
-//			if (characterInput.hasMovementInput)
-//			{
-//				if (!previouslyHasInput)
-//				{
-//					movementTime = 0f;
-//				}
-//				Accelerate();
-//			}
-//			else
-//			{
-//				if (previouslyHasInput)
-//				{
-//					movementTime = 0f;
-//				}
-//
-//				Stop();
-//			}
-//
-//			Vector2 input = characterInput.moveInput;
-//			if (input.sqrMagnitude > 1)
-//			{
-//				input.Normalize();
-//			}
-//		
-//			Vector3 forward = transform.forward * input.magnitude;
-//			Vector3 sideways = Vector3.zero;
-//			
-//			characterPhysics.Move((forward + sideways) * currentSpeed * Time.fixedDeltaTime, Time.fixedDeltaTime);
-//
-//			previouslyHasInput = characterInput.hasMovementInput;
+			if (characterInput.hasMovementInput)
+			{
+				if (!previouslyHasInput)
+				{
+					movementTime = 0f;
+				}
+				Accelerate();
+			}
+			else
+			{
+				if (previouslyHasInput)
+				{
+					movementTime = 0f;
+				}
+
+				Stop();
+			}
+
+			Vector2 input = characterInput.moveInput;
+			if (input.sqrMagnitude > 1)
+			{
+				input.Normalize();
+			}
+		
+			Vector3 forward = transform.forward * input.magnitude;
+			Vector3 sideways = Vector3.zero;
+			
+			characterPhysics.Move((forward + sideways) * currentSpeed * Time.fixedDeltaTime, Time.fixedDeltaTime);
+
+			previouslyHasInput = characterInput.hasMovementInput;
 		}	
 
 		/// <summary>
