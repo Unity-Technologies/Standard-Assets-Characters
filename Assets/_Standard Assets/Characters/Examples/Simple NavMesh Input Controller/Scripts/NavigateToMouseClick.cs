@@ -1,34 +1,43 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
-public class NavigateToMouseClick : MonoBehaviour {
-
-	public Camera Cam;
-	public NavMeshAgent navMesh;
-  
-
-	void Start () 
+namespace StandardAssets.Characters.Examples.SimpleNavMeshInputController
+{
+	[RequireComponent(typeof(NavMeshAgent))]
+	public class NavigateToMouseClick : MonoBehaviour
 	{
-		if (Cam == null)
+		[SerializeField]
+		protected Camera mainCamera;
+		
+		/// <summary>
+		/// Layers to use in the ground check
+		/// </summary>
+		[SerializeField, Tooltip("Layers to use in the ground check")]
+		protected LayerMask groundCheckMask;
+		
+		private NavMeshAgent navMesh;
+
+		private void Start()
 		{
-			Cam = Camera.main;   
-		}
-		navMesh = GetComponent < NavMeshAgent> ();
-	}
-
-
-	void Update() 
-	{
-		if (Input.GetKeyDown(KeyCode.Mouse0))
-		{
-			Ray ray = Cam.ScreenPointToRay(Input.mousePosition);
-			RaycastHit hit;
-
-			if (Physics.Raycast ( ray, out hit)) 
+			if (mainCamera == null)
 			{
-				navMesh.SetDestination (hit.point);
+				mainCamera = Camera.main;
+			}
+
+			navMesh = GetComponent<NavMeshAgent>();
+		}
+
+		public void Update()
+		{
+			if (Input.GetKeyDown(KeyCode.Mouse0))
+			{
+				Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+				RaycastHit hit;
+
+				if (UnityEngine.Physics.Raycast(ray, out hit, groundCheckMask))
+				{
+					navMesh.SetDestination(hit.point);
+				}
 			}
 		}
 	}

@@ -330,7 +330,7 @@ namespace StandardAssets.Characters.Physics
 			else
 			{
 				gravityFactor = jumpGravityMultiplier;
-				if (!characterInput.hasJumpInput) // if no input apply min jump modifier
+				if (characterInput  != null && !characterInput.hasJumpInput) // if no input apply min jump modifier
 				{
 					gravityFactor *= minJumpHeightMultiplier;
 				}
