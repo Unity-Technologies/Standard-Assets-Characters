@@ -126,13 +126,11 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 			flatForward.y = 0f;
 			flatForward.Normalize();
 
-			Vector3 localMovementDirection =
-				new Vector3(characterInput.moveInput.x, 0f, characterInput.moveInput.y);
+			Vector3 localMovementDirection = new Vector3(characterInput.moveInput.x, 0f, characterInput.moveInput.y);
 			Quaternion cameraToInputOffset = Quaternion.FromToRotation(Vector3.forward, localMovementDirection);
 			cameraToInputOffset.eulerAngles = new Vector3(0f, cameraToInputOffset.eulerAngles.y, 0f);
 
 			return Quaternion.LookRotation(cameraToInputOffset * flatForward);
-			return Quaternion.identity;
 		}
 
 		/// <summary>

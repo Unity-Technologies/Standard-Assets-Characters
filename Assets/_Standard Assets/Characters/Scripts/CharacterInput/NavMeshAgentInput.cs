@@ -7,15 +7,10 @@ namespace StandardAssets.Characters.CharacterInput
 	/// <summary>
 	/// Makes a character controller follow a NavMeshAgent. It sets input to move the character.
 	/// </summary>
-	/// <seealso cref="ICharacterInput"/>
 	[RequireComponent(typeof(NavMeshAgent))]
 	public class NavMeshAgentInput : MonoBehaviour, IThirdPersonInput
 	{
 		/// <inheritdoc />
-		public event Action jumpPressed;
-		public event Action sprintStarted;
-		public event Action sprintEnded;
-	
 		public void ResetSprint()
 		{
 		}
@@ -251,17 +246,6 @@ namespace StandardAssets.Characters.CharacterInput
 			}
 
 			return reset;
-		}
-
-		/// <summary>
-		/// Fires the <see cref="jumpPressed"/> event.
-		/// </summary>
-		private void FireJumpEvent()
-		{
-			if (jumpPressed != null)
-			{
-				jumpPressed();
-			}
 		}
 
 		/// <summary>

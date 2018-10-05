@@ -474,12 +474,12 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			if (thirdPersonInput != null)
 			{
-				thirdPersonInput.jumpPressed += motor.OnJumpPressed;
-				thirdPersonInput.sprintStarted += motor.OnSprintStarted;
-				thirdPersonInput.sprintEnded += motor.OnSprintEnded;
 				ThirdPersonInput userInput = thirdPersonInput as ThirdPersonInput;
 				if (userInput != null)
 				{
+					userInput.jumpPressed += motor.OnJumpPressed;
+					userInput.sprintStarted += motor.OnSprintStarted;
+					userInput.sprintEnded += motor.OnSprintEnded;
 					userInput.strafeStarted += OnStrafeStarted;
 					userInput.strafeEnded += OnStrafeEnded;
 				}
@@ -501,12 +501,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				if (thirdPersonInput != null)
 				{
-					thirdPersonInput.jumpPressed -= motor.OnJumpPressed;
-					thirdPersonInput.sprintStarted -= motor.OnSprintStarted;
-					thirdPersonInput.sprintEnded -= motor.OnSprintEnded;
 					ThirdPersonInput userInput = thirdPersonInput as ThirdPersonInput;
 					if (userInput != null)
 					{
+						userInput.jumpPressed -= motor.OnJumpPressed;
+						userInput.sprintStarted -= motor.OnSprintStarted;
+						userInput.sprintEnded -= motor.OnSprintEnded;
 						userInput.strafeStarted -= OnStrafeStarted;
 						userInput.strafeEnded -= OnStrafeEnded;
 					}
