@@ -477,6 +477,13 @@ namespace StandardAssets.Characters.ThirdPerson
 				thirdPersonCameraController.forwardLockedModeStarted += OnStrafeStarted;
 				thirdPersonCameraController.forwardUnlockedModeStarted += OnStrafeEnded;
 			}
+
+			if (thirdPersonInput != null)
+			{
+				thirdPersonInput.jumpPressed += motor.OnJumpPressed;
+				thirdPersonInput.sprintStarted += motor.OnSprintStarted;
+				thirdPersonInput.sprintEnded += motor.OnSprintEnded;
+			}
 			
 			thirdPersonMovementEventHandler.Subscribe();
 		}
@@ -485,6 +492,13 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			if (motor != null)
 			{
+				if (thirdPersonInput != null)
+				{
+					thirdPersonInput.jumpPressed -= motor.OnJumpPressed;
+					thirdPersonInput.sprintStarted -= motor.OnSprintStarted;
+					thirdPersonInput.sprintEnded -= motor.OnSprintEnded;
+				}
+				
 				motor.jumpStarted -= OnJumpStarted;
 				motor.landed -= OnLanding;
 				motor.fallStarted -= OnFallStarted;
