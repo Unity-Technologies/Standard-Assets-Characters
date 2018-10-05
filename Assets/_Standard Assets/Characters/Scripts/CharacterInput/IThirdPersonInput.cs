@@ -31,22 +31,5 @@ namespace StandardAssets.Characters.CharacterInput
 		/// </summary>
 		/// <value>true if movement is applied, false if movement is not applied</value>
 		bool hasMovementInput { get; }
-		
-		/// <summary>
-		/// Gets if the jump input is held down
-		/// </summary>
-		/// <value>true is jump input is held down, false otherwise</value>
-		bool hasJumpInput { get; }
-
-		/// <summary>
-		/// Callback raised the moment jump is pressed
-		/// </summary>
-		event Action jumpPressed;
-
-		event Action sprintStarted;
-
-		event Action sprintEnded;
-
-		void ResetSprint();
 	}
 }
