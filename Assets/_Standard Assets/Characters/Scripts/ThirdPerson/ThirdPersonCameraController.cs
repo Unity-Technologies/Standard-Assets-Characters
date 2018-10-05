@@ -13,6 +13,8 @@ namespace StandardAssets.Characters.ThirdPerson
 	/// </summary>
 	public class ThirdPersonCameraController : CameraController
 	{
+		private string k_ExplorationState = "Exploration", k_StrafeState = "Strafe";
+		
 		/// <summary>
 		/// Enum used to describe third person camera type.
 		/// </summary>
@@ -24,9 +26,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		[DisableEditAtRuntime(), SerializeField, Tooltip("Define the starting camera mode")]
 		protected CameraType startingCameraMode = CameraType.Exploration;
-
-		[SerializeField, Tooltip("State Driven Camera state names")]
-		protected string[] explorationCameraStates, strafeCameraStates;
 
 		[SerializeField, Tooltip("Game objects to toggle when switching camera modes")]
 		protected GameObject[] explorationCameraObjects, strafeCameraObjects;
@@ -40,7 +39,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField, Tooltip("This is the free look camera that will be able to get recentered")]
 		protected CinemachineFreeLook idleCamera;
 		
-		private string[] currentCameraModeStateNames;
 
 		private int cameraIndex;
 
@@ -58,8 +56,14 @@ namespace StandardAssets.Characters.ThirdPerson
 			base.Start();
 			
 			isForwardUnlocked = startingCameraMode == CameraType.Exploration;
-			SetForwardModeArray();
-			SetAnimation(currentCameraModeStateNames[cameraIndex]);
+			if (isForwardUnlocked)
+			{
+				SetAnimation(k_ExplorationState);
+			}
+			else
+			{
+				SetAnimation(k_StrafeState);
+			}
 			PlayForwardModeEvent();
 		}
 		
@@ -119,18 +123,19 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void PerformCameraModeChange()
 		{
 			isForwardUnlocked = !isForwardUnlocked;
-			SetForwardModeArray();
 			cameraIndex = -1;
-			SetCameraState();
+			if (isForwardUnlocked)
+			{
+				SetCameraAxes(strafeStateDrivenCamera, explorationStateDrivenCamera);
+				SetAnimation(k_ExplorationState);
+			}
+			else
+			{
+				SetCameraAxes(explorationStateDrivenCamera, strafeStateDrivenCamera);
+				SetAnimation(k_StrafeState);
+			}
 			PlayForwardModeEvent();
 			isChangingMode = false;
-		}
-
-		private void SetForwardModeArray()
-		{
-			currentCameraModeStateNames = isForwardUnlocked
-				? explorationCameraStates
-				: strafeCameraStates;
 		}
 
 		private void PlayForwardModeEvent()
@@ -168,27 +173,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				TurnOffFreeLookCamRecenter(idleCamera);
 			}	
-		}
-		
-		private void SetCameraState()
-		{
-			cameraIndex++;
-			
-			if (cameraIndex >= currentCameraModeStateNames.Length)
-			{
-				cameraIndex = 0;
-			}
-
-			if (isForwardUnlocked)
-			{
-				SetCameraAxes(strafeStateDrivenCamera, explorationStateDrivenCamera);
-			}
-			else
-			{
-				SetCameraAxes(explorationStateDrivenCamera, strafeStateDrivenCamera);
-			}
-
-			SetAnimation(currentCameraModeStateNames[cameraIndex]);
 		}
 		
 		private void RecenterFreeLookCam(CinemachineFreeLook freeLook)
