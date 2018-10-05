@@ -466,9 +466,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			physicsForCharacter.jumpVelocitySet += thirdPersonMovementEventHandler.Jumped;
 			physicsForCharacter.landed += thirdPersonMovementEventHandler.Landed;
+			physicsForCharacter.landed += OnLanding;
 				
 			motor.jumpStarted += OnJumpStarted;
-			motor.landed += OnLanding;
 			motor.fallStarted += OnFallStarted;
 			motor.Subscribe();
 
@@ -490,6 +490,13 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		private void OnDisable()
 		{
+			if (physicsForCharacter != null)
+			{
+				physicsForCharacter.jumpVelocitySet -= thirdPersonMovementEventHandler.Jumped;
+				physicsForCharacter.landed -= thirdPersonMovementEventHandler.Landed;
+				physicsForCharacter.landed -= OnLanding;
+			}
+			
 			if (motor != null)
 			{
 				if (thirdPersonInput != null)
@@ -506,11 +513,9 @@ namespace StandardAssets.Characters.ThirdPerson
 				}
 				
 				motor.jumpStarted -= OnJumpStarted;
-				motor.landed -= OnLanding;
 				motor.fallStarted -= OnFallStarted;
 				motor.Unsubscribe();
 			}
-
 			thirdPersonMovementEventHandler.Unsubscribe();
 		}
 
