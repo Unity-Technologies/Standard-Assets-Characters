@@ -59,12 +59,14 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (isForwardUnlocked)
 			{
 				SetAnimation(k_ExplorationState);
+				SetCameraObjectsActive(explorationCameraObjects);
+				SetCameraObjectsActive(strafeCameraObjects, false);
 			}
 			else
 			{
 				SetAnimation(k_StrafeState);
+				SetCameraObjectsActive(explorationCameraObjects, false);
 			}
-			PlayForwardModeEvent();
 		}
 		
 		private void Awake()
@@ -128,27 +130,16 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				SetCameraAxes(strafeStateDrivenCamera, explorationStateDrivenCamera);
 				SetAnimation(k_ExplorationState);
-			}
-			else
-			{
-				SetCameraAxes(explorationStateDrivenCamera, strafeStateDrivenCamera);
-				SetAnimation(k_StrafeState);
-			}
-			PlayForwardModeEvent();
-			isChangingMode = false;
-		}
-
-		private void PlayForwardModeEvent()
-		{
-			if (isForwardUnlocked)
-			{
 				SetCameraObjectsActive(explorationCameraObjects);
 				SetCameraObjectsActive(strafeCameraObjects, false);
 			}
 			else
 			{
+				SetCameraAxes(explorationStateDrivenCamera, strafeStateDrivenCamera);
+				SetAnimation(k_StrafeState);
 				SetCameraObjectsActive(explorationCameraObjects, false);
 			}
+			isChangingMode = false;
 		}
 		
 		private void Update()
