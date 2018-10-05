@@ -260,7 +260,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			previousInputs = new SizedQueue<Vector2>(configuration.bufferSizeInput);
 			movementMode = ThirdPersonMotorMovementMode.Action;
 
-			OnStrafeEnded();
+			EndStrafe();
 		}
 
 		/// <summary>
@@ -270,12 +270,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			characterPhysics.landed += OnLanding;
 			characterPhysics.startedFalling += OnStartedFalling;
-			
-			if (thirdPersonBrain.thirdPersonCameraController != null)
-			{
-				thirdPersonBrain.thirdPersonCameraController.forwardLockedModeStarted += OnStrafeStarted;
-				thirdPersonBrain.thirdPersonCameraController.forwardUnlockedModeStarted += OnStrafeEnded;
-			}
 			
 			//Turnaround subscription for runtime support
 			foreach (TurnaroundBehaviour turnaroundBehaviour in thirdPersonBrain.turnaroundOptions)
@@ -304,12 +298,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				characterPhysics.landed -= OnLanding;
 				characterPhysics.startedFalling -= OnStartedFalling;
-			}
-
-			if (thirdPersonBrain.thirdPersonCameraController != null)
-			{
-				thirdPersonBrain.thirdPersonCameraController.forwardLockedModeStarted -= OnStrafeStarted;
-				thirdPersonBrain.thirdPersonCameraController.forwardUnlockedModeStarted -= OnStrafeEnded;
 			}
 
 			//Turnaround un-subscription for runtime support
@@ -459,7 +447,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// Changes movement mode to <see cref="ThirdPersonMotorMovementMode.Strafe"/>
 		/// </summary>
 		/// <remarks>This subscribes <see cref="ThirdPersonCameraController.forwardLockedModeStarted"/></remarks>
-		private void OnStrafeStarted()
+		public void StartStrafe()
 		{
 			if (movementMode == ThirdPersonMotorMovementMode.Strafe)
 			{
@@ -473,7 +461,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// Changes movement mode to <see cref="ThirdPersonMotorMovementMode.Action"/>
 		/// </summary>
 		/// <remarks>This subscribes <see cref="ThirdPersonCameraController.forwardUnlockedModeStarted"/></remarks>
-		private void OnStrafeEnded()
+		public void EndStrafe()
 		{
 			movementMode = ThirdPersonMotorMovementMode.Action;
 		}
