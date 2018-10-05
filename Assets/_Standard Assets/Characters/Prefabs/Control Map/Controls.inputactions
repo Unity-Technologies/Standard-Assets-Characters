@@ -40,6 +40,12 @@
                     "id": "644b4b70-12ec-4f7d-be1d-3721df3c6be0",
                     "expectedControlLayout": "",
                     "bindings": []
+                },
+                {
+                    "name": "recentre",
+                    "id": "a5ab7386-88ae-43ec-8d8e-5b268dda6685",
+                    "expectedControlLayout": "",
+                    "bindings": []
                 }
             ],
             "bindings": [
@@ -230,6 +236,30 @@
                     "processors": "",
                     "groups": "",
                     "action": "crouch",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "right",
+                    "path": "<Keyboard>/v",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "recentre",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "right",
+                    "path": "<Gamepad>/rightStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "recentre",
                     "chainWithPrevious": false,
                     "isComposite": false,
                     "isPartOfComposite": false,
