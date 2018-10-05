@@ -83,12 +83,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		public event Action jumpStarted;
 
 		/// <summary>
-		/// Fired when the character lands.
-		/// </summary>
-		/// <remarks>Subscribes to <see cref="CharacterPhysics.landed"/>.</remarks>
-		public event Action landed;
-
-		/// <summary>
 		/// Fired when the character starts falling.
 		/// </summary>
 		public event Action<float> fallStarted;
@@ -399,11 +393,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (!characterInput.hasMovementInput)
 			{
 				averageForwardVelocity.Clear();
-			}
-
-			if (landed != null)
-			{
-				landed();
 			}
 		}
 

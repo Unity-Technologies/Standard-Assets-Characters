@@ -73,24 +73,24 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 		
 		/// <summary>
-		/// Subscribe to input and <see cref="IThirdPersonMotor.landed"/> events.
+		/// Subscribe to the <see cref="CharacterPhysics.landed"/> event.
 		/// </summary>
 		private void OnEnable()
 		{
 			if (thirdPersonBrain != null)
 			{
-				thirdPersonBrain.thirdPersonMotor.landed += OnLanded;
+				thirdPersonBrain.physicsForCharacter.landed += OnLanded;
 			}
 		}
 		
 		/// <summary>
-		/// Unsubscribe from input and <see cref="IThirdPersonMotor.landed"/> events.
+		/// Unsubscribe from the <see cref="CharacterPhysics.landed"/> event.
 		/// </summary>
 		private void OnDisable()
 		{
 			if (thirdPersonBrain != null)
 			{
-				thirdPersonBrain.thirdPersonMotor.landed -= OnLanded;
+				thirdPersonBrain.physicsForCharacter.landed -= OnLanded;
 			}
 		}
 		
