@@ -14,7 +14,7 @@ namespace StandardAssets.Characters.ThirdPerson
 	public class ThirdPersonCameraController : CameraController
 	{
 		private string k_ExplorationState = "Exploration", k_StrafeState = "Strafe";
-		
+
 		/// <summary>
 		/// Enum used to describe third person camera type.
 		/// </summary>
@@ -23,7 +23,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			Exploration,
 			Strafe
 		}
-		
+
 		[DisableEditAtRuntime(), SerializeField, Tooltip("Define the starting camera mode")]
 		protected CameraType startingCameraMode = CameraType.Exploration;
 
@@ -35,28 +35,18 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[SerializeField, Tooltip("Cinemachine State Driven Camera")]
 		protected CinemachineStateDrivenCamera strafeStateDrivenCamera;
-		
+
 		[SerializeField, Tooltip("This is the free look camera that will be able to get recentered")]
 		protected CinemachineFreeLook idleCamera;
-		
 
-		private int cameraIndex;
-
-		private bool isForwardUnlocked;
-
-		private CinemachineStateDrivenCamera thirdPersonStateDrivenCamera;
-
-		private bool isChangingMode;
-		
 		private ThirdPersonBrain thirdPersonBrain;
 
 		/// <inheritdoc/>
 		protected override void Start()
 		{
 			base.Start();
-			
-			isForwardUnlocked = startingCameraMode == CameraType.Exploration;
-			if (isForwardUnlocked)
+
+			if (startingCameraMode == CameraType.Exploration)
 			{
 				SetAnimation(k_ExplorationState);
 				SetCameraObjectsActive(explorationCameraObjects);
@@ -68,44 +58,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				SetCameraObjectsActive(explorationCameraObjects, false);
 			}
 		}
-		
-		private void Awake()
-		{
-			thirdPersonStateDrivenCamera = GetComponent<CinemachineStateDrivenCamera>();
-		}
-		
-		/// <summary>
-		/// Subscribe to the <see cref="CharacterPhysics.landed"/> event.
-		/// </summary>
-		private void OnEnable()
-		{
-			if (thirdPersonBrain != null)
-			{
-				thirdPersonBrain.physicsForCharacter.landed += OnLanded;
-			}
-		}
-		
-		/// <summary>
-		/// Unsubscribe from the <see cref="CharacterPhysics.landed"/> event.
-		/// </summary>
-		private void OnDisable()
-		{
-			if (thirdPersonBrain != null)
-			{
-				thirdPersonBrain.physicsForCharacter.landed -= OnLanded;
-			}
-		}
-		
-		private void ChangeCameraMode()
-		{
-			isChangingMode = true;
 
-			if (thirdPersonBrain.physicsForCharacter != null && thirdPersonBrain.physicsForCharacter.isGrounded)
-			{
-				PerformCameraModeChange();
-			}
-		}
-		
 		private void RecenterCamera()
 		{
 			if (!thirdPersonBrain.thirdPersonInput.hasMovementInput)
@@ -113,35 +66,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				RecenterFreeLookCam(idleCamera);
 			}
 		}
-		
-		private void OnLanded()
-		{
-			if (isChangingMode)
-			{
-				PerformCameraModeChange();
-			}
-		}
 
-		private void PerformCameraModeChange()
-		{
-			isForwardUnlocked = !isForwardUnlocked;
-			cameraIndex = -1;
-			if (isForwardUnlocked)
-			{
-				SetCameraAxes(strafeStateDrivenCamera, explorationStateDrivenCamera);
-				SetAnimation(k_ExplorationState);
-				SetCameraObjectsActive(explorationCameraObjects);
-				SetCameraObjectsActive(strafeCameraObjects, false);
-			}
-			else
-			{
-				SetCameraAxes(explorationStateDrivenCamera, strafeStateDrivenCamera);
-				SetAnimation(k_StrafeState);
-				SetCameraObjectsActive(explorationCameraObjects, false);
-			}
-			isChangingMode = false;
-		}
-		
 		private void Update()
 		{
 			if (thirdPersonBrain == null)
@@ -150,22 +75,14 @@ namespace StandardAssets.Characters.ThirdPerson
 				gameObject.SetActive(false);
 				return;
 			}
-			
-			if (!isForwardUnlocked)
-			{
-				if (!thirdPersonStateDrivenCamera.IsBlending)
-				{
-					SetCameraObjectsActive(strafeCameraObjects);
-				}
-			}
 
 			if (thirdPersonBrain.thirdPersonInput.hasMovementInput ||
 			    thirdPersonBrain.thirdPersonInput.lookInput != Vector2.zero)
 			{
 				TurnOffFreeLookCamRecenter(idleCamera);
-			}	
+			}
 		}
-		
+
 		private void RecenterFreeLookCam(CinemachineFreeLook freeLook)
 		{
 			freeLook.m_RecenterToTargetHeading.m_enabled = true;
@@ -177,7 +94,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			freeLook.m_RecenterToTargetHeading.m_enabled = false;
 			freeLook.m_YAxisRecentering.m_enabled = false;
 		}
-		
+
 		/// <summary>
 		/// Keep virtual camera children of a state driven camera all
 		/// pointing in the same direction when changing between state driven cameras
@@ -197,7 +114,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				}
 			}
 		}
-		
+
 		private void SetChildCameraAxes(CinemachineStateDrivenCamera stateDrivenCamera, float xAxis, float yAxis)
 		{
 			foreach (CinemachineVirtualCameraBase childCamera in stateDrivenCamera.ChildCameras)
@@ -217,12 +134,18 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public void SetStrafeCamera()
 		{
-			PerformCameraModeChange();
+			SetCameraAxes(explorationStateDrivenCamera, strafeStateDrivenCamera);
+			SetAnimation(k_StrafeState);
+			SetCameraObjectsActive(strafeCameraObjects);
+			SetCameraObjectsActive(explorationCameraObjects, false);
 		}
 
 		public void SetExplorationCamera()
 		{
-			PerformCameraModeChange();
+			SetCameraAxes(strafeStateDrivenCamera, explorationStateDrivenCamera);
+			SetAnimation(k_ExplorationState);
+			SetCameraObjectsActive(explorationCameraObjects);
+			SetCameraObjectsActive(strafeCameraObjects, false);
 		}
 
 		/// <summary>
@@ -238,7 +161,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				strafeStateDrivenCamera.m_AnimatedTarget = thirdPersonBrain.GetComponent<Animator>();
 			}
-			
+
 			if (explorationStateDrivenCamera.m_AnimatedTarget == null)
 			{
 				explorationStateDrivenCamera.m_AnimatedTarget = thirdPersonBrain.GetComponent<Animator>();
