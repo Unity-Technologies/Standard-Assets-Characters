@@ -70,47 +70,47 @@ namespace StandardAssets.Characters.ThirdPerson
 		public ThirdPersonMotorMovementMode movementMode { get; private set; }
 
 		/// <summary>
-		/// Is rapid turn disabled? (Enable/Disable it via EnableRapidTurn/DisableRapidTurn).
+		/// Is rapid turn disabled? (Enable/Disable it via <see cref="EnableRapidTurn"/>/<see cref="DisableRapidTurn"/>).
 		/// </summary>
-		public bool disableRapidTurn
+		private bool disableRapidTurn
 		{
 			get { return objectsThatDisabledRapidTurn.Count > 0; }
 		}
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Fired on jump.
+		/// </summary>
 		public event Action jumpStarted;
 
-		/// <inheritdoc />
-		/// <remarks>Subscribes to <see cref="ICharacterPhysics.landed"/>.</remarks>
+		/// <summary>
+		/// Fired when the character lands.
+		/// </summary>
+		/// <remarks>Subscribes to <see cref="CharacterPhysics.landed"/>.</remarks>
 		public event Action landed;
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Fired when the character starts falling.
+		/// </summary>
 		public event Action<float> fallStarted;
-
-		/// <inheritdoc />
-		public event Action<float> rapidlyTurned;
 
 		/// <summary>
 		/// The input implementation
 		/// </summary>
-		protected IThirdPersonInput characterInput;
+		private IThirdPersonInput characterInput;
 
 		/// <summary>
 		/// The physic implementation
 		/// </summary>
-		protected CharacterPhysics characterPhysics;
+		private CharacterPhysics characterPhysics;
 
-		protected ThirdPersonGroundMovementState preTurnMovementState;
-		protected ThirdPersonGroundMovementState movementState = ThirdPersonGroundMovementState.Walking;
+		private ThirdPersonGroundMovementState preTurnMovementState;
+		private ThirdPersonGroundMovementState movementState = ThirdPersonGroundMovementState.Walking;
+		private ThirdPersonAerialMovementState aerialState = ThirdPersonAerialMovementState.Grounded;
 
-		protected ThirdPersonAerialMovementState aerialState = ThirdPersonAerialMovementState.Grounded;
-
-		/// <summary>
-		/// Sliding average of root motion velocity.
-		/// </summary>
-		private SlidingAverage averageForwardVelocity;
-
-		private SlidingAverage actionAverageForwardInput, strafeAverageForwardInput, strafeAverageLateralInput;
+		private SlidingAverage averageForwardVelocity,
+		                       actionAverageForwardInput,
+		                       strafeAverageForwardInput,
+		                       strafeAverageLateralInput;
 
 		private float turnaroundMovementTime,
 		              lastIdleTime;
@@ -131,14 +131,21 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// List of objects that disabled rapid turn. To allow multiple objects to disable it temporarily.
 		/// </summary>
-		private readonly List<System.Object> objectsThatDisabledRapidTurn = new List<System.Object>();
+		private readonly List<object> objectsThatDisabledRapidTurn = new List<object>();
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Gets the current <see cref="TurnaroundBehaviour"/>.
+		/// </summary>
 		public TurnaroundBehaviour currentTurnaroundBehaviour
 		{
 			get { return thirdPersonBrain.turnaround; }
 		}
-		/// <inheritdoc />
+	
+		/// <summary>
+		/// Gets the vertical speed.
+		/// </summary>
+		/// <value>Range = -1 (falling) to 1 (jumping).</value>
+		/// <remarks>Returns <see cref="CharacterPhysics"/>'s <see cref="CharacterPhysics.normalizedVerticalSpeed"/>.</remarks>
 		public float normalizedVerticalSpeed
 		{
 			get { return characterPhysics.normalizedVerticalSpeed; }
@@ -150,13 +157,17 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <value>True if in a sprint state; false otherwise.</value>
 		public bool sprint { get; private set; }
 		
-		/// <inheritdoc />
+		/// <summary>
+		/// Gets the current <see cref="ThirdPersonGroundMovementState"/>.
+		/// </summary>
 		public ThirdPersonGroundMovementState currentGroundMovementState
 		{
 			get { return movementState; }
 		}
 		
-		/// <inheritdoc />
+		/// <summary>
+		/// Gets the current <see cref="ThirdPersonAerialMovementState"/>.
+		/// </summary>
 		public ThirdPersonAerialMovementState currentAerialMovementState
 		{
 			get { return aerialState; }
@@ -233,17 +244,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
-		private void UpdateFallForwardSpeed()
-		{
-			float maxFallForward = configuration.fallingForwardSpeed;
-			float target = maxFallForward * Mathf.Clamp01(characterInput.moveInput.magnitude);
-			float time = cachedForwardVelocity > target
-				? configuration.fallSpeedDeceleration
-				: configuration.fallSpeedAcceleration;
-			cachedForwardVelocity = Mathf.Lerp(cachedForwardVelocity, target, time);
-			normalizedForwardSpeed = cachedForwardVelocity / maxFallForward;
-		}
-
 		public void Init(ThirdPersonBrain brain)
 		{
 			mainCamera = Camera.main;
@@ -270,9 +270,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			characterPhysics.landed += OnLanding;
 			characterPhysics.startedFalling += OnStartedFalling;
-			characterInput.jumpPressed += OnJumpPressed;
-			characterInput.sprintStarted += OnSprintStarted;
-			characterInput.sprintEnded += OnSprintEnded;
 			
 			if (thirdPersonBrain.thirdPersonCameraController != null)
 			{
@@ -287,12 +284,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
-		private void OnSprintStarted()
+		public void OnSprintStarted()
 		{
 			sprint = !sprint;
 		}
 		
-		private void OnSprintEnded()
+		public void OnSprintEnded()
 		{
 			sprint = false;
 		}
@@ -307,14 +304,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				characterPhysics.landed -= OnLanding;
 				characterPhysics.startedFalling -= OnStartedFalling;
-			}
-
-			//Input subscriptions
-			if (characterInput != null)
-			{
-				characterInput.jumpPressed -= OnJumpPressed;
-				characterInput.sprintStarted -= OnSprintStarted;
-				characterInput.sprintEnded -= OnSprintEnded;
 			}
 
 			if (thirdPersonBrain.thirdPersonCameraController != null)
@@ -357,7 +346,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// Enable rapid turn. Usually used after it has been temporarily disabled.
 		/// </summary>
 		/// <param name="disabledByObject">The object that disabled it previously via DisableRapidTurn.</param>
-		public void EnableRapidTurn(System.Object disabledByObject)
+		public void EnableRapidTurn(object disabledByObject)
 		{
 			if (objectsThatDisabledRapidTurn.Contains(disabledByObject))
 			{
@@ -371,7 +360,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		/// <param name="disabledByObject">The object that called this method. Use the same object when calling
 		/// EnableRapidTurn. This helps identify various objects that temporarily disables rapid turn.</param>
-		public void DisableRapidTurn(System.Object disabledByObject)
+		public void DisableRapidTurn(object disabledByObject)
 		{
 			if (!objectsThatDisabledRapidTurn.Contains(disabledByObject))
 			{
@@ -389,7 +378,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				if (Time.frameCount % k_TrackGroundFrameIntervals == 0)
 				{
-					var baseCharacterPhysics = characterPhysics as CharacterPhysics;
+					var baseCharacterPhysics = characterPhysics;
 					if (baseCharacterPhysics != null)
 					{
 						float distance = baseCharacterPhysics.GetPredictedFallDistance();
@@ -414,8 +403,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// Sets the aerial state to <see cref="ThirdPersonAerialMovementState.Grounded"/> and fires
 		/// the <see cref="landed"/> event.
 		/// </summary>
-		/// <remarks>This subscribes to <see cref="ICharacterPhysics.landed"/></remarks>
-		protected virtual void OnLanding()
+		/// <remarks>This subscribes to <see cref="CharacterPhysics.landed"/></remarks>
+		private void OnLanding()
 		{
 			aerialState = ThirdPersonAerialMovementState.Grounded;
 
@@ -434,8 +423,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// Sets the aerial state to <see cref="ThirdPersonAerialMovementState.Falling"/> and fires the
 		/// <see cref="fallStarted"/> event.
 		/// </summary>
-		/// <remarks>This subscribes to <see cref="ICharacterPhysics.startedFalling"/></remarks>
-		protected virtual void OnStartedFalling(float predictedFallDistance)
+		/// <remarks>This subscribes to <see cref="CharacterPhysics.startedFalling"/></remarks>
+		private void OnStartedFalling(float predictedFallDistance)
 		{
 			// check if far enough from ground to enter fall state
 			if (predictedFallDistance < configuration.maxFallDistanceToLand)
@@ -461,8 +450,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Queues a jump.
 		/// </summary>
-		/// <remarks>This subscribes to <see cref="ICharacterInput.jumpPressed"/></remarks>
-		protected virtual void OnJumpPressed()
+		public void OnJumpPressed()
 		{
 			jumpQueued = true;
 		}
@@ -471,7 +459,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// Changes movement mode to <see cref="ThirdPersonMotorMovementMode.Strafe"/>
 		/// </summary>
 		/// <remarks>This subscribes <see cref="ThirdPersonCameraController.forwardLockedModeStarted"/></remarks>
-		protected virtual void OnStrafeStarted()
+		private void OnStrafeStarted()
 		{
 			if (movementMode == ThirdPersonMotorMovementMode.Strafe)
 			{
@@ -485,7 +473,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// Changes movement mode to <see cref="ThirdPersonMotorMovementMode.Action"/>
 		/// </summary>
 		/// <remarks>This subscribes <see cref="ThirdPersonCameraController.forwardUnlockedModeStarted"/></remarks>
-		protected virtual void OnStrafeEnded()
+		private void OnStrafeEnded()
 		{
 			movementMode = ThirdPersonMotorMovementMode.Action;
 		}
@@ -493,7 +481,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Handles movement based on <see cref="movementMode"/> and <see cref="movementMode"/>
 		/// </summary>
-		protected virtual void HandleMovement()
+		private void HandleMovement()
 		{
 			if (movementState == ThirdPersonGroundMovementState.TurningAround)
 			{
@@ -512,19 +500,19 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
-		protected virtual void ActionMovement()
+		private void ActionMovement()
 		{
 			SetLookDirection();
 			CalculateForwardMovement();
 		}
 
-		protected virtual void StrafeMovement()
+		private void StrafeMovement()
 		{
 			SetStrafeLookDirection();
 			CalculateStrafeMovement();
 		}
 
-		protected virtual void SetStrafeLookDirection()
+		private void SetStrafeLookDirection()
 		{
 			Quaternion targetRotation = CalculateTargetRotation(Vector3.forward);
 
@@ -539,7 +527,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			transform.rotation = newRotation;
 		}
 
-		protected virtual void SetLookDirection()
+		private void SetLookDirection()
 		{
 			if (!characterInput.hasMovementInput)
 			{
@@ -567,7 +555,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			transform.rotation = newRotation;
 		}
 
-		protected virtual void CalculateForwardMovement()
+		private void CalculateForwardMovement()
 		{
 			if (movementState == ThirdPersonGroundMovementState.TurningAround && turnaroundMovementTime < configuration.ignoreInputTimeRapidTurn)
 			{
@@ -588,7 +576,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			normalizedForwardSpeed = actionAverageForwardInput.average;
 		}
 
-		protected virtual void CalculateStrafeMovement()
+		private void CalculateStrafeMovement()
 		{
 			strafeAverageForwardInput.Add(characterInput.moveInput.y);
 			float averageForwardInput = strafeAverageForwardInput.average;
@@ -602,19 +590,19 @@ namespace StandardAssets.Characters.ThirdPerson
 				? 0f : averageLateralInput * configuration.normalizedLateralStrafeSpeed;
 		}
 
-		protected virtual Quaternion CalculateTargetRotation()
+		private Quaternion CalculateTargetRotation()
 		{
 			return CalculateTargetRotation(new Vector3(characterInput.moveInput.x, 0, characterInput.moveInput.y));
 		}
 
-		protected virtual Vector3 CalculateLocalInputDirection()
+		private Vector3 CalculateLocalInputDirection()
 		{
 			var localMovementDirection = new Vector3(characterInput.moveInput.x, 0f, characterInput.moveInput.y);
 			return Quaternion.AngleAxis(mainCamera.transform.eulerAngles.y, Vector3.up) * 
 			       localMovementDirection.normalized;
 		}
 
-		protected virtual Quaternion CalculateTargetRotation(Vector3 localDirection)
+		private Quaternion CalculateTargetRotation(Vector3 localDirection)
 		{
 			Vector3 flatForward = CalculateCharacterBearing();
 			
@@ -624,7 +612,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			return Quaternion.LookRotation(cameraToInputOffset * flatForward);
 		}
 		
-		public virtual Vector3 CalculateCharacterBearing()
+		private Vector3 CalculateCharacterBearing()
 		{
 			Vector3 bearing = mainCamera.transform.forward;
 			bearing.y = 0f;
@@ -638,7 +626,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		/// <param name="currentRotation">Current rotation.</param>
 		/// <param name="newRotation">Desired rotation.</param>
-		protected virtual void SetTurningSpeed(Quaternion currentRotation, Quaternion newRotation)
+		private void SetTurningSpeed(Quaternion currentRotation, Quaternion newRotation)
 		{
 			float currentY = currentRotation.eulerAngles.y;
 			float newY = newRotation.eulerAngles.y;
@@ -652,12 +640,12 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		/// <remarks>Subscribes to the <see cref="currentTurnaroundBehaviour"/>'s
 		/// <see cref="TurnaroundBehaviour.turnaroundComplete"/> </remarks>
-		protected virtual void TurnaroundComplete()
+		private void TurnaroundComplete()
 		{
 			movementState = preTurnMovementState;
 		}
 
-		protected virtual bool CheckForAndHandleRapidTurn(Quaternion target)
+		private bool CheckForAndHandleRapidTurn(Quaternion target)
 		{
 			if (thirdPersonBrain.turnaround == null ||
 			    disableRapidTurn)
@@ -674,10 +662,6 @@ namespace StandardAssets.Characters.ThirdPerson
 				preTurnMovementState = movementState;
 				movementState = ThirdPersonGroundMovementState.TurningAround;
 				thirdPersonBrain.turnaround.TurnAround(angle);
-				if (rapidlyTurned != null)
-				{
-					rapidlyTurned(angle);
-				}
 				return true;
 			}
 
@@ -690,7 +674,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <param name="angle">The angle of the rapid turn. 0 if no rapid turn was detected.</param>
 		/// <param name="target">Target character direction.</param>
 		/// <returns>True is a rapid turn has been detected.</returns>
-		protected virtual bool ShouldTurnAround(out float angle, Quaternion target)
+		private bool ShouldTurnAround(out float angle, Quaternion target)
 		{
 			if (Mathf.Approximately(normalizedForwardSpeed, 0))
 			{
@@ -762,6 +746,17 @@ namespace StandardAssets.Characters.ThirdPerson
 				jumpStarted();
 			}
 			return false;
+		}
+		
+		private void UpdateFallForwardSpeed()
+		{
+			float maxFallForward = configuration.fallingForwardSpeed;
+			float target = maxFallForward * Mathf.Clamp01(characterInput.moveInput.magnitude);
+			float time = cachedForwardVelocity > target
+				             ? configuration.fallSpeedDeceleration
+				             : configuration.fallSpeedAcceleration;
+			cachedForwardVelocity = Mathf.Lerp(cachedForwardVelocity, target, time);
+			normalizedForwardSpeed = cachedForwardVelocity / maxFallForward;
 		}
 	}
 	
