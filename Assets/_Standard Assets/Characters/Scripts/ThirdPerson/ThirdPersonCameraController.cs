@@ -22,13 +22,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			Strafe
 		}
 		
-		public event Action forwardUnlockedModeStarted, forwardLockedModeStarted;
-		
 		[DisableEditAtRuntime(), SerializeField, Tooltip("Define the starting camera mode")]
 		protected CameraType startingCameraMode = CameraType.Exploration;
-
-//		[SerializeField, Tooltip("Input Response for changing camera mode and camera recenter")]
-//		protected InputResponse cameraModeInput, recenterCameraInput;
 
 		[SerializeField, Tooltip("State Driven Camera state names")]
 		protected string[] explorationCameraStates, strafeCameraStates;
@@ -71,14 +66,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void Awake()
 		{
 			thirdPersonStateDrivenCamera = GetComponent<CinemachineStateDrivenCamera>();
-//			if (cameraModeInput != null)
-//			{
-//				cameraModeInput.Init();
-//			}		
-//			if (recenterCameraInput != null)
-//			{
-//				recenterCameraInput.Init();
-//			}
 		}
 		
 		/// <summary>
@@ -86,18 +73,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private void OnEnable()
 		{
-//			if (cameraModeInput != null)
-//			{
-//				cameraModeInput.started += ChangeCameraMode;
-//				cameraModeInput.ended += ChangeCameraMode;
-//			}
-//			
-//			if (recenterCameraInput != null)
-//			{
-//				recenterCameraInput.started += RecenterCamera;
-//				recenterCameraInput.ended += RecenterCamera;
-//			}
-			
 			if (thirdPersonBrain != null)
 			{
 				thirdPersonBrain.thirdPersonMotor.landed += OnLanded;
@@ -109,18 +84,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private void OnDisable()
 		{
-//			if (cameraModeInput != null)
-//			{
-//				cameraModeInput.started -= ChangeCameraMode;
-//				cameraModeInput.ended -= ChangeCameraMode;
-//			}
-//			
-//			if (recenterCameraInput != null)
-//			{
-//				recenterCameraInput.started -= RecenterCamera;
-//				recenterCameraInput.ended -= RecenterCamera;
-//			}
-			
 			if (thirdPersonBrain != null)
 			{
 				thirdPersonBrain.thirdPersonMotor.landed -= OnLanded;
@@ -139,10 +102,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		private void RecenterCamera()
 		{
-//			if (!thirdPersonBrain.inputForCharacter.hasMovementInput)
-//			{
-//				RecenterFreeLookCam(idleCamera);
-//			}
+			if (!thirdPersonBrain.thirdPersonInput.hasMovementInput)
+			{
+				RecenterFreeLookCam(idleCamera);
+			}
 		}
 		
 		private void OnLanded()
@@ -175,22 +138,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (isForwardUnlocked)
 			{
 				SetCameraObjectsActive(explorationCameraObjects);
-
 				SetCameraObjectsActive(strafeCameraObjects, false);
-
-				if (forwardUnlockedModeStarted != null)
-				{
-					forwardUnlockedModeStarted();
-				}
 			}
 			else
 			{
 				SetCameraObjectsActive(explorationCameraObjects, false);
-
-				if (forwardLockedModeStarted != null)
-				{
-					forwardLockedModeStarted();
-				}
 			}
 		}
 		
@@ -211,11 +163,11 @@ namespace StandardAssets.Characters.ThirdPerson
 				}
 			}
 
-//			if (thirdPersonBrain.inputForCharacter.hasMovementInput ||
-//			    thirdPersonBrain.inputForCharacter.lookInput != Vector2.zero)
-//			{
-//				TurnOffFreeLookCamRecenter(idleCamera);
-//			}	
+			if (thirdPersonBrain.thirdPersonInput.hasMovementInput ||
+			    thirdPersonBrain.thirdPersonInput.lookInput != Vector2.zero)
+			{
+				TurnOffFreeLookCamRecenter(idleCamera);
+			}	
 		}
 		
 		private void SetCameraState()
@@ -286,6 +238,16 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				cameraObject.SetActive(isActive);
 			}
+		}
+
+		public void SetStrafeCamera()
+		{
+			PerformCameraModeChange();
+		}
+
+		public void SetExplorationCamera()
+		{
+			PerformCameraModeChange();
 		}
 
 		/// <summary>

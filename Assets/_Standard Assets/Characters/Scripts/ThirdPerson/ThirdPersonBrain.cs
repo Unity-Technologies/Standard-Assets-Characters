@@ -472,17 +472,17 @@ namespace StandardAssets.Characters.ThirdPerson
 			motor.fallStarted += OnFallStarted;
 			motor.Subscribe();
 
-			if (thirdPersonCameraController != null)
-			{
-				thirdPersonCameraController.forwardLockedModeStarted += OnStrafeStarted;
-				thirdPersonCameraController.forwardUnlockedModeStarted += OnStrafeEnded;
-			}
-
 			if (thirdPersonInput != null)
 			{
 				thirdPersonInput.jumpPressed += motor.OnJumpPressed;
 				thirdPersonInput.sprintStarted += motor.OnSprintStarted;
 				thirdPersonInput.sprintEnded += motor.OnSprintEnded;
+				ThirdPersonInput userInput = thirdPersonInput as ThirdPersonInput;
+				if (userInput != null)
+				{
+					userInput.strafeStarted += OnStrafeStarted;
+					userInput.strafeEnded += OnStrafeEnded;
+				}
 			}
 			
 			thirdPersonMovementEventHandler.Subscribe();
@@ -497,6 +497,12 @@ namespace StandardAssets.Characters.ThirdPerson
 					thirdPersonInput.jumpPressed -= motor.OnJumpPressed;
 					thirdPersonInput.sprintStarted -= motor.OnSprintStarted;
 					thirdPersonInput.sprintEnded -= motor.OnSprintEnded;
+					ThirdPersonInput userInput = thirdPersonInput as ThirdPersonInput;
+					if (userInput != null)
+					{
+						userInput.strafeStarted -= OnStrafeStarted;
+						userInput.strafeEnded -= OnStrafeEnded;
+					}
 				}
 				
 				motor.jumpStarted -= OnJumpStarted;
@@ -505,12 +511,6 @@ namespace StandardAssets.Characters.ThirdPerson
 				motor.Unsubscribe();
 			}
 
-			if (thirdPersonCameraController != null)
-			{
-				thirdPersonCameraController.forwardLockedModeStarted -= OnStrafeStarted;
-				thirdPersonCameraController.forwardUnlockedModeStarted -= OnStrafeEnded;
-			}
-			
 			thirdPersonMovementEventHandler.Unsubscribe();
 		}
 
@@ -664,6 +664,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			isStrafing = true;
 			animator.SetBool(hashStrafe, isStrafing);
+			motor.StartStrafe();
+			cameraController.SetStrafeCamera();
 		}
 
 		/// <summary>
@@ -673,6 +675,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			isStrafing = false;
 			animator.SetBool(hashStrafe, isStrafing);
+			motor.EndStrafe();
+			cameraController.SetExplorationCamera();
 		}
 
 		/// <summary>
