@@ -484,6 +484,7 @@ namespace StandardAssets.Characters.ThirdPerson
 					userInput.sprintEnded += motor.OnSprintEnded;
 					userInput.strafeStarted += OnStrafeStarted;
 					userInput.strafeEnded += OnStrafeEnded;
+					userInput.recentreCamera += RecenterCamera;
 				}
 			}
 			
@@ -511,6 +512,7 @@ namespace StandardAssets.Characters.ThirdPerson
 						userInput.sprintEnded -= motor.OnSprintEnded;
 						userInput.strafeStarted -= OnStrafeStarted;
 						userInput.strafeEnded -= OnStrafeEnded;
+						userInput.recentreCamera -= RecenterCamera;
 					}
 				}
 				
@@ -665,6 +667,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
+		private void RecenterCamera()
+		{
+			thirdPersonCameraController.RecenterCamera();
+		}
+		
 		/// <summary>
 		/// Sets the animator strafe parameter to true.
 		/// </summary>

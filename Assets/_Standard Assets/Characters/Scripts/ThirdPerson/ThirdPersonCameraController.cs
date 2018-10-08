@@ -59,7 +59,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
-		private void RecenterCamera()
+		public void RecenterCamera()
 		{
 			if (!thirdPersonBrain.thirdPersonInput.hasMovementInput)
 			{
