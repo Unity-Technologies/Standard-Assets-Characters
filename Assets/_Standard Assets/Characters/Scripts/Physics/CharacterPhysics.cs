@@ -22,15 +22,15 @@ namespace StandardAssets.Characters.Physics
 
 		[SerializeField, Tooltip("Gravity scale applied during a jump")]
 		protected AnimationCurve jumpGravityMultiplierAsAFactorOfForwardSpeed =
-			AnimationCurve.Constant(1.0f, 0.0f, 1.0f);
+			AnimationCurve.Constant(0.0f, 1.0f, 1.0f);
 
 		[SerializeField, Tooltip("Gravity scale applied during a fall")]
 		protected AnimationCurve fallGravityMultiplierAsAFactorOfForwardSpeed =
-			AnimationCurve.Constant(1.0f, 0.0f, 1.0f);
+			AnimationCurve.Constant(0.0f, 1.0f, 1.0f);
 
 		[SerializeField, Tooltip("Gravity scale applied during a jump without jump button held")]
 		protected AnimationCurve minJumpHeightMultiplierAsAFactorOfForwardSpeed =
-			AnimationCurve.Constant(1.0f, 0.0f, 1.0f);
+			AnimationCurve.Constant(0.0f, 1.0f, 1.0f);
 
 		[SerializeField, Tooltip("The speed at which gravity is allowed to change")]
 		protected float gravityChangeSpeed = 10f;
