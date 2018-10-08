@@ -82,6 +82,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		// whether locomotion mode is set to strafe
 		private bool isStrafing;
 
+		private bool isTryingStrafe;
+
 		private bool triggeredRapidDirectionChange;
 		private int framesToWait;
 
@@ -611,6 +613,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void OnLanding()
 		{
 			isGrounded = true;
+			ApplyStrafe();
 
 			switch (animatorState)
 			{
@@ -667,10 +670,27 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private void OnStrafeStarted()
 		{
-			isStrafing = true;
+			isTryingStrafe = true;
+			if (physicsForCharacter.isGrounded)
+			{
+				ApplyStrafe();
+			}
+		}
+
+		private void ApplyStrafe()
+		{
+			isStrafing = isTryingStrafe;
 			animator.SetBool(hashStrafe, isStrafing);
-			motor.StartStrafe();
-			cameraController.SetStrafeCamera();
+			if (isStrafing)
+			{
+				motor.StartStrafe();
+				cameraController.SetStrafeCamera();
+			}
+			else
+			{
+				motor.EndStrafe();
+				cameraController.SetExplorationCamera();
+			}
 		}
 
 		/// <summary>
@@ -678,10 +698,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private void OnStrafeEnded()
 		{
-			isStrafing = false;
-			animator.SetBool(hashStrafe, isStrafing);
-			motor.EndStrafe();
-			cameraController.SetExplorationCamera();
+			isTryingStrafe = false;
+			if (physicsForCharacter.isGrounded)
+			{
+				ApplyStrafe();
+			}
 		}
 
 		/// <summary>
