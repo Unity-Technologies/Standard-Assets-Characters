@@ -2158,6 +2158,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controls:
     m_Asset: {fileID: 11400000, guid: 6b7e0365c2048446aafe64ff5b240173, type: 3}
+  modifiesMoveVector: 1
+  modifier:
+    characterBrain: {fileID: 0}
+    changeIdleDelay: 0.1
+    changeIdleToMoveDelay: 0.1
+    changeRotateToMoveDelay: 0.1
+    startMoveMaxAngle: 1
+    startRotateInCircleMinTime: 1.5
+    startRotateInCircleMinTotalAngle: 270
+    startRotateInCircleMinAngle: 2
+    maxRotateAngle: 20
+    catchUpToInputMinAngle: 90
+    disableRapidTurnBeforeRotateMinTime: 1
+    disableRapidTurnBeforeRotateMinAngle: 180
+    disableRapidTurnBeforeRotateMinAngleLowFrameRate: 90
+    debugEnabled: 0
+    debugOffsetY: 0
 --- !u!114 &114403526203746496
 MonoBehaviour:
   m_ObjectHideFlags: 1

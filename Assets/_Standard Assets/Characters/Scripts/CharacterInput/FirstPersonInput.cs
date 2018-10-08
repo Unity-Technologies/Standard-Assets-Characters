@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 using UnityEngine.Experimental.Input;
 
 namespace StandardAssets.Characters.CharacterInput
@@ -8,7 +9,12 @@ namespace StandardAssets.Characters.CharacterInput
 		public event Action crouchStarted, crouchEnded; 
 		
 		protected bool isCrouching;
-		
+
+		protected override Vector2 ConditionMoveInput(Vector2 rawMoveInput)
+		{
+			return rawMoveInput;
+		}
+
 		protected override void RegisterAdditionalInputs()
 		{
 			controls.Movement.crouch.performed += OnCrouchInput;

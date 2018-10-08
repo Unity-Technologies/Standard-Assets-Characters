@@ -42,13 +42,15 @@ namespace StandardAssets.Characters.CharacterInput
 		private void Awake()
 		{
 			CinemachineCore.GetInputAxis = LookInputOverride;
-			controls.Movement.move.performed += ctx => moveInputVector = ctx.ReadValue<Vector2>();
+			controls.Movement.move.performed += ctx => moveInputVector = ConditionMoveInput(ctx.ReadValue<Vector2>());
 			controls.Movement.look.performed += ctx => lookInputVector = ctx.ReadValue<Vector2>();
 			controls.Movement.jump.performed += OnJumpInput;
 			controls.Movement.sprint.performed += OnSprintInput;
 			RegisterAdditionalInputs();
 		}
 
+		protected abstract Vector2 ConditionMoveInput(Vector2 rawMoveInput);
+		
 		protected abstract void RegisterAdditionalInputs();
 
 		protected virtual void OnSprintInput(InputAction.CallbackContext obj)
