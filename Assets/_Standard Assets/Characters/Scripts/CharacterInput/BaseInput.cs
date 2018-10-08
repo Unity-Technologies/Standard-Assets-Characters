@@ -11,16 +11,16 @@ namespace StandardAssets.Characters.CharacterInput
 	{
 		[SerializeField]
 		protected Controls controls;
-		
+
 		public event Action jumpPressed, sprintStarted, sprintEnded;
-		
-		public bool hasMovementInput 
-		{ 
+
+		public bool hasMovementInput
+		{
 			get { return moveInput != Vector2.zero; }
 		}
 
 		protected Vector2 moveInputVector;
-		
+
 		protected Vector2 lookInputVector;
 
 		public Vector2 lookInput
@@ -34,7 +34,7 @@ namespace StandardAssets.Characters.CharacterInput
 			get { return moveInputVector; }
 			set { moveInputVector = value; }
 		}
-		
+
 		public bool hasJumpInput { get; private set; }
 
 		protected bool isSprinting;
@@ -44,7 +44,7 @@ namespace StandardAssets.Characters.CharacterInput
 			CinemachineCore.GetInputAxis = LookInputOverride;
 			controls.Movement.move.performed += ctx => moveInputVector = ctx.ReadValue<Vector2>();
 			controls.Movement.look.performed += ctx => lookInputVector = ctx.ReadValue<Vector2>();
-			controls.Movement.jump.performed += Jump;
+			controls.Movement.jump.performed += OnJumpInput;
 			controls.Movement.sprint.performed += OnSprintInput;
 			RegisterAdditionalInputs();
 		}
@@ -63,7 +63,7 @@ namespace StandardAssets.Characters.CharacterInput
 
 		private void OnDisable()
 		{
-			controls.Disable();	
+			controls.Disable();
 		}
 
 		/// <summary>
@@ -78,21 +78,24 @@ namespace StandardAssets.Characters.CharacterInput
 
 			if (axis == "Vertical")
 			{
-				
 				return -lookInput.y;
 			}
 
 			return 0;
 		}
 
-		private void Jump(InputAction.CallbackContext ctx)
+		private void OnJumpInput(InputAction.CallbackContext ctx)
 		{
-			if (jumpPressed != null)
+			hasJumpInput = !hasJumpInput;
+			if (hasJumpInput)
 			{
-				jumpPressed();
-			}	
+				if (jumpPressed != null)
+				{
+					jumpPressed();
+				}
+			}
 		}
-		
+
 		protected void BroadcastInputAction(ref bool isDoingAction, Action started, Action ended)
 		{
 			isDoingAction = !isDoingAction;
