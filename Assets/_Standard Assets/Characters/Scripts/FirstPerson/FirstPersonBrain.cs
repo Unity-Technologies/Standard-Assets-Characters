@@ -146,7 +146,13 @@ namespace StandardAssets.Characters.FirstPerson
 		{
 			get
 			{
-				return currentSpeed / currentMovementProperties.maxSpeed;
+				float maxSpeed = currentMovementProperties.maxSpeed;
+				if (maxSpeed <= 0)
+				{
+					return 1;
+				}
+
+				return currentSpeed / maxSpeed;
 			}
 		}
 
@@ -187,6 +193,7 @@ namespace StandardAssets.Characters.FirstPerson
 			CheckCameraAnimationManager();
 			firstPersonMovementEventHandler.Init(this);
 			currentMovementProperties = walking;
+			newMovementProperties = walking;
 			firstPersonMovementEventHandler.AdjustTriggerThreshold(currentMovementProperties.strideLength);
 
 			if (mainCamera == null)

@@ -77,18 +77,18 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: -0
+      inSlope: 0
       outSlope: 0
-      tangentMode: 0
+      tangentMode: 65
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0
-      outSlope: -0
-      tangentMode: 0
+      inSlope: -0
+      outSlope: 1
+      tangentMode: 5
       weightedMode: 0
       inWeight: 0
       outWeight: 0
@@ -101,18 +101,18 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: -0
+      inSlope: 0
       outSlope: 0
-      tangentMode: 0
+      tangentMode: 65
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0
-      outSlope: -0
-      tangentMode: 0
+      inSlope: -0
+      outSlope: 1
+      tangentMode: 5
       weightedMode: 0
       inWeight: 0
       outWeight: 0
@@ -125,18 +125,18 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: -0
+      inSlope: 0
       outSlope: 0
-      tangentMode: 0
+      tangentMode: 65
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0
-      outSlope: -0
-      tangentMode: 0
+      inSlope: -0
+      outSlope: 1
+      tangentMode: 5
       weightedMode: 0
       inWeight: 0
       outWeight: 0
@@ -207,7 +207,27 @@ MonoBehaviour:
   mainCamera: {fileID: 0}
   firstPersonMovementEventHandler:
     zonesDefinition:
-      movementZoneLibraries: []
+      movementZoneLibraries:
+      - zoneId: concrete
+        zoneLibrary:
+          leftFootStepPrefab: {fileID: 114703649657986578, guid: 39b499a1da7614637b04ee652e561932,
+            type: 2}
+          rightFootStepPrefab: {fileID: 114303766495856896, guid: 12ff91133c90745e9bef34ba039e129d,
+            type: 2}
+          landingPrefab: {fileID: 114805303375849546, guid: ecb7fd2a290b048dabc44bf7feffd33e,
+            type: 2}
+          jumpingPrefab: {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868,
+            type: 2}
+      - zoneId: metal
+        zoneLibrary:
+          leftFootStepPrefab: {fileID: 114703649657986578, guid: d5b731d417b5a43f0970e4eb0b903491,
+            type: 2}
+          rightFootStepPrefab: {fileID: 114303766495856896, guid: 117ab76cf73814692bc3891a8f04bada,
+            type: 2}
+          landingPrefab: {fileID: 114805303375849546, guid: 748c8b8d01da94ec0b0a8bd7c5de6aca,
+            type: 2}
+          jumpingPrefab: {fileID: 114805303375849546, guid: cfff8b50195ea4bf491836ee1bdfe817,
+            type: 2}
     maximumSpeed: 10
   firstPersonCameraController: {fileID: 0}
 --- !u!136 &136368833332200808
