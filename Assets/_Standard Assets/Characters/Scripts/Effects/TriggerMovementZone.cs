@@ -1,4 +1,5 @@
-﻿using StandardAssets.Characters.Common;
+﻿using StandardAssets.Characters.Attributes;
+using StandardAssets.Characters.Common;
 using UnityEngine;
 
 namespace StandardAssets.Characters.Effects
@@ -7,8 +8,11 @@ namespace StandardAssets.Characters.Effects
 	/// Implementation of a movement zone using Triggers
 	/// </summary>
 	[RequireComponent(typeof(Collider))]
-	public class TriggerMovementZone : MovementZone
+	public class TriggerMovementZone : MonoBehaviour
 	{
+		[MovementZoneId, SerializeField]
+		protected string zoneId;
+		
 		/// <summary>
 		/// Change the movement event library on trigger enter
 		/// </summary>
@@ -33,6 +37,34 @@ namespace StandardAssets.Characters.Effects
 			{
 				ExitTrigger(brain);
 			}
+		}
+		
+		/// <summary>
+		/// Helper method for triggering movement events
+		/// </summary>
+		/// <param name="brain"></param>
+		protected void Trigger(CharacterBrain brain)
+		{
+			if (brain == null)
+			{
+				return;
+			}
+			
+			brain.ChangeMovementZone(zoneId);
+		}
+		
+		/// <summary>
+		/// Triggering movement event that resets event library to default 
+		/// </summary>
+		/// <param name="brain"></param>
+		protected void ExitTrigger(CharacterBrain brain)
+		{
+			if (brain == null)
+			{
+				return;
+			}
+			
+			brain.ChangeMovementZone(string.Empty);
 		}
 	}
 }
