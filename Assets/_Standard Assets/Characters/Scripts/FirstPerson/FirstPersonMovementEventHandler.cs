@@ -6,6 +6,9 @@ using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.FirstPerson
 {
+	/// <summary>
+	/// Handles movement events for First person character
+	/// </summary>
 	[Serializable]
 	public class FirstPersonMovementEventHandler : DistanceMovementEventHandler
 	{

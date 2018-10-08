@@ -4,7 +4,7 @@ using UnityEngine;
 namespace StandardAssets.Characters.Common
 {
 	/// <summary>
-	/// Needed to play dummy animations so that the SDC can respond
+	/// Needed to play dummy animations so that the State Driven Cameras can respond
 	/// </summary>
 	[RequireComponent(typeof(Animator))]
 	public class CameraController: MonoBehaviour
@@ -47,9 +47,9 @@ namespace StandardAssets.Characters.Common
 		}
 		
 		/// <summary>
-		/// 
+		/// Sets the animation to the defined state
 		/// </summary>
-		/// <param name="state"></param>
+		/// <param name="state">the name of the animation state</param>
 		public void SetAnimation(string state, int layer = 0)
 		{
 			LazyLoadAnimator();

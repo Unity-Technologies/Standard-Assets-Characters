@@ -7,69 +7,109 @@ using UnityEngine.UI;
 
 namespace StandardAssets.Characters.CharacterInput
 {
+	/// <summary>
+	/// Abstract base class for First Person and Third Person characters
+	/// </summary>
 	public abstract class BaseInput : MonoBehaviour
 	{
-		[SerializeField]
+		/// <summary>
+		/// Fired when the jump input is pressed - i.e. on key down
+		/// </summary>
+		public event Action jumpPressed;
+
+		/// <summary>
+		/// Fired when the sprint input is started
+		/// </summary>
+		public event Action sprintStarted;
+
+		/// <summary>
+		/// Fired when the sprint input is disengaged
+		/// </summary>
+		public event Action sprintEnded;
+
+		/// <summary>
+		/// The Input Action Map asset
+		/// </summary>
+		[SerializeField, Tooltip("The Input Action Map asset")]
 		protected Controls controls;
 
-		public event Action jumpPressed, sprintStarted, sprintEnded;
-
+		/// <summary>
+		/// Gets if the movement input is being applied
+		/// </summary>
 		public bool hasMovementInput
 		{
 			get { return moveInput != Vector2.zero; }
 		}
 
-		protected Vector2 moveInputVector;
+		/// <summary>
+		/// Gets/sets the look input vector
+		/// </summary>
+		public Vector2 lookInput { get; protected set; }
 
-		protected Vector2 lookInputVector;
+		/// <summary>
+		/// Gets/sets the move input vector
+		/// </summary>
+		public Vector2 moveInput { get; protected set; }
 
-		public Vector2 lookInput
-		{
-			get { return lookInputVector; }
-			set { lookInputVector = value; }
-		}
-
-		public Vector2 moveInput
-		{
-			get { return moveInputVector; }
-			set { moveInputVector = value; }
-		}
-
+		/// <summary>
+		/// Gets whether or not the jump input is currently applied
+		/// </summary>
 		public bool hasJumpInput { get; private set; }
 
 		protected bool isSprinting;
 
+		/// <summary>
+		/// Sets up the Cinemachine delegate and subscribes to new input's performed events
+		/// </summary>
 		private void Awake()
 		{
 			CinemachineCore.GetInputAxis = LookInputOverride;
-			controls.Movement.move.performed += ctx => moveInputVector = ConditionMoveInput(ctx.ReadValue<Vector2>());
-			controls.Movement.look.performed += ctx => lookInputVector = ctx.ReadValue<Vector2>();
+			controls.Movement.move.performed += context => moveInput = ConditionMoveInput(context.ReadValue<Vector2>());
+			controls.Movement.look.performed += context => lookInput = context.ReadValue<Vector2>();
 			controls.Movement.jump.performed += OnJumpInput;
 			controls.Movement.sprint.performed += OnSprintInput;
 			RegisterAdditionalInputs();
 		}
 
+		/// <summary>
+		/// Conditions the move input vector
+		/// </summary>
+		/// <param name="rawMoveInput">The move input vector received from the input action</param>
+		/// <returns>A conditioned version of the <paramref name="rawMoveInput"/></returns>
 		protected abstract Vector2 ConditionMoveInput(Vector2 rawMoveInput);
-		
+
+		/// <summary>
+		/// Handles registration of additional inputs that are not common between the First and Third person characters
+		/// </summary>
 		protected abstract void RegisterAdditionalInputs();
 
-		protected virtual void OnSprintInput(InputAction.CallbackContext obj)
+		/// <summary>
+		/// Handles the sprint input
+		/// </summary>
+		/// <param name="context">context is required by the performed event</param>
+		protected virtual void OnSprintInput(InputAction.CallbackContext context)
 		{
 			BroadcastInputAction(ref isSprinting, sprintStarted, sprintEnded);
 		}
 
+		/// <summary>
+		/// Enables associated controls
+		/// </summary>
 		private void OnEnable()
 		{
 			controls.Enable();
 		}
 
+		/// <summary>
+		/// Disables associated controls
+		/// </summary>
 		private void OnDisable()
 		{
 			controls.Disable();
 		}
 
 		/// <summary>
-		/// Sets the Cinemachine cam POV to mouse inputs.
+		/// Handles the Cinemachine delegate
 		/// </summary>
 		private float LookInputOverride(string axis)
 		{
@@ -86,7 +126,11 @@ namespace StandardAssets.Characters.CharacterInput
 			return 0;
 		}
 
-		private void OnJumpInput(InputAction.CallbackContext ctx)
+		/// <summary>
+		/// Handles the jump event from the new input system
+		/// </summary>
+		/// <param name="context">context is required by the performed event</param>
+		private void OnJumpInput(InputAction.CallbackContext context)
 		{
 			hasJumpInput = !hasJumpInput;
 			if (hasJumpInput)
@@ -98,6 +142,12 @@ namespace StandardAssets.Characters.CharacterInput
 			}
 		}
 
+		/// <summary>
+		/// Helper function for broadcasting the start and end events of a specific action. e.g. start sprint and end sprint
+		/// </summary>
+		/// <param name="isDoingAction">The boolean to toggle</param>
+		/// <param name="started">The start event</param>
+		/// <param name="ended">The end event</param>
 		protected void BroadcastInputAction(ref bool isDoingAction, Action started, Action ended)
 		{
 			isDoingAction = !isDoingAction;

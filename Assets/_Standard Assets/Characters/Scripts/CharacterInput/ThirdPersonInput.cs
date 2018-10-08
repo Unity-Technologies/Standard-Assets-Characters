@@ -7,39 +7,63 @@ using UnityEngine.Experimental.Input;
 
 namespace StandardAssets.Characters.CharacterInput
 {
+	/// <summary>
+	/// Implementation of the Third Person input
+	/// </summary>
 	public class ThirdPersonInput : BaseInput, IThirdPersonInput
 	{
-		[SerializeField, DisableEditAtRuntime()]
-		protected bool modifiesMoveVector = true;
-
-		[SerializeField, VisibleIf("modifiesMoveVector")]
+		/// <summary>
+		/// Smooths the input movement when rotating in fast circles. This makes the character run in a circle, instead of turning around on the spot.
+		/// </summary>
+		[SerializeField, Tooltip("Smooths the input movement when rotating in fast circles. This makes the character run in a circle, instead of turning around on the spot.")]
 		protected CharacterInputModifier modifier;
 
-		public event Action strafeStarted, strafeEnded, recentreCamera;
+		/// <summary>
+		/// Fired when strafe input is started
+		/// </summary>
+		public event Action strafeStarted;
 
+		/// <summary>
+		/// Fired when the strafe input is ended
+		/// </summary>
+		public event Action strafeEnded;
+		
+		/// <summary>
+		/// Fired when the recentre camera input is applied
+		/// </summary>
+		public event Action recentreCamera;
+
+		/// <summary>
+		/// Tracks if the character is strafing 
+		/// </summary>
 		protected bool isStrafing;
 
+		/// <summary>
+		/// Conditions the <paramref name="rawMoveInput"/>
+		/// </summary>
+		/// <param name="rawMoveInput">The move input vector received from the input action</param>
+		/// <returns>The input vector conditioned by <see cref="CharacterInputModifier"/></returns>
 		protected override Vector2 ConditionMoveInput(Vector2 rawMoveInput)
 		{
-			if (modifiesMoveVector)
-			{
-				modifier.ModifyMoveInput(ref rawMoveInput);
-			}
-
+			modifier.ModifyMoveInput(ref rawMoveInput);
 			return rawMoveInput;
 		}
 
+		/// <summary>
+		/// Registers strafe and recentre inputs. Initializes the movement input modifier
+		/// </summary>
 		protected override void RegisterAdditionalInputs()
 		{
 			controls.Movement.strafe.performed += OnStrafeInput;
 			controls.Movement.recentre.performed += OnRecentreInput;
-			if (modifiesMoveVector)
-			{
-				modifier.Init();
-			}
+			modifier.Init();
 		}
 
-		private void OnRecentreInput(InputAction.CallbackContext obj)
+		/// <summary>
+		/// Handles the recentre input 
+		/// </summary>
+		/// <param name="context">context is required by the performed event</param>
+		private void OnRecentreInput(InputAction.CallbackContext context)
 		{
 			if (recentreCamera != null)
 			{
@@ -47,11 +71,18 @@ namespace StandardAssets.Characters.CharacterInput
 			}
 		}
 
-		private void OnStrafeInput(InputAction.CallbackContext obj)
+		/// <summary>
+		/// Handles the strafe input
+		/// </summary>
+		/// <param name="context">context is required by the performed event</param>
+		private void OnStrafeInput(InputAction.CallbackContext context)
 		{
 			BroadcastInputAction(ref isStrafing, strafeStarted, strafeEnded);
 		}
 
+		/// <summary>
+		/// Sets the sprinting state to false
+		/// </summary>
 		public void ResetSprint()
 		{
 			isSprinting = false;
@@ -403,7 +434,7 @@ namespace StandardAssets.Characters.CharacterInput
 			/// </summary>
 			private float previousRotateInCircleDirection;
 
-			#if UNITY_EDITOR
+#if UNITY_EDITOR
 					private readonly bool debugShowValidInput = true;
 					private readonly Color debugValidInputColor = Color.green;
 					private readonly bool debugShowModifiedInput = true;
@@ -461,7 +492,7 @@ namespace StandardAssets.Characters.CharacterInput
 				UpdateState(moveInput);
 				UpdateRotation(ref moveInput);
 
-				#if UNITY_EDITOR
+#if UNITY_EDITOR
 				if (debugEnabled)
 				{
 					DebugUpdate(moveInput);
@@ -903,13 +934,13 @@ namespace StandardAssets.Characters.CharacterInput
 				return Vector3.Angle(from, to);
 			}
 
-			#if UNITY_EDITOR
-			/// <summary>
-			/// DEBUG: Draw the input vectors.
-			/// </summary>
-			/// <param name="moveInput">The moveInput. It may be modified by this point.</param>
-			/// <param name="snapShotType">0 = draw for a single frame, 1 = draw for longer duration, 2 = draw for longer
-			/// duration with less alpha.</param>
+#if UNITY_EDITOR
+/// <summary>
+/// DEBUG: Draw the input vectors.
+/// </summary>
+/// <param name="moveInput">The moveInput. It may be modified by this point.</param>
+/// <param name="snapShotType">0 = draw for a single frame, 1 = draw for longer duration, 2 = draw for longer
+/// duration with less alpha.</param>
 			private void DebugUpdate(Vector2 moveInput, int snapShotType = 0)
 			{
 				if (characterTransform == null)

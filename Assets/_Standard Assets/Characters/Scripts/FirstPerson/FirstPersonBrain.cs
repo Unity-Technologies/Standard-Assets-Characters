@@ -15,17 +15,23 @@ namespace StandardAssets.Characters.FirstPerson
 	[RequireComponent(typeof(FirstPersonInput))]
 	public class FirstPersonBrain : CharacterBrain
 	{
+		/// <summary>
+		/// The names of the states in the camera animator
+		/// </summary>
 		private const string k_CrouchAnimationStateName = "Crouch",
 		                     k_SprintAnimationStateName = "Sprint",
 		                     k_WalkAnimationStateName = "Walk";
 
+		/// <summary>
+		/// Stores movement properties for the different states - e.g. walk
+		/// </summary>
 		[Serializable]
 		public struct MovementProperties
 		{
 			/// <summary>
 			/// The maximum movement speed
 			/// </summary>
-			[SerializeField, Tooltip("The maximum movement speed of the character"), Range(0f, 20f)]
+			[SerializeField, Tooltip("The maximum movement speed of the character"), Range(0.1f, 20f)]
 			public float maxSpeed;
 
 			/// <summary>
@@ -46,11 +52,6 @@ namespace StandardAssets.Characters.FirstPerson
 			public bool canJump
 			{
 				get { return jumpSpeed > 0f; }
-			}
-
-			public bool hasMaxSpeed
-			{
-				get { return maxSpeed > 0f; }
 			}
 		}
 
@@ -103,10 +104,19 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		private MovementProperties currentMovementProperties;
 
+		/// <summary>
+		/// Stores the new movement properties if the character tries to change movement state in mid-air
+		/// </summary>
 		private MovementProperties newMovementProperties;
 
+		/// <summary>
+		/// Backing field for lazily loading the character input
+		/// </summary>
 		private FirstPersonInput input;
 
+		/// <summary>
+		/// Lazily loads the <see cref="FirstPersonInput"/>
+		/// </summary>
 		private FirstPersonInput characterInput
 		{
 			get
@@ -128,18 +138,14 @@ namespace StandardAssets.Characters.FirstPerson
 			get { return firstPersonCameraController; }
 		}
 
-		/// <inheritdoc/>
+		/// <summary>
+		/// Returns the characters normalized speed
+		/// </summary>
 		public override float normalizedForwardSpeed
 		{
 			get
 			{
-				float maxSpeed = currentMovementProperties.maxSpeed;
-				if (maxSpeed <= 0)
-				{
-					return 1;
-				}
-
-				return currentSpeed / maxSpeed;
+				return currentSpeed / currentMovementProperties.maxSpeed;
 			}
 		}
 
@@ -257,7 +263,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		private void OnLanded()
 		{
-			SetMovementProperties();
+			currentMovementProperties = newMovementProperties;
 		}
 
 		/// <summary>
@@ -307,6 +313,9 @@ namespace StandardAssets.Characters.FirstPerson
 			characterPhysics.Move(currentVelocity * Time.fixedDeltaTime, Time.fixedDeltaTime);
 		}
 
+		/// <summary>
+		/// Sets the character to the walking state
+		/// </summary>
 		private void StartWalking()
 		{
 			characterInput.ResetInputs();
@@ -314,12 +323,18 @@ namespace StandardAssets.Characters.FirstPerson
 			SetAnimation(k_WalkAnimationStateName);
 		}
 
+		/// <summary>
+		/// Sets the character to the sprinting state
+		/// </summary>
 		private void StartSprinting()
 		{
 			ChangeState(sprinting);
 			SetAnimation(k_SprintAnimationStateName);
 		}
 
+		/// <summary>
+		/// Sets the character to crouching state
+		/// </summary>
 		private void StartCrouching()
 		{
 			ChangeState(crouching);
@@ -336,20 +351,10 @@ namespace StandardAssets.Characters.FirstPerson
 
 			if (characterPhysics.isGrounded)
 			{
-				SetMovementProperties();
+				currentMovementProperties = newMovementProperties;
 			}
 
 			firstPersonMovementEventHandler.AdjustTriggerThreshold(newState.strideLength);
-		}
-
-		private void SetMovementProperties()
-		{
-			if (!newMovementProperties.hasMaxSpeed)
-			{
-				return;
-			}
-
-			currentMovementProperties = newMovementProperties;
 		}
 
 		/// <summary>
