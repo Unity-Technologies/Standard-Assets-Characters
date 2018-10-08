@@ -1,4 +1,5 @@
 ﻿using System;
+using Cinemachine;
 using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Common;
 using StandardAssets.Characters.Effects;
@@ -372,6 +373,30 @@ namespace StandardAssets.Characters.FirstPerson
 		public void ResetState()
 		{
 			ChangeState(walking);
+		}
+	}
+	
+	/// <summary>
+	/// Handles movement events for First person character
+	/// </summary>
+	[Serializable]
+	public class FirstPersonMovementEventHandler : DistanceMovementEventHandler
+	{
+		/// <summary>
+		/// Sets the brain to be used
+		/// </summary>
+		public void Init(FirstPersonBrain brainToUse)
+		{
+			base.Init(brainToUse);
+		}
+
+		/// <summary>
+		/// Change the distance that footstep sounds are played
+		/// </summary>
+		/// <param name="strideLength"></param>
+		public void AdjustTriggerThreshold(float strideLength)
+		{
+			sqrDistanceThreshold = strideLength * strideLength;
 		}
 	}
 }
