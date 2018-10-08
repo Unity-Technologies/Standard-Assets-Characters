@@ -10,7 +10,7 @@ namespace StandardAssets.Characters.Common
 	/// Abstract bass class for character brains
 	/// </summary>
 	[RequireComponent(typeof(CharacterPhysics))]
-	public abstract class CharacterBrain : MonoBehaviour, INormalizedForwardSpeedContainer
+	public abstract class CharacterBrain : MonoBehaviour
 	{
 		public Action<string> changeMovementZone;
 		
@@ -35,7 +35,6 @@ namespace StandardAssets.Characters.Common
 		
 		private Vector3 lastPosition;
 
-		/// <inheritdoc/>
 		public abstract float normalizedForwardSpeed { get;}
 		
 		/// <summary>

@@ -11,7 +11,7 @@ namespace StandardAssets.Characters.Physics
 	/// implementation; requires an <see cref="INormalizedForwardSpeedContainer"/> and <see cref="ICharacterInput"/>.
 	/// </summary>
 	[RequireComponent(typeof(BaseInput))]
-	[RequireComponent(typeof(INormalizedForwardSpeedContainer))]
+	[RequireComponent(typeof(CharacterBrain))]
 	public abstract class CharacterPhysics : MonoBehaviour
 	{
 		/// <summary>
@@ -86,7 +86,7 @@ namespace StandardAssets.Characters.Physics
 		private float gravity;
 
 		// the source of the normalized forward speed.
-		private INormalizedForwardSpeedContainer normalizedForwardSpeedContainer;
+		private CharacterBrain characterBrain;
 
 		/// <summary>
 		/// The predicted landing position of the character. Null if a position could not be predicted.
@@ -139,7 +139,7 @@ namespace StandardAssets.Characters.Physics
 			get
 			{
 				return jumpGravityMultiplierAsAFactorOfForwardSpeed.Evaluate(
-					normalizedForwardSpeedContainer.normalizedForwardSpeed);
+					characterBrain.normalizedForwardSpeed);
 			}
 		}
 		
@@ -151,7 +151,7 @@ namespace StandardAssets.Characters.Physics
 			get
 			{
 				return minJumpHeightMultiplierAsAFactorOfForwardSpeed.Evaluate(
-					normalizedForwardSpeedContainer.normalizedForwardSpeed);
+					characterBrain.normalizedForwardSpeed);
 			}
 		}
 		
@@ -163,7 +163,7 @@ namespace StandardAssets.Characters.Physics
 			get
 			{
 				return fallGravityMultiplierAsAFactorOfForwardSpeed.Evaluate(
-					normalizedForwardSpeedContainer.normalizedForwardSpeed);
+					characterBrain.normalizedForwardSpeed);
 			}
 		}
 
@@ -205,7 +205,7 @@ namespace StandardAssets.Characters.Physics
 		{
 			normalizedVerticalSpeed = 0.0f;
 			characterInput = GetComponent<BaseInput>();
-			normalizedForwardSpeedContainer = GetComponent<INormalizedForwardSpeedContainer>();
+			characterBrain = GetComponent<CharacterBrain>();
 
 			if (terminalVelocity > 0.0f)
 			{
