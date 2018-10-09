@@ -44,7 +44,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <returns>The input vector conditioned by <see cref="CharacterInputModifier"/></returns>
 		protected override Vector2 ConditionMoveInput(Vector2 rawMoveInput)
 		{
-			locomotionInputSmoother.ModifyMoveInput(ref rawMoveInput);
+			//TODO: Diorgo to fix
+			//locomotionInputSmoother.ModifyMoveInput(ref rawMoveInput);
 			return rawMoveInput;
 		}
 
