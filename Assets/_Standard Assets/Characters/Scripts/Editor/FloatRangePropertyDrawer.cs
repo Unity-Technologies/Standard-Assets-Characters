@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEditor;
 using StandardAssets.Characters.Helpers;
 
-namespace StandardAssets._Standard_Assets.Characters.Scripts.Editor
+namespace Editor
 {
 	/// <summary>
 	/// Custom Drawer for the <see cref="StandardAssets.Characters.Helpers.FloatRange"/>

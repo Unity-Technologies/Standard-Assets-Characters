@@ -5,7 +5,7 @@ using StandardAssets.Characters.Effects.Configs;
 using UnityEditor;
 using UnityEngine;
 
-namespace StandardAssets._Standard_Assets.Characters.Scripts.Editor
+namespace Editor
 {
 	/// <summary>
 	/// Property drawer for <see cref="MovementZoneIdAttribute"/>
