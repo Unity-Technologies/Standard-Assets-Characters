@@ -381,7 +381,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			targetYRotation = motor.targetYRotation;
 		
 			//Just for build testing
-			if (Input.GetKeyDown(KeyCode.T))
+			//TODO remove
+			if (UnityEngine.Input.GetKeyDown(KeyCode.T))
 			{
 				turnaroundType = turnaroundType == TurnaroundType.Animation ? TurnaroundType.None : turnaroundType + 1;
 				turnaround = GetCurrentTurnaroundBehaviour();

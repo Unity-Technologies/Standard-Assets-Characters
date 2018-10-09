@@ -29,9 +29,9 @@ namespace StandardAssets.Characters.Examples.SimpleNavMeshInputController
 
 		public void Update()
 		{
-			if (Input.GetKeyDown(KeyCode.Mouse0))
+			if (UnityEngine.Input.GetKeyDown(KeyCode.Mouse0))
 			{
-				Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+				Ray ray = mainCamera.ScreenPointToRay(UnityEngine.Input.mousePosition);
 				RaycastHit hit;
 
 				if (UnityEngine.Physics.Raycast(ray, out hit, groundCheckMask))

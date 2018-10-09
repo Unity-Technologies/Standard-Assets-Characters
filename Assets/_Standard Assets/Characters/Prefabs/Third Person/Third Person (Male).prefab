@@ -2158,7 +2158,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controls:
     m_Asset: {fileID: 11400000, guid: 6b7e0365c2048446aafe64ff5b240173, type: 3}
-  modifiesMoveVector: 1
+  invertY: 0
+  invertX: 0
+  xSensitivity: 1
+  ySensitivity: 1
+  cursorLocked: 1
   modifier:
     characterBrain: {fileID: 0}
     changeIdleDelay: 0.1

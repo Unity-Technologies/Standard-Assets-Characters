@@ -1,4 +1,5 @@
 ﻿using StandardAssets.Characters.Common;
+using StandardAssets.Characters.Input;
 using UnityEngine;
 
 namespace StandardAssets.Characters.GizmosHelpers

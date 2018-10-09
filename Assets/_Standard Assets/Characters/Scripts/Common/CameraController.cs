@@ -21,18 +21,7 @@ namespace StandardAssets.Characters.Common
 		{
 			LazyLoadAnimator();
 		}
-
-		/// <summary>
-		/// Update cameras based on the input options (e.g. invert Y).
-		/// </summary>
-		protected virtual void Start()
-		{
-			if (InputOptions.Instance != null)
-			{
-				InputOptions.Instance.UpdateCinemachineCameras(gameObject);
-			}
-		}
-
+		
 		/// <summary>
 		/// Lazy load protected against out of order operations
 		/// </summary>

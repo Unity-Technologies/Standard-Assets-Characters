@@ -30,6 +30,36 @@ namespace StandardAssets.Characters.Input
 		/// </summary>
 		[SerializeField, Tooltip("The Input Action Map asset")]
 		protected Controls controls;
+		
+		/// <summary>
+		/// Invert vertical look direction
+		/// </summary>
+		[SerializeField, Tooltip("Invert vertical look direction")]
+		protected bool invertY;
+		
+		/// <summary>
+		/// Invert horizontal look direction
+		/// </summary>
+		[SerializeField, Tooltip("Invert horizontal look direction")]
+		protected bool invertX;
+
+		/// <summary>
+		/// The horizontal look sensitivity
+		/// </summary>
+		[SerializeField, Range(0f, 1f), Tooltip("The horizontal look sensitivity")]
+		protected float xSensitivity = 1f;
+		
+		/// <summary>
+		/// The vertical look sensitivity
+		/// </summary>
+		[SerializeField, Range(0f, 1f), Tooltip("The vertical look sensitivity")]
+		protected float ySensitivity = 1f;
+		
+		/// <summary>
+		/// Toggle the cursor lock mode while in play mode.
+		/// </summary>
+		[SerializeField, Tooltip("Toggle the Cursor Lock Mode, press ESCAPE during play mode")]
+		protected bool cursorLocked = true;
 
 		/// <summary>
 		/// Gets if the movement input is being applied
@@ -96,6 +126,7 @@ namespace StandardAssets.Characters.Input
 		private void OnEnable()
 		{
 			controls.Enable();
+			HandleCursorLock();
 		}
 
 		/// <summary>
@@ -113,12 +144,12 @@ namespace StandardAssets.Characters.Input
 		{
 			if (axis == "Horizontal")
 			{
-				return -lookInput.x;
+				return invertX ? lookInput.x * xSensitivity : -lookInput.x * xSensitivity;
 			}
 
 			if (axis == "Vertical")
 			{
-				return -lookInput.y;
+				return invertY ? lookInput.y * ySensitivity : -lookInput.y * ySensitivity;
 			}
 
 			return 0;
@@ -137,6 +168,26 @@ namespace StandardAssets.Characters.Input
 				{
 					jumpPressed();
 				}
+			}
+		}
+		
+		/// <summary>
+		/// Handles the cursor lock state
+		/// </summary>
+		private void HandleCursorLock()
+		{
+			Cursor.lockState = cursorLocked ? CursorLockMode.Locked : CursorLockMode.None;
+		}
+		
+		/// <summary>
+		/// Checks for lock state input
+		/// </summary>
+		private void Update()
+		{
+			if (UnityEngine.Input.GetKeyDown(KeyCode.Escape))
+			{
+				cursorLocked = !cursorLocked;
+				HandleCursorLock();
 			}
 		}
 

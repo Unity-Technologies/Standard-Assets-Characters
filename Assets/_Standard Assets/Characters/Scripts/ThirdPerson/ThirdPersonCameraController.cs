@@ -40,11 +40,16 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private ThirdPersonBrain thirdPersonBrain;
 
-		/// <inheritdoc/>
-		protected override void Start()
+		public void RecenterCamera()
 		{
-			base.Start();
-
+			if (!thirdPersonBrain.thirdPersonInput.hasMovementInput)
+			{
+				RecenterFreeLookCam(idleCamera);
+			}
+		}
+		
+		private void Start()
+		{
 			if (startingCameraMode == CameraType.Exploration)
 			{
 				SetAnimation(k_ExplorationState);
@@ -55,14 +60,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				SetAnimation(k_StrafeState);
 				SetCameraObjectsActive(explorationCameraObjects, false);
-			}
-		}
-
-		public void RecenterCamera()
-		{
-			if (!thirdPersonBrain.thirdPersonInput.hasMovementInput)
-			{
-				RecenterFreeLookCam(idleCamera);
 			}
 		}
 
