@@ -153,21 +153,21 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
+      value: 0.1
+      inSlope: 0.59999996
+      outSlope: 0.59999996
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 1
+      value: 0.7
+      inSlope: 0.59999996
+      outSlope: 0.59999996
       tangentMode: 34
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -177,6 +177,3 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e749ca6855dde405aa8f5ff21aa27ec4, type: 3}
   - {fileID: 8300000, guid: a1e9f750a495c4beba0a43e9f1e719e7, type: 3}
   - {fileID: 8300000, guid: 237cd18e1619142249bb5f328aae90e1, type: 3}
-  volume:
-    minValue: 0.1
-    maxValue: 0.7

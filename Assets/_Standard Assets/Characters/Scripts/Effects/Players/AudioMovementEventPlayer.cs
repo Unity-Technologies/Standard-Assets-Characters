@@ -25,23 +25,7 @@ namespace StandardAssets.Characters.Effects
 		[SerializeField, Tooltip("For using multiple audio sources, i.e footstep sounds")]
 		protected AudioClip[] clips;
 
-		/// <summary>
-		/// The minimum and maximum volumes that the clip is played at
-		/// </summary>
-		[SerializeField, Tooltip("The minimum and maximum volumes that the clip is played at")]
-		protected FloatRange volume;
-
 		private int currentSoundIndex;
-
-		protected float minValue
-		{
-			get { return volume.minValue; }
-		}
-
-		protected float maxValue
-		{
-			get { return volume.maxValue; }
-		}
 		
 		private void Awake()
 		{
@@ -76,7 +60,7 @@ namespace StandardAssets.Characters.Effects
 
 		protected override float Evaluate(float normalizedSpeed)
 		{
-			return volumeFromNormalizedSpeed.Evaluate(normalizedSpeed) * (maxValue - minValue) + minValue;;
+			return volumeFromNormalizedSpeed.Evaluate(normalizedSpeed);
 		}
 	}
 }

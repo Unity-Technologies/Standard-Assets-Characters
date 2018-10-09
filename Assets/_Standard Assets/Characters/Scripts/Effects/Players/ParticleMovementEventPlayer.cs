@@ -14,24 +14,11 @@ namespace StandardAssets.Characters.Effects
 		[SerializeField, Tooltip("How the particle system is scaled based on normalizedSpeed")]
 		protected AnimationCurve particleScaleFromNormalizedSpeed = AnimationCurve.Linear(0f,0f,1f,1f);
 		
-		[SerializeField, FloatRangeSetup(0f, 5f), Tooltip("The local scale range of the particle systems")]
-		protected FloatRange scale;
-		
 		private ParticleSystem[] particleSources;
 
 		private void Awake()
 		{
 			particleSources = GetComponentsInChildren<ParticleSystem>();
-		}
-
-		protected float minValue
-		{
-			get { return scale.minValue; }
-		}
-
-		protected float maxValue
-		{
-			get { return scale.maxValue; }
 		}
 
 		/// <summary>
@@ -51,7 +38,7 @@ namespace StandardAssets.Characters.Effects
 		
 		protected override float Evaluate(float normalizedSpeed)
 		{
-			return particleScaleFromNormalizedSpeed.Evaluate(normalizedSpeed) * (maxValue - minValue) + minValue;;
+			return particleScaleFromNormalizedSpeed.Evaluate(normalizedSpeed);
 		}
 	}
 }
