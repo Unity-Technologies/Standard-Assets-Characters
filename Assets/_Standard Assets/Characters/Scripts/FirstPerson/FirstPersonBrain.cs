@@ -74,12 +74,6 @@ namespace StandardAssets.Characters.FirstPerson
 		[SerializeField, Tooltip("Movement properties of the character while crouching")]
 		protected MovementProperties crouching;
 
-		/// <summary>
-		/// Main Camera that is using the POV camera
-		/// </summary>
-		[SerializeField,
-		 Tooltip("Main Camera that is using the POV camera - will fetch Camera.main if this is left empty")]
-		protected Camera mainCamera;
 
 		/// <summary>
 		/// Manages movement events
@@ -109,6 +103,11 @@ namespace StandardAssets.Characters.FirstPerson
 		/// Stores the new movement properties if the character tries to change movement state in mid-air
 		/// </summary>
 		private MovementProperties newMovementProperties;
+		
+		/// <summary>
+		/// Cached instance of Camera.main
+		/// </summary>
+		private Camera mainCamera;
 
 		/// <summary>
 		/// Backing field for lazily loading the character input
@@ -195,11 +194,7 @@ namespace StandardAssets.Characters.FirstPerson
 			currentMovementProperties = walking;
 			newMovementProperties = walking;
 			firstPersonMovementEventHandler.AdjustTriggerThreshold(currentMovementProperties.strideLength);
-
-			if (mainCamera == null)
-			{
-				mainCamera = Camera.main;
-			}
+			mainCamera = Camera.main;
 		}
 
 		/// <summary>
