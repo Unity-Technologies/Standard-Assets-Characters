@@ -86,6 +86,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private bool isTryingStrafe;
 
+		private bool isChangingCamera;
+
 		private bool triggeredRapidDirectionChange;
 		private int framesToWait;
 
@@ -612,7 +614,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void OnLanding()
 		{
 			isGrounded = true;
-			ApplyStrafe();
+			SelectGroundedCamera();
 
 			switch (animatorState)
 			{
@@ -674,15 +676,33 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private void OnStrafeStarted()
 		{
+			isChangingCamera = true;
 			isTryingStrafe = true;
 			if (physicsForCharacter.isGrounded)
 			{
-				ApplyStrafe();
+				SelectGroundedCamera();
 			}
 		}
-
-		private void ApplyStrafe()
+		/// <summary>
+		/// Sets the animator strafe parameter to false.
+		/// </summary>
+		private void OnStrafeEnded()
 		{
+			isChangingCamera = true;
+			isTryingStrafe = false;
+			if (physicsForCharacter.isGrounded)
+			{
+				SelectGroundedCamera();
+			}
+		}
+		
+		private void SelectGroundedCamera()
+		{
+			if (!isChangingCamera)
+			{
+				return;
+			}
+			
 			isStrafing = isTryingStrafe;
 			animator.SetBool(hashStrafe, isStrafing);
 			if (isStrafing)
@@ -695,18 +715,8 @@ namespace StandardAssets.Characters.ThirdPerson
 				motor.EndStrafe();
 				cameraController.SetExplorationCamera();
 			}
-		}
 
-		/// <summary>
-		/// Sets the animator strafe parameter to false.
-		/// </summary>
-		private void OnStrafeEnded()
-		{
-			isTryingStrafe = false;
-			if (physicsForCharacter.isGrounded)
-			{
-				ApplyStrafe();
-			}
+			isChangingCamera = false;
 		}
 
 		/// <summary>
