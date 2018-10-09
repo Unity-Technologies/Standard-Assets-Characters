@@ -1193,12 +1193,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingCameraMode: 0
-  explorationCameraObjects: []
-  strafeCameraObjects:
-  - {fileID: 1504451468462078}
   explorationStateDrivenCamera: {fileID: 114676693933027276}
   strafeStateDrivenCamera: {fileID: 114543724509008454}
   idleCamera: {fileID: 114626115066085994}
+  crosshair: {fileID: 1504451468462078}
 --- !u!114 &114150045726672874
 MonoBehaviour:
   m_ObjectHideFlags: 1

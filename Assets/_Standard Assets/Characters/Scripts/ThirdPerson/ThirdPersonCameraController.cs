@@ -26,9 +26,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		[DisableEditAtRuntime(), SerializeField, Tooltip("Define the starting camera mode")]
 		protected CameraType startingCameraMode = CameraType.Exploration;
 
-		[SerializeField, Tooltip("Game objects to toggle when switching camera modes")]
-		protected GameObject[] explorationCameraObjects, strafeCameraObjects;
-
 		[SerializeField, Tooltip("Cinemachine State Driven Camera")]
 		protected CinemachineStateDrivenCamera explorationStateDrivenCamera;
 
@@ -37,6 +34,9 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[SerializeField, Tooltip("This is the free look camera that will be able to get recentered")]
 		protected CinemachineFreeLook idleCamera;
+
+		[SerializeField, Tooltip("The aiming crosshair that is visible during strafe")]
+		protected GameObject crosshair;
 
 		private ThirdPersonBrain thirdPersonBrain;
 
@@ -53,13 +53,13 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (startingCameraMode == CameraType.Exploration)
 			{
 				SetAnimation(k_ExplorationState);
-				SetCameraObjectsActive(explorationCameraObjects);
-				SetCameraObjectsActive(strafeCameraObjects, false);
+				SetCrosshairVisible(false);
+				
 			}
 			else
 			{
 				SetAnimation(k_StrafeState);
-				SetCameraObjectsActive(explorationCameraObjects, false);
+				SetCrosshairVisible();
 			}
 		}
 
@@ -120,28 +120,28 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
-		private void SetCameraObjectsActive(GameObject[] cameraObjects, bool isActive = true)
+		private void SetCrosshairVisible(bool isVisible = true)
 		{
-			foreach (GameObject cameraObject in cameraObjects)
+			if (crosshair == null)
 			{
-				cameraObject.SetActive(isActive);
+				return;
 			}
+			
+			crosshair.SetActive(isVisible);
 		}
 
 		public void SetStrafeCamera()
 		{
 			SetCameraAxes(explorationStateDrivenCamera, strafeStateDrivenCamera);
 			SetAnimation(k_StrafeState);
-			SetCameraObjectsActive(strafeCameraObjects);
-			SetCameraObjectsActive(explorationCameraObjects, false);
+			SetCrosshairVisible();
 		}
 
 		public void SetExplorationCamera()
 		{
 			SetCameraAxes(strafeStateDrivenCamera, explorationStateDrivenCamera);
 			SetAnimation(k_ExplorationState);
-			SetCameraObjectsActive(explorationCameraObjects);
-			SetCameraObjectsActive(strafeCameraObjects, false);
+			SetCrosshairVisible(false);
 		}
 
 		/// <summary>
