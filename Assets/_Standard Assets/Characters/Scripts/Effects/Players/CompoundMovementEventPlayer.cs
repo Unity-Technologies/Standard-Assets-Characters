@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace StandardAssets.Characters.Effects
+namespace StandardAssets.Characters.Effects.Players
 {
 	/// <summary>
 	/// Plays multiple <see cref="MovementEventPlayer"/> simultaneously

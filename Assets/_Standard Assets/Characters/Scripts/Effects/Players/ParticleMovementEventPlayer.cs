@@ -1,9 +1,6 @@
-﻿using StandardAssets.Characters.Attributes;
-using StandardAssets.Characters.Helpers;
-using UnityEngine;
-using UnityEngine.Serialization;
+﻿using UnityEngine;
 
-namespace StandardAssets.Characters.Effects
+namespace StandardAssets.Characters.Effects.Players
 {
 	/// <summary>
 	/// Calls play on the ParticleSystem and scales the transform based on the effectMagnitude

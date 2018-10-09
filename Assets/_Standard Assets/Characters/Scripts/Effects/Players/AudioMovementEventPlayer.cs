@@ -1,9 +1,6 @@
-﻿using StandardAssets.Characters.Attributes;
-using StandardAssets.Characters.Helpers;
-using UnityEngine;
-using UnityEngine.Serialization;
+﻿using UnityEngine;
 
-namespace StandardAssets.Characters.Effects
+namespace StandardAssets.Characters.Effects.Players
 {
 	/// <summary>
 	/// Selects an audio clip to play and scales the volume based on character speed

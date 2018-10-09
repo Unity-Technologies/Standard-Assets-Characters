@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace StandardAssets.Characters.Effects
+namespace StandardAssets.Characters.Effects.Players
 {
 	/// <summary>
 	/// Abstract base class for visualizing a movement event
