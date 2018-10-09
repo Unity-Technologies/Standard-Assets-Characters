@@ -27,6 +27,11 @@ namespace StandardAssets.Characters.Effects
 				LevelMovementZoneConfig configuration = LevelMovementZoneManager.config;
 				if (configuration != null)
 				{
+					MovementEventLibrary library = zonesDefinition[configuration.defaultId];
+					if (library != null)
+					{
+						return library;
+					}
 					return configuration.defaultLibrary;
 				}
 

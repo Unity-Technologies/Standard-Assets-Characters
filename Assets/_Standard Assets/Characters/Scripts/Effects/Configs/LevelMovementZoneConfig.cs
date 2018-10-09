@@ -36,5 +36,13 @@ namespace StandardAssets.Characters.Effects.Configs
 		{
 			get { return this[defaultZoneId]; }
 		}
+		
+		/// <summary>
+		/// Gets the default Ids
+		/// </summary>
+		public string defaultId
+		{
+			get { return defaultZoneId; }
+		}
 	}
 }
