@@ -374,14 +374,108 @@ namespace StandardAssets.Characters.FirstPerson
 	/// Handles movement events for First person character
 	/// </summary>
 	[Serializable]
-	public class FirstPersonMovementEventHandler : DistanceMovementEventHandler
+	public class FirstPersonMovementEventHandler : MovementEventHandler
 	{
+		[SerializeField, Tooltip("The maximum speed of the character")]
+		protected float maximumSpeed = 10f;
+
+		private float sqrTravelledDistance;
+
+		private float sqrDistanceThreshold;
+
+		private Vector3 previousPosition;
+
+		private bool isLeftFoot;
+
+		private Transform transform;
+
 		/// <summary>
-		/// Sets the brain to be used
+		/// Initializes the handler with the correct character brain and sets up the transform and previousPosition needed to calculate distance travelled
 		/// </summary>
+		/// <param name="brainToUse"></param>
 		public void Init(FirstPersonBrain brainToUse)
 		{
 			base.Init(brainToUse);
+			transform = brainToUse.transform;
+			previousPosition = transform.position;
+		}
+
+		/// <summary>
+		/// Updates the distance travelled and checks if footstep events need to be fired
+		/// </summary>
+		public void Tick()
+		{
+			Vector3 currentPosition = transform.position;
+
+			//If the character has not moved or is not grounded then ignore the calculations that follow
+			if (currentPosition == previousPosition || !brain.physicsForCharacter.isGrounded)
+			{
+				previousPosition = currentPosition;
+				return;
+			}
+
+			sqrTravelledDistance += (currentPosition - previousPosition).sqrMagnitude;
+
+			if (sqrTravelledDistance >= sqrDistanceThreshold)
+			{
+				sqrTravelledDistance = 0;
+				MovementEventData data =
+					new MovementEventData(transform, Mathf.Clamp01(brain.planarSpeed / maximumSpeed));
+				if (isLeftFoot)
+				{
+					PlayLeftFoot(data);
+				}
+				else
+				{
+					PlayRightFoot(data);
+				}
+
+				isLeftFoot = !isLeftFoot;
+			}
+
+			previousPosition = currentPosition;
+		}
+
+		/// <summary>
+		/// Subscribe
+		/// </summary>
+		public void Subscribe()
+		{
+			if (brain == null || brain.physicsForCharacter == null)
+			{
+				return;
+			}
+			brain.physicsForCharacter.landed += Landed;
+			brain.physicsForCharacter.jumpVelocitySet += Jumped;
+		}
+
+		/// <summary>
+		/// Unsubscribe
+		/// </summary>
+		public void Unsubscribe()
+		{
+			if (brain == null || brain.physicsForCharacter == null)
+			{
+				return;
+			}
+			brain.physicsForCharacter.landed -= Landed;
+			brain.physicsForCharacter.jumpVelocitySet -= Jumped;
+		}
+
+		/// <summary>
+		/// Calls PlayEvent on the jump ID
+		/// </summary>
+		private void Jumped()
+		{
+			PlayJumping(new MovementEventData(transform));
+		}
+
+		/// <summary>
+		/// Calls PlayEvent on the landing ID
+		/// </summary>
+		private void Landed()
+		{
+			PlayLanding(new MovementEventData(transform));
 		}
 
 		/// <summary>
