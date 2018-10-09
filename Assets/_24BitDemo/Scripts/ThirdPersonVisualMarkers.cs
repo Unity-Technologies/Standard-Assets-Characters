@@ -3,7 +3,6 @@ using System.Security.Permissions;
 using UnityEngine;
 using StandardAssets.Characters.Physics;
 using StandardAssets.Characters.Common;
-using StandardAssets.Characters.Input;
 
 namespace Demo
 {

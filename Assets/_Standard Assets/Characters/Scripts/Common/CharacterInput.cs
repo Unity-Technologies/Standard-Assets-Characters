@@ -3,7 +3,7 @@ using Cinemachine;
 using UnityEngine;
 using UnityEngine.Experimental.Input;
 
-namespace StandardAssets.Characters.Input
+namespace StandardAssets.Characters.Common
 {
 	/// <summary>
 	/// Abstract base class for First Person and Third Person characters

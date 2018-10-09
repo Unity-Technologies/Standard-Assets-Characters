@@ -1,6 +1,5 @@
 ﻿using StandardAssets.Characters.Common;
 using StandardAssets.Characters.Effects;
-using StandardAssets.Characters.Input;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
 

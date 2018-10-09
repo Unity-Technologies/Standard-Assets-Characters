@@ -1,10 +1,10 @@
 using System;
+using StandardAssets.Characters.Common;
 using StandardAssets.Characters.Physics;
-using StandardAssets.Characters.ThirdPerson;
 using UnityEngine;
 using UnityEngine.Experimental.Input;
 
-namespace StandardAssets.Characters.Input
+namespace StandardAssets.Characters.ThirdPerson
 {
 	/// <summary>
 	/// Implementation of the Third Person input

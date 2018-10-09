@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace StandardAssets.Characters.Input
+namespace StandardAssets.Characters.ThirdPerson
 {
 	/// <summary>
 	/// Interface for relaying input state to Third Person Character

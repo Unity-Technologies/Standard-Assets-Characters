@@ -1,8 +1,9 @@
 using System;
+using StandardAssets.Characters.Common;
 using UnityEngine;
 using UnityEngine.Experimental.Input;
 
-namespace StandardAssets.Characters.Input
+namespace StandardAssets.Characters.FirstPerson
 {
 	/// <summary>
 	/// Implementation of the First Person input

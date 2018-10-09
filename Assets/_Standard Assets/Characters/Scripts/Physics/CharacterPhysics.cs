@@ -1,6 +1,5 @@
 using System;
 using StandardAssets.Characters.Common;
-using StandardAssets.Characters.Input;
 using UnityEngine;
 using UnityPhysics = UnityEngine.Physics;
 
@@ -10,7 +9,7 @@ namespace StandardAssets.Characters.Physics
 	/// Abstract wrapper for the physics controllers so that character controllers are agnostic of the physic
 	/// implementation; requires an <see cref="CharacterInput"/> and <see cref="CharacterBrain"/>.
 	/// </summary>
-	[RequireComponent(typeof(Input.CharacterInput))]
+	[RequireComponent(typeof(CharacterInput))]
 	[RequireComponent(typeof(CharacterBrain))]
 	public abstract class CharacterPhysics : MonoBehaviour
 	{
@@ -129,7 +128,7 @@ namespace StandardAssets.Characters.Physics
 		/// <value><see cref="Vector3.zero"/> with a y based on <see cref="currentVerticalVelocity"/>.</value>
 		private Vector3 verticalVector = Vector3.zero;
 
-		private Input.CharacterInput characterInput;
+		private CharacterInput characterInput;
 
 		/// <summary>
 		/// Gets the current jump gravity multiplier as a factor of normalized forward speed.
@@ -204,7 +203,7 @@ namespace StandardAssets.Characters.Physics
 		protected virtual void Awake()
 		{
 			normalizedVerticalSpeed = 0.0f;
-			characterInput = GetComponent<Input.CharacterInput>();
+			characterInput = GetComponent<CharacterInput>();
 			characterBrain = GetComponent<CharacterBrain>();
 
 			if (terminalVelocity > 0.0f)

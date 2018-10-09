@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
-namespace StandardAssets.Characters.Input
+namespace StandardAssets.Characters.ThirdPerson
 {
 	/// <summary>
 	/// Makes a character controller follow a NavMeshAgent. It sets input to move the character.

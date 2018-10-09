@@ -1,4 +1,4 @@
-using StandardAssets.Characters.Input;
+using StandardAssets.Characters.Common;
 using UnityEngine;
 
 namespace StandardAssets.Characters.Examples.SimpleMovementController
