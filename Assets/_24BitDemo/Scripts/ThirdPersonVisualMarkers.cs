@@ -2,14 +2,14 @@
 using System.Security.Permissions;
 using UnityEngine;
 using StandardAssets.Characters.Physics;
-using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Common;
+using StandardAssets.Characters.Input;
 using StandardAssets.GizmosHelpers;
 
 namespace Demo
 {
 	[RequireComponent(typeof(CharacterPhysics))]
-	[RequireComponent(typeof(BaseInput))]
+	[RequireComponent(typeof(CharacterInput))]
 	[RequireComponent(typeof(CharacterBrain))]
 	public class ThirdPersonVisualMarkers : MonoBehaviour
 	{
@@ -19,12 +19,12 @@ namespace Demo
 		/// The Input implementation to be used
 		/// e.g. Default unity input or (in future) the new new input system
 		/// </summary>
-		protected BaseInput characterInput;
+		protected CharacterInput characterInput;
 
 
 		protected CharacterBrain characterMotor;
 
-		public BaseInput inputForCharacter
+		public CharacterInput inputForCharacter
 		{
 			get { return characterInput; }
 		}
@@ -39,7 +39,7 @@ namespace Demo
 		/// </summary>
 		protected virtual void Awake()
 		{
-			characterInput = GetComponent<BaseInput>();
+			characterInput = GetComponent<CharacterInput>();
 			characterMotor = GetComponent<CharacterBrain>();
 			
 			

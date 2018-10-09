@@ -1,4 +1,4 @@
-﻿using StandardAssets.Characters.CharacterInput;
+﻿using StandardAssets.Characters.Input;
 using UnityEngine;
 
 namespace StandardAssets.Characters.Common

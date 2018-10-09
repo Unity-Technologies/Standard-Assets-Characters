@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Helpers;
+using StandardAssets.Characters.Input;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
 

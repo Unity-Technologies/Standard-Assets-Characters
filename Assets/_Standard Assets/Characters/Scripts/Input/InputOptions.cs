@@ -2,7 +2,7 @@
 using StandardAssets.Characters.Attributes;
 using UnityEngine;
 
-namespace StandardAssets.Characters.CharacterInput
+namespace StandardAssets.Characters.Input
 {
 	/// <summary>
 	/// Input options that can be changed via an options menu in the game.
@@ -96,7 +96,7 @@ namespace StandardAssets.Characters.CharacterInput
 
 		private void Update()
 		{
-			if (Input.GetKeyDown(KeyCode.Escape))
+			if (UnityEngine.Input.GetKeyDown(KeyCode.Escape))
 			{
 				cursorLocked = !cursorLocked;
 				CheckCursorLockState();

@@ -2,15 +2,13 @@
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.Experimental.Input;
-using UnityEngine.Experimental.Input.Interactions;
-using UnityEngine.UI;
 
-namespace StandardAssets.Characters.CharacterInput
+namespace StandardAssets.Characters.Input
 {
 	/// <summary>
 	/// Abstract base class for First Person and Third Person characters
 	/// </summary>
-	public abstract class BaseInput : MonoBehaviour
+	public abstract class CharacterInput : MonoBehaviour
 	{
 		/// <summary>
 		/// Fired when the jump input is pressed - i.e. on key down

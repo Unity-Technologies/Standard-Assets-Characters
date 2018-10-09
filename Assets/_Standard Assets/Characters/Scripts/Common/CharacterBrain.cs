@@ -1,5 +1,4 @@
 using System;
-using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Effects;
 using StandardAssets.Characters.Physics;
 using UnityEngine;

@@ -2,12 +2,12 @@ using System;
 using UnityEngine;
 using UnityEngine.Experimental.Input;
 
-namespace StandardAssets.Characters.CharacterInput
+namespace StandardAssets.Characters.Input
 {
 	/// <summary>
 	/// Implementation of the First Person input
 	/// </summary>
-	public class FirstPersonInput : BaseInput
+	public class FirstPersonInput : CharacterInput
 	{
 		/// <summary>
 		/// Fired when the crouch is started

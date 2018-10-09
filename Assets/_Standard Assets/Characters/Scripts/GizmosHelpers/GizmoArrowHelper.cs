@@ -1,5 +1,4 @@
-﻿using StandardAssets.Characters.CharacterInput;
-using StandardAssets.Characters.Common;
+﻿using StandardAssets.Characters.Common;
 using UnityEngine;
 
 namespace StandardAssets.Characters.GizmosHelpers
@@ -32,7 +31,7 @@ namespace StandardAssets.Characters.GizmosHelpers
 		/// The Input implementation to be used
 		/// e.g. Default unity input or (in future) the new new input system
 		/// </summary>
-		protected BaseInput characterInput;
+		protected CharacterInput characterInput;
 		protected CharacterBrain characterMotor;
 
 		private const string k_ArrowGizmoPath = "Gizmos/GizmoArrow";
@@ -47,7 +46,7 @@ namespace StandardAssets.Characters.GizmosHelpers
 		/// </summary>
 		protected virtual void Awake()
 		{
-			characterInput = GetComponent<BaseInput>();
+			characterInput = GetComponent<CharacterInput>();
 			characterMotor = GetComponent<CharacterBrain>();
 		}
 

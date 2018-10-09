@@ -1,16 +1,15 @@
 using System;
-using StandardAssets.Characters.Attributes;
 using StandardAssets.Characters.Physics;
 using StandardAssets.Characters.ThirdPerson;
 using UnityEngine;
 using UnityEngine.Experimental.Input;
 
-namespace StandardAssets.Characters.CharacterInput
+namespace StandardAssets.Characters.Input
 {
 	/// <summary>
 	/// Implementation of the Third Person input
 	/// </summary>
-	public class ThirdPersonInput : BaseInput, IThirdPersonInput
+	public class ThirdPersonInput : CharacterInput, IThirdPersonInput
 	{
 		/// <summary>
 		/// Smooths the input movement when rotating in fast circles. This makes the character run in a circle, instead of turning around on the spot.

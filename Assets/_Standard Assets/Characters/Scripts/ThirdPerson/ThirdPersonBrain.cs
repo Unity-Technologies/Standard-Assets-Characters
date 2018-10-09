@@ -1,9 +1,9 @@
 using System;
 using StandardAssets.Characters.Attributes;
-using StandardAssets.Characters.CharacterInput;
 using StandardAssets.Characters.Common;
 using StandardAssets.Characters.Effects;
 using StandardAssets.Characters.Helpers;
+using StandardAssets.Characters.Input;
 using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson
