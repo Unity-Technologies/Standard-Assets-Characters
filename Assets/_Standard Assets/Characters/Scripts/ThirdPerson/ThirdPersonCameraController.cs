@@ -42,19 +42,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		private ThirdPersonBrain thirdPersonBrain;
 		
 		private Animator animator;
-
-		private Animator cameraAnimator
-		{
-			get
-			{
-				if (animator == null)
-				{
-					animator = GetComponent<Animator>();
-				}
-
-				return animator;
-			}
-		}
 		
 		/// <summary>
 		/// Sets the animation to the defined state
@@ -62,7 +49,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <param name="state">the name of the animation state</param>
 		public void SetAnimation(string state, int layer = 0)
 		{
-			cameraAnimator.Play(state,layer);
+			if (animator == null)
+			{
+				animator = GetComponent<Animator>();
+			}
+			animator.Play(state,layer);
 		}
 
 		public void RecenterCamera()
