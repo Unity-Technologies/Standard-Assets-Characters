@@ -131,14 +131,6 @@ namespace StandardAssets.Characters.FirstPerson
 		}
 
 		/// <summary>
-		/// Gets the referenced <see cref="CameraController"/>
-		/// </summary>
-		public CameraController cameraController
-		{
-			get { return firstPersonCameraController; }
-		}
-
-		/// <summary>
 		/// Returns the characters normalized speed
 		/// </summary>
 		public override float normalizedForwardSpeed
