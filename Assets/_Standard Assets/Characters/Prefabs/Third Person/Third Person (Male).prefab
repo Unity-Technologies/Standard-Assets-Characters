@@ -400,9 +400,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4076727408819664}
-  - component: {fileID: 54341791654325916}
-  - component: {fileID: 136667864244899260}
   - component: {fileID: 95372130055387216}
+  - component: {fileID: 136667864244899260}
+  - component: {fileID: 54341791654325916}
   - component: {fileID: 114484545000245226}
   - component: {fileID: 114403526203746496}
   - component: {fileID: 114317971631851810}
@@ -2163,7 +2163,7 @@ MonoBehaviour:
   xSensitivity: 1
   ySensitivity: 1
   cursorLocked: 1
-  modifier:
+  locomotionInputSmoother:
     characterBrain: {fileID: 0}
     changeIdleDelay: 0.1
     changeIdleToMoveDelay: 0.1

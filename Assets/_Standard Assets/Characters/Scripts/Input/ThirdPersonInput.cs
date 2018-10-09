@@ -15,7 +15,7 @@ namespace StandardAssets.Characters.Input
 		/// Smooths the input movement when rotating in fast circles. This makes the character run in a circle, instead of turning around on the spot.
 		/// </summary>
 		[SerializeField, Tooltip("Smooths the input movement when rotating in fast circles. This makes the character run in a circle, instead of turning around on the spot.")]
-		protected CharacterInputModifier modifier;
+		protected CharacterInputModifier locomotionInputSmoother;
 
 		/// <summary>
 		/// Fired when strafe input is started
@@ -44,7 +44,7 @@ namespace StandardAssets.Characters.Input
 		/// <returns>The input vector conditioned by <see cref="CharacterInputModifier"/></returns>
 		protected override Vector2 ConditionMoveInput(Vector2 rawMoveInput)
 		{
-			modifier.ModifyMoveInput(ref rawMoveInput);
+			locomotionInputSmoother.ModifyMoveInput(ref rawMoveInput);
 			return rawMoveInput;
 		}
 
@@ -55,7 +55,7 @@ namespace StandardAssets.Characters.Input
 		{
 			controls.Movement.strafe.performed += OnStrafeInput;
 			controls.Movement.recentre.performed += OnRecentreInput;
-			modifier.Init();
+			locomotionInputSmoother.Init();
 		}
 
 		/// <summary>
