@@ -4,11 +4,6 @@ using StandardAssets.Characters.Attributes;
 using StandardAssets.Characters.Helpers;
 using UnityEngine;
 
-#if UNITY_EDITOR
-using StandardAssets.GizmosHelpers;
-
-#endif
-
 namespace StandardAssets.Characters.Physics
 {
 	/// <summary>
@@ -1503,10 +1498,6 @@ namespace StandardAssets.Characters.Physics
 
 			if (enableDebug)
 			{
-				// Big capsule collider
-				GizmosHelper.DrawCapsule(GetTopSphereWorldPosition(), GetBottomSphereWorldPosition(),
-				                         scaledRadius + skinWidth, new Color(1.0f, 1.0f, 0.0f, 0.2f));
-
 				// Top of head
 				Vector3 headPosition = GetHeadWorldPosition();
 				Gizmos.DrawLine(headPosition + Vector3.left * scaledRadius,
@@ -1535,10 +1526,6 @@ namespace StandardAssets.Characters.Physics
 				// No need to draw a fake collider, because the real collider will draw itself
 				return;
 			}
-
-			// Draw capsule collider
-			GizmosHelper.DrawCapsule(GetTopSphereWorldPosition(), GetBottomSphereWorldPosition(),
-			                         scaledRadius, Color.green);
 		}
 #endif
 

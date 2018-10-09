@@ -4,7 +4,6 @@ using UnityEngine;
 using StandardAssets.Characters.Physics;
 using StandardAssets.Characters.Common;
 using StandardAssets.Characters.Input;
-using StandardAssets.GizmosHelpers;
 
 namespace Demo
 {
