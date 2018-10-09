@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 23257896333880788}
   - component: {fileID: 114816713393816442}
   - component: {fileID: 114733511240769224}
-  - component: {fileID: 114683979128912624}
+  - component: {fileID: 114418168072071566}
   m_Layer: 11
   m_Name: Capsule_OpenCharacter
   m_TagString: Untagged
@@ -189,7 +189,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114683979128912624
+--- !u!114 &114418168072071566
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -197,11 +197,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1942727258898328}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f789398defdd4003ac23dd2094bddaa0, type: 3}
+  m_Script: {fileID: 11500000, guid: f5745c47e1fe497bafd5e8e235deaea9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   controls:
     m_Asset: {fileID: 11400000, guid: 6b7e0365c2048446aafe64ff5b240173, type: 3}
+  invertY: 0
+  invertX: 0
+  xSensitivity: 1
+  ySensitivity: 1
+  cursorLocked: 1
 --- !u!114 &114733511240769224
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -217,11 +222,6 @@ MonoBehaviour:
   timeToMaxSpeed: 0.5
   turnSpeed: 300
   jumpSpeed: 5
-  capsuleMovementEventHandler:
-    zonesDefinition:
-      movementZoneLibraries: []
-    maximumSpeed: 10
-    walkDistanceThreshold: 1
 --- !u!114 &114816713393816442
 MonoBehaviour:
   m_ObjectHideFlags: 1

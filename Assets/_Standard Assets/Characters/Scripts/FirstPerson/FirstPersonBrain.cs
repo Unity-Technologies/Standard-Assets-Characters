@@ -156,14 +156,6 @@ namespace StandardAssets.Characters.FirstPerson
 		}
 
 		/// <summary>
-		/// Gets the MovementEventHandler
-		/// </summary>
-		public override MovementEventHandler movementEventHandler
-		{
-			get { return firstPersonMovementEventHandler; }
-		}
-
-		/// <summary>
 		/// Gets the target Y rotation of the character
 		/// </summary>
 		public override float targetYRotation { get; set; }

@@ -20,12 +20,6 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 
 		[SerializeField]
 		protected float jumpSpeed = 5f;
-		
-		/// <summary>
-		/// Manages movement events
-		/// </summary>
-		[SerializeField, Tooltip("The management of movement events e.g. footsteps")]
-		protected CapsuleMovementEventHandler capsuleMovementEventHandler;
 	   
 		/// <summary>
 		/// The current movement properties
@@ -48,22 +42,21 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		private Transform mainCameraTransform;
 
 		
-		private ThirdPersonInput input;
+		private CapsuleInput input;
 
-		private ThirdPersonInput characterInput
+		private CapsuleInput characterInput
 		{
 			get
 			{
 				if (input == null)
 				{
-					input = GetComponent<ThirdPersonInput>();
+					input = GetComponent<CapsuleInput>();
 				}
 
 				return input;
 			}
 		}
 
-		/// <inheritdoc/>
 		public override float normalizedForwardSpeed
 		{
 			get
@@ -72,25 +65,17 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 			}
 		}
 
-		/// <inheritdoc/>
-		public override MovementEventHandler movementEventHandler
-		{
-			get { return capsuleMovementEventHandler; }
-		}
-
 		public override float targetYRotation { get; set; }
 
 		protected override void Awake()
 		{
 			base.Awake();
-			capsuleMovementEventHandler.Init(this, transform, characterPhysics);
 			mainCameraTransform = Camera.main.transform;
 		}
 
 		private void OnEnable()
 		{
 			characterInput.jumpPressed += OnJumpPressed;
-			capsuleMovementEventHandler.Subscribe();
 		}
 		
 		/// <summary>
@@ -98,7 +83,6 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// </summary>
 		private void OnDisable()
 		{
-			capsuleMovementEventHandler.Unsubscribe();
 			if (characterInput == null)
 			{
 				return;
@@ -150,7 +134,6 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		private void FixedUpdate()
 		{
 			Move();
-			capsuleMovementEventHandler.Tick();
 		}
 
 		/// <summary>

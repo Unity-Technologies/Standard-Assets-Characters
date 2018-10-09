@@ -119,15 +119,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
-		/// <inheritdoc/>
 		public override float normalizedForwardSpeed
 		{
 			get { return motor.normalizedForwardSpeed; }
-		}
-
-		public override MovementEventHandler movementEventHandler
-		{
-			get { return thirdPersonMovementEventHandler; }
 		}
 
 		public override float targetYRotation { get; set; }
