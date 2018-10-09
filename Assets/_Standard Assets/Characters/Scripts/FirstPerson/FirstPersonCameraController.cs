@@ -1,13 +1,39 @@
 using Cinemachine;
 using StandardAssets.Characters.Common;
+using UnityEngine;
 
 namespace StandardAssets.Characters.FirstPerson
 {
     /// <summary>
-    /// Implementation of <see cref="CameraController"/> to manage first person cameras 
+    /// Manages first person cameras 
     /// </summary>
-    public class FirstPersonCameraController : CameraController
+    [RequireComponent(typeof(Animator))]
+    public class FirstPersonCameraController : MonoBehaviour
     {
+        private Animator animator;
+
+        private Animator cameraAnimator
+        {
+            get
+            {
+                if (animator == null)
+                {
+                    animator = GetComponent<Animator>();
+                }
+
+                return animator;
+            }
+        }
+		
+        /// <summary>
+        /// Sets the animation to the defined state
+        /// </summary>
+        /// <param name="state">the name of the animation state</param>
+        public void SetAnimation(string state, int layer = 0)
+        {
+            cameraAnimator.Play(state,layer);
+        }
+        
         /// <summary>
         /// Sends through the <see cref="FirstPersonBrain"/> and allows Follow field of <see cref="CinemachineStateDrivenCamera"/> to be set correctly
         /// </summary>

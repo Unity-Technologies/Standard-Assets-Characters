@@ -8,9 +8,10 @@ using UnityEngine;
 namespace StandardAssets.Characters.ThirdPerson
 {
 	/// <summary>
-	/// Implementation of <see cref="CameraController"/> to manage third person camera states 
+	/// Manages third person camera states 
 	/// </summary>
-	public class ThirdPersonCameraController : CameraController
+	[RequireComponent(typeof(Animator))]
+	public class ThirdPersonCameraController : MonoBehaviour
 	{
 		private string k_ExplorationState = "Exploration", k_StrafeState = "Strafe";
 
@@ -39,6 +40,30 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected GameObject crosshair;
 
 		private ThirdPersonBrain thirdPersonBrain;
+		
+		private Animator animator;
+
+		private Animator cameraAnimator
+		{
+			get
+			{
+				if (animator == null)
+				{
+					animator = GetComponent<Animator>();
+				}
+
+				return animator;
+			}
+		}
+		
+		/// <summary>
+		/// Sets the animation to the defined state
+		/// </summary>
+		/// <param name="state">the name of the animation state</param>
+		public void SetAnimation(string state, int layer = 0)
+		{
+			cameraAnimator.Play(state,layer);
+		}
 
 		public void RecenterCamera()
 		{
