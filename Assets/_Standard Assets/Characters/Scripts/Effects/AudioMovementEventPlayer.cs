@@ -1,14 +1,18 @@
 ﻿using StandardAssets.Characters.Attributes;
 using StandardAssets.Characters.Helpers;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.Effects
 {
 	/// <summary>
 	/// Selects an audio clip to play and scales the volume based on character speed
 	/// </summary>
-	public class AudioMovementEventPlayer : NormalizedSpeedMovementEventPlayer
+	public class AudioMovementEventPlayer : MovementEventPlayer
 	{
+		[SerializeField, Tooltip("How the volume is scaled based on normalizedSpeed")]
+		protected AnimationCurve volumeFromNormalizedSpeed = AnimationCurve.Linear(0f,0f,1f,1f);
+		
 		/// <summary>
 		/// The audio source to be played
 		/// </summary>
@@ -29,12 +33,12 @@ namespace StandardAssets.Characters.Effects
 
 		private int currentSoundIndex;
 
-		protected override float minValue
+		protected float minValue
 		{
 			get { return volume.minValue; }
 		}
 
-		protected override float maxValue
+		protected float maxValue
 		{
 			get { return volume.maxValue; }
 		}
@@ -68,6 +72,11 @@ namespace StandardAssets.Characters.Effects
 
 			source.volume = effectMagnitude;
 			source.Play();
+		}
+
+		protected override float Evaluate(float normalizedSpeed)
+		{
+			return volumeFromNormalizedSpeed.Evaluate(normalizedSpeed) * (maxValue - minValue) + minValue;;
 		}
 	}
 }

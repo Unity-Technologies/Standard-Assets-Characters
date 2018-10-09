@@ -19,8 +19,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4344482031569610}
-  - component: {fileID: 114303766495856896}
   - component: {fileID: 82853027916597984}
+  - component: {fileID: 114303766495856896}
   m_Layer: 11
   m_Name: Right Foot Sound
   m_TagString: Untagged
@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   setRotation: 0
-  normalizedEffectMagnitudeBasedOnNormalizedSpeed:
+  volumeFromNormalizedSpeed:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3

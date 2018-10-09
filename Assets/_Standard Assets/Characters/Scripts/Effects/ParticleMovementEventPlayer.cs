@@ -1,6 +1,7 @@
 ﻿using StandardAssets.Characters.Attributes;
 using StandardAssets.Characters.Helpers;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.Effects
 {
@@ -8,8 +9,11 @@ namespace StandardAssets.Characters.Effects
 	/// Calls play on the ParticleSystem and scales the transform based on the effectMagnitude
 	/// </summary>
 	[RequireComponent(typeof(ParticleSystem))]
-	public class ParticleMovementEventPlayer : NormalizedSpeedMovementEventPlayer
+	public class ParticleMovementEventPlayer : MovementEventPlayer
 	{
+		[SerializeField, Tooltip("How the particle system is scaled based on normalizedSpeed")]
+		protected AnimationCurve particleScaleFromNormalizedSpeed = AnimationCurve.Linear(0f,0f,1f,1f);
+		
 		[SerializeField, FloatRangeSetup(0f, 5f), Tooltip("The local scale range of the particle systems")]
 		protected FloatRange scale;
 		
@@ -20,12 +24,12 @@ namespace StandardAssets.Characters.Effects
 			particleSources = GetComponentsInChildren<ParticleSystem>();
 		}
 
-		protected override float minValue
+		protected float minValue
 		{
 			get { return scale.minValue; }
 		}
 
-		protected override float maxValue
+		protected float maxValue
 		{
 			get { return scale.maxValue; }
 		}
@@ -43,6 +47,11 @@ namespace StandardAssets.Characters.Effects
 				particleSource.transform.localScale = scale;
 				particleSource.Play();
 			}
+		}
+		
+		protected override float Evaluate(float normalizedSpeed)
+		{
+			return particleScaleFromNormalizedSpeed.Evaluate(normalizedSpeed) * (maxValue - minValue) + minValue;;
 		}
 	}
 }

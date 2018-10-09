@@ -13,13 +13,13 @@ namespace StandardAssets.Characters.Effects
 		/// <summary>
 		/// A cache of the spawned multiple <see cref="MovementEventPlayer"/> instances 
 		/// </summary>
-		protected MovementEventPlayer[] playerInstances;	
-		
+		protected MovementEventPlayer[] playerInstances;
+
 		/// <summary>
 		/// Initializes, caches and plays the multiple <see cref="MovementEventPlayer"/>
 		/// </summary>
 		/// <param name="movementEventData">the movement event data model</param>
-		protected override void PlayMovementEvent(MovementEventData movementEventData)
+		protected override void PlayMovementEvent(MovementEventData movementEventData, float effectMagnitude)
 		{
 			//If the cache does exist or is empty then setup the cache and play the sounds
 			if (playerInstances == null || playerInstances.Length == 0)
@@ -42,6 +42,11 @@ namespace StandardAssets.Characters.Effects
 					movementEventPlayer.Play(movementEventData);
 				}	
 			}
+		}
+
+		protected override float Evaluate(float normalizedSpeed)
+		{
+			return 1f;
 		}
 	}
 }

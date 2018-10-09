@@ -19,8 +19,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4898950514370438}
-  - component: {fileID: 114703649657986578}
   - component: {fileID: 82770682402124096}
+  - component: {fileID: 114703649657986578}
   m_Layer: 11
   m_Name: Left Foot Sound Metal
   m_TagString: Untagged
@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   setRotation: 0
-  normalizedEffectMagnitudeBasedOnNormalizedSpeed:
+  volumeFromNormalizedSpeed:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3

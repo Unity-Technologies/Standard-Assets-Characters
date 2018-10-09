@@ -19,8 +19,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4276199346164372}
-  - component: {fileID: 114805303375849546}
   - component: {fileID: 82883784832734686}
+  - component: {fileID: 114805303375849546}
   m_Layer: 11
   m_Name: Land
   m_TagString: Untagged
@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   setRotation: 0
-  normalizedEffectMagnitudeBasedOnNormalizedSpeed:
+  volumeFromNormalizedSpeed:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -175,5 +175,5 @@ MonoBehaviour:
   source: {fileID: 82883784832734686}
   clips: []
   volume:
-    minValue: 0.4997313
-    maxValue: 0.4997313
+    minValue: 0.5
+    maxValue: 0.5
