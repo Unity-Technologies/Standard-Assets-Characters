@@ -1,6 +1,7 @@
 ﻿using System;
 using StandardAssets.Characters.Attributes;
 using StandardAssets.Characters.Common;
+using StandardAssets.Characters.Effects.Configs;
 using UnityEngine;
 
 namespace StandardAssets.Characters.Effects
@@ -22,7 +23,7 @@ namespace StandardAssets.Characters.Effects
 		{
 			get
 			{
-				LevelMovementZoneConfiguration configuration = LevelMovementZoneManager.config;
+				LevelMovementZoneConfig configuration = LevelMovementZoneManager.config;
 				if (configuration != null)
 				{
 					return configuration.defaultLibrary;
@@ -66,7 +67,7 @@ namespace StandardAssets.Characters.Effects
 				return;
 			}
 
-			LevelMovementZoneConfiguration configuration = LevelMovementZoneManager.config;
+			LevelMovementZoneConfig configuration = LevelMovementZoneManager.config;
 
 			if (configuration != null)
 			{

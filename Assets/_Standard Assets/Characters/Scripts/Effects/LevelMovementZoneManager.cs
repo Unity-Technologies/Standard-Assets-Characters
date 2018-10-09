@@ -1,3 +1,4 @@
+using StandardAssets.Characters.Effects.Configs;
 using UnityEngine;
 
 namespace StandardAssets.Characters.Effects
@@ -8,7 +9,7 @@ namespace StandardAssets.Characters.Effects
 	public class LevelMovementZoneManager : MonoBehaviour
 	{
 		[SerializeField, Tooltip("References a ScriptableObject that contains default MovementEventLibraries for different zones")]
-		protected LevelMovementZoneConfiguration configuration;
+		protected LevelMovementZoneConfig configuration;
 		
 		/// <summary>
 		/// Gets the instance of the LevelMovementZoneManager. Set privately
@@ -32,10 +33,10 @@ namespace StandardAssets.Characters.Effects
 		}
 		
 		/// <summary>
-		/// Gets the <see cref="LevelMovementZoneConfiguration"/>
+		/// Gets the <see cref="LevelMovementZoneConfig"/>
 		/// </summary>
-		/// <value><see cref="LevelMovementZoneConfiguration"/> if the instance exists. null if it does not</value>
-		public static LevelMovementZoneConfiguration config
+		/// <value><see cref="LevelMovementZoneConfig"/> if the instance exists. null if it does not</value>
+		public static LevelMovementZoneConfig config
 		{
 			get
 			{

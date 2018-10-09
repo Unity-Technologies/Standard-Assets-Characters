@@ -3,10 +3,10 @@ using StandardAssets.Characters.Attributes;
 using StandardAssets.Characters.Helpers;
 using UnityEngine;
 
-namespace StandardAssets.Characters.ThirdPerson
+namespace StandardAssets.Characters.ThirdPerson.Configs
 {
 	/// <summary>
-	/// Data model class containing various settings for the <see cref="ThirdPersonAnimationController"/>.
+	/// Data model class containing various settings for animation
 	/// </summary>
 	[CreateAssetMenu(fileName = "Third Person Animation Configuration", menuName = "Standard Assets/Characters/Third Person Animation Configuration", order = 1)]
 	public class AnimationConfig : ScriptableObject

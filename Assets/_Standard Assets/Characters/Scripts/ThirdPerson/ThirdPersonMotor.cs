@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using StandardAssets.Characters.Helpers;
 using StandardAssets.Characters.Input;
 using StandardAssets.Characters.Physics;
+using StandardAssets.Characters.ThirdPerson.Configs;
 using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson

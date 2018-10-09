@@ -2,7 +2,7 @@
 using StandardAssets.Characters.Attributes;
 using UnityEngine;
 
-namespace StandardAssets.Characters.ThirdPerson
+namespace StandardAssets.Characters.ThirdPerson.Configs
 {
 	/// <summary>
 	/// Data model class containing various settings for the <see cref="ThirdPersonMotor"/>.
