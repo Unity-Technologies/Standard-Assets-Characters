@@ -1,4 +1,5 @@
 ﻿using StandardAssets.Characters.Attributes;
+using StandardAssets.Characters.Common;
 using StandardAssets.Characters.Physics; 
 using UnityEngine;
 
@@ -74,12 +75,14 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 		{
 			if (physics == null)
 			{
-				physics = animator.GetComponentInChildren<OpenCharacterControllerPhysics>();
+				CharacterBrain characterBrain = animator.GetComponentInChildren<CharacterBrain>();
+				physics = characterBrain != null
+					          ? characterBrain.physicsForCharacter as OpenCharacterControllerPhysics
+					          : null;
 				if (physics == null)
 				{
-					// TODO: show warning in inspector?
 					return;
-				} 
+				}
 				controller = physics.openCharacterController;
 				if (controller == null)
 				{

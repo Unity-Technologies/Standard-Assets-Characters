@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4664608565436408}
   - component: {fileID: 136368833332200808}
   - component: {fileID: 54829326639351132}
-  - component: {fileID: 114035350532953534}
+  - component: {fileID: 114890619256215582}
   - component: {fileID: 114501385933726858}
   - component: {fileID: 114392234194403246}
   m_Layer: 11
@@ -59,115 +59,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &114035350532953534
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1627797537853366}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e163090ac99486aae32f05b5b641e9c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  terminalVelocity: -60
-  jumpGravityMultiplierAsAFactorOfForwardSpeed:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 65
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: -0
-      outSlope: 1
-      tangentMode: 5
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  fallGravityMultiplierAsAFactorOfForwardSpeed:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 65
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: -0
-      outSlope: 1
-      tangentMode: 5
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  minJumpHeightMultiplierAsAFactorOfForwardSpeed:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 65
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: -0
-      outSlope: 1
-      tangentMode: 5
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  gravityChangeSpeed: 10
-  characterController:
-    playerRootTransform: {fileID: 0}
-    rootTransformOffset: {x: 0, y: -0.85, z: 0}
-    slopeLimit: 45
-    stepOffset: 0.3
-    skinWidth: 0.08
-    minMoveDistance: 0
-    center: {x: 0, y: 0, z: 0}
-    radius: 0.2
-    height: 2
-    colliderLayer: 
-    collisionLayerMask:
-      serializedVersion: 2
-      m_Bits: 257
-    localHumanControlled: 1
-    canSlideAgainstCeiling: 1
-    sendColliderHitMessages: 1
-    queryTriggerInteraction: 1
-    slideDownSlopes: 1
-    slideDownTerminalVelocity: 10
-    slideDownGravityScale: 1
-    slideDownStartDuration: 0.25
-    enableDebug: 0
-    debugDrawMoveVector: 0
 --- !u!114 &114392234194403246
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -197,6 +88,161 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eec248ab0c3e4eeaafde0796225ff6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterControllerPhysics:
+    terminalVelocity: 10
+    jumpGravityMultiplierAsAFactorOfForwardSpeed:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    fallGravityMultiplierAsAFactorOfForwardSpeed:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    minJumpHeightMultiplierAsAFactorOfForwardSpeed:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    gravityChangeSpeed: 10
+    groundCheckDistance: 0.51
+    groundCheckMask:
+      serializedVersion: 2
+      m_Bits: 0
+  openCharacterControllerPhysics:
+    terminalVelocity: 10
+    jumpGravityMultiplierAsAFactorOfForwardSpeed:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    fallGravityMultiplierAsAFactorOfForwardSpeed:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    minJumpHeightMultiplierAsAFactorOfForwardSpeed:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    gravityChangeSpeed: 10
+    characterController: {fileID: 114890619256215582}
   walking:
     maxSpeed: 4
     jumpSpeed: 5
@@ -234,6 +280,40 @@ MonoBehaviour:
             type: 2}
     maximumSpeed: 10
   firstPersonCameraController: {fileID: 0}
+--- !u!114 &114890619256215582
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1627797537853366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b5c6cf5f04e4e2b9c79ad2fda5ddbea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerRootTransform: {fileID: 0}
+  rootTransformOffset: {x: 0, y: -0.85, z: 0}
+  slopeLimit: 45
+  stepOffset: 0.3
+  skinWidth: 0.08
+  minMoveDistance: 0
+  center: {x: 0, y: 0, z: 0}
+  radius: 0.2
+  height: 2
+  colliderLayer: 
+  collisionLayerMask:
+    serializedVersion: 2
+    m_Bits: 257
+  localHumanControlled: 1
+  canSlideAgainstCeiling: 1
+  sendColliderHitMessages: 1
+  queryTriggerInteraction: 1
+  slideDownSlopes: 1
+  slideDownTerminalVelocity: 10
+  slideDownGravityScale: 1
+  slideDownStartDuration: 0.25
+  enableDebug: 0
+  debugDrawMoveVector: 0
 --- !u!136 &136368833332200808
 CapsuleCollider:
   m_ObjectHideFlags: 1

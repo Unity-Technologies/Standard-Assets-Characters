@@ -1,11 +1,8 @@
 ﻿using StandardAssets.Characters.Common;
-using StandardAssets.Characters.Effects;
-using StandardAssets.Characters.Physics;
 using UnityEngine;
 
 namespace StandardAssets.Characters.Examples.SimpleMovementController
 {
-	[RequireComponent(typeof(CharacterPhysics))]
 	public class CapsuleBrain : CharacterBrain
 	{
 		[SerializeField]

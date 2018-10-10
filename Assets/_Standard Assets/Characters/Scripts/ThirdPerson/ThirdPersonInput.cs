@@ -1,6 +1,5 @@
 using System;
 using StandardAssets.Characters.Common;
-using StandardAssets.Characters.Physics;
 using UnityEngine;
 using UnityEngine.Experimental.Input;
 
@@ -52,13 +51,12 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 
 		/// <summary>
-		/// Registers strafe and recentre inputs. Initializes the movement input modifier
+		/// Registers strafe and recentre inputs.
 		/// </summary>
 		protected override void RegisterAdditionalInputs()
 		{
 			controls.Movement.strafe.performed += OnStrafeInput;
 			controls.Movement.recentre.performed += OnRecentreInput;
-			locomotionInputSmoother.Init();
 		}
 
 		/// <summary>
@@ -80,6 +78,14 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void OnStrafeInput(InputAction.CallbackContext context)
 		{
 			BroadcastInputAction(ref isStrafing, strafeStarted, strafeEnded);
+		}
+
+		/// <summary>
+		/// Initializes the movement input modifier.
+		/// </summary>
+		private void Start()
+		{
+			locomotionInputSmoother.Init();
 		}
 
 		/// <summary>
@@ -575,7 +581,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				FindBrain();
 				characterTransform = characterBrain.transform;
 				motor = characterBrain.thirdPersonMotor;
-				characterPhysics = characterTransform.GetComponent<CharacterPhysics>();
+				characterPhysics = characterBrain.physicsForCharacter;
 				
 				if (unityCamera == null)
 				{

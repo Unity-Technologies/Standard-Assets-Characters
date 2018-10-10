@@ -6,7 +6,6 @@ using StandardAssets.Characters.Common;
 
 namespace Demo
 {
-	[RequireComponent(typeof(CharacterPhysics))]
 	[RequireComponent(typeof(CharacterInput))]
 	[RequireComponent(typeof(CharacterBrain))]
 	public class ThirdPersonVisualMarkers : MonoBehaviour

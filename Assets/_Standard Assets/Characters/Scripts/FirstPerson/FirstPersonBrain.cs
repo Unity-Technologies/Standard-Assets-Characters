@@ -1,8 +1,6 @@
 ﻿using System;
-using Cinemachine;
 using StandardAssets.Characters.Common;
 using StandardAssets.Characters.Effects;
-using StandardAssets.Characters.Physics;
 using UnityEngine;
 
 namespace StandardAssets.Characters.FirstPerson
@@ -11,7 +9,6 @@ namespace StandardAssets.Characters.FirstPerson
 	/// The main controller of first person character
 	/// Ties together the input and physics implementations
 	/// </summary>
-	[RequireComponent(typeof(CharacterPhysics))]
 	[RequireComponent(typeof(FirstPersonInput))]
 	public class FirstPersonBrain : CharacterBrain
 	{
@@ -58,6 +55,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// The state that first person motor starts in
 		/// </summary>
+		[Header("First Person Brain")]
 		[SerializeField, Tooltip("Movement properties of the character while walking")]
 		protected MovementProperties walking;
 

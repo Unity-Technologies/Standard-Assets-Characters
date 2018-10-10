@@ -26,6 +26,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		[HelperBox(HelperBoxAttribute.HelperType.Info,
 			"Configurations are separate assets (ScriptableObjects). Click on the associated configuration to locate it in the Project View. Values can be edited here during runtime and not be lost. It also allows one to create different settings and swap between them. To create a new setting Right click -> Create -> Standard Assets -> Characters -> ...")]
 		
+		[Header("Third Person Brain")]
 		[SerializeField, Tooltip("Set to true if you do not want to use the Camera animation manager"), DisableEditAtRuntime()]
 		protected bool useSimpleCameras;
 		
