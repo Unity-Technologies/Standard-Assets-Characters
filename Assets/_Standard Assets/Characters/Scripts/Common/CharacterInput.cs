@@ -89,7 +89,7 @@ namespace StandardAssets.Characters.Common
 		/// <summary>
 		/// Sets up the Cinemachine delegate and subscribes to new input's performed events
 		/// </summary>
-		private void Awake()
+		protected virtual void Awake()
 		{
 			CinemachineCore.GetInputAxis = LookInputOverride;
 			controls.Movement.move.performed += context => moveInput = ConditionMoveInput(context.ReadValue<Vector2>());
@@ -123,7 +123,7 @@ namespace StandardAssets.Characters.Common
 		/// <summary>
 		/// Enables associated controls
 		/// </summary>
-		private void OnEnable()
+		protected virtual void OnEnable()
 		{
 			controls.Enable();
 			HandleCursorLock();
@@ -132,7 +132,7 @@ namespace StandardAssets.Characters.Common
 		/// <summary>
 		/// Disables associated controls
 		/// </summary>
-		private void OnDisable()
+		protected virtual void OnDisable()
 		{
 			controls.Disable();
 		}
@@ -182,7 +182,7 @@ namespace StandardAssets.Characters.Common
 		/// <summary>
 		/// Checks for lock state input
 		/// </summary>
-		private void Update()
+		protected virtual void Update()
 		{
 			if (UnityEngine.Input.GetKeyDown(KeyCode.Escape))
 			{

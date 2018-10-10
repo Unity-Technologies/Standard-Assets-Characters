@@ -44,8 +44,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <returns>The input vector conditioned by <see cref="CharacterInputModifier"/></returns>
 		protected override Vector2 ConditionMoveInput(Vector2 rawMoveInput)
 		{
-			//TODO: Diorgo to fix
-			//locomotionInputSmoother.ModifyMoveInput(ref rawMoveInput);
+			if (locomotionInputSmoother != null)
+			{
+				locomotionInputSmoother.OnGotRawInput(ref rawMoveInput);
+			}
 			return rawMoveInput;
 		}
 
@@ -78,6 +80,30 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void OnStrafeInput(InputAction.CallbackContext context)
 		{
 			BroadcastInputAction(ref isStrafing, strafeStarted, strafeEnded);
+		}
+
+		/// <summary>
+		/// Call the modifier's OnDisable.
+		/// </summary>
+		protected override void OnDisable()
+		{
+			base.OnDisable();
+			if (locomotionInputSmoother != null)
+			{
+				locomotionInputSmoother.OnDisable();
+			}
+		}
+
+		/// <summary>
+		/// Use the modifier to update the move input.
+		/// </summary>
+		protected override void Update()
+		{
+			base.Update();
+			if (locomotionInputSmoother != null)
+			{
+				moveInput = locomotionInputSmoother.UpdateMoveInput();
+			}
 		}
 
 		/// <summary>
@@ -395,6 +421,16 @@ namespace StandardAssets.Characters.ThirdPerson
 			private bool hasInput;
 
 			/// <summary>
+			/// The last received raw input.
+			/// </summary>
+			private Vector2 lastRawInput;
+
+			/// <summary>
+			/// Last real time since startup.
+			/// </summary>
+			private float lastRealTimeSinceStartup;
+
+			/// <summary>
 			/// The last non-zero-length move input vector.
 			/// </summary>
 			private Vector2 validMoveInput;
@@ -435,15 +471,15 @@ namespace StandardAssets.Characters.ThirdPerson
 			private float previousRotateInCircleDirection;
 
 #if UNITY_EDITOR
-					private readonly bool debugShowValidInput = true;
-					private readonly Color debugValidInputColor = Color.green;
-					private readonly bool debugShowModifiedInput = true;
-					private readonly Color debugShowModifiedInputColor = Color.red;
-					private readonly bool debugShowCharacterForward = true;
-					private readonly Color debugCharacterForwardColor = Color.blue;
-					private readonly bool debugShowCharacterForwardInput = true;
-					private readonly Color debugShowCharacterForwardInputColor = Color.white;
-			#endif
+			private readonly bool debugShowValidInput = true;
+			private readonly Color debugValidInputColor = Color.green;
+			private readonly bool debugShowModifiedInput = true;
+			private readonly Color debugShowModifiedInputColor = Color.red;
+			private readonly bool debugShowCharacterForward = true;
+			private readonly Color debugCharacterForwardColor = Color.blue;
+			private readonly bool debugShowCharacterForwardInput = true;
+			private readonly Color debugShowCharacterForwardInputColor = Color.white;
+#endif
 
 			/// <summary>
 			/// The modifier's state.
@@ -455,7 +491,28 @@ namespace StandardAssets.Characters.ThirdPerson
 			/// </summary>
 			public float rotateInCircleDirection { get; private set; }
 
-			/// <inheritdoc />
+			/// <summary>
+			/// Called when we received raw input.
+			/// </summary>
+			public void OnGotRawInput(ref Vector2 rawInput)
+			{
+				lastRawInput = rawInput;
+				ModifyMoveInput(ref rawInput);
+			}
+
+			/// <summary>
+			/// Update the move input, based on the last raw input that was received. This simulates a polling system.
+			/// </summary>
+			public Vector2 UpdateMoveInput()
+			{
+				Vector2 moveInput = lastRawInput;
+				ModifyMoveInput(ref moveInput);
+				return moveInput;
+			}
+			
+			/// <summary>
+			/// Modify the move input.
+			/// </summary>
 			public void ModifyMoveInput(ref Vector2 moveInput)
 			{
 				motor.EnableRapidTurn(this);
@@ -468,7 +525,8 @@ namespace StandardAssets.Characters.ThirdPerson
 					return;
 				}
 
-				float dt = Time.deltaTime;
+				float dt = Time.realtimeSinceStartup - lastRealTimeSinceStartup;
+				lastRealTimeSinceStartup = Time.realtimeSinceStartup;
 				hasInput = moveInput.sqrMagnitude > 0.0f;
 				isLowFrameRate = dt > k_LowFrameRateDeltaTime;
 
@@ -497,7 +555,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				{
 					DebugUpdate(moveInput);
 				}			
-				#endif
+#endif
 			}
 
 			/// <summary>
@@ -518,7 +576,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				characterTransform = characterBrain.transform;
 				motor = characterBrain.thirdPersonMotor;
 				characterPhysics = characterTransform.GetComponent<CharacterPhysics>();
-
+				
 				if (unityCamera == null)
 				{
 					// Use the main camera as the default. The camera can be changed later via SetCamera.
@@ -529,6 +587,7 @@ namespace StandardAssets.Characters.ThirdPerson
 					}
 				}
 
+				lastRealTimeSinceStartup = Time.realtimeSinceStartup;
 				SetState(ModifierState.Idle);
 			}
 
@@ -935,12 +994,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 #if UNITY_EDITOR
-/// <summary>
-/// DEBUG: Draw the input vectors.
-/// </summary>
-/// <param name="moveInput">The moveInput. It may be modified by this point.</param>
-/// <param name="snapShotType">0 = draw for a single frame, 1 = draw for longer duration, 2 = draw for longer
-/// duration with less alpha.</param>
+			/// <summary>
+			/// DEBUG: Draw the input vectors.
+			/// </summary>
+			/// <param name="moveInput">The moveInput. It may be modified by this point.</param>
+			/// <param name="snapShotType">0 = draw for a single frame, 1 = draw for longer duration, 2 = draw for longer
+			/// duration with less alpha.</param>
 			private void DebugUpdate(Vector2 moveInput, int snapShotType = 0)
 			{
 				if (characterTransform == null)
@@ -1048,7 +1107,7 @@ namespace StandardAssets.Characters.ThirdPerson
 								  duration);
 				}
 			}
-		#endif
+#endif
 		}
 	}
 }
