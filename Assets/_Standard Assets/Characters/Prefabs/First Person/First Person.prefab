@@ -88,7 +88,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eec248ab0c3e4eeaafde0796225ff6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterControllerPhysics:
+  characterControllerAdapter:
     terminalVelocity: 10
     jumpGravityMultiplierAsAFactorOfForwardSpeed:
       serializedVersion: 2
@@ -167,7 +167,7 @@ MonoBehaviour:
     groundCheckMask:
       serializedVersion: 2
       m_Bits: 0
-  openCharacterControllerPhysics:
+  openCharacterControllerAdapter:
     terminalVelocity: 10
     jumpGravityMultiplierAsAFactorOfForwardSpeed:
       serializedVersion: 2

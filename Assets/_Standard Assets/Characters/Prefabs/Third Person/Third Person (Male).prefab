@@ -1223,7 +1223,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1294013925418394}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 33, y: -0.9897482, z: 9.31}
+  m_LocalPosition: {x: 33, y: 0, z: 25.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4373934692070628}
@@ -2224,7 +2224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 475c226dbac9416ea06c859daeb6d183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterControllerPhysics:
+  characterControllerAdapter:
     terminalVelocity: 10
     jumpGravityMultiplierAsAFactorOfForwardSpeed:
       serializedVersion: 2
@@ -2303,7 +2303,7 @@ MonoBehaviour:
     groundCheckMask:
       serializedVersion: 2
       m_Bits: 0
-  openCharacterControllerPhysics:
+  openCharacterControllerAdapter:
     terminalVelocity: 10
     jumpGravityMultiplierAsAFactorOfForwardSpeed:
       serializedVersion: 2

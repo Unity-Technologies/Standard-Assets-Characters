@@ -12,25 +12,25 @@ namespace StandardAssets.Characters.Common
 	{
 		public Action<string> changeMovementZone;
 
-		[Header("Physics")]
+		[Header("Controllers")]
 		[SerializeField, Tooltip("Settings for the default CharacterController.")]
-		protected CharacterControllerPhysics characterControllerPhysics;
+		protected CharacterControllerAdapter characterControllerAdapter;
 
 		[SerializeField, Tooltip("Settings for the OpenCharacterController.")]
-		protected OpenCharacterControllerPhysics openCharacterControllerPhysics;
+		protected OpenCharacterControllerAdapter openCharacterControllerAdapter;
 		
 		/// <summary>
-		/// The Physic implementation used to do the movement
+		/// The controller adapter implementation used to do the movement
 		/// e.g. CharacterController or Rigidbody (or New C# CharacterController analog)
 		/// </summary>
-		protected CharacterPhysics characterPhysics;
+		protected ControllerAdapter controllerAdapter;
 
 		/// <summary>
-		/// Gets the physics implementation used by the Character
+		/// Gets the controller adapter implementation used by the Character
 		/// </summary>
-		public CharacterPhysics physicsForCharacter
+		public ControllerAdapter adapterForCharacter
 		{
-			get { return characterPhysics; }
+			get { return controllerAdapter; }
 		}
 
 		/// <summary>
@@ -45,24 +45,24 @@ namespace StandardAssets.Characters.Common
 		public abstract float targetYRotation { get; set; }
 
 		/// <summary>
-		/// Get physics and input on Awake
+		/// Get controller adapters and input on Awake
 		/// </summary>
 		protected virtual void Awake()
 		{
 			if (GetComponent<CharacterController>() != null)
 			{
-				characterPhysics = characterControllerPhysics;
+				controllerAdapter = characterControllerAdapter;
 			}
 			else if (GetComponent<OpenCharacterController>() != null)
 			{
-				characterPhysics = openCharacterControllerPhysics;
+				controllerAdapter = openCharacterControllerAdapter;
 			}
 			
 			lastPosition = transform.position;
 
-			if (characterPhysics != null)
+			if (controllerAdapter != null)
 			{
-				characterPhysics.Awake(transform);
+				controllerAdapter.Awake(transform);
 			}
 		}
 
@@ -88,11 +88,10 @@ namespace StandardAssets.Characters.Common
 	}
 	
 	/// <summary>
-	/// Abstract wrapper for the physics controllers so that character controllers are agnostic of the physic
-	/// implementation; requires an <see cref="CharacterInput"/> and <see cref="CharacterBrain"/>.
+	/// Abstract wrapper for character controllers. Requires a <see cref="CharacterInput"/> and <see cref="CharacterBrain"/>.
 	/// </summary>
 	[Serializable]
-	public abstract class CharacterPhysics
+	public abstract class ControllerAdapter
 	{
 		/// <summary>
 		/// Used as a clamp for downward velocity.
@@ -462,16 +461,16 @@ namespace StandardAssets.Characters.Common
 	}
 	
 	/// <summary>
-	/// A physic implementation that uses the default Unity character controller
+	/// A controller adapter implementation that uses the default Unity character controller.
 	/// </summary>
 	[Serializable]
-	public class CharacterControllerPhysics : CharacterPhysics
+	public class CharacterControllerAdapter : ControllerAdapter
 	{
 		/// <summary>
 		/// The distance used to check if grounded
 		/// </summary>
 		[SerializeField]
-		protected float groundCheckDistance = 0.51f;
+		protected float groundCheckDistance = 0.55f;
 
 		/// <summary>
 		/// Layers to use in the ground check
@@ -575,10 +574,10 @@ namespace StandardAssets.Characters.Common
 	}
 	
 	/// <summary>
-	/// A physic implementation that uses <see cref="OpenCharacterController"/>.
+	/// A controller adapter implementation that uses <see cref="OpenCharacterController"/>.
 	/// </summary>
 	[Serializable]
-	public class OpenCharacterControllerPhysics : CharacterPhysics
+	public class OpenCharacterControllerAdapter : ControllerAdapter
 	{
 		[SerializeField, Tooltip("Reference to the attached OpenCharacterController.")]
 		protected OpenCharacterController characterController;

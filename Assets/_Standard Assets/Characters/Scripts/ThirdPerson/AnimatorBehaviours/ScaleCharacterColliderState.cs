@@ -67,23 +67,23 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 		private float time;
 		private float currentScale, entryScale;
 		private float entryOffset;
-		private OpenCharacterControllerPhysics physics;
+		private OpenCharacterControllerAdapter adapter;
 		private OpenCharacterController controller;
 		
 		// OnStateEnter is called before OnStateEnter is called on any state inside this state machine
 		public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			if (physics == null)
+			if (adapter == null)
 			{
 				CharacterBrain characterBrain = animator.GetComponentInChildren<CharacterBrain>();
-				physics = characterBrain != null
-					          ? characterBrain.physicsForCharacter as OpenCharacterControllerPhysics
+				adapter = characterBrain != null
+					          ? characterBrain.adapterForCharacter as OpenCharacterControllerAdapter
 					          : null;
-				if (physics == null)
+				if (adapter == null)
 				{
 					return;
 				}
-				controller = physics.openCharacterController;
+				controller = adapter.openCharacterController;
 				if (controller == null)
 				{
 					return;

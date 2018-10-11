@@ -220,7 +220,7 @@ namespace StandardAssets.Characters.FirstPerson
 			characterInput.sprintEnded += StartWalking;
 			characterInput.crouchStarted += StartCrouching;
 			characterInput.crouchEnded += StartWalking;
-			characterPhysics.landed += OnLanded;
+			controllerAdapter.landed += OnLanded;
 		}
 
 		/// <summary>
@@ -239,7 +239,7 @@ namespace StandardAssets.Characters.FirstPerson
 			characterInput.sprintEnded -= StartWalking;
 			characterInput.crouchStarted -= StartCrouching;
 			characterInput.crouchEnded -= StartWalking;
-			characterPhysics.landed -= OnLanded;
+			controllerAdapter.landed -= OnLanded;
 		}
 
 		/// <summary>
@@ -255,9 +255,9 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		private void OnJumpPressed()
 		{
-			if (characterPhysics.isGrounded && currentMovementProperties.canJump)
+			if (controllerAdapter.isGrounded && currentMovementProperties.canJump)
 			{
-				characterPhysics.SetJumpVelocity(currentMovementProperties.jumpSpeed);
+				controllerAdapter.SetJumpVelocity(currentMovementProperties.jumpSpeed);
 			}
 		}
 
@@ -294,7 +294,7 @@ namespace StandardAssets.Characters.FirstPerson
 			Vector3 sideways = transform.right * move.x;
 			Vector3 currentVelocity = (forward + sideways) * currentMovementProperties.maxSpeed;
 			currentSpeed = currentVelocity.magnitude;
-			characterPhysics.Move(currentVelocity * Time.fixedDeltaTime, Time.fixedDeltaTime);
+			controllerAdapter.Move(currentVelocity * Time.fixedDeltaTime, Time.fixedDeltaTime);
 		}
 
 		/// <summary>
@@ -333,7 +333,7 @@ namespace StandardAssets.Characters.FirstPerson
 		{
 			newMovementProperties = newState;
 
-			if (characterPhysics.isGrounded)
+			if (controllerAdapter.isGrounded)
 			{
 				currentMovementProperties = newMovementProperties;
 			}
@@ -397,7 +397,7 @@ namespace StandardAssets.Characters.FirstPerson
 			Vector3 currentPosition = transform.position;
 
 			//If the character has not moved or is not grounded then ignore the calculations that follow
-			if (currentPosition == previousPosition || !brain.physicsForCharacter.isGrounded)
+			if (currentPosition == previousPosition || !brain.adapterForCharacter.isGrounded)
 			{
 				previousPosition = currentPosition;
 				return;
@@ -430,12 +430,12 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		public void Subscribe()
 		{
-			if (brain == null || brain.physicsForCharacter == null)
+			if (brain == null || brain.adapterForCharacter == null)
 			{
 				return;
 			}
-			brain.physicsForCharacter.landed += Landed;
-			brain.physicsForCharacter.jumpVelocitySet += Jumped;
+			brain.adapterForCharacter.landed += Landed;
+			brain.adapterForCharacter.jumpVelocitySet += Jumped;
 		}
 
 		/// <summary>
@@ -443,12 +443,12 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		public void Unsubscribe()
 		{
-			if (brain == null || brain.physicsForCharacter == null)
+			if (brain == null || brain.adapterForCharacter == null)
 			{
 				return;
 			}
-			brain.physicsForCharacter.landed -= Landed;
-			brain.physicsForCharacter.jumpVelocitySet -= Jumped;
+			brain.adapterForCharacter.landed -= Landed;
+			brain.adapterForCharacter.jumpVelocitySet -= Jumped;
 		}
 
 		/// <summary>

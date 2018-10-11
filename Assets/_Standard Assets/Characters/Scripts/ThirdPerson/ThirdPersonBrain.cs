@@ -465,9 +465,9 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private void OnEnable()
 		{
-			physicsForCharacter.jumpVelocitySet += thirdPersonMovementEventHandler.Jumped;
-			physicsForCharacter.landed += thirdPersonMovementEventHandler.Landed;
-			physicsForCharacter.landed += OnLanding;
+			adapterForCharacter.jumpVelocitySet += thirdPersonMovementEventHandler.Jumped;
+			adapterForCharacter.landed += thirdPersonMovementEventHandler.Landed;
+			adapterForCharacter.landed += OnLanding;
 				
 			motor.jumpStarted += OnJumpStarted;
 			motor.fallStarted += OnFallStarted;
@@ -492,11 +492,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		private void OnDisable()
 		{
-			if (physicsForCharacter != null)
+			if (adapterForCharacter != null)
 			{
-				physicsForCharacter.jumpVelocitySet -= thirdPersonMovementEventHandler.Jumped;
-				physicsForCharacter.landed -= thirdPersonMovementEventHandler.Landed;
-				physicsForCharacter.landed -= OnLanding;
+				adapterForCharacter.jumpVelocitySet -= thirdPersonMovementEventHandler.Jumped;
+				adapterForCharacter.landed -= thirdPersonMovementEventHandler.Landed;
+				adapterForCharacter.landed -= OnLanding;
 			}
 			
 			if (motor != null)
@@ -678,7 +678,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			isChangingCamera = true;
 			isTryingStrafe = true;
-			if (physicsForCharacter.isGrounded)
+			if (adapterForCharacter.isGrounded)
 			{
 				SelectGroundedCamera();
 			}
@@ -690,7 +690,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			isChangingCamera = true;
 			isTryingStrafe = false;
-			if (physicsForCharacter.isGrounded)
+			if (adapterForCharacter.isGrounded)
 			{
 				SelectGroundedCamera();
 			}

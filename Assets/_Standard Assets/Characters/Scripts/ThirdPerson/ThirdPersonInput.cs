@@ -402,9 +402,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			private ThirdPersonMotor motor;
 
 			/// <summary>
-			/// The character physics.
+			/// The character controller adapter.
 			/// </summary>
-			private CharacterPhysics characterPhysics;
+			private ControllerAdapter controllerAdapter;
 
 			/// <summary>
 			/// The camera to use for transforming input. It can be changed via SetCamera.
@@ -524,7 +524,9 @@ namespace StandardAssets.Characters.ThirdPerson
 				motor.EnableRapidTurn(this);
 
 				// Only modify when enabled, character is grounded, and not straffing
-				if (!characterPhysics.isGrounded ||
+				if (characterTransform == null || 
+				    !characterTransform.gameObject.activeInHierarchy || 
+				    !controllerAdapter.isGrounded || 
 				    motor.movementMode == ThirdPersonMotorMovementMode.Strafe)
 				{
 					wasDisabled = true;
@@ -581,7 +583,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				FindBrain();
 				characterTransform = characterBrain.transform;
 				motor = characterBrain.thirdPersonMotor;
-				characterPhysics = characterBrain.physicsForCharacter;
+				controllerAdapter = characterBrain.adapterForCharacter;
 				
 				if (unityCamera == null)
 				{

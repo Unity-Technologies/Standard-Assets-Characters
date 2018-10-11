@@ -48,7 +48,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <value>The time, in seconds, the character has been in a falling state.</value>
 		public float fallTime
 		{
-			get { return characterPhysics.fallTime; }
+			get { return controllerAdapter.fallTime; }
 		}
 
 		/// <summary>
@@ -93,9 +93,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		private IThirdPersonInput characterInput;
 
 		/// <summary>
-		/// The physic implementation
+		/// The controller adapter implementation
 		/// </summary>
-		private CharacterPhysics characterPhysics;
+		private ControllerAdapter controllerAdapter;
 
 		private ThirdPersonGroundMovementState preTurnMovementState;
 		private ThirdPersonGroundMovementState movementState = ThirdPersonGroundMovementState.Walking;
@@ -139,10 +139,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// Gets the vertical speed.
 		/// </summary>
 		/// <value>Range = -1 (falling) to 1 (jumping).</value>
-		/// <remarks>Returns <see cref="CharacterPhysics"/>'s <see cref="CharacterPhysics.normalizedVerticalSpeed"/>.</remarks>
+		/// <remarks>Returns <see cref="ControllerAdapter"/>'s <see cref="ControllerAdapter.normalizedVerticalSpeed"/>.</remarks>
 		public float normalizedVerticalSpeed
 		{
-			get { return characterPhysics.normalizedVerticalSpeed; }
+			get { return controllerAdapter.normalizedVerticalSpeed; }
 		}
 		
 		/// <summary>
@@ -173,7 +173,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <remarks>Should only be called by a root motion jump StateMachineBehaviour</remarks>
 		public void OnJumpAnimationComplete()
 		{
-			float distance = characterPhysics.GetPredictedFallDistance();
+			float distance = controllerAdapter.GetPredictedFallDistance();
 			if (distance <= configuration.maxFallDistanceToLand)
 			{
 				OnLanding();
@@ -197,7 +197,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			if (movementState == ThirdPersonGroundMovementState.TurningAround)
 			{
-				characterPhysics.Move(thirdPersonBrain.turnaround.GetMovement(), Time.deltaTime);
+				controllerAdapter.Move(thirdPersonBrain.turnaround.GetMovement(), Time.deltaTime);
 				return;
 			}
 
@@ -209,7 +209,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				groundMovementVector.x *= thirdPersonBrain.currentRootMotionModifier.x;
 				groundMovementVector.z *= thirdPersonBrain.currentRootMotionModifier.z;
 				
-				characterPhysics.Move(groundMovementVector, Time.deltaTime);
+				controllerAdapter.Move(groundMovementVector, Time.deltaTime);
 				
 				//Update the average movement speed
 				float movementVelocity = groundMovementVector.
@@ -234,7 +234,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				var movementDirection = movementMode == ThirdPersonMotorMovementMode.Action ? transform.forward :
 					CalculateLocalInputDirection() ;
 				fallDirection = Vector3.Lerp(fallDirection, movementDirection, configuration.fallDirectionChange);
-				characterPhysics.Move(cachedForwardVelocity * Time.deltaTime * fallDirection, Time.deltaTime);
+				controllerAdapter.Move(cachedForwardVelocity * Time.deltaTime * fallDirection, Time.deltaTime);
 			}
 		}
 
@@ -245,7 +245,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			transform = brain.transform;
 			thirdPersonBrain = brain;
 			characterInput = brain.thirdPersonInput;
-			characterPhysics = brain.physicsForCharacter;
+			controllerAdapter = brain.adapterForCharacter;
 			animator = gameObject.GetComponent<Animator>();
 			averageForwardVelocity = new SlidingAverage(configuration.jumpGroundVelocityWindowSize);
 			actionAverageForwardInput = new SlidingAverage(configuration.forwardInputWindowSize);
@@ -262,8 +262,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		public void Subscribe()
 		{
-			characterPhysics.landed += OnLanding;
-			characterPhysics.startedFalling += OnStartedFalling;
+			controllerAdapter.landed += OnLanding;
+			controllerAdapter.startedFalling += OnStartedFalling;
 			
 			//Turnaround subscription for runtime support
 			foreach (TurnaroundBehaviour turnaroundBehaviour in thirdPersonBrain.turnaroundOptions)
@@ -288,10 +288,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		public void Unsubscribe()
 		{
 			//Physics subscriptions
-			if (characterPhysics != null)
+			if (controllerAdapter != null)
 			{
-				characterPhysics.landed -= OnLanding;
-				characterPhysics.startedFalling -= OnStartedFalling;
+				controllerAdapter.landed -= OnLanding;
+				controllerAdapter.startedFalling -= OnStartedFalling;
 			}
 
 			//Turnaround un-subscription for runtime support
@@ -356,14 +356,14 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		private void UpdateTrackGroundHeight()
 		{
-			if (aerialState == ThirdPersonAerialMovementState.Grounded && !characterPhysics.isGrounded)
+			if (aerialState == ThirdPersonAerialMovementState.Grounded && !controllerAdapter.isGrounded)
 			{
 				if (Time.frameCount % k_TrackGroundFrameIntervals == 0)
 				{
-					var baseCharacterPhysics = characterPhysics;
-					if (baseCharacterPhysics != null)
+					var baseControllerAdapter = controllerAdapter;
+					if (baseControllerAdapter != null)
 					{
-						float distance = baseCharacterPhysics.GetPredictedFallDistance();
+						float distance = baseControllerAdapter.GetPredictedFallDistance();
 						if (distance > configuration.maxFallDistanceToLand)
 						{
 							OnStartedFalling(distance);
@@ -385,7 +385,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// Sets the aerial state to <see cref="ThirdPersonAerialMovementState.Grounded"/> and fires
 		/// the <see cref="landed"/> event.
 		/// </summary>
-		/// <remarks>This subscribes to <see cref="CharacterPhysics.landed"/></remarks>
+		/// <remarks>This subscribes to <see cref="ControllerAdapter.landed"/></remarks>
 		private void OnLanding()
 		{
 			aerialState = ThirdPersonAerialMovementState.Grounded;
@@ -400,7 +400,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// Sets the aerial state to <see cref="ThirdPersonAerialMovementState.Falling"/> and fires the
 		/// <see cref="fallStarted"/> event.
 		/// </summary>
-		/// <remarks>This subscribes to <see cref="CharacterPhysics.startedFalling"/></remarks>
+		/// <remarks>This subscribes to <see cref="ControllerAdapter.startedFalling"/></remarks>
 		private void OnStartedFalling(float predictedFallDistance)
 		{
 			// check if far enough from ground to enter fall state
@@ -688,7 +688,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				return true;
 			}
-			if (!IsGrounded || characterPhysics.startedSlide || !thirdPersonBrain.isRootMotionState)
+			if (!IsGrounded || controllerAdapter.startedSlide || !thirdPersonBrain.isRootMotionState)
 			{
 				return false;
 			}
@@ -712,7 +712,7 @@ namespace StandardAssets.Characters.ThirdPerson
 					cachedForwardVelocity = averageForwardVelocity.average;
 				}
 				
-				characterPhysics.SetJumpVelocity(
+				controllerAdapter.SetJumpVelocity(
 					configuration.jumpHeightAsFactorOfForwardSpeed.Evaluate(normalizedForwardSpeed));
 				
 				fallDirection = transform.forward;

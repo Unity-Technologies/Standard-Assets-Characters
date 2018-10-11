@@ -6,7 +6,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 	public class CapsuleInput : CharacterInput
 	{
 		protected override Vector2 ConditionMoveInput(Vector2 rawMoveInput)
-		{
+		{			
 			return rawMoveInput;
 		}
 
