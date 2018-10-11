@@ -5,6 +5,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 {
 	public class CapsuleBrain : CharacterBrain
 	{
+		[Header("Capsule Brain")]
 		[SerializeField]
 		protected float maxSpeed = 5f;
 

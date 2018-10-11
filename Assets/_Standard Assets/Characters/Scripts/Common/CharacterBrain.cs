@@ -1,4 +1,5 @@
 using System;
+using StandardAssets.Characters.Attributes;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
 using UnityPhysics = UnityEngine.Physics;
@@ -11,12 +12,12 @@ namespace StandardAssets.Characters.Common
 	public abstract class CharacterBrain : MonoBehaviour
 	{
 		public Action<string> changeMovementZone;
-
+		
 		[Header("Controllers")]
-		[SerializeField, Tooltip("Settings for the default CharacterController.")]
+		[SerializeField, VisibleIfHasComponent(typeof(CharacterController)), Tooltip("Settings for the default CharacterController.")]
 		protected CharacterControllerAdapter characterControllerAdapter;
 
-		[SerializeField, Tooltip("Settings for the OpenCharacterController.")]
+		[SerializeField, VisibleIfHasComponent(typeof(OpenCharacterController)), Tooltip("Settings for the OpenCharacterController.")]
 		protected OpenCharacterControllerAdapter openCharacterControllerAdapter;
 		
 		/// <summary>
@@ -56,6 +57,11 @@ namespace StandardAssets.Characters.Common
 			else if (GetComponent<OpenCharacterController>() != null)
 			{
 				controllerAdapter = openCharacterControllerAdapter;
+			}
+			else
+			{
+				Debug.LogErrorFormat("{0} must have a CharacterController or OpenCharacterController attached.",
+					name);
 			}
 			
 			lastPosition = transform.position;
