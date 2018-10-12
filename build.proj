@@ -16,6 +16,6 @@
         <MSBuild Projects="@(Solution)"
                  BuildInParallel="true"
                  Targets="Build"
-                 Properties="Configuration=%(ConfigurationList.Identity);Platform=$(CurrentPlatform)" />
+                 Properties="Configuration=%(ConfigurationList.Identity);Platform=$(CurrentPlatform);AllowUnsafeBlocks=true" />
     </Target>
 </Project>
