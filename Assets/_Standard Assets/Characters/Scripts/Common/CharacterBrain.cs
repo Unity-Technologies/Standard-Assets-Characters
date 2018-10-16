@@ -14,10 +14,10 @@ namespace StandardAssets.Characters.Common
 		public Action<string> changeMovementZone;
 		
 		[Header("Controllers")]
-		[SerializeField, VisibleIfHasComponent(typeof(CharacterController)), Tooltip("Settings for the default CharacterController.")]
+		[SerializeField, Tooltip("Settings for the default CharacterController.")]
 		protected CharacterControllerAdapter characterControllerAdapter;
 
-		[SerializeField, VisibleIfHasComponent(typeof(OpenCharacterController)), Tooltip("Settings for the OpenCharacterController.")]
+		[SerializeField, Tooltip("Settings for the OpenCharacterController.")]
 		protected OpenCharacterControllerAdapter openCharacterControllerAdapter;
 
 		/// <summary>
