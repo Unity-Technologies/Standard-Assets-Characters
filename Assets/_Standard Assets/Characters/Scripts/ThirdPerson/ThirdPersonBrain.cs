@@ -26,6 +26,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		[HelperBox(HelperBoxAttribute.HelperType.Info,
 			"Configurations are separate assets (ScriptableObjects). Click on the associated configuration to locate it in the Project View. Values can be edited here during runtime and not be lost. It also allows one to create different settings and swap between them. To create a new setting Right click -> Create -> Standard Assets -> Characters -> ...")]
 		
+		[Header("Third Person Brain")]
 		[SerializeField, Tooltip("Set to true if you do not want to use the Camera animation manager"), DisableEditAtRuntime()]
 		protected bool useSimpleCameras;
 		
@@ -464,9 +465,9 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private void OnEnable()
 		{
-			physicsForCharacter.jumpVelocitySet += thirdPersonMovementEventHandler.Jumped;
-			physicsForCharacter.landed += thirdPersonMovementEventHandler.Landed;
-			physicsForCharacter.landed += OnLanding;
+			controllerAdapter.jumpVelocitySet += thirdPersonMovementEventHandler.Jumped;
+			controllerAdapter.landed += thirdPersonMovementEventHandler.Landed;
+			controllerAdapter.landed += OnLanding;
 				
 			motor.jumpStarted += OnJumpStarted;
 			motor.fallStarted += OnFallStarted;
@@ -491,11 +492,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		private void OnDisable()
 		{
-			if (physicsForCharacter != null)
+			if (controllerAdapter != null)
 			{
-				physicsForCharacter.jumpVelocitySet -= thirdPersonMovementEventHandler.Jumped;
-				physicsForCharacter.landed -= thirdPersonMovementEventHandler.Landed;
-				physicsForCharacter.landed -= OnLanding;
+				controllerAdapter.jumpVelocitySet -= thirdPersonMovementEventHandler.Jumped;
+				controllerAdapter.landed -= thirdPersonMovementEventHandler.Landed;
+				controllerAdapter.landed -= OnLanding;
 			}
 			
 			if (motor != null)
@@ -677,7 +678,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			isChangingCamera = true;
 			isTryingStrafe = true;
-			if (physicsForCharacter.isGrounded)
+			if (controllerAdapter.isGrounded)
 			{
 				SelectGroundedCamera();
 			}
@@ -689,7 +690,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			isChangingCamera = true;
 			isTryingStrafe = false;
-			if (physicsForCharacter.isGrounded)
+			if (controllerAdapter.isGrounded)
 			{
 				SelectGroundedCamera();
 			}

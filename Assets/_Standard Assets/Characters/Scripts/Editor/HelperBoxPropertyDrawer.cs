@@ -26,17 +26,27 @@ namespace Editor
 		public override float GetPropertyHeight(SerializedProperty prop, GUIContent label)
 		{
 			// check for Conditional (custom extension).
-			VisibleIfAttribute compat = this.TryGetAttribute<VisibleIfAttribute>();
-			if (compat != null)
+			VisibleIfAttribute visibleIf = this.TryGetAttribute<VisibleIfAttribute>();
+			if (visibleIf != null)
 			{ 
 				// if Height is zero, then this property is hidden.
-				float h =
-					VisibleIfPropertyDrawer.GetConditionalPropertyDrawerHeight(compat, prop, label);
-				if (h < 1)
+				float h = VisibleIfPropertyDrawer.GetConditionalPropertyDrawerHeight(visibleIf, prop, label);
+				if (h < 1.0f)
 				{
-					return 0;
+					return 0.0f;
 				}
 			}
+			VisibleIfHasComponentAttribute visibleIfHasComponent = this.TryGetAttribute<VisibleIfHasComponentAttribute>();
+			if (visibleIfHasComponent != null)
+			{ 
+				// if Height is zero, then this property is hidden.
+				float h = VisibleIfHasComponentDrawer.GetConditionalPropertyDrawerHeight(visibleIfHasComponent, prop);
+				if (h < 1.0f)
+				{
+					return 0.0f;
+				}
+			}
+			
 			// carry on as usual:
 			
 			height = base.GetPropertyHeight(prop, label);

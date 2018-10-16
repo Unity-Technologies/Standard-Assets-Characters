@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 136524137190470324}
   - component: {fileID: 33370910563476246}
   - component: {fileID: 23257896333880788}
-  - component: {fileID: 114816713393816442}
+  - component: {fileID: 114160862697937592}
   - component: {fileID: 114733511240769224}
   - component: {fileID: 114418168072071566}
   m_Layer: 11
@@ -189,6 +189,40 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114160862697937592
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1942727258898328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b5c6cf5f04e4e2b9c79ad2fda5ddbea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerRootTransform: {fileID: 0}
+  rootTransformOffset: {x: 0, y: 0, z: 0}
+  slopeLimit: 45
+  stepOffset: 0.3
+  skinWidth: 0.08
+  minMoveDistance: 0
+  center: {x: 0, y: 0, z: 0}
+  radius: 0.5
+  height: 2
+  colliderLayer: 
+  collisionLayerMask:
+    serializedVersion: 2
+    m_Bits: 257
+  localHumanControlled: 1
+  canSlideAgainstCeiling: 1
+  sendColliderHitMessages: 0
+  queryTriggerInteraction: 1
+  slideDownSlopes: 1
+  slideDownTerminalVelocity: 10
+  slideDownGravityScale: 1
+  slideDownStartDuration: 0.25
+  enableDebug: 0
+  debugDrawMoveVector: 0
 --- !u!114 &114418168072071566
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -218,119 +252,165 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ca96d7838ae4d2aae028f9e6c1ea082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterControllerAdapter:
+    terminalVelocity: 10
+    jumpGravityMultiplierAsAFactorOfForwardSpeed:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    fallGravityMultiplierAsAFactorOfForwardSpeed:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    minJumpHeightMultiplierAsAFactorOfForwardSpeed:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    gravityChangeSpeed: 10
+    groundCheckDistance: 0.51
+    groundCheckMask:
+      serializedVersion: 2
+      m_Bits: 0
+  openCharacterControllerAdapter:
+    terminalVelocity: 10
+    jumpGravityMultiplierAsAFactorOfForwardSpeed:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    fallGravityMultiplierAsAFactorOfForwardSpeed:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    minJumpHeightMultiplierAsAFactorOfForwardSpeed:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    gravityChangeSpeed: 10
+    characterController: {fileID: 114160862697937592}
   maxSpeed: 5
   timeToMaxSpeed: 0.5
   turnSpeed: 300
   jumpSpeed: 5
---- !u!114 &114816713393816442
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1942727258898328}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e163090ac99486aae32f05b5b641e9c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  terminalVelocity: 10
-  jumpGravityMultiplierAsAFactorOfForwardSpeed:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: -0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: -0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  fallGravityMultiplierAsAFactorOfForwardSpeed:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: -0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: -0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  minJumpHeightMultiplierAsAFactorOfForwardSpeed:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: -0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: -0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  gravityChangeSpeed: 10
-  characterController:
-    playerRootTransform: {fileID: 0}
-    rootTransformOffset: {x: 0, y: 0, z: 0}
-    slopeLimit: 45
-    stepOffset: 0.3
-    skinWidth: 0.08
-    minMoveDistance: 0
-    center: {x: 0, y: 0, z: 0}
-    radius: 0.5
-    height: 2
-    colliderLayer: 
-    collisionLayerMask:
-      serializedVersion: 2
-      m_Bits: 257
-    localHumanControlled: 1
-    canSlideAgainstCeiling: 1
-    sendColliderHitMessages: 1
-    queryTriggerInteraction: 1
-    slideDownSlopes: 1
-    slideDownTerminalVelocity: 10
-    slideDownGravityScale: 1
-    slideDownStartDuration: 0.25
-    enableDebug: 0
-    debugDrawMoveVector: 0
 --- !u!136 &136524137190470324
 CapsuleCollider:
   m_ObjectHideFlags: 1

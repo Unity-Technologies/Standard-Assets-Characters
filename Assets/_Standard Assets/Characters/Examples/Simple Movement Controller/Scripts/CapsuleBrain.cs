@@ -1,13 +1,11 @@
 ﻿using StandardAssets.Characters.Common;
-using StandardAssets.Characters.Effects;
-using StandardAssets.Characters.Physics;
 using UnityEngine;
 
 namespace StandardAssets.Characters.Examples.SimpleMovementController
 {
-	[RequireComponent(typeof(CharacterPhysics))]
 	public class CapsuleBrain : CharacterBrain
 	{
+		[Header("Capsule Brain")]
 		[SerializeField]
 		protected float maxSpeed = 5f;
 
@@ -121,9 +119,9 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// </summary>
 		private void OnJumpPressed()
 		{
-			if (characterPhysics.isGrounded)
+			if (controllerAdapter.isGrounded)
 			{
-				characterPhysics.SetJumpVelocity(jumpSpeed);
+				controllerAdapter.SetJumpVelocity(jumpSpeed);
 			}	
 		}
 
@@ -167,7 +165,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 			Vector3 forward = transform.forward * input.magnitude;
 			Vector3 sideways = Vector3.zero;
 			
-			characterPhysics.Move((forward + sideways) * currentSpeed * Time.fixedDeltaTime, Time.fixedDeltaTime);
+			controllerAdapter.Move((forward + sideways) * currentSpeed * Time.fixedDeltaTime, Time.fixedDeltaTime);
 
 			previouslyHasInput = characterInput.hasMovementInput;
 		}	

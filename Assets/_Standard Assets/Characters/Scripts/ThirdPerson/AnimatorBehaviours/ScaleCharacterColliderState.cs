@@ -1,4 +1,5 @@
 ﻿using StandardAssets.Characters.Attributes;
+using StandardAssets.Characters.Common;
 using StandardAssets.Characters.Physics; 
 using UnityEngine;
 
@@ -66,21 +67,23 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 		private float time;
 		private float currentScale, entryScale;
 		private float entryOffset;
-		private OpenCharacterControllerPhysics physics;
+		private OpenCharacterControllerAdapter adapter;
 		private OpenCharacterController controller;
 		
 		// OnStateEnter is called before OnStateEnter is called on any state inside this state machine
 		public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			if (physics == null)
+			if (adapter == null)
 			{
-				physics = animator.GetComponentInChildren<OpenCharacterControllerPhysics>();
-				if (physics == null)
+				CharacterBrain characterBrain = animator.GetComponentInChildren<CharacterBrain>();
+				adapter = characterBrain != null
+					          ? characterBrain.controllerAdapter as OpenCharacterControllerAdapter
+					          : null;
+				if (adapter == null)
 				{
-					// TODO: show warning in inspector?
 					return;
-				} 
-				controller = physics.openCharacterController;
+				}
+				controller = adapter.openCharacterController;
 				if (controller == null)
 				{
 					return;

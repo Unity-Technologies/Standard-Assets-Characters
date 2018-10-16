@@ -1,4 +1,5 @@
-﻿using StandardAssets.Characters.Physics;
+﻿using StandardAssets.Characters.Common;
+using StandardAssets.Characters.Physics;
 using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
@@ -29,20 +30,23 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 		[SerializeField]
 		private bool preserveFootPosition = true;
 
-		private OpenCharacterControllerPhysics openCharacterControllerPhysics;
+		private OpenCharacterControllerAdapter openCharacterControllerAdapter;
 		private OpenCharacterController openCharacterController;
 		
 		/// <inheritdoc />
 		public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			if (openCharacterControllerPhysics == null)
+			if (openCharacterControllerAdapter == null)
 			{
-				openCharacterControllerPhysics = animator.GetComponentInChildren<OpenCharacterControllerPhysics>();
-				if (openCharacterControllerPhysics == null)
+				CharacterBrain characterBrain = animator.GetComponentInChildren<CharacterBrain>();
+				openCharacterControllerAdapter = characterBrain != null
+					                                 ? characterBrain.controllerAdapter as OpenCharacterControllerAdapter
+					                                 : null;
+				if (openCharacterControllerAdapter == null)
 				{
 					return;
 				} 
-				openCharacterController = openCharacterControllerPhysics.openCharacterController;
+				openCharacterController = openCharacterControllerAdapter.openCharacterController;
 				if (openCharacterController == null)
 				{
 					return;

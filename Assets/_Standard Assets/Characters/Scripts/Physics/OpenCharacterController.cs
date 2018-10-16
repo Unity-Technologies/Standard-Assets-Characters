@@ -10,9 +10,10 @@ namespace StandardAssets.Characters.Physics
 	/// Open character controller. Handles the movement of a character, by using a capsule for movement and collision detection.
 	/// Note: The capsule is always upright. It ignores rotation.
 	/// </summary>
-	[Serializable]
-	public class OpenCharacterController
-	{	
+	[RequireComponent(typeof(CapsuleCollider))]
+	[RequireComponent(typeof(Rigidbody))]
+	public class OpenCharacterController : MonoBehaviour
+	{
 		/// <summary>
 		/// Collision info used by the OpenCharacterController and sent to the OnOpenCharacterControllerHit message.
 		/// </summary>
@@ -1448,8 +1449,10 @@ namespace StandardAssets.Characters.Physics
 			return capsuleCollider.ClosestPoint(position);
 		}
 
-		/// <inheritdoc />
-		public void Awake(Transform transform)
+		/// <summary>
+		/// Initialise the capsule and rigidbody, and set the root position.
+		/// </summary>
+		private void Awake()
 		{
 			cachedTransform = transform;
 			InitCapsuleColliderAndRigidbody();
@@ -1457,23 +1460,30 @@ namespace StandardAssets.Characters.Physics
 			SetRootToOffset();
 		}
 
+		
 #if UNITY_EDITOR
-		/// <inheritdoc />
-		public void OnValidate()
+		/// <summary>
+		/// Validate the capsule.
+		/// </summary>
+		private void OnValidate()
 		{
 			ValidateCapsule(false);
 			SetRootToOffset();
 		}
 #endif
 
-		/// <inheritdoc />
-		public void LateUpdate()
+		/// <summary>
+		/// Set the root position.
+		/// </summary>
+		private void LateUpdate()
 		{
 			SetRootToOffset();
 		}
 
-		/// <inheritdoc />
-		public void Update()
+		/// <summary>
+		/// Update sliding down slopes, and changes to the capsule's height and center.
+		/// </summary>
+		private void Update()
 		{
 			UpdateSlideDownSlopes();
 			UpdatePendingHeightAndCenter();
@@ -1481,7 +1491,7 @@ namespace StandardAssets.Characters.Physics
 
 #if UNITY_EDITOR
 		/// <inheritdoc />
-		public void OnDrawGizmosSelected(Transform transform)
+		private void OnDrawGizmosSelected(Transform transform)
 		{
 			if (cachedTransform == null)
 			{

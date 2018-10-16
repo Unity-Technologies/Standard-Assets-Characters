@@ -1,8 +1,6 @@
 ﻿using System;
-using Cinemachine;
 using StandardAssets.Characters.Common;
 using StandardAssets.Characters.Effects;
-using StandardAssets.Characters.Physics;
 using UnityEngine;
 
 namespace StandardAssets.Characters.FirstPerson
@@ -11,7 +9,6 @@ namespace StandardAssets.Characters.FirstPerson
 	/// The main controller of first person character
 	/// Ties together the input and physics implementations
 	/// </summary>
-	[RequireComponent(typeof(CharacterPhysics))]
 	[RequireComponent(typeof(FirstPersonInput))]
 	public class FirstPersonBrain : CharacterBrain
 	{
@@ -58,6 +55,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// The state that first person motor starts in
 		/// </summary>
+		[Header("First Person Brain")]
 		[SerializeField, Tooltip("Movement properties of the character while walking")]
 		protected MovementProperties walking;
 
@@ -222,7 +220,7 @@ namespace StandardAssets.Characters.FirstPerson
 			characterInput.sprintEnded += StartWalking;
 			characterInput.crouchStarted += StartCrouching;
 			characterInput.crouchEnded += StartWalking;
-			characterPhysics.landed += OnLanded;
+			controllerAdapter.landed += OnLanded;
 		}
 
 		/// <summary>
@@ -241,7 +239,7 @@ namespace StandardAssets.Characters.FirstPerson
 			characterInput.sprintEnded -= StartWalking;
 			characterInput.crouchStarted -= StartCrouching;
 			characterInput.crouchEnded -= StartWalking;
-			characterPhysics.landed -= OnLanded;
+			controllerAdapter.landed -= OnLanded;
 		}
 
 		/// <summary>
@@ -257,9 +255,9 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		private void OnJumpPressed()
 		{
-			if (characterPhysics.isGrounded && currentMovementProperties.canJump)
+			if (controllerAdapter.isGrounded && currentMovementProperties.canJump)
 			{
-				characterPhysics.SetJumpVelocity(currentMovementProperties.jumpSpeed);
+				controllerAdapter.SetJumpVelocity(currentMovementProperties.jumpSpeed);
 			}
 		}
 
@@ -296,7 +294,7 @@ namespace StandardAssets.Characters.FirstPerson
 			Vector3 sideways = transform.right * move.x;
 			Vector3 currentVelocity = (forward + sideways) * currentMovementProperties.maxSpeed;
 			currentSpeed = currentVelocity.magnitude;
-			characterPhysics.Move(currentVelocity * Time.fixedDeltaTime, Time.fixedDeltaTime);
+			controllerAdapter.Move(currentVelocity * Time.fixedDeltaTime, Time.fixedDeltaTime);
 		}
 
 		/// <summary>
@@ -335,7 +333,7 @@ namespace StandardAssets.Characters.FirstPerson
 		{
 			newMovementProperties = newState;
 
-			if (characterPhysics.isGrounded)
+			if (controllerAdapter.isGrounded)
 			{
 				currentMovementProperties = newMovementProperties;
 			}
@@ -399,7 +397,7 @@ namespace StandardAssets.Characters.FirstPerson
 			Vector3 currentPosition = transform.position;
 
 			//If the character has not moved or is not grounded then ignore the calculations that follow
-			if (currentPosition == previousPosition || !brain.physicsForCharacter.isGrounded)
+			if (currentPosition == previousPosition || !brain.controllerAdapter.isGrounded)
 			{
 				previousPosition = currentPosition;
 				return;
@@ -432,12 +430,12 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		public void Subscribe()
 		{
-			if (brain == null || brain.physicsForCharacter == null)
+			if (brain == null || brain.controllerAdapter == null)
 			{
 				return;
 			}
-			brain.physicsForCharacter.landed += Landed;
-			brain.physicsForCharacter.jumpVelocitySet += Jumped;
+			brain.controllerAdapter.landed += Landed;
+			brain.controllerAdapter.jumpVelocitySet += Jumped;
 		}
 
 		/// <summary>
@@ -445,12 +443,12 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		public void Unsubscribe()
 		{
-			if (brain == null || brain.physicsForCharacter == null)
+			if (brain == null || brain.controllerAdapter == null)
 			{
 				return;
 			}
-			brain.physicsForCharacter.landed -= Landed;
-			brain.physicsForCharacter.jumpVelocitySet -= Jumped;
+			brain.controllerAdapter.landed -= Landed;
+			brain.controllerAdapter.jumpVelocitySet -= Jumped;
 		}
 
 		/// <summary>
