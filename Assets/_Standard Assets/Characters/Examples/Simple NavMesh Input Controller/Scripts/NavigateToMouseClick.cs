@@ -34,7 +34,7 @@ namespace StandardAssets.Characters.Examples.SimpleNavMeshInputController
 				Ray ray = mainCamera.ScreenPointToRay(UnityEngine.Input.mousePosition);
 				RaycastHit hit;
 
-				if (UnityEngine.Physics.Raycast(ray, out hit, groundCheckMask))
+				if (UnityEngine.Physics.Raycast(ray, out hit, float.MaxValue, groundCheckMask))
 				{
 					navMesh.SetDestination(hit.point);
 				}
