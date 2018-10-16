@@ -40,7 +40,7 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 			{
 				CharacterBrain characterBrain = animator.GetComponentInChildren<CharacterBrain>();
 				openCharacterControllerAdapter = characterBrain != null
-					                                 ? characterBrain.adapterForCharacter as OpenCharacterControllerAdapter
+					                                 ? characterBrain.controllerAdapter as OpenCharacterControllerAdapter
 					                                 : null;
 				if (openCharacterControllerAdapter == null)
 				{

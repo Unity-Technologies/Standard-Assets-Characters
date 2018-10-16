@@ -402,7 +402,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			private ThirdPersonMotor motor;
 
 			/// <summary>
-			/// The character controller adapter.
+			/// The character controller controllerAdapter.
 			/// </summary>
 			private ControllerAdapter controllerAdapter;
 
@@ -583,7 +583,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				FindBrain();
 				characterTransform = characterBrain.transform;
 				motor = characterBrain.thirdPersonMotor;
-				controllerAdapter = characterBrain.adapterForCharacter;
+				controllerAdapter = characterBrain.controllerAdapter;
 				
 				if (unityCamera == null)
 				{

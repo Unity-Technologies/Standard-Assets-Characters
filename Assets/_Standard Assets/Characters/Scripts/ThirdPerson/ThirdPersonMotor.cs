@@ -93,7 +93,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private IThirdPersonInput characterInput;
 
 		/// <summary>
-		/// The controller adapter implementation
+		/// The controller controllerAdapter implementation
 		/// </summary>
 		private ControllerAdapter controllerAdapter;
 
@@ -245,7 +245,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			transform = brain.transform;
 			thirdPersonBrain = brain;
 			characterInput = brain.thirdPersonInput;
-			controllerAdapter = brain.adapterForCharacter;
+			controllerAdapter = brain.controllerAdapter;
 			animator = gameObject.GetComponent<Animator>();
 			averageForwardVelocity = new SlidingAverage(configuration.jumpGroundVelocityWindowSize);
 			actionAverageForwardInput = new SlidingAverage(configuration.forwardInputWindowSize);

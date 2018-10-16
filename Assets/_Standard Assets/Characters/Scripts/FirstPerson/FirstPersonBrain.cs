@@ -397,7 +397,7 @@ namespace StandardAssets.Characters.FirstPerson
 			Vector3 currentPosition = transform.position;
 
 			//If the character has not moved or is not grounded then ignore the calculations that follow
-			if (currentPosition == previousPosition || !brain.adapterForCharacter.isGrounded)
+			if (currentPosition == previousPosition || !brain.controllerAdapter.isGrounded)
 			{
 				previousPosition = currentPosition;
 				return;
@@ -430,12 +430,12 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		public void Subscribe()
 		{
-			if (brain == null || brain.adapterForCharacter == null)
+			if (brain == null || brain.controllerAdapter == null)
 			{
 				return;
 			}
-			brain.adapterForCharacter.landed += Landed;
-			brain.adapterForCharacter.jumpVelocitySet += Jumped;
+			brain.controllerAdapter.landed += Landed;
+			brain.controllerAdapter.jumpVelocitySet += Jumped;
 		}
 
 		/// <summary>
@@ -443,12 +443,12 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		public void Unsubscribe()
 		{
-			if (brain == null || brain.adapterForCharacter == null)
+			if (brain == null || brain.controllerAdapter == null)
 			{
 				return;
 			}
-			brain.adapterForCharacter.landed -= Landed;
-			brain.adapterForCharacter.jumpVelocitySet -= Jumped;
+			brain.controllerAdapter.landed -= Landed;
+			brain.controllerAdapter.jumpVelocitySet -= Jumped;
 		}
 
 		/// <summary>

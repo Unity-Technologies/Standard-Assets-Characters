@@ -19,20 +19,11 @@ namespace StandardAssets.Characters.Common
 
 		[SerializeField, VisibleIfHasComponent(typeof(OpenCharacterController)), Tooltip("Settings for the OpenCharacterController.")]
 		protected OpenCharacterControllerAdapter openCharacterControllerAdapter;
-		
-		/// <summary>
-		/// The controller adapter implementation used to do the movement
-		/// e.g. CharacterController or Rigidbody (or New C# CharacterController analog)
-		/// </summary>
-		protected ControllerAdapter controllerAdapter;
 
 		/// <summary>
-		/// Gets the controller adapter implementation used by the Character
+		/// Gets/sets the controller adapter implementation used by the Character
 		/// </summary>
-		public ControllerAdapter adapterForCharacter
-		{
-			get { return controllerAdapter; }
-		}
+		public ControllerAdapter controllerAdapter { get; protected set; }
 
 		/// <summary>
 		/// Gets/sets the planar speed (i.e. ignoring the displacement) of the CharacterBrain
