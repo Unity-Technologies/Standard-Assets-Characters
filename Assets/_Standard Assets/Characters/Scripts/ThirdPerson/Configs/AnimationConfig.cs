@@ -22,11 +22,11 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		[SerializeField, Tooltip("Configuration for the turning speed animation parameter")]
 		protected FloatRange turningSpeedInterpolationRange;
 
-		[SerializeField, Tooltip("The change in input required to trigger a rapid strafe directionChange")]
-		protected float strafeRapidDirectionChangeThreshold = 1.5f;
+		[SerializeField, Tooltip("The angle threshold used to trigger a strafe rapid direction change.")]
+		protected float strafeRapidDirectionChangeAngle = 140.0f;
 		
-		[SerializeField, Tooltip("The number of frames to wait after a rapid direction change if triggered within the transition range")]
-		protected int strafeRapidDirectionFrameWait = 5;
+		[SerializeField, Tooltip("The curve used to change animator movement speeds during a strafe rapid direction change")]
+		protected AnimationCurve strafeRapidDirectionChangeSpeedCurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
 
 		[Header("Jumping")]
 		[SerializeField, Tooltip("Curve used to determine the cross fade duration of the transition into the jump " +
@@ -86,19 +86,19 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		protected HeadTurnProperties headTurnProperties;
 
 		/// <summary>
-		/// Gets input delta for triggering a rapid direction change during strafe.
+		/// Gets the angle threshold used to trigger a strafe rapid direction change.
 		/// </summary>
-		public float strafeRapidChangeThreshold
+		public float strafeRapidChangeAngleThreshold
 		{
-			get { return strafeRapidDirectionChangeThreshold; }
+			get { return strafeRapidDirectionChangeAngle; }
 		}
-
+		
 		/// <summary>
-		/// Gets the number of frames to wait if rapid strafe direction change is triggered within transition range.
+		/// Gets the curve used to interpolate animator movement speeds during a strafe rapid direction change.
 		/// </summary>
-		public int strafeRapidDirectionFrameWaitCount
+		public AnimationCurve strafeRapidChangeSpeedCurve
 		{
-			get { return strafeRapidDirectionFrameWait; }
+			get { return strafeRapidDirectionChangeSpeedCurve; }
 		}
 
 		/// <summary>

@@ -91,6 +91,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private TurnaroundBehaviour[] turnaroundBehaviours;
 		
+		private float rapidStrafeTime, rapidStrafeChangeDuration;
+		
 		public ThirdPersonMotor thirdPersonMotor
 		{
 			get { return motor; }
@@ -156,7 +158,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Gets the current root motion movement modifier.
 		/// </summary>
-		public Vector3 currentRootMotionModifier { get; private set; }
+		public float currentRootMotionModifier { get; private set; }
 
 		/// <summary>
 		/// Gets the character animator.
@@ -293,48 +295,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 
 		/// <summary>
-		/// Update the animator lateral speed parameter.
-		/// </summary>
-		/// <param name="newSpeed">New lateral speed</param>
-		/// <param name="deltaTime">Interpolation delta time</param>
-		public void UpdateLateralSpeed(float newSpeed, float deltaTime)
-		{
-			if (triggeredRapidDirectionChange)
-			{
-				if (framesToWait-- > 0)
-				{
-					return;
-				}
-
-				if (IsNormalizedTimeCloseToZeroOrHalf(k_StrafeRapidDirectionChangeRangeMargin))
-				{
-					animator.SetFloat(hashLateralSpeed, -animatorLateralSpeed);
-					triggeredRapidDirectionChange = false;
-				}
-				currentRootMotionModifier = Vector3.one;
-				return;
-			}
-
-			// check if a rapid direction change has occured.
-			float delta = Mathf.Abs(thirdPersonInput.moveInput.x - animatorLateralSpeed);
-			if (delta >= configuration.strafeRapidChangeThreshold)
-			{
-				triggeredRapidDirectionChange = true;
-				// if we instant change within the viable range there is a pop so wait a few frames 
-				if (IsNormalizedTimeCloseToZeroOrHalf(k_StrafeRapidDirectionChangeRangeStartInMargin))
-				{
-					framesToWait = configuration.strafeRapidDirectionFrameWaitCount;
-				}
-				currentRootMotionModifier = new Vector3(-1.0f, 1.0f, 1.0f);
-				return;
-			}
-
-			animator.SetFloat(hashLateralSpeed, newSpeed,
-			                  configuration.lateralSpeedInterpolation.GetInterpolationTime(animatorLateralSpeed, 
-			                                                        newSpeed), deltaTime);
-		}
-
-		/// <summary>
 		/// Update the animator turning speed parameter.
 		/// </summary>
 		/// <param name="newSpeed">New turning speed</param>
@@ -401,8 +361,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			                  || animatorState == AnimatorState.Falling
 			) // update during falling as landing animation depends on forward speed.
 			{
-				UpdateForwardSpeed(motor.normalizedForwardSpeed, Time.deltaTime);
-				UpdateLateralSpeed(motor.normalizedLateralSpeed, Time.deltaTime);
+				UpdateAnimationMovementSpeeds(Time.deltaTime);
 				UpdateFoot();
 			}
 			else
@@ -592,7 +551,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			hashFall = Animator.StringToHash(AnimationControllerInfo.k_FallParameter);
 			animator = GetComponent<Animator>();
 			cachedAnimatorSpeed = animator.speed;
-			currentRootMotionModifier = Vector3.one;
+			currentRootMotionModifier = 1.0f;
 		}
 
 		/// <summary>
@@ -661,6 +620,53 @@ namespace StandardAssets.Characters.ThirdPerson
 
 					break;
 			}
+		}
+		
+		private void UpdateAnimationMovementSpeeds(float deltaTime)
+		{
+			if (motor.movementMode == ThirdPersonMotorMovementMode.Strafe)
+			{
+				if (triggeredRapidDirectionChange)
+				{
+					float progress = configuration.strafeRapidChangeSpeedCurve.Evaluate(
+						rapidStrafeTime / rapidStrafeChangeDuration);
+					float current = Mathf.Clamp(1.0f - (2.0f * progress), -1.0f, 1.0f);
+					currentRootMotionModifier = current;
+					rapidStrafeTime += deltaTime;
+	
+					CheckForStrafeRapidDirectionChangeComplete(deltaTime);
+					return;
+				}
+
+				// check if a rapid direction change has occured.
+				float angle = (Vector2.Angle(input.moveInput, new Vector2(animatorLateralSpeed, animatorForwardSpeed)));
+				if (angle >= configuration.strafeRapidChangeAngleThreshold)
+				{
+					triggeredRapidDirectionChange = !CheckForStrafeRapidDirectionChangeComplete(deltaTime);
+					rapidStrafeTime = 0.0f;
+					return;
+				}
+			}
+
+			// not rapid strafe direction change, update as normal
+			animator.SetFloat(hashLateralSpeed, motor.normalizedLateralSpeed,
+			                  configuration.lateralSpeedInterpolation.GetInterpolationTime(animatorLateralSpeed, 
+			                                                                               motor.normalizedLateralSpeed),
+			                  deltaTime);
+			UpdateForwardSpeed(motor.normalizedForwardSpeed, deltaTime);
+		}
+
+		private bool CheckForStrafeRapidDirectionChangeComplete(float deltaTime)
+		{
+			if (IsNormalizedTimeCloseToZeroOrHalf(deltaTime, out rapidStrafeChangeDuration))
+			{
+				animator.SetFloat(hashLateralSpeed, -animatorLateralSpeed);
+				animator.SetFloat(hashForwardSpeed, -animatorForwardSpeed);
+				triggeredRapidDirectionChange = false;
+				currentRootMotionModifier = 1.0f;
+				return true;
+			}
+			return false;
 		}
 
 		private void RecenterCamera()
@@ -771,9 +777,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
-		private bool IsNormalizedTimeCloseToZeroOrHalf(float margin)
+		private bool IsNormalizedTimeCloseToZeroOrHalf(float margin, out float timeUntilZeroOrHalf)
 		{
 			float value = animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1.0f;
+
+			timeUntilZeroOrHalf = (value >= 0.5 ? 1.0f : 0.5f) - value;
+			
 			return (value > 1.0f - margin || value < margin ||
 			        (value > 0.5f - margin && value < 0.5f + margin));
 		}

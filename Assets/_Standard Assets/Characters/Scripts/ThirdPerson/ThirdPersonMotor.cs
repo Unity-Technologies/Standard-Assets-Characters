@@ -206,8 +206,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
 				groundMovementVector.y = 0.0f;
 				
-				groundMovementVector.x *= thirdPersonBrain.currentRootMotionModifier.x;
-				groundMovementVector.z *= thirdPersonBrain.currentRootMotionModifier.z;
+				groundMovementVector *= thirdPersonBrain.currentRootMotionModifier;
 				
 				controllerAdapter.Move(groundMovementVector, Time.deltaTime);
 				
