@@ -40,11 +40,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected TurnaroundType turnaroundType;
 
 		[SerializeField]
-		[VisibleIf("turnaroundType", TurnaroundType.Blendspace)]
 		protected BlendspaceTurnaroundBehaviour blendspaceTurnaroundBehaviour;
 
 		[SerializeField]
-		[VisibleIf("turnaroundType", TurnaroundType.Animation)]
 		protected AnimationTurnaroundBehaviour animationTurnaroundBehaviour;
 		
 		[SerializeField]
