@@ -23,6 +23,7 @@ MonoBehaviour:
     strafeForwardSpeed: 0.9
     strafeBackwardSpeed: 1
     strafeLateralSpeed: 1
+    strafeTurningSpeedScale: 0.667
   jumpHeightAsAFactorOfForwardSpeed:
     serializedVersion: 2
     m_Curve:
@@ -66,11 +67,11 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   jumpGroundVelocitySamples: 10
-  jumpGroundVelocityScale: 1.1
   jumpTurningSpeedScale: 0.25
   standingJumpForwardSpeed: 3.5
   minInputThreshold: 0.05
   maxMovementThreshold: 0.75
+  standingJumpMoveTimeThreshold: 0.5
   fallingMaxForwardSpeed: 5
   fallForwardSpeedDeceleration: 0.0025
   fallForwardSpeedAcceleration: 0.05
@@ -78,9 +79,8 @@ MonoBehaviour:
   fallDirectionChangeSpeed: 0.025
   turningSpeed: 300
   turningSpeedVisualScale: 0.4
-  turningLerp: 2
+  normalizedTurningSpeedLerpSpeed: 2
   rapidTurnInputAngle: 110
   stationaryRapidTurnAngle: 89
   rapidTurnIgnoreInputTime: 0.1
   inputBufferSize: 5
-  strafeLookInputScale: 250

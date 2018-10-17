@@ -204,6 +204,16 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		{
 			get { return useCustomStrafeParameters ? strafing.normalizedForwardStrafeSpeed : 1f; }
 		}
+		
+		/// <summary>
+		/// Gets the strafe turning speed scale.
+		/// </summary>
+		/// <value>1 if <see cref="useCustomStrafeParameters"/> is false otherwise returns <see cref="strafing"/>'s
+		/// <see cref="StrafeProperties.strafeTurningSpeed"/></value>
+		public float strafeTurningSpeedScale
+		{
+			get { return useCustomStrafeParameters ? strafing.strafeTurningSpeed : 1f; }
+		}
 
 		/// <summary>
 		/// Gets the maximum normalized backwards speed during strafe.
@@ -357,6 +367,8 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		protected float strafeBackwardSpeed = 1f; 
 		[SerializeField, Range(0f,1f)]
 		protected float strafeLateralSpeed = 1f;
+		[SerializeField, Range(0f,1f)]
+		protected float strafeTurningSpeedScale = 1f;
 		
 		public float normalizedForwardStrafeSpeed
 		{
@@ -376,6 +388,11 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		public int strafeInputWindowSize
 		{
 			get { return strafeInputSamples; }
+		}
+		
+		public float strafeTurningSpeed
+		{
+			get { return strafeTurningSpeedScale; }
 		}
 	}
 }

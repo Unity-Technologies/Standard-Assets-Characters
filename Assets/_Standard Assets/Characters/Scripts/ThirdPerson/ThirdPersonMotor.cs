@@ -496,7 +496,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			Quaternion newRotation =
 				Quaternion.RotateTowards(transform.rotation, targetRotation,
-										 configuration.turningYSpeed * Time.deltaTime);
+								configuration.turningYSpeed * configuration.strafeTurningSpeedScale * Time.deltaTime);
 
 			SetTurningSpeed(transform.rotation, newRotation);
 
