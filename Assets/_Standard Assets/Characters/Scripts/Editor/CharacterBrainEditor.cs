@@ -73,7 +73,7 @@ namespace Editor
 			SerializedProperty animationConfig = serializedObject.FindProperty(k_AnimationConfig);
 			if (animationConfig != null)
 			{
-				animationConfig.DrawExtended(typeof(AnimationConfig));
+				animationConfig.DrawExtended();
 			}
 		}
 
