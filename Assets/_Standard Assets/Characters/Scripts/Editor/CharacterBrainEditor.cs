@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using StandardAssets.Characters.Common;
 using StandardAssets.Characters.Examples.SimpleMovementController;
 using StandardAssets.Characters.FirstPerson;
@@ -60,15 +61,32 @@ namespace Editor
 		                       k_BlendspaceTurnaroundName = "blendspaceTurnaroundBehaviour";
 
 		protected override string[] GetOpenCharacterControllerExclusions()
-		{	
-			return new string[]
-				{k_CharacterControllerAdapterName, k_AnimationTurnaroundName, k_BlendspaceTurnaroundName};
+		{
+			List<string> exclusionList = new List<string> {k_CharacterControllerAdapterName};
+			exclusionList.AddRange(GetTurnaroundExclusions());
+			return exclusionList.ToArray();
 		}
 
 		protected override string[] GetCharacterControllerExclusions()
 		{
-			return new string[]
-				{k_OpenCharacterControllerAdapterName, k_AnimationTurnaroundName, k_BlendspaceTurnaroundName};
+			List<string> exclusionList = new List<string> {k_OpenCharacterControllerAdapterName};
+			exclusionList.AddRange(GetTurnaroundExclusions());
+			return exclusionList.ToArray();
+		}
+
+		private List<string> GetTurnaroundExclusions()
+		{
+			ThirdPersonBrain brain = target as ThirdPersonBrain;
+
+			switch (brain.typeOfTurnaround)
+			{
+				case TurnaroundType.Animation:
+					return new List<string>() {k_BlendspaceTurnaroundName};
+				case TurnaroundType.Blendspace:
+					return new List<string>() {k_AnimationTurnaroundName};
+				default:
+					return new List<string>() {k_AnimationTurnaroundName, k_BlendspaceTurnaroundName};
+			}
 		}
 	}
 }

@@ -29,9 +29,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		[Header("Third Person Brain")]
 		[SerializeField, Tooltip("Set to true if you do not want to use the Camera animation manager"), DisableEditAtRuntime()]
 		protected bool useSimpleCameras;
-		
-		[SerializeField, VisibleIf("useSimpleCameras",false), Tooltip("The camera animation manager to use")]
-		protected ThirdPersonCameraController cameraController;
+
 		
 		[SerializeField, Tooltip("Properties of the root motion motor")]
 		protected ThirdPersonMotor motor;
@@ -84,6 +82,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private bool isTryingStrafe;
 
+		//the camera controller to be used
+		private ThirdPersonCameraController cameraController;
 		private bool isChangingCamera;
 
 		private bool triggeredRapidDirectionChange;
@@ -99,6 +99,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		public ThirdPersonMotor thirdPersonMotor
 		{
 			get { return motor; }
+		}
+		
+		public TurnaroundType typeOfTurnaround
+		{
+			get { return turnaroundType; }
 		}
 
 		public TurnaroundBehaviour turnaround { get; private set; }
