@@ -687,7 +687,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				return true;
 			}
-			if (!IsGrounded || controllerAdapter.startedSlide || !thirdPersonBrain.isRootMotionState)
+			if (!IsGrounded || controllerAdapter.startedSlide || !thirdPersonBrain.isRootMotionState 
+			    || movementMode == ThirdPersonMotorMovementMode.Strafe)
 			{
 				return false;
 			}
