@@ -4,6 +4,7 @@ using StandardAssets.Characters.Examples.SimpleMovementController;
 using StandardAssets.Characters.FirstPerson;
 using StandardAssets.Characters.Physics;
 using StandardAssets.Characters.ThirdPerson;
+using StandardAssets.Characters.ThirdPerson.Configs;
 using UnityEditor;
 using UnityEngine;
 
@@ -58,7 +59,8 @@ namespace Editor
 	public class ThirdPersonBrainEditor : CharacterBrainEditor
 	{
 		protected const string k_AnimationTurnaroundName = "animationTurnaroundBehaviour",
-		                       k_BlendspaceTurnaroundName = "blendspaceTurnaroundBehaviour";
+		                       k_BlendspaceTurnaroundName = "blendspaceTurnaroundBehaviour",
+		                       k_AnimationConfig = "configuration";
 
 		protected const string k_Help =
 			"Configurations are separate assets (ScriptableObjects). Click on the associated configuration to locate it in the Project View. Values can be edited here during runtime and not be lost. It also allows one to create different settings and swap between them. To create a new setting Right click -> Create -> Standard Assets -> Characters -> ...";
@@ -67,12 +69,19 @@ namespace Editor
 		{
 			EditorGUILayout.HelpBox(k_Help, MessageType.Info);
 			base.OnInspectorGUI();
+			
+			SerializedProperty animationConfig = serializedObject.FindProperty(k_AnimationConfig);
+			if (animationConfig != null)
+			{
+				animationConfig.DrawExtended(typeof(AnimationConfig));
+			}
 		}
 
 		protected override string[] GetOpenCharacterControllerExclusions()
 		{
 			List<string> exclusionList = new List<string> {k_CharacterControllerAdapterName};
 			exclusionList.AddRange(GetTurnaroundExclusions());
+			exclusionList.Add(k_AnimationConfig);
 			return exclusionList.ToArray();
 		}
 
