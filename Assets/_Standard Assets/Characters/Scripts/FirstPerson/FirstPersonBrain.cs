@@ -55,7 +55,6 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// The state that first person motor starts in
 		/// </summary>
-		[Header("First Person Brain")]
 		[SerializeField, Tooltip("Movement properties of the character while walking")]
 		protected MovementProperties walking;
 
@@ -81,10 +80,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// The movement state is passed to the camera manager so that there can be different cameras e.g. crouch
 		/// </summary>
-		[SerializeField,
-		 Tooltip(
-			 "The movement state is passed to the camera manager so that there can be different cameras e.g. crouch")]
-		protected FirstPersonCameraController firstPersonCameraController;
+		private FirstPersonCameraController firstPersonCameraController;
 
 		/// <summary>
 		/// The current movement properties
@@ -185,7 +181,6 @@ namespace StandardAssets.Characters.FirstPerson
 		{
 			if (firstPersonCameraController == null)
 			{
-				Debug.LogWarning("Camera Animation Manager not set - looking in scene");
 				FirstPersonCameraController[] firstPersonCameraControllers =
 					FindObjectsOfType<FirstPersonCameraController>();
 

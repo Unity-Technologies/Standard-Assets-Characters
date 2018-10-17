@@ -60,6 +60,15 @@ namespace Editor
 		protected const string k_AnimationTurnaroundName = "animationTurnaroundBehaviour",
 		                       k_BlendspaceTurnaroundName = "blendspaceTurnaroundBehaviour";
 
+		protected const string k_Help =
+			"Configurations are separate assets (ScriptableObjects). Click on the associated configuration to locate it in the Project View. Values can be edited here during runtime and not be lost. It also allows one to create different settings and swap between them. To create a new setting Right click -> Create -> Standard Assets -> Characters -> ...";
+
+		public override void OnInspectorGUI()
+		{
+			EditorGUILayout.HelpBox(k_Help, MessageType.Info);
+			base.OnInspectorGUI();
+		}
+
 		protected override string[] GetOpenCharacterControllerExclusions()
 		{
 			List<string> exclusionList = new List<string> {k_CharacterControllerAdapterName};
