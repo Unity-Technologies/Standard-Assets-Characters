@@ -22,7 +22,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			Landing
 		}
 		
-		[SerializeField, Tooltip("Set to true if you do not want to use the Camera animation manager"), DisableEditAtRuntime()]
+		[SerializeField, Tooltip("Set to true if you do not want to use the Camera animation manager")]
 		protected bool useSimpleCameras;
 		
 		[SerializeField, Tooltip("Properties of the root motion motor")]
