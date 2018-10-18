@@ -26,7 +26,20 @@ namespace Editor
 		public static void DrawExtendedScriptableObject(this SerializedObject serializedObject, string scriptableObjectName, string[] exclusions = null,
 		                                BindingFlags bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance)
 		{
-			SerializedProperty property = serializedObject.FindProperty(scriptableObjectName);
+			string[] properties = scriptableObjectName.Split('.');
+			SerializedProperty property = null;
+			foreach (string s in properties)
+			{
+				if (property == null)
+				{
+					property = serializedObject.FindProperty(s);
+				}
+				else
+				{
+					property = property.FindPropertyRelative(s);
+				}
+			}
+			
 			if (property == null || property.propertyType != SerializedPropertyType.ObjectReference || 
 			    (property.objectReferenceValue != null && !(property.objectReferenceValue is ScriptableObject)))
 			{
