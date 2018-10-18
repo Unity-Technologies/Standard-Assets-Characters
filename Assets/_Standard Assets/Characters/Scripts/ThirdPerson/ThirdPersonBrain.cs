@@ -621,7 +621,11 @@ namespace StandardAssets.Characters.ThirdPerson
 				if (triggeredRapidDirectionChange)
 				{
 					rapidStrafeTime += deltaTime;
-	
+					float progress = configuration.strafeRapidChangeSpeedCurve.Evaluate(
+						rapidStrafeTime / rapidStrafeChangeDuration);
+					float current = Mathf.Clamp(1.0f - (2.0f * progress), -1.0f, 1.0f);
+					animator.SetFloat(hashSpeedMultiplier, current);
+
 					CheckForStrafeRapidDirectionChangeComplete(deltaTime);
 					return;
 				}
@@ -630,7 +634,6 @@ namespace StandardAssets.Characters.ThirdPerson
 				float angle = (Vector2.Angle(input.moveInput, new Vector2(animatorLateralSpeed, animatorForwardSpeed)));
 				if (angle >= configuration.strafeRapidChangeAngleThreshold)
 				{
-					animator.SetFloat(hashSpeedMultiplier, -1.0f);
 					triggeredRapidDirectionChange = !CheckForStrafeRapidDirectionChangeComplete(deltaTime);
 					rapidStrafeTime = 0.0f;
 					return;

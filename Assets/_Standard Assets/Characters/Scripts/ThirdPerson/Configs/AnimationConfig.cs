@@ -25,6 +25,9 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		[SerializeField, Tooltip("The angle threshold used to trigger a strafe rapid direction change.")]
 		protected float strafeRapidDirectionChangeAngle = 140.0f;
 
+		[SerializeField, Tooltip("The curve used to change animator movement speeds during a strafe rapid direction change")]
+		protected AnimationCurve strafeRapidDirectionChangeSpeedCurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
+
 		[Header("Jumping")]
 		[SerializeField, Tooltip("Curve used to determine the cross fade duration of the transition into the jump " +
 								 "animation state")]
@@ -87,6 +90,14 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			get { return strafeRapidDirectionChangeAngle; }
 		}
 		
+		/// <summary>
+		/// Gets the curve used to interpolate animator movement speeds during a strafe rapid direction change.
+		/// </summary>
+		public AnimationCurve strafeRapidChangeSpeedCurve
+		{
+			get { return strafeRapidDirectionChangeSpeedCurve; }
+		}
+
 		/// <summary>
 		/// Gets the forward speed parameter configuration
 		/// </summary>
