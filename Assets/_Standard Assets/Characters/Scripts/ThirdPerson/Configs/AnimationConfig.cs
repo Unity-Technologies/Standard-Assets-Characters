@@ -33,9 +33,6 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 								 "animation state")]
 		protected AnimationCurve jumpTransitionAsAFactorOfSpeed = AnimationCurve.Constant(0, 1, 0.15f);
 
-		[SerializeField, Tooltip("Duration, in seconds, of crossfade into root motion jump.")]
-		protected float rootMotionJumpTransitionDuration = 0.25f;
-
 		[SerializeField, Tooltip("Curve used to determine the cross fade duration of the transition into the " +
 								 "locomotion animation from the jump animation state")]
 		protected AnimationCurve jumpEndTransitionDurationByForwardSpeed = AnimationCurve.Linear(0,0,1,0.125f);
@@ -277,14 +274,6 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		public AnimationCurve jumpTransitionDurationFactorOfSpeed
 		{
 			get { return jumpTransitionAsAFactorOfSpeed; }
-		}
-		
-		/// <summary>
-		/// Gets the duration of the crossfade to a root motion jump.
-		/// </summary>
-		public float rootMotionJumpCrossfadeDuration
-		{
-			get { return rootMotionJumpTransitionDuration; }
 		}
 
 		/// <summary>
