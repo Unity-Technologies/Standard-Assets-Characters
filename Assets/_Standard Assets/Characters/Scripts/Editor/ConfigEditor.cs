@@ -53,6 +53,13 @@ namespace Editor
 		
 		protected override string[] GetExclusions()
 		{
+			AnimationConfig config =  target as AnimationConfig;
+
+			if (config.enableHeadLookAt)
+			{
+				return new string[0];
+			}
+			
 			return new string[]
 			{
 				k_HeadTurn
