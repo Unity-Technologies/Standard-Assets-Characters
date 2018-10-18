@@ -53,34 +53,10 @@ namespace Editor
 				if (property.isExpanded)
 				{
 					// Draw a background that shows us clearly which fields are part of the ScriptableObject
-
-					EditorGUI.indentLevel++;
-					var data = (ScriptableObject) property.objectReferenceValue;
-					SerializedObject newSerializedObject = new SerializedObject(data);
-
 					GUI.Box(EditorGUILayout.BeginVertical(), GUIContent.none);
-					// Iterate over all the values and draw them
-					SerializedProperty prop = newSerializedObject.GetIterator();
-					if (prop.NextVisible(true))
-					{
-						do
-						{
-							// Don't bother drawing the class file
-							if (prop.name == "m_Script" || (exclusions != null && exclusions.Contains(prop.name)))
-							{
-								continue;
-							}
-							EditorGUILayout.PropertyField(prop, true);
-						} while (prop.NextVisible(false));
-					}
+					UnityEditor.Editor editor = UnityEditor.Editor.CreateEditor(property.objectReferenceValue);
+					editor.OnInspectorGUI();
 					EditorGUILayout.EndVertical();
-
-					if (GUI.changed)
-					{
-						newSerializedObject.ApplyModifiedProperties();
-					}
-
-					EditorGUI.indentLevel--;
 				}
 			}
 			else
