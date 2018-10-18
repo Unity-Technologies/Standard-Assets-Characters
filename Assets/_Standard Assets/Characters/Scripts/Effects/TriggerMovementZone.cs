@@ -10,8 +10,8 @@ namespace StandardAssets.Characters.Effects
 	[RequireComponent(typeof(Collider))]
 	public class TriggerMovementZone : MonoBehaviour
 	{
-		[MovementZoneId, SerializeField]
-		protected string zoneId;
+		[SerializeField]
+		protected MovementZoneId zoneId;
 		
 		/// <summary>
 		/// Change the movement event library on trigger enter
@@ -64,7 +64,7 @@ namespace StandardAssets.Characters.Effects
 				return;
 			}
 			
-			brain.ChangeMovementZone(string.Empty);
+			brain.ChangeMovementZone(null);
 		}
 	}
 }

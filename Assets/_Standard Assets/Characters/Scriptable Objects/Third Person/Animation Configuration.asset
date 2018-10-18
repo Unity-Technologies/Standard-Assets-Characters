@@ -20,6 +20,7 @@ MonoBehaviour:
   turningSpeedInterpolationRange:
     minValue: 0.01
     maxValue: 0.05
+  strafeRapidDirectionChangeAngle: 140
   strafeRapidDirectionChangeSpeedCurve:
     serializedVersion: 2
     m_Curve:
@@ -68,7 +69,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  rootMotionJumpTransitionDuration: 0.25
   jumpEndTransitionDurationByForwardSpeed:
     serializedVersion: 2
     m_Curve:

@@ -10,8 +10,8 @@ namespace StandardAssets.Characters.Effects.Configs
 		menuName = "Standard Assets/Characters/Level Movement Zone Configuration", order = 1)]
 	public class LevelMovementZoneConfig : ScriptableObject
 	{
-		[MovementZoneId(), SerializeField, Tooltip("The default movement event zone ID")]
-		protected string defaultZoneId;
+		[SerializeField, Tooltip("The default movement event zone ID")]
+		protected MovementZoneId defaultZoneId;
 		
 		[SerializeField, Tooltip("List of movement event libraries for different movement zones")]
 		protected MovementEventZoneDefinitionList zonesDefinition;
@@ -21,7 +21,7 @@ namespace StandardAssets.Characters.Effects.Configs
 		/// </summary>
 		/// <param name="zoneId">The zoneId needed to look up the <see cref="MovementEventLibrary"/></param>
 		/// <value>Gets the <see cref="MovementEventLibrary"/> for a specified zoneId. returns null if the zoneId does not have an associated <see cref="MovementEventLibrary"/></value>
-		public MovementEventLibrary this[string zoneId]
+		public MovementEventLibrary this[MovementZoneId? zoneId]
 		{
 			get
 			{
@@ -40,7 +40,7 @@ namespace StandardAssets.Characters.Effects.Configs
 		/// <summary>
 		/// Gets the default Ids
 		/// </summary>
-		public string defaultId
+		public MovementZoneId defaultId
 		{
 			get { return defaultZoneId; }
 		}

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using StandardAssets.Characters.ThirdPerson.Configs;
 using UnityEditor;
+using UnityEngine;
 
 namespace Editor
 {
@@ -10,6 +11,11 @@ namespace Editor
 		public override void OnInspectorGUI()
 		{
 			DrawPropertiesExcluding(serializedObject, GetExclusions());
+			
+			if (GUI.changed)
+			{
+				serializedObject.ApplyModifiedProperties();
+			}
 		}
 
 		protected abstract string[] GetExclusions();

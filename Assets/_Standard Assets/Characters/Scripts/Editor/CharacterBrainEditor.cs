@@ -32,6 +32,11 @@ namespace Editor
 			{
 				Debug.LogError("Could not find OpenCharacterController or CharacterController");
 			}
+			
+			if (GUI.changed)
+			{
+				serializedObject.ApplyModifiedProperties();
+			}
 		}
 
 		protected virtual string[] GetOpenCharacterControllerExclusions()

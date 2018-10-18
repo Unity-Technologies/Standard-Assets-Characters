@@ -11,10 +11,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 979c01115def454ba10ad1af450a9bdf, type: 3}
   m_Name: Level Movement Zone Configuration
   m_EditorClassIdentifier: 
-  defaultZoneId: concrete
+  defaultZoneId: 0
   zonesDefinition:
     movementZoneLibraries:
-    - zoneId: concrete
+    - zoneId: 0
       zoneLibrary:
         leftFootStepPrefab: {fileID: 114311900519629896, guid: a0865b7ba94ac4fd49e0ca925b0e000d,
           type: 2}
@@ -24,7 +24,7 @@ MonoBehaviour:
           type: 2}
         jumpingPrefab: {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868,
           type: 2}
-    - zoneId: metal
+    - zoneId: 1
       zoneLibrary:
         leftFootStepPrefab: {fileID: 114311900519629896, guid: 7768038ceb1534eb290b18f8f1b9fc91,
           type: 2}
