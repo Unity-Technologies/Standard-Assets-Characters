@@ -195,6 +195,16 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			get { return maxFallDistance; }
 		}
 
+		public bool customActionParametersToBeUsed
+		{
+			get { return useCustomActionParameters; }
+		}
+		
+		public bool customStrafeParametersToBeUsed
+		{
+			get { return useCustomStrafeParameters; }
+		}
+
 		/// <summary>
 		/// Gets the maximum normalized forward speed during strafe.
 		/// </summary>
