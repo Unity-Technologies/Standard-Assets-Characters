@@ -206,8 +206,6 @@ namespace StandardAssets.Characters.ThirdPerson
 				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
 				groundMovementVector.y = 0.0f;
 				
-				groundMovementVector *= thirdPersonBrain.currentRootMotionModifier;
-				
 				controllerAdapter.Move(groundMovementVector, Time.deltaTime);
 				
 				//Update the average movement speed
