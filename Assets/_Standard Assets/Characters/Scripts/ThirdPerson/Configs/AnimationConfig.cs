@@ -81,7 +81,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		[SerializeField]
 		protected bool enableHeadTurn = true;
 
-		[VisibleIf("disableHeadTurn",false)]
+		[VisibleIf("enableHeadTurn")]
 		[SerializeField, Tooltip("Configuration for the head turning/looking")]
 		protected HeadTurnProperties headTurnProperties;
 

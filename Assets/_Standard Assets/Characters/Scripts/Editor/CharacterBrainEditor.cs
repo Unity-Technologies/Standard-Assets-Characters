@@ -70,11 +70,7 @@ namespace Editor
 			EditorGUILayout.HelpBox(k_Help, MessageType.Info);
 			base.OnInspectorGUI();
 			
-			SerializedProperty animationConfig = serializedObject.FindProperty(k_AnimationConfig);
-			if (animationConfig != null)
-			{
-				animationConfig.DrawExtended();
-			}
+			serializedObject.DrawExtendedScriptableObject(k_AnimationConfig);
 		}
 
 		protected override string[] GetOpenCharacterControllerExclusions()

@@ -1,8 +1,9 @@
-// Developed by Tom Kail at Inkle
+// Based off of work developed by Tom Kail at Inkle
 // Released under the MIT Licence as held at https://opensource.org/licenses/MIT
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
@@ -10,23 +11,36 @@ using UnityEngine;
 namespace Editor
 {
 	/// <summary>
-	/// <see cref="ScriptableObject"/> editor extensions.
+	/// <see cref="SerializedObject"/> extensions.
 	/// </summary>
-	public static class ScriptableObjectExtensions
+	public static class SerializedObjectExtensions
 	{
 		/// <summary>
 		/// Draws all values under the object reference. Provides a button to create a new ScriptableObject
 		/// if the field is null.
 		/// </summary>
-		/// <param name="property">The SerializedProperty to draw</param>
-		/// <param name="bindingFlags">The flags used to filed the field type.</param>
-		public static void DrawExtended(this SerializedProperty property, 
+		/// <param name="serializedObject">The serializedProperty containing the ScriptableObject.</param>
+		/// <param name="scriptableObjectName">The field name of the ScriptableObject to draw.</param>
+		/// <param name="exclusions">A list of field names to exclude.</param>
+		/// <param name="bindingFlags">The flags used to find the field's type through reflection.</param>
+		public static void DrawExtendedScriptableObject(this SerializedObject serializedObject, string scriptableObjectName, string[] exclusions = null,
 		                                BindingFlags bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance)
 		{
+			SerializedProperty property = serializedObject.FindProperty(scriptableObjectName);
+			if (property == null || property.propertyType != SerializedPropertyType.ObjectReference || 
+			    (property.objectReferenceValue != null && !(property.objectReferenceValue is ScriptableObject)))
+			{
+				Debug.LogErrorFormat(serializedObject.targetObject, "ScriptableObject with name: {0} not found on {1}", 
+				                     scriptableObjectName, serializedObject.targetObject);
+				return;
+			}
 			if (property.objectReferenceValue != null)
 			{
-				//property.isExpanded = EditorGUILayout.Foldout(property.isExpanded, property.displayName, true);
+				GUILayout.BeginHorizontal();
+				property.isExpanded = EditorGUILayout.Foldout(property.isExpanded, property.displayName, true);
 				EditorGUILayout.PropertyField(property, GUIContent.none, true);
+				GUILayout.EndHorizontal();
+				
 				if (GUI.changed)
 				{
 					property.serializedObject.ApplyModifiedProperties();
@@ -42,29 +56,28 @@ namespace Editor
 
 					EditorGUI.indentLevel++;
 					var data = (ScriptableObject) property.objectReferenceValue;
-					SerializedObject serializedObject = new SerializedObject(data);
+					SerializedObject newSerializedObject = new SerializedObject(data);
 
+					GUI.Box(EditorGUILayout.BeginVertical(), GUIContent.none);
 					// Iterate over all the values and draw them
-					SerializedProperty prop = serializedObject.GetIterator();
-					float y = EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+					SerializedProperty prop = newSerializedObject.GetIterator();
 					if (prop.NextVisible(true))
 					{
 						do
 						{
 							// Don't bother drawing the class file
-							if (prop.name == "m_Script")
+							if (prop.name == "m_Script" || (exclusions != null && exclusions.Contains(prop.name)))
 							{
 								continue;
 							}
-							float height = EditorGUI.GetPropertyHeight(prop, new GUIContent(prop.displayName), true);
 							EditorGUILayout.PropertyField(prop, true);
-							y += height + EditorGUIUtility.standardVerticalSpacing;
 						} while (prop.NextVisible(false));
 					}
+					EditorGUILayout.EndVertical();
 
 					if (GUI.changed)
 					{
-						serializedObject.ApplyModifiedProperties();
+						newSerializedObject.ApplyModifiedProperties();
 					}
 
 					EditorGUI.indentLevel--;
@@ -124,8 +137,20 @@ namespace Editor
 			EditorGUIUtility.PingObject(asset);
 			return asset;
 		}
-		
-		private static Type GetType(this SerializedProperty property, BindingFlags bindingFlags)
+	}
+
+	/// <summary>
+	/// <see cref="SerializedProperty"/> extensions.
+	/// </summary>
+	public static class SerializedPropertyExtensions
+	{
+		/// <summary>
+		/// Gets the type of a <see cref="SerializedProperty"/>.
+		/// </summary>
+		/// <param name="property">The property to query.</param>
+		/// <param name="bindingFlags">The flags used to find the field's type through reflection.</param>
+		/// <returns></returns>
+		public static Type GetType(this SerializedProperty property, BindingFlags bindingFlags)
 		{
 			Type containingType = property.serializedObject.targetObject.GetType();
 			FieldInfo fieldInfo = containingType.GetField(property.propertyPath, bindingFlags);
