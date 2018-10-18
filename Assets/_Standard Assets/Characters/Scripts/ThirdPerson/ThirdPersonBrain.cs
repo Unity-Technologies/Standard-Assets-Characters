@@ -18,7 +18,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			Locomotion,
 			PhysicsJump,
-			RootMotionJump,
 			Falling,
 			Landing
 		}
@@ -83,9 +82,6 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private bool triggeredRapidDirectionChange;
 		private int framesToWait;
-
-		private const float k_StrafeRapidDirectionChangeRangeMargin = 0.025f,
-		                    k_StrafeRapidDirectionChangeRangeStartInMargin = 0.05f;
 
 		private IThirdPersonInput input;
 
@@ -199,7 +195,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			get
 			{
 				return animatorState == AnimatorState.Locomotion ||
-				       animatorState == AnimatorState.RootMotionJump ||
 				       animatorState == AnimatorState.Landing;
 			}
 		}
@@ -267,7 +262,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <remarks>Should only be called by a locomotion StateMachineBehaviour</remarks>
 		public void OnLocomotionAnimationEnter()
 		{
-			if (animatorState == AnimatorState.RootMotionJump || animatorState == AnimatorState.Falling)
+			if (animatorState == AnimatorState.Falling)
 			{
 				animatorState = AnimatorState.Locomotion;
 			}
@@ -337,7 +332,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 			//Just for build testing
 			//TODO remove
-			if (UnityEngine.Input.GetKeyDown(KeyCode.T))
+			if (Input.GetKeyDown(KeyCode.T))
 			{
 				turnaroundType = turnaroundType == TurnaroundType.Animation ? TurnaroundType.None : turnaroundType + 1;
 				turnaround = GetCurrentTurnaroundBehaviour();
@@ -735,46 +730,21 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			isGrounded = false;
 
-			float jumpForward = animatorForwardSpeed;
-			SetJumpForward(jumpForward);
+			float movementMagnitude = new Vector2(animatorLateralSpeed, animatorForwardSpeed).magnitude;
+			SetJumpForward(animatorForwardSpeed);
 			bool rightFoot = animator.GetBool(hashGroundedFootRight);
-
-			// is it a root motion or physics jump
-			if (Mathf.Abs(motor.normalizedLateralSpeed) <= Mathf.Abs(motor.normalizedForwardSpeed)
-			    && motor.normalizedForwardSpeed >= 0.0f) // forward jump: physics
+			
+			float duration = configuration.jumpTransitionDurationFactorOfSpeed.Evaluate(movementMagnitude);
+			// keep track of the last jump so legs can be alternated if necessary. ie a skip.
+			if (timeOfLastPhysicsJumpLand + configuration.skipJumpWindow >= Time.time)
 			{
-				float duration = configuration.jumpTransitionDurationFactorOfSpeed.Evaluate(jumpForward);
-				// keep track of the last jump so legs can be alternated if necessary. ie a skip.
-				if (timeOfLastPhysicsJumpLand + configuration.skipJumpWindow >= Time.time)
-				{
-					rightFoot = !lastPhysicsJumpRightRoot;
-				}
-
-				animator.SetFloat(hashJumpedLateralSpeed, 0.0f);
-				animator.CrossFade(
-					rightFoot ? AnimationControllerInfo.k_RightFootJumpState : AnimationControllerInfo.k_LeftFootJumpState, duration);
-				lastPhysicsJumpRightRoot = rightFoot;
+				rightFoot = !lastPhysicsJumpRightRoot;
 			}
-			else // lateral or backwards jump;: root motion
-			{
-				// disallow diagonal jumps
-				if (Mathf.Abs(motor.normalizedForwardSpeed) > Mathf.Abs(motor.normalizedLateralSpeed))
-				{
-					animator.SetFloat(hashJumpedForwardSpeed, motor.normalizedForwardSpeed);
-					animator.SetFloat(hashJumpedLateralSpeed, 0.0f);
-				}
-				else
-				{
-					animator.SetFloat(hashJumpedLateralSpeed, motor.normalizedLateralSpeed);
-					animator.SetFloat(hashJumpedForwardSpeed, 0.0f);
-				}
-
-				animator.CrossFadeInFixedTime(rightFoot
-					                              ? AnimationControllerInfo.k_RightFootRootMotionJumpState
-					                              : AnimationControllerInfo.k_LeftFootRootMotionJumpState,
-				                              configuration.rootMotionJumpCrossfadeDuration);
-				animatorState = AnimatorState.RootMotionJump;
-			}
+			animator.SetFloat(hashJumpedLateralSpeed, 0.0f);
+			animator.CrossFade(rightFoot ? 
+				                   AnimationControllerInfo.k_RightFootJumpState : 
+				                   AnimationControllerInfo.k_LeftFootJumpState, duration);
+			lastPhysicsJumpRightRoot = rightFoot;
 		}
 
 		private bool IsNormalizedTimeCloseToZeroOrHalf(float margin, out float timeUntilZeroOrHalf)

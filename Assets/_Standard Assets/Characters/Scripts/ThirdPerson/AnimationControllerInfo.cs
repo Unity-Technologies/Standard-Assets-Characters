@@ -7,8 +7,6 @@ namespace StandardAssets.Characters.ThirdPerson
 	{
 		public const string k_LocomotionState = "Action Locomotion",
 		                    k_StrafeLocomotionState = "Strafe Locomotion",
-		                    k_RightFootRootMotionJumpState = "RightFootRootMotionJump",
-		                    k_LeftFootRootMotionJumpState = "LeftFootRootMotionJump",
 		                    k_RightFootJumpState = "RightFootPhysicsJump",
 		                    k_LeftFootJumpState = "LeftFootPhysicsJump",
 		                    k_RollLandState = "RollLand",
