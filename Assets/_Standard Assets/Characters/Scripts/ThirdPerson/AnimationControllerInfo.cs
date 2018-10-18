@@ -11,7 +11,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		                    k_LeftFootJumpState = "LeftFootPhysicsJump",
 		                    k_RollLandState = "RollLand",
 		                    k_LandState = "Land";
-		
+
 		public const string k_JumpedLateralSpeedParameter = "JumpedLateralSpeed",
 		                    k_GroundedFootRightParameter = "OnRightFoot",
 		                    k_JumpedForwardSpeedParameter = "JumpedForwardSpeed",
@@ -20,6 +20,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		                    k_FallParameter = "Fall",
 		                    k_ForwardSpeedParameter = "ForwardSpeed",
 		                    k_LateralSpeedParameter = "LateralSpeed",
-		                    k_TurningSpeedParameter = "TurningSpeed";
+		                    k_TurningSpeedParameter = "TurningSpeed",
+		                    k_SpeedMultiplier = "SpeedMultiplier";
 	}
 }

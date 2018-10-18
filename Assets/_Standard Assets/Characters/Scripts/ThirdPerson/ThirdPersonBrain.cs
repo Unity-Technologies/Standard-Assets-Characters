@@ -55,6 +55,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private int hashJumpedLateralSpeed;
 		private int hashFall;
 		private int hashStrafe;
+		private int hashSpeedMultiplier;
 
 		// is the character grounded
 		private bool isGrounded;
@@ -150,11 +151,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		/// <value>The current <see cref="AnimatorState"/></value>
 		public AnimatorState animatorState { get; private set; }
-
-		/// <summary>
-		/// Gets the current root motion movement modifier.
-		/// </summary>
-		public float currentRootMotionModifier { get; private set; }
 
 		/// <summary>
 		/// Gets the character animator.
@@ -544,9 +540,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			hashJumpedLateralSpeed = Animator.StringToHash(AnimationControllerInfo.k_JumpedLateralSpeedParameter);
 			hashStrafe = Animator.StringToHash(AnimationControllerInfo.k_StrafeParameter);
 			hashFall = Animator.StringToHash(AnimationControllerInfo.k_FallParameter);
+			hashSpeedMultiplier = Animator.StringToHash(AnimationControllerInfo.k_SpeedMultiplier);
 			animator = GetComponent<Animator>();
 			cachedAnimatorSpeed = animator.speed;
-			currentRootMotionModifier = 1.0f;
 		}
 
 		/// <summary>
@@ -619,16 +615,17 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		private void UpdateAnimationMovementSpeeds(float deltaTime)
 		{
-			if (motor.movementMode == ThirdPersonMotorMovementMode.Strafe)
+			if (motor.movementMode == ThirdPersonMotorMovementMode.Strafe && 
+			    new Vector2(animatorLateralSpeed, animatorForwardSpeed).magnitude > 0.5f)
 			{
 				if (triggeredRapidDirectionChange)
 				{
+					rapidStrafeTime += deltaTime;
 					float progress = configuration.strafeRapidChangeSpeedCurve.Evaluate(
 						rapidStrafeTime / rapidStrafeChangeDuration);
 					float current = Mathf.Clamp(1.0f - (2.0f * progress), -1.0f, 1.0f);
-					currentRootMotionModifier = current;
-					rapidStrafeTime += deltaTime;
-	
+					animator.SetFloat(hashSpeedMultiplier, current);
+
 					CheckForStrafeRapidDirectionChangeComplete(deltaTime);
 					return;
 				}
@@ -658,7 +655,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				animator.SetFloat(hashLateralSpeed, -animatorLateralSpeed);
 				animator.SetFloat(hashForwardSpeed, -animatorForwardSpeed);
 				triggeredRapidDirectionChange = false;
-				currentRootMotionModifier = 1.0f;
+				animator.SetFloat(hashSpeedMultiplier, 1.0f);;
 				return true;
 			}
 			return false;

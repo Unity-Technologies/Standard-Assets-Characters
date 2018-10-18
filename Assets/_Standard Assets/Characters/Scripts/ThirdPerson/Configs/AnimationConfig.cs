@@ -24,7 +24,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 
 		[SerializeField, Tooltip("The angle threshold used to trigger a strafe rapid direction change.")]
 		protected float strafeRapidDirectionChangeAngle = 140.0f;
-		
+
 		[SerializeField, Tooltip("The curve used to change animator movement speeds during a strafe rapid direction change")]
 		protected AnimationCurve strafeRapidDirectionChangeSpeedCurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
 
