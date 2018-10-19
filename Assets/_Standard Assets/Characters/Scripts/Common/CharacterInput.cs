@@ -92,8 +92,8 @@ namespace StandardAssets.Characters.Common
 		protected virtual void Awake()
 		{
 			CinemachineCore.GetInputAxis = LookInputOverride;
-			controls.Movement.move.performed += context => moveInput = ConditionMoveInput(context.ReadValue<Vector2>());
-			controls.Movement.look.performed += context => lookInput = context.ReadValue<Vector2>();
+			controls.Movement.move.performed += OnMove;
+			controls.Movement.look.performed += OnLook;
 			controls.Movement.jump.performed += OnJumpInput;
 			controls.Movement.sprint.performed += OnSprintInput;
 			RegisterAdditionalInputs();
@@ -158,17 +158,32 @@ namespace StandardAssets.Characters.Common
 		/// <summary>
 		/// Handles the jump event from the new input system
 		/// </summary>
-		/// <param name="context">context is required by the performed event</param>
+		/// <param name="context">Information provided to callback about the jump action.</param>
 		private void OnJumpInput(InputAction.CallbackContext context)
 		{
 			hasJumpInput = !hasJumpInput;
-			if (hasJumpInput)
+			if (hasJumpInput && jumpPressed != null)
 			{
-				if (jumpPressed != null)
-				{
-					jumpPressed();
-				}
+				jumpPressed();
 			}
+		}
+		
+		/// <summary>
+		/// Assigns <see cref="moveInput"/> based on the move action callback information.
+		/// </summary>
+		/// <param name="context">Information provided to callback about the move action.</param>
+		private void OnMove(InputAction.CallbackContext context)
+		{
+			moveInput = ConditionMoveInput(context.ReadValue<Vector2>());
+		}
+
+		/// <summary>
+		/// Assigns <see cref="lookInput"/> based on the look callback information.
+		/// </summary>
+		/// <param name="context">Information provided to callback about the look action.</param>
+		private void OnLook(InputAction.CallbackContext context)
+		{
+			lookInput = context.ReadValue<Vector2>();
 		}
 		
 		/// <summary>
@@ -184,7 +199,7 @@ namespace StandardAssets.Characters.Common
 		/// </summary>
 		protected virtual void Update()
 		{
-			if (UnityEngine.Input.GetKeyDown(KeyCode.Escape))
+			if (Input.GetKeyDown(KeyCode.Escape))
 			{
 				cursorLocked = !cursorLocked;
 				HandleCursorLock();
