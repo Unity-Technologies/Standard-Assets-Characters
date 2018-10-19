@@ -613,10 +613,16 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 		
+		/// <summary>
+		/// Updates hr animator's forward and lateral speeds. If <see cref="AnimationConfig.enableStrafeRapidDirectionChangeSmoothing"/>
+		/// is enabled special smoothing logic is performed when a strafe rapid direction change is detected.
+		/// </summary>
 		private void UpdateAnimationMovementSpeeds(float deltaTime)
 		{
-			if (motor.movementMode == ThirdPersonMotorMovementMode.Strafe && 
-			    new Vector2(animatorLateralSpeed, animatorForwardSpeed).magnitude > 0.5f)
+			// if in strafe move and moving enough perform strafe rapid direction change logic
+			if (configuration.enableStrafeRapidDirectionChangeSmoothingLogic &&
+			    motor.movementMode == ThirdPersonMotorMovementMode.Strafe && 
+			    (Mathf.Abs(animatorLateralSpeed) >= 0.5f || Mathf.Abs(animatorForwardSpeed) >= 0.5f))
 			{
 				if (triggeredRapidDirectionChange)
 				{
@@ -655,7 +661,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				animator.SetFloat(hashLateralSpeed, -animatorLateralSpeed);
 				animator.SetFloat(hashForwardSpeed, -animatorForwardSpeed);
 				triggeredRapidDirectionChange = false;
-				animator.SetFloat(hashSpeedMultiplier, 1.0f);;
+				animator.SetFloat(hashSpeedMultiplier, 1.0f);
 				return true;
 			}
 			return false;

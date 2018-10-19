@@ -22,6 +22,11 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		[SerializeField, Tooltip("Configuration for the turning speed animation parameter")]
 		protected FloatRange turningSpeedInterpolationRange;
 
+		[SerializeField, Tooltip("Should a strafe rapid direction change be detected and smoothed. This should only " +
+		                         "be enabled if apposing strafe animations are reverses of each other. eg walk " +
+		                         "backwards is walk forward played at a -1 speed.")]
+		protected bool enableStrafeRapidDirectionChangeSmoothing = true;
+		
 		[SerializeField, Tooltip("The angle threshold used to trigger a strafe rapid direction change.")]
 		protected float strafeRapidDirectionChangeAngle = 140.0f;
 
@@ -81,6 +86,14 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		[SerializeField, Tooltip("Configuration for the head turning/looking")]
 		protected HeadTurnProperties headTurnProperties;
 
+		/// <summary>
+		/// Gets whether strafe rapid direction smoothing logic should be performed.
+		/// </summary>
+		public bool enableStrafeRapidDirectionChangeSmoothingLogic
+		{
+			get { return enableStrafeRapidDirectionChangeSmoothing; }
+		}
+		
 		/// <summary>
 		/// Gets the angle threshold used to trigger a strafe rapid direction change.
 		/// </summary>

@@ -30,7 +30,7 @@ namespace Editor
 		{
 			List<string> exclusions = new List<string>(); 
 			
-			MotorConfig config = target as MotorConfig;
+			var config = (MotorConfig)target;
 
 			if (!config.customActionParametersToBeUsed)
 			{
@@ -49,21 +49,26 @@ namespace Editor
 	[CustomEditor(typeof(AnimationConfig))]
 	public class AnimationConfigEditor : ConfigEditor
 	{
-		private const string k_HeadTurn = "headTurnProperties";
+		private const string k_HeadTurn = "headTurnProperties",
+		                     k_StrafeChangeAngle = "strafeRapidDirectionChangeAngle",
+		                     k_StrafeChangeCurve = "strafeRapidDirectionChangeSpeedCurve";
 		
 		protected override string[] GetExclusions()
 		{
-			AnimationConfig config =  target as AnimationConfig;
+			List<string> exclusions = new List<string>();
+			var config =  (AnimationConfig)target;
 
-			if (config.enableHeadLookAt)
+			if (!config.enableHeadLookAt)
 			{
-				return new string[0];
+				exclusions.Add(k_HeadTurn);
 			}
-			
-			return new string[]
+			if (!config.enableStrafeRapidDirectionChangeSmoothingLogic)
 			{
-				k_HeadTurn
-			};	
+				exclusions.Add(k_StrafeChangeAngle);
+				exclusions.Add(k_StrafeChangeCurve);
+			}
+
+			return exclusions.ToArray();
 		}
 	}
 }
