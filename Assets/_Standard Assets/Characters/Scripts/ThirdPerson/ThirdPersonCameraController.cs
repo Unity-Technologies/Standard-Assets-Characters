@@ -24,7 +24,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			Strafe
 		}
 
-		[DisableEditAtRuntime(), SerializeField, Tooltip("Define the starting camera mode")]
+		[SerializeField, Tooltip("Define the starting camera mode")]
 		protected CameraType startingCameraMode = CameraType.Exploration;
 
 		[SerializeField, Tooltip("Cinemachine State Driven Camera")]

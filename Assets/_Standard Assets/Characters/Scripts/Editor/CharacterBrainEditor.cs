@@ -32,6 +32,11 @@ namespace Editor
 			{
 				Debug.LogError("Could not find OpenCharacterController or CharacterController");
 			}
+			
+			if (GUI.changed)
+			{
+				serializedObject.ApplyModifiedProperties();
+			}
 		}
 
 		protected virtual string[] GetOpenCharacterControllerExclusions()
@@ -60,24 +65,35 @@ namespace Editor
 	{
 		protected const string k_AnimationTurnaroundName = "animationTurnaroundBehaviour",
 		                       k_BlendspaceTurnaroundName = "blendspaceTurnaroundBehaviour",
-		                       k_AnimationConfig = "configuration";
+		                       k_AnimationConfigName = "configuration",
+							   k_MotorName = "motor",
+							   k_MotorConfigPath = "motor.configuration";
 
 		protected const string k_Help =
 			"Configurations are separate assets (ScriptableObjects). Click on the associated configuration to locate it in the Project View. Values can be edited here during runtime and not be lost. It also allows one to create different settings and swap between them. To create a new setting Right click -> Create -> Standard Assets -> Characters -> ...";
 
+		private bool motorFoldOut;
+		
 		public override void OnInspectorGUI()
 		{
 			EditorGUILayout.HelpBox(k_Help, MessageType.Info);
 			base.OnInspectorGUI();
-			
-			serializedObject.DrawExtendedScriptableObject(k_AnimationConfig);
+			motorFoldOut = EditorGUILayout.Foldout(motorFoldOut, "Motor");
+			if (motorFoldOut)
+			{
+				EditorGUI.indentLevel++;
+				serializedObject.DrawExtendedScriptableObject(k_MotorConfigPath);
+				EditorGUI.indentLevel--;
+			}
+			serializedObject.DrawExtendedScriptableObject(k_AnimationConfigName);
 		}
 
 		protected override string[] GetOpenCharacterControllerExclusions()
 		{
 			List<string> exclusionList = new List<string> {k_CharacterControllerAdapterName};
 			exclusionList.AddRange(GetTurnaroundExclusions());
-			exclusionList.Add(k_AnimationConfig);
+			exclusionList.Add(k_AnimationConfigName);
+			exclusionList.Add(k_MotorName);
 			return exclusionList.ToArray();
 		}
 
@@ -85,6 +101,8 @@ namespace Editor
 		{
 			List<string> exclusionList = new List<string> {k_OpenCharacterControllerAdapterName};
 			exclusionList.AddRange(GetTurnaroundExclusions());
+			exclusionList.Add(k_AnimationConfigName);
+			exclusionList.Add(k_MotorName);
 			return exclusionList.ToArray();
 		}
 

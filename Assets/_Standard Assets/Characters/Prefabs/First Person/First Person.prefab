@@ -258,7 +258,7 @@ MonoBehaviour:
   firstPersonMovementEventHandler:
     zonesDefinition:
       movementZoneLibraries:
-      - zoneId: concrete
+      - zoneId: 0
         zoneLibrary:
           leftFootStepPrefab: {fileID: 114703649657986578, guid: 39b499a1da7614637b04ee652e561932,
             type: 2}
@@ -268,7 +268,7 @@ MonoBehaviour:
             type: 2}
           jumpingPrefab: {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868,
             type: 2}
-      - zoneId: metal
+      - zoneId: 1
         zoneLibrary:
           leftFootStepPrefab: {fileID: 114703649657986578, guid: d5b731d417b5a43f0970e4eb0b903491,
             type: 2}
@@ -279,7 +279,6 @@ MonoBehaviour:
           jumpingPrefab: {fileID: 114805303375849546, guid: cfff8b50195ea4bf491836ee1bdfe817,
             type: 2}
     maximumSpeed: 10
-  firstPersonCameraController: {fileID: 0}
 --- !u!114 &114890619256215582
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -1,5 +1,6 @@
 using System;
 using StandardAssets.Characters.Attributes;
+using StandardAssets.Characters.Effects;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
 using UnityPhysics = UnityEngine.Physics;
@@ -11,7 +12,7 @@ namespace StandardAssets.Characters.Common
 	/// </summary>
 	public abstract class CharacterBrain : MonoBehaviour
 	{
-		public Action<string> changeMovementZone;
+		public Action<MovementZoneId?> changeMovementZone;
 		
 		[Header("Controllers")]
 		[SerializeField, Tooltip("Settings for the default CharacterController.")]
@@ -75,7 +76,7 @@ namespace StandardAssets.Characters.Common
 			lastPosition = newPosition;
 		}
 
-		public void ChangeMovementZone(string zoneId)
+		public void ChangeMovementZone(MovementZoneId? zoneId)
 		{
 			if (changeMovementZone != null)
 			{

@@ -63,7 +63,7 @@ namespace StandardAssets.Characters.Effects
 			SetCurrentMovementEventLibrary(defaultLibrary);
 		}
 
-		private void ChangeMovementZone(string zoneId)
+		private void ChangeMovementZone(MovementZoneId? zoneId)
 		{
 			MovementEventLibrary library = zonesDefinition[zoneId];
 
@@ -149,6 +149,17 @@ namespace StandardAssets.Characters.Effects
 			firedFrom = firedFromTransform;
 			normalizedSpeed = normalizedSpeedToUse;
 		}
+	}
+
+	/// <summary>
+	/// Enum for representing the different type of movement zones
+	/// </summary>
+	public enum MovementZoneId
+	{
+		Concrete,
+		Metal,
+		Grass,
+		Gravel
 	}
 	
 	/// <summary>
@@ -240,8 +251,8 @@ namespace StandardAssets.Characters.Effects
 	[Serializable]
 	public class MovementEventZoneDefinition
 	{
-		[MovementZoneId, SerializeField, Tooltip("The ID of the zone used to play the effect")]
-		protected string zoneId = "concrete";
+		[SerializeField, Tooltip("The ID of the zone used to play the effect")]
+		protected MovementZoneId zoneId;
 
 		[SerializeField, Tooltip("The corresponding library of effects")]
 		protected MovementEventLibrary zoneLibrary;
@@ -249,7 +260,7 @@ namespace StandardAssets.Characters.Effects
 		/// <summary>
 		/// Gets the zoneId
 		/// </summary>
-		public string id
+		public MovementZoneId id
 		{
 			get { return zoneId; }
 		}
@@ -277,10 +288,15 @@ namespace StandardAssets.Characters.Effects
 		/// </summary>
 		/// <param name="zoneId">The zoneId needed to look up the <see cref="MovementEventLibrary"/></param>
 		/// <value>Gets the <see cref="MovementEventLibrary"/> for a specified zoneId. returns null if the zoneId does not have an associated <see cref="MovementEventLibrary"/></value>
-		public MovementEventLibrary this[string zoneId]
+		public MovementEventLibrary this[MovementZoneId? zoneId]
 		{
 			get
 			{
+				if (!zoneId.HasValue)
+				{
+					return null;
+				}
+				
 				foreach (MovementEventZoneDefinition movementEventZoneDefinition in movementZoneLibraries)
 				{
 					if (movementEventZoneDefinition.id == zoneId)

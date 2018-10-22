@@ -316,7 +316,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField, Tooltip("Should the turnaround be configured or just use defaults?")]
 		protected bool configureBlendspace;
 
-		[VisibleIf("configureBlendspace")]
 		[SerializeField, Tooltip("The configuration settings of the turnaround.")]
 		protected BlendspaceProperties configuration;
 

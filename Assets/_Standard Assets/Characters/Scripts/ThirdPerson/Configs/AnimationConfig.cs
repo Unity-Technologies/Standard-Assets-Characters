@@ -22,9 +22,14 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		[SerializeField, Tooltip("Configuration for the turning speed animation parameter")]
 		protected FloatRange turningSpeedInterpolationRange;
 
+		[SerializeField, Tooltip("Should a strafe rapid direction change be detected and smoothed. This should only " +
+		                         "be enabled if apposing strafe animations are reverses of each other. eg walk " +
+		                         "backwards is walk forward played at a -1 speed.")]
+		protected bool enableStrafeRapidDirectionChangeSmoothing = true;
+		
 		[SerializeField, Tooltip("The angle threshold used to trigger a strafe rapid direction change.")]
 		protected float strafeRapidDirectionChangeAngle = 140.0f;
-		
+
 		[SerializeField, Tooltip("The curve used to change animator movement speeds during a strafe rapid direction change")]
 		protected AnimationCurve strafeRapidDirectionChangeSpeedCurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
 
@@ -32,9 +37,6 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		[SerializeField, Tooltip("Curve used to determine the cross fade duration of the transition into the jump " +
 								 "animation state")]
 		protected AnimationCurve jumpTransitionAsAFactorOfSpeed = AnimationCurve.Constant(0, 1, 0.15f);
-
-		[SerializeField, Tooltip("Duration, in seconds, of crossfade into root motion jump.")]
-		protected float rootMotionJumpTransitionDuration = 0.25f;
 
 		[SerializeField, Tooltip("Curve used to determine the cross fade duration of the transition into the " +
 								 "locomotion animation from the jump animation state")]
@@ -81,10 +83,17 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		[SerializeField]
 		protected bool enableHeadTurn = true;
 
-		[VisibleIf("enableHeadTurn")]
 		[SerializeField, Tooltip("Configuration for the head turning/looking")]
 		protected HeadTurnProperties headTurnProperties;
 
+		/// <summary>
+		/// Gets whether strafe rapid direction smoothing logic should be performed.
+		/// </summary>
+		public bool enableStrafeRapidDirectionChangeSmoothingLogic
+		{
+			get { return enableStrafeRapidDirectionChangeSmoothing; }
+		}
+		
 		/// <summary>
 		/// Gets the angle threshold used to trigger a strafe rapid direction change.
 		/// </summary>
@@ -277,14 +286,6 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		public AnimationCurve jumpTransitionDurationFactorOfSpeed
 		{
 			get { return jumpTransitionAsAFactorOfSpeed; }
-		}
-		
-		/// <summary>
-		/// Gets the duration of the crossfade to a root motion jump.
-		/// </summary>
-		public float rootMotionJumpCrossfadeDuration
-		{
-			get { return rootMotionJumpTransitionDuration; }
 		}
 
 		/// <summary>

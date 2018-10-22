@@ -24,14 +24,12 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		[SerializeField]
 		protected bool useCustomActionParameters = true;
 
-		[VisibleIf("useCustomActionParameters")]
 		[SerializeField]
 		protected ActionProperties action;
 
 		[SerializeField]
 		protected bool useCustomStrafeParameters = true;
 
-		[VisibleIf("useCustomStrafeParameters")]
 		[SerializeField]
 		protected StrafeProperties strafing;
 
@@ -193,6 +191,16 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		public float maxFallDistanceToLand
 		{
 			get { return maxFallDistance; }
+		}
+
+		public bool customActionParametersToBeUsed
+		{
+			get { return useCustomActionParameters; }
+		}
+		
+		public bool customStrafeParametersToBeUsed
+		{
+			get { return useCustomStrafeParameters; }
 		}
 
 		/// <summary>
@@ -357,8 +365,6 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 	[Serializable]
 	public class StrafeProperties
 	{
-		[HelperBox(HelperBoxAttribute.HelperType.Info,
-			"Strafing speeds are specified in terms of normalized speeds. This is because root motion is used to drive actual speeds. The following parameters allow tweaking so that root movement feels natural. i.e. if you have a run forward animation with a speed of 10 but the strafe run only has a speed of 9 then you could set the strafeRunForwardSpeed = 0.9 so that movement is consistent.")]
 		[SerializeField]
 		protected int strafeInputSamples = 1;
 		[SerializeField, Range(0f,1f)]

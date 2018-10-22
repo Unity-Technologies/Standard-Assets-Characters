@@ -206,13 +206,13 @@ namespace StandardAssets.Characters.ThirdPerson
 				Vector3 groundMovementVector = animator.deltaPosition * configuration.scaleRootMovement;
 				groundMovementVector.y = 0.0f;
 				
-				groundMovementVector *= thirdPersonBrain.currentRootMotionModifier;
-				
 				controllerAdapter.Move(groundMovementVector, Time.deltaTime);
 				
 				//Update the average movement speed
-				float movementVelocity = groundMovementVector.
-										 GetMagnitudeOnAxis(transform.forward)/Time.deltaTime;
+				var direction = movementMode == ThirdPersonMotorMovementMode.Action
+					                ? transform.forward
+					                : CalculateLocalInputDirection();              
+				float movementVelocity = groundMovementVector.GetMagnitudeOnAxis(direction)/Time.deltaTime;
 				if (movementVelocity > 0)
 				{
 					averageForwardVelocity.Add(movementVelocity, HandleNegative.Absolute);
@@ -381,10 +381,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 
 		/// <summary>
-		/// Sets the aerial state to <see cref="ThirdPersonAerialMovementState.Grounded"/> and fires
-		/// the <see cref="landed"/> event.
+		/// Sets the aerial state to <see cref="ThirdPersonAerialMovementState.Grounded"/> and clears
+		/// <see cref="averageForwardVelocity"/> if no input.
 		/// </summary>
-		/// <remarks>This subscribes to <see cref="ControllerAdapter.landed"/></remarks>
 		private void OnLanding()
 		{
 			aerialState = ThirdPersonAerialMovementState.Grounded;
@@ -434,7 +433,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Changes movement mode to <see cref="ThirdPersonMotorMovementMode.Strafe"/>
 		/// </summary>
-		/// <remarks>This subscribes <see cref="ThirdPersonCameraController.forwardLockedModeStarted"/></remarks>
 		public void StartStrafe()
 		{
 			if (movementMode == ThirdPersonMotorMovementMode.Strafe)
@@ -448,7 +446,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Changes movement mode to <see cref="ThirdPersonMotorMovementMode.Action"/>
 		/// </summary>
-		/// <remarks>This subscribes <see cref="ThirdPersonCameraController.forwardUnlockedModeStarted"/></remarks>
 		public void EndStrafe()
 		{
 			movementMode = ThirdPersonMotorMovementMode.Action;
@@ -687,36 +684,33 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				return true;
 			}
-			if (!IsGrounded || controllerAdapter.startedSlide || !thirdPersonBrain.isRootMotionState 
-			    || movementMode == ThirdPersonMotorMovementMode.Strafe)
+			if (!IsGrounded || controllerAdapter.startedSlide || !thirdPersonBrain.isRootMotionState)
 			{
 				return false;
 			}
 			
 			aerialState = ThirdPersonAerialMovementState.Jumping;
 			
-			if (Mathf.Abs(normalizedLateralSpeed) <= normalizedForwardSpeed && normalizedForwardSpeed >=0)
+			// check for a standing forward jump.
+			if (characterInput.moveInput.magnitude > configuration.standingJumpMinInputThreshold && 
+				lastIdleTime + configuration.standingJumpMoveThresholdTime >= Time.time  &&
+				animator.deltaPosition.GetMagnitudeOnAxis(transform.forward) <= 
+				configuration.standingJumpMaxMovementThreshold * Time.deltaTime)
 			{
-				// check for a standing forward jump.
-				if (characterInput.moveInput.magnitude > configuration.standingJumpMinInputThreshold && 
-				    lastIdleTime + configuration.standingJumpMoveThresholdTime >= Time.time  &&
-					animator.deltaPosition.GetMagnitudeOnAxis(transform.forward) <= 
-					configuration.standingJumpMaxMovementThreshold * Time.deltaTime)
-				{
-					cachedForwardVelocity = configuration.standingJumpSpeed;
-					normalizedForwardSpeed = 1;
-					thirdPersonBrain.UpdateForwardSpeed(normalizedForwardSpeed, 1);
-				}
-				else
-				{
-					cachedForwardVelocity = averageForwardVelocity.average;
-				}
-				
-				controllerAdapter.SetJumpVelocity(
-					configuration.jumpHeightAsFactorOfForwardSpeed.Evaluate(normalizedForwardSpeed));
-				
+				cachedForwardVelocity = configuration.standingJumpSpeed;
+				normalizedForwardSpeed = 1;
+				thirdPersonBrain.UpdateForwardSpeed(normalizedForwardSpeed, 1);
 				fallDirection = transform.forward;
 			}
+			else
+			{
+				fallDirection = movementMode == ThirdPersonMotorMovementMode.Action ? 
+					                transform.forward : CalculateLocalInputDirection();
+				cachedForwardVelocity = averageForwardVelocity.average;
+			}
+			
+			controllerAdapter.SetJumpVelocity(
+				configuration.jumpHeightAsFactorOfForwardSpeed.Evaluate(normalizedForwardSpeed));
 			
 			if (jumpStarted != null)
 			{

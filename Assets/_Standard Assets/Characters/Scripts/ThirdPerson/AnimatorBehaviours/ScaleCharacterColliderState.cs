@@ -26,7 +26,7 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 		 
 		// We are using curve only for normalized time from the animation,
 		// but for looping animations it is useless (looping collider size...).
-		[SerializeField, VisibleIf("useNormalizedTime", true)]
+		[SerializeField]
 		private AnimationCurve curve = new AnimationCurve()
 		{ 
 			keys = new Keyframe[]
@@ -36,19 +36,19 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 			}
 		};
 		
-		[SerializeField, VisibleIf("useNormalizedTime", true)]
+		[SerializeField]
 		private NormalizedMode animationMode;
 		
 		/// <summary>
 		/// How many seconds it will take to change the height.
 		/// </summary>
-		[SerializeField, VisibleIf("useNormalizedTime", false)]
+		[SerializeField]
 		private float duration = 1.0f;
 	
 		/// <summary>
 		/// Adjusted character scale.
 		/// </summary>
-		[SerializeField, VisibleIf("useNormalizedTime", false)]
+		[SerializeField]
 		private float heightScale = 1.0f;
 		
 		/// <summary>
