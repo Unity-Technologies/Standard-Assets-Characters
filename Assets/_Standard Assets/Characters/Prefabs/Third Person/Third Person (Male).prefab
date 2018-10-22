@@ -1223,7 +1223,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1294013925418394}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 33, y: 0, z: 25.5}
+  m_LocalPosition: {x: 33, y: -0.9897482, z: 9.31}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4373934692070628}
@@ -2190,8 +2190,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f789398defdd4003ac23dd2094bddaa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mobileControls:
+    m_Asset: {fileID: 11400000, guid: 5e0a061bdf17543b6b5dc2ab23540605, type: 3}
   controls:
     m_Asset: {fileID: 11400000, guid: 6b7e0365c2048446aafe64ff5b240173, type: 3}
+  onScreenControlsCanvas: {fileID: 0}
   invertY: 0
   invertX: 0
   xSensitivity: 1
@@ -2380,7 +2383,6 @@ MonoBehaviour:
     gravityChangeSpeed: 10
     characterController: {fileID: 114299815650658612}
   useSimpleCameras: 0
-  cameraController: {fileID: 0}
   motor:
     configuration: {fileID: 11400000, guid: 33e0d88026c128b4ca3076e2e5149510, type: 2}
   turnaroundType: 1

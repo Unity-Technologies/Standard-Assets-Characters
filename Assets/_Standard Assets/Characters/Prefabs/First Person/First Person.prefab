@@ -70,8 +70,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0d18c90d0624c479e19c99103789302, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mobileControls:
+    m_Asset: {fileID: 11400000, guid: 5e0a061bdf17543b6b5dc2ab23540605, type: 3}
   controls:
     m_Asset: {fileID: 11400000, guid: 6b7e0365c2048446aafe64ff5b240173, type: 3}
+  onScreenControlsCanvas: {fileID: 0}
   invertY: 0
   invertX: 0
   xSensitivity: 1
