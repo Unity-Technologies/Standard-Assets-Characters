@@ -105,7 +105,8 @@ namespace StandardAssets.Characters.Common
 		{
 			CinemachineCore.GetInputAxis = LookInputOverride;
 
-#if !UNITY_EDITOR && (UNITY_ANDROID || UNITY_IOS)
+#if (UNITY_ANDROID || UNITY_IOS)
+			//!UNITY_EDITOR && 
 			cursorLocked = false;
 			HandleCursorLock();
 			if (mobileControls != null)

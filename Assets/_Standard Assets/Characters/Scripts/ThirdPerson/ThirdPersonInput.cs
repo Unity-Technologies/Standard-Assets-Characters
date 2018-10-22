@@ -61,8 +61,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		protected override void RegisterAdditionalInputsMobile()
 		{
-			//TODO
-			//Add third person mobile controls register
+			mobileControls.Movement.strafe.performed += OnStrafeInput;
+			mobileControls.Movement.recentre.performed += OnRecentreInput;
 		}
 
 		/// <summary>

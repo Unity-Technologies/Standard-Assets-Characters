@@ -24,6 +24,9 @@ public class ControlsMobile : InputActionAssetReference
         m_Movement_move = m_Movement.GetAction("move");
         m_Movement_sprint = m_Movement.GetAction("sprint");
         m_Movement_jump = m_Movement.GetAction("jump");
+        m_Movement_crouch = m_Movement.GetAction("crouch");
+        m_Movement_recentre = m_Movement.GetAction("recentre");
+        m_Movement_strafe = m_Movement.GetAction("strafe");
         m_Initialized = true;
     }
     private void Uninitialize()
@@ -33,6 +36,9 @@ public class ControlsMobile : InputActionAssetReference
         m_Movement_move = null;
         m_Movement_sprint = null;
         m_Movement_jump = null;
+        m_Movement_crouch = null;
+        m_Movement_recentre = null;
+        m_Movement_strafe = null;
         m_Initialized = false;
     }
     public void SwitchAsset(InputActionAsset newAsset)
@@ -51,6 +57,9 @@ public class ControlsMobile : InputActionAssetReference
     private InputAction m_Movement_move;
     private InputAction m_Movement_sprint;
     private InputAction m_Movement_jump;
+    private InputAction m_Movement_crouch;
+    private InputAction m_Movement_recentre;
+    private InputAction m_Movement_strafe;
     public struct MovementActions
     {
         private ControlsMobile m_Wrapper;
@@ -59,6 +68,9 @@ public class ControlsMobile : InputActionAssetReference
         public InputAction @move { get { return m_Wrapper.m_Movement_move; } }
         public InputAction @sprint { get { return m_Wrapper.m_Movement_sprint; } }
         public InputAction @jump { get { return m_Wrapper.m_Movement_jump; } }
+        public InputAction @crouch { get { return m_Wrapper.m_Movement_crouch; } }
+        public InputAction @recentre { get { return m_Wrapper.m_Movement_recentre; } }
+        public InputAction @strafe { get { return m_Wrapper.m_Movement_strafe; } }
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }

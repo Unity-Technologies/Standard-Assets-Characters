@@ -45,8 +45,7 @@ namespace StandardAssets.Characters.FirstPerson
 
 		protected override void RegisterAdditionalInputsMobile()
 		{
-			//TODO 
-			//Add first person spesific controlls for mobile
+			mobileControls.Movement.crouch.performed += OnCrouchInput;
 		}
 
 		/// <summary>
