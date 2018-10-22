@@ -59,6 +59,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			controls.Movement.recentre.performed += OnRecentreInput;
 		}
 
+		protected override void RegisterAdditionalInputsMobile()
+		{
+			//TODO
+			//Add third person mobile controls register
+		}
+
 		/// <summary>
 		/// Handles the recentre input 
 		/// </summary>

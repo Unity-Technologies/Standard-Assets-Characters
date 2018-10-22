@@ -43,6 +43,12 @@ namespace StandardAssets.Characters.FirstPerson
 			controls.Movement.crouch.performed += OnCrouchInput;
 		}
 
+		protected override void RegisterAdditionalInputsMobile()
+		{
+			//TODO 
+			//Add first person spesific controlls for mobile
+		}
+
 		/// <summary>
 		/// Handles the sprint input
 		/// </summary>

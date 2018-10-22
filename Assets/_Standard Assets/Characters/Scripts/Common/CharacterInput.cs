@@ -28,15 +28,27 @@ namespace StandardAssets.Characters.Common
 		/// <summary>
 		/// The Input Action Map asset
 		/// </summary>
+		[SerializeField, Tooltip("The Input Action Map asset for on screen controls")]
+		protected ControlsMobile mobileControls;
+
+		/// <summary>
+		/// The Input Action Map asset for on screen controls
+		/// </summary>
 		[SerializeField, Tooltip("The Input Action Map asset")]
 		protected Controls controls;
-		
+
+		/// <summary>
+		/// The on screen controls canvas
+		/// </summary>
+		[SerializeField, Tooltip("The canvas for the onscreen controls")]
+		protected GameObject onScreenControlsCanvas;
+
 		/// <summary>
 		/// Invert vertical look direction
 		/// </summary>
 		[SerializeField, Tooltip("Invert vertical look direction")]
 		protected bool invertY;
-		
+
 		/// <summary>
 		/// Invert horizontal look direction
 		/// </summary>
@@ -48,13 +60,13 @@ namespace StandardAssets.Characters.Common
 		/// </summary>
 		[SerializeField, Range(0f, 1f), Tooltip("The horizontal look sensitivity")]
 		protected float xSensitivity = 1f;
-		
+
 		/// <summary>
 		/// The vertical look sensitivity
 		/// </summary>
 		[SerializeField, Range(0f, 1f), Tooltip("The vertical look sensitivity")]
 		protected float ySensitivity = 1f;
-		
+
 		/// <summary>
 		/// Toggle the cursor lock mode while in play mode.
 		/// </summary>
@@ -92,11 +104,47 @@ namespace StandardAssets.Characters.Common
 		protected virtual void Awake()
 		{
 			CinemachineCore.GetInputAxis = LookInputOverride;
-			controls.Movement.move.performed += context => moveInput = ConditionMoveInput(context.ReadValue<Vector2>());
-			controls.Movement.look.performed += context => lookInput = context.ReadValue<Vector2>();
-			controls.Movement.jump.performed += OnJumpInput;
-			controls.Movement.sprint.performed += OnSprintInput;
-			RegisterAdditionalInputs();
+
+#if !UNITY_EDITOR && (UNITY_ANDROID || UNITY_IOS)
+			cursorLocked = false;
+			HandleCursorLock();
+			if (mobileControls != null)
+			{
+				mobileControls.Movement.move.performed +=OnMoveInput;
+				mobileControls.Movement.look.performed += OnLookInput;
+				mobileControls.Movement.jump.performed += OnJumpInput;
+				mobileControls.Movement.sprint.performed += OnSprintInput;
+
+				RegisterAdditionalInputsMobile();
+			}
+			
+
+			ToggleOnScreenCanvas(true);
+
+#else
+			if(controls !=null)
+			{
+				controls.Movement.move.performed +=OnMoveInput;
+				controls.Movement.look.performed += OnLookInput;
+				controls.Movement.jump.performed += OnJumpInput;
+				controls.Movement.sprint.performed += OnSprintInput;
+			
+				RegisterAdditionalInputs();
+			}
+			
+			ToggleOnScreenCanvas(false);
+	
+#endif
+		}
+
+		private void OnLookInput(InputAction.CallbackContext context)
+		{
+			lookInput = context.ReadValue<Vector2>();
+		}
+
+		private void OnMoveInput(InputAction.CallbackContext context)
+		{
+			moveInput = ConditionMoveInput(context.ReadValue<Vector2>());
 		}
 
 		/// <summary>
@@ -112,6 +160,23 @@ namespace StandardAssets.Characters.Common
 		protected abstract void RegisterAdditionalInputs();
 
 		/// <summary>
+		/// Handles registration of additional on screen inputs that are not common between the First and Third person characters 
+		/// </summary>
+		protected abstract void RegisterAdditionalInputsMobile();
+
+		/// <summary>
+		/// Toggle the onscreen controls canvas 
+		/// </summary>
+		/// <param name="active">canvas game object on or off</param>
+		private void ToggleOnScreenCanvas(bool active)
+		{
+			if (onScreenControlsCanvas != null)
+			{
+				onScreenControlsCanvas.SetActive(active);
+			}
+		}
+
+		/// <summary>
 		/// Handles the sprint input
 		/// </summary>
 		/// <param name="context">context is required by the performed event</param>
@@ -125,7 +190,11 @@ namespace StandardAssets.Characters.Common
 		/// </summary>
 		protected virtual void OnEnable()
 		{
+#if !UNITY_EDITOR && (UNITY_ANDROID || UNITY_IOS)
+			mobileControls.Enable();
+#else
 			controls.Enable();
+			#endif
 			HandleCursorLock();
 		}
 
@@ -134,7 +203,11 @@ namespace StandardAssets.Characters.Common
 		/// </summary>
 		protected virtual void OnDisable()
 		{
+#if !UNITY_EDITOR && (UNITY_ANDROID || UNITY_IOS)
+			mobileControls.Disable();
+#else
 			controls.Disable();
+			#endif
 		}
 
 		/// <summary>
@@ -170,7 +243,7 @@ namespace StandardAssets.Characters.Common
 				}
 			}
 		}
-		
+
 		/// <summary>
 		/// Handles the cursor lock state
 		/// </summary>
@@ -178,7 +251,7 @@ namespace StandardAssets.Characters.Common
 		{
 			Cursor.lockState = cursorLocked ? CursorLockMode.Locked : CursorLockMode.None;
 		}
-		
+
 		/// <summary>
 		/// Checks for lock state input
 		/// </summary>
