@@ -1,0 +1,86 @@
+{
+    "name": "ControlsMobile",
+    "maps": [
+        {
+            "name": "Movement",
+            "id": "fc5f1e6e-2b7d-4efc-ad29-518b86b6a680",
+            "actions": [
+                {
+                    "name": "look",
+                    "id": "2718be2f-c6ab-47ed-8bae-5c93179d30ae",
+                    "expectedControlLayout": "",
+                    "bindings": []
+                },
+                {
+                    "name": "move",
+                    "id": "da2ac0da-88c9-40bd-8683-0b335be9c7e8",
+                    "expectedControlLayout": "",
+                    "bindings": []
+                },
+                {
+                    "name": "sprint",
+                    "id": "df849c57-60f5-4bee-90fa-b0ab214fa011",
+                    "expectedControlLayout": "",
+                    "bindings": []
+                },
+                {
+                    "name": "jump",
+                    "id": "13f6b88d-0cce-4480-a27d-0e77584b85ad",
+                    "expectedControlLayout": "",
+                    "bindings": []
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "jump",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "",
+                    "path": "<Gamepad>/leftStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "sprint",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "move",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "look",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
