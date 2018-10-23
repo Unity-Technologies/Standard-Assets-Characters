@@ -2302,7 +2302,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     gravityChangeSpeed: 10
-    groundCheckDistance: 0.51
+    groundCheckDistance: 0.55
     groundCheckMask:
       serializedVersion: 2
       m_Bits: 0
@@ -2313,21 +2313,21 @@ MonoBehaviour:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.85
-        inSlope: -0.050000012
-        outSlope: -0.050000012
-        tangentMode: 34
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
-        outWeight: 0.33333334
+        outWeight: 0
       - serializedVersion: 3
         time: 1
-        value: 0.8
-        inSlope: -0.050000012
-        outSlope: -0.050000012
-        tangentMode: 34
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
+        inWeight: 0
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -2337,21 +2337,21 @@ MonoBehaviour:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1.5
-        inSlope: 0.5
-        outSlope: 0.5
-        tangentMode: 34
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
-        outWeight: 0.33333334
+        outWeight: 0
       - serializedVersion: 3
         time: 1
-        value: 2
-        inSlope: 0.5
-        outSlope: 0.5
-        tangentMode: 34
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
+        inWeight: 0
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -2361,21 +2361,21 @@ MonoBehaviour:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1.6
-        inSlope: -0.20000005
-        outSlope: -0.20000005
-        tangentMode: 34
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
-        outWeight: 0.33333334
+        outWeight: 0
       - serializedVersion: 3
         time: 1
-        value: 1.4
-        inSlope: -0.20000005
-        outSlope: -0.20000005
-        tangentMode: 34
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
+        inWeight: 0
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -2385,11 +2385,11 @@ MonoBehaviour:
   useSimpleCameras: 0
   motor:
     configuration: {fileID: 11400000, guid: 33e0d88026c128b4ca3076e2e5149510, type: 2}
-  turnaroundType: 1
+  turnaroundType: 0
   blendspaceTurnaroundBehaviour:
     configureBlendspace: 0
     configuration:
-      timeToTurn: 1
+      timeToTurn: 0.2
       rotationDuringTurn:
         serializedVersion: 2
         m_Curve:
@@ -2492,27 +2492,27 @@ MonoBehaviour:
   animationTurnaroundBehaviour:
     runLeftTurn:
       name: RunForwardTurnLeft180
-      speed: 1.25
+      speed: 1
       headTurnScale: 1
     runRightTurn:
       name: RunForwardTurnRight180_Mirror
-      speed: 1.25
+      speed: 1
       headTurnScale: 1
     sprintLeftTurn:
       name: RunForwardTurnLeft180
-      speed: 1.5
+      speed: 1
       headTurnScale: 1
     sprintRightTurn:
       name: RunForwardTurnRight180_Mirror
-      speed: 1.5
+      speed: 1
       headTurnScale: 1
     idleLeftTurn:
       name: IdleTurnLeft180
-      speed: 3
+      speed: 1
       headTurnScale: 1
     idleRightTurn:
       name: IdleTurnRight180_Mirror
-      speed: 3
+      speed: 1
       headTurnScale: 1
     rotationCurve:
       serializedVersion: 2
@@ -2520,32 +2520,32 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 0
         value: 0
-        inSlope: 1
+        inSlope: 0
         outSlope: 1
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
+        inWeight: 0
+        outWeight: 0
       - serializedVersion: 3
         time: 1
         value: 1
         inSlope: 1
-        outSlope: 1
+        outSlope: 0
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    normalizedRunSpeedThreshold: 0.4
-    crossfadeDuration: 0.5
+    normalizedRunSpeedThreshold: 0.1
+    crossfadeDuration: 0.125
   thirdPersonMovementEventHandler:
     zonesDefinition:
       movementZoneLibraries: []
-    leftFootDetection: {fileID: 114447118663720106}
-    rightFootDetection: {fileID: 114449538320415148}
-    maximumSpeed: 6
+    leftFootDetection: {fileID: 0}
+    rightFootDetection: {fileID: 0}
+    maximumSpeed: 10
   configuration: {fileID: 11400000, guid: 16861f506e03f4b39a1b25e1bb3e307f, type: 2}
 --- !u!114 &114447118663720106
 MonoBehaviour:
