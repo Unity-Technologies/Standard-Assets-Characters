@@ -11,15 +11,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c04d9be0543234e9cbb340e7ee259a5c, type: 3}
   m_Name: ProBuilder DataProBuilderPreferences
   m_EditorClassIdentifier: 
-  m_Bool_keys: []
-  m_Int_keys: []
-  m_Float_keys: []
-  m_String_keys: []
+  m_Bool_keys:
+  - pbStripProBuilderOnBuild
+  - pbDisableAutoUV2Generation
+  - pbForceConvex
+  - pbMeshesAreAssets
+  - pbEnableBackfaceSelection
+  m_Int_keys:
+  - pbDefaultEditLevel
+  - pbDefaultSelectionMode
+  - pbDefaultCollider
+  - pbShadowCastingMode
+  - pbDefaultStaticFlags
+  - pb_GIWorkflowMode
+  m_Float_keys:
+  - pbEditorScroll.x
+  - pbEditorScroll.y
+  m_String_keys:
+  - pbCurrentMaterialPalette
   m_Color_keys: []
-  m_Material_keys: []
-  m_Bool_values: 
-  m_Int_values: 
-  m_Float_values: []
-  m_String_values: []
+  m_Material_keys:
+  - pbDefaultMaterial
+  m_Bool_values: 0100000001
+  m_Int_values: 000000000000000002000000020000000000000001000000
+  m_Float_values:
+  - 0
+  - 0
+  m_String_values:
+  - Assets/_Standard Assets/Prototyping/Package Assets/ProBuilder Data/Default Material
+    Palette.asset
   m_Color_values: []
-  m_Material_values: []
+  m_Material_values:
+  - {fileID: 2100000, guid: c22777d6e868e4f2fb421913386b154e, type: 2}
