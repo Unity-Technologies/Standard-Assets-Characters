@@ -2,6 +2,7 @@
 using StandardAssets.Characters.Common;
 using StandardAssets.Characters.Effects;
 using UnityEngine;
+using Cinemachine;
 
 namespace StandardAssets.Characters.FirstPerson
 {
@@ -70,7 +71,6 @@ namespace StandardAssets.Characters.FirstPerson
 		[SerializeField, Tooltip("Movement properties of the character while crouching")]
 		protected MovementProperties crouching;
 
-
 		/// <summary>
 		/// Manages movement events
 		/// </summary>
@@ -78,7 +78,7 @@ namespace StandardAssets.Characters.FirstPerson
 		protected FirstPersonMovementEventHandler firstPersonMovementEventHandler;
 
 		[SerializeField]
-		protected GameObject weaponPrefab;
+		protected Weapon weapon;
 
 		/// <summary>
 		/// The movement state is passed to the camera manager so that there can be different cameras e.g. crouch
@@ -175,10 +175,13 @@ namespace StandardAssets.Characters.FirstPerson
 			newMovementProperties = walking;
 			firstPersonMovementEventHandler.AdjustTriggerThreshold(currentMovementProperties.strideLength);
 			mainCamera = Camera.main;
-			if (weaponPrefab != null)
-			{
-				Instantiate(weaponPrefab, mainCamera.transform);
-			}
+			weapon.Init(mainCamera.transform);
+		}
+
+		protected override void Update()
+		{
+			base.Update();
+			weapon.Update();
 		}
 
 		/// <summary>
@@ -476,6 +479,58 @@ namespace StandardAssets.Characters.FirstPerson
 		public void AdjustTriggerThreshold(float strideLength)
 		{
 			sqrDistanceThreshold = strideLength * strideLength;
+		}
+	}
+	
+	/// <summary>
+	/// Listens to impulses broadcasted by Cinemachine Impulse Source and moves a weapon object 
+	/// </summary>
+	[Serializable]
+	public class Weapon
+	{
+		[SerializeField]
+		protected GameObject weaponPrefab;
+		[SerializeField, Tooltip("Impulse events on channels not included in the mask will be ignored."), CinemachineImpulseChannelProperty]
+		protected int channelMask = 1;
+		[SerializeField, Tooltip("Gain to apply to the Impulse signal.  1 is normal strength.  Setting this to 0 completely mutes the signal.")]
+		protected float gain = 1f;
+		[SerializeField, Tooltip("Enable this to perform distance calculation in 2D (ignore Z)")]
+		protected bool use2DDistance = false;
+
+		private Transform parentToUse;
+		private GameObject objectToMove;
+
+		private Vector3 localPosition;
+
+		public void Init(Transform parent)
+		{
+			parentToUse = parent;
+			if (weaponPrefab != null)
+			{
+				objectToMove = GameObject.Instantiate(weaponPrefab, parent);
+				localPosition = objectToMove.transform.localPosition;
+			}
+		}
+		
+		/// <summary>
+		/// Handles the Impulses from the Cinemachine Input Sources
+		/// </summary>
+		public void Update()
+		{
+			if (objectToMove == null)
+			{
+				return;
+			}
+			
+			Vector3 position = Vector3.zero;
+			Quaternion rotation = Quaternion.identity;
+			if (CinemachineImpulseManager.Instance.GetImpulseAt(parentToUse.transform.position, use2DDistance, channelMask, out position, out rotation))
+			{		
+				Debug.LogFormat("position = {0}", position);
+				objectToMove.transform.localPosition = localPosition + position * -gain;
+				rotation = Quaternion.SlerpUnclamped(Quaternion.identity, rotation, -gain);
+				objectToMove.transform.rotation = objectToMove.transform.rotation * rotation;
+			}
 		}
 	}
 }

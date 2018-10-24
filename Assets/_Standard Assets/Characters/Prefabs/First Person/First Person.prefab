@@ -263,9 +263,9 @@ MonoBehaviour:
       movementZoneLibraries:
       - zoneId: 0
         zoneLibrary:
-          leftFootStepPrefab: {fileID: 114703649657986578, guid: 39b499a1da7614637b04ee652e561932,
+          leftFootStepPrefab: {fileID: 114311900519629896, guid: bcede881fd2d944309bf525ace1f2d24,
             type: 2}
-          rightFootStepPrefab: {fileID: 114303766495856896, guid: 12ff91133c90745e9bef34ba039e129d,
+          rightFootStepPrefab: {fileID: 114967407487660778, guid: c1de17cfbcbe5474699f2b5d8601d733,
             type: 2}
           landingPrefab: {fileID: 114805303375849546, guid: ecb7fd2a290b048dabc44bf7feffd33e,
             type: 2}
@@ -282,8 +282,12 @@ MonoBehaviour:
           jumpingPrefab: {fileID: 114805303375849546, guid: cfff8b50195ea4bf491836ee1bdfe817,
             type: 2}
     maximumSpeed: 10
-  weaponPrefab: {fileID: 1275037066185628, guid: dba2ccad365dc44aaacfd886f584386d,
-    type: 2}
+  weapon:
+    weaponPrefab: {fileID: 1275037066185628, guid: dba2ccad365dc44aaacfd886f584386d,
+      type: 2}
+    channelMask: 1
+    gain: 0.1
+    use2DDistance: 0
 --- !u!114 &114890619256215582
 MonoBehaviour:
   m_ObjectHideFlags: 1
