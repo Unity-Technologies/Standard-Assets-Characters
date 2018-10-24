@@ -12,6 +12,12 @@ namespace StandardAssets.Characters.Helpers
 		public float minValue;
 		public float maxValue;
 
+		public FloatRange(float minValue, float maxValue)
+		{
+			this.minValue = minValue;
+			this.maxValue = maxValue;
+		}
+		
 		/// <summary>
 		/// Gets an interpolation time using <see cref="minValue"/> and <see cref="maxValue"/>.
 		/// </summary>

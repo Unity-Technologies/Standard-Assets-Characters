@@ -7,8 +7,8 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 	/// <summary>
 	/// Data model class containing various settings for the <see cref="ThirdPersonMotor"/>.
 	/// </summary>
-	[CreateAssetMenu(fileName = "Third Person Root Motion Configuration",
-		menuName = "Standard Assets/Characters/Third Person Root Motion Configuration", order = 1)]
+	[CreateAssetMenu(fileName = "Third Person Motor Configuration",
+		menuName = "Standard Assets/Characters/Third Person Motor Configuration", order = 1)]
 	public class MotorConfig : ScriptableObject
 	{
 		[Header("Ground Motion")]
@@ -38,14 +38,14 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		protected AnimationCurve jumpHeightAsAFactorOfForwardSpeed = AnimationCurve.Constant(0,1,4);
 
 		[SerializeField, Tooltip("Number of samples used to average forward velocity to use as jump velocity.")]
-		protected int jumpGroundVelocitySamples = 1;
+		protected int jumpGroundVelocitySamples = 10;
 
 		[SerializeField, Tooltip("Turn speed is scaled by this value during an aerial state.")]
 		protected float jumpTurningSpeedScale = 0.5f;
 		
 		[Header("Standing Jump")]
 		[SerializeField, Tooltip("Jump forward speed applied during a standing forward jump.")]
-		protected float standingJumpForwardSpeed = 0.1f;
+		protected float standingJumpForwardSpeed = 3.5f;
 
 		[SerializeField, Tooltip("The minimum input allowed to trigger a standing forward jump.")]
 		protected float minInputThreshold = 0.5f;
@@ -74,7 +74,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 
 		[Header("Turning")]
 		[SerializeField, Tooltip("The degrees per second that the character can turn.")]
-		protected float turningSpeed = 500f;
+		protected float turningSpeed = 300f;
 
 		[SerializeField, Tooltip("Used for effecting how much of the -1 to 1 range of normalizedTurningSpeed")]
 		protected float turningSpeedVisualScale = 0.5f;

@@ -310,7 +310,25 @@ namespace StandardAssets.Characters.ThirdPerson
 				OnSprintEnded();
 			}
 			
-			HandleMovement();
+			if (movementState == ThirdPersonGroundMovementState.TurningAround)
+			{
+				CalculateForwardMovement();
+			}
+			else
+			{
+				switch (movementMode)
+				{
+					case ThirdPersonMotorMovementMode.Action:
+						SetLookDirection();
+						CalculateForwardMovement();
+						break;
+					case ThirdPersonMotorMovementMode.Strafe:
+						SetStrafeLookDirection();
+						CalculateStrafeMovement();
+						break;
+				}
+			}
+			
 			previousInputs.Add(characterInput.moveInput);
 			
 			if (jumpQueued)
@@ -451,40 +469,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			movementMode = ThirdPersonMotorMovementMode.Action;
 		}
 
-		/// <summary>
-		/// Handles movement based on <see cref="movementMode"/> and <see cref="movementMode"/>
-		/// </summary>
-		private void HandleMovement()
-		{
-			if (movementState == ThirdPersonGroundMovementState.TurningAround)
-			{
-				CalculateForwardMovement();
-				return;
-			}
-
-			switch (movementMode)
-			{
-				case ThirdPersonMotorMovementMode.Action:
-					ActionMovement();
-					break;
-				case ThirdPersonMotorMovementMode.Strafe:
-					StrafeMovement();
-					break;
-			}
-		}
-
-		private void ActionMovement()
-		{
-			SetLookDirection();
-			CalculateForwardMovement();
-		}
-
-		private void StrafeMovement()
-		{
-			SetStrafeLookDirection();
-			CalculateStrafeMovement();
-		}
-
 		private void SetStrafeLookDirection()
 		{
 			Quaternion targetRotation = CalculateTargetRotation(Vector3.forward);
@@ -509,7 +493,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				return;
 			}
 
-			Quaternion targetRotation = CalculateTargetRotation();
+			Quaternion targetRotation = CalculateTargetRotation(new Vector3(characterInput.moveInput.x, 0, characterInput.moveInput.y));
 			targetYRotation = targetRotation.eulerAngles.y;
 
 			if (IsGrounded && CheckForAndHandleRapidTurn(targetRotation))
@@ -561,11 +545,6 @@ namespace StandardAssets.Characters.ThirdPerson
 							-configuration.normalizedBackwardStrafeSpeed, configuration.normalizedForwardStrafeSpeed);
 			normalizedLateralSpeed = Mathf.Approximately(averageLateralInput, 0f)
 				? 0f : averageLateralInput * configuration.normalizedLateralStrafeSpeed;
-		}
-
-		private Quaternion CalculateTargetRotation()
-		{
-			return CalculateTargetRotation(new Vector3(characterInput.moveInput.x, 0, characterInput.moveInput.y));
 		}
 
 		private Vector3 CalculateLocalInputDirection()

@@ -8,19 +8,20 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 	/// <summary>
 	/// Data model class containing various settings for animation
 	/// </summary>
-	[CreateAssetMenu(fileName = "Third Person Animation Configuration", menuName = "Standard Assets/Characters/Third Person Animation Configuration", order = 1)]
+	[CreateAssetMenu(fileName = "Third Person Animation Configuration", 
+		menuName = "Standard Assets/Characters/Third Person Animation Configuration", order = 1)]
 	public class AnimationConfig : ScriptableObject
-	{	
+	{
 		[Header("Ground Movement")]
 		[Tooltip("Configuration for the forward speed animation parameter")]
 		[SerializeField]
-		protected FloatRange forwardSpeedInterpolationRange;
+		protected FloatRange forwardSpeedInterpolationRange = new FloatRange(0.2f, 0.35f);
 
 		[SerializeField, Tooltip("Configuration for the lateral speed animation parameter")]
-		protected FloatRange lateralSpeedInterpolationRange;
+		protected FloatRange lateralSpeedInterpolationRange = new FloatRange(0.2f, 0.35f);
 
 		[SerializeField, Tooltip("Configuration for the turning speed animation parameter")]
-		protected FloatRange turningSpeedInterpolationRange;
+		protected FloatRange turningSpeedInterpolationRange = new FloatRange(0.01f, 0.05f);
 
 		[SerializeField, Tooltip("Should a strafe rapid direction change be detected and smoothed. This should only " +
 		                         "be enabled if apposing strafe animations are reverses of each other. eg walk " +
@@ -43,8 +44,8 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		protected AnimationCurve jumpEndTransitionDurationByForwardSpeed = AnimationCurve.Linear(0,0,1,0.125f);
 		
 		[SerializeField, Tooltip("Cross fade cycle offset for transition into locomotion state after a physics jump")]
-		protected float rightFootPhysicsJumpLandAnimationTimeOffset = 0.1f,
-						leftFootPhysicsJumpLandAnimationTimeOffset = 0.6f;
+		protected float rightFootPhysicsJumpLandAnimationTimeOffset = 0.6f,
+						leftFootPhysicsJumpLandAnimationTimeOffset = 0.3f;
 
 		[SerializeField, Tooltip("Time in seconds allowed between jumps to create a skip effect")]
 		protected float skipJumpLandWindow = 0.25f;
