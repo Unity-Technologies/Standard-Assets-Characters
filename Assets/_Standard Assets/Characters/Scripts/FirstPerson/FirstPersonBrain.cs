@@ -77,6 +77,9 @@ namespace StandardAssets.Characters.FirstPerson
 		[SerializeField, Tooltip("The management of movement events e.g. footsteps")]
 		protected FirstPersonMovementEventHandler firstPersonMovementEventHandler;
 
+		[SerializeField]
+		protected GameObject weaponPrefab;
+
 		/// <summary>
 		/// The movement state is passed to the camera manager so that there can be different cameras e.g. crouch
 		/// </summary>
@@ -172,6 +175,10 @@ namespace StandardAssets.Characters.FirstPerson
 			newMovementProperties = walking;
 			firstPersonMovementEventHandler.AdjustTriggerThreshold(currentMovementProperties.strideLength);
 			mainCamera = Camera.main;
+			if (weaponPrefab != null)
+			{
+				Instantiate(weaponPrefab, mainCamera.transform);
+			}
 		}
 
 		/// <summary>
