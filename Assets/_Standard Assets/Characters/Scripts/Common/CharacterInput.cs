@@ -103,9 +103,11 @@ namespace StandardAssets.Characters.Common
 		/// </summary>
 		protected virtual void Awake()
 		{
+			
 			CinemachineCore.GetInputAxis = LookInputOverride;
 
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR 
+#if (!UNITY_ANDROID && UNITY_IOS && !UNITY_EDITOR)
+	
 			cursorLocked = false;
 			HandleCursorLock();
 			if (mobileControls != null)
