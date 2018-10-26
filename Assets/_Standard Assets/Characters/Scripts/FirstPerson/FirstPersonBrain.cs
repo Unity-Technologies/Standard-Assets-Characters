@@ -526,7 +526,6 @@ namespace StandardAssets.Characters.FirstPerson
 			Quaternion rotation = Quaternion.identity;
 			if (CinemachineImpulseManager.Instance.GetImpulseAt(parentToUse.transform.position, use2DDistance, channelMask, out position, out rotation))
 			{		
-				Debug.LogFormat("position = {0}", position);
 				objectToMove.transform.localPosition = localPosition + position * -gain;
 				rotation = Quaternion.SlerpUnclamped(Quaternion.identity, rotation, -gain);
 				objectToMove.transform.rotation = objectToMove.transform.rotation * rotation;
