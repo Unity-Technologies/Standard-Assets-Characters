@@ -306,6 +306,14 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		}
 		
 		/// <summary>
+		/// Gets the scale applied to head look at speed when there is no look input.
+		/// </summary>
+		public float noLookInputHeadLookAtScale
+		{
+			get { return headTurnProperties.noLookInputHeadLookAtScale; }
+		}
+		
+		/// <summary>
 		/// A serializable class used to store configuration settings for the head turing/look at.
 		/// </summary>
 		[Serializable]
@@ -319,6 +327,9 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 
 			[SerializeField, Tooltip("The speed at which head can rotate.")]
 			protected float headLookAtRotationSpeed = 15f;
+			
+			[SerializeField, Tooltip("A scale applied to look at speed when there is no look input.")]
+			protected float noInputHeadLookAtScale = 0.5f;
 
 			[SerializeField, Tooltip("Should head rotation take place while aerial?")]
 			protected bool adjustHeadLookAtWhileAerial = true;
@@ -364,6 +375,14 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			public bool lookAtWhileTurnaround
 			{
 				get { return adjustHeadLookAtDuringTurnaround; }
+			}
+
+			/// <summary>
+			/// Gets the scale applied to look at speed when there is no look input.
+			/// </summary>
+			public float noLookInputHeadLookAtScale
+			{
+				get { return noInputHeadLookAtScale; }
 			}
 		}
 	}

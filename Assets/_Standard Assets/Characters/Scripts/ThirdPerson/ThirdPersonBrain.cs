@@ -519,6 +519,11 @@ namespace StandardAssets.Characters.ThirdPerson
 				}
 			}
 
+			if (Mathf.Approximately(input.lookInput.sqrMagnitude, 0.0f))
+			{
+				headTurn *= configuration.noLookInputHeadLookAtScale;
+			}
+
 			headAngle = Mathf.LerpAngle(headAngle, targetHeadAngle, headTurn);
 
 			Vector3 lookAtPos = animator.transform.position +
