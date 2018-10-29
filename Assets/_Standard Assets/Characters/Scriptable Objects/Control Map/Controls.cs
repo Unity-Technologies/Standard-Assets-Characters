@@ -74,6 +74,7 @@ public class Controls : InputActionAssetReference
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
+        public bool enabled { get { return Get().enabled; } }
         public InputActionMap Clone() { return Get().Clone(); }
         public static implicit operator InputActionMap(MovementActions set) { return set.Get(); }
     }
