@@ -9,7 +9,7 @@ namespace StandardAssets.Characters.Effects.Players
     [RequireComponent(typeof(CinemachineImpulseSource))]
     public class CinemachineImpulseMovementEventPlayer : MovementEventPlayer
     {
-        [SerializeField, Tooltip("How the volume is scaled based on normalizedSpeed")]
+        [SerializeField]
         protected AnimationCurve impulseFromNormalizedSpeed = AnimationCurve.Linear(0f,0.5f,1f,1f);
 
         private CinemachineImpulseSource impulseSource;
