@@ -335,6 +335,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 		
+		private void LateUpdate()
+		{
+			motor.SetLookDirection();
+		}
+		
 		/// <summary>
 		/// Sets the Animator parameters.
 		/// </summary>

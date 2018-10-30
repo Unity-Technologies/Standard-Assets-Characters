@@ -319,11 +319,9 @@ namespace StandardAssets.Characters.ThirdPerson
 				switch (movementMode)
 				{
 					case ThirdPersonMotorMovementMode.Action:
-						SetLookDirection();
 						CalculateForwardMovement();
 						break;
 					case ThirdPersonMotorMovementMode.Strafe:
-						SetStrafeLookDirection();
 						CalculateStrafeMovement();
 						break;
 				}
@@ -338,6 +336,23 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (trackGroundHeight)
 			{
 				UpdateTrackGroundHeight();
+			}
+		}
+
+		public void SetLookDirection()
+		{
+			if (movementState == ThirdPersonGroundMovementState.TurningAround)
+			{
+				return;
+			}
+			switch (movementMode)
+			{
+				case ThirdPersonMotorMovementMode.Action:
+					SetActionLookDirection();
+					break;
+				case ThirdPersonMotorMovementMode.Strafe:
+					SetStrafeLookDirection();
+					break;
 			}
 		}
 
@@ -484,7 +499,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			transform.rotation = newRotation;
 		}
 
-		private void SetLookDirection()
+		private void SetActionLookDirection()
 		{
 			if (!characterInput.hasMovementInput)
 			{
