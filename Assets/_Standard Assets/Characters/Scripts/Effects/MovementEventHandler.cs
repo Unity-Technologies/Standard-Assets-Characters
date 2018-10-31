@@ -8,6 +8,17 @@ using UnityEngine;
 namespace StandardAssets.Characters.Effects
 {
 	/// <summary>
+	/// Enum for representing the different type of movement zones
+	/// </summary>
+	public enum MovementZoneId
+	{
+		Concrete,
+		Metal,
+		Grass,
+		Gravel
+	}
+	
+	/// <summary>
 	/// Abstract class for handling MovementEvents
 	/// </summary>
 	[Serializable]
@@ -149,17 +160,6 @@ namespace StandardAssets.Characters.Effects
 			firedFrom = firedFromTransform;
 			normalizedSpeed = normalizedSpeedToUse;
 		}
-	}
-
-	/// <summary>
-	/// Enum for representing the different type of movement zones
-	/// </summary>
-	public enum MovementZoneId
-	{
-		Concrete,
-		Metal,
-		Grass,
-		Gravel
 	}
 	
 	/// <summary>

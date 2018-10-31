@@ -5,10 +5,10 @@ using UnityEngine;
 namespace StandardAssets.Characters.Effects
 {
 	/// <summary>
-	/// Implementation of a movement zone using Triggers
+	/// Implementation of a movement zone using Trigger
 	/// </summary>
 	[RequireComponent(typeof(Collider))]
-	public class TriggerMovementZone : MonoBehaviour
+	public class MovementZoneTrigger : MonoBehaviour
 	{
 		[SerializeField]
 		protected MovementZoneId zoneId;
