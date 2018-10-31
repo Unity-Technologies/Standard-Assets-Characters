@@ -44,16 +44,16 @@ namespace StandardAssets.Characters.Common
 		protected GameObject onScreenControlsCanvas;
 
 		/// <summary>
-		/// Invert vertical look direction
-		/// </summary>
-		[SerializeField, Tooltip("Invert vertical look direction")]
-		protected bool invertY;
-
-		/// <summary>
 		/// Invert horizontal look direction
 		/// </summary>
 		[SerializeField, Tooltip("Invert horizontal look direction")]
 		protected bool invertX;
+		
+		/// <summary>
+		/// Invert vertical look direction
+		/// </summary>
+		[SerializeField, Tooltip("Invert vertical look direction")]
+		protected bool invertY;
 
 		/// <summary>
 		/// The horizontal look sensitivity
@@ -119,10 +119,8 @@ namespace StandardAssets.Characters.Common
 
 				RegisterAdditionalInputsMobile();
 			}
-			
 
-			ToggleOnScreenCanvas(true);
-
+			ToggleOnScreenCanvas(true)
 #else
 			if(controls !=null)
 			{
@@ -134,8 +132,7 @@ namespace StandardAssets.Characters.Common
 				RegisterAdditionalInputs();
 			}
 			
-			ToggleOnScreenCanvas(false);
-	
+			ToggleOnScreenCanvas(false);	
 #endif
 		}
 
