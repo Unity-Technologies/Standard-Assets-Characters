@@ -11,10 +11,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 979c01115def454ba10ad1af450a9bdf, type: 3}
   m_Name: MovementZones
   m_EditorClassIdentifier: 
-  defaultZoneId: concrete
+  defaultZoneId: 0
   zonesDefinition:
     movementZoneLibraries:
-    - zoneId: metal
+    - zoneId: 1
       zoneLibrary:
         leftFootStepPrefab: {fileID: 114311900519629896, guid: 7768038ceb1534eb290b18f8f1b9fc91,
           type: 2}
@@ -24,7 +24,7 @@ MonoBehaviour:
           type: 2}
         jumpingPrefab: {fileID: 114805303375849546, guid: cfff8b50195ea4bf491836ee1bdfe817,
           type: 2}
-    - zoneId: concrete
+    - zoneId: 0
       zoneLibrary:
         leftFootStepPrefab: {fileID: 114311900519629896, guid: a0865b7ba94ac4fd49e0ca925b0e000d,
           type: 2}
@@ -34,7 +34,7 @@ MonoBehaviour:
           type: 2}
         jumpingPrefab: {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868,
           type: 2}
-    - zoneId: gravel
+    - zoneId: 3
       zoneLibrary:
         leftFootStepPrefab: {fileID: 114311900519629896, guid: cbbf268b858c849ef92b2a5317360b96,
           type: 2}
@@ -44,7 +44,7 @@ MonoBehaviour:
           type: 2}
         jumpingPrefab: {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868,
           type: 2}
-    - zoneId: grass
+    - zoneId: 2
       zoneLibrary:
         leftFootStepPrefab: {fileID: 114311900519629896, guid: e519c5baea00643fa9ad4bcddf451d11,
           type: 2}
