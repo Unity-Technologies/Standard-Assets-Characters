@@ -78,6 +78,9 @@ namespace StandardAssets.Characters.FirstPerson
 		protected FirstPersonMovementEventHandler firstPersonMovementEventHandler;
 
 		[SerializeField]
+		protected bool hasWeapon = true;
+		
+		[SerializeField]
 		protected Weapon weapon;
 
 		/// <summary>
@@ -143,6 +146,11 @@ namespace StandardAssets.Characters.FirstPerson
 			}
 		}
 
+		public bool hasWeaponAttached
+		{
+			get { return hasWeapon; }
+		}
+
 		/// <summary>
 		/// Gets the target Y rotation of the character
 		/// </summary>
@@ -175,13 +183,15 @@ namespace StandardAssets.Characters.FirstPerson
 			newMovementProperties = walking;
 			firstPersonMovementEventHandler.AdjustTriggerThreshold(currentMovementProperties.strideLength);
 			mainCamera = Camera.main;
-			weapon.Init(mainCamera.transform);
 		}
 
 		protected override void Update()
 		{
 			base.Update();
-			weapon.Update();
+			if (hasWeapon)
+			{
+				weapon.Update(mainCamera.transform);
+			}
 		}
 
 		/// <summary>
@@ -497,14 +507,12 @@ namespace StandardAssets.Characters.FirstPerson
 		[SerializeField, Tooltip("Enable this to perform distance calculation in 2D (ignore Z)")]
 		protected bool use2DDistance = false;
 
-		private Transform parentToUse;
 		private GameObject objectToMove;
 
 		private Vector3 localPosition;
 
-		public void Init(Transform parent)
+		protected void Init(Transform parent)
 		{
-			parentToUse = parent;
 			if (weaponPrefab != null)
 			{
 				objectToMove = GameObject.Instantiate(weaponPrefab, parent);
@@ -515,8 +523,13 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// Handles the Impulses from the Cinemachine Input Sources
 		/// </summary>
-		public void Update()
+		public void Update(Transform parentToUse)
 		{
+			if (objectToMove == null)
+			{
+				Init(parentToUse);
+			}
+
 			if (objectToMove == null)
 			{
 				return;

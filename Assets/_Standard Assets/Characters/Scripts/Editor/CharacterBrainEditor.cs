@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using StandardAssets.Characters.Common;
 using StandardAssets.Characters.Examples.SimpleMovementController;
 using StandardAssets.Characters.FirstPerson;
@@ -58,6 +59,29 @@ namespace Editor
 	[CustomEditor(typeof(FirstPersonBrain))]
 	public class FirstPersonBrainEditor : CharacterBrainEditor
 	{
+		protected const string k_WeaponName = "weapon";
+
+		protected override string[] GetOpenCharacterControllerExclusions()
+		{
+			List<string> exclusionList = new List<string> {k_CharacterControllerAdapterName};
+			FirstPersonBrain brain = target as FirstPersonBrain;
+			if (!brain.hasWeaponAttached)
+			{
+				exclusionList.Add(k_WeaponName);
+			}
+			return exclusionList.ToArray();
+		}
+		
+		protected override string[] GetCharacterControllerExclusions()
+		{
+			List<string> exclusionList = new List<string> {k_OpenCharacterControllerAdapterName};
+			FirstPersonBrain brain = target as FirstPersonBrain;
+			if (!brain.hasWeaponAttached)
+			{
+				exclusionList.Add(k_WeaponName);
+			}
+			return exclusionList.ToArray();
+		}
 	}
 
 	[CustomEditor(typeof(ThirdPersonBrain))]
