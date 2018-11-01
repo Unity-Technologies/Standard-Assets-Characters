@@ -117,6 +117,12 @@ namespace StandardAssets.Characters.ThirdPerson
 		private SizedQueue<Vector2> previousInputs;
 		private Camera mainCamera;
 		
+		// on start strafe control initial look
+		private bool isInitialStrafeLook;
+		private float initialStrafeLookCount;
+		private Quaternion rotationOnStrafeStart;
+
+		
 		/// <summary>
 		/// Gets whether to track height above the ground.
 		/// </summary>
@@ -474,8 +480,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			
 			movementMode = ThirdPersonMotorMovementMode.Strafe;
+			isInitialStrafeLook = true;
+			initialStrafeLookCount = configuration.initialStrafeLookDuration;
+			rotationOnStrafeStart = transform.rotation;
 		}
-
+		
 		/// <summary>
 		/// Changes movement mode to <see cref="ThirdPersonMotorMovementMode.Action"/>
 		/// </summary>
@@ -487,15 +496,26 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void SetStrafeLookDirection()
 		{
 			Quaternion targetRotation = CalculateTargetRotation(Vector3.forward);
-
 			targetYRotation = targetRotation.eulerAngles.y;
+			Quaternion newRotation;
 
-			Quaternion newRotation =
-				Quaternion.RotateTowards(transform.rotation, targetRotation,
+			if (isInitialStrafeLook)
+			{
+				newRotation = Quaternion.Lerp(rotationOnStrafeStart, targetRotation, 
+					1.0f - initialStrafeLookCount / configuration.initialStrafeLookDuration);
+				initialStrafeLookCount -= Time.deltaTime;
+				if (initialStrafeLookCount <= 0.0f)
+				{
+					isInitialStrafeLook = false;
+				}
+			}
+			else
+			{
+				newRotation = Quaternion.RotateTowards(transform.rotation, targetRotation,
 								configuration.turningYSpeed * configuration.strafeTurningSpeedScale * Time.deltaTime);
-
+			}
+			
 			SetTurningSpeed(transform.rotation, newRotation);
-
 			transform.rotation = newRotation;
 		}
 
