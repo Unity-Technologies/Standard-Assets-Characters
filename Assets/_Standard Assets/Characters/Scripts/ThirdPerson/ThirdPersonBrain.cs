@@ -292,6 +292,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <param name="deltaTime">Interpolation delta time</param>
 		public void UpdateTurningSpeed(float newSpeed, float deltaTime)
 		{
+			// remap turning speed
+			newSpeed = configuration.animationTurningSpeedCurve.Evaluate(Mathf.Abs(newSpeed)) * Mathf.Sign(newSpeed);
 			animator.SetFloat(hashTurningSpeed, newSpeed,
 			                  configuration.turningSpeedInterpolation.GetInterpolationTime(animatorTurningSpeed, 
 			                                                        newSpeed),deltaTime);
