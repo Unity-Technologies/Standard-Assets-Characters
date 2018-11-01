@@ -20,11 +20,11 @@ namespace Demo
 			}
 			
 			string turnaroundType = "None";
-			if (thirdPersonBrain.turnaround is BlendspaceTurnaroundBehaviour)
+			if (thirdPersonBrain.turnAround is BlendspaceTurnAroundBehaviour)
 			{
 				turnaroundType = "Blendspace";
 			}
-			else if (thirdPersonBrain.turnaround is AnimationTurnaroundBehaviour)
+			else if (thirdPersonBrain.turnAround is AnimationTurnAroundBehaviour)
 			{
 				turnaroundType = "Animation";
 			}

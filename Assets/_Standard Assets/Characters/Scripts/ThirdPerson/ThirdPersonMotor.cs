@@ -128,11 +128,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		private readonly List<object> objectsThatDisabledRapidTurn = new List<object>();
 
 		/// <summary>
-		/// Gets the current <see cref="TurnaroundBehaviour"/>.
+		/// Gets the current <see cref="TurnAroundBehaviour"/>.
 		/// </summary>
-		public TurnaroundBehaviour currentTurnaroundBehaviour
+		public TurnAroundBehaviour currentTurnAroundBehaviour
 		{
-			get { return thirdPersonBrain.turnaround; }
+			get { return thirdPersonBrain.turnAround; }
 		}
 	
 		/// <summary>
@@ -197,7 +197,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			if (movementState == ThirdPersonGroundMovementState.TurningAround)
 			{
-				controllerAdapter.Move(thirdPersonBrain.turnaround.GetMovement(), Time.deltaTime);
+				controllerAdapter.Move(thirdPersonBrain.turnAround.GetMovement(), Time.deltaTime);
 				return;
 			}
 
@@ -265,7 +265,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			controllerAdapter.startedFalling += OnStartedFalling;
 			
 			//Turnaround subscription for runtime support
-			foreach (TurnaroundBehaviour turnaroundBehaviour in thirdPersonBrain.turnaroundOptions)
+			foreach (TurnAroundBehaviour turnaroundBehaviour in thirdPersonBrain.turnAroundOptions)
 			{
 				turnaroundBehaviour.turnaroundComplete += TurnaroundComplete;
 			}
@@ -294,7 +294,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 			//Turnaround un-subscription for runtime support
-			foreach (TurnaroundBehaviour turnaroundBehaviour in thirdPersonBrain.turnaroundOptions)
+			foreach (TurnAroundBehaviour turnaroundBehaviour in thirdPersonBrain.turnAroundOptions)
 			{
 				turnaroundBehaviour.turnaroundComplete -= TurnaroundComplete;
 			}
@@ -605,8 +605,8 @@ namespace StandardAssets.Characters.ThirdPerson
 													Time.deltaTime * configuration.normalizedTurningSpeedLerpSpeedFactor);
 		}
 
-		/// <remarks>Subscribes to the <see cref="currentTurnaroundBehaviour"/>'s
-		/// <see cref="TurnaroundBehaviour.turnaroundComplete"/> </remarks>
+		/// <remarks>Subscribes to the <see cref="currentTurnAroundBehaviour"/>'s
+		/// <see cref="TurnAroundBehaviour.turnaroundComplete"/> </remarks>
 		private void TurnaroundComplete()
 		{
 			movementState = preTurnMovementState;
@@ -614,7 +614,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private bool CheckForAndHandleRapidTurn(Quaternion target)
 		{
-			if (thirdPersonBrain.turnaround == null ||
+			if (thirdPersonBrain.turnAround == null ||
 			    disableRapidTurn)
 			{
 				return false;
@@ -628,7 +628,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				cachedForwardVelocity = averageForwardVelocity.average;
 				preTurnMovementState = movementState;
 				movementState = ThirdPersonGroundMovementState.TurningAround;
-				thirdPersonBrain.turnaround.TurnAround(angle);
+				thirdPersonBrain.turnAround.TurnAround(angle);
 				return true;
 			}
 

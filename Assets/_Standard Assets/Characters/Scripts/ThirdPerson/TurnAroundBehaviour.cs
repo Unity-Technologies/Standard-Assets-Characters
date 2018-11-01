@@ -8,7 +8,7 @@ namespace StandardAssets.Characters.ThirdPerson
 	/// <summary>
 	/// Class to handle rapid turns
 	/// </summary>
-	public abstract class TurnaroundBehaviour
+	public abstract class TurnAroundBehaviour
 	{
 		/// <summary>
 		/// Value multiplicatively applied to the head look at turn angle
@@ -83,7 +83,7 @@ namespace StandardAssets.Characters.ThirdPerson
 	/// </summary>
 	/// <remarks>This turnaround type should be used to improve fidelity at the cost of responsiveness.</remarks>
 	[Serializable]
-	public class AnimationTurnaroundBehaviour : TurnaroundBehaviour
+	public class AnimationTurnAroundBehaviour : TurnAroundBehaviour
 	{
 		private enum State
 		{
@@ -311,7 +311,7 @@ namespace StandardAssets.Characters.ThirdPerson
 	/// Blendspace extension of TurnaroundBehaviour. Rotates the character to the target angle using blendspace.
 	/// </summary>
 	[Serializable]
-	public class BlendspaceTurnaroundBehaviour : TurnaroundBehaviour
+	public class BlendspaceTurnAroundBehaviour : TurnAroundBehaviour
 	{
 		[SerializeField, Tooltip("Should the turnaround be configured or just use defaults?")]
 		protected bool configureBlendspace;
@@ -469,7 +469,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 		
 		/// <summary>
-		/// Data class used to store configuration settings used by <see cref="BlendspaceTurnaroundBehaviour"/>.
+		/// Data class used to store configuration settings used by <see cref="BlendspaceTurnAroundBehaviour"/>.
 		/// </summary>
 		[Serializable]
 		protected class BlendspaceProperties

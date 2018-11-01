@@ -32,10 +32,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected TurnaroundType turnaroundType;
 
 		[SerializeField]
-		protected BlendspaceTurnaroundBehaviour blendspaceTurnaroundBehaviour;
+		protected BlendspaceTurnAroundBehaviour blendspaceTurnAroundBehaviour;
 
 		[SerializeField]
-		protected AnimationTurnaroundBehaviour animationTurnaroundBehaviour;
+		protected AnimationTurnAroundBehaviour animationTurnAroundBehaviour;
 		
 		[SerializeField]
 		protected ThirdPersonMovementEventHandler thirdPersonMovementEventHandler;
@@ -86,7 +86,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private IThirdPersonInput input;
 
-		private TurnaroundBehaviour[] turnaroundBehaviours;
+		private TurnAroundBehaviour[] turnAroundBehaviours;
 		
 		private float rapidStrafeTime, rapidStrafeChangeDuration;
 		
@@ -100,21 +100,21 @@ namespace StandardAssets.Characters.ThirdPerson
 			get { return turnaroundType; }
 		}
 
-		public TurnaroundBehaviour turnaround { get; private set; }
+		public TurnAroundBehaviour turnAround { get; private set; }
 
-		public TurnaroundBehaviour[] turnaroundOptions
+		public TurnAroundBehaviour[] turnAroundOptions
 		{
 			get
 			{
-				if (turnaroundBehaviours == null)
+				if (turnAroundBehaviours == null)
 				{
-					turnaroundBehaviours = new TurnaroundBehaviour[]
+					turnAroundBehaviours = new TurnAroundBehaviour[]
 					{
-						blendspaceTurnaroundBehaviour, 
-						animationTurnaroundBehaviour
+						blendspaceTurnAroundBehaviour, 
+						animationTurnAroundBehaviour
 					};
 				}
-				return turnaroundBehaviours;
+				return turnAroundBehaviours;
 			}
 		}
 
@@ -292,6 +292,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <param name="deltaTime">Interpolation delta time</param>
 		public void UpdateTurningSpeed(float newSpeed, float deltaTime)
 		{
+			// remap turning speed
+			newSpeed = configuration.animationTurningSpeedCurve.Evaluate(Mathf.Abs(newSpeed)) * Mathf.Sign(newSpeed);
 			animator.SetFloat(hashTurningSpeed, newSpeed,
 			                  configuration.turningSpeedInterpolation.GetInterpolationTime(animatorTurningSpeed, 
 			                                                        newSpeed),deltaTime);
@@ -300,9 +302,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected override void Awake()
 		{
 			base.Awake();
-			blendspaceTurnaroundBehaviour.Init(this);
-			animationTurnaroundBehaviour.Init(this);
-			turnaround = GetCurrentTurnaroundBehaviour();
+			blendspaceTurnAroundBehaviour.Init(this);
+			animationTurnAroundBehaviour.Init(this);
+			turnAround = GetCurrentTurnaroundBehaviour();
 			motor.Init(this);
 			
 			InitAnimator();
@@ -319,9 +321,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			motor.Update();
 
-			if (turnaround != null)
+			if (turnAround != null)
 			{
-				turnaround.Update();
+				turnAround.Update();
 			}
 			
 			targetYRotation = motor.targetYRotation;
@@ -331,7 +333,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (Input.GetKeyDown(KeyCode.T))
 			{
 				turnaroundType = turnaroundType == TurnaroundType.Animation ? TurnaroundType.None : turnaroundType + 1;
-				turnaround = GetCurrentTurnaroundBehaviour();
+				turnAround = GetCurrentTurnaroundBehaviour();
 			}
 		}
 		
@@ -400,16 +402,16 @@ namespace StandardAssets.Characters.ThirdPerson
 			cameraController.SetThirdPersonBrain(this);
 		}
 
-		private TurnaroundBehaviour GetCurrentTurnaroundBehaviour()
+		private TurnAroundBehaviour GetCurrentTurnaroundBehaviour()
 		{
 			switch (turnaroundType)
 			{
 					case TurnaroundType.None:
 						return null;
 					case TurnaroundType.Blendspace:
-						return blendspaceTurnaroundBehaviour;
+						return blendspaceTurnAroundBehaviour;
 					case TurnaroundType.Animation:
-						return animationTurnaroundBehaviour;
+						return animationTurnAroundBehaviour;
 					default:
 						return null;
 			}
@@ -520,7 +522,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				}
 				else
 				{
-					headTurn *= motor.currentTurnaroundBehaviour.headTurnScale;
+					headTurn *= motor.currentTurnAroundBehaviour.headTurnScale;
 				}
 			}
 
@@ -821,7 +823,7 @@ namespace StandardAssets.Characters.ThirdPerson
 #if UNITY_EDITOR
 		private void OnValidate()
 		{
-			turnaround = GetCurrentTurnaroundBehaviour();
+			turnAround = GetCurrentTurnaroundBehaviour();
 		}
 #endif
 	}
