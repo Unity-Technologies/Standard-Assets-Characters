@@ -207,6 +207,13 @@ MonoBehaviour:
   maxSpeed: 5
   timeToMaxSpeed: 0.5
   turnSpeed: 300
+  groundCheckDistance: 0.55
+  groundCheckMask:
+    serializedVersion: 2
+    m_Bits: 256
+  gravity: -9.81
+  terminalVelocity: -100
+  jumpSpeed: 5
 --- !u!143 &143417532114150374
 CharacterController:
   m_ObjectHideFlags: 1

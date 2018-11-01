@@ -15,7 +15,22 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		[SerializeField]
 		protected float turnSpeed = 300f;
 		
-		private float movementTime, currentSpeed;
+		[SerializeField]
+		protected float groundCheckDistance = 0.51f;
+
+		[SerializeField]
+		protected LayerMask groundCheckMask;
+
+		[SerializeField]
+		protected float gravity = -9.81f;
+
+		[SerializeField]
+		protected float terminalVelocity = -100f;
+
+		[SerializeField]
+		protected float jumpSpeed = 10f;
+		
+		private float movementTime, currentSpeed, airTime, currentVerticalVelocity, initialJumpVelocity, fallTime;
 		
 		private bool previouslyHasInput;
 		
@@ -24,6 +39,8 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		private CharacterController controller;
 
 		private Transform mainCameraTransform;
+
+		private Vector3 verticalVector;
 
 		private void Awake()
 		{
@@ -34,12 +51,17 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 
 		private void OnEnable()
 		{
-			//Subscribe
+			characterInput.jumpPressed += OnJump;
+		}
+
+		private void OnJump()
+		{
+			initialJumpVelocity = jumpSpeed;
 		}
 
 		private void OnDisable()
 		{
-			//Unsubscribe
+			characterInput.jumpPressed -= OnJump;
 		}
 
 		private void Update()
@@ -66,6 +88,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// </summary>
 		private void FixedUpdate()
 		{
+			AerialMovement(Time.fixedDeltaTime);
 			if (characterInput.hasMovementInput)
 			{
 				if (!previouslyHasInput)
@@ -93,7 +116,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 			Vector3 forward = transform.forward * input.magnitude;
 			Vector3 sideways = Vector3.zero;
 			
-			controller.SimpleMove((forward + sideways) * currentSpeed /* Time.fixedDeltaTime*/);
+			controller.Move(((forward + sideways) * currentSpeed * Time.fixedDeltaTime) + verticalVector);
 
 			previouslyHasInput = characterInput.hasMovementInput;
 		}
@@ -114,6 +137,72 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		private void Stop()
 		{
 			currentSpeed = 0f;
+		}
+		
+		private bool CheckGrounded()
+		{
+			Debug.DrawRay(transform.position + controller.center, 
+			              new Vector3(0,-groundCheckDistance * controller.height,0), Color.red);
+			if (UnityEngine.Physics.Raycast(transform.position + controller.center, 
+			                                -transform.up, groundCheckDistance * controller.height, groundCheckMask))
+			{
+				return true;
+			}
+			
+			Vector3 xRayOffset = new Vector3(controller.radius,0f,0f);
+			Vector3 zRayOffset = new Vector3(0f,0f,controller.radius);		
+			
+			for (int i = 0; i < 4; i++)
+			{
+				float sign = 1f;
+				Vector3 rayOffset;
+				if (i % 2 == 0)
+				{
+					rayOffset = xRayOffset;
+					sign = i - 1f;
+				}
+				else
+				{
+					rayOffset = zRayOffset;
+					sign = i - 2f;
+				}
+				Debug.DrawRay(transform.position + controller.center + sign * rayOffset, 
+				              new Vector3(0,-groundCheckDistance * controller.height,0), Color.blue);
+
+				if (UnityEngine.Physics.Raycast(transform.position + controller.center + sign * rayOffset,
+				                                -transform.up,groundCheckDistance * controller.height, groundCheckMask))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+		
+		private void AerialMovement(float deltaTime)
+		{
+			airTime += deltaTime;
+			if (currentVerticalVelocity >= 0.0f)
+			{
+				currentVerticalVelocity = Mathf.Clamp(initialJumpVelocity + gravity * airTime, terminalVelocity,
+				                                      Mathf.Infinity);
+			}
+
+			if (currentVerticalVelocity < 0.0f)
+			{
+				currentVerticalVelocity = Mathf.Clamp(gravity * fallTime, terminalVelocity, Mathf.Infinity);
+				fallTime += deltaTime;
+				if (CheckGrounded())
+				{
+					initialJumpVelocity = 0.0f;
+					verticalVector = Vector3.zero;
+
+					fallTime = 0.0f;
+					airTime = 0.0f;
+					return;
+				}
+			}
+
+			verticalVector = new Vector3(0.0f, currentVerticalVelocity * deltaTime, 0.0f);
 		}
 	}
 }
