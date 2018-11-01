@@ -10,22 +10,19 @@ namespace StandardAssets.Characters.Common
 	/// <summary>
 	/// Abstract bass class for character brains
 	/// </summary>
+	[RequireComponent(typeof(OpenCharacterController))]
 	public abstract class CharacterBrain : MonoBehaviour
 	{
 		public Action<MovementZoneId?> changeMovementZone;
-		
-		[Header("Controllers")]
-		[SerializeField, Tooltip("Settings for the default CharacterController.")]
-		protected CharacterControllerAdapter characterControllerAdapter;
 
 		[SerializeField, Tooltip("Settings for the OpenCharacterController.")]
-		protected OpenCharacterControllerAdapter openCharacterControllerAdapter;
+		protected ControllerAdapter characterControllerAdapter;
 
-		/// <summary>
-		/// Gets/sets the controller adapter implementation used by the Character
-		/// </summary>
-		public ControllerAdapter controllerAdapter { get; protected set; }
-
+		public ControllerAdapter controllerAdapter
+		{
+			get { return characterControllerAdapter; }
+		}
+		
 		/// <summary>
 		/// Gets/sets the planar speed (i.e. ignoring the displacement) of the CharacterBrain
 		/// </summary>
@@ -42,25 +39,11 @@ namespace StandardAssets.Characters.Common
 		/// </summary>
 		protected virtual void Awake()
 		{
-			if (GetComponent<CharacterController>() != null)
-			{
-				controllerAdapter = characterControllerAdapter;
-			}
-			else if (GetComponent<OpenCharacterController>() != null)
-			{
-				controllerAdapter = openCharacterControllerAdapter;
-			}
-			else
-			{
-				Debug.LogErrorFormat("{0} must have a CharacterController or OpenCharacterController attached.",
-					name);
-			}
-			
 			lastPosition = transform.position;
 
-			if (controllerAdapter != null)
+			if (characterControllerAdapter != null)
 			{
-				controllerAdapter.Awake(transform);
+				characterControllerAdapter.Awake(transform);
 			}
 		}
 
@@ -86,10 +69,10 @@ namespace StandardAssets.Characters.Common
 	}
 	
 	/// <summary>
-	/// Abstract wrapper for character controllers. Requires a <see cref="CharacterInput"/> and <see cref="CharacterBrain"/>.
+	/// Wrapper for the OpenCharacterController
 	/// </summary>
 	[Serializable]
-	public abstract class ControllerAdapter
+	public class ControllerAdapter
 	{
 		/// <summary>
 		/// Used as a clamp for downward velocity.
@@ -112,43 +95,50 @@ namespace StandardAssets.Characters.Common
 		[SerializeField, Tooltip("The speed at which gravity is allowed to change")]
 		protected float gravityChangeSpeed = 10f;
 
-		/// <inheritdoc/>
 		public bool isGrounded { get; private set; }
+		
+		public OpenCharacterController characterController { get; private set; }
 
-		/// <inheritdoc/>
-		public abstract bool startedSlide { get; }
+		public bool startedSlide
+		{
+			get { return characterController.startedSlide; }
+		}
 
-		/// <inheritdoc/>
 		public event Action landed;
 
-		/// <inheritdoc/>
 		public event Action jumpVelocitySet;
 
-		/// <inheritdoc/>
 		public event Action<float> startedFalling;
 
-		/// <inheritdoc/>
 		public float airTime { get; private set; }
 
-		/// <inheritdoc/>
 		public float fallTime { get; private set; }
 
 		/// <summary>
 		/// Gets the radius of the character.
 		/// </summary>
 		/// <value>The radius used for predicting the landing position.</value>
-		protected abstract float radius { get; }
+		protected float radius
+		{
+			get { return characterController.scaledRadius + characterController.GetSkinWidth(); }
+		}
 
 		/// <summary>
 		/// Gets the character's world foot position.
 		/// </summary>
 		/// <value>A world position at the bottom of the character</value>
-		protected abstract Vector3 footWorldPosition { get; }
+		protected  Vector3 footWorldPosition
+		{
+			get { return characterController.GetFootWorldPosition(); }
+		}
 
 		/// <summary>
 		/// Gets the collision layer mask used for physics grounding,
 		/// </summary>
-		protected abstract LayerMask collisionLayerMask { get; }
+		protected LayerMask collisionLayerMask
+		{
+			get { return characterController.GetCollisionLayerMask(); }
+		}
 
 		// the number of time sets used for trajectory prediction.
 		private const int k_TrajectorySteps = 60;
@@ -252,7 +242,7 @@ namespace StandardAssets.Characters.Common
 		/// <inheritdoc />
 		public void Move(Vector3 moveVector, float deltaTime)
 		{
-			isGrounded = CheckGrounded();
+			isGrounded = characterController.isGrounded;
 			AerialMovement(deltaTime);
 			MoveCharacter(moveVector + verticalVector);
 			cachedGroundVelocity = moveVector / deltaTime;
@@ -293,6 +283,7 @@ namespace StandardAssets.Characters.Common
 			normalizedVerticalSpeed = 0.0f;
 			characterInput = cachedTransform.GetComponent<CharacterInput>();
 			characterBrain = cachedTransform.GetComponent<CharacterBrain>();
+			characterController = cachedTransform.GetComponent<OpenCharacterController>();
 
 			if (terminalVelocity > 0.0f)
 			{
@@ -429,14 +420,19 @@ namespace StandardAssets.Characters.Common
 			gravity = Mathf.Lerp(gravity, newGravity, deltaTime * gravityChangeSpeed);
 		}
 
-		/// <returns>True if the character is grounded; false otherwise.</returns>
-		protected abstract bool CheckGrounded();
-
 		/// <summary>
 		/// Moves the character by <paramref name="movement"/> world units.
 		/// </summary>
 		/// <param name="movement">The value to move the character by in world units.</param>
-		protected abstract void MoveCharacter(Vector3 movement);
+		protected void MoveCharacter(Vector3 movement)
+		{
+			CollisionFlags collisionFlags = characterController.Move(movement);
+			if ((collisionFlags & CollisionFlags.CollidedAbove) == CollisionFlags.CollidedAbove)
+			{
+				currentVerticalVelocity = 0f;
+				initialJumpVelocity = 0f;
+			}
+		}
 
 #if UNITY_EDITOR
 		/// <summary>
@@ -456,190 +452,5 @@ namespace StandardAssets.Characters.Common
 			}
 		}
 #endif
-	}
-	
-	/// <summary>
-	/// A controller adapter implementation that uses the default Unity character controller.
-	/// </summary>
-	[Serializable]
-	public class CharacterControllerAdapter : ControllerAdapter
-	{
-		/// <summary>
-		/// The distance used to check if grounded
-		/// </summary>
-		[SerializeField]
-		protected float groundCheckDistance = 0.55f;
-
-		/// <summary>
-		/// Layers to use in the ground check
-		/// </summary>
-		[Tooltip("Layers to use in the ground check")]
-		[SerializeField]
-		protected LayerMask groundCheckMask;
-
-		/// <summary>
-		/// Character controller
-		/// </summary>
-		private CharacterController characterController;
-
-		public override bool startedSlide
-		{
-			// CharacterController will never slide down a slope
-			get { return false; }
-		}
-
-		protected override float radius
-		{
-			get { return characterController.radius; }
-		}
-
-		protected override Vector3 footWorldPosition
-		{
-			get
-			{
-				return cachedTransform.position + characterController.center -
-					   new Vector3(0, characterController.height * 0.5f);
-			}
-		}
-
-		protected override LayerMask collisionLayerMask
-		{
-			get { return groundCheckMask; }
-		}
-
-		public override void Awake(Transform transform)
-		{
-			//Gets the attached character controller
-			characterController = transform.GetComponent<CharacterController>();
-			base.Awake(transform);
-		}
-
-		/// <summary>
-		/// Checks character controller grounding
-		/// </summary>
-		protected override bool CheckGrounded()
-		{
-			Debug.DrawRay(cachedTransform.position + characterController.center, 
-						  new Vector3(0,-groundCheckDistance * characterController.height,0), Color.red);
-			if (UnityEngine.Physics.Raycast(cachedTransform.position + characterController.center, 
-				-cachedTransform.up, groundCheckDistance * characterController.height, groundCheckMask))
-			{
-				return true;
-			}
-			return CheckEdgeGrounded();
-			
-		}
-
-		protected override void MoveCharacter(Vector3 movement)
-		{
-			characterController.Move(movement);
-		}
-
-		/// <summary>
-		/// Checks character controller edges for ground
-		/// </summary>
-		private bool CheckEdgeGrounded()
-		{
-			
-			Vector3 xRayOffset = new Vector3(characterController.radius,0f,0f);
-			Vector3 zRayOffset = new Vector3(0f,0f,characterController.radius);		
-			
-			for (int i = 0; i < 4; i++)
-			{
-				float sign = 1f;
-				Vector3 rayOffset;
-				if (i % 2 == 0)
-				{
-					rayOffset = xRayOffset;
-					sign = i - 1f;
-				}
-				else
-				{
-					rayOffset = zRayOffset;
-					sign = i - 2f;
-				}
-				Debug.DrawRay(cachedTransform.position + characterController.center + sign * rayOffset, 
-					new Vector3(0,-groundCheckDistance * characterController.height,0), Color.blue);
-
-				if (UnityEngine.Physics.Raycast(cachedTransform.position + characterController.center + sign * rayOffset,
-					-cachedTransform.up,groundCheckDistance * characterController.height, groundCheckMask))
-				{
-					return true;
-				}
-			}
-			return false;
-		}
-	}
-	
-	/// <summary>
-	/// A controller adapter implementation that uses <see cref="OpenCharacterController"/>.
-	/// </summary>
-	[Serializable]
-	public class OpenCharacterControllerAdapter : ControllerAdapter
-	{
-		[SerializeField, Tooltip("Reference to the attached OpenCharacterController.")]
-		protected OpenCharacterController characterController;
-
-		/// <summary>
-		/// Gets the open character controller.
-		/// </summary>
-		/// <value>The class that handles physics of the character.</value>
-		public OpenCharacterController openCharacterController
-		{
-			get { return characterController; }
-		}
-		
-		/// <inheritdoc/>
-		public override bool startedSlide
-		{
-			get { return characterController.startedSlide; }
-		}
-
-		/// <inheritdoc/>
-		protected override Vector3 footWorldPosition
-		{
-			get { return characterController.GetFootWorldPosition(); }
-		}
-		
-		/// <inheritdoc/>
-		protected override LayerMask collisionLayerMask
-		{
-			get { return characterController.GetCollisionLayerMask(); }
-		}
-
-		/// <inheritdoc/>
-		protected override float radius
-		{
-			get { return characterController.scaledRadius + characterController.GetSkinWidth(); }
-		}
-		
-		/// <inheritdoc/>
-		protected override bool CheckGrounded()
-		{
-			return characterController.isGrounded;
-		}
-
-		/// <inheritdoc/>
-		protected override void MoveCharacter(Vector3 movement)
-		{
-			CollisionFlags collisionFlags = characterController.Move(movement);
-			if ((collisionFlags & CollisionFlags.CollidedAbove) == CollisionFlags.CollidedAbove)
-			{
-				currentVerticalVelocity = 0f;
-				initialJumpVelocity = 0f;
-			}
-		}
-
-		/// <summary>
-		/// Get the OpenCharacterController.
-		/// </summary>
-		public override void Awake(Transform transform)
-		{
-			base.Awake(transform);
-			if (characterController == null)
-			{
-				characterController = transform.GetComponent<OpenCharacterController>();
-			}
-		}
 	}
 }

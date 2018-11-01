@@ -30,23 +30,23 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 		[SerializeField]
 		private bool preserveFootPosition = true;
 
-		private OpenCharacterControllerAdapter openCharacterControllerAdapter;
+		private ControllerAdapter controllerAdapter;
 		private OpenCharacterController openCharacterController;
 		
 		/// <inheritdoc />
 		public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			if (openCharacterControllerAdapter == null)
+			if (controllerAdapter == null)
 			{
 				CharacterBrain characterBrain = animator.GetComponentInChildren<CharacterBrain>();
-				openCharacterControllerAdapter = characterBrain != null
-					                                 ? characterBrain.controllerAdapter as OpenCharacterControllerAdapter
+				controllerAdapter = characterBrain != null
+					                                 ? characterBrain.controllerAdapter
 					                                 : null;
-				if (openCharacterControllerAdapter == null)
+				if (controllerAdapter == null)
 				{
 					return;
 				} 
-				openCharacterController = openCharacterControllerAdapter.openCharacterController;
+				openCharacterController = controllerAdapter.characterController;
 				if (openCharacterController == null)
 				{
 					return;

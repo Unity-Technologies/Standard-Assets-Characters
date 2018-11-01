@@ -119,9 +119,9 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// </summary>
 		private void OnJumpPressed()
 		{
-			if (controllerAdapter.isGrounded)
+			if (characterControllerAdapter.isGrounded)
 			{
-				controllerAdapter.SetJumpVelocity(jumpSpeed);
+				characterControllerAdapter.SetJumpVelocity(jumpSpeed);
 			}	
 		}
 
@@ -165,7 +165,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 			Vector3 forward = transform.forward * input.magnitude;
 			Vector3 sideways = Vector3.zero;
 			
-			controllerAdapter.Move((forward + sideways) * currentSpeed * Time.fixedDeltaTime, Time.fixedDeltaTime);
+			characterControllerAdapter.Move((forward + sideways) * currentSpeed * Time.fixedDeltaTime, Time.fixedDeltaTime);
 
 			previouslyHasInput = characterInput.hasMovementInput;
 		}	

@@ -67,7 +67,7 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 		private float time;
 		private float currentScale, entryScale;
 		private float entryOffset;
-		private OpenCharacterControllerAdapter adapter;
+		private ControllerAdapter adapter;
 		private OpenCharacterController controller;
 		
 		// OnStateEnter is called before OnStateEnter is called on any state inside this state machine
@@ -77,13 +77,13 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 			{
 				CharacterBrain characterBrain = animator.GetComponentInChildren<CharacterBrain>();
 				adapter = characterBrain != null
-					          ? characterBrain.controllerAdapter as OpenCharacterControllerAdapter
+					          ? characterBrain.controllerAdapter
 					          : null;
 				if (adapter == null)
 				{
 					return;
 				}
-				controller = adapter.openCharacterController;
+				controller = adapter.characterController;
 				if (controller == null)
 				{
 					return;

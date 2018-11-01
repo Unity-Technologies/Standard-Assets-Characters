@@ -235,7 +235,7 @@ namespace StandardAssets.Characters.FirstPerson
 			characterInput.sprintEnded += StartWalking;
 			characterInput.crouchStarted += StartCrouching;
 			characterInput.crouchEnded += StartWalking;
-			controllerAdapter.landed += OnLanded;
+			characterControllerAdapter.landed += OnLanded;
 		}
 
 		/// <summary>
@@ -254,7 +254,7 @@ namespace StandardAssets.Characters.FirstPerson
 			characterInput.sprintEnded -= StartWalking;
 			characterInput.crouchStarted -= StartCrouching;
 			characterInput.crouchEnded -= StartWalking;
-			controllerAdapter.landed -= OnLanded;
+			characterControllerAdapter.landed -= OnLanded;
 		}
 
 		/// <summary>
@@ -270,9 +270,9 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		private void OnJumpPressed()
 		{
-			if (controllerAdapter.isGrounded && currentMovementProperties.canJump)
+			if (characterControllerAdapter.isGrounded && currentMovementProperties.canJump)
 			{
-				controllerAdapter.SetJumpVelocity(currentMovementProperties.jumpSpeed);
+				characterControllerAdapter.SetJumpVelocity(currentMovementProperties.jumpSpeed);
 			}
 		}
 
@@ -309,7 +309,7 @@ namespace StandardAssets.Characters.FirstPerson
 			Vector3 sideways = transform.right * move.x;
 			Vector3 currentVelocity = (forward + sideways) * currentMovementProperties.maxSpeed;
 			currentSpeed = currentVelocity.magnitude;
-			controllerAdapter.Move(currentVelocity * Time.fixedDeltaTime, Time.fixedDeltaTime);
+			characterControllerAdapter.Move(currentVelocity * Time.fixedDeltaTime, Time.fixedDeltaTime);
 		}
 
 		/// <summary>
@@ -348,7 +348,7 @@ namespace StandardAssets.Characters.FirstPerson
 		{
 			newMovementProperties = newState;
 
-			if (controllerAdapter.isGrounded)
+			if (characterControllerAdapter.isGrounded)
 			{
 				currentMovementProperties = newMovementProperties;
 			}

@@ -14,46 +14,19 @@ namespace Editor
 	[CustomEditor(typeof(CharacterBrain))]
 	public abstract class CharacterBrainEditor : UnityEditor.Editor
 	{
-		protected const string k_CharacterControllerAdapterName = "characterControllerAdapter";
-		protected const string k_OpenCharacterControllerAdapterName = "openCharacterControllerAdapter";
-
 		public override void OnInspectorGUI()
 		{
 			CharacterBrain brain = (CharacterBrain) target;
 
-			if (brain.GetComponent<OpenCharacterController>() != null)
-			{
-				DrawPropertiesExcluding(serializedObject, GetOpenCharacterControllerExclusions());
-			}
-			else if (brain.GetComponent<CharacterController>() != null)
-			{
-				DrawPropertiesExcluding(serializedObject, GetCharacterControllerExclusions());
-			}
-			else
-			{
-				Debug.LogError("Could not find OpenCharacterController or CharacterController");
-			}
-			
+			DrawPropertiesExcluding(serializedObject, GetExclusions());
+
 			if (GUI.changed)
 			{
 				serializedObject.ApplyModifiedProperties();
 			}
 		}
 
-		protected virtual string[] GetOpenCharacterControllerExclusions()
-		{
-			return new string[] {k_CharacterControllerAdapterName};
-		}
-
-		protected virtual string[] GetCharacterControllerExclusions()
-		{
-			return new string[] {k_OpenCharacterControllerAdapterName};
-		}
-	}
-
-	[CustomEditor(typeof(CapsuleBrain))]
-	public class CapsuleBrainEditor : CharacterBrainEditor
-	{
+		protected abstract string[] GetExclusions();
 	}
 
 	[CustomEditor(typeof(FirstPersonBrain))]
@@ -61,25 +34,15 @@ namespace Editor
 	{
 		protected const string k_WeaponName = "weapon";
 
-		protected override string[] GetOpenCharacterControllerExclusions()
+		protected override string[] GetExclusions()
 		{
-			List<string> exclusionList = new List<string> {k_CharacterControllerAdapterName};
+			List<string> exclusionList = new List<string>();
 			FirstPersonBrain brain = target as FirstPersonBrain;
 			if (!brain.hasWeaponAttached)
 			{
 				exclusionList.Add(k_WeaponName);
 			}
-			return exclusionList.ToArray();
-		}
-		
-		protected override string[] GetCharacterControllerExclusions()
-		{
-			List<string> exclusionList = new List<string> {k_OpenCharacterControllerAdapterName};
-			FirstPersonBrain brain = target as FirstPersonBrain;
-			if (!brain.hasWeaponAttached)
-			{
-				exclusionList.Add(k_WeaponName);
-			}
+
 			return exclusionList.ToArray();
 		}
 	}
@@ -90,14 +53,14 @@ namespace Editor
 		protected const string k_AnimationTurnaroundName = "animationTurnaroundBehaviour",
 		                       k_BlendspaceTurnaroundName = "blendspaceTurnaroundBehaviour",
 		                       k_AnimationConfigName = "configuration",
-							   k_MotorName = "motor",
-							   k_MotorConfigPath = "motor.configuration";
+		                       k_MotorName = "motor",
+		                       k_MotorConfigPath = "motor.configuration";
 
 		protected const string k_Help =
 			"Configurations are separate assets (ScriptableObjects). Click on the associated configuration to locate it in the Project View. Values can be edited here during runtime and not be lost. It also allows one to create different settings and swap between them. To create a new setting Right click -> Create -> Standard Assets -> Characters -> ...";
 
 		private bool motorFoldOut;
-		
+
 		public override void OnInspectorGUI()
 		{
 			EditorGUILayout.HelpBox(k_Help, MessageType.Info);
@@ -109,21 +72,13 @@ namespace Editor
 				serializedObject.DrawExtendedScriptableObject(k_MotorConfigPath);
 				EditorGUI.indentLevel--;
 			}
+
 			serializedObject.DrawExtendedScriptableObject(k_AnimationConfigName);
 		}
 
-		protected override string[] GetOpenCharacterControllerExclusions()
+		protected override string[] GetExclusions()
 		{
-			List<string> exclusionList = new List<string> {k_CharacterControllerAdapterName};
-			exclusionList.AddRange(GetTurnaroundExclusions());
-			exclusionList.Add(k_AnimationConfigName);
-			exclusionList.Add(k_MotorName);
-			return exclusionList.ToArray();
-		}
-
-		protected override string[] GetCharacterControllerExclusions()
-		{
-			List<string> exclusionList = new List<string> {k_OpenCharacterControllerAdapterName};
+			List<string> exclusionList = new List<string>();
 			exclusionList.AddRange(GetTurnaroundExclusions());
 			exclusionList.Add(k_AnimationConfigName);
 			exclusionList.Add(k_MotorName);
