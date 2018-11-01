@@ -23,47 +23,47 @@ namespace StandardAssets.Characters.Physics
 			/// The collider that was hit by the controller.
 			/// </summary>
 			public readonly Collider collider;
-	
+
 			/// <summary>
 			/// The controller that hit the collider.
 			/// </summary>
 			public readonly OpenCharacterController controller;
-	
+
 			/// <summary>
 			/// The game object that was hit by the controller.
 			/// </summary>
 			public readonly GameObject gameObject;
-	
+
 			/// <summary>
 			/// The direction the character Controller was moving in when the collision occured.
 			/// </summary>
 			public readonly Vector3 moveDirection;
-	
+
 			/// <summary>
 			/// How far the character has travelled until it hit the collider.
 			/// </summary>
 			public readonly float moveLength;
-	
+
 			/// <summary>
 			/// The normal of the surface we collided with in world space.
 			/// </summary>
 			public readonly Vector3 normal;
-	
+
 			/// <summary>
 			/// The impact point in world space.
 			/// </summary>
 			public readonly Vector3 point;
-	
+
 			/// <summary>
 			/// The rigidbody that was hit by the controller.
 			/// </summary>
 			public readonly Rigidbody rigidbody;
-	
+
 			/// <summary>
 			/// The transform that was hit by the controller.
 			/// </summary>
 			public readonly Transform transform;
-	
+
 			/// <summary>
 			/// Constructor.
 			/// </summary>
@@ -72,9 +72,9 @@ namespace StandardAssets.Characters.Physics
 			/// <param name="directionMoved">Direction moved when collision occured.</param>
 			/// <param name="distanceMoved">How far the character has travelled until it hit the collider.</param>
 			public CollisionInfo(OpenCharacterController openCharacterController,
-													  RaycastHit hitInfo,
-													  Vector3 directionMoved,
-													  float distanceMoved)
+			                     RaycastHit hitInfo,
+			                     Vector3 directionMoved,
+			                     float distanceMoved)
 			{
 				collider = hitInfo.collider;
 				controller = openCharacterController;
@@ -87,7 +87,7 @@ namespace StandardAssets.Characters.Physics
 				transform = hitInfo.transform;
 			}
 		}
-		
+
 		/// <summary>
 		/// A vector used by the OpenCharacterController.
 		/// </summary>
@@ -103,7 +103,7 @@ namespace StandardAssets.Characters.Physics
 			/// Can the movement slide along obstacles?
 			/// </summary>
 			public bool canSlide;
-		
+
 #if UNITY_EDITOR
 			public Vector3 debugOriginalVector;
 #endif
@@ -117,13 +117,13 @@ namespace StandardAssets.Characters.Physics
 			{
 				moveVector = newMoveVector;
 				canSlide = newCanSlide;
-			
+
 #if UNITY_EDITOR
 				debugOriginalVector = newMoveVector;
 #endif
 			}
 		}
-		
+
 		/// <summary>
 		/// Resize info for OpenCharacterController (e.g. delayed resizing until it is safe to resize).
 		/// </summary>
@@ -133,27 +133,27 @@ namespace StandardAssets.Characters.Physics
 			/// Intervals (seconds) in which to check if the capsule's height/center must be changed.
 			/// </summary>
 			private const float k_PendingUpdateIntervals = 1.0f;
-			
+
 			/// <summary>
 			/// Height to set.
 			/// </summary>
 			public float? height { get; private set; }
-			
+
 			/// <summary>
 			/// Center to set.
 			/// </summary>
 			public Vector3? center { get; private set; }
-			
+
 			/// <summary>
 			/// Time.time when the height must be set.
 			/// </summary>
 			public float? heightTime { get; private set; }
-			
+
 			/// <summary>
 			/// Time.time when the center must be set.
 			/// </summary>
 			public float? centerTime { get; private set; }
-	
+
 			/// <summary>
 			/// Set the pending height.
 			/// </summary>
@@ -165,7 +165,7 @@ namespace StandardAssets.Characters.Physics
 					heightTime = Time.time + k_PendingUpdateIntervals;
 				}
 			}
-	
+
 			/// <summary>
 			/// Set the pending center.
 			/// </summary>
@@ -177,7 +177,7 @@ namespace StandardAssets.Characters.Physics
 					centerTime = Time.time + k_PendingUpdateIntervals;
 				}
 			}
-	
+
 			/// <summary>
 			/// Set the pending height and center.
 			/// </summary>
@@ -186,7 +186,7 @@ namespace StandardAssets.Characters.Physics
 				SetHeight(newHeight);
 				SetCenter(newCenter);
 			}
-	
+
 			/// <summary>
 			/// Cancel the pending height.
 			/// </summary>
@@ -195,7 +195,7 @@ namespace StandardAssets.Characters.Physics
 				height = null;
 				heightTime = null;
 			}
-	
+
 			/// <summary>
 			/// Cancel the pending center.
 			/// </summary>
@@ -204,7 +204,7 @@ namespace StandardAssets.Characters.Physics
 				center = null;
 				centerTime = null;
 			}
-	
+
 			/// <summary>
 			/// Cancel the pending height and center.
 			/// </summary>
@@ -213,7 +213,7 @@ namespace StandardAssets.Characters.Physics
 				CancelHeight();
 				CancelCenter();
 			}
-	
+
 			/// <summary>
 			/// Clear the timers.
 			/// </summary>
@@ -223,7 +223,7 @@ namespace StandardAssets.Characters.Physics
 				centerTime = null;
 			}
 		}
-		
+
 		/// <summary>
 		/// Stuck info and logic used by the OpenCharacterController.
 		/// </summary>
@@ -233,43 +233,43 @@ namespace StandardAssets.Characters.Physics
 			/// If character's position does not change by more than this amount then we assume the character is stuck.
 			/// </summary>
 			private const float k_StuckDistance = 0.001f;
-	
+
 			/// <summary>
 			/// If character's position does not change by more than this amount then we assume the character is stuck.
 			/// </summary>
 			private const float k_StuckSqrDistance = k_StuckDistance * k_StuckDistance;
-			
+
 			/// <summary>
 			/// If character collided this number of times during the movement loop then test if character is stuck by
 			/// examining the position
 			/// </summary>
 			private const int k_HitCountForStuck = 6;
-			
+
 			/// <summary>
 			/// Assume character is stuck if the position is the same for longer than this number of loop itterations
 			/// </summary>
 			private const int k_MaxStuckPositionCount = 1;
-			
+
 			/// <summary>
 			/// Is the character stuck in the current move loop itteration?
 			/// </summary>
 			public bool isStuck;
-			
+
 			/// <summary>
 			/// Count the number of collisions during movement, to determine when the character gets stuck.
 			/// </summary>
 			public int hitCount;
-	
+
 			/// <summary>
 			/// For keeping track of the character's position, to determine when the character gets stuck.
 			/// </summary>
 			private Vector3? stuckPosition;
-	
+
 			/// <summary>
 			/// Count how long the character is in the same position.
 			/// </summary>
 			private int stuckPositionCount;
-	
+
 			/// <summary>
 			/// Called when the move loop starts.
 			/// </summary>
@@ -280,7 +280,7 @@ namespace StandardAssets.Characters.Physics
 				stuckPosition = null;
 				isStuck = false;
 			}
-			
+
 			/// <summary>
 			/// Is the character stuck during the movement loop (e.g. bouncing between 2 or more colliders)?
 			/// </summary>
@@ -288,20 +288,20 @@ namespace StandardAssets.Characters.Physics
 			/// <param name="currentMoveVector">Current move vector.</param>
 			/// <param name="originalMoveVector">Original move vector.</param>
 			/// <returns></returns>
-			public bool UpdateStuck(Vector3 characterPosition, Vector3 currentMoveVector, 
-									Vector3 originalMoveVector)
+			public bool UpdateStuck(Vector3 characterPosition, Vector3 currentMoveVector,
+			                        Vector3 originalMoveVector)
 			{
 				// First test
 				if (isStuck == false)
 				{
 					// From Quake2: "if velocity is against the original velocity, stop dead to avoid tiny occilations in sloping corners"
 					if (currentMoveVector.sqrMagnitude.NotEqualToZero() &&
-						Vector3.Dot(currentMoveVector, originalMoveVector) <= 0.0f)
+					    Vector3.Dot(currentMoveVector, originalMoveVector) <= 0.0f)
 					{
 						isStuck = true;
 					}
 				}
-				
+
 				// Second test
 				if (isStuck == false)
 				{
@@ -310,7 +310,7 @@ namespace StandardAssets.Characters.Physics
 					{
 						return false;
 					}
-	
+
 					if (stuckPosition == null)
 					{
 						stuckPosition = characterPosition;
@@ -329,21 +329,21 @@ namespace StandardAssets.Characters.Physics
 						stuckPosition = null;
 					}
 				}
-	
+
 				if (isStuck)
 				{
 					isStuck = false;
 					hitCount = 0;
 					stuckPositionCount = 0;
 					stuckPosition = null;
-	
+
 					return true;
 				}
-	
+
 				return false;
 			}
 		}
-		
+
 		/// <summary>
 		/// Max slope limit.
 		/// </summary>
@@ -533,14 +533,6 @@ namespace StandardAssets.Characters.Physics
 		private float height = 2.0f;
 
 		/// <summary>
-		/// Layer to use for the collider (if it's added to a child object). Leave empty to use the same layer as the parent.
-		/// </summary>
-		[Tooltip(
-			"Layer to use for the collider (if it's added to a child object). Leave empty to use the same layer as the parent.")]
-		[SerializeField]
-		private string colliderLayer;
-
-		/// <summary>
 		/// Layers to test for collision.
 		/// </summary>
 		[Tooltip("Layers to test for collision.")]
@@ -606,21 +598,6 @@ namespace StandardAssets.Characters.Physics
 		[Tooltip("The time after initiating a slide classified as a slide start. Used to disable jumping.")]
 		[SerializeField]
 		private float slideDownStartDuration = 0.25f;
-
-		/// <summary>
-		/// Enable additional debugging info and visuals in the editor
-		/// </summary>
-		[Header("Debug")]
-		[Tooltip("Enable additional debugging info and visuals in the editor")]
-		[SerializeField]
-		private bool enableDebug;
-
-		/// <summary>
-		/// Draw the movement vector?
-		/// </summary>
-		[Tooltip("Draw the movement vector?")]
-		[SerializeField]
-		private bool debugDrawMoveVector;
 
 		/// <summary>
 		/// The capsule collider.
@@ -761,15 +738,6 @@ namespace StandardAssets.Characters.Physics
 		public CollisionFlags Move(Vector3 moveVector)
 		{
 			MoveInternal(moveVector, true);
-
-#if UNITY_EDITOR
-			if (enableDebug &&
-			    debugDrawMoveVector)
-			{
-				Debug.DrawRay(cachedTransform.position + rootTransformOffset, moveVector, Color.green, 1f);
-			}
-#endif
-
 			return collisionFlags;
 		}
 
@@ -786,15 +754,6 @@ namespace StandardAssets.Characters.Physics
 				new Vector3(speed.x, speed.y + UnityEngine.Physics.gravity.y, speed.z) * Time.deltaTime;
 
 			MoveInternal(moveVector, false);
-
-#if UNITY_EDITOR
-			if (enableDebug &&
-			    debugDrawMoveVector)
-			{
-				Debug.DrawRay(cachedTransform.position + rootTransformOffset, moveVector, Color.green, 1f);
-			}
-#endif
-
 			return isGrounded;
 		}
 
@@ -1459,7 +1418,6 @@ namespace StandardAssets.Characters.Physics
 			SetRootToOffset();
 		}
 
-		
 #if UNITY_EDITOR
 		/// <summary>
 		/// Validate the capsule.
@@ -1505,22 +1463,19 @@ namespace StandardAssets.Characters.Physics
 			Gizmos.DrawLine(footPosition + Vector3.back * scaledRadius,
 			                footPosition + Vector3.forward * scaledRadius);
 
-			if (enableDebug)
-			{
-				// Top of head
-				Vector3 headPosition = GetHeadWorldPosition();
-				Gizmos.DrawLine(headPosition + Vector3.left * scaledRadius,
-				                headPosition + Vector3.right * scaledRadius);
-				Gizmos.DrawLine(headPosition + Vector3.back * scaledRadius,
-				                headPosition + Vector3.forward * scaledRadius);
+			// Top of head
+			Vector3 headPosition = GetHeadWorldPosition();
+			Gizmos.DrawLine(headPosition + Vector3.left * scaledRadius,
+			                headPosition + Vector3.right * scaledRadius);
+			Gizmos.DrawLine(headPosition + Vector3.back * scaledRadius,
+			                headPosition + Vector3.forward * scaledRadius);
 
-				// Center position
-				Vector3 centerPosition = GetCapsuleWorldPosition();
-				Gizmos.DrawLine(centerPosition + Vector3.left * scaledRadius,
-				                centerPosition + Vector3.right * scaledRadius);
-				Gizmos.DrawLine(centerPosition + Vector3.back * scaledRadius,
-				                centerPosition + Vector3.forward * scaledRadius);
-			}
+			// Center position
+			Vector3 centerPosition = GetCapsuleWorldPosition();
+			Gizmos.DrawLine(centerPosition + Vector3.left * scaledRadius,
+			                centerPosition + Vector3.right * scaledRadius);
+			Gizmos.DrawLine(centerPosition + Vector3.back * scaledRadius,
+			                centerPosition + Vector3.forward * scaledRadius);
 
 			CapsuleCollider tempCapsuleCollider = capsuleCollider;
 			if (tempCapsuleCollider == null)
@@ -1810,8 +1765,7 @@ namespace StandardAssets.Characters.Physics
 				}
 
 #if UNITY_EDITOR
-				if (enableDebug &&
-				    i == k_MaxMoveIterations - 1)
+				if (i == k_MaxMoveIterations - 1)
 				{
 					Debug.LogWarning(string.Format(
 						                 "reached k_MaxMoveIterations!     (remainingMoveVector: {0}, {1}, {2})     " +
@@ -2640,9 +2594,9 @@ namespace StandardAssets.Characters.Physics
 					Vector3 moved = cachedTransform.position - startPosition;
 					CollisionInfo newCollisionInfo =
 						new CollisionInfo(this,
-						                                         hitInfo.Value,
-						                                         direction,
-						                                         moved.magnitude);
+						                  hitInfo.Value,
+						                  direction,
+						                  moved.magnitude);
 					collisionInfoDictionary.Add(collider, newCollisionInfo);
 				}
 			}
