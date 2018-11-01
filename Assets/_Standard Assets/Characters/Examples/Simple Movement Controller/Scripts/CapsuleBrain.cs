@@ -94,6 +94,10 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		protected override void Update()
 		{
 			base.Update();
+			if (!characterInput.hasMovementInput)
+			{
+				return;
+			}
 			Quaternion targetRotation = CalculateTargetRotation();
 			transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
 
