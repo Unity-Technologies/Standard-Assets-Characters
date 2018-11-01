@@ -32,6 +32,9 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 
 		[SerializeField]
 		protected StrafeProperties strafing;
+		
+		[SerializeField, Tooltip("The duration of the initial turn into strafe mode.")]
+		protected float initialStrafeLookTime = 0.125f;
 
 		[Header("Jumping")]
 		[SerializeField, Tooltip("Curve used to determine jump height based on normalized forward speed.")]
@@ -202,6 +205,15 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		{
 			get { return useCustomStrafeParameters; }
 		}
+		
+		/// <summary>
+		/// Gets the duration of the initial strafe look.
+		/// </summary>
+		public float initialStrafeLookDuration
+		{
+			get { return initialStrafeLookTime; }
+		}
+
 
 		/// <summary>
 		/// Gets the maximum normalized forward speed during strafe.
@@ -375,7 +387,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		protected float strafeLateralSpeed = 1f;
 		[SerializeField, Range(0f,1f)]
 		protected float strafeTurningSpeedScale = 1f;
-		
+
 		public float normalizedForwardStrafeSpeed
 		{
 			get { return strafeForwardSpeed; }
