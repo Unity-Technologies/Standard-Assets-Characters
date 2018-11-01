@@ -1,5 +1,4 @@
-﻿using StandardAssets.Characters.Attributes;
-using StandardAssets.Characters.Common;
+﻿using StandardAssets.Characters.Common;
 using StandardAssets.Characters.Physics; 
 using UnityEngine;
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using StandardAssets.Characters.Attributes;
 using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson.Configs

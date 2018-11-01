@@ -1,4 +1,3 @@
-using StandardAssets.Characters.Attributes;
 using UnityEngine;
 using UnityEditor;
 using StandardAssets.Characters.Helpers;

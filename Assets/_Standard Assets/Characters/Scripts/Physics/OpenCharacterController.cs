@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using StandardAssets.Characters.Attributes;
 using StandardAssets.Characters.Helpers;
 using UnityEngine;
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using StandardAssets.Characters.Attributes;
 using StandardAssets.Characters.Helpers;
 using UnityEngine;
 

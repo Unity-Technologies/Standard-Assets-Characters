@@ -1,4 +1,3 @@
-using StandardAssets.Characters.Attributes;
 using UnityEngine;
 
 namespace StandardAssets.Characters.Effects.Configs

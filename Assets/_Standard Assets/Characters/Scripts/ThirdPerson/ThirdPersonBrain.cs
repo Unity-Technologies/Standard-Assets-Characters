@@ -1,5 +1,4 @@
 using System;
-using StandardAssets.Characters.Attributes;
 using StandardAssets.Characters.Common;
 using StandardAssets.Characters.Effects;
 using StandardAssets.Characters.Helpers;
