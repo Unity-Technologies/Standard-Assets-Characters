@@ -33,6 +33,9 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 
 		[SerializeField, Tooltip("The curve used to change animator movement speeds during a strafe rapid direction change")]
 		protected AnimationCurve strafeRapidDirectionChangeSpeedCurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
+		
+		[SerializeField, Tooltip("The curve used to remap turning speed")]
+		protected AnimationCurve turningSpeedCurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
 
 		[Header("Jumping")]
 		[SerializeField, Tooltip("Curve used to determine the cross fade duration of the transition into the jump " +
@@ -109,6 +112,14 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		public AnimationCurve strafeRapidChangeSpeedCurve
 		{
 			get { return strafeRapidDirectionChangeSpeedCurve; }
+		}
+		
+		/// <summary>
+		/// Gets the animation curved used for remapping turning speed.
+		/// </summary>
+		public AnimationCurve animationTurningSpeedCurve
+		{
+			get { return turningSpeedCurve; }
 		}
 
 		/// <summary>
