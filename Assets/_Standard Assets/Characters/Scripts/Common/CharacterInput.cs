@@ -120,7 +120,7 @@ namespace StandardAssets.Characters.Common
 				RegisterAdditionalInputsMobile();
 			}
 
-			ToggleOnScreenCanvas(true)
+			ToggleOnScreenCanvas(true);
 #else
 			if(controls !=null)
 			{
