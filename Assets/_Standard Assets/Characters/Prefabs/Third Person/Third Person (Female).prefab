@@ -2099,7 +2099,7 @@ Animator:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1990983976190814}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 20d97ea0953936148b25caa82b5e14f9, type: 3}
+  m_Avatar: {fileID: 9000000, guid: f0e07a2a187e3479b8ea069b45211486, type: 3}
   m_Controller: {fileID: 9100000, guid: 56ccff586cfce0f428572af3e1f785c5, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
@@ -2195,6 +2195,8 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     gravityChangeSpeed: 10
+    shortFallDistance: 1
+    shortFallGravityMultiplier: 2
   useSimpleCameras: 0
   motor:
     configuration: {fileID: 11400000, guid: 33e0d88026c128b4ca3076e2e5149510, type: 2}
