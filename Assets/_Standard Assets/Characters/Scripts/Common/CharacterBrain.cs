@@ -267,6 +267,25 @@ namespace StandardAssets.Characters.Common
 				? float.MaxValue
 				: footWorldPosition.y - ((Vector3) predictedLandingPosition).y;
 		}
+		
+		/// <summary>
+		/// Calculates whether the current fall is defined as a short fall.
+		/// </summary>
+		/// <returns>True is the current fall distance is less than <see cref="shortFallDistance"/> false otherwise.</returns>
+		public bool IsPredictedFallShort(out float distance)
+		{
+			distance = GetPredictedFallDistance();
+			return distance <= shortFallDistance;
+		}
+		
+		/// <summary>
+		/// Calculates whether the current fall is defined as a short fall.
+		/// </summary>
+		/// <returns>True is the current fall distance is less than <see cref="shortFallDistance"/> false otherwise.</returns>
+		public bool IsPredictedFallShort()
+		{
+			return GetPredictedFallDistance() <= shortFallDistance;
+		}
 
 		/// <summary>
 		/// Tries to jump.
