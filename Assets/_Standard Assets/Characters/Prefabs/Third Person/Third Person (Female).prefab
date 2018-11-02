@@ -2199,7 +2199,7 @@ MonoBehaviour:
   motor:
     configuration: {fileID: 11400000, guid: 33e0d88026c128b4ca3076e2e5149510, type: 2}
   turnaroundType: 1
-  blendspaceTurnaroundBehaviour:
+  blendspaceTurnAroundBehaviour:
     configureBlendspace: 0
     configuration:
       timeToTurn: 0.2
@@ -2302,7 +2302,7 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
       headTurnMultiplier: 1
-  animationTurnaroundBehaviour:
+  animationTurnAroundBehaviour:
     runLeftTurn:
       name: RunForwardTurnLeft180
       speed: 1
@@ -2371,7 +2371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b5c6cf5f04e4e2b9c79ad2fda5ddbea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerRootTransform: {fileID: 0}
+  playerRootTransform: {fileID: 4692263124047446}
   rootTransformOffset: {x: 0, y: 0, z: 0}
   slopeLimit: 45
   stepOffset: 0.3
@@ -2380,7 +2380,6 @@ MonoBehaviour:
   center: {x: 0, y: 0.87, z: 0}
   radius: 0.4
   height: 1.6
-  colliderLayer: 
   collisionLayerMask:
     serializedVersion: 2
     m_Bits: 257
@@ -2392,8 +2391,6 @@ MonoBehaviour:
   slideDownTerminalVelocity: 10
   slideDownGravityScale: 1
   slideDownStartDuration: 0.25
-  enableDebug: 0
-  debugDrawMoveVector: 0
 --- !u!114 &114877076533816532
 MonoBehaviour:
   m_ObjectHideFlags: 1
