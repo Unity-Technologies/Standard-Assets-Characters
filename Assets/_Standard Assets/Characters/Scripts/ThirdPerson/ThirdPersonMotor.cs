@@ -176,11 +176,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Called on the exit of the root motion jump animation.
 		/// </summary>
-		/// <remarks>Should only be called by a root motion jump StateMachineBehaviour</remarks>
 		public void OnJumpAnimationComplete()
 		{
-			float distance = controllerAdapter.GetPredictedFallDistance();
-			if (distance <= configuration.maxFallDistanceToLand)
+			if (controllerAdapter.IsPredictedFallShort())
 			{
 				OnLanding();
 			}
@@ -398,18 +396,10 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				if (Time.frameCount % k_TrackGroundFrameIntervals == 0)
 				{
-					var baseControllerAdapter = controllerAdapter;
-					if (baseControllerAdapter != null)
+					float distance;
+					if (!controllerAdapter.IsPredictedFallShort(out distance))
 					{
-						float distance = baseControllerAdapter.GetPredictedFallDistance();
-						if (distance > configuration.maxFallDistanceToLand)
-						{
-							OnStartedFalling(distance);
-						}
-					}
-					else
-					{
-						trackGroundHeight = false;
+						OnStartedFalling(distance);
 					}
 				}
 			}
@@ -441,7 +431,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void OnStartedFalling(float predictedFallDistance)
 		{
 			// check if far enough from ground to enter fall state
-			if (predictedFallDistance < configuration.maxFallDistanceToLand)
+			if (controllerAdapter.IsPredictedFallShort())
 			{
 				trackGroundHeight = true;
 				return;

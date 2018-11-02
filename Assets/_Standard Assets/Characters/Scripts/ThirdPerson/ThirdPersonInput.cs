@@ -640,7 +640,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				if (characterBrain == null)
 				{
-					Debug.Log("No ThirdPersonBrain setup - using FindObjectOfType");
 					ThirdPersonBrain[] brainsInScene = GameObject.FindObjectsOfType<ThirdPersonBrain>();
 					if (brainsInScene.Length == 0)
 					{
@@ -1008,6 +1007,18 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 #if UNITY_EDITOR
+			private void OnValidate()
+			{
+				//Design pattern for fetching required scene references
+				FindBrain();
+			}
+
+			private void Reset()
+			{
+				//Design pattern for fetching required scene references
+				FindBrain();
+			}
+
 			/// <summary>
 			/// DEBUG: Draw the input vectors.
 			/// </summary>

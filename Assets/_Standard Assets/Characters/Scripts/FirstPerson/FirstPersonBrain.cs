@@ -177,7 +177,7 @@ namespace StandardAssets.Characters.FirstPerson
 		protected override void Awake()
 		{
 			base.Awake();
-			CheckCameraAnimationManager();
+			FindCameraController(true);
 			firstPersonMovementEventHandler.Init(this);
 			currentMovementProperties = walking;
 			newMovementProperties = walking;
@@ -197,7 +197,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// Checks if the <see cref="FirstPersonCameraController"/> has been assigned otherwise finds it in the scene
 		/// </summary>
-		private void CheckCameraAnimationManager()
+		private void FindCameraController(bool autoDisable)
 		{
 			if (firstPersonCameraController == null)
 			{
@@ -213,8 +213,12 @@ namespace StandardAssets.Characters.FirstPerson
 						errorMessage = "Too many FirstPersonCameraAnimationManagers in scene! Disabling Brain";
 					}
 
-					Debug.LogError(errorMessage);
-					gameObject.SetActive(false);
+					if (autoDisable)
+					{
+						Debug.LogError(errorMessage);
+						gameObject.SetActive(false);	
+					}
+					
 					return;
 				}
 
@@ -355,6 +359,20 @@ namespace StandardAssets.Characters.FirstPerson
 
 			firstPersonMovementEventHandler.AdjustTriggerThreshold(newState.strideLength);
 		}
+		
+#if UNITY_EDITOR
+		private void OnValidate()
+		{
+			//Design pattern for fetching required scene references
+			FindCameraController(false);
+		}
+
+		private void Reset()
+		{
+			//Design pattern for fetching required scene references
+			FindCameraController(false);
+		}
+#endif
 
 		/// <summary>
 		/// Change state to the new state and adds to previous state stack
