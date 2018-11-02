@@ -220,6 +220,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   adjustAnimationSpeedBasedOnForwardSpeed: 1
+--- !u!114 &114268342538028390
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f70fa96a2b2045dca8ddb6fec4cbcde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114305113248570782
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3964,7 +3975,8 @@ AnimatorState:
   - {fileID: 1101871482747527942}
   - {fileID: 1101002855418694948}
   - {fileID: 1101624014300026740}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: 114268342538028390}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -4038,7 +4050,7 @@ AnimatorStateMachine:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: ThirdPerson
+  m_Name: MaleThirdPerson
   m_ChildStates: []
   m_ChildStateMachines:
   - serializedVersion: 1
