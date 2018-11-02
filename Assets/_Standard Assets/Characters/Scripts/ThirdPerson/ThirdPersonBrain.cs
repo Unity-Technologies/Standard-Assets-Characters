@@ -309,7 +309,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			InitAnimator();
 			
 			thirdPersonMovementEventHandler.Init(this);
-			FindCameraController();
+			FindCameraController(true);
 		}
 		
 		protected override void Update()
@@ -370,7 +370,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Checks if <see cref="ThirdPersonCameraController"/> has been assigned - otherwise looks for it in the scene
 		/// </summary>
-		private void FindCameraController()
+		private void FindCameraController(bool autoDisable)
 		{
 			if (useSimpleCameras)
 			{
@@ -390,8 +390,12 @@ namespace StandardAssets.Characters.ThirdPerson
 					{
 						errorMessage = "Too many ThirdPersonCameraAnimationManagers in scene! Disabling Brain";
 					}
-					Debug.LogError(errorMessage);
-					gameObject.SetActive(false);
+
+					if (autoDisable)
+					{
+						Debug.LogError(errorMessage);
+						gameObject.SetActive(false);
+					}
 					return;
 				}
 
@@ -824,14 +828,14 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void Reset()
 		{
 			//Design pattern for fetching required scene references
-			FindCameraController();
+			FindCameraController(false);
 		}
 
 		private void OnValidate()
 		{
 			turnAround = GetCurrentTurnaroundBehaviour();
 			//Design pattern for fetching required scene references
-			FindCameraController();
+			FindCameraController(false);
 		}
 #endif
 	}
