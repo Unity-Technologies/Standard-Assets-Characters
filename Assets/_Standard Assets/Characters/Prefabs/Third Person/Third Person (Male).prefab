@@ -2165,7 +2165,6 @@ MonoBehaviour:
   center: {x: 0, y: 0.87, z: 0}
   radius: 0.4
   height: 1.6
-  colliderLayer: 
   collisionLayerMask:
     serializedVersion: 2
     m_Bits: 257
@@ -2177,8 +2176,6 @@ MonoBehaviour:
   slideDownTerminalVelocity: 10
   slideDownGravityScale: 1
   slideDownStartDuration: 0.25
-  enableDebug: 0
-  debugDrawMoveVector: 0
 --- !u!114 &114317971631851810
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2195,8 +2192,8 @@ MonoBehaviour:
   controls:
     m_Asset: {fileID: 11400000, guid: 6b7e0365c2048446aafe64ff5b240173, type: 3}
   onScreenControlsCanvas: {fileID: 0}
-  invertY: 0
   invertX: 0
+  invertY: 0
   xSensitivity: 1
   ySensitivity: 1
   cursorLocked: 1
@@ -2234,21 +2231,21 @@ MonoBehaviour:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
+        value: 0.85
+        inSlope: -0.050000012
+        outSlope: -0.050000012
+        tangentMode: 34
         weightedMode: 0
         inWeight: 0
-        outWeight: 0
+        outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
+        value: 0.8
+        inSlope: -0.050000012
+        outSlope: -0.050000012
+        tangentMode: 34
         weightedMode: 0
-        inWeight: 0
+        inWeight: 0.33333334
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -2258,21 +2255,21 @@ MonoBehaviour:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
+        value: 1.5
+        inSlope: 0.5
+        outSlope: 0.5
+        tangentMode: 34
         weightedMode: 0
         inWeight: 0
-        outWeight: 0
+        outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
+        value: 2
+        inSlope: 0.5
+        outSlope: 0.5
+        tangentMode: 34
         weightedMode: 0
-        inWeight: 0
+        inWeight: 0.33333334
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -2282,111 +2279,33 @@ MonoBehaviour:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
+        value: 1.6
+        inSlope: -0.20000005
+        outSlope: -0.20000005
+        tangentMode: 34
         weightedMode: 0
         inWeight: 0
-        outWeight: 0
+        outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
+        value: 1.4
+        inSlope: -0.20000005
+        outSlope: -0.20000005
+        tangentMode: 34
         weightedMode: 0
-        inWeight: 0
+        inWeight: 0.33333334
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     gravityChangeSpeed: 10
-    groundCheckDistance: 0.55
-    groundCheckMask:
-      serializedVersion: 2
-      m_Bits: 0
-  openCharacterControllerAdapter:
-    terminalVelocity: 10
-    jumpGravityMultiplierAsAFactorOfForwardSpeed:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    fallGravityMultiplierAsAFactorOfForwardSpeed:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    minJumpHeightMultiplierAsAFactorOfForwardSpeed:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    gravityChangeSpeed: 10
-    characterController: {fileID: 114299815650658612}
+    shortFallDistance: 1
+    shortFallGravityMultiplier: 2
   useSimpleCameras: 0
   motor:
     configuration: {fileID: 11400000, guid: 33e0d88026c128b4ca3076e2e5149510, type: 2}
   turnaroundType: 1
-  blendspaceTurnaroundBehaviour:
+  blendspaceTurnAroundBehaviour:
     configureBlendspace: 0
     configuration:
       timeToTurn: 0.2
@@ -2489,7 +2408,7 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
       headTurnMultiplier: 1
-  animationTurnaroundBehaviour:
+  animationTurnAroundBehaviour:
     runLeftTurn:
       name: RunForwardTurnLeft180
       speed: 1
