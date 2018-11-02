@@ -309,7 +309,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			InitAnimator();
 			
 			thirdPersonMovementEventHandler.Init(this);
-			CheckCameraAnimationManager();
+			FindCameraController();
 		}
 		
 		protected override void Update()
@@ -370,7 +370,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Checks if <see cref="ThirdPersonCameraController"/> has been assigned - otherwise looks for it in the scene
 		/// </summary>
-		private void CheckCameraAnimationManager()
+		private void FindCameraController()
 		{
 			if (useSimpleCameras)
 			{
@@ -821,9 +821,17 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 		
 #if UNITY_EDITOR
+		private void Reset()
+		{
+			//Design pattern for fetching required scene references
+			FindCameraController();
+		}
+
 		private void OnValidate()
 		{
 			turnAround = GetCurrentTurnaroundBehaviour();
+			//Design pattern for fetching required scene references
+			FindCameraController();
 		}
 #endif
 	}

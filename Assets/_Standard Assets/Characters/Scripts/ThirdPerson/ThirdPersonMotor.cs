@@ -634,25 +634,46 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private bool CheckForAndHandleRapidTurn(Quaternion target)
 		{
-			if (thirdPersonBrain.turnAround == null ||
-			    disableRapidTurn)
+			if (thirdPersonBrain.turnAround == null || disableRapidTurn)
 			{
 				return false;
 			}
 			
 			float angle;
-
 			if (ShouldTurnAround(out angle, target))
 			{
-				turnaroundMovementTime = 0f;
-				cachedForwardVelocity = averageForwardVelocity.average;
-				preTurnMovementState = movementState;
-				movementState = ThirdPersonGroundMovementState.TurningAround;
-				thirdPersonBrain.turnAround.TurnAround(angle);
+				StartTurnAround(angle);
 				return true;
 			}
-
 			return false;
+		}
+
+		private void StartTurnAround(float angle)
+		{
+			turnaroundMovementTime = 0f;
+			cachedForwardVelocity = averageForwardVelocity.average;
+			preTurnMovementState = movementState;
+			movementState = ThirdPersonGroundMovementState.TurningAround;
+			jumpQueued = false;
+			thirdPersonBrain.turnAround.TurnAround(angle);
+			thirdPersonBrain.turnAround.turnaroundComplete += OnTurnAroundComplete;
+		}
+
+		private void OnTurnAroundComplete()
+		{
+			thirdPersonBrain.turnAround.turnaroundComplete -= OnTurnAroundComplete;
+
+			if (!characterInput.hasMovementInput)
+			{
+				return;
+			}
+			Quaternion target = CalculateTargetRotation(
+				new Vector3(characterInput.moveInput.x, 0, characterInput.moveInput.y));
+			var angle = (target.eulerAngles.y - transform.eulerAngles.y).Wrap180();
+			if (Mathf.Abs(angle) > configuration.stationaryAngleRapidTurn)
+			{
+				StartTurnAround(angle);
+			}
 		}
 
 		/// <summary>
