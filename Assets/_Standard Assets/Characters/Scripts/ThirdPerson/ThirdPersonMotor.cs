@@ -654,6 +654,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			cachedForwardVelocity = averageForwardVelocity.average;
 			preTurnMovementState = movementState;
 			movementState = ThirdPersonGroundMovementState.TurningAround;
+			jumpQueued = false;
 			thirdPersonBrain.turnAround.TurnAround(angle);
 			thirdPersonBrain.turnAround.turnaroundComplete += OnTurnAroundComplete;
 		}
