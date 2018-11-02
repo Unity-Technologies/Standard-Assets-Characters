@@ -67,9 +67,6 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		
 		[SerializeField, Tooltip("The speed at which falling speed can increase.")]
 		protected float fallForwardSpeedAcceleration = 0.05f;
-		
-		[SerializeField, Tooltip("A fall distance higher than this will trigger a fall animation.")]
-		protected float maxFallDistance = 1;
 
 		[SerializeField, Tooltip("The speed at which fall direction can change.")] 
 		protected float fallDirectionChangeSpeed = 0.025f;
@@ -184,15 +181,6 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		public float ignoreInputTimeRapidTurn
 		{
 			get { return rapidTurnIgnoreInputTime; }
-		}
-
-		/// <summary>
-		/// Gets the distance that is used to determine if a fall should be triggered.
-		/// </summary>
-		/// <remarks>A fall with a distance less than this will not fire <see cref="IThirdPersonMotor.fallStarted"/></remarks>
-		public float maxFallDistanceToLand
-		{
-			get { return maxFallDistance; }
 		}
 
 		public bool customActionParametersToBeUsed
