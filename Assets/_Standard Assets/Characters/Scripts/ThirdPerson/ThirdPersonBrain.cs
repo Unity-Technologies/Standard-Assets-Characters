@@ -572,7 +572,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void OnLanding()
 		{
 			isGrounded = true;
-			SelectGroundedCamera();
+
 
 			switch (animatorState)
 			{
@@ -622,6 +622,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 					break;
 			}
+			SelectGroundedCamera();
 		}
 		
 		/// <summary>
