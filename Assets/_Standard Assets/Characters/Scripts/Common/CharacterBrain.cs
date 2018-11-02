@@ -93,6 +93,12 @@ namespace StandardAssets.Characters.Common
 
 		[SerializeField, Tooltip("The speed at which gravity is allowed to change")]
 		protected float gravityChangeSpeed = 10f;
+		
+		[SerializeField, Tooltip("The max fall distance that will trigger a short fall")]
+		protected float shortFallDistance = 1.0f;
+		
+		[SerializeField, Tooltip("The gravity multiplier applied when short falling")]
+		protected float shortFallGravityMultiplier = 2.0f;
 
 		public bool isGrounded { get; private set; }
 		
@@ -202,6 +208,9 @@ namespace StandardAssets.Characters.Common
 
 		private CharacterInput characterInput;
 
+		private bool shortFall,
+			didJump;
+
 		/// <summary>
 		/// Gets the current jump gravity multiplier as a factor of normalized forward speed.
 		/// </summary>
@@ -265,6 +274,7 @@ namespace StandardAssets.Characters.Common
 		/// <param name="initialVelocity"></param>
 		public void SetJumpVelocity(float initialVelocity)
 		{
+			didJump = true;
 			currentVerticalVelocity = initialJumpVelocity = initialVelocity;
 			if (jumpVelocitySet != null)
 			{
@@ -367,6 +377,7 @@ namespace StandardAssets.Characters.Common
 					if (Math.Abs(airTime - deltaTime) > Mathf.Epsilon && landed != null)
 					{
 						landed();
+						didJump = false;
 					}
 
 					fallTime = 0.0f;
@@ -377,9 +388,11 @@ namespace StandardAssets.Characters.Common
 
 			if (Mathf.Approximately(previousFallTime, 0.0f) && fallTime > Mathf.Epsilon)
 			{
+				var predictedFallDistance = GetPredictedFallDistance();
+				shortFall = predictedFallDistance <= shortFallDistance;
 				if (startedFalling != null)
 				{
-					startedFalling(GetPredictedFallDistance());
+					startedFalling(predictedFallDistance);
 				}
 			}
 			verticalVector = new Vector3(0.0f, currentVerticalVelocity * deltaTime, 0.0f);
@@ -394,6 +407,10 @@ namespace StandardAssets.Characters.Common
 			if (currentVerticalVelocity < 0.0f)
 			{
 				gravityFactor = fallGravityMultiplier;
+				if (!didJump && shortFall) // if a short fall was triggered increase gravity to quickly ground.
+				{
+					gravityFactor *= shortFallGravityMultiplier;
+				}
 				if (initialJumpVelocity < Mathf.Epsilon)
 				{
 					normalizedVerticalSpeed = 0.0f;
