@@ -9,6 +9,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		                    k_StrafeLocomotionState = "Strafe Locomotion",
 		                    k_RightFootJumpState = "RightFootPhysicsJump",
 		                    k_LeftFootJumpState = "LeftFootPhysicsJump",
+							k_StrafeJumpState = "StrafeJump",
 		                    k_RollLandState = "RollLand",
 		                    k_LandState = "Land";
 
