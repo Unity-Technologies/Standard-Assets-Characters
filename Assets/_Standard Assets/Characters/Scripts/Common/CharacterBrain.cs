@@ -95,7 +95,7 @@ namespace StandardAssets.Characters.Common
 		protected float gravityChangeSpeed = 10f;
 		
 		[SerializeField, Tooltip("The minimum fall distance required to trigger the fall state.")]
-		protected float minFallDistance = 1.0f;
+		protected float minFallDistance = 1.1f;
 		
 		[SerializeField, Tooltip("The gravity multiplier applied when falling less that the minFallDistance")]
 		protected float groundingGravityMultiplier = 2.0f; 

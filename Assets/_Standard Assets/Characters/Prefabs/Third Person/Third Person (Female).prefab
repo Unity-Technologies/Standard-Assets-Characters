@@ -2195,7 +2195,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     gravityChangeSpeed: 10
-    minFallDistance: 1
+    minFallDistance: 1.1
     groundingGravityMultiplier: 2
   useSimpleCameras: 0
   motor:
@@ -2362,6 +2362,14 @@ MonoBehaviour:
     rightFootDetection: {fileID: 0}
     maximumSpeed: 10
   configuration: {fileID: 11400000, guid: 16861f506e03f4b39a1b25e1bb3e307f, type: 2}
+  showDebugGizmos: 0
+  gizmoSettings:
+    arrowPrefab: {fileID: 0}
+    bodyCurrentDirection: {r: 0, g: 0, b: 0, a: 0}
+    bodyDesiredDirection: {r: 0, g: 0, b: 0, a: 0}
+    inputDirection: {r: 0, g: 0, b: 0, a: 0}
+    headCurrentDirection: {r: 0, g: 0, b: 0, a: 0}
+    headDesiredDirection: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &114779351724003978
 MonoBehaviour:
   m_ObjectHideFlags: 1
