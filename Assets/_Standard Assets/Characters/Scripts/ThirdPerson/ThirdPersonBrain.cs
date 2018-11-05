@@ -38,11 +38,27 @@ namespace StandardAssets.Characters.ThirdPerson
 		
 		[SerializeField]
 		protected ThirdPersonMovementEventHandler thirdPersonMovementEventHandler;
-				
-		private const float k_HeadTurnSnapBackScale = 100f;
-
+		
 		[SerializeField, Tooltip("Configuration settings for the animator")]
 		protected AnimationConfig configuration;
+		
+		[SerializeField]
+		protected bool showDebugGizmos;
+
+		[SerializeField]
+		protected DebugGizmoSettings gizmoSettings;
+
+		[Serializable]
+		public struct DebugGizmoSettings
+		{
+			public GameObject arrowPrefab;
+
+			public Color bodyCurrentDirection, bodyDesiredDirection, inputDirection, headCurrentDirection, headDesiredDirection;
+		}
+
+
+		
+		private const float k_HeadTurnSnapBackScale = 100f;
 
 		// Hashes of the animator parameters
 		private int hashForwardSpeed;
@@ -84,6 +100,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		private int framesToWait;
 
 		private IThirdPersonInput input;
+
+		private GameObject[] gizmoObjects;
 
 		private TurnAroundBehaviour[] turnAroundBehaviours;
 		
@@ -310,6 +328,34 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			thirdPersonMovementEventHandler.Init(this);
 			FindCameraController(true);
+			SetupGizmos();
+		}
+		
+		private void SetupGizmos()
+		{
+			if (Application.isPlaying && gizmoObjects == null && showDebugGizmos)
+			{
+				gizmoObjects = new GameObject[5];
+				GameObject gizmoObject = Instantiate(gizmoSettings.arrowPrefab, transform);
+				gizmoObject.GetComponentInChildren<SpriteRenderer>().color = gizmoSettings.bodyCurrentDirection;
+				gizmoObjects[0] = gizmoObject;
+				
+				gizmoObject = Instantiate(gizmoSettings.arrowPrefab, transform);
+				gizmoObject.GetComponentInChildren<SpriteRenderer>().color = gizmoSettings.bodyDesiredDirection;
+				gizmoObjects[1] = gizmoObject;
+				
+				gizmoObject = Instantiate(gizmoSettings.arrowPrefab, transform);
+				gizmoObject.GetComponentInChildren<SpriteRenderer>().color = gizmoSettings.inputDirection;
+				gizmoObjects[2] = gizmoObject;
+				
+				gizmoObject = Instantiate(gizmoSettings.arrowPrefab, transform);
+				gizmoObject.GetComponentInChildren<SpriteRenderer>().color = gizmoSettings.headCurrentDirection;
+				gizmoObjects[3] = gizmoObject;
+				
+				gizmoObject = Instantiate(gizmoSettings.arrowPrefab, transform);
+				gizmoObject.GetComponentInChildren<SpriteRenderer>().color = gizmoSettings.headDesiredDirection;
+				gizmoObjects[4] = gizmoObject;
+			}
 		}
 		
 		protected override void Update()
@@ -339,8 +385,17 @@ namespace StandardAssets.Characters.ThirdPerson
 		private void LateUpdate()
 		{
 			motor.SetLookDirection();
+			UpdateGizmos();
 		}
-		
+
+		private void UpdateGizmos()
+		{
+			if (!showDebugGizmos)
+			{
+				return;
+			}
+		}
+
 		/// <summary>
 		/// Sets the Animator parameters.
 		/// </summary>
@@ -836,6 +891,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			turnAround = GetCurrentTurnaroundBehaviour();
 			//Design pattern for fetching required scene references
 			FindCameraController(false);
+
+			SetupGizmos();
 		}
 #endif
 	}

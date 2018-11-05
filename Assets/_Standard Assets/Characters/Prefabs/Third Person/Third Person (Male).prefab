@@ -1223,7 +1223,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1294013925418394}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 33, y: -0.9897482, z: 9.31}
+  m_LocalPosition: {x: 33, y: 0, z: 25.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4373934692070628}
@@ -2466,6 +2466,15 @@ MonoBehaviour:
     rightFootDetection: {fileID: 114449538320415148}
     maximumSpeed: 10
   configuration: {fileID: 11400000, guid: 16861f506e03f4b39a1b25e1bb3e307f, type: 2}
+  showDebugGizmos: 0
+  gizmoSettings:
+    arrowPrefab: {fileID: 1320860003083594, guid: 61fb8f96b4412463eb0f0522876fee5a,
+      type: 2}
+    bodyCurrentDirection: {r: 0, g: 0.12823725, b: 1, a: 1}
+    bodyDesiredDirection: {r: 1, g: 0, b: 0, a: 1}
+    inputDirection: {r: 0, g: 1, b: 0.00002193451, a: 1}
+    headCurrentDirection: {r: 1, g: 0, b: 0.8238039, a: 1}
+    headDesiredDirection: {r: 1, g: 0.55099326, b: 0, a: 1}
 --- !u!114 &114447118663720106
 MonoBehaviour:
   m_ObjectHideFlags: 1
