@@ -86,12 +86,23 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 
 		[SerializeField, Tooltip("Minimum angle required to trigger a stationary rapid.")]
 		protected float stationaryRapidTurnAngle = 90f;
+		
+		[SerializeField, Tooltip("The maximum forward speed that will trigger a standing rapid turn.")]
+		protected float maxSpeedForStandingTurnaround = 0.25f;
 
 		[SerializeField, Tooltip("Time in seconds that input will be ignore after the triggering of a rapid turn.")]
 		protected float rapidTurnIgnoreInputTime = 0.05f;
 
 		[SerializeField, Tooltip("The number of frames of input will used to determine if a rapid turn was triggered.")]
 		protected int inputBufferSize = 5;
+
+		/// <summary>
+		/// Gets the maximum forward speed that will trigger a standing rapid turn.
+		/// </summary>
+		public float standingTurnaroundSpeedThreshold
+		{
+			get { return maxSpeedForStandingTurnaround; }
+		}
 
 		/// <summary>
 		/// Gets the speed at which the fall direction can change.

@@ -674,20 +674,18 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <returns>True is a rapid turn has been detected.</returns>
 		private bool ShouldTurnAround(out float angle, Quaternion target)
 		{
-			if (Mathf.Approximately(normalizedForwardSpeed, 0))
+			if (normalizedForwardSpeed < configuration.standingTurnaroundSpeedThreshold)
 			{
 				previousInputs.Clear();
-				float currentY = transform.eulerAngles.y;
-				float newY = target.eulerAngles.y;
-				angle = (newY - currentY).Wrap180();
+				angle = (target.eulerAngles.y - transform.eulerAngles.y).Wrap180();
 				return Mathf.Abs(angle) > configuration.stationaryAngleRapidTurn;
 			}
 
+			int i = 0;
 			foreach (Vector2 previousInputsValue in previousInputs.values)
 			{
 				angle = -Vector2.SignedAngle(previousInputsValue, characterInput.moveInput);
-				float deltaMagnitude = Mathf.Abs(previousInputsValue.magnitude - characterInput.moveInput.magnitude);
-				if (Mathf.Abs(angle) > configuration.inputAngleRapidTurn && deltaMagnitude < 0.25f)
+				if (Mathf.Abs(angle) > configuration.inputAngleRapidTurn)
 				{
 					previousInputs.Clear();
 					return true;

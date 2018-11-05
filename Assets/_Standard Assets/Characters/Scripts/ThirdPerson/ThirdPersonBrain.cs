@@ -815,9 +815,14 @@ namespace StandardAssets.Characters.ThirdPerson
 				rightFoot = !lastPhysicsJumpRightRoot;
 			}
 			animator.SetFloat(hashJumpedLateralSpeed, 0.0f);
-			animator.CrossFade(rightFoot ? 
-				                   AnimationControllerInfo.k_RightFootJumpState : 
-				                   AnimationControllerInfo.k_LeftFootJumpState, duration);
+
+			var jumpState = AnimationControllerInfo.k_StrafeJumpState;
+			if (motor.movementMode == ThirdPersonMotorMovementMode.Action)
+			{
+				jumpState = rightFoot ? AnimationControllerInfo.k_RightFootJumpState
+									  : AnimationControllerInfo.k_LeftFootJumpState;
+			}
+			animator.CrossFade(jumpState, duration);
 			lastPhysicsJumpRightRoot = rightFoot;
 		}
 
