@@ -94,11 +94,11 @@ namespace StandardAssets.Characters.Common
 		[SerializeField, Tooltip("The speed at which gravity is allowed to change")]
 		protected float gravityChangeSpeed = 10f;
 		
-		[SerializeField, Tooltip("The max fall distance that will trigger a short fall")]
-		protected float shortFallDistance = 1.0f;
+		[SerializeField, Tooltip("The minimum fall distance required to trigger the fall state.")]
+		protected float minFallDistance = 1.1f;
 		
-		[SerializeField, Tooltip("The gravity multiplier applied when short falling")]
-		protected float shortFallGravityMultiplier = 2.0f;
+		[SerializeField, Tooltip("The gravity multiplier applied when falling less that the minFallDistance")]
+		protected float groundingGravityMultiplier = 2.0f; 
 
 		public bool isGrounded { get; private set; }
 		
@@ -271,20 +271,20 @@ namespace StandardAssets.Characters.Common
 		/// <summary>
 		/// Calculates whether the current fall is defined as a short fall.
 		/// </summary>
-		/// <returns>True is the current fall distance is less than <see cref="shortFallDistance"/> false otherwise.</returns>
+		/// <returns>True is the current fall distance is less than <see cref="minFallDistance"/> false otherwise.</returns>
 		public bool IsPredictedFallShort(out float distance)
 		{
 			distance = GetPredictedFallDistance();
-			return distance <= shortFallDistance;
+			return distance <= minFallDistance;
 		}
 		
 		/// <summary>
 		/// Calculates whether the current fall is defined as a short fall.
 		/// </summary>
-		/// <returns>True is the current fall distance is less than <see cref="shortFallDistance"/> false otherwise.</returns>
+		/// <returns>True is the current fall distance is less than <see cref="minFallDistance"/> false otherwise.</returns>
 		public bool IsPredictedFallShort()
 		{
-			return GetPredictedFallDistance() <= shortFallDistance;
+			return GetPredictedFallDistance() <= minFallDistance;
 		}
 
 		/// <summary>
@@ -408,7 +408,7 @@ namespace StandardAssets.Characters.Common
 			if (Mathf.Approximately(previousFallTime, 0.0f) && fallTime > Mathf.Epsilon)
 			{
 				var predictedFallDistance = GetPredictedFallDistance();
-				shortFall = predictedFallDistance <= shortFallDistance;
+				shortFall = predictedFallDistance <= minFallDistance;
 				if (startedFalling != null)
 				{
 					startedFalling(predictedFallDistance);
@@ -428,7 +428,7 @@ namespace StandardAssets.Characters.Common
 				gravityFactor = fallGravityMultiplier;
 				if (!didJump && shortFall) // if a short fall was triggered increase gravity to quickly ground.
 				{
-					gravityFactor *= shortFallGravityMultiplier;
+					gravityFactor *= groundingGravityMultiplier;
 				}
 				if (initialJumpVelocity < Mathf.Epsilon)
 				{

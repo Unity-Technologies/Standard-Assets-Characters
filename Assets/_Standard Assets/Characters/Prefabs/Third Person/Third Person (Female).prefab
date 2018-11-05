@@ -1581,7 +1581,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1990983976190814}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 33, y: -0.9897482, z: 9.31}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4365263576841622}
@@ -2195,8 +2195,8 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     gravityChangeSpeed: 10
-    shortFallDistance: 1
-    shortFallGravityMultiplier: 2
+    minFallDistance: 1.1
+    groundingGravityMultiplier: 2
   useSimpleCameras: 0
   motor:
     configuration: {fileID: 11400000, guid: 33e0d88026c128b4ca3076e2e5149510, type: 2}
@@ -2307,27 +2307,27 @@ MonoBehaviour:
   animationTurnAroundBehaviour:
     runLeftTurn:
       name: RunForwardTurnLeft180
-      speed: 1
+      speed: 1.1
       headTurnScale: 1
     runRightTurn:
       name: RunForwardTurnRight180_Mirror
-      speed: 1
+      speed: 1.1
       headTurnScale: 1
     sprintLeftTurn:
       name: RunForwardTurnLeft180
-      speed: 1
+      speed: 1.3
       headTurnScale: 1
     sprintRightTurn:
       name: RunForwardTurnRight180_Mirror
-      speed: 1
+      speed: 1.3
       headTurnScale: 1
     idleLeftTurn:
       name: IdleTurnLeft180
-      speed: 1
+      speed: 3
       headTurnScale: 1
     idleRightTurn:
       name: IdleTurnRight180_Mirror
-      speed: 1
+      speed: 3
       headTurnScale: 1
     rotationCurve:
       serializedVersion: 2
@@ -2353,7 +2353,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    normalizedRunSpeedThreshold: 0.1
+    normalizedRunSpeedThreshold: 0.35
     crossfadeDuration: 0.125
   thirdPersonMovementEventHandler:
     zonesDefinition:
@@ -2362,6 +2362,14 @@ MonoBehaviour:
     rightFootDetection: {fileID: 0}
     maximumSpeed: 10
   configuration: {fileID: 11400000, guid: 16861f506e03f4b39a1b25e1bb3e307f, type: 2}
+  showDebugGizmos: 0
+  gizmoSettings:
+    arrowPrefab: {fileID: 0}
+    bodyCurrentDirection: {r: 0, g: 0, b: 0, a: 0}
+    bodyDesiredDirection: {r: 0, g: 0, b: 0, a: 0}
+    inputDirection: {r: 0, g: 0, b: 0, a: 0}
+    headCurrentDirection: {r: 0, g: 0, b: 0, a: 0}
+    headDesiredDirection: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &114779351724003978
 MonoBehaviour:
   m_ObjectHideFlags: 1
