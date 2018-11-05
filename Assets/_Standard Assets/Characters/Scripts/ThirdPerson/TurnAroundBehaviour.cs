@@ -181,11 +181,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			float normalizedTime = 0.0f;
 			switch (state)
 			{
-				case State.WaitingForTransition: // waiting for transition to start use 0 until start
-					if (animator.IsInTransition(0))
-					{
-						state = State.Transitioning;
-					}
+				case State.WaitingForTransition: // wait a a frame for transition
+					state = State.Transitioning;
 					break;
 				case State.Transitioning: // transitioning into animation use next state time until transition is complete.
 					if (!animator.IsInTransition(0))
