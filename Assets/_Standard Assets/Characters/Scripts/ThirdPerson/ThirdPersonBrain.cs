@@ -20,13 +20,13 @@ namespace StandardAssets.Characters.ThirdPerson
 			Falling,
 			Landing
 		}
-		
+
 		[SerializeField, Tooltip("Set to true if you do not want to use the Camera animation manager")]
 		protected bool useSimpleCameras;
-		
+
 		[SerializeField, Tooltip("Properties of the root motion motor")]
 		protected ThirdPersonMotor motor;
-		
+
 		[SerializeField]
 		protected TurnaroundType turnaroundType;
 
@@ -35,13 +35,13 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[SerializeField]
 		protected AnimationTurnAroundBehaviour animationTurnAroundBehaviour;
-		
+
 		[SerializeField]
 		protected ThirdPersonMovementEventHandler thirdPersonMovementEventHandler;
-		
+
 		[SerializeField, Tooltip("Configuration settings for the animator")]
 		protected AnimationConfig configuration;
-		
+
 		[SerializeField]
 		protected bool showDebugGizmos;
 
@@ -53,11 +53,17 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			public GameObject arrowPrefab;
 
-			public Color bodyCurrentDirection, bodyDesiredDirection, inputDirection, headCurrentDirection, headDesiredDirection;
+			public Color bodyCurrentDirection,
+			             bodyDesiredDirection,
+			             inputDirection,
+			             headCurrentDirection,
+			             headDesiredDirection;
 		}
 
+		private readonly Vector3 headGizmoPosition = new Vector3(0f, 1.55f, 0.5f);
 
-		
+		private readonly Vector3 bodyGizmoPosition = new Vector3(0f, 0.05f, 0.5f);
+
 		private const float k_HeadTurnSnapBackScale = 100f;
 
 		// Hashes of the animator parameters
@@ -80,6 +86,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		// angle of the head for look direction
 		private float headAngle;
+		private float targetHeadAngle;
 
 		// cached default animator speed
 		private float cachedAnimatorSpeed = 1.0f;
@@ -102,16 +109,17 @@ namespace StandardAssets.Characters.ThirdPerson
 		private IThirdPersonInput input;
 
 		private GameObject[] gizmoObjects;
+		private GameObject bodyCurrentGizmo, bodyDesiredGizmo, inputDirectionGizmo, headCurrentGizmo, headDesiredGizmo;
 
 		private TurnAroundBehaviour[] turnAroundBehaviours;
-		
+
 		private float rapidStrafeTime, rapidStrafeChangeDuration;
-		
+
 		public ThirdPersonMotor thirdPersonMotor
 		{
 			get { return motor; }
 		}
-		
+
 		public TurnaroundType typeOfTurnaround
 		{
 			get { return turnaroundType; }
@@ -127,10 +135,11 @@ namespace StandardAssets.Characters.ThirdPerson
 				{
 					turnAroundBehaviours = new TurnAroundBehaviour[]
 					{
-						blendspaceTurnAroundBehaviour, 
+						blendspaceTurnAroundBehaviour,
 						animationTurnAroundBehaviour
 					};
 				}
+
 				return turnAroundBehaviours;
 			}
 		}
@@ -144,10 +153,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public ThirdPersonCameraController thirdPersonCameraController
 		{
-			get
-			{
-				return cameraController;
-			}
+			get { return cameraController; }
 		}
 
 		public IThirdPersonInput thirdPersonInput
@@ -211,7 +217,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				       animatorState == AnimatorState.Landing;
 			}
 		}
-		
+
 		/// <summary>
 		/// The value of the animator lateral speed parameter.
 		/// </summary>
@@ -298,8 +304,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		public void UpdateForwardSpeed(float newSpeed, float deltaTime)
 		{
 			animator.SetFloat(hashForwardSpeed, newSpeed,
-			                  configuration.forwardSpeedInterpolation.GetInterpolationTime(animatorForwardSpeed, 
-			                                                        newSpeed), deltaTime);
+			                  configuration.forwardSpeedInterpolation.GetInterpolationTime(animatorForwardSpeed,
+			                                                                               newSpeed), deltaTime);
 		}
 
 		/// <summary>
@@ -312,10 +318,10 @@ namespace StandardAssets.Characters.ThirdPerson
 			// remap turning speed
 			newSpeed = configuration.animationTurningSpeedCurve.Evaluate(Mathf.Abs(newSpeed)) * Mathf.Sign(newSpeed);
 			animator.SetFloat(hashTurningSpeed, newSpeed,
-			                  configuration.turningSpeedInterpolation.GetInterpolationTime(animatorTurningSpeed, 
-			                                                        newSpeed),deltaTime);
+			                  configuration.turningSpeedInterpolation.GetInterpolationTime(animatorTurningSpeed,
+			                                                                               newSpeed), deltaTime);
 		}
-		
+
 		protected override void Awake()
 		{
 			base.Awake();
@@ -323,56 +329,71 @@ namespace StandardAssets.Characters.ThirdPerson
 			animationTurnAroundBehaviour.Init(this);
 			turnAround = GetCurrentTurnaroundBehaviour();
 			motor.Init(this);
-			
+
 			InitAnimator();
-			
+
 			thirdPersonMovementEventHandler.Init(this);
 			FindCameraController(true);
 			SetupGizmos();
 		}
-		
+
 		private void SetupGizmos()
 		{
 			if (Application.isPlaying && gizmoObjects == null && showDebugGizmos)
 			{
 				gizmoObjects = new GameObject[5];
-				GameObject gizmoObject = Instantiate(gizmoSettings.arrowPrefab, transform);
-				gizmoObject.GetComponentInChildren<SpriteRenderer>().color = gizmoSettings.bodyCurrentDirection;
-				gizmoObjects[0] = gizmoObject;
-				
-				gizmoObject = Instantiate(gizmoSettings.arrowPrefab, transform);
-				gizmoObject.GetComponentInChildren<SpriteRenderer>().color = gizmoSettings.bodyDesiredDirection;
-				gizmoObjects[1] = gizmoObject;
-				
-				gizmoObject = Instantiate(gizmoSettings.arrowPrefab, transform);
-				gizmoObject.GetComponentInChildren<SpriteRenderer>().color = gizmoSettings.inputDirection;
-				gizmoObjects[2] = gizmoObject;
-				
-				gizmoObject = Instantiate(gizmoSettings.arrowPrefab, transform);
-				gizmoObject.GetComponentInChildren<SpriteRenderer>().color = gizmoSettings.headCurrentDirection;
-				gizmoObjects[3] = gizmoObject;
-				
-				gizmoObject = Instantiate(gizmoSettings.arrowPrefab, transform);
-				gizmoObject.GetComponentInChildren<SpriteRenderer>().color = gizmoSettings.headDesiredDirection;
-				gizmoObjects[4] = gizmoObject;
+				bodyCurrentGizmo = Instantiate(gizmoSettings.arrowPrefab, transform);
+				SpriteRenderer bodyCurrentSpriteRenderer = bodyCurrentGizmo.GetComponentInChildren<SpriteRenderer>();
+				bodyCurrentSpriteRenderer.color = gizmoSettings.bodyCurrentDirection;
+				bodyCurrentSpriteRenderer.sortingOrder = 0;
+				bodyCurrentGizmo.transform.localPosition = bodyGizmoPosition;
+				gizmoObjects[0] = bodyCurrentGizmo;
+
+				bodyDesiredGizmo = Instantiate(gizmoSettings.arrowPrefab, transform);
+				SpriteRenderer bodyDesiredSpriteRenderer = bodyDesiredGizmo.GetComponentInChildren<SpriteRenderer>();
+				bodyDesiredSpriteRenderer.color = gizmoSettings.bodyDesiredDirection;
+				bodyDesiredSpriteRenderer.sortingOrder = 1;
+				bodyDesiredGizmo.transform.localPosition = bodyGizmoPosition + new Vector3(0f, 0.025f, 0f);;
+				gizmoObjects[1] = bodyDesiredGizmo;
+
+				inputDirectionGizmo = Instantiate(gizmoSettings.arrowPrefab, transform);
+				SpriteRenderer inputSpriteRenderer = inputDirectionGizmo.GetComponentInChildren<SpriteRenderer>();
+				inputSpriteRenderer.color = gizmoSettings.inputDirection;
+				inputSpriteRenderer.sortingOrder = 2;
+				inputDirectionGizmo.transform.localPosition = bodyGizmoPosition + 2 * new Vector3(0f, 0.025f, 0f);;
+				gizmoObjects[2] = inputDirectionGizmo;
+
+				headCurrentGizmo = Instantiate(gizmoSettings.arrowPrefab, transform);
+				SpriteRenderer headCurrentSpriteRenderer = headCurrentGizmo.GetComponentInChildren<SpriteRenderer>();
+				headCurrentSpriteRenderer.color = gizmoSettings.headCurrentDirection;
+				headCurrentSpriteRenderer.sortingOrder = 3;
+				headCurrentGizmo.transform.localPosition = headGizmoPosition;
+				gizmoObjects[3] = headCurrentGizmo;
+
+				headDesiredGizmo = Instantiate(gizmoSettings.arrowPrefab, transform);
+				SpriteRenderer headDesiredSpriteRenderer = headDesiredGizmo.GetComponentInChildren<SpriteRenderer>();
+				headDesiredSpriteRenderer.color = gizmoSettings.headDesiredDirection;
+				headDesiredSpriteRenderer.sortingOrder = 4;
+				headDesiredGizmo.transform.localPosition = headGizmoPosition + new Vector3(0f, 0.025f, 0f);
+				gizmoObjects[4] = headDesiredGizmo;
 			}
 		}
-		
+
 		protected override void Update()
 		{
 			base.Update();
 
 			UpdateAnimatorParameters();
-			
+
 			motor.Update();
 
 			if (turnAround != null)
 			{
 				turnAround.Update();
 			}
-			
+
 			targetYRotation = motor.targetYRotation;
-		
+
 			//Just for build testing
 			//TODO remove
 			if (Input.GetKeyDown(KeyCode.T))
@@ -381,7 +402,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				turnAround = GetCurrentTurnaroundBehaviour();
 			}
 		}
-		
+
 		private void LateUpdate()
 		{
 			motor.SetLookDirection();
@@ -394,6 +415,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				return;
 			}
+
+			headDesiredGizmo.transform.localRotation = Quaternion.Euler(0, targetHeadAngle, 0);
 		}
 
 		/// <summary>
@@ -431,13 +454,13 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				return;
 			}
-			
+
 			if (cameraController == null)
 			{
 				ThirdPersonCameraController[] cameraControllers =
 					FindObjectsOfType<ThirdPersonCameraController>();
 
-				int length = cameraControllers.Length; 
+				int length = cameraControllers.Length;
 				if (length != 1)
 				{
 					string errorMessage = "No ThirdPersonCameraAnimationManagers in scene! Disabling Brain";
@@ -451,12 +474,13 @@ namespace StandardAssets.Characters.ThirdPerson
 						Debug.LogError(errorMessage);
 						gameObject.SetActive(false);
 					}
+
 					return;
 				}
 
 				cameraController = cameraControllers[0];
 			}
-			
+
 			cameraController.SetThirdPersonBrain(this);
 		}
 
@@ -464,14 +488,14 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			switch (turnaroundType)
 			{
-					case TurnaroundType.None:
-						return null;
-					case TurnaroundType.Blendspace:
-						return blendspaceTurnAroundBehaviour;
-					case TurnaroundType.Animation:
-						return animationTurnAroundBehaviour;
-					default:
-						return null;
+				case TurnaroundType.None:
+					return null;
+				case TurnaroundType.Blendspace:
+					return blendspaceTurnAroundBehaviour;
+				case TurnaroundType.Animation:
+					return animationTurnAroundBehaviour;
+				default:
+					return null;
 			}
 		}
 
@@ -480,7 +504,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			characterControllerAdapter.jumpVelocitySet += thirdPersonMovementEventHandler.Jumped;
 			characterControllerAdapter.landed += thirdPersonMovementEventHandler.Landed;
 			characterControllerAdapter.landed += OnLanding;
-				
+
 			motor.jumpStarted += OnJumpStarted;
 			motor.fallStarted += OnFallStarted;
 			motor.Subscribe();
@@ -498,10 +522,10 @@ namespace StandardAssets.Characters.ThirdPerson
 					userInput.recentreCamera += RecenterCamera;
 				}
 			}
-			
+
 			thirdPersonMovementEventHandler.Subscribe();
 		}
-		
+
 		private void OnDisable()
 		{
 			if (characterControllerAdapter != null)
@@ -510,7 +534,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				characterControllerAdapter.landed -= thirdPersonMovementEventHandler.Landed;
 				characterControllerAdapter.landed -= OnLanding;
 			}
-			
+
 			if (motor != null)
 			{
 				if (thirdPersonInput != null)
@@ -526,11 +550,12 @@ namespace StandardAssets.Characters.ThirdPerson
 						userInput.recentreCamera -= RecenterCamera;
 					}
 				}
-				
+
 				motor.jumpStarted -= OnJumpStarted;
 				motor.fallStarted -= OnFallStarted;
 				motor.Unsubscribe();
 			}
+
 			thirdPersonMovementEventHandler.Unsubscribe();
 		}
 
@@ -543,7 +568,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			HeadTurn();
 		}
-		
+
 		/// <summary>
 		/// Handles the head turning.
 		/// </summary>
@@ -567,8 +592,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 			animator.SetLookAtWeight(configuration.lookAtWeight);
-			float targetHeadAngle = Mathf.Clamp((motor.targetYRotation - gameObject.transform.eulerAngles.y).Wrap180(),
-				-configuration.lookAtMaxRotation, configuration.lookAtMaxRotation);
+			targetHeadAngle = Mathf.Clamp((motor.targetYRotation - gameObject.transform.eulerAngles.y).Wrap180(),
+			                              -configuration.lookAtMaxRotation, configuration.lookAtMaxRotation);
 
 			float headTurn = Time.deltaTime * configuration.lookAtRotationSpeed;
 
@@ -595,7 +620,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			                    Quaternion.AngleAxis(headAngle, Vector3.up) * animator.transform.forward * 100f;
 			animator.SetLookAtPosition(lookAtPos);
 		}
-		
+
 		/// <summary>
 		/// Gets the required components.
 		/// </summary>
@@ -632,14 +657,15 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			isGrounded = true;
 
-
 			switch (animatorState)
 			{
 				// if coming from a physics jump handle animation transition
 				case AnimatorState.PhysicsJump:
 					bool rightFoot = animator.GetBool(hashGroundedFootRight);
 					float duration = configuration.jumpEndTransitionByForwardSpeed.Evaluate(
-						Mathf.Abs(animator.GetFloat(AnimationControllerInfo.k_JumpedForwardSpeedParameter)));
+						Mathf.Abs(animator.GetFloat(
+							          AnimationControllerInfo
+								          .k_JumpedForwardSpeedParameter)));
 					string locomotion = isStrafing
 						                    ? AnimationControllerInfo.k_StrafeLocomotionState
 						                    : AnimationControllerInfo.k_LocomotionState;
@@ -675,15 +701,17 @@ namespace StandardAssets.Characters.ThirdPerson
 						}
 						else // play land 
 						{
-							animator.CrossFade(AnimationControllerInfo.k_LandState, configuration.landAnimationBlendDuration);
+							animator.CrossFade(AnimationControllerInfo.k_LandState,
+							                   configuration.landAnimationBlendDuration);
 						}
 					}
 
 					break;
 			}
+
 			SelectGroundedCamera();
 		}
-		
+
 		/// <summary>
 		/// Updates hr animator's forward and lateral speeds. If <see cref="AnimationConfig.enableStrafeRapidDirectionChangeSmoothing"/>
 		/// is enabled special smoothing logic is performed when a strafe rapid direction change is detected.
@@ -692,7 +720,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			// if in strafe move and moving enough perform strafe rapid direction change logic
 			if (configuration.enableStrafeRapidDirectionChangeSmoothingLogic &&
-			    motor.movementMode == ThirdPersonMotorMovementMode.Strafe && 
+			    motor.movementMode == ThirdPersonMotorMovementMode.Strafe &&
 			    (Mathf.Abs(animatorLateralSpeed) >= 0.5f || Mathf.Abs(animatorForwardSpeed) >= 0.5f))
 			{
 				if (triggeredRapidDirectionChange)
@@ -719,8 +747,9 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			// not rapid strafe direction change, update as normal
 			animator.SetFloat(hashLateralSpeed, motor.normalizedLateralSpeed,
-			                  configuration.lateralSpeedInterpolation.GetInterpolationTime(animatorLateralSpeed, 
-			                                                                               motor.normalizedLateralSpeed),
+			                  configuration.lateralSpeedInterpolation.GetInterpolationTime(animatorLateralSpeed,
+			                                                                               motor
+				                                                                               .normalizedLateralSpeed),
 			                  deltaTime);
 			UpdateForwardSpeed(motor.normalizedForwardSpeed, deltaTime);
 		}
@@ -735,6 +764,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				animator.SetFloat(hashSpeedMultiplier, 1.0f);
 				return true;
 			}
+
 			return false;
 		}
 
@@ -742,7 +772,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			thirdPersonCameraController.RecenterCamera();
 		}
-		
+
 		/// <summary>
 		/// Sets the animator strafe parameter to true.
 		/// </summary>
@@ -755,6 +785,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				SelectGroundedCamera();
 			}
 		}
+
 		/// <summary>
 		/// Sets the animator strafe parameter to false.
 		/// </summary>
@@ -767,14 +798,14 @@ namespace StandardAssets.Characters.ThirdPerson
 				SelectGroundedCamera();
 			}
 		}
-		
+
 		private void SelectGroundedCamera()
 		{
 			if (!isChangingCamera)
 			{
 				return;
 			}
-			
+
 			isStrafing = isTryingStrafe;
 			animator.SetBool(hashStrafe, isStrafing);
 			if (isStrafing)
@@ -807,21 +838,24 @@ namespace StandardAssets.Characters.ThirdPerson
 			float movementMagnitude = new Vector2(animatorLateralSpeed, animatorForwardSpeed).magnitude;
 			SetJumpForward(animatorForwardSpeed);
 			bool rightFoot = animator.GetBool(hashGroundedFootRight);
-			
+
 			float duration = configuration.jumpTransitionDurationFactorOfSpeed.Evaluate(movementMagnitude);
 			// keep track of the last jump so legs can be alternated if necessary. ie a skip.
 			if (timeOfLastPhysicsJumpLand + configuration.skipJumpWindow >= Time.time)
 			{
 				rightFoot = !lastPhysicsJumpRightRoot;
 			}
+
 			animator.SetFloat(hashJumpedLateralSpeed, 0.0f);
 
 			var jumpState = AnimationControllerInfo.k_StrafeJumpState;
 			if (motor.movementMode == ThirdPersonMotorMovementMode.Action)
 			{
-				jumpState = rightFoot ? AnimationControllerInfo.k_RightFootJumpState
-									  : AnimationControllerInfo.k_LeftFootJumpState;
+				jumpState = rightFoot
+					            ? AnimationControllerInfo.k_RightFootJumpState
+					            : AnimationControllerInfo.k_LeftFootJumpState;
 			}
+
 			animator.CrossFade(jumpState, duration);
 			lastPhysicsJumpRightRoot = rightFoot;
 		}
@@ -831,7 +865,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			float value = animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1.0f;
 
 			timeUntilZeroOrHalf = (value >= 0.5 ? 1.0f : 0.5f) - value;
-			
+
 			return (value > 1.0f - margin || value < margin ||
 			        (value > 0.5f - margin && value < 0.5f + margin));
 		}
@@ -883,7 +917,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			return Mathf.Abs(speed) > 0.0f;
 		}
-		
+
 #if UNITY_EDITOR
 		private void Reset()
 		{
@@ -901,7 +935,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 #endif
 	}
-	
+
 	/// <summary>
 	/// Handles the third person movement event triggers and event IDs.
 	/// As well as collider movement detections <see cref="ColliderMovementDetection"/>
@@ -914,7 +948,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		[SerializeField]
 		protected ColliderMovementDetection leftFootDetection;
-		
+
 		[SerializeField]
 		protected ColliderMovementDetection rightFootDetection;
 
@@ -942,6 +976,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				leftFootDetection.detection += HandleLeftFoot;
 			}
+
 			if (rightFootDetection != null)
 			{
 				rightFootDetection.detection += HandleRightFoot;
@@ -957,6 +992,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				leftFootDetection.detection -= HandleLeftFoot;
 			}
+
 			if (rightFootDetection != null)
 			{
 				rightFootDetection.detection -= HandleRightFoot;
@@ -985,17 +1021,17 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <param name="movementEventData">the data need to play the event</param>
 		private void HandleLeftFoot(MovementEventData movementEventData)
 		{
-			movementEventData.normalizedSpeed = Mathf.Clamp01(thirdPersonBrain.planarSpeed/maximumSpeed);
+			movementEventData.normalizedSpeed = Mathf.Clamp01(thirdPersonBrain.planarSpeed / maximumSpeed);
 			PlayLeftFoot(movementEventData);
 		}
-		
+
 		/// <summary>
 		/// Plays the right foot movement events
 		/// </summary>
 		/// <param name="movementEventData">the data need to play the event</param>
 		private void HandleRightFoot(MovementEventData movementEventData)
 		{
-			movementEventData.normalizedSpeed = Mathf.Clamp01(thirdPersonBrain.planarSpeed/maximumSpeed);
+			movementEventData.normalizedSpeed = Mathf.Clamp01(thirdPersonBrain.planarSpeed / maximumSpeed);
 			PlayRightFoot(movementEventData);
 		}
 	}
