@@ -11,9 +11,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c04d9be0543234e9cbb340e7ee259a5c, type: 3}
   m_Name: ProBuilder DataProBuilderPreferences
   m_EditorClassIdentifier: 
-  m_Bool_keys: []
+  m_Bool_keys:
+  - pbIconGUI
+  - pbDefaultOpenInDockableWindow
   m_Int_keys:
   - pb_GIWorkflowMode
+  - pbHandleAlignment
+  - pbDefaultEditLevel
+  - pbDefaultSelectionMode
   m_Float_keys:
   - pbEditorScroll.x
   - pbEditorScroll.y
@@ -21,8 +26,8 @@ MonoBehaviour:
   - pbCurrentMaterialPalette
   m_Color_keys: []
   m_Material_keys: []
-  m_Bool_values: 
-  m_Int_values: 01000000
+  m_Bool_values: 0101
+  m_Int_values: 01000000000000000000000002000000
   m_Float_values:
   - 0
   - 0
