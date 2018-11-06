@@ -847,6 +847,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 			animator.SetFloat(hashJumpedLateralSpeed, 0.0f);
+			animator.SetFloat(hashVerticalSpeed, 1.0f);
 
 			var jumpState = AnimationControllerInfo.k_StrafeJumpState;
 			if (motor.movementMode == ThirdPersonMotorMovementMode.Action)
