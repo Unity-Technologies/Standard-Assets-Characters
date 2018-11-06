@@ -110,6 +110,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private GameObject[] gizmoObjects;
 		private GameObject bodyCurrentGizmo, bodyDesiredGizmo, inputDirectionGizmo, headCurrentGizmo, headDesiredGizmo;
+		private Transform mainCameraTransform;
 
 		private TurnAroundBehaviour[] turnAroundBehaviours;
 
@@ -331,6 +332,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			motor.Init(this);
 
 			InitAnimator();
+			mainCameraTransform = Camera.main.transform;
 
 			thirdPersonMovementEventHandler.Init(this);
 			FindCameraController(true);
@@ -416,7 +418,15 @@ namespace StandardAssets.Characters.ThirdPerson
 				return;
 			}
 
+			headCurrentGizmo.transform.localRotation = Quaternion.Euler(0, headAngle, 0);
 			headDesiredGizmo.transform.localRotation = Quaternion.Euler(0, targetHeadAngle, 0);
+			bodyDesiredGizmo.transform.rotation = Quaternion.Euler(0, targetYRotation, 0);
+			inputDirectionGizmo.SetActive(input.hasMovementInput);
+			if (input.hasMovementInput)
+			{
+				float inputAngle = Vector2.SignedAngle(new Vector2(0f,1f), input.moveInput);
+				inputDirectionGizmo.transform.rotation = Quaternion.Euler(0, mainCameraTransform.eulerAngles.y - inputAngle, 0);
+			}
 		}
 
 		/// <summary>
