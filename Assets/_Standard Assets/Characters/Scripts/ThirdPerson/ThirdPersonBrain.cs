@@ -53,16 +53,28 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			public GameObject arrowPrefab;
 
+			public bool showBodyGizmos;
+
 			public Color bodyCurrentDirection,
-			             bodyDesiredDirection,
-			             inputDirection,
-			             headCurrentDirection,
+			             bodyDesiredDirection;
+
+			public bool showFootGizmos;
+			public Color inputDirection;
+
+			public bool showHeadGizmos;
+
+			public Color headCurrentDirection,
 			             headDesiredDirection;
 		}
 
-		private readonly Vector3 headGizmoPosition = new Vector3(0f, 1.55f, 0.5f);
+		private readonly Vector3 headGizmoPosition = new Vector3(0f, 1.55f, 0f);
+		private readonly Vector3 headGizmoScale = new Vector3(0.05f, 0.05f, 0.05f);
 
-		private readonly Vector3 bodyGizmoPosition = new Vector3(0f, 0.05f, 0.5f);
+		private readonly Vector3 bodyGizmoPosition = new Vector3(0f, 0.8f, 0.1f);
+		private readonly Vector3 bodyGizmoScale = new Vector3(0.1f, 0.1f, 0.1f);
+
+		private readonly Vector3 footGizmoPosition = new Vector3(0f, 0.05f, 0.1f);
+		private readonly Vector3 footGizmoScale = new Vector3(0.1f, 0.1f, 0.1f);
 
 		private const float k_HeadTurnSnapBackScale = 100f;
 
@@ -344,40 +356,55 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (Application.isPlaying && gizmoObjects == null && showDebugGizmos)
 			{
 				gizmoObjects = new GameObject[5];
+
+				inputDirectionGizmo = Instantiate(gizmoSettings.arrowPrefab, transform);
+				SpriteRenderer inputSpriteRenderer = inputDirectionGizmo.GetComponentInChildren<SpriteRenderer>();
+				inputSpriteRenderer.color = gizmoSettings.inputDirection;
+				inputSpriteRenderer.sortingOrder = 0;
+				inputSpriteRenderer.transform.localScale = footGizmoScale;
+				inputDirectionGizmo.transform.localPosition = footGizmoPosition;
+				gizmoObjects[2] = inputDirectionGizmo;
+
 				bodyCurrentGizmo = Instantiate(gizmoSettings.arrowPrefab, transform);
 				SpriteRenderer bodyCurrentSpriteRenderer = bodyCurrentGizmo.GetComponentInChildren<SpriteRenderer>();
 				bodyCurrentSpriteRenderer.color = gizmoSettings.bodyCurrentDirection;
-				bodyCurrentSpriteRenderer.sortingOrder = 0;
+				bodyCurrentSpriteRenderer.sortingOrder = 10;
+				bodyCurrentSpriteRenderer.transform.localScale = bodyGizmoScale;
 				bodyCurrentGizmo.transform.localPosition = bodyGizmoPosition;
 				gizmoObjects[0] = bodyCurrentGizmo;
 
 				bodyDesiredGizmo = Instantiate(gizmoSettings.arrowPrefab, transform);
 				SpriteRenderer bodyDesiredSpriteRenderer = bodyDesiredGizmo.GetComponentInChildren<SpriteRenderer>();
 				bodyDesiredSpriteRenderer.color = gizmoSettings.bodyDesiredDirection;
-				bodyDesiredSpriteRenderer.sortingOrder = 1;
-				bodyDesiredGizmo.transform.localPosition = bodyGizmoPosition + new Vector3(0f, 0.025f, 0f);;
+				bodyDesiredSpriteRenderer.sortingOrder = 11;
+				bodyDesiredSpriteRenderer.transform.localScale = bodyGizmoScale;
+				bodyDesiredGizmo.transform.localPosition = bodyGizmoPosition + new Vector3(0f, 0.025f, 0f);
 				gizmoObjects[1] = bodyDesiredGizmo;
-
-				inputDirectionGizmo = Instantiate(gizmoSettings.arrowPrefab, transform);
-				SpriteRenderer inputSpriteRenderer = inputDirectionGizmo.GetComponentInChildren<SpriteRenderer>();
-				inputSpriteRenderer.color = gizmoSettings.inputDirection;
-				inputSpriteRenderer.sortingOrder = 2;
-				inputDirectionGizmo.transform.localPosition = bodyGizmoPosition + 2 * new Vector3(0f, 0.025f, 0f);;
-				gizmoObjects[2] = inputDirectionGizmo;
 
 				headCurrentGizmo = Instantiate(gizmoSettings.arrowPrefab, transform);
 				SpriteRenderer headCurrentSpriteRenderer = headCurrentGizmo.GetComponentInChildren<SpriteRenderer>();
 				headCurrentSpriteRenderer.color = gizmoSettings.headCurrentDirection;
-				headCurrentSpriteRenderer.sortingOrder = 3;
+				headCurrentSpriteRenderer.sortingOrder = 20;
+				headCurrentSpriteRenderer.transform.localScale = headGizmoScale;
 				headCurrentGizmo.transform.localPosition = headGizmoPosition;
 				gizmoObjects[3] = headCurrentGizmo;
 
 				headDesiredGizmo = Instantiate(gizmoSettings.arrowPrefab, transform);
 				SpriteRenderer headDesiredSpriteRenderer = headDesiredGizmo.GetComponentInChildren<SpriteRenderer>();
 				headDesiredSpriteRenderer.color = gizmoSettings.headDesiredDirection;
-				headDesiredSpriteRenderer.sortingOrder = 4;
+				headDesiredSpriteRenderer.sortingOrder = 21;
+				headDesiredSpriteRenderer.transform.localScale = headGizmoScale;
 				headDesiredGizmo.transform.localPosition = headGizmoPosition + new Vector3(0f, 0.025f, 0f);
 				gizmoObjects[4] = headDesiredGizmo;
+			}
+
+			if (gizmoObjects != null && gizmoObjects.Length > 0)
+			{
+				inputDirectionGizmo.SetActive(showDebugGizmos && gizmoSettings.showFootGizmos);
+				bodyCurrentGizmo.SetActive(showDebugGizmos && gizmoSettings.showBodyGizmos);
+				bodyDesiredGizmo.SetActive(showDebugGizmos && gizmoSettings.showBodyGizmos);
+				headCurrentGizmo.SetActive(showDebugGizmos && gizmoSettings.showHeadGizmos);
+				headDesiredGizmo.SetActive(showDebugGizmos && gizmoSettings.showHeadGizmos);
 			}
 		}
 
@@ -421,11 +448,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			headCurrentGizmo.transform.localRotation = Quaternion.Euler(0, headAngle, 0);
 			headDesiredGizmo.transform.localRotation = Quaternion.Euler(0, targetHeadAngle, 0);
 			bodyDesiredGizmo.transform.rotation = Quaternion.Euler(0, targetYRotation, 0);
-			inputDirectionGizmo.SetActive(input.hasMovementInput);
+			inputDirectionGizmo.SetActive(showDebugGizmos && gizmoSettings.showFootGizmos && input.hasMovementInput);
 			if (input.hasMovementInput)
 			{
-				float inputAngle = Vector2.SignedAngle(new Vector2(0f,1f), input.moveInput);
-				inputDirectionGizmo.transform.rotation = Quaternion.Euler(0, mainCameraTransform.eulerAngles.y - inputAngle, 0);
+				float inputAngle = Vector2.SignedAngle(new Vector2(0f, 1f), input.moveInput);
+				inputDirectionGizmo.transform.rotation =
+					Quaternion.Euler(0, mainCameraTransform.eulerAngles.y - inputAngle, 0);
 			}
 		}
 

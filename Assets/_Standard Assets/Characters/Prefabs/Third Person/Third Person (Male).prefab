@@ -2466,13 +2466,16 @@ MonoBehaviour:
     rightFootDetection: {fileID: 114449538320415148}
     maximumSpeed: 10
   configuration: {fileID: 11400000, guid: 16861f506e03f4b39a1b25e1bb3e307f, type: 2}
-  showDebugGizmos: 0
+  showDebugGizmos: 1
   gizmoSettings:
     arrowPrefab: {fileID: 1320860003083594, guid: 61fb8f96b4412463eb0f0522876fee5a,
       type: 2}
+    showBodyGizmos: 1
     bodyCurrentDirection: {r: 1, g: 0, b: 0, a: 1}
     bodyDesiredDirection: {r: 0, g: 0, b: 1, a: 1}
+    showFootGizmos: 1
     inputDirection: {r: 0.101812795, g: 0.4056604, b: 0, a: 1}
+    showHeadGizmos: 1
     headCurrentDirection: {r: 1, g: 1, b: 1, a: 1}
     headDesiredDirection: {r: 0, g: 0, b: 0, a: 1}
 --- !u!114 &114447118663720106
