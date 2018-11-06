@@ -683,9 +683,9 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			foreach (Vector2 previousInputsValue in previousInputs.values)
 			{
-				angle = -Vector2.SignedAngle(previousInputsValue, characterInput.moveInput);
+				angle = Mathf.Abs(Vector2.SignedAngle(previousInputsValue, characterInput.moveInput));
 				float deltaMagnitude = Mathf.Abs(previousInputsValue.magnitude - characterInput.moveInput.magnitude);
-				if (Mathf.Abs(angle) > configuration.inputAngleRapidTurn && deltaMagnitude < 0.25f)
+				if (angle > configuration.inputAngleRapidTurn && deltaMagnitude > 0.25f)
 				{
 					previousInputs.Clear();
 					return true;
