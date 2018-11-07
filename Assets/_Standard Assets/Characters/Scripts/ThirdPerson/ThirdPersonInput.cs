@@ -161,7 +161,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			/// <summary>
 			/// The minimum move input vector magnitude require to enter the <see cref="ModifierState.RotateInCircle"/> state.
 			/// </summary>
-			private const float k_MinInputMagnituteForRotateInCircle = 0.8f;
+			private const float k_MinInputMagnitudeForRotateInCircle = 0.8f;
 
 			/// <summary>
 			/// The modifier's state
@@ -870,7 +870,7 @@ namespace StandardAssets.Characters.ThirdPerson
 					}
 					case ModifierState.RotateInCircle:
 					{
-						if (lastRawInput.magnitude < k_MinInputMagnituteForRotateInCircle)
+						if (lastRawInput.magnitude < k_MinInputMagnitudeForRotateInCircle)
 						{
 							return false;
 						}
