@@ -32,18 +32,9 @@ namespace Editor
 	[CustomEditor(typeof(FirstPersonBrain))]
 	public class FirstPersonBrainEditor : CharacterBrainEditor
 	{
-		protected const string k_WeaponName = "weapon";
-
 		protected override string[] GetExclusions()
 		{
-			List<string> exclusionList = new List<string>();
-			FirstPersonBrain brain = target as FirstPersonBrain;
-			if (!brain.hasWeaponAttached)
-			{
-				exclusionList.Add(k_WeaponName);
-			}
-
-			return exclusionList.ToArray();
+			return new string[0];
 		}
 	}
 

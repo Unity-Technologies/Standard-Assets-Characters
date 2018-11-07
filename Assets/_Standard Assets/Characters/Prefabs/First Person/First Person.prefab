@@ -75,8 +75,8 @@ MonoBehaviour:
   controls:
     m_Asset: {fileID: 11400000, guid: 6b7e0365c2048446aafe64ff5b240173, type: 3}
   onScreenControlsCanvas: {fileID: 0}
-  invertY: 0
   invertX: 0
+  invertY: 0
   xSensitivity: 1
   ySensitivity: 1
   cursorLocked: 1
@@ -166,86 +166,8 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     gravityChangeSpeed: 10
-    groundCheckDistance: 0.51
-    groundCheckMask:
-      serializedVersion: 2
-      m_Bits: 0
-  openCharacterControllerAdapter:
-    terminalVelocity: 10
-    jumpGravityMultiplierAsAFactorOfForwardSpeed:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    fallGravityMultiplierAsAFactorOfForwardSpeed:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    minJumpHeightMultiplierAsAFactorOfForwardSpeed:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    gravityChangeSpeed: 10
-    characterController: {fileID: 114890619256215582}
+    minFallDistance: 1.1
+    groundingGravityMultiplier: 2
   walking:
     maxSpeed: 4
     jumpSpeed: 5
@@ -263,11 +185,11 @@ MonoBehaviour:
       movementZoneLibraries:
       - zoneId: 0
         zoneLibrary:
-          leftFootStepPrefab: {fileID: 114311900519629896, guid: bcede881fd2d944309bf525ace1f2d24,
+          leftFootStepPrefab: {fileID: 114703649657986578, guid: 39b499a1da7614637b04ee652e561932,
             type: 2}
-          rightFootStepPrefab: {fileID: 114967407487660778, guid: c1de17cfbcbe5474699f2b5d8601d733,
+          rightFootStepPrefab: {fileID: 114303766495856896, guid: 12ff91133c90745e9bef34ba039e129d,
             type: 2}
-          landingPrefab: {fileID: 114311900519629896, guid: dbc9d4907c6f343eca1686dc4a50f850,
+          landingPrefab: {fileID: 114805303375849546, guid: ecb7fd2a290b048dabc44bf7feffd33e,
             type: 2}
           jumpingPrefab: {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868,
             type: 2}
@@ -277,17 +199,11 @@ MonoBehaviour:
             type: 2}
           rightFootStepPrefab: {fileID: 114303766495856896, guid: 117ab76cf73814692bc3891a8f04bada,
             type: 2}
-          landingPrefab: {fileID: 114805303375849546, guid: 748c8b8d01da94ec0b0a8bd7c5de6aca,
+          landingPrefab: {fileID: 114805303375849546, guid: ecb7fd2a290b048dabc44bf7feffd33e,
             type: 2}
-          jumpingPrefab: {fileID: 114805303375849546, guid: cfff8b50195ea4bf491836ee1bdfe817,
+          jumpingPrefab: {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868,
             type: 2}
     maximumSpeed: 10
-  weapon:
-    weaponPrefab: {fileID: 1275037066185628, guid: dba2ccad365dc44aaacfd886f584386d,
-      type: 2}
-    channelMask: 1
-    gain: 0.1
-    use2DDistance: 0
 --- !u!114 &114890619256215582
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -308,7 +224,6 @@ MonoBehaviour:
   center: {x: 0, y: 0, z: 0}
   radius: 0.65
   height: 2
-  colliderLayer: 
   collisionLayerMask:
     serializedVersion: 2
     m_Bits: 257
@@ -320,8 +235,6 @@ MonoBehaviour:
   slideDownTerminalVelocity: 10
   slideDownGravityScale: 1
   slideDownStartDuration: 0.25
-  enableDebug: 0
-  debugDrawMoveVector: 0
 --- !u!136 &136368833332200808
 CapsuleCollider:
   m_ObjectHideFlags: 1
