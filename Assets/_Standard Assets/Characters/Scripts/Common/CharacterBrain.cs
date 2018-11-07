@@ -27,6 +27,8 @@ namespace StandardAssets.Characters.Common
 		/// </summary>
 		public float planarSpeed { get; protected set; }
 		
+		public Vector3 planarDisplacement { get; protected set; }
+		
 		private Vector3 lastPosition;
 
 		public abstract float normalizedForwardSpeed { get;}
@@ -53,7 +55,8 @@ namespace StandardAssets.Characters.Common
 		{
 			Vector3 newPosition = transform.position;
 			newPosition.y = 0f;
-			float displacement = (lastPosition - newPosition).magnitude;
+			planarDisplacement = lastPosition - newPosition;
+			float displacement = planarDisplacement.magnitude;
 			planarSpeed = displacement / Time.deltaTime;
 			lastPosition = newPosition;
 		}

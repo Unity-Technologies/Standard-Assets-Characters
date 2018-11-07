@@ -68,6 +68,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			             headDesiredDirection;
 		}
 
+		private const float k_VelocityGizmoScale = 0.2f;
+
 		private readonly Vector3 headGizmoPosition = new Vector3(0f, 1.55f, 0f);
 		private readonly Vector3 headGizmoScale = new Vector3(0.05f, 0.05f, 0.05f);
 
@@ -122,7 +124,14 @@ namespace StandardAssets.Characters.ThirdPerson
 		private IThirdPersonInput input;
 
 		private GameObject[] gizmoObjects;
-		private GameObject bodyCurrentGizmo, bodyDesiredGizmo, inputDirectionGizmo, velocityGizmo, headCurrentGizmo, headDesiredGizmo;
+
+		private GameObject bodyCurrentGizmo,
+		                   bodyDesiredGizmo,
+		                   inputDirectionGizmo,
+		                   velocityGizmo,
+		                   headCurrentGizmo,
+		                   headDesiredGizmo;
+
 		private Transform mainCameraTransform;
 
 		private TurnAroundBehaviour[] turnAroundBehaviours;
@@ -365,7 +374,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				inputSpriteRenderer.transform.localScale = footGizmoScale;
 				inputDirectionGizmo.transform.localPosition = footGizmoPosition;
 				gizmoObjects[0] = inputDirectionGizmo;
-				
+
 				velocityGizmo = Instantiate(gizmoSettings.arrowPrefab, transform);
 				SpriteRenderer velocitySpriteRenderer = velocityGizmo.GetComponentInChildren<SpriteRenderer>();
 				velocitySpriteRenderer.color = gizmoSettings.velocityIndicator;
@@ -373,7 +382,6 @@ namespace StandardAssets.Characters.ThirdPerson
 				velocitySpriteRenderer.transform.localScale = footGizmoScale;
 				velocityGizmo.transform.localPosition = footGizmoPosition;
 				gizmoObjects[1] = velocityGizmo;
-				
 
 				bodyCurrentGizmo = Instantiate(gizmoSettings.arrowPrefab, transform);
 				SpriteRenderer bodyCurrentSpriteRenderer = bodyCurrentGizmo.GetComponentInChildren<SpriteRenderer>();
@@ -459,8 +467,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			headCurrentGizmo.transform.localRotation = Quaternion.Euler(0, headAngle, 0);
 			headDesiredGizmo.transform.localRotation = Quaternion.Euler(0, targetHeadAngle, 0);
 			bodyDesiredGizmo.transform.rotation = Quaternion.Euler(0, targetYRotation, 0);
-			inputDirectionGizmo.SetActive(!showDebugGizmos && gizmoSettings.showFootGizmos && input.hasMovementInput);
-			velocityGizmo.transform.localScale = Vector3.one * planarSpeed;
+			inputDirectionGizmo.SetActive(showDebugGizmos && gizmoSettings.showFootGizmos && input.hasMovementInput);
+			velocityGizmo.transform.localScale = Vector3.one * planarSpeed * k_VelocityGizmoScale;
+			velocityGizmo.transform.rotation = Quaternion.Euler(
+				0f, 180f + transform.eulerAngles.y + Vector3.SignedAngle(transform.forward, planarDisplacement, transform.up),
+				0f);
 			if (input.hasMovementInput)
 			{
 				float inputAngle = Vector2.SignedAngle(new Vector2(0f, 1f), input.moveInput);
