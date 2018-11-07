@@ -60,6 +60,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			public bool showFootGizmos;
 			public Color inputDirection;
+			public Color velocityIndicator;
 
 			public bool showHeadGizmos;
 
@@ -73,7 +74,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private readonly Vector3 bodyGizmoPosition = new Vector3(0f, 0.8f, 0.1f);
 		private readonly Vector3 bodyGizmoScale = new Vector3(0.1f, 0.1f, 0.1f);
 
-		private readonly Vector3 footGizmoPosition = new Vector3(0f, 0.05f, 0.1f);
+		private readonly Vector3 footGizmoPosition = new Vector3(0f, 0.05f, 0f);
 		private readonly Vector3 footGizmoScale = new Vector3(0.1f, 0.1f, 0.1f);
 
 		private const float k_HeadTurnSnapBackScale = 100f;
@@ -121,7 +122,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private IThirdPersonInput input;
 
 		private GameObject[] gizmoObjects;
-		private GameObject bodyCurrentGizmo, bodyDesiredGizmo, inputDirectionGizmo, headCurrentGizmo, headDesiredGizmo;
+		private GameObject bodyCurrentGizmo, bodyDesiredGizmo, inputDirectionGizmo, velocityGizmo, headCurrentGizmo, headDesiredGizmo;
 		private Transform mainCameraTransform;
 
 		private TurnAroundBehaviour[] turnAroundBehaviours;
@@ -355,7 +356,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			if (Application.isPlaying && gizmoObjects == null && showDebugGizmos)
 			{
-				gizmoObjects = new GameObject[5];
+				gizmoObjects = new GameObject[6];
 
 				inputDirectionGizmo = Instantiate(gizmoSettings.arrowPrefab, transform);
 				SpriteRenderer inputSpriteRenderer = inputDirectionGizmo.GetComponentInChildren<SpriteRenderer>();
@@ -363,7 +364,16 @@ namespace StandardAssets.Characters.ThirdPerson
 				inputSpriteRenderer.sortingOrder = 0;
 				inputSpriteRenderer.transform.localScale = footGizmoScale;
 				inputDirectionGizmo.transform.localPosition = footGizmoPosition;
-				gizmoObjects[2] = inputDirectionGizmo;
+				gizmoObjects[0] = inputDirectionGizmo;
+				
+				velocityGizmo = Instantiate(gizmoSettings.arrowPrefab, transform);
+				SpriteRenderer velocitySpriteRenderer = velocityGizmo.GetComponentInChildren<SpriteRenderer>();
+				velocitySpriteRenderer.color = gizmoSettings.velocityIndicator;
+				velocitySpriteRenderer.sortingOrder = 0;
+				velocitySpriteRenderer.transform.localScale = footGizmoScale;
+				velocityGizmo.transform.localPosition = footGizmoPosition;
+				gizmoObjects[1] = velocityGizmo;
+				
 
 				bodyCurrentGizmo = Instantiate(gizmoSettings.arrowPrefab, transform);
 				SpriteRenderer bodyCurrentSpriteRenderer = bodyCurrentGizmo.GetComponentInChildren<SpriteRenderer>();
@@ -371,7 +381,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				bodyCurrentSpriteRenderer.sortingOrder = 10;
 				bodyCurrentSpriteRenderer.transform.localScale = bodyGizmoScale;
 				bodyCurrentGizmo.transform.localPosition = bodyGizmoPosition;
-				gizmoObjects[0] = bodyCurrentGizmo;
+				gizmoObjects[2] = bodyCurrentGizmo;
 
 				bodyDesiredGizmo = Instantiate(gizmoSettings.arrowPrefab, transform);
 				SpriteRenderer bodyDesiredSpriteRenderer = bodyDesiredGizmo.GetComponentInChildren<SpriteRenderer>();
@@ -379,7 +389,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				bodyDesiredSpriteRenderer.sortingOrder = 11;
 				bodyDesiredSpriteRenderer.transform.localScale = bodyGizmoScale;
 				bodyDesiredGizmo.transform.localPosition = bodyGizmoPosition + new Vector3(0f, 0.025f, 0f);
-				gizmoObjects[1] = bodyDesiredGizmo;
+				gizmoObjects[3] = bodyDesiredGizmo;
 
 				headCurrentGizmo = Instantiate(gizmoSettings.arrowPrefab, transform);
 				SpriteRenderer headCurrentSpriteRenderer = headCurrentGizmo.GetComponentInChildren<SpriteRenderer>();
@@ -387,7 +397,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				headCurrentSpriteRenderer.sortingOrder = 20;
 				headCurrentSpriteRenderer.transform.localScale = headGizmoScale;
 				headCurrentGizmo.transform.localPosition = headGizmoPosition;
-				gizmoObjects[3] = headCurrentGizmo;
+				gizmoObjects[4] = headCurrentGizmo;
 
 				headDesiredGizmo = Instantiate(gizmoSettings.arrowPrefab, transform);
 				SpriteRenderer headDesiredSpriteRenderer = headDesiredGizmo.GetComponentInChildren<SpriteRenderer>();
@@ -395,12 +405,13 @@ namespace StandardAssets.Characters.ThirdPerson
 				headDesiredSpriteRenderer.sortingOrder = 21;
 				headDesiredSpriteRenderer.transform.localScale = headGizmoScale;
 				headDesiredGizmo.transform.localPosition = headGizmoPosition + new Vector3(0f, 0.025f, 0f);
-				gizmoObjects[4] = headDesiredGizmo;
+				gizmoObjects[5] = headDesiredGizmo;
 			}
 
 			if (gizmoObjects != null && gizmoObjects.Length > 0)
 			{
 				inputDirectionGizmo.SetActive(showDebugGizmos && gizmoSettings.showFootGizmos);
+				velocityGizmo.SetActive(showDebugGizmos && gizmoSettings.showFootGizmos);
 				bodyCurrentGizmo.SetActive(showDebugGizmos && gizmoSettings.showBodyGizmos);
 				bodyDesiredGizmo.SetActive(showDebugGizmos && gizmoSettings.showBodyGizmos);
 				headCurrentGizmo.SetActive(showDebugGizmos && gizmoSettings.showHeadGizmos);
@@ -448,7 +459,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			headCurrentGizmo.transform.localRotation = Quaternion.Euler(0, headAngle, 0);
 			headDesiredGizmo.transform.localRotation = Quaternion.Euler(0, targetHeadAngle, 0);
 			bodyDesiredGizmo.transform.rotation = Quaternion.Euler(0, targetYRotation, 0);
-			inputDirectionGizmo.SetActive(showDebugGizmos && gizmoSettings.showFootGizmos && input.hasMovementInput);
+			inputDirectionGizmo.SetActive(!showDebugGizmos && gizmoSettings.showFootGizmos && input.hasMovementInput);
+			velocityGizmo.transform.localScale = Vector3.one * planarSpeed;
 			if (input.hasMovementInput)
 			{
 				float inputAngle = Vector2.SignedAngle(new Vector2(0f, 1f), input.moveInput);
