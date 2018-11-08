@@ -328,8 +328,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		public void UpdateForwardSpeed(float newSpeed, float deltaTime)
 		{
 			animator.SetFloat(hashForwardSpeed, newSpeed,
-			                  configuration.forwardSpeedInterpolation.GetInterpolationTime(animatorForwardSpeed,
-			                                                                               newSpeed), deltaTime);
+			                  configuration.forwardSpeedInterpolation.GetInterpolationTime(
+				                  animatorForwardSpeed, newSpeed), deltaTime);
 		}
 		
 		/// <summary>
@@ -339,9 +339,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <param name="deltaTime">Interpolation delta time</param>
 		public void UpdateLateralSpeed(float newSpeed, float deltaTime)
 		{
-			animator.SetFloat(hashLateralSpeed , newSpeed,
-				configuration.lateralSpeedInterpolation.GetInterpolationTime(animatorLateralSpeed,
-					newSpeed), deltaTime);
+			animator.SetFloat(hashLateralSpeed, newSpeed,
+			                  configuration.lateralSpeedInterpolation.GetInterpolationTime(
+				                  animatorLateralSpeed, newSpeed), deltaTime);
 		}
 
 		/// <summary>
@@ -354,8 +354,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			// remap turning speed
 			newSpeed = configuration.animationTurningSpeedCurve.Evaluate(Mathf.Abs(newSpeed)) * Mathf.Sign(newSpeed);
 			animator.SetFloat(hashTurningSpeed, newSpeed,
-			                  configuration.turningSpeedInterpolation.GetInterpolationTime(animatorTurningSpeed,
-			                                                                               newSpeed), deltaTime);
+			                  configuration.turningSpeedInterpolation.GetInterpolationTime(
+				                  animatorTurningSpeed, newSpeed), deltaTime);
 		}
 
 		protected override void Awake()
