@@ -27,39 +27,39 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[FormerlySerializedAs("useSimpleCameras")]
 		[SerializeField, Tooltip("Set to true if you do not want to use the Camera animation manager")]
-		bool m_UseSimpleCameras;
+		protected bool m_UseSimpleCameras;
 
 		[FormerlySerializedAs("motor")]
 		[SerializeField, Tooltip("Properties of the root motion motor")]
-		ThirdPersonMotor m_Motor;
+		protected ThirdPersonMotor m_Motor;
 
 		[FormerlySerializedAs("turnaroundType")]
 		[SerializeField]
-		TurnaroundType m_TurnaroundType;
+		protected TurnaroundType m_TurnaroundType;
 
 		[FormerlySerializedAs("blendspaceTurnAroundBehaviour")]
 		[SerializeField]
-		BlendspaceTurnAroundBehaviour m_BlendspaceTurnAroundBehaviour;
+		protected BlendspaceTurnAroundBehaviour m_BlendspaceTurnAroundBehaviour;
 
 		[FormerlySerializedAs("animationTurnAroundBehaviour")]
 		[SerializeField]
-		AnimationTurnAroundBehaviour m_AnimationTurnAroundBehaviour;
+		protected AnimationTurnAroundBehaviour m_AnimationTurnAroundBehaviour;
 
 		[FormerlySerializedAs("thirdPersonMovementEventHandler")]
 		[SerializeField]
-		ThirdPersonMovementEventHandler m_ThirdPersonMovementEventHandler;
+		protected ThirdPersonMovementEventHandler m_ThirdPersonMovementEventHandler;
 
 		[FormerlySerializedAs("configuration")]
 		[SerializeField, Tooltip("Configuration settings for the animator")]
-		AnimationConfig m_Configuration;
+		protected AnimationConfig m_Configuration;
 
 		[FormerlySerializedAs("showDebugGizmos")]
 		[SerializeField]
-		bool m_ShowDebugGizmos;
+		protected bool m_ShowDebugGizmos;
 
 		[FormerlySerializedAs("gizmoSettings")]
 		[SerializeField]
-		DebugGizmoSettings m_GizmoSettings;
+		protected DebugGizmoSettings m_GizmoSettings;
 
 		[Serializable]
 		public struct DebugGizmoSettings
@@ -338,8 +338,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		public void UpdateForwardSpeed(float newSpeed, float deltaTime)
 		{
 			animator.SetFloat(m_HashForwardSpeed, newSpeed,
-			                  m_Configuration.forwardSpeedInterpolation.GetInterpolationTime(animatorForwardSpeed,
-			                                                                               newSpeed), deltaTime);
+			                  m_Configuration.forwardSpeedInterpolation.GetInterpolationTime(
+				                  animatorForwardSpeed, newSpeed), deltaTime);
 		}
 		
 		/// <summary>
@@ -349,9 +349,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <param name="deltaTime">Interpolation delta time</param>
 		public void UpdateLateralSpeed(float newSpeed, float deltaTime)
 		{
-			animator.SetFloat(m_HashLateralSpeed , newSpeed,
-				m_Configuration.lateralSpeedInterpolation.GetInterpolationTime(animatorLateralSpeed,
-					newSpeed), deltaTime);
+			animator.SetFloat(m_HashLateralSpeed, newSpeed,
+			                  m_Configuration.lateralSpeedInterpolation.GetInterpolationTime(
+				                  animatorLateralSpeed, newSpeed), deltaTime);
 		}
 
 		/// <summary>
@@ -364,8 +364,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			// remap turning speed
 			newSpeed = m_Configuration.animationTurningSpeedCurve.Evaluate(Mathf.Abs(newSpeed)) * Mathf.Sign(newSpeed);
 			animator.SetFloat(m_HashTurningSpeed, newSpeed,
-			                  m_Configuration.turningSpeedInterpolation.GetInterpolationTime(animatorTurningSpeed,
-			                                                                               newSpeed), deltaTime);
+			                  m_Configuration.turningSpeedInterpolation.GetInterpolationTime(
+				                  animatorTurningSpeed, newSpeed), deltaTime);
 		}
 
 		protected override void Awake()
@@ -800,7 +800,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 
 		/// <summary>
-		/// Updates hr animator's forward and lateral speeds
+		/// Updates hr animator's forward and lateral speeds. If <see cref="AnimationConfig.enableStrafeRapidDirectionChangeSmoothing"/>
 		/// is enabled special smoothing logic is performed when a strafe rapid direction change is detected.
 		/// </summary>
 		void UpdateAnimationMovementSpeeds(float deltaTime)
