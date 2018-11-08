@@ -90,7 +90,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		private int hashTurningSpeed;
 		private int hashVerticalSpeed;
 		private int hashGroundedFootRight;
-		private int hashJumpedLateralSpeed;
 		private int hashFall;
 		private int hashStrafe;
 		private int hashSpeedMultiplier;
@@ -331,6 +330,18 @@ namespace StandardAssets.Characters.ThirdPerson
 			animator.SetFloat(hashForwardSpeed, newSpeed,
 			                  configuration.forwardSpeedInterpolation.GetInterpolationTime(animatorForwardSpeed,
 			                                                                               newSpeed), deltaTime);
+		}
+		
+		/// <summary>
+		/// Update the animator lateral speed parameter.
+		/// </summary>
+		/// <param name="newSpeed">New forward speed</param>
+		/// <param name="deltaTime">Interpolation delta time</param>
+		public void UpdateLateralSpeed(float newSpeed, float deltaTime)
+		{
+			animator.SetFloat(hashLateralSpeed , newSpeed,
+				configuration.lateralSpeedInterpolation.GetInterpolationTime(animatorLateralSpeed,
+					newSpeed), deltaTime);
 		}
 
 		/// <summary>
@@ -701,7 +712,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			hashTurningSpeed = Animator.StringToHash(AnimationControllerInfo.k_TurningSpeedParameter);
 			hashVerticalSpeed = Animator.StringToHash(AnimationControllerInfo.k_VerticalSpeedParameter);
 			hashGroundedFootRight = Animator.StringToHash(AnimationControllerInfo.k_GroundedFootRightParameter);
-			hashJumpedLateralSpeed = Animator.StringToHash(AnimationControllerInfo.k_JumpedLateralSpeedParameter);
 			hashStrafe = Animator.StringToHash(AnimationControllerInfo.k_StrafeParameter);
 			hashFall = Animator.StringToHash(AnimationControllerInfo.k_FallParameter);
 			hashSpeedMultiplier = Animator.StringToHash(AnimationControllerInfo.k_SpeedMultiplier);
@@ -813,11 +823,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 			// not rapid strafe direction change, update as normal
-			animator.SetFloat(hashLateralSpeed, motor.normalizedLateralSpeed,
-			                  configuration.lateralSpeedInterpolation.GetInterpolationTime(animatorLateralSpeed,
-			                                                                               motor
-				                                                                               .normalizedLateralSpeed),
-			                  deltaTime);
+			UpdateLateralSpeed(motor.normalizedLateralSpeed, deltaTime);
 			UpdateForwardSpeed(motor.normalizedForwardSpeed, deltaTime);
 		}
 
@@ -913,7 +919,6 @@ namespace StandardAssets.Characters.ThirdPerson
 				rightFoot = !lastJumpWasRightRoot;
 			}
 
-			animator.SetFloat(hashJumpedLateralSpeed, 0.0f);
 			animator.SetFloat(hashVerticalSpeed, 1.0f);
 
 			var jumpState = AnimationControllerInfo.k_StrafeJumpState;

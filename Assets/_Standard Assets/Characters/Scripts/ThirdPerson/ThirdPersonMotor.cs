@@ -716,23 +716,27 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			aerialState = ThirdPersonAerialMovementState.Jumping;
 			
-			// check for a standing forward jump.
-			if (characterInput.moveInput.magnitude > configuration.standingJumpMinInputThreshold && 
-				lastIdleTime + configuration.standingJumpMoveThresholdTime >= Time.time  &&
-				animator.deltaPosition.GetMagnitudeOnAxis(transform.forward) <= 
-				configuration.standingJumpMaxMovementThreshold * Time.deltaTime)
+			if (IsIdleForwardJump())
 			{
 				cachedForwardVelocity = configuration.standingJumpSpeed;
-				normalizedForwardSpeed = 1;
-				thirdPersonBrain.UpdateForwardSpeed(normalizedForwardSpeed, 1);
-				fallDirection = transform.forward;
+				if (movementMode == ThirdPersonMotorMovementMode.Action)
+				{
+					normalizedForwardSpeed = 1.0f;
+				}
+				else
+				{
+					normalizedLateralSpeed = characterInput.moveInput.x;
+					normalizedForwardSpeed = characterInput.moveInput.y;
+					thirdPersonBrain.UpdateLateralSpeed(normalizedLateralSpeed, 1.0f);
+				}
+				thirdPersonBrain.UpdateForwardSpeed(normalizedForwardSpeed, 1.0f);
 			}
 			else
 			{
-				fallDirection = movementMode == ThirdPersonMotorMovementMode.Action ? 
-					                transform.forward : CalculateLocalInputDirection();
 				cachedForwardVelocity = averageForwardVelocity.average;
 			}
+			
+			fallDirection = CalculateLocalInputDirection();
 			
 			controllerAdapter.SetJumpVelocity(
 				configuration.jumpHeightAsFactorOfForwardSpeed.Evaluate(normalizedForwardSpeed));
@@ -743,6 +747,14 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 			reattempt = false;
+		}
+
+		private bool IsIdleForwardJump()
+		{
+			return characterInput.moveInput.magnitude > configuration.standingJumpMinInputThreshold &&
+			        lastIdleTime + configuration.standingJumpMoveThresholdTime >= Time.time &&
+			        animator.deltaPosition.GetMagnitudeOnAxis(transform.forward) <=
+			        configuration.standingJumpMaxMovementThreshold * Time.deltaTime;
 		}
 		
 		private void UpdateFallForwardSpeed()
