@@ -335,7 +335,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			if (jumpQueued)
 			{
-				jumpQueued = TryJump();
+				TryJump(out jumpQueued);
 			}
 			if (trackGroundHeight)
 			{
@@ -699,17 +699,19 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// Attempts a jump. If successful fires the <see cref="jumpStarted"/> event and
 		/// sets <see cref="aerialState"/> to <see cref="ThirdPersonAerialMovementState.Jumping"/>.
 		/// </summary>
-		/// <returns>True if a jump should be re-attempted</returns>
-		private bool TryJump()
+		/// <param name="reattempt">Whether a jump should be reattempted</param>
+		private void TryJump(out bool reattempt)
 		{
 			if (movementState == ThirdPersonGroundMovementState.TurningAround || 
 			    thirdPersonBrain.animatorState == ThirdPersonBrain.AnimatorState.Landing)
 			{
-				return true;
+				reattempt = true;
+				return;
 			}
 			if (!IsGrounded || controllerAdapter.startedSlide || !thirdPersonBrain.isRootMotionState)
 			{
-				return false;
+				reattempt = false;
+				return;
 			}
 			
 			aerialState = ThirdPersonAerialMovementState.Jumping;
@@ -739,7 +741,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				jumpStarted();
 			}
-			return false;
+
+			reattempt = false;
 		}
 		
 		private void UpdateFallForwardSpeed()
