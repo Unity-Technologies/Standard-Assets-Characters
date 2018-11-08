@@ -24,7 +24,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		[FormerlySerializedAs("configuration")]
 		[SerializeField, Tooltip("Reference to the configuration with all the movement settings")]
-		MotorConfig m_Configuration;
+		protected MotorConfig m_Configuration;
 
 		/// <summary>
 		/// Gets the normalized turning speed
@@ -68,7 +68,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Gets the character's current movement mode.
 		/// </summary>
-		/// <value>Either Action or Strafe.</value>
+		/// <value>Either Exploration or Strafe.</value>
 		public ThirdPersonMotorMovementMode movementMode { get; private set; }
 
 		/// <summary>
@@ -104,7 +104,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		ThirdPersonAerialMovementState m_AerialState = ThirdPersonAerialMovementState.Grounded;
 
 		SlidingAverage m_AverageForwardVelocity,
-		                       m_ActionAverageForwardInput,
+		                       m_ExplorationAverageForwardInput,
 		                       m_StrafeAverageForwardInput,
 		                       m_StrafeAverageLateralInput;
 
@@ -209,16 +209,16 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			if (m_ThirdPersonBrain.isRootMotionState)
 			{
-				var groundMovementVector = m_Animator.deltaPosition * m_Configuration.scaleRootMovement;
+				Vector3 groundMovementVector = m_Animator.deltaPosition * m_Configuration.scaleRootMovement;
 				groundMovementVector.y = 0.0f;
 				
 				m_ControllerAdapter.Move(groundMovementVector, Time.deltaTime);
 				
 				//Update the average movement speed
-				var direction = movementMode == ThirdPersonMotorMovementMode.Action
+				var direction = movementMode == ThirdPersonMotorMovementMode.Exploration
 					                ? m_Transform.forward
 					                : CalculateLocalInputDirection();              
-				var movementVelocity = groundMovementVector.GetMagnitudeOnAxis(direction)/Time.deltaTime;
+				float movementVelocity = groundMovementVector.GetMagnitudeOnAxis(direction)/Time.deltaTime;
 				if (movementVelocity > 0)
 				{
 					m_AverageForwardVelocity.Add(movementVelocity, HandleNegative.Absolute);
@@ -236,7 +236,7 @@ namespace StandardAssets.Characters.ThirdPerson
 					UpdateFallForwardSpeed();
 				}
 
-				var movementDirection = movementMode == ThirdPersonMotorMovementMode.Action ? m_Transform.forward :
+				var movementDirection = movementMode == ThirdPersonMotorMovementMode.Exploration ? m_Transform.forward :
 					CalculateLocalInputDirection() ;
 				m_FallDirection = Vector3.Lerp(m_FallDirection, movementDirection, m_Configuration.fallDirectionChange);
 				m_ControllerAdapter.Move(cachedForwardVelocity * Time.deltaTime * m_FallDirection, Time.deltaTime);
@@ -253,11 +253,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			m_ControllerAdapter = brain.controllerAdapter;
 			m_Animator = m_GameObject.GetComponent<Animator>();
 			m_AverageForwardVelocity = new SlidingAverage(m_Configuration.jumpGroundVelocityWindowSize);
-			m_ActionAverageForwardInput = new SlidingAverage(m_Configuration.forwardInputWindowSize);
+			m_ExplorationAverageForwardInput = new SlidingAverage(m_Configuration.forwardInputWindowSize);
 			m_StrafeAverageForwardInput = new SlidingAverage(m_Configuration.strafeInputWindowSize);
 			m_StrafeAverageLateralInput = new SlidingAverage(m_Configuration.strafeInputWindowSize);
 			m_PreviousInputs = new SizedQueue<Vector2>(m_Configuration.bufferSizeInput);
-			movementMode = ThirdPersonMotorMovementMode.Action;
+			movementMode = ThirdPersonMotorMovementMode.Exploration;
 
 			EndStrafe();
 		}
@@ -271,7 +271,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			m_ControllerAdapter.startedFalling += OnStartedFalling;
 			
 			//Turnaround subscription for runtime support
-			foreach (var turnaroundBehaviour in m_ThirdPersonBrain.turnAroundOptions)
+			foreach (TurnAroundBehaviour turnaroundBehaviour in m_ThirdPersonBrain.turnAroundOptions)
 			{
 				turnaroundBehaviour.turnaroundComplete += TurnaroundComplete;
 			}
@@ -300,7 +300,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 			//Turnaround un-subscription for runtime support
-			foreach (var turnaroundBehaviour in m_ThirdPersonBrain.turnAroundOptions)
+			foreach (TurnAroundBehaviour turnaroundBehaviour in m_ThirdPersonBrain.turnAroundOptions)
 			{
 				turnaroundBehaviour.turnaroundComplete -= TurnaroundComplete;
 			}
@@ -324,7 +324,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				switch (movementMode)
 				{
-					case ThirdPersonMotorMovementMode.Action:
+					case ThirdPersonMotorMovementMode.Exploration:
 						CalculateForwardMovement();
 						break;
 					case ThirdPersonMotorMovementMode.Strafe:
@@ -353,8 +353,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			switch (movementMode)
 			{
-				case ThirdPersonMotorMovementMode.Action:
-					SetActionLookDirection();
+				case ThirdPersonMotorMovementMode.Exploration:
+					SetExplorationLookDirection();
 					break;
 				case ThirdPersonMotorMovementMode.Strafe:
 					SetStrafeLookDirection();
@@ -478,16 +478,16 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 		
 		/// <summary>
-		/// Changes movement mode to <see cref="ThirdPersonMotorMovementMode.Action"/>
+		/// Changes movement mode to <see cref="ThirdPersonMotorMovementMode.Exploration"/>
 		/// </summary>
 		public void EndStrafe()
 		{
-			movementMode = ThirdPersonMotorMovementMode.Action;
+			movementMode = ThirdPersonMotorMovementMode.Exploration;
 		}
 
 		void SetStrafeLookDirection()
 		{
-			var targetRotation = CalculateTargetRotation(Vector3.forward);
+			Quaternion targetRotation = CalculateTargetRotation(Vector3.forward);
 			targetYRotation = targetRotation.eulerAngles.y;
 			Quaternion newRotation;
 
@@ -511,7 +511,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			m_Transform.rotation = newRotation;
 		}
 
-		void SetActionLookDirection()
+		void SetExplorationLookDirection()
 		{
 			if (!m_CharacterInput.hasMovementInput)
 			{
@@ -520,7 +520,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				return;
 			}
 
-			var targetRotation = CalculateTargetRotation(new Vector3(m_CharacterInput.moveInput.x, 0, m_CharacterInput.moveInput.y));
+			Quaternion targetRotation = CalculateTargetRotation(new Vector3(m_CharacterInput.moveInput.x, 0, m_CharacterInput.moveInput.y));
 			targetYRotation = targetRotation.eulerAngles.y;
 
 			if (IsGrounded && CheckForAndHandleRapidTurn(targetRotation))
@@ -528,11 +528,11 @@ namespace StandardAssets.Characters.ThirdPerson
 				return;
 			}
 
-			var turnSpeed = IsGrounded
+			float turnSpeed = IsGrounded
 				? m_Configuration.turningYSpeed
 				: m_Configuration.jumpTurningYSpeed;
 
-			var newRotation = Quaternion.RotateTowards(m_Transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
+			Quaternion newRotation = Quaternion.RotateTowards(m_Transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
 
 			SetTurningSpeed(m_Transform.rotation, newRotation);
 
@@ -554,18 +554,18 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				inputVector.Normalize();
 			}
-			m_ActionAverageForwardInput.Add(inputVector.magnitude + (sprint && m_CharacterInput.hasMovementInput
+			m_ExplorationAverageForwardInput.Add(inputVector.magnitude + (sprint && m_CharacterInput.hasMovementInput
 											  ? m_Configuration.sprintNormalizedForwardSpeedIncrease : 0));
 			
-			normalizedForwardSpeed = m_ActionAverageForwardInput.average;
+			normalizedForwardSpeed = m_ExplorationAverageForwardInput.average;
 		}
 
 		void CalculateStrafeMovement()
 		{
 			m_StrafeAverageForwardInput.Add(m_CharacterInput.moveInput.y);
-			var averageForwardInput = m_StrafeAverageForwardInput.average;
+			float averageForwardInput = m_StrafeAverageForwardInput.average;
 			m_StrafeAverageLateralInput.Add(m_CharacterInput.moveInput.x);
-			var averageLateralInput = m_StrafeAverageLateralInput.average;
+			float averageLateralInput = m_StrafeAverageLateralInput.average;
 			
 			normalizedForwardSpeed =
 				Mathf.Clamp((Mathf.Approximately(averageForwardInput, 0f) ? 0f : averageForwardInput),
@@ -583,9 +583,9 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		Quaternion CalculateTargetRotation(Vector3 localDirection)
 		{
-			var flatForward = CalculateCharacterBearing();
+			Vector3 flatForward = CalculateCharacterBearing();
 			
-			var cameraToInputOffset = Quaternion.FromToRotation(Vector3.forward, localDirection);
+			Quaternion cameraToInputOffset = Quaternion.FromToRotation(Vector3.forward, localDirection);
 			cameraToInputOffset.eulerAngles = new Vector3(0f, cameraToInputOffset.eulerAngles.y, 0f);
 
 			return Quaternion.LookRotation(cameraToInputOffset * flatForward);
@@ -593,7 +593,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		Vector3 CalculateCharacterBearing()
 		{
-			var bearing = m_MainCamera.transform.forward;
+			Vector3 bearing = m_MainCamera.transform.forward;
 			bearing.y = 0f;
 			bearing.Normalize();
 
@@ -607,9 +607,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <param name="newRotation">Desired rotation.</param>
 		void SetTurningSpeed(Quaternion currentRotation, Quaternion newRotation)
 		{
-			var currentY = currentRotation.eulerAngles.y;
-			var newY = newRotation.eulerAngles.y;
-			var difference = (newY - currentY).Wrap180() / Time.deltaTime;
+			float currentY = currentRotation.eulerAngles.y;
+			float newY = newRotation.eulerAngles.y;
+			float difference = (newY - currentY).Wrap180() / Time.deltaTime;
 
 			normalizedTurningSpeed = Mathf.Lerp(normalizedTurningSpeed,Mathf.Clamp(
 													difference / m_Configuration.turningYSpeed *
@@ -659,7 +659,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				return;
 			}
-			var target = CalculateTargetRotation(
+			Quaternion target = CalculateTargetRotation(
 				new Vector3(m_CharacterInput.moveInput.x, 0, m_CharacterInput.moveInput.y));
 			var angle = (target.eulerAngles.y - m_Transform.eulerAngles.y).Wrap180();
 			if (Mathf.Abs(angle) > m_Configuration.stationaryAngleRapidTurn)
@@ -683,7 +683,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				return Mathf.Abs(angle) > m_Configuration.stationaryAngleRapidTurn;
 			}
 
-			foreach (var previousInputsValue in m_PreviousInputs.values)
+			foreach (Vector2 previousInputsValue in m_PreviousInputs.values)
 			{ 
 				angle = Mathf.Abs(Vector2.SignedAngle(previousInputsValue, m_CharacterInput.moveInput));
 				if (angle > m_Configuration.inputAngleRapidTurn && 
@@ -718,23 +718,27 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			m_AerialState = ThirdPersonAerialMovementState.Jumping;
 			
-			// check for a standing forward jump.
-			if (m_CharacterInput.moveInput.magnitude > m_Configuration.standingJumpMinInputThreshold && 
-				m_LastIdleTime + m_Configuration.standingJumpMoveThresholdTime >= Time.time  &&
-				m_Animator.deltaPosition.GetMagnitudeOnAxis(m_Transform.forward) <= 
-				m_Configuration.standingJumpMaxMovementThreshold * Time.deltaTime)
+			if (IsIdleForwardJump())
 			{
 				cachedForwardVelocity = m_Configuration.standingJumpSpeed;
-				normalizedForwardSpeed = 1;
-				m_ThirdPersonBrain.UpdateForwardSpeed(normalizedForwardSpeed, 1);
-				m_FallDirection = m_Transform.forward;
+				if (movementMode == ThirdPersonMotorMovementMode.Exploration)
+				{
+					normalizedForwardSpeed = 1.0f;
+				}
+				else
+				{
+					normalizedLateralSpeed = m_CharacterInput.moveInput.x;
+					normalizedForwardSpeed = m_CharacterInput.moveInput.y;
+					m_ThirdPersonBrain.UpdateLateralSpeed(normalizedLateralSpeed, 1.0f);
+				}
+				m_ThirdPersonBrain.UpdateForwardSpeed(normalizedForwardSpeed, 1.0f);
 			}
 			else
 			{
-				m_FallDirection = movementMode == ThirdPersonMotorMovementMode.Action ? 
-					                m_Transform.forward : CalculateLocalInputDirection();
 				cachedForwardVelocity = m_AverageForwardVelocity.average;
 			}
+			
+			m_FallDirection = CalculateLocalInputDirection();
 			
 			m_ControllerAdapter.SetJumpVelocity(
 				m_Configuration.jumpHeightAsFactorOfForwardSpeed.Evaluate(normalizedForwardSpeed));
@@ -747,11 +751,19 @@ namespace StandardAssets.Characters.ThirdPerson
 			reattempt = false;
 		}
 
+		bool IsIdleForwardJump()
+		{
+			return m_CharacterInput.moveInput.magnitude > m_Configuration.standingJumpMinInputThreshold &&
+			        m_LastIdleTime + m_Configuration.standingJumpMoveThresholdTime >= Time.time &&
+			        m_Animator.deltaPosition.GetMagnitudeOnAxis(m_Transform.forward) <=
+			        m_Configuration.standingJumpMaxMovementThreshold * Time.deltaTime;
+		}
+
 		void UpdateFallForwardSpeed()
 		{
-			var maxFallForward = m_Configuration.fallingForwardSpeed;
-			var target = maxFallForward * Mathf.Clamp01(m_CharacterInput.moveInput.magnitude);
-			var time = cachedForwardVelocity > target
+			float maxFallForward = m_Configuration.fallingForwardSpeed;
+			float target = maxFallForward * Mathf.Clamp01(m_CharacterInput.moveInput.magnitude);
+			float time = cachedForwardVelocity > target
 				             ? m_Configuration.fallSpeedDeceleration
 				             : m_Configuration.fallSpeedAcceleration;
 			cachedForwardVelocity = Mathf.Lerp(cachedForwardVelocity, target, time);
@@ -784,7 +796,7 @@ namespace StandardAssets.Characters.ThirdPerson
 	/// </summary>
 	public enum ThirdPersonMotorMovementMode
 	{
-		Action,
+		Exploration,
 		Strafe
 	}
 }

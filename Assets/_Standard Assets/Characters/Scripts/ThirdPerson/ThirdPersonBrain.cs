@@ -100,8 +100,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		int m_HashTurningSpeed;
 		int m_HashVerticalSpeed;
 		int m_HashGroundedFootRight;
-		int m_HashJumpedForwardSpeed;
-		int m_HashJumpedLateralSpeed;
 		int m_HashFall;
 		int m_HashStrafe;
 		int m_HashSpeedMultiplier;
@@ -343,6 +341,18 @@ namespace StandardAssets.Characters.ThirdPerson
 			                  m_Configuration.forwardSpeedInterpolation.GetInterpolationTime(animatorForwardSpeed,
 			                                                                               newSpeed), deltaTime);
 		}
+		
+		/// <summary>
+		/// Update the animator lateral speed parameter.
+		/// </summary>
+		/// <param name="newSpeed">New forward speed</param>
+		/// <param name="deltaTime">Interpolation delta time</param>
+		public void UpdateLateralSpeed(float newSpeed, float deltaTime)
+		{
+			animator.SetFloat(m_HashLateralSpeed , newSpeed,
+				m_Configuration.lateralSpeedInterpolation.GetInterpolationTime(animatorLateralSpeed,
+					newSpeed), deltaTime);
+		}
 
 		/// <summary>
 		/// Update the animator turning speed parameter.
@@ -381,7 +391,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				m_GizmoObjects = new GameObject[6];
 
 				m_InputDirectionGizmo = Instantiate(m_GizmoSettings.arrowPrefab, transform);
-				var inputSpriteRenderer = m_InputDirectionGizmo.GetComponentInChildren<SpriteRenderer>();
+				SpriteRenderer inputSpriteRenderer = m_InputDirectionGizmo.GetComponentInChildren<SpriteRenderer>();
 				inputSpriteRenderer.color = m_GizmoSettings.inputDirection;
 				inputSpriteRenderer.sortingOrder = 0;
 				inputSpriteRenderer.transform.localScale = m_FootGizmoScale;
@@ -389,7 +399,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				m_GizmoObjects[0] = m_InputDirectionGizmo;
 
 				m_VelocityGizmo = Instantiate(m_GizmoSettings.arrowPrefab, transform);
-				var velocitySpriteRenderer = m_VelocityGizmo.GetComponentInChildren<SpriteRenderer>();
+				SpriteRenderer velocitySpriteRenderer = m_VelocityGizmo.GetComponentInChildren<SpriteRenderer>();
 				velocitySpriteRenderer.color = m_GizmoSettings.velocityIndicator;
 				velocitySpriteRenderer.sortingOrder = 1;
 				velocitySpriteRenderer.transform.localScale = m_FootGizmoScale;
@@ -397,7 +407,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				m_GizmoObjects[1] = m_VelocityGizmo;
 
 				m_BodyCurrentGizmo = Instantiate(m_GizmoSettings.arrowPrefab, transform);
-				var bodyCurrentSpriteRenderer = m_BodyCurrentGizmo.GetComponentInChildren<SpriteRenderer>();
+				SpriteRenderer bodyCurrentSpriteRenderer = m_BodyCurrentGizmo.GetComponentInChildren<SpriteRenderer>();
 				bodyCurrentSpriteRenderer.color = m_GizmoSettings.bodyCurrentDirection;
 				bodyCurrentSpriteRenderer.sortingOrder = 10;
 				bodyCurrentSpriteRenderer.transform.localScale = m_BodyGizmoScale;
@@ -405,7 +415,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				m_GizmoObjects[2] = m_BodyCurrentGizmo;
 
 				m_BodyDesiredGizmo = Instantiate(m_GizmoSettings.arrowPrefab, transform);
-				var bodyDesiredSpriteRenderer = m_BodyDesiredGizmo.GetComponentInChildren<SpriteRenderer>();
+				SpriteRenderer bodyDesiredSpriteRenderer = m_BodyDesiredGizmo.GetComponentInChildren<SpriteRenderer>();
 				bodyDesiredSpriteRenderer.color = m_GizmoSettings.bodyDesiredDirection;
 				bodyDesiredSpriteRenderer.sortingOrder = 11;
 				bodyDesiredSpriteRenderer.transform.localScale = m_BodyGizmoScale;
@@ -413,7 +423,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				m_GizmoObjects[3] = m_BodyDesiredGizmo;
 
 				m_HeadCurrentGizmo = Instantiate(m_GizmoSettings.arrowPrefab, transform);
-				var headCurrentSpriteRenderer = m_HeadCurrentGizmo.GetComponentInChildren<SpriteRenderer>();
+				SpriteRenderer headCurrentSpriteRenderer = m_HeadCurrentGizmo.GetComponentInChildren<SpriteRenderer>();
 				headCurrentSpriteRenderer.color = m_GizmoSettings.headCurrentDirection;
 				headCurrentSpriteRenderer.sortingOrder = 20;
 				headCurrentSpriteRenderer.transform.localScale = m_HeadGizmoScale;
@@ -421,7 +431,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				m_GizmoObjects[4] = m_HeadCurrentGizmo;
 
 				m_HeadDesiredGizmo = Instantiate(m_GizmoSettings.arrowPrefab, transform);
-				var headDesiredSpriteRenderer = m_HeadDesiredGizmo.GetComponentInChildren<SpriteRenderer>();
+				SpriteRenderer headDesiredSpriteRenderer = m_HeadDesiredGizmo.GetComponentInChildren<SpriteRenderer>();
 				headDesiredSpriteRenderer.color = m_GizmoSettings.headDesiredDirection;
 				headDesiredSpriteRenderer.sortingOrder = 21;
 				headDesiredSpriteRenderer.transform.localScale = m_HeadGizmoScale;
@@ -484,7 +494,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			if (m_Input.hasMovementInput)
 			{
-				var inputAngle = Vector2.SignedAngle(new Vector2(0f, 1f), m_Input.moveInput);
+				float inputAngle = Vector2.SignedAngle(new Vector2(0f, 1f), m_Input.moveInput);
 				m_InputDirectionGizmo.transform.rotation =
 					Quaternion.Euler(0, m_MainCameraTransform.eulerAngles.y - inputAngle, 0f);
 				m_VelocityGizmoScale = Mathf.Lerp(m_VelocityGizmoScale, planarSpeed, Time.deltaTime * k_VelocityLerp);
@@ -507,9 +517,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			UpdateTurningSpeed(m_Motor.normalizedTurningSpeed, Time.deltaTime);
 
-			var fullyGrounded = m_IsGrounded && animatorState != AnimatorState.Landing;
+			bool fullyGrounded = m_IsGrounded && animatorState != AnimatorState.Landing;
 			// only update during landing if there is input to inhibit a jarring stop post land animation.
-			var landingWithInput = animatorState == AnimatorState.Landing &&
+			bool landingWithInput = animatorState == AnimatorState.Landing &&
 			                        (CheckHasSpeed(m_Motor.normalizedForwardSpeed) ||
 			                         CheckHasSpeed(m_Motor.normalizedLateralSpeed));
 
@@ -538,13 +548,13 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			if (m_CameraController == null)
 			{
-				var cameraControllers =
+				ThirdPersonCameraController[] cameraControllers =
 					FindObjectsOfType<ThirdPersonCameraController>();
 
-				var length = cameraControllers.Length;
+				int length = cameraControllers.Length;
 				if (length != 1)
 				{
-					var errorMessage = "No ThirdPersonCameraAnimationManagers in scene! Disabling Brain";
+					string errorMessage = "No ThirdPersonCameraAnimationManagers in scene! Disabling Brain";
 					if (length > 1)
 					{
 						errorMessage = "Too many ThirdPersonCameraAnimationManagers in scene! Disabling Brain";
@@ -592,7 +602,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			if (thirdPersonInput != null)
 			{
-				var userInput = thirdPersonInput as ThirdPersonInput;
+				ThirdPersonInput userInput = thirdPersonInput as ThirdPersonInput;
 				if (userInput != null)
 				{
 					userInput.jumpPressed += m_Motor.OnJumpPressed;
@@ -620,7 +630,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				if (thirdPersonInput != null)
 				{
-					var userInput = thirdPersonInput as ThirdPersonInput;
+					ThirdPersonInput userInput = thirdPersonInput as ThirdPersonInput;
 					if (userInput != null)
 					{
 						userInput.jumpPressed -= m_Motor.OnJumpPressed;
@@ -676,7 +686,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			m_TargetHeadAngle = Mathf.Clamp((m_Motor.targetYRotation - gameObject.transform.eulerAngles.y).Wrap180(),
 			                              -m_Configuration.lookAtMaxRotation, m_Configuration.lookAtMaxRotation);
 
-			var headTurn = Time.deltaTime * m_Configuration.lookAtRotationSpeed;
+			float headTurn = Time.deltaTime * m_Configuration.lookAtRotationSpeed;
 
 			if (m_Motor.currentGroundMovementState == ThirdPersonGroundMovementState.TurningAround)
 			{
@@ -697,7 +707,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			m_HeadAngle = Mathf.LerpAngle(m_HeadAngle, m_TargetHeadAngle, headTurn);
 
-			var lookAtPos = animator.transform.position +
+			Vector3 lookAtPos = animator.transform.position +
 			                    Quaternion.AngleAxis(m_HeadAngle, Vector3.up) * animator.transform.forward * 100f;
 			animator.SetLookAtPosition(lookAtPos);
 		}
@@ -712,8 +722,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			m_HashTurningSpeed = Animator.StringToHash(AnimationControllerInfo.k_TurningSpeedParameter);
 			m_HashVerticalSpeed = Animator.StringToHash(AnimationControllerInfo.k_VerticalSpeedParameter);
 			m_HashGroundedFootRight = Animator.StringToHash(AnimationControllerInfo.k_GroundedFootRightParameter);
-			m_HashJumpedForwardSpeed = Animator.StringToHash(AnimationControllerInfo.k_JumpedForwardSpeedParameter);
-			m_HashJumpedLateralSpeed = Animator.StringToHash(AnimationControllerInfo.k_JumpedLateralSpeedParameter);
 			m_HashStrafe = Animator.StringToHash(AnimationControllerInfo.k_StrafeParameter);
 			m_HashFall = Animator.StringToHash(AnimationControllerInfo.k_FallParameter);
 			m_HashSpeedMultiplier = Animator.StringToHash(AnimationControllerInfo.k_SpeedMultiplier);
@@ -742,12 +750,10 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				// if coming from a physics jump handle animation transition
 				case AnimatorState.Jump:
-					var rightFoot = animator.GetBool(m_HashGroundedFootRight);
-					var duration = m_Configuration.jumpEndTransitionByForwardSpeed.Evaluate(
-						Mathf.Abs(animator.GetFloat(
-							          AnimationControllerInfo
-								          .k_JumpedForwardSpeedParameter)));
-					var locomotion = m_IsStrafing
+					bool rightFoot = animator.GetBool(m_HashGroundedFootRight);
+					float duration = m_Configuration.jumpEndTransitionByForwardSpeed.Evaluate(
+						Mathf.Abs(animator.GetFloat(AnimationControllerInfo.k_ForwardSpeedParameter)));
+					string locomotion = m_IsStrafing
 						                    ? AnimationControllerInfo.k_StrafeLocomotionState
 						                    : AnimationControllerInfo.k_LocomotionState;
 					animator.CrossFadeInFixedTime(locomotion, duration, 0, rightFoot
@@ -794,7 +800,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 
 		/// <summary>
-		/// Updates hr animator's forward and lateral speeds. If <see cref="AnimationConfig.m_EnableStrafeRapidDirectionChangeSmoothing"/>
+		/// Updates hr animator's forward and lateral speeds
 		/// is enabled special smoothing logic is performed when a strafe rapid direction change is detected.
 		/// </summary>
 		void UpdateAnimationMovementSpeeds(float deltaTime)
@@ -807,9 +813,9 @@ namespace StandardAssets.Characters.ThirdPerson
 				if (m_TriggeredRapidDirectionChange)
 				{
 					m_RapidStrafeTime += deltaTime;
-					var progress = m_Configuration.strafeRapidChangeSpeedCurve.Evaluate(
+					float progress = m_Configuration.strafeRapidChangeSpeedCurve.Evaluate(
 						m_RapidStrafeTime / m_RapidStrafeChangeDuration);
-					var current = Mathf.Clamp(1.0f - (2.0f * progress), -1.0f, 1.0f);
+					float current = Mathf.Clamp(1.0f - (2.0f * progress), -1.0f, 1.0f);
 					animator.SetFloat(m_HashSpeedMultiplier, current);
 
 					CheckForStrafeRapidDirectionChangeComplete(deltaTime);
@@ -817,7 +823,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				}
 
 				// check if a rapid direction change has occured.
-				var angle = (Vector2.Angle(m_Input.moveInput, new Vector2(animatorLateralSpeed, animatorForwardSpeed)));
+				float angle = (Vector2.Angle(m_Input.moveInput, new Vector2(animatorLateralSpeed, animatorForwardSpeed)));
 				if (angle >= m_Configuration.strafeRapidChangeAngleThreshold)
 				{
 					m_TriggeredRapidDirectionChange = !CheckForStrafeRapidDirectionChangeComplete(deltaTime);
@@ -827,11 +833,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 			// not rapid strafe direction change, update as normal
-			animator.SetFloat(m_HashLateralSpeed, m_Motor.normalizedLateralSpeed,
-			                  m_Configuration.lateralSpeedInterpolation.GetInterpolationTime(animatorLateralSpeed,
-			                                                                               m_Motor
-				                                                                               .normalizedLateralSpeed),
-			                  deltaTime);
+			UpdateLateralSpeed(m_Motor.normalizedLateralSpeed, deltaTime);
 			UpdateForwardSpeed(m_Motor.normalizedForwardSpeed, deltaTime);
 		}
 
@@ -916,22 +918,21 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			m_IsGrounded = false;
 
-			var movementMagnitude = new Vector2(animatorLateralSpeed, animatorForwardSpeed).magnitude;
+			float movementMagnitude = new Vector2(animatorLateralSpeed, animatorForwardSpeed).magnitude;
 			SetJumpForward(animatorForwardSpeed);
-			var rightFoot = animator.GetBool(m_HashGroundedFootRight);
+			bool rightFoot = animator.GetBool(m_HashGroundedFootRight);
 
-			var duration = m_Configuration.jumpTransitionDurationFactorOfSpeed.Evaluate(movementMagnitude);
+			float duration = m_Configuration.jumpTransitionDurationFactorOfSpeed.Evaluate(movementMagnitude);
 			// keep track of the last jump so legs can be alternated if necessary. ie a skip.
 			if (m_TimeOfLastJumpLand + m_Configuration.skipJumpWindow >= Time.time)
 			{
 				rightFoot = !m_LastJumpWasRightRoot;
 			}
 
-			animator.SetFloat(m_HashJumpedLateralSpeed, 0.0f);
 			animator.SetFloat(m_HashVerticalSpeed, 1.0f);
 
 			var jumpState = AnimationControllerInfo.k_StrafeJumpState;
-			if (m_Motor.movementMode == ThirdPersonMotorMovementMode.Action)
+			if (m_Motor.movementMode == ThirdPersonMotorMovementMode.Exploration)
 			{
 				jumpState = rightFoot
 					            ? AnimationControllerInfo.k_RightFootJumpState
@@ -944,7 +945,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		bool IsNormalizedTimeCloseToZeroOrHalf(float margin, out float timeUntilZeroOrHalf)
 		{
-			var value = animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1.0f;
+			float value = animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1.0f;
 
 			timeUntilZeroOrHalf = (value >= 0.5 ? 1.0f : 0.5f) - value;
 
@@ -956,7 +957,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			jumpForward = jumpForward.Remap01(m_Configuration.standingJumpNormalizedSpeedThreshold,
 			                                  m_Configuration.runningJumpNormalizedSpeedThreshold);
-			animator.SetFloat(m_HashJumpedForwardSpeed, jumpForward);
+			animator.SetFloat(m_HashForwardSpeed, jumpForward);
 		}
 
 		/// <summary>
@@ -964,7 +965,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		void UpdateFoot()
 		{
-			var stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+			AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 			var animationNormalizedProgress = stateInfo.normalizedTime.GetFraction();
 			//TODO: remove zero index
 			if ((animationNormalizedProgress + m_Configuration.groundedFootThresholdOffsetValue).Wrap1() >
@@ -990,7 +991,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 			// while strafing a foot is preferred depending on lateral direction
-			var lateralSpeedRight = m_Motor.normalizedLateralSpeed < 0.0f;
+			bool lateralSpeedRight = m_Motor.normalizedLateralSpeed < 0.0f;
 			animator.SetBool(m_HashGroundedFootRight, lateralSpeedRight);
 			isRightFootPlanted = lateralSpeedRight;
 		}

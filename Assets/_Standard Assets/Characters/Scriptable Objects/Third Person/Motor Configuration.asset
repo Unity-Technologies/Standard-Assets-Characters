@@ -9,13 +9,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d70839d074c4aaf8d6d3e6c7b3cfbc7, type: 3}
-  m_Name: Root Motion Configuration
+  m_Name: Motor Configuration
   m_EditorClassIdentifier: 
   autoToggleSprint: 1
   rootMotionMovementScale: 1
   sprintNormalizedSpeedIncrease: 0.5
-  useCustomActionParameters: 1
-  action:
+  useCustomExplorationParameters: 1
+  exploration:
     forwardInputSamples: 5
   useCustomStrafeParameters: 1
   strafing:
@@ -82,5 +82,6 @@ MonoBehaviour:
   normalizedTurningSpeedLerpSpeed: 2
   rapidTurnInputAngle: 160
   stationaryRapidTurnAngle: 89
+  maxSpeedForStandingTurnaround: 0.25
   rapidTurnIgnoreInputTime: 0.1
-  inputBufferSize: 20
+  inputBufferSize: 5
