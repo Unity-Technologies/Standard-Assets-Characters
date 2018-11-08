@@ -157,6 +157,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			/// greater than zero.
 			/// </summary>
 			private const float k_StopCatchAfterRotateAngle = 0.1f;
+			
+			/// <summary>
+			/// The minimum move input vector magnitude require to enter the <see cref="ModifierState.RotateInCircle"/> state.
+			/// </summary>
+			private const float k_MinInputMagnitudeForRotateInCircle = 0.8f;
 
 			/// <summary>
 			/// The modifier's state
@@ -865,6 +870,10 @@ namespace StandardAssets.Characters.ThirdPerson
 					}
 					case ModifierState.RotateInCircle:
 					{
+						if (lastRawInput.magnitude < k_MinInputMagnitudeForRotateInCircle)
+						{
+							return false;
+						}
 						bool rotatedLongOrFarEnough =
 							continuousInfo.averageInputDirectionTime > startRotateInCircleMinTime ||
 							continuousInfo.averageInputRotatingTotalAngle > startRotateInCircleMinTotalAngle;
