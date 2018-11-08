@@ -90,7 +90,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		private int hashTurningSpeed;
 		private int hashVerticalSpeed;
 		private int hashGroundedFootRight;
-		private int hashJumpedForwardSpeed;
 		private int hashJumpedLateralSpeed;
 		private int hashFall;
 		private int hashStrafe;
@@ -702,7 +701,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			hashTurningSpeed = Animator.StringToHash(AnimationControllerInfo.k_TurningSpeedParameter);
 			hashVerticalSpeed = Animator.StringToHash(AnimationControllerInfo.k_VerticalSpeedParameter);
 			hashGroundedFootRight = Animator.StringToHash(AnimationControllerInfo.k_GroundedFootRightParameter);
-			hashJumpedForwardSpeed = Animator.StringToHash(AnimationControllerInfo.k_JumpedForwardSpeedParameter);
 			hashJumpedLateralSpeed = Animator.StringToHash(AnimationControllerInfo.k_JumpedLateralSpeedParameter);
 			hashStrafe = Animator.StringToHash(AnimationControllerInfo.k_StrafeParameter);
 			hashFall = Animator.StringToHash(AnimationControllerInfo.k_FallParameter);
@@ -734,9 +732,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				case AnimatorState.Jump:
 					bool rightFoot = animator.GetBool(hashGroundedFootRight);
 					float duration = configuration.jumpEndTransitionByForwardSpeed.Evaluate(
-						Mathf.Abs(animator.GetFloat(
-							          AnimationControllerInfo
-								          .k_JumpedForwardSpeedParameter)));
+						Mathf.Abs(animator.GetFloat(AnimationControllerInfo.k_ForwardSpeedParameter)));
 					string locomotion = isStrafing
 						                    ? AnimationControllerInfo.k_StrafeLocomotionState
 						                    : AnimationControllerInfo.k_LocomotionState;
@@ -946,7 +942,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			jumpForward = jumpForward.Remap01(configuration.standingJumpNormalizedSpeedThreshold,
 			                                  configuration.runningJumpNormalizedSpeedThreshold);
-			animator.SetFloat(hashJumpedForwardSpeed, jumpForward);
+			animator.SetFloat(hashForwardSpeed, jumpForward);
 		}
 
 		/// <summary>

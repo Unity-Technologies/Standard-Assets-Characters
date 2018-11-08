@@ -15,7 +15,6 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public const string k_JumpedLateralSpeedParameter = "JumpedLateralSpeed",
 		                    k_GroundedFootRightParameter = "OnRightFoot",
-		                    k_JumpedForwardSpeedParameter = "JumpedForwardSpeed",
 		                    k_VerticalSpeedParameter = "VerticalSpeed",
 		                    k_StrafeParameter = "Strafe",
 		                    k_FallParameter = "Fall",
