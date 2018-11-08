@@ -32,7 +32,7 @@ namespace Editor
 			
 			var config = (MotorConfig)target;
 
-			if (!config.customActionParametersToBeUsed)
+			if (!config.CustomExplorationParametersToBeUsed)
 			{
 				exclusions.Add(k_ActionName);
 			}

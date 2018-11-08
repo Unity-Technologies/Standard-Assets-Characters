@@ -21,10 +21,10 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		protected float sprintNormalizedSpeedIncrease = 0.5f;
 		
 		[SerializeField]
-		protected bool useCustomActionParameters = true;
+		protected bool useCustomExplorationParameters = true;
 
 		[SerializeField]
-		protected ActionProperties action;
+		protected ExplorationProperties exploration;
 
 		[SerializeField]
 		protected bool useCustomStrafeParameters = true;
@@ -194,9 +194,9 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			get { return rapidTurnIgnoreInputTime; }
 		}
 
-		public bool customActionParametersToBeUsed
+		public bool CustomExplorationParametersToBeUsed
 		{
-			get { return useCustomActionParameters; }
+			get { return useCustomExplorationParameters; }
 		}
 		
 		public bool customStrafeParametersToBeUsed
@@ -266,11 +266,11 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// <summary>
 		/// Gets the forward input window size.
 		/// </summary>
-		/// <value>1 if <see cref="useCustomActionParameters"/> is false otherwise returns <see cref="strafing"/>'s
-		/// <see cref="ActionProperties.forwardInputWindowSize"/></value>
+		/// <value>1 if <see cref="useCustomExplorationParameters"/> is false otherwise returns <see cref="strafing"/>'s
+		/// <see cref="ExplorationProperties.forwardInputWindowSize"/></value>
 		public int forwardInputWindowSize
 		{
-			get { return useCustomActionParameters ? action.forwardInputWindowSize : 1; }
+			get { return useCustomExplorationParameters ? exploration.forwardInputWindowSize : 1; }
 		}
 
 		/// <summary>
@@ -355,10 +355,10 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 	}
 	
 	/// <summary>
-	/// Class used to store the forward input window size during action mode.
+	/// Class used to store the forward input window size during exploration mode.
 	/// </summary>
 	[Serializable]
-	public class ActionProperties
+	public class ExplorationProperties
 	{
 		[SerializeField, Tooltip("Number of samples used for forward input smoothing.")]
 		protected int forwardInputSamples = 1;

@@ -66,7 +66,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Gets the character's current movement mode.
 		/// </summary>
-		/// <value>Either Action or Strafe.</value>
+		/// <value>Either Exploration or Strafe.</value>
 		public ThirdPersonMotorMovementMode movementMode { get; private set; }
 
 		/// <summary>
@@ -102,7 +102,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private ThirdPersonAerialMovementState aerialState = ThirdPersonAerialMovementState.Grounded;
 
 		private SlidingAverage averageForwardVelocity,
-		                       actionAverageForwardInput,
+		                       explorationAverageForwardInput,
 		                       strafeAverageForwardInput,
 		                       strafeAverageLateralInput;
 
@@ -213,7 +213,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				controllerAdapter.Move(groundMovementVector, Time.deltaTime);
 				
 				//Update the average movement speed
-				var direction = movementMode == ThirdPersonMotorMovementMode.Action
+				var direction = movementMode == ThirdPersonMotorMovementMode.Exploration
 					                ? transform.forward
 					                : CalculateLocalInputDirection();              
 				float movementVelocity = groundMovementVector.GetMagnitudeOnAxis(direction)/Time.deltaTime;
@@ -234,7 +234,7 @@ namespace StandardAssets.Characters.ThirdPerson
 					UpdateFallForwardSpeed();
 				}
 
-				var movementDirection = movementMode == ThirdPersonMotorMovementMode.Action ? transform.forward :
+				var movementDirection = movementMode == ThirdPersonMotorMovementMode.Exploration ? transform.forward :
 					CalculateLocalInputDirection() ;
 				fallDirection = Vector3.Lerp(fallDirection, movementDirection, configuration.fallDirectionChange);
 				controllerAdapter.Move(cachedForwardVelocity * Time.deltaTime * fallDirection, Time.deltaTime);
@@ -251,11 +251,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			controllerAdapter = brain.controllerAdapter;
 			animator = gameObject.GetComponent<Animator>();
 			averageForwardVelocity = new SlidingAverage(configuration.jumpGroundVelocityWindowSize);
-			actionAverageForwardInput = new SlidingAverage(configuration.forwardInputWindowSize);
+			explorationAverageForwardInput = new SlidingAverage(configuration.forwardInputWindowSize);
 			strafeAverageForwardInput = new SlidingAverage(configuration.strafeInputWindowSize);
 			strafeAverageLateralInput = new SlidingAverage(configuration.strafeInputWindowSize);
 			previousInputs = new SizedQueue<Vector2>(configuration.bufferSizeInput);
-			movementMode = ThirdPersonMotorMovementMode.Action;
+			movementMode = ThirdPersonMotorMovementMode.Exploration;
 
 			EndStrafe();
 		}
@@ -322,7 +322,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				switch (movementMode)
 				{
-					case ThirdPersonMotorMovementMode.Action:
+					case ThirdPersonMotorMovementMode.Exploration:
 						CalculateForwardMovement();
 						break;
 					case ThirdPersonMotorMovementMode.Strafe:
@@ -351,8 +351,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			switch (movementMode)
 			{
-				case ThirdPersonMotorMovementMode.Action:
-					SetActionLookDirection();
+				case ThirdPersonMotorMovementMode.Exploration:
+					SetExplorationLookDirection();
 					break;
 				case ThirdPersonMotorMovementMode.Strafe:
 					SetStrafeLookDirection();
@@ -476,11 +476,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 		
 		/// <summary>
-		/// Changes movement mode to <see cref="ThirdPersonMotorMovementMode.Action"/>
+		/// Changes movement mode to <see cref="ThirdPersonMotorMovementMode.Exploration"/>
 		/// </summary>
 		public void EndStrafe()
 		{
-			movementMode = ThirdPersonMotorMovementMode.Action;
+			movementMode = ThirdPersonMotorMovementMode.Exploration;
 		}
 
 		private void SetStrafeLookDirection()
@@ -509,7 +509,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			transform.rotation = newRotation;
 		}
 
-		private void SetActionLookDirection()
+		private void SetExplorationLookDirection()
 		{
 			if (!characterInput.hasMovementInput)
 			{
@@ -552,10 +552,10 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				inputVector.Normalize();
 			}
-			actionAverageForwardInput.Add(inputVector.magnitude + (sprint && characterInput.hasMovementInput
+			explorationAverageForwardInput.Add(inputVector.magnitude + (sprint && characterInput.hasMovementInput
 											  ? configuration.sprintNormalizedForwardSpeedIncrease : 0));
 			
-			normalizedForwardSpeed = actionAverageForwardInput.average;
+			normalizedForwardSpeed = explorationAverageForwardInput.average;
 		}
 
 		private void CalculateStrafeMovement()
@@ -719,7 +719,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (IsIdleForwardJump())
 			{
 				cachedForwardVelocity = configuration.standingJumpSpeed;
-				if (movementMode == ThirdPersonMotorMovementMode.Action)
+				if (movementMode == ThirdPersonMotorMovementMode.Exploration)
 				{
 					normalizedForwardSpeed = 1.0f;
 				}
@@ -794,7 +794,7 @@ namespace StandardAssets.Characters.ThirdPerson
 	/// </summary>
 	public enum ThirdPersonMotorMovementMode
 	{
-		Action,
+		Exploration,
 		Strafe
 	}
 }
