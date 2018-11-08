@@ -79,6 +79,9 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		private readonly Vector3 footGizmoPosition = new Vector3(0f, 0.05f, 0f);
 		private readonly Vector3 footGizmoScale = new Vector3(0.1f, 0.1f, 0.1f);
+		
+		private readonly Vector3 gizmoOffset = new Vector3(0f, 0.025f, 0f);
+		
 		private float velocityGizmoScale;
 
 		// Hashes of the animator parameters
@@ -380,7 +383,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				velocitySpriteRenderer.color = gizmoSettings.velocityIndicator;
 				velocitySpriteRenderer.sortingOrder = 1;
 				velocitySpriteRenderer.transform.localScale = footGizmoScale;
-				velocityGizmo.transform.localPosition = footGizmoPosition + new Vector3(0f, 0.025f, 0f);
+				velocityGizmo.transform.localPosition = footGizmoPosition + gizmoOffset;
 				gizmoObjects[1] = velocityGizmo;
 
 				bodyCurrentGizmo = Instantiate(gizmoSettings.arrowPrefab, transform);
@@ -396,7 +399,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				bodyDesiredSpriteRenderer.color = gizmoSettings.bodyDesiredDirection;
 				bodyDesiredSpriteRenderer.sortingOrder = 11;
 				bodyDesiredSpriteRenderer.transform.localScale = bodyGizmoScale;
-				bodyDesiredGizmo.transform.localPosition = bodyGizmoPosition + new Vector3(0f, 0.025f, 0f);
+				bodyDesiredGizmo.transform.localPosition = bodyGizmoPosition + gizmoOffset;
 				gizmoObjects[3] = bodyDesiredGizmo;
 
 				headCurrentGizmo = Instantiate(gizmoSettings.arrowPrefab, transform);
@@ -412,7 +415,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				headDesiredSpriteRenderer.color = gizmoSettings.headDesiredDirection;
 				headDesiredSpriteRenderer.sortingOrder = 21;
 				headDesiredSpriteRenderer.transform.localScale = headGizmoScale;
-				headDesiredGizmo.transform.localPosition = headGizmoPosition + new Vector3(0f, 0.025f, 0f);
+				headDesiredGizmo.transform.localPosition = headGizmoPosition + gizmoOffset;
 				gizmoObjects[5] = headDesiredGizmo;
 			}
 
