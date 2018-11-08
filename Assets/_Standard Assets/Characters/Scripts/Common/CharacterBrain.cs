@@ -46,6 +46,10 @@ namespace StandardAssets.Characters.Common
 			{
 				characterControllerAdapter.Awake(transform);
 			}
+			else
+			{
+				gameObject.SetActive(false);
+			}
 		}
 
 		/// <summary>
@@ -57,7 +61,14 @@ namespace StandardAssets.Characters.Common
 			newPosition.y = 0f;
 			planarDisplacement = lastPosition - newPosition;
 			float displacement = planarDisplacement.magnitude;
-			planarSpeed = displacement / Time.deltaTime;
+			if (Time.deltaTime < Mathf.Epsilon)
+			{
+				planarSpeed = 0;
+			}
+			else
+			{
+				planarSpeed = displacement / Time.deltaTime;
+			}
 			lastPosition = newPosition;
 		}
 
