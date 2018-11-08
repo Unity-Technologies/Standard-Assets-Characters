@@ -10,6 +10,9 @@ namespace StandardAssets.Characters.ThirdPerson
 	/// </summary>
 	public class ThirdPersonInput : CharacterInput, IThirdPersonInput
 	{
+		[SerializeField, Tooltip("Should input be modified by the smoother?")]
+		protected bool useInputSmoother;
+		
 		/// <summary>
 		/// Smooths the input movement when rotating in fast circles. This makes the character run in a circle, instead of turning around on the spot.
 		/// </summary>
@@ -35,7 +38,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// Tracks if the character is strafing 
 		/// </summary>
 		protected bool isStrafing;
-
+		
 		/// <summary>
 		/// Conditions the <paramref name="rawMoveInput"/>
 		/// </summary>
@@ -43,7 +46,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <returns>The input vector conditioned by <see cref="CharacterInputModifier"/></returns>
 		protected override Vector2 ConditionMoveInput(Vector2 rawMoveInput)
 		{
-			if (locomotionInputSmoother != null)
+			if (useInputSmoother && locomotionInputSmoother != null)
 			{
 				locomotionInputSmoother.OnGotRawInput(ref rawMoveInput);
 			}
@@ -112,7 +115,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected override void Update()
 		{
 			base.Update();
-			if (locomotionInputSmoother != null)
+			if (useInputSmoother && locomotionInputSmoother != null)
 			{
 				moveInput = locomotionInputSmoother.UpdateMoveInput();
 			}
