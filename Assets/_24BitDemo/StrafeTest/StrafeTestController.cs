@@ -7,15 +7,15 @@ namespace Demo.StrafeTest
 	{
 		[SerializeField]
 		protected float moveVelocity = 5;
-	
-		private Animator animator;
-	
-		private void Awake ()
+
+		Animator animator;
+
+		void Awake ()
 		{
 			animator = GetComponent<Animator>();
 		}
-	
-		private void Update ()
+
+		void Update ()
 		{
 			float x = Input.GetAxis("Horizontal"),
 			      z = Input.GetAxis("Vertical");

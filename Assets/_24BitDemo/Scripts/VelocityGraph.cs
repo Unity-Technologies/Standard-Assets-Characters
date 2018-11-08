@@ -25,26 +25,26 @@ namespace Demo
 
 		[SerializeField]
 		protected float barScale = 10;
-	
-		private Vector3 lastPosition;
-		private Vector3 deltaPosition;
-		private float speed;
-		private readonly List<float> deltas = new List<float>();
-		private Texture2D texture;
 
-		private void Awake()
+		Vector3 lastPosition;
+		Vector3 deltaPosition;
+		float speed;
+		readonly List<float> deltas = new List<float>();
+		Texture2D texture;
+
+		void Awake()
 		{
 			texture = new Texture2D(1, 1);
 		}
 
-		private void OnDestroy()
+		void OnDestroy()
 		{
 			Destroy(texture);
 		}
 
-		private void Update()
+		void Update()
 		{
-			Vector3 currentPosition = transform.position;
+			var currentPosition = transform.position;
 			deltaPosition = currentPosition - lastPosition;
 			switch (direction)
 			{
@@ -69,13 +69,13 @@ namespace Demo
 			}
 			lastPosition = currentPosition;
 		}
-	
-		private void OnGUI ()
+
+		void OnGUI ()
 		{
-			Rect firstRect = new Rect((Screen.width * 0.5f) - (numberBars * 0.5f) * barWidthPercOfScreenWidth * 
+			var firstRect = new Rect((Screen.width * 0.5f) - (numberBars * 0.5f) * barWidthPercOfScreenWidth * 
 									  Screen.width, Screen.height * 0.8f, Screen.width * barWidthPercOfScreenWidth,
 									  Screen.height * 0.2f);
-			for (int i = 0; i < numberBars; i++)
+			for (var i = 0; i < numberBars; i++)
 			{
 				var rect = new Rect(firstRect);
 				rect.x += i * (barWidthPercOfScreenWidth * Screen.width);
@@ -83,8 +83,8 @@ namespace Demo
 				GUI.DrawTexture(rect, texture);
 			}
 		
-			Rect bottomMiddle = new Rect(Screen.width * 0.45f, Screen.height * 0.8f, Screen.width * 0.1f, Screen.height * 0.2f);
-			string text = string.Format("Speed: {0:f2}\nForward: {1:f2}\nVertical: {2:f2}", speed, 
+			var bottomMiddle = new Rect(Screen.width * 0.45f, Screen.height * 0.8f, Screen.width * 0.1f, Screen.height * 0.2f);
+			var text = string.Format("Speed: {0:f2}\nForward: {1:f2}\nVertical: {2:f2}", speed, 
 										deltaPosition.GetMagnitudeOnAxis(transform.forward  / Time.deltaTime),
 										deltaPosition.GetMagnitudeOnAxis(transform.up)  / Time.deltaTime);
 			GUI.Label(bottomMiddle, text);

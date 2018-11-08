@@ -2,6 +2,7 @@ using System;
 using StandardAssets.Characters.Effects;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityPhysics = UnityEngine.Physics;
 
 namespace StandardAssets.Characters.Common
@@ -15,36 +16,34 @@ namespace StandardAssets.Characters.Common
 		public Action<MovementZoneId?> changeMovementZone;
 
 		[SerializeField, Tooltip("Settings for the OpenCharacterController.")]
-		protected ControllerAdapter characterControllerAdapter;
+		ControllerAdapter m_CharacterControllerAdapter;
 
+		Vector3 m_LastPosition;
+		
 		public ControllerAdapter controllerAdapter
 		{
-			get { return characterControllerAdapter; }
+			get { return m_CharacterControllerAdapter; }
 		}
 		
 		/// <summary>
 		/// Gets/sets the planar speed (i.e. ignoring the displacement) of the CharacterBrain
 		/// </summary>
-		public float planarSpeed { get; protected set; }
-		
-		public Vector3 planarDisplacement { get; protected set; }
-		
-		private Vector3 lastPosition;
-
+		public float planarSpeed { get; private set; }
 		public abstract float normalizedForwardSpeed { get;}
-
 		public abstract float targetYRotation { get; set; }
+		
+		protected Vector3 planarDisplacement { get; private set; }
 
 		/// <summary>
 		/// Get controller adapters and input on Awake
 		/// </summary>
 		protected virtual void Awake()
 		{
-			lastPosition = transform.position;
+			m_LastPosition = transform.position;
 
-			if (characterControllerAdapter != null)
+			if (m_CharacterControllerAdapter != null)
 			{
-				characterControllerAdapter.Awake(transform);
+				m_CharacterControllerAdapter.Awake(transform);
 			}
 			else
 			{
@@ -57,10 +56,10 @@ namespace StandardAssets.Characters.Common
 		/// </summary>
 		protected virtual void Update()
 		{
-			Vector3 newPosition = transform.position;
+			var newPosition = transform.position;
 			newPosition.y = 0f;
-			planarDisplacement = lastPosition - newPosition;
-			float displacement = planarDisplacement.magnitude;
+			planarDisplacement = m_LastPosition - newPosition;
+			var displacement = planarDisplacement.magnitude;
 			if (Time.deltaTime < Mathf.Epsilon)
 			{
 				planarSpeed = 0;
@@ -69,7 +68,7 @@ namespace StandardAssets.Characters.Common
 			{
 				planarSpeed = displacement / Time.deltaTime;
 			}
-			lastPosition = newPosition;
+			m_LastPosition = newPosition;
 		}
 
 		public void ChangeMovementZone(MovementZoneId? zoneId)
@@ -90,29 +89,36 @@ namespace StandardAssets.Characters.Common
 		/// <summary>
 		/// Used as a clamp for downward velocity.
 		/// </summary>
+		[FormerlySerializedAs("terminalVelocity")]
 		[SerializeField, Tooltip("The maximum speed that the character can move downwards")]
-		protected float terminalVelocity = 10f;
+		float m_TerminalVelocity = 10f;
 
+		[FormerlySerializedAs("jumpGravityMultiplierAsAFactorOfForwardSpeed")]
 		[SerializeField, Tooltip("Gravity scale applied during a jump")]
-		protected AnimationCurve jumpGravityMultiplierAsAFactorOfForwardSpeed =
+		AnimationCurve m_JumpGravityMultiplierAsAFactorOfForwardSpeed =
 			AnimationCurve.Constant(0.0f, 1.0f, 1.0f);
 
+		[FormerlySerializedAs("fallGravityMultiplierAsAFactorOfForwardSpeed")]
 		[SerializeField, Tooltip("Gravity scale applied during a fall")]
-		protected AnimationCurve fallGravityMultiplierAsAFactorOfForwardSpeed =
+		AnimationCurve m_FallGravityMultiplierAsAFactorOfForwardSpeed =
 			AnimationCurve.Constant(0.0f, 1.0f, 1.0f);
 
+		[FormerlySerializedAs("minJumpHeightMultiplierAsAFactorOfForwardSpeed")]
 		[SerializeField, Tooltip("Gravity scale applied during a jump without jump button held")]
-		protected AnimationCurve minJumpHeightMultiplierAsAFactorOfForwardSpeed =
+		AnimationCurve m_MinJumpHeightMultiplierAsAFactorOfForwardSpeed =
 			AnimationCurve.Constant(0.0f, 1.0f, 1.0f);
 
+		[FormerlySerializedAs("gravityChangeSpeed")]
 		[SerializeField, Tooltip("The speed at which gravity is allowed to change")]
-		protected float gravityChangeSpeed = 10f;
+		float m_GravityChangeSpeed = 10f;
 		
+		[FormerlySerializedAs("minFallDistance")]
 		[SerializeField, Tooltip("The minimum fall distance required to trigger the fall state.")]
-		protected float minFallDistance = 1.1f;
+		float m_MinFallDistance = 1.1f;
 		
+		[FormerlySerializedAs("groundingGravityMultiplier")]
 		[SerializeField, Tooltip("The gravity multiplier applied when falling less that the minFallDistance")]
-		protected float groundingGravityMultiplier = 2.0f; 
+		float m_GroundingGravityMultiplier = 2.0f; 
 
 		public bool isGrounded { get; private set; }
 		
@@ -129,15 +135,15 @@ namespace StandardAssets.Characters.Common
 
 		public event Action<float> startedFalling;
 
-		public float airTime { get; private set; }
-
 		public float fallTime { get; private set; }
+		
+		float airTime { get; set; }
 
 		/// <summary>
 		/// Gets the radius of the character.
 		/// </summary>
 		/// <value>The radius used for predicting the landing position.</value>
-		protected float radius
+		float radius
 		{
 			get { return characterController.scaledRadius + characterController.GetSkinWidth(); }
 		}
@@ -146,7 +152,7 @@ namespace StandardAssets.Characters.Common
 		/// Gets the character's world foot position.
 		/// </summary>
 		/// <value>A world position at the bottom of the character</value>
-		protected  Vector3 footWorldPosition
+		Vector3 footWorldPosition
 		{
 			get { return characterController.GetFootWorldPosition(); }
 		}
@@ -154,33 +160,33 @@ namespace StandardAssets.Characters.Common
 		/// <summary>
 		/// Gets the collision layer mask used for physics grounding,
 		/// </summary>
-		protected LayerMask collisionLayerMask
+		LayerMask collisionLayerMask
 		{
 			get { return characterController.GetCollisionLayerMask(); }
 		}
 
 		// the number of time sets used for trajectory prediction.
-		private const int k_TrajectorySteps = 60;
+		const int k_TrajectorySteps = 60;
 
 		// the time step used between physics trajectory steps.
-		private const float k_TrajectoryPredictionTimeStep = 0.016f;
+		const float k_TrajectoryPredictionTimeStep = 0.016f;
 
 		// colliders used in physics checks for landing prediction
-		private readonly Collider[] trajectoryPredictionColliders = new Collider[1];
+		readonly Collider[] m_TrajectoryPredictionColliders = new Collider[1];
 
 		// the current value of gravity
-		private float gravity;
+		float m_Gravity;
 
 		// the source of the normalized forward speed.
-		private CharacterBrain characterBrain;
+		CharacterBrain m_CharacterBrain;
 
 		/// <summary>
 		/// The predicted landing position of the character. Null if a position could not be predicted.
 		/// </summary>
-		protected Vector3? predictedLandingPosition;
+		protected Vector3? m_PredictedLandingPosition;
 #if UNITY_EDITOR
-		private readonly Vector3[] jumpSteps = new Vector3[k_TrajectorySteps];
-		private int jumpStepCount;
+		readonly Vector3[] m_JumpSteps = new Vector3[k_TrajectorySteps];
+		int m_JumpStepCount;
 #endif
 		
 		/// <summary>
@@ -188,7 +194,6 @@ namespace StandardAssets.Characters.Common
 		/// </summary>
 		public Transform cachedTransform { get; private set; }
 
-		/// <inheritdoc/>
 		public float normalizedVerticalSpeed
 		{
 			get;
@@ -199,75 +204,74 @@ namespace StandardAssets.Characters.Common
 		/// The initial jump velocity.
 		/// </summary>
 		/// <value>Velocity used to initiate a jump.</value>
-		protected float initialJumpVelocity;
+		protected float m_InitialJumpVelocity;
 
 		/// <summary>
 		/// The current vertical velocity.
 		/// </summary>
-		/// <value>Calculated using <see cref="initialJumpVelocity"/>, <see cref="airTime"/> and
+		/// <value>Calculated using <see cref="m_InitialJumpVelocity"/>, <see cref="airTime"/> and
 		/// <see cref="CalculateGravity"/></value>
-		protected float currentVerticalVelocity;
+		protected float m_CurrentVerticalVelocity;
 
 		/// <summary>
 		/// The last used ground (vertical velocity excluded ie 0) velocity.
 		/// </summary>
 		/// <value>Velocity based on the moveVector used by <see cref="Move"/>.</value>
-		private Vector3 cachedGroundVelocity;
+		Vector3 m_CachedGroundVelocity;
 
 		/// <summary>
 		/// The current vertical vector.
 		/// </summary>
-		/// <value><see cref="Vector3.zero"/> with a y based on <see cref="currentVerticalVelocity"/>.</value>
-		private Vector3 verticalVector = Vector3.zero;
+		/// <value><see cref="Vector3.zero"/> with a y based on <see cref="m_CurrentVerticalVelocity"/>.</value>
+		Vector3 m_VerticalVector = Vector3.zero;
 
-		private CharacterInput characterInput;
+		CharacterInput m_CharacterInput;
 
-		private bool shortFall,
-			didJump;
+		bool m_ShortFall,
+			m_DidJump;
 
 		/// <summary>
 		/// Gets the current jump gravity multiplier as a factor of normalized forward speed.
 		/// </summary>
-		private float jumpGravityMultiplier
+		float jumpGravityMultiplier
 		{
 			get
 			{
-				return jumpGravityMultiplierAsAFactorOfForwardSpeed.Evaluate(
-					characterBrain.normalizedForwardSpeed);
+				return m_JumpGravityMultiplierAsAFactorOfForwardSpeed.Evaluate(
+					m_CharacterBrain.normalizedForwardSpeed);
 			}
 		}
 		
 		/// <summary>
 		/// Gets the current minimum jump height gravity multiplier as a factor of normalized forward speed.
 		/// </summary>
-		private float minJumpHeightMultiplier
+		float minJumpHeightMultiplier
 		{
 			get
 			{
-				return minJumpHeightMultiplierAsAFactorOfForwardSpeed.Evaluate(
-					characterBrain.normalizedForwardSpeed);
+				return m_MinJumpHeightMultiplierAsAFactorOfForwardSpeed.Evaluate(
+					m_CharacterBrain.normalizedForwardSpeed);
 			}
 		}
 		
 		/// <summary>
 		/// Gets the current fall gravity multiplier as a factor of normalized forward speed.
 		/// </summary>
-		private float fallGravityMultiplier
+		float fallGravityMultiplier
 		{
 			get
 			{
-				return fallGravityMultiplierAsAFactorOfForwardSpeed.Evaluate(
-					characterBrain.normalizedForwardSpeed);
+				return m_FallGravityMultiplierAsAFactorOfForwardSpeed.Evaluate(
+					m_CharacterBrain.normalizedForwardSpeed);
 			}
 		}
 
-		/// <inheritdoc />
 		public void Move(Vector3 moveVector, float deltaTime)
 		{
 			isGrounded = characterController.isGrounded;
 			AerialMovement(deltaTime);
-			MoveCharacter(moveVector + verticalVector);
-			cachedGroundVelocity = moveVector / deltaTime;
+			MoveCharacter(moveVector + m_VerticalVector);
+			m_CachedGroundVelocity = moveVector / deltaTime;
 		}
 
 		/// <summary>
@@ -277,28 +281,28 @@ namespace StandardAssets.Characters.Common
 		public float GetPredictedFallDistance()
 		{
 			UpdatePredictedLandingPosition();
-			return predictedLandingPosition == null
+			return m_PredictedLandingPosition == null
 				? float.MaxValue
-				: footWorldPosition.y - ((Vector3) predictedLandingPosition).y;
+				: footWorldPosition.y - ((Vector3) m_PredictedLandingPosition).y;
 		}
 		
 		/// <summary>
 		/// Calculates whether the current fall is defined as a short fall.
 		/// </summary>
-		/// <returns>True is the current fall distance is less than <see cref="minFallDistance"/> false otherwise.</returns>
+		/// <returns>True is the current fall distance is less than <see cref="m_MinFallDistance"/> false otherwise.</returns>
 		public bool IsPredictedFallShort(out float distance)
 		{
 			distance = GetPredictedFallDistance();
-			return distance <= minFallDistance;
+			return distance <= m_MinFallDistance;
 		}
 		
 		/// <summary>
 		/// Calculates whether the current fall is defined as a short fall.
 		/// </summary>
-		/// <returns>True is the current fall distance is less than <see cref="minFallDistance"/> false otherwise.</returns>
+		/// <returns>True is the current fall distance is less than <see cref="m_MinFallDistance"/> false otherwise.</returns>
 		public bool IsPredictedFallShort()
 		{
-			return GetPredictedFallDistance() <= minFallDistance;
+			return GetPredictedFallDistance() <= m_MinFallDistance;
 		}
 
 		/// <summary>
@@ -307,8 +311,8 @@ namespace StandardAssets.Characters.Common
 		/// <param name="initialVelocity"></param>
 		public void SetJumpVelocity(float initialVelocity)
 		{
-			didJump = true;
-			currentVerticalVelocity = initialJumpVelocity = initialVelocity;
+			m_DidJump = true;
+			m_CurrentVerticalVelocity = m_InitialJumpVelocity = initialVelocity;
 			if (jumpVelocitySet != null)
 			{
 				jumpVelocitySet();
@@ -323,49 +327,49 @@ namespace StandardAssets.Characters.Common
 		{
 			cachedTransform = transform;
 			normalizedVerticalSpeed = 0.0f;
-			characterInput = cachedTransform.GetComponent<CharacterInput>();
-			characterBrain = cachedTransform.GetComponent<CharacterBrain>();
+			m_CharacterInput = cachedTransform.GetComponent<CharacterInput>();
+			m_CharacterBrain = cachedTransform.GetComponent<CharacterBrain>();
 			characterController = cachedTransform.GetComponent<OpenCharacterController>();
 
-			if (terminalVelocity > 0.0f)
+			if (m_TerminalVelocity > 0.0f)
 			{
-				terminalVelocity = -terminalVelocity;
+				m_TerminalVelocity = -m_TerminalVelocity;
 			}
 
-			gravity = UnityPhysics.gravity.y;
+			m_Gravity = UnityPhysics.gravity.y;
 		}
 
 		/// <summary>
 		/// Updates the predicted landing position by stepping through the fall trajectory
 		/// </summary>
-		private void UpdatePredictedLandingPosition()
+		void UpdatePredictedLandingPosition()
 		{
-			Vector3 currentPosition = footWorldPosition;
-			Vector3 moveVector = cachedGroundVelocity;
-			float currentAirTime = 0.0f;
-			for (int i = 0; i < k_TrajectorySteps; i++)
+			var currentPosition = footWorldPosition;
+			var moveVector = m_CachedGroundVelocity;
+			var currentAirTime = 0.0f;
+			for (var i = 0; i < k_TrajectorySteps; i++)
 			{
-				moveVector.y = Mathf.Clamp(gravity * fallGravityMultiplier * currentAirTime,  terminalVelocity, 
+				moveVector.y = Mathf.Clamp(m_Gravity * fallGravityMultiplier * currentAirTime,  m_TerminalVelocity, 
 				                           Mathf.Infinity);
 				currentPosition += moveVector * k_TrajectoryPredictionTimeStep;
 				currentAirTime += k_TrajectoryPredictionTimeStep;
 #if UNITY_EDITOR
-				jumpSteps[i] = currentPosition;
+				m_JumpSteps[i] = currentPosition;
 #endif
 				if (IsGroundCollision(currentPosition))
 				{
 #if UNITY_EDITOR
 					// for gizmos
-					jumpStepCount = i;
+					m_JumpStepCount = i;
 #endif
-					predictedLandingPosition = currentPosition;
+					m_PredictedLandingPosition = currentPosition;
 					return;
 				}
 			}
 #if UNITY_EDITOR
-			jumpStepCount = k_TrajectorySteps;
+			m_JumpStepCount = k_TrajectorySteps;
 #endif
-			predictedLandingPosition = null;
+			m_PredictedLandingPosition = null;
 		}
 
 		/// <summary>
@@ -373,11 +377,11 @@ namespace StandardAssets.Characters.Common
 		/// </summary>
 		/// <param name="position">Position to check</param>
 		/// <returns>True if a ground collision would occur at the given position.</returns>
-		private bool IsGroundCollision(Vector3 position)
+		bool IsGroundCollision(Vector3 position)
 		{
 			// move sphere but to match bottom of character's capsule collider
-			int colliderCount = UnityPhysics.OverlapSphereNonAlloc(position + new Vector3(0.0f, radius, 0.0f),
-																   radius, trajectoryPredictionColliders,
+			var colliderCount = UnityPhysics.OverlapSphereNonAlloc(position + new Vector3(0.0f, radius, 0.0f),
+																   radius, m_TrajectoryPredictionColliders,
 																   collisionLayerMask);
 			return colliderCount > 0.0f;
 		}
@@ -385,32 +389,32 @@ namespace StandardAssets.Characters.Common
 		/// <summary>
 		/// Handles Jumping and Falling
 		/// </summary>
-		private void AerialMovement(float deltaTime)
+		void AerialMovement(float deltaTime)
 		{
 			airTime += deltaTime;
 			CalculateGravity(deltaTime);
-			if (currentVerticalVelocity >= 0.0f)
+			if (m_CurrentVerticalVelocity >= 0.0f)
 			{
-				currentVerticalVelocity = Mathf.Clamp(initialJumpVelocity + gravity * airTime, terminalVelocity,
+				m_CurrentVerticalVelocity = Mathf.Clamp(m_InitialJumpVelocity + m_Gravity * airTime, m_TerminalVelocity,
 													  Mathf.Infinity);
 			}
 			
-			float previousFallTime = fallTime;
+			var previousFallTime = fallTime;
 
-			if (currentVerticalVelocity < 0.0f)
+			if (m_CurrentVerticalVelocity < 0.0f)
 			{
-				currentVerticalVelocity = Mathf.Clamp(gravity * fallTime, terminalVelocity, Mathf.Infinity);
+				m_CurrentVerticalVelocity = Mathf.Clamp(m_Gravity * fallTime, m_TerminalVelocity, Mathf.Infinity);
 				fallTime += deltaTime;
 				if (isGrounded)
 				{
-					initialJumpVelocity = 0.0f;
-					verticalVector = Vector3.zero;
+					m_InitialJumpVelocity = 0.0f;
+					m_VerticalVector = Vector3.zero;
 
 					//Play the moment that the character lands and only at that moment
 					if (Math.Abs(airTime - deltaTime) > Mathf.Epsilon && landed != null)
 					{
 						landed();
-						didJump = false;
+						m_DidJump = false;
 					}
 
 					fallTime = 0.0f;
@@ -422,51 +426,51 @@ namespace StandardAssets.Characters.Common
 			if (Mathf.Approximately(previousFallTime, 0.0f) && fallTime > Mathf.Epsilon)
 			{
 				var predictedFallDistance = GetPredictedFallDistance();
-				shortFall = predictedFallDistance <= minFallDistance;
+				m_ShortFall = predictedFallDistance <= m_MinFallDistance;
 				if (startedFalling != null)
 				{
 					startedFalling(predictedFallDistance);
 				}
 			}
-			verticalVector = new Vector3(0.0f, currentVerticalVelocity * deltaTime, 0.0f);
+			m_VerticalVector = new Vector3(0.0f, m_CurrentVerticalVelocity * deltaTime, 0.0f);
 		}
 
 		/// <summary>
 		/// Calculates the current gravity modified based on current vertical velocity
 		/// </summary>
-		private void CalculateGravity(float deltaTime)
+		void CalculateGravity(float deltaTime)
 		{
 			float gravityFactor;
-			if (currentVerticalVelocity < 0.0f)
+			if (m_CurrentVerticalVelocity < 0.0f)
 			{
 				gravityFactor = fallGravityMultiplier;
-				if (!didJump && shortFall) // if a short fall was triggered increase gravity to quickly ground.
+				if (!m_DidJump && m_ShortFall) // if a short fall was triggered increase gravity to quickly ground.
 				{
-					gravityFactor *= groundingGravityMultiplier;
+					gravityFactor *= m_GroundingGravityMultiplier;
 				}
-				if (initialJumpVelocity < Mathf.Epsilon)
+				if (m_InitialJumpVelocity < Mathf.Epsilon)
 				{
 					normalizedVerticalSpeed = 0.0f;
 				}
 				else
 				{
-					normalizedVerticalSpeed = Mathf.Clamp(currentVerticalVelocity / 
-					                                      (initialJumpVelocity * gravityFactor), -1.0f, 1.0f);
+					normalizedVerticalSpeed = Mathf.Clamp(m_CurrentVerticalVelocity / 
+					                                      (m_InitialJumpVelocity * gravityFactor), -1.0f, 1.0f);
 				}
 			}
 			else
 			{
 				gravityFactor = jumpGravityMultiplier;
-				if (characterInput  != null && !characterInput.hasJumpInput) // if no input apply min jump modifier
+				if (m_CharacterInput  != null && !m_CharacterInput.hasJumpInput) // if no input apply min jump modifier
 				{
 					gravityFactor *= minJumpHeightMultiplier;
 				}
-				normalizedVerticalSpeed = initialJumpVelocity > 0.0f ? currentVerticalVelocity / initialJumpVelocity 
+				normalizedVerticalSpeed = m_InitialJumpVelocity > 0.0f ? m_CurrentVerticalVelocity / m_InitialJumpVelocity 
 																	   : 0.0f;
 			}
 
-			float newGravity = gravityFactor * UnityPhysics.gravity.y;
-			gravity = Mathf.Lerp(gravity, newGravity, deltaTime * gravityChangeSpeed);
+			var newGravity = gravityFactor * UnityPhysics.gravity.y;
+			m_Gravity = Mathf.Lerp(m_Gravity, newGravity, deltaTime * m_GravityChangeSpeed);
 		}
 
 		/// <summary>
@@ -475,11 +479,11 @@ namespace StandardAssets.Characters.Common
 		/// <param name="movement">The value to move the character by in world units.</param>
 		protected void MoveCharacter(Vector3 movement)
 		{
-			CollisionFlags collisionFlags = characterController.Move(movement);
+			var collisionFlags = characterController.Move(movement);
 			if ((collisionFlags & CollisionFlags.CollidedAbove) == CollisionFlags.CollidedAbove)
 			{
-				currentVerticalVelocity = 0f;
-				initialJumpVelocity = 0f;
+				m_CurrentVerticalVelocity = 0f;
+				m_InitialJumpVelocity = 0f;
 			}
 		}
 
@@ -489,15 +493,15 @@ namespace StandardAssets.Characters.Common
 		/// </summary>
 		public virtual void OnDrawGizmosSelected()
 		{
-			for (int index = 0; index < jumpStepCount - 1; index++)
+			for (var index = 0; index < m_JumpStepCount - 1; index++)
 			{
-				Gizmos.DrawLine(jumpSteps[index], jumpSteps[index + 1]);
+				Gizmos.DrawLine(m_JumpSteps[index], m_JumpSteps[index + 1]);
 			}
 
 			Gizmos.color = Color.green;
-			if (predictedLandingPosition != null)
+			if (m_PredictedLandingPosition != null)
 			{
-				Gizmos.DrawSphere((Vector3) predictedLandingPosition, 0.05f);
+				Gizmos.DrawSphere((Vector3) m_PredictedLandingPosition, 0.05f);
 			}
 		}
 #endif

@@ -23,7 +23,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// Tracks whether the character is crouching or not
 		/// </summary>
-		protected bool isCrouching;
+		bool m_IsCrouching;
 
 		/// <summary>
 		/// Returns the <paramref name="rawMoveInput"/>
@@ -55,16 +55,16 @@ namespace StandardAssets.Characters.FirstPerson
 		protected override void OnSprintInput(InputAction.CallbackContext context)
 		{
 			base.OnSprintInput(context);
-			isCrouching = false;
+			m_IsCrouching = false;
 		}
 
 		/// <summary>
 		/// Handles the crouch input
 		/// </summary>
 		/// <param name="context">context is required by the performed event</param>
-		private void OnCrouchInput(InputAction.CallbackContext context)
+		void OnCrouchInput(InputAction.CallbackContext context)
 		{
-			BroadcastInputAction(ref isCrouching, crouchStarted, crouchEnded);
+			BroadcastInputAction(ref m_IsCrouching, crouchStarted, crouchEnded);
 			isSprinting = false;
 		}
 
@@ -74,7 +74,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <remarks>used by the <see cref="StandardAssets.Characters.FirstPerson.FirstPersonBrain"/> to reset inputs when entering the walking state</remarks>
 		public void ResetInputs()
 		{
-			isCrouching = false;
+			m_IsCrouching = false;
 			isSprinting = false;
 		}
 	}

@@ -1,5 +1,6 @@
 using StandardAssets.Characters.Effects.Configs;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.Effects
 {
@@ -8,8 +9,9 @@ namespace StandardAssets.Characters.Effects
 	/// </summary>
 	public class LevelMovementZoneManager : MonoBehaviour
 	{
+		[FormerlySerializedAs("configuration")]
 		[SerializeField, Tooltip("References a ScriptableObject that contains default MovementEventLibraries for different zones")]
-		protected LevelMovementZoneConfig configuration;
+		LevelMovementZoneConfig m_Configuration;
 		
 		/// <summary>
 		/// Gets the instance of the LevelMovementZoneManager. Set privately
@@ -42,7 +44,7 @@ namespace StandardAssets.Characters.Effects
 			{
 				if (instanceExists)
 				{
-					return instance.configuration;
+					return instance.m_Configuration;
 				}
 
 				return null;
@@ -52,7 +54,7 @@ namespace StandardAssets.Characters.Effects
 		/// <summary>
 		/// Sets up the instance and destroys the instance if it already exists
 		/// </summary>
-		private void Awake()
+		void Awake()
 		{
 			if (!instanceExists)
 			{

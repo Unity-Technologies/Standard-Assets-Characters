@@ -21,27 +21,26 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// <summary>
 		/// The current movement properties
 		/// </summary>
-		private float currentSpeed;
+		float currentSpeed;
 
 		/// <summary>
 		/// The current movement properties
 		/// </summary>
-		private float movementTime;
+		float movementTime;
 
 		/// <summary>
 		/// A check to see if input was previous being applied
 		/// </summary>
-		private bool previouslyHasInput;
+		bool previouslyHasInput;
 
 		/// <summary>
 		/// The main camera's transform, used for calculating look direction.
 		/// </summary>
-		private Transform mainCameraTransform;
+		Transform mainCameraTransform;
 
-		
-		private CapsuleInput input;
+		CapsuleInput input;
 
-		private CapsuleInput characterInput
+		CapsuleInput characterInput
 		{
 			get
 			{
@@ -70,7 +69,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 			mainCameraTransform = Camera.main.transform;
 		}
 
-		private void OnEnable()
+		void OnEnable()
 		{
 			characterInput.jumpPressed += OnJumpPressed;
 		}
@@ -78,7 +77,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// <summary>
 		/// Unsubscribe
 		/// </summary>
-		private void OnDisable()
+		void OnDisable()
 		{
 			if (characterInput == null)
 			{
@@ -98,7 +97,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 			{
 				return;
 			}
-			Quaternion targetRotation = CalculateTargetRotation();
+			var targetRotation = CalculateTargetRotation();
 			transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
 
 			targetYRotation = targetRotation.eulerAngles.y;
@@ -107,12 +106,12 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		
 		protected virtual Quaternion CalculateTargetRotation()
 		{
-			Vector3 flatForward = mainCameraTransform.forward;
+			var flatForward = mainCameraTransform.forward;
 			flatForward.y = 0f;
 			flatForward.Normalize();
 
-			Vector3 localMovementDirection = new Vector3(characterInput.moveInput.x, 0f, characterInput.moveInput.y);
-			Quaternion cameraToInputOffset = Quaternion.FromToRotation(Vector3.forward, localMovementDirection);
+			var localMovementDirection = new Vector3(characterInput.moveInput.x, 0f, characterInput.moveInput.y);
+			var cameraToInputOffset = Quaternion.FromToRotation(Vector3.forward, localMovementDirection);
 			cameraToInputOffset.eulerAngles = new Vector3(0f, cameraToInputOffset.eulerAngles.y, 0f);
 
 			return Quaternion.LookRotation(cameraToInputOffset * flatForward);
@@ -121,18 +120,18 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// <summary>
 		/// Handles jumping
 		/// </summary>
-		private void OnJumpPressed()
+		void OnJumpPressed()
 		{
-			if (characterControllerAdapter.isGrounded)
+			if (controllerAdapter.isGrounded)
 			{
-				characterControllerAdapter.SetJumpVelocity(jumpSpeed);
+				controllerAdapter.SetJumpVelocity(jumpSpeed);
 			}	
 		}
 
 		/// <summary>
 		/// Handles movement on Physics update
 		/// </summary>
-		private void FixedUpdate()
+		void FixedUpdate()
 		{
 			Move();
 		}
@@ -140,7 +139,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// <summary>
 		/// State based movement
 		/// </summary>
-		private void Move()
+		void Move()
 		{
 			if (characterInput.hasMovementInput)
 			{
@@ -160,16 +159,16 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 				Stop();
 			}
 
-			Vector2 input = characterInput.moveInput;
+			var input = characterInput.moveInput;
 			if (input.sqrMagnitude > 1)
 			{
 				input.Normalize();
 			}
 		
-			Vector3 forward = transform.forward * input.magnitude;
-			Vector3 sideways = Vector3.zero;
+			var forward = transform.forward * input.magnitude;
+			var sideways = Vector3.zero;
 			
-			characterControllerAdapter.Move((forward + sideways) * currentSpeed * Time.fixedDeltaTime, Time.fixedDeltaTime);
+			controllerAdapter.Move((forward + sideways) * currentSpeed * Time.fixedDeltaTime, Time.fixedDeltaTime);
 
 			previouslyHasInput = characterInput.hasMovementInput;
 		}	
@@ -177,7 +176,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// <summary>
 		/// Calculates current speed based on acceleration anim curve
 		/// </summary>
-		private void Accelerate()
+		void Accelerate()
 		{
 			movementTime += Time.fixedDeltaTime;
 			movementTime = Mathf.Clamp(movementTime, 0f, timeToMaxSpeed);
@@ -187,7 +186,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// <summary>
 		/// Stops the movement
 		/// </summary>
-		private void Stop()
+		void Stop()
 		{
 			currentSpeed = 0f;
 		}

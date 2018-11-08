@@ -12,13 +12,13 @@ namespace StandardAssets.Characters.Helpers
 		/// <returns>The magnitude.</returns>
 		public static float GetMagnitudeOnAxis(this Vector3 vector, Vector3 axis)
 		{
-			float vectorMagnitude = vector.magnitude;
+			var vectorMagnitude = vector.magnitude;
 			if (vectorMagnitude <= 0)
 			{
 				return 0;
 			}
-			float dot = Vector3.Dot(axis, vector / vectorMagnitude);
-			float val = dot * vectorMagnitude;
+			var dot = Vector3.Dot(axis, vector / vectorMagnitude);
+			var val = dot * vectorMagnitude;
 			return val;
 		}
 		
@@ -30,7 +30,7 @@ namespace StandardAssets.Characters.Helpers
 		/// <param name="vectorB">Second vector.</param>
 		public static float SqrMagnitudeFrom(this Vector3 vectorA, Vector3 vectorB)
 		{
-			Vector3 diff = vectorA - vectorB;
+			var diff = vectorA - vectorB;
 			return diff.sqrMagnitude;
 		}
 	}

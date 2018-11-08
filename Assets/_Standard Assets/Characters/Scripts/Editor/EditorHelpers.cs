@@ -8,15 +8,15 @@ namespace Editor
 	/// <summary>
 	/// Some layout helpers and style boilerplate for custom inspectors.
 	/// </summary>
-	internal static class EditorHelpers
+	static class EditorHelpers
 	{
-		private static Texture2D s_IconPlus, s_IconMinus;
+		static Texture2D s_IconPlus, s_IconMinus;
 
-		private static readonly GUIContent
+		static readonly GUIContent
 			// we will reuse this one over
 			s_SharedContent = new GUIContent();
 
-		private static GUIStyle
+		static GUIStyle
 			s_StylePanelHeader,
 			s_StylePanelContent,
 			s_StylePanelElement,
@@ -182,7 +182,7 @@ namespace Editor
 		}
 
 		// initializer for our RL style buttons.
-		private static void SetupPlusMinusButton(GUIStyle style)
+		static void SetupPlusMinusButton(GUIStyle style)
 		{
 			style.fixedHeight = 0;
 			style.imagePosition = ImagePosition.ImageOnly;
@@ -192,7 +192,7 @@ namespace Editor
 		}
 
 		// lazy passthrough field initializer.
-		private static Texture2D Lazy(ref Texture2D field, string src)
+		static Texture2D Lazy(ref Texture2D field, string src)
 		{
 			if (field == null)
 			{
@@ -202,7 +202,7 @@ namespace Editor
 			return field;
 		}
 
-		private static GUIStyle Lazy(ref GUIStyle field, GUIStyle src, Action<GUIStyle> initAction = null,
+		static GUIStyle Lazy(ref GUIStyle field, GUIStyle src, Action<GUIStyle> initAction = null,
 									 bool isCopy = false)
 		{
 			if (field == null)

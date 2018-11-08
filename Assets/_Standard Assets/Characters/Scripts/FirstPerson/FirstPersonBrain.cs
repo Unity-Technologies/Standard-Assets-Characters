@@ -3,6 +3,7 @@ using StandardAssets.Characters.Common;
 using StandardAssets.Characters.Effects;
 using UnityEngine;
 using Cinemachine;
+using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.FirstPerson
 {
@@ -16,7 +17,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// The names of the states in the camera animator
 		/// </summary>
-		private const string k_CrouchAnimationStateName = "Crouch",
+		const string k_CrouchAnimationStateName = "Crouch",
 		                     k_SprintAnimationStateName = "Sprint",
 		                     k_WalkAnimationStateName = "Walk";
 
@@ -29,97 +30,119 @@ namespace StandardAssets.Characters.FirstPerson
 			/// <summary>
 			/// The maximum movement speed
 			/// </summary>
+			[FormerlySerializedAs("maxSpeed")]
 			[SerializeField, Tooltip("The maximum movement speed of the character"), Range(0.1f, 20f)]
-			public float maxSpeed;
+			float m_MaxSpeed;
 
 			/// <summary>
 			/// The initial Y velocity of a Jump
 			/// </summary>
+			[FormerlySerializedAs("jumpSpeed")]
 			[SerializeField, Tooltip("The initial Y velocity of a Jump"), Range(0f, 10f)]
-			public float jumpSpeed;
+			float m_JumpSpeed;
 
 			/// <summary>
 			/// The length of a stride
 			/// </summary>
+			[FormerlySerializedAs("strideLength")]
 			[SerializeField, Tooltip("Distance that is considered a stride"), Range(0f, 1f)]
-			public float strideLength;
+			float m_StrideLength;
 
 			/// <summary>
 			/// Can the first person character jump in this state
 			/// </summary>
 			public bool canJump
 			{
-				get { return jumpSpeed > 0f; }
+				get { return m_JumpSpeed > 0f; }
+			}
+
+			public float maxSpeed
+			{
+				get { return m_MaxSpeed; }
+			}
+
+			public float jumpSpeed
+			{
+				get { return m_JumpSpeed; }
+			}
+
+			public float strideLength
+			{
+				get { return m_StrideLength; }
 			}
 		}
 
 		/// <summary>
 		/// The state that first person motor starts in
 		/// </summary>
+		[FormerlySerializedAs("walking")]
 		[SerializeField, Tooltip("Movement properties of the character while walking")]
-		protected MovementProperties walking;
+		MovementProperties m_Walking;
 
 		/// <summary>
 		/// The state that first person motor starts in
 		/// </summary>
+		[FormerlySerializedAs("sprinting")]
 		[SerializeField, Tooltip("Movement properties of the character while sprinting")]
-		protected MovementProperties sprinting;
+		MovementProperties m_Sprinting;
 
 		/// <summary>
 		/// The state that first person motor starts in
 		/// </summary>
+		[FormerlySerializedAs("crouching")]
 		[SerializeField, Tooltip("Movement properties of the character while crouching")]
-		protected MovementProperties crouching;
+		protected MovementProperties m_Crouching;
 
 		/// <summary>
 		/// Manages movement events
 		/// </summary>
+		[FormerlySerializedAs("firstPersonMovementEventHandler")]
 		[SerializeField, Tooltip("The management of movement events e.g. footsteps")]
-		protected FirstPersonMovementEventHandler firstPersonMovementEventHandler;
+		FirstPersonMovementEventHandler m_FirstPersonMovementEventHandler;
 
 		/// <summary>
 		/// The movement state is passed to the camera manager so that there can be different cameras e.g. crouch
 		/// </summary>
-		private FirstPersonCameraController firstPersonCameraController;
+		FirstPersonCameraController m_FirstPersonCameraController;
 
 		/// <summary>
 		/// The current movement properties
 		/// </summary>
-		private float currentSpeed;
+		float m_CurrentSpeed;
 
 		/// <summary>
 		/// Backing field to prevent the currentProperties from being null
 		/// </summary>
-		private MovementProperties currentMovementProperties;
+		MovementProperties m_CurrentMovementProperties;
 
 		/// <summary>
 		/// Stores the new movement properties if the character tries to change movement state in mid-air
 		/// </summary>
-		private MovementProperties newMovementProperties;
+		MovementProperties m_NewMovementProperties;
 		
 		/// <summary>
 		/// Cached instance of Camera.main
 		/// </summary>
-		private Camera mainCamera;
+		Camera m_MainCamera;
 
 		/// <summary>
 		/// Backing field for lazily loading the character input
 		/// </summary>
-		private FirstPersonInput input;
+		FirstPersonInput m_Input;
 
 		/// <summary>
 		/// Lazily loads the <see cref="FirstPersonInput"/>
 		/// </summary>
-		private FirstPersonInput characterInput
+		FirstPersonInput characterInput
 		{
 			get
 			{
-				if (input == null)
+				if (m_Input == null)
 				{
-					input = GetComponent<FirstPersonInput>();
+					m_Input = GetComponent<FirstPersonInput>();
 				}
 
-				return input;
+				return m_Input;
 			}
 		}
 
@@ -130,13 +153,13 @@ namespace StandardAssets.Characters.FirstPerson
 		{
 			get
 			{
-				float maxSpeed = currentMovementProperties.maxSpeed;
+				var maxSpeed = m_CurrentMovementProperties.maxSpeed;
 				if (maxSpeed <= 0)
 				{
 					return 1;
 				}
 
-				return currentSpeed / maxSpeed;
+				return m_CurrentSpeed / maxSpeed;
 			}
 		}
 
@@ -149,15 +172,15 @@ namespace StandardAssets.Characters.FirstPerson
 		/// Helper method for setting the animation
 		/// </summary>
 		/// <param name="animation">The case sensitive name of the animation state</param>
-		private void SetAnimation(string animation)
+		void SetAnimation(string animation)
 		{
-			if (firstPersonCameraController == null)
+			if (m_FirstPersonCameraController == null)
 			{
 				Debug.LogWarning("No camera animation manager setup");
 				return;
 			}
 
-			firstPersonCameraController.SetAnimation(animation);
+			m_FirstPersonCameraController.SetAnimation(animation);
 		}
 
 		/// <summary>
@@ -167,27 +190,27 @@ namespace StandardAssets.Characters.FirstPerson
 		{
 			base.Awake();
 			FindCameraController(true);
-			firstPersonMovementEventHandler.Init(this);
-			currentMovementProperties = walking;
-			newMovementProperties = walking;
-			firstPersonMovementEventHandler.AdjustTriggerThreshold(currentMovementProperties.strideLength);
-			mainCamera = Camera.main;
+			m_FirstPersonMovementEventHandler.Init(this);
+			m_CurrentMovementProperties = m_Walking;
+			m_NewMovementProperties = m_Walking;
+			m_FirstPersonMovementEventHandler.AdjustTriggerThreshold(m_CurrentMovementProperties.strideLength);
+			m_MainCamera = Camera.main;
 		}
 
 		/// <summary>
 		/// Checks if the <see cref="FirstPersonCameraController"/> has been assigned otherwise finds it in the scene
 		/// </summary>
-		private void FindCameraController(bool autoDisable)
+		void FindCameraController(bool autoDisable)
 		{
-			if (firstPersonCameraController == null)
+			if (m_FirstPersonCameraController == null)
 			{
-				FirstPersonCameraController[] firstPersonCameraControllers =
+				var firstPersonCameraControllers =
 					FindObjectsOfType<FirstPersonCameraController>();
 
-				int length = firstPersonCameraControllers.Length;
+				var length = firstPersonCameraControllers.Length;
 				if (length != 1)
 				{
-					string errorMessage = "No FirstPersonCameraAnimationManagers in scene! Disabling Brain";
+					var errorMessage = "No FirstPersonCameraAnimationManagers in scene! Disabling Brain";
 					if (length > 1)
 					{
 						errorMessage = "Too many FirstPersonCameraAnimationManagers in scene! Disabling Brain";
@@ -202,32 +225,32 @@ namespace StandardAssets.Characters.FirstPerson
 					return;
 				}
 
-				firstPersonCameraController = firstPersonCameraControllers[0];
+				m_FirstPersonCameraController = firstPersonCameraControllers[0];
 			}
 
-			firstPersonCameraController.SetupBrain(this);
+			m_FirstPersonCameraController.SetupBrain(this);
 		}
 
 		/// <summary>
 		/// Subscribes to the various events
 		/// </summary>
-		private void OnEnable()
+		void OnEnable()
 		{
-			firstPersonMovementEventHandler.Subscribe();
+			m_FirstPersonMovementEventHandler.Subscribe();
 			characterInput.jumpPressed += OnJumpPressed;
 			characterInput.sprintStarted += StartSprinting;
 			characterInput.sprintEnded += StartWalking;
 			characterInput.crouchStarted += StartCrouching;
 			characterInput.crouchEnded += StartWalking;
-			characterControllerAdapter.landed += OnLanded;
+			controllerAdapter.landed += OnLanded;
 		}
 
 		/// <summary>
 		/// Unsubscribes to the various events
 		/// </summary>
-		private void OnDisable()
+		void OnDisable()
 		{
-			firstPersonMovementEventHandler.Unsubscribe();
+			m_FirstPersonMovementEventHandler.Unsubscribe();
 			if (characterInput == null)
 			{
 				return;
@@ -238,89 +261,89 @@ namespace StandardAssets.Characters.FirstPerson
 			characterInput.sprintEnded -= StartWalking;
 			characterInput.crouchStarted -= StartCrouching;
 			characterInput.crouchEnded -= StartWalking;
-			characterControllerAdapter.landed -= OnLanded;
+			controllerAdapter.landed -= OnLanded;
 		}
 
 		/// <summary>
 		/// Called on character landing
 		/// </summary>
-		private void OnLanded()
+		void OnLanded()
 		{
-			currentMovementProperties = newMovementProperties;
+			m_CurrentMovementProperties = m_NewMovementProperties;
 		}
 
 		/// <summary>
 		/// Handles jumping
 		/// </summary>
-		private void OnJumpPressed()
+		void OnJumpPressed()
 		{
-			if (characterControllerAdapter.isGrounded && currentMovementProperties.canJump)
+			if (controllerAdapter.isGrounded && m_CurrentMovementProperties.canJump)
 			{
-				characterControllerAdapter.SetJumpVelocity(currentMovementProperties.jumpSpeed);
+				controllerAdapter.SetJumpVelocity(m_CurrentMovementProperties.jumpSpeed);
 			}
 		}
 
 		/// <summary>
 		/// Handles movement and rotation
 		/// </summary>
-		private void FixedUpdate()
+		void FixedUpdate()
 		{
-			Vector3 currentRotation = transform.rotation.eulerAngles;
-			currentRotation.y = mainCamera.transform.rotation.eulerAngles.y;
+			var currentRotation = transform.rotation.eulerAngles;
+			currentRotation.y = m_MainCamera.transform.rotation.eulerAngles.y;
 			transform.rotation = Quaternion.Euler(currentRotation);
 			Move();
-			firstPersonMovementEventHandler.Tick();
+			m_FirstPersonMovementEventHandler.Tick();
 		}
 
 		/// <summary>
 		/// State based movement
 		/// </summary>
-		private void Move()
+		void Move()
 		{
 			if (!characterInput.hasMovementInput)
 			{
-				currentSpeed = 0f;
+				m_CurrentSpeed = 0f;
 			}
 
-			Vector2 move
+			var move
 				= characterInput.moveInput;
 			if (move.sqrMagnitude > 1)
 			{
 				move.Normalize();
 			}
 
-			Vector3 forward = transform.forward * move.y;
-			Vector3 sideways = transform.right * move.x;
-			Vector3 currentVelocity = (forward + sideways) * currentMovementProperties.maxSpeed;
-			currentSpeed = currentVelocity.magnitude;
-			characterControllerAdapter.Move(currentVelocity * Time.fixedDeltaTime, Time.fixedDeltaTime);
+			var forward = transform.forward * move.y;
+			var sideways = transform.right * move.x;
+			var currentVelocity = (forward + sideways) * m_CurrentMovementProperties.maxSpeed;
+			m_CurrentSpeed = currentVelocity.magnitude;
+			controllerAdapter.Move(currentVelocity * Time.fixedDeltaTime, Time.fixedDeltaTime);
 		}
 
 		/// <summary>
 		/// Sets the character to the walking state
 		/// </summary>
-		private void StartWalking()
+		void StartWalking()
 		{
 			characterInput.ResetInputs();
-			ChangeState(walking);
+			ChangeState(m_Walking);
 			SetAnimation(k_WalkAnimationStateName);
 		}
 
 		/// <summary>
 		/// Sets the character to the sprinting state
 		/// </summary>
-		private void StartSprinting()
+		void StartSprinting()
 		{
-			ChangeState(sprinting);
+			ChangeState(m_Sprinting);
 			SetAnimation(k_SprintAnimationStateName);
 		}
 
 		/// <summary>
 		/// Sets the character to crouching state
 		/// </summary>
-		private void StartCrouching()
+		void StartCrouching()
 		{
-			ChangeState(crouching);
+			ChangeState(m_Crouching);
 			SetAnimation(k_CrouchAnimationStateName);
 		}
 
@@ -328,26 +351,26 @@ namespace StandardAssets.Characters.FirstPerson
 		/// Changes the current motor state and play events associated with state change
 		/// </summary>
 		/// <param name="newState"></param>
-		private void ChangeState(MovementProperties newState)
+		void ChangeState(MovementProperties newState)
 		{
-			newMovementProperties = newState;
+			m_NewMovementProperties = newState;
 
-			if (characterControllerAdapter.isGrounded)
+			if (controllerAdapter.isGrounded)
 			{
-				currentMovementProperties = newMovementProperties;
+				m_CurrentMovementProperties = m_NewMovementProperties;
 			}
 
-			firstPersonMovementEventHandler.AdjustTriggerThreshold(newState.strideLength);
+			m_FirstPersonMovementEventHandler.AdjustTriggerThreshold(newState.strideLength);
 		}
 		
 #if UNITY_EDITOR
-		private void OnValidate()
+		void OnValidate()
 		{
 			//Design pattern for fetching required scene references
 			FindCameraController(false);
 		}
 
-		private void Reset()
+		void Reset()
 		{
 			//Design pattern for fetching required scene references
 			FindCameraController(false);
@@ -368,7 +391,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		public void ResetState()
 		{
-			ChangeState(walking);
+			ChangeState(m_Walking);
 		}
 	}
 	
@@ -378,18 +401,19 @@ namespace StandardAssets.Characters.FirstPerson
 	[Serializable]
 	public class FirstPersonMovementEventHandler : MovementEventHandler
 	{
+		[FormerlySerializedAs("maximumSpeed")]
 		[SerializeField, Tooltip("The maximum speed of the character")]
-		protected float maximumSpeed = 10f;
+		protected float m_MaximumSpeed = 10f;
 
-		private float sqrTravelledDistance;
+		float m_SqrTravelledDistance;
 
-		private float sqrDistanceThreshold;
+		float m_SqrDistanceThreshold;
 
-		private Vector3 previousPosition;
+		Vector3 m_PreviousPosition;
 
-		private bool isLeftFoot;
+		bool m_IsLeftFoot;
 
-		private Transform transform;
+		Transform m_Transform;
 
 		/// <summary>
 		/// Initializes the handler with the correct character brain and sets up the transform and previousPosition needed to calculate distance travelled
@@ -398,8 +422,8 @@ namespace StandardAssets.Characters.FirstPerson
 		public void Init(FirstPersonBrain brainToUse)
 		{
 			base.Init(brainToUse);
-			transform = brainToUse.transform;
-			previousPosition = transform.position;
+			m_Transform = brainToUse.transform;
+			m_PreviousPosition = m_Transform.position;
 		}
 
 		/// <summary>
@@ -407,23 +431,23 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		public void Tick()
 		{
-			Vector3 currentPosition = transform.position;
+			var currentPosition = m_Transform.position;
 
 			//If the character has not moved or is not grounded then ignore the calculations that follow
-			if (currentPosition == previousPosition || !brain.controllerAdapter.isGrounded)
+			if (currentPosition == m_PreviousPosition || !brain.controllerAdapter.isGrounded)
 			{
-				previousPosition = currentPosition;
+				m_PreviousPosition = currentPosition;
 				return;
 			}
 
-			sqrTravelledDistance += (currentPosition - previousPosition).sqrMagnitude;
+			m_SqrTravelledDistance += (currentPosition - m_PreviousPosition).sqrMagnitude;
 
-			if (sqrTravelledDistance >= sqrDistanceThreshold)
+			if (m_SqrTravelledDistance >= m_SqrDistanceThreshold)
 			{
-				sqrTravelledDistance = 0;
-				MovementEventData data =
-					new MovementEventData(transform, Mathf.Clamp01(brain.planarSpeed / maximumSpeed));
-				if (isLeftFoot)
+				m_SqrTravelledDistance = 0;
+				var data =
+					new MovementEventData(m_Transform, Mathf.Clamp01(brain.planarSpeed / m_MaximumSpeed));
+				if (m_IsLeftFoot)
 				{
 					PlayLeftFoot(data);
 				}
@@ -432,10 +456,10 @@ namespace StandardAssets.Characters.FirstPerson
 					PlayRightFoot(data);
 				}
 
-				isLeftFoot = !isLeftFoot;
+				m_IsLeftFoot = !m_IsLeftFoot;
 			}
 
-			previousPosition = currentPosition;
+			m_PreviousPosition = currentPosition;
 		}
 
 		/// <summary>
@@ -465,28 +489,28 @@ namespace StandardAssets.Characters.FirstPerson
 		}
 
 		/// <summary>
-		/// Calls PlayEvent on the jump ID
-		/// </summary>
-		private void Jumped()
-		{
-			PlayJumping(new MovementEventData(transform));
-		}
-
-		/// <summary>
-		/// Calls PlayEvent on the landing ID
-		/// </summary>
-		private void Landed()
-		{
-			PlayLanding(new MovementEventData(transform));
-		}
-
-		/// <summary>
 		/// Change the distance that footstep sounds are played
 		/// </summary>
 		/// <param name="strideLength"></param>
 		public void AdjustTriggerThreshold(float strideLength)
 		{
-			sqrDistanceThreshold = strideLength * strideLength;
+			m_SqrDistanceThreshold = strideLength * strideLength;
+		}
+		
+		/// <summary>
+		/// Calls PlayEvent on the jump ID
+		/// </summary>
+		void Jumped()
+		{
+			PlayJumping(new MovementEventData(m_Transform));
+		}
+
+		/// <summary>
+		/// Calls PlayEvent on the landing ID
+		/// </summary>
+		void Landed()
+		{
+			PlayLanding(new MovementEventData(m_Transform));
 		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.Effects
 {
@@ -10,53 +11,52 @@ namespace StandardAssets.Characters.Effects
 	[RequireComponent(typeof(Collider))]
 	public class ColliderMovementDetection : MonoBehaviour
 	{
+		[FormerlySerializedAs("layerMask")]
 		[SerializeField, Tooltip("The layer that will trigger the broadcast of this movement event handler ID")]
-		protected LayerMask layerMask;
+		LayerMask m_LayerMask;
 		
 		/// <summary>
 		/// Fired when movement is detected
 		/// </summary>
 		public event Action<MovementEventData> detection;
 
-		private bool isTrigger;
-		
-		private void Awake()
+		bool m_IsTrigger;
+
+		void Awake()
 		{
-			isTrigger = GetComponent<Collider>().isTrigger;
+			m_IsTrigger = GetComponent<Collider>().isTrigger;
 		}
 
-		private void OnTriggerEnter(Collider other)
+		void OnTriggerEnter(Collider other)
 		{
 			
-			if (!isTrigger)
+			if (!m_IsTrigger)
 			{
 				return;
 			}
 
-			if (layerMask != (layerMask | (1 << other.gameObject.layer)))
+			if (m_LayerMask != (m_LayerMask | (1 << other.gameObject.layer)))
 			{
 				return;
 			}
 
-			MovementEventData movementEventData = new MovementEventData();
-			movementEventData.firedFrom = transform;
+			var movementEventData = new MovementEventData(transform);
 			OnDetection(movementEventData);			
 		}
-		
-		private void OnCollisionEnter(Collision other)
+
+		void OnCollisionEnter(Collision other)
 		{
-			if (isTrigger)
+			if (m_IsTrigger)
 			{
 				return;
 			}
 			
-			if (layerMask != (layerMask | (1 << other.gameObject.layer)))
+			if (m_LayerMask != (m_LayerMask | (1 << other.gameObject.layer)))
 			{
 				return;
 			}
-			
-			MovementEventData movementEventData = new MovementEventData();
-			movementEventData.firedFrom = transform;
+
+			var movementEventData = new MovementEventData(transform);
 			OnDetection(movementEventData);
 		}
 
@@ -64,7 +64,7 @@ namespace StandardAssets.Characters.Effects
 		/// Safely broadcast movement event after collider detection
 		/// </summary>
 		/// <param name="movementEventData">Movement event data</param>
-		private void OnDetection(MovementEventData movementEventData)
+		void OnDetection(MovementEventData movementEventData)
 		{
 			if (detection == null)
 			{

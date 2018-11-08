@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.Effects.Players
 {
@@ -8,14 +9,15 @@ namespace StandardAssets.Characters.Effects.Players
 	[RequireComponent(typeof(ParticleSystem))]
 	public class ParticleMovementEventPlayer : MovementEventPlayer
 	{
+		[FormerlySerializedAs("particleScaleFromNormalizedSpeed")]
 		[SerializeField, Tooltip("How the particle system is scaled based on normalizedSpeed")]
-		protected AnimationCurve particleScaleFromNormalizedSpeed = AnimationCurve.Linear(0f,0f,1f,1f);
-		
-		private ParticleSystem[] particleSources;
+		AnimationCurve m_ParticleScaleFromNormalizedSpeed = AnimationCurve.Linear(0f,0f,1f,1f);
 
-		private void Awake()
+		ParticleSystem[] m_ParticleSystems;
+
+		void Awake()
 		{
-			particleSources = GetComponentsInChildren<ParticleSystem>();
+			m_ParticleSystems = GetComponentsInChildren<ParticleSystem>();
 		}
 
 		/// <summary>
@@ -25,17 +27,17 @@ namespace StandardAssets.Characters.Effects.Players
 		/// <param name="effectMagnitude">The magnitude of the effect used for scaling the particle system size</param>
 		protected override void PlayMovementEvent(MovementEventData movementEventData, float effectMagnitude)
 		{
-			Vector3 scale = Vector3.one * effectMagnitude;
-			foreach (ParticleSystem particleSource in particleSources)
+			var scale = Vector3.one * effectMagnitude;
+			foreach (var particleSystem in m_ParticleSystems)
 			{
-				particleSource.transform.localScale = scale;
-				particleSource.Play();
+				particleSystem.transform.localScale = scale;
+				particleSystem.Play();
 			}
 		}
 		
 		protected override float Evaluate(float normalizedSpeed)
 		{
-			return particleScaleFromNormalizedSpeed.Evaluate(normalizedSpeed);
+			return m_ParticleScaleFromNormalizedSpeed.Evaluate(normalizedSpeed);
 		}
 	}
 }

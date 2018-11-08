@@ -7,11 +7,11 @@ namespace StandardAssets.TFBGames.Editor
 	/// <summary>
 	/// Editor Styles
 	/// </summary>
-	internal static class TfbEditorStyles
+	static class TfbEditorStyles
 	{
-		private static bool s_IsInitialized;
+		static bool s_IsInitialized;
 
-		private static GUIStyle s_DeleteArrayItemButtonStyle,
+		static GUIStyle s_DeleteArrayItemButtonStyle,
 		                        s_PanelHeader,
 		                        s_PanelContent,
 		                        s_PanelItem;
@@ -60,7 +60,7 @@ namespace StandardAssets.TFBGames.Editor
 			EditorGUILayout.EndVertical();
 		}
 
-		private static GUIStyle PassCheckInitialized(GUIStyle style)
+		static GUIStyle PassCheckInitialized(GUIStyle style)
 		{
 			if (!s_IsInitialized)
 			{

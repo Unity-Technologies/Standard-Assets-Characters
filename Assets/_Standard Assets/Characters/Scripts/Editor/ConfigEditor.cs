@@ -24,7 +24,7 @@ namespace Editor
 	[CustomEditor(typeof(MotorConfig))]
 	public class MotorConfigEditor : ConfigEditor
 	{
-		private const string k_ActionName = "action", k_StrafeName = "strafing";
+		const string k_ActionName = "action", k_StrafeName = "strafing";
 		
 		protected override string[] GetExclusions()
 		{
@@ -49,7 +49,7 @@ namespace Editor
 	[CustomEditor(typeof(AnimationConfig))]
 	public class AnimationConfigEditor : ConfigEditor
 	{
-		private const string k_HeadTurn = "headTurnProperties",
+		const string k_HeadTurn = "headTurnProperties",
 		                     k_StrafeChangeAngle = "strafeRapidDirectionChangeAngle",
 		                     k_StrafeChangeCurve = "strafeRapidDirectionChangeSpeedCurve";
 		

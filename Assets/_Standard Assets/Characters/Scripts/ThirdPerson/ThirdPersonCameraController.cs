@@ -3,6 +3,7 @@ using Cinemachine;
 using StandardAssets.Characters.Common;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
@@ -12,95 +13,101 @@ namespace StandardAssets.Characters.ThirdPerson
 	[RequireComponent(typeof(Animator))]
 	public class ThirdPersonCameraController : MonoBehaviour
 	{
-		private string k_ExplorationState = "Exploration", k_StrafeState = "Strafe";
+		string m_ExplorationState = "Exploration", m_StrafeState = "Strafe";
 
 		/// <summary>
 		/// Enum used to describe third person camera type.
 		/// </summary>
-		protected enum CameraType
+		enum CameraType
 		{
 			Exploration,
 			Strafe
 		}
 
+		[FormerlySerializedAs("startingCameraMode")]
 		[SerializeField, Tooltip("Define the starting camera mode")]
-		protected CameraType startingCameraMode = CameraType.Exploration;
+		CameraType m_StartingCameraMode = CameraType.Exploration;
 
+		[FormerlySerializedAs("explorationStateDrivenCamera")]
 		[SerializeField, Tooltip("Cinemachine State Driven Camera")]
-		protected CinemachineStateDrivenCamera explorationStateDrivenCamera;
+		CinemachineStateDrivenCamera m_ExplorationStateDrivenCamera;
 
+		[FormerlySerializedAs("strafeStateDrivenCamera")]
 		[SerializeField, Tooltip("Cinemachine State Driven Camera")]
-		protected CinemachineStateDrivenCamera strafeStateDrivenCamera;
+		CinemachineStateDrivenCamera m_StrafeStateDrivenCamera;
 
+		[FormerlySerializedAs("idleCamera")]
 		[SerializeField, Tooltip("This is the free look camera that will be able to get recentered")]
-		protected CinemachineFreeLook idleCamera;
+		CinemachineFreeLook m_IdleCamera;
 
+		[FormerlySerializedAs("crosshair")]
 		[SerializeField, Tooltip("The aiming crosshair that is visible during strafe")]
-		protected GameObject crosshair;
+		GameObject m_Crosshair;
 
-		private ThirdPersonBrain thirdPersonBrain;
-		
-		private Animator animator;
-		
+		ThirdPersonBrain m_ThirdPersonBrain;
+
+		Animator m_Animator;
+
 		/// <summary>
 		/// Sets the animation to the defined state
 		/// </summary>
 		/// <param name="state">the name of the animation state</param>
+		/// <param name="layer">the layer that the animation state is on</param>
 		public void SetAnimation(string state, int layer = 0)
 		{
-			if (animator == null)
+			if (m_Animator == null)
 			{
-				animator = GetComponent<Animator>();
+				m_Animator = GetComponent<Animator>();
 			}
-			animator.Play(state,layer);
+			m_Animator.Play(state,layer);
 		}
 
 		public void RecenterCamera()
 		{
-			if (!thirdPersonBrain.thirdPersonInput.hasMovementInput)
+			if (!m_ThirdPersonBrain.thirdPersonInput.hasMovementInput)
 			{
-				RecenterFreeLookCam(idleCamera);
+				RecenterFreeLookCam(m_IdleCamera);
 			}
 		}
-		
-		private void Start()
+
+		void Start()
 		{
-			if (startingCameraMode == CameraType.Exploration)
+			if (m_StartingCameraMode == CameraType.Exploration)
 			{
-				SetAnimation(k_ExplorationState);
+				SetAnimation(m_ExplorationState);
 				SetCrosshairVisible(false);
 				
 			}
 			else
 			{
-				SetAnimation(k_StrafeState);
+				SetAnimation(m_StrafeState);
 				SetCrosshairVisible();
 			}
 		}
 
-		private void Update()
+		void Update()
 		{
-			if (thirdPersonBrain == null)
+			if (m_ThirdPersonBrain == null)
 			{
 				Debug.LogError("No Third Person Brain in the scene", gameObject);
 				gameObject.SetActive(false);
 				return;
 			}
 
-			if (thirdPersonBrain.thirdPersonInput.hasMovementInput ||
-			    thirdPersonBrain.thirdPersonInput.lookInput != Vector2.zero)
+			if (m_ThirdPersonBrain.thirdPersonInput.hasMovementInput ||
+			    m_ThirdPersonBrain.thirdPersonInput.lookInput != Vector2.zero)
 			{
-				TurnOffFreeLookCamRecenter(idleCamera);
+				TurnOffFreeLookCamRecenter(m_IdleCamera);
 			}
 		}
 
-		private void RecenterFreeLookCam(CinemachineFreeLook freeLook)
+		void RecenterFreeLookCam(CinemachineFreeLook freeLook)
 		{
 			freeLook.m_RecenterToTargetHeading.m_enabled = true;
 			freeLook.m_YAxisRecentering.m_enabled = true;
 		}
 
-		private void TurnOffFreeLookCamRecenter(CinemachineFreeLook freeLook)
+		void TurnOffFreeLookCamRecenter(CinemachineFreeLook freeLook)
 		{
 			freeLook.m_RecenterToTargetHeading.m_enabled = false;
 			freeLook.m_YAxisRecentering.m_enabled = false;
@@ -112,50 +119,50 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		/// <param name="sourceStateDrivenCamera">The state driven camera that is being transitioned from</param>
 		/// <param name="destinationStateDrivenCamera">The state driven camera that is being transitioned to</param>
-		private void SetCameraAxes(CinemachineStateDrivenCamera sourceStateDrivenCamera,
+		void SetCameraAxes(CinemachineStateDrivenCamera sourceStateDrivenCamera,
 		                           CinemachineStateDrivenCamera destinationStateDrivenCamera)
 		{
-			foreach (CinemachineVirtualCameraBase camera in sourceStateDrivenCamera.ChildCameras)
+			foreach (var camera in sourceStateDrivenCamera.ChildCameras)
 			{
 				if (sourceStateDrivenCamera.IsLiveChild(camera))
 				{
-					float cameraX = camera.GetComponent<CinemachineFreeLook>().m_XAxis.Value;
-					float cameraY = camera.GetComponent<CinemachineFreeLook>().m_YAxis.Value;
+					var cameraX = camera.GetComponent<CinemachineFreeLook>().m_XAxis.Value;
+					var cameraY = camera.GetComponent<CinemachineFreeLook>().m_YAxis.Value;
 					SetChildCameraAxes(destinationStateDrivenCamera, cameraX, cameraY);
 				}
 			}
 		}
 
-		private void SetChildCameraAxes(CinemachineStateDrivenCamera stateDrivenCamera, float xAxis, float yAxis)
+		void SetChildCameraAxes(CinemachineStateDrivenCamera stateDrivenCamera, float xAxis, float yAxis)
 		{
-			foreach (CinemachineVirtualCameraBase childCamera in stateDrivenCamera.ChildCameras)
+			foreach (var childCamera in stateDrivenCamera.ChildCameras)
 			{
 				childCamera.GetComponent<CinemachineFreeLook>().m_XAxis.Value = xAxis;
 				childCamera.GetComponent<CinemachineFreeLook>().m_YAxis.Value = yAxis;
 			}
 		}
 
-		private void SetCrosshairVisible(bool isVisible = true)
+		void SetCrosshairVisible(bool isVisible = true)
 		{
-			if (crosshair == null)
+			if (m_Crosshair == null)
 			{
 				return;
 			}
 			
-			crosshair.SetActive(isVisible);
+			m_Crosshair.SetActive(isVisible);
 		}
 
 		public void SetStrafeCamera()
 		{
-			SetCameraAxes(explorationStateDrivenCamera, strafeStateDrivenCamera);
-			SetAnimation(k_StrafeState);
+			SetCameraAxes(m_ExplorationStateDrivenCamera, m_StrafeStateDrivenCamera);
+			SetAnimation(m_StrafeState);
 			SetCrosshairVisible();
 		}
 
 		public void SetExplorationCamera()
 		{
-			SetCameraAxes(strafeStateDrivenCamera, explorationStateDrivenCamera);
-			SetAnimation(k_ExplorationState);
+			SetCameraAxes(m_StrafeStateDrivenCamera, m_ExplorationStateDrivenCamera);
+			SetAnimation(m_ExplorationState);
 			SetCrosshairVisible(false);
 		}
 
@@ -165,24 +172,24 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <param name="brainToUse">The third person brain to use</param>
 		public void SetThirdPersonBrain(ThirdPersonBrain brainToUse)
 		{
-			thirdPersonBrain = brainToUse;
+			m_ThirdPersonBrain = brainToUse;
 
 			//Automatically handle Cinemachine setup
-			if (strafeStateDrivenCamera.m_AnimatedTarget == null)
+			if (m_StrafeStateDrivenCamera.m_AnimatedTarget == null)
 			{
-				strafeStateDrivenCamera.m_AnimatedTarget = thirdPersonBrain.GetComponent<Animator>();
+				m_StrafeStateDrivenCamera.m_AnimatedTarget = m_ThirdPersonBrain.GetComponent<Animator>();
 			}
 
-			if (explorationStateDrivenCamera.m_AnimatedTarget == null)
+			if (m_ExplorationStateDrivenCamera.m_AnimatedTarget == null)
 			{
-				explorationStateDrivenCamera.m_AnimatedTarget = thirdPersonBrain.GetComponent<Animator>();
+				m_ExplorationStateDrivenCamera.m_AnimatedTarget = m_ThirdPersonBrain.GetComponent<Animator>();
 			}
 
-			CinemachineStateDrivenCamera rootSdc = GetComponent<CinemachineStateDrivenCamera>();
+			var rootSdc = GetComponent<CinemachineStateDrivenCamera>();
 			if (rootSdc != null)
 			{
-				rootSdc.m_LookAt = thirdPersonBrain.transform;
-				rootSdc.m_Follow = thirdPersonBrain.transform;
+				rootSdc.m_LookAt = m_ThirdPersonBrain.transform;
+				rootSdc.m_Follow = m_ThirdPersonBrain.transform;
 			}
 		}
 	}

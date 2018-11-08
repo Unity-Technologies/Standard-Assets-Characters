@@ -8,7 +8,7 @@ namespace Demo
 		[SerializeField]
 		protected GameObject firstPerson, thirdPerson, modeSelector;
 
-		private void Awake()
+		void Awake()
 		{
 			modeSelector.SetActive(true);
 		}

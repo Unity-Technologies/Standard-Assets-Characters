@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.Effects.Players
 {
@@ -7,37 +8,39 @@ namespace StandardAssets.Characters.Effects.Players
 	/// </summary>
 	public class CompoundMovementEventPlayer : MovementEventPlayer
 	{
+		[FormerlySerializedAs("playerPrefabs")]
 		[SerializeField, Tooltip("The prefabs of the movement event players - these are spawned once and played")]
-		protected MovementEventPlayer[] playerPrefabs;
+		MovementEventPlayer[] m_PlayerPrefabs;
 
 		/// <summary>
 		/// A cache of the spawned multiple <see cref="MovementEventPlayer"/> instances 
 		/// </summary>
-		protected MovementEventPlayer[] playerInstances;
+		MovementEventPlayer[] m_PlayerInstances;
 
 		/// <summary>
 		/// Initializes, caches and plays the multiple <see cref="MovementEventPlayer"/>
 		/// </summary>
 		/// <param name="movementEventData">the movement event data model</param>
+		/// <param name="effectMagnitude">the magnitude of the effect</param>
 		protected override void PlayMovementEvent(MovementEventData movementEventData, float effectMagnitude)
 		{
 			//If the cache does exist or is empty then setup the cache and play the sounds
-			if (playerInstances == null || playerInstances.Length == 0)
+			if (m_PlayerInstances == null || m_PlayerInstances.Length == 0)
 			{
-				playerInstances = new MovementEventPlayer[playerPrefabs.Length];
-				int i = -1;
-				foreach (MovementEventPlayer movementEventPlayer in playerPrefabs)
+				m_PlayerInstances = new MovementEventPlayer[m_PlayerPrefabs.Length];
+				var i = -1;
+				foreach (var movementEventPlayer in m_PlayerPrefabs)
 				{
 					i++;
-					MovementEventPlayer instance = Instantiate(movementEventPlayer, transform);
-					playerInstances[i] = instance;
+					var instance = Instantiate(movementEventPlayer, transform);
+					m_PlayerInstances[i] = instance;
 					instance.Play(movementEventData);
 				}
 			}
 			//otherwise just play the cached effects
 			else
 			{
-				foreach (MovementEventPlayer movementEventPlayer in playerInstances)
+				foreach (var movementEventPlayer in m_PlayerInstances)
 				{
 					movementEventPlayer.Play(movementEventData);
 				}	

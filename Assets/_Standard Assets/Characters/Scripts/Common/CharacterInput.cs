@@ -2,6 +2,7 @@
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.Experimental.Input;
+using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.Common
 {
@@ -28,50 +29,60 @@ namespace StandardAssets.Characters.Common
 		/// <summary>
 		/// The Input Action Map asset
 		/// </summary>
+		[FormerlySerializedAs("mobileControls")]
 		[SerializeField, Tooltip("The Input Action Map asset for on screen controls")]
-		protected ControlsMobile mobileControls;
+		ControlsMobile m_MobileControls;
 
 		/// <summary>
 		/// The Input Action Map asset for on screen controls
 		/// </summary>
+		[FormerlySerializedAs("controls")]
 		[SerializeField, Tooltip("The Input Action Map asset")]
-		protected Controls controls;
+		Controls m_Controls;
 
 		/// <summary>
 		/// The on screen controls canvas
 		/// </summary>
+		[FormerlySerializedAs("onScreenControlsCanvas")]
 		[SerializeField, Tooltip("The canvas for the onscreen controls")]
-		protected GameObject onScreenControlsCanvas;
+		GameObject m_OnScreenControlsCanvas;
 
 		/// <summary>
 		/// Invert horizontal look direction
 		/// </summary>
+		[FormerlySerializedAs("invertX")]
 		[SerializeField, Tooltip("Invert horizontal look direction")]
-		protected bool invertX;
+		bool m_InvertX;
 		
 		/// <summary>
 		/// Invert vertical look direction
 		/// </summary>
+		[FormerlySerializedAs("invertY")]
 		[SerializeField, Tooltip("Invert vertical look direction")]
-		protected bool invertY;
+		bool m_InvertY;
 
 		/// <summary>
 		/// The horizontal look sensitivity
 		/// </summary>
+		[FormerlySerializedAs("xSensitivity")]
 		[SerializeField, Range(0f, 1f), Tooltip("The horizontal look sensitivity")]
-		protected float xSensitivity = 1f;
+		float m_XSensitivity = 1f;
 
 		/// <summary>
 		/// The vertical look sensitivity
 		/// </summary>
+		[FormerlySerializedAs("ySensitivity")]
 		[SerializeField, Range(0f, 1f), Tooltip("The vertical look sensitivity")]
-		protected float ySensitivity = 1f;
+		float m_YSensitivity = 1f;
 
 		/// <summary>
 		/// Toggle the cursor lock mode while in play mode.
 		/// </summary>
+		[FormerlySerializedAs("cursorLocked")]
 		[SerializeField, Tooltip("Toggle the Cursor Lock Mode, press ESCAPE during play mode")]
-		protected bool cursorLocked = true;
+		bool m_CursorLocked = true;
+
+		bool m_IsSprinting;
 
 		/// <summary>
 		/// Gets if the movement input is being applied
@@ -95,39 +106,53 @@ namespace StandardAssets.Characters.Common
 		/// Gets whether or not the jump input is currently applied
 		/// </summary>
 		public bool hasJumpInput { get; private set; }
+		
+		protected ControlsMobile mobileControls
+		{
+			get { return m_MobileControls; }
+		}
 
-		protected bool isSprinting;
+		protected Controls controls
+		{
+			get { return m_Controls; }
+		}
+		
+		protected bool isSprinting
+		{
+			get { return m_IsSprinting; }
+			set { m_IsSprinting = value; }
+		}
 
 		/// <summary>
 		/// Sets up the Cinemachine delegate and subscribes to new input's performed events
 		/// </summary>
-		protected virtual void Awake()
+		void Awake()
 		{
 			
 			CinemachineCore.GetInputAxis = LookInputOverride;
 
 #if (!UNITY_EDITOR && (UNITY_ANDROID || UNITY_IOS))
 	
-			cursorLocked = false;
+			m_CursorLocked = false;
 			HandleCursorLock();
-			if (mobileControls != null)
+			if (m_MobileControls != null)
 			{
-				mobileControls.Movement.move.performed +=OnMoveInput;
-				mobileControls.Movement.look.performed += OnLookInput;
-				mobileControls.Movement.jump.performed += OnJumpInput;
-				mobileControls.Movement.sprint.performed += OnSprintInput;
+				m_MobileControls.Movement.move.performed +=OnMoveInput;
+				m_MobileControls.Movement.look.performed += OnLookInput;
+				m_MobileControls.Movement.jump.performed += OnJumpInput;
+				m_MobileControls.Movement.sprint.performed += OnSprintInput;
 
 				RegisterAdditionalInputsMobile();
 			}
 
 			ToggleOnScreenCanvas(true);
 #else
-			if(controls !=null)
+			if(m_Controls !=null)
 			{
-				controls.Movement.move.performed +=OnMoveInput;
-				controls.Movement.look.performed += OnLookInput;
-				controls.Movement.jump.performed += OnJumpInput;
-				controls.Movement.sprint.performed += OnSprintInput;
+				m_Controls.Movement.move.performed +=OnMoveInput;
+				m_Controls.Movement.look.performed += OnLookInput;
+				m_Controls.Movement.jump.performed += OnJumpInput;
+				m_Controls.Movement.sprint.performed += OnSprintInput;
 			
 				RegisterAdditionalInputs();
 			}
@@ -136,12 +161,12 @@ namespace StandardAssets.Characters.Common
 #endif
 		}
 
-		private void OnLookInput(InputAction.CallbackContext context)
+		void OnLookInput(InputAction.CallbackContext context)
 		{
 			lookInput = context.ReadValue<Vector2>();
 		}
 
-		private void OnMoveInput(InputAction.CallbackContext context)
+		void OnMoveInput(InputAction.CallbackContext context)
 		{
 			moveInput = ConditionMoveInput(context.ReadValue<Vector2>());
 		}
@@ -167,11 +192,11 @@ namespace StandardAssets.Characters.Common
 		/// Toggle the onscreen controls canvas 
 		/// </summary>
 		/// <param name="active">canvas game object on or off</param>
-		private void ToggleOnScreenCanvas(bool active)
+		void ToggleOnScreenCanvas(bool active)
 		{
-			if (onScreenControlsCanvas != null)
+			if (m_OnScreenControlsCanvas != null)
 			{
-				onScreenControlsCanvas.SetActive(active);
+				m_OnScreenControlsCanvas.SetActive(active);
 			}
 		}
 
@@ -181,7 +206,7 @@ namespace StandardAssets.Characters.Common
 		/// <param name="context">context is required by the performed event</param>
 		protected virtual void OnSprintInput(InputAction.CallbackContext context)
 		{
-			BroadcastInputAction(ref isSprinting, sprintStarted, sprintEnded);
+			BroadcastInputAction(ref m_IsSprinting, sprintStarted, sprintEnded);
 		}
 
 		/// <summary>
@@ -190,9 +215,9 @@ namespace StandardAssets.Characters.Common
 		protected virtual void OnEnable()
 		{
 #if !UNITY_EDITOR && (UNITY_ANDROID || UNITY_IOS)
-			mobileControls.Enable();
+			m_MobileControls.Enable();
 #else
-			controls.Enable();
+			m_Controls.Enable();
 			#endif
 			HandleCursorLock();
 		}
@@ -203,25 +228,25 @@ namespace StandardAssets.Characters.Common
 		protected virtual void OnDisable()
 		{
 #if !UNITY_EDITOR && (UNITY_ANDROID || UNITY_IOS)
-			mobileControls.Disable();
+			m_MobileControls.Disable();
 #else
-			controls.Disable();
+			m_Controls.Disable();
 			#endif
 		}
 
 		/// <summary>
 		/// Handles the Cinemachine delegate
 		/// </summary>
-		private float LookInputOverride(string axis)
+		float LookInputOverride(string axis)
 		{
 			if (axis == "Horizontal")
 			{
-				return invertX ? lookInput.x * xSensitivity : -lookInput.x * xSensitivity;
+				return m_InvertX ? lookInput.x * m_XSensitivity : -lookInput.x * m_XSensitivity;
 			}
 
 			if (axis == "Vertical")
 			{
-				return invertY ? lookInput.y * ySensitivity : -lookInput.y * ySensitivity;
+				return m_InvertY ? lookInput.y * m_YSensitivity : -lookInput.y * m_YSensitivity;
 			}
 
 			return 0;
@@ -231,7 +256,7 @@ namespace StandardAssets.Characters.Common
 		/// Handles the jump event from the new input system
 		/// </summary>
 		/// <param name="context">context is required by the performed event</param>
-		private void OnJumpInput(InputAction.CallbackContext context)
+		void OnJumpInput(InputAction.CallbackContext context)
 		{
 			hasJumpInput = !hasJumpInput;
 			if (hasJumpInput)
@@ -246,9 +271,9 @@ namespace StandardAssets.Characters.Common
 		/// <summary>
 		/// Handles the cursor lock state
 		/// </summary>
-		private void HandleCursorLock()
+		void HandleCursorLock()
 		{
-			Cursor.lockState = cursorLocked ? CursorLockMode.Locked : CursorLockMode.None;
+			Cursor.lockState = m_CursorLocked ? CursorLockMode.Locked : CursorLockMode.None;
 		}
 
 		/// <summary>
@@ -256,9 +281,9 @@ namespace StandardAssets.Characters.Common
 		/// </summary>
 		protected virtual void Update()
 		{
-			if (UnityEngine.Input.GetKeyDown(KeyCode.Escape))
+			if (Input.GetKeyDown(KeyCode.Escape))
 			{
-				cursorLocked = !cursorLocked;
+				m_CursorLocked = !m_CursorLocked;
 				HandleCursorLock();
 			}
 		}

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.Effects.Players
 {
@@ -7,8 +8,9 @@ namespace StandardAssets.Characters.Effects.Players
 	/// </summary>
 	public abstract class MovementEventPlayer : MonoBehaviour
 	{
+		[FormerlySerializedAs("setRotation")]
 		[SerializeField, Tooltip("Should rotation be set on play")]
-		protected bool setRotation;
+		bool m_SetRotation;
 		
 		/// <summary>
 		/// Plays the movement event at a set location
@@ -19,7 +21,7 @@ namespace StandardAssets.Characters.Effects.Players
 			if (movementEventData.firedFrom != null)
 			{
 				transform.position = movementEventData.firedFrom.position;
-				if (setRotation)
+				if (m_SetRotation)
 				{
 					transform.rotation = movementEventData.firedFrom.rotation;
 				}
@@ -34,7 +36,7 @@ namespace StandardAssets.Characters.Effects.Players
 		/// <param name="movementEventData">The <see cref="MovementEventData"/> that is intercepted</param>
 		protected void PlayMovementEvent(MovementEventData movementEventData)
 		{
-			float effectMagnitude = Evaluate(movementEventData.normalizedSpeed);
+			var effectMagnitude = Evaluate(movementEventData.normalizedSpeed);
 			
 			PlayMovementEvent(movementEventData, effectMagnitude);
 		}

@@ -8,9 +8,9 @@ namespace StandardAssets.Characters.Helpers
 	/// </summary>
 	public class SlidingAverage
 	{
-		private SizedQueue<float> values;
+		SizedQueue<float> m_Values;
 
-		private readonly int windowSize;
+		readonly int m_WindowSize;
 
 		/// <summary>
 		/// Gets the current average.
@@ -19,14 +19,14 @@ namespace StandardAssets.Characters.Helpers
 		{
 			get
 			{
-				int count = values.count;
+				var count = m_Values.count;
 				if (count == 0)
 				{
 					return 0f;
 				}
 
-				float sum = 0f;
-				foreach (float value in values.values)
+				var sum = 0f;
+				foreach (var value in m_Values.values)
 				{
 					sum += value;
 				}
@@ -37,7 +37,7 @@ namespace StandardAssets.Characters.Helpers
 
 		public SlidingAverage(int setWindowSize)
 		{
-			values = new SizedQueue<float>(setWindowSize);
+			m_Values = new SizedQueue<float>(setWindowSize);
 		}
 
 		/// <summary>
@@ -50,15 +50,15 @@ namespace StandardAssets.Characters.Helpers
 			switch (handleNegative)
 			{
 				case HandleNegative.Add:
-					values.Add(newValue);
+					m_Values.Add(newValue);
 					break;
 				case HandleNegative.Absolute:
-					values.Add(Mathf.Abs(newValue));
+					m_Values.Add(Mathf.Abs(newValue));
 					break;
 				case HandleNegative.Ignore:
 					if (newValue >= 0)
 					{
-						values.Add(newValue);
+						m_Values.Add(newValue);
 					}
 
 					break;
@@ -72,7 +72,7 @@ namespace StandardAssets.Characters.Helpers
 		/// </summary>
 		public void Clear()
 		{
-			values.Clear();
+			m_Values.Clear();
 		}
 	}
 

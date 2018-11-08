@@ -14,10 +14,10 @@ namespace StandardAssets.Characters.Examples.SimpleNavMeshInputController
 		/// </summary>
 		[SerializeField, Tooltip("Layers to use in the ground check")]
 		protected LayerMask groundCheckMask;
-		
-		private NavMeshAgent navMesh;
 
-		private void Start()
+		NavMeshAgent navMesh;
+
+		void Start()
 		{
 			if (mainCamera == null)
 			{
@@ -31,7 +31,7 @@ namespace StandardAssets.Characters.Examples.SimpleNavMeshInputController
 		{
 			if (UnityEngine.Input.GetKeyDown(KeyCode.Mouse0))
 			{
-				Ray ray = mainCamera.ScreenPointToRay(UnityEngine.Input.mousePosition);
+				var ray = mainCamera.ScreenPointToRay(UnityEngine.Input.mousePosition);
 				RaycastHit hit;
 
 				if (UnityEngine.Physics.Raycast(ray, out hit, float.MaxValue, groundCheckMask))

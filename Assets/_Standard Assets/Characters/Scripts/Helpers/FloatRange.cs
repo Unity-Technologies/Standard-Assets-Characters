@@ -9,26 +9,26 @@ namespace StandardAssets.Characters.Helpers
 	[Serializable]
 	public struct FloatRange
 	{
-		public float minValue;
-		public float maxValue;
+		float m_MinValue;
+		float m_MaxValue;
 
 		public FloatRange(float minValue, float maxValue)
 		{
-			this.minValue = minValue;
-			this.maxValue = maxValue;
+			m_MinValue = minValue;
+			m_MaxValue = maxValue;
 		}
 		
 		/// <summary>
-		/// Gets an interpolation time using <see cref="minValue"/> and <see cref="maxValue"/>.
+		/// Gets an interpolation time using <see cref="m_MinValue"/> and <see cref="m_MaxValue"/>.
 		/// </summary>
 		/// <param name="oldValue">The current value.</param>
 		/// <param name="newValue">The new value to approach.</param>
 		/// <returns>The interpolated value.</returns>
 		public float GetInterpolationTime(float oldValue, float newValue)
 		{
-			float valueDifference = Mathf.Clamp(Mathf.Abs(oldValue - newValue), 0.0f, 1.0f);
-			float interpolationDifference = maxValue - minValue;
-			return maxValue - (valueDifference * interpolationDifference);
+			var valueDifference = Mathf.Clamp(Mathf.Abs(oldValue - newValue), 0.0f, 1.0f);
+			var interpolationDifference = m_MaxValue - m_MinValue;
+			return m_MaxValue - (valueDifference * interpolationDifference);
 		}
 	}
 	

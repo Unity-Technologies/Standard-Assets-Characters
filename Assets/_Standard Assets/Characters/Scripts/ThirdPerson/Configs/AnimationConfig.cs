@@ -1,6 +1,7 @@
 ﻿using System;
 using StandardAssets.Characters.Helpers;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.ThirdPerson.Configs
 {
@@ -11,90 +12,117 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		menuName = "Standard Assets/Characters/Third Person Animation Configuration", order = 1)]
 	public class AnimationConfig : ScriptableObject
 	{
+		[FormerlySerializedAs("forwardSpeedInterpolationRange")]
 		[Header("Ground Movement")]
 		[Tooltip("Configuration for the forward speed animation parameter")]
 		[SerializeField]
-		protected FloatRange forwardSpeedInterpolationRange = new FloatRange(0.2f, 0.35f);
+		FloatRange m_ForwardSpeedInterpolationRange = new FloatRange(0.2f, 0.35f);
 
+		[FormerlySerializedAs("lateralSpeedInterpolationRange")]
 		[SerializeField, Tooltip("Configuration for the lateral speed animation parameter")]
-		protected FloatRange lateralSpeedInterpolationRange = new FloatRange(0.2f, 0.35f);
+		FloatRange m_LateralSpeedInterpolationRange = new FloatRange(0.2f, 0.35f);
 
+		[FormerlySerializedAs("turningSpeedInterpolationRange")]
 		[SerializeField, Tooltip("Configuration for the turning speed animation parameter")]
-		protected FloatRange turningSpeedInterpolationRange = new FloatRange(0.01f, 0.05f);
+		FloatRange m_TurningSpeedInterpolationRange = new FloatRange(0.01f, 0.05f);
 
+		[FormerlySerializedAs("enableStrafeRapidDirectionChangeSmoothing")]
 		[SerializeField, Tooltip("Should a strafe rapid direction change be detected and smoothed. This should only " +
 		                         "be enabled if apposing strafe animations are reverses of each other. eg walk " +
 		                         "backwards is walk forward played at a -1 speed.")]
-		protected bool enableStrafeRapidDirectionChangeSmoothing = true;
+		bool m_EnableStrafeRapidDirectionChangeSmoothing = true;
 		
+		[FormerlySerializedAs("strafeRapidDirectionChangeAngle")]
 		[SerializeField, Tooltip("The angle threshold used to trigger a strafe rapid direction change.")]
-		protected float strafeRapidDirectionChangeAngle = 140.0f;
+		float m_StrafeRapidDirectionChangeAngle = 140.0f;
 
+		[FormerlySerializedAs("strafeRapidDirectionChangeSpeedCurve")]
 		[SerializeField, Tooltip("The curve used to change animator movement speeds during a strafe rapid direction change")]
-		protected AnimationCurve strafeRapidDirectionChangeSpeedCurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
+		AnimationCurve m_StrafeRapidDirectionChangeSpeedCurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
 		
+		[FormerlySerializedAs("turningSpeedCurve")]
 		[SerializeField, Tooltip("The curve used to remap turning speed")]
-		protected AnimationCurve turningSpeedCurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
+		AnimationCurve m_TurningSpeedCurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
 
+		[FormerlySerializedAs("jumpTransitionAsAFactorOfSpeed")]
 		[Header("Jumping")]
 		[SerializeField, Tooltip("Curve used to determine the cross fade duration of the transition into the jump " +
 								 "animation state")]
-		protected AnimationCurve jumpTransitionAsAFactorOfSpeed = AnimationCurve.Constant(0, 1, 0.15f);
+		AnimationCurve m_JumpTransitionAsAFactorOfSpeed = AnimationCurve.Constant(0, 1, 0.15f);
 
+		[FormerlySerializedAs("jumpEndTransitionDurationByForwardSpeed")]
 		[SerializeField, Tooltip("Curve used to determine the cross fade duration of the transition into the " +
 								 "locomotion animation from the jump animation state")]
-		protected AnimationCurve jumpEndTransitionDurationByForwardSpeed = AnimationCurve.Linear(0,0,1,0.125f);
+		AnimationCurve m_JumpEndTransitionDurationByForwardSpeed = AnimationCurve.Linear(0,0,1,0.125f);
 		
+		[FormerlySerializedAs("rightFootJumpLandAnimationTimeOffset")]
 		[SerializeField, Tooltip("Cross fade cycle offset for transition into locomotion state after a physics jump")]
-		protected float rightFootJumpLandAnimationTimeOffset = 0.6f,
-						leftFootJumpLandAnimationTimeOffset = 0.3f;
+		float m_RightFootJumpLandAnimationTimeOffset = 0.6f;
+		[FormerlySerializedAs("leftFootJumpLandAnimationTimeOffset")]
+		[SerializeField, Tooltip("Cross fade cycle offset for transition into locomotion state after a physics jump")]
+		float m_LeftFootJumpLandAnimationTimeOffset = 0.3f;
 
+		[FormerlySerializedAs("skipJumpLandWindow")]
 		[SerializeField, Tooltip("Time in seconds allowed between jumps to create a skip effect")]
-		protected float skipJumpLandWindow = 0.25f;
+		float m_SkipJumpLandWindow = 0.25f;
 
+		[FormerlySerializedAs("standingJumpNormalizedSpeedMaxThreshold")]
 		[SerializeField, Tooltip("A forward jump speed less than this will be clamped to 0")]
-		protected float standingJumpNormalizedSpeedMaxThreshold = 0.1f;
+		float m_StandingJumpNormalizedSpeedMaxThreshold = 0.1f;
 		
+		[FormerlySerializedAs("runningJumpNormalizedSpeedMinThreshold")]
 		[SerializeField, Tooltip("A forward jump speed more than this will be clamped to 1")]
-		protected float runningJumpNormalizedSpeedMinThreshold = 0.9f;
+		float m_RunningJumpNormalizedSpeedMinThreshold = 0.9f;
 		
+		[FormerlySerializedAs("landSpeedAsAFactorOfSpeed")]
 		[Header("Landing")]
 		[SerializeField, Tooltip("Curve used to determine the land animation speed")]
-		protected AnimationCurve landSpeedAsAFactorOfSpeed = AnimationCurve.Linear(0,1,1,2);
+		AnimationCurve m_LandSpeedAsAFactorOfSpeed = AnimationCurve.Linear(0,1,1,2);
 
+		[FormerlySerializedAs("normalizedForwardSpeedToRoll")]
 		[SerializeField, Tooltip("A forward speed higher than this will trigger a roll on land")]
-		protected float normalizedForwardSpeedToRoll = 0.3f;
+		float m_NormalizedForwardSpeedToRoll = 0.3f;
 
+		[FormerlySerializedAs("fallTimeRequiredToTriggerRoll")]
 		[SerializeField, Tooltip("A fall time greater than this will trigger a roll. Less than this will transition to" +
 								 "locomotion")]
-		protected float fallTimeRequiredToTriggerRoll = 1.0f;
+		float m_FallTimeRequiredToTriggerRoll = 1.0f;
 
+		[FormerlySerializedAs("rollAnimationBlendTime")]
 		[SerializeField, Tooltip("Time used for the cross fade into the roll animation state")]
-		protected float rollAnimationBlendTime = 0.15f;
+		float m_RollAnimationBlendTime = 0.15f;
 
+		[FormerlySerializedAs("landAnimationBlendTime")]
 		[SerializeField, Tooltip("Time used for the cross fade into the land animation state")]
-		protected float landAnimationBlendTime = 0.11f;
+		float m_LandAnimationBlendTime = 0.11f;
 
+		[FormerlySerializedAs("startRightFootGrounded")]
 		[Header("Grounded Foot")]
 		[SerializeField, Tooltip("Should the right foot start as grounded?")]
-		protected bool startRightFootGrounded;
+		bool m_StartRightFootGrounded;
 
+		[FormerlySerializedAs("groundedFootThreshold")]
 		[SerializeField, Tooltip("Value used to determine the grounded foot based on animation normalized time")]
-		protected float groundedFootThreshold = 0.25f, groundedFootThresholdOffset = 0.25f;
+		float m_GroundedFootThreshold = 0.25f;
+		[FormerlySerializedAs("groundedFootThresholdOffset")]
+		[SerializeField, Tooltip("Value used to determine the grounded foot based on animation normalized time")]
+		float m_GroundedFootThresholdOffset = 0.25f;
 
+		[FormerlySerializedAs("enableHeadTurn")]
 		[Header("Head Movement"), Tooltip("Should the head look be turned off?")]
 		[SerializeField]
-		protected bool enableHeadTurn = true;
+		bool m_EnableHeadTurn = true;
 
+		[FormerlySerializedAs("headTurnProperties")]
 		[SerializeField, Tooltip("Configuration for the head turning/looking")]
-		protected HeadTurnProperties headTurnProperties;
+		HeadTurnProperties m_HeadTurnProperties;
 
 		/// <summary>
 		/// Gets whether strafe rapid direction smoothing logic should be performed.
 		/// </summary>
 		public bool enableStrafeRapidDirectionChangeSmoothingLogic
 		{
-			get { return enableStrafeRapidDirectionChangeSmoothing; }
+			get { return m_EnableStrafeRapidDirectionChangeSmoothing; }
 		}
 		
 		/// <summary>
@@ -102,7 +130,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float strafeRapidChangeAngleThreshold
 		{
-			get { return strafeRapidDirectionChangeAngle; }
+			get { return m_StrafeRapidDirectionChangeAngle; }
 		}
 		
 		/// <summary>
@@ -110,7 +138,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public AnimationCurve strafeRapidChangeSpeedCurve
 		{
-			get { return strafeRapidDirectionChangeSpeedCurve; }
+			get { return m_StrafeRapidDirectionChangeSpeedCurve; }
 		}
 		
 		/// <summary>
@@ -118,7 +146,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public AnimationCurve animationTurningSpeedCurve
 		{
-			get { return turningSpeedCurve; }
+			get { return m_TurningSpeedCurve; }
 		}
 
 		/// <summary>
@@ -126,7 +154,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public FloatRange forwardSpeedInterpolation
 		{
-			get { return forwardSpeedInterpolationRange; }
+			get { return m_ForwardSpeedInterpolationRange; }
 		}
 
 		/// <summary>
@@ -134,7 +162,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public FloatRange lateralSpeedInterpolation
 		{
-			get { return lateralSpeedInterpolationRange; }
+			get { return m_LateralSpeedInterpolationRange; }
 		}
 
 		/// <summary>
@@ -142,7 +170,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public FloatRange turningSpeedInterpolation
 		{
-			get { return turningSpeedInterpolationRange; }
+			get { return m_TurningSpeedInterpolationRange; }
 		}
 
 		/// <summary>
@@ -151,7 +179,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// <value>True if the right foot should start grounded; false if the left foot should.</value>
 		public bool invertFoot
 		{
-			get { return startRightFootGrounded; }
+			get { return m_StartRightFootGrounded; }
 		}
 
 		/// <summary>
@@ -159,7 +187,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float groundedFootThresholdValue
 		{
-			get { return groundedFootThreshold; }
+			get { return m_GroundedFootThreshold; }
 		}
 
 		/// <summary>
@@ -167,7 +195,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float groundedFootThresholdOffsetValue
 		{
-			get { return groundedFootThresholdOffset; }
+			get { return m_GroundedFootThresholdOffset; }
 		}
 
 		/// <summary>
@@ -176,7 +204,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// <value>True if the head turning should enabled; false if it is to be disabled. </value>
 		public bool enableHeadLookAt
 		{
-			get { return enableHeadTurn; }
+			get { return m_EnableHeadTurn; }
 		}
 
 		/// <summary>
@@ -184,7 +212,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float lookAtWeight
 		{
-			get { return headTurnProperties.lookAtWeight; }
+			get { return m_HeadTurnProperties.lookAtWeight; }
 		}
 
 		/// <summary>
@@ -192,7 +220,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float lookAtMaxRotation
 		{
-			get { return headTurnProperties.lookAtMaxRotation; }
+			get { return m_HeadTurnProperties.lookAtMaxRotation; }
 		}
 
 		/// <summary>
@@ -200,7 +228,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float lookAtRotationSpeed
 		{
-			get { return headTurnProperties.lookAtRotationSpeed; }
+			get { return m_HeadTurnProperties.lookAtRotationSpeed; }
 		}
 		
 		/// <summary>
@@ -208,7 +236,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public bool lookAtWhileAerial
 		{
-			get { return headTurnProperties.lookAtWhileAerial; }
+			get { return m_HeadTurnProperties.lookAtWhileAerial; }
 		}
 
 		/// <summary>
@@ -216,7 +244,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public bool lookAtWhileTurnaround
 		{
-			get { return headTurnProperties.lookAtWhileTurnaround; }
+			get { return m_HeadTurnProperties.lookAtWhileTurnaround; }
 		}
 
 		/// <summary>
@@ -224,7 +252,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public AnimationCurve jumpEndTransitionByForwardSpeed
 		{
-			get { return jumpEndTransitionDurationByForwardSpeed; }
+			get { return m_JumpEndTransitionDurationByForwardSpeed; }
 		}
 
 		/// <summary>
@@ -232,7 +260,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float RightFootJumpLandAnimationOffset
 		{
-			get { return rightFootJumpLandAnimationTimeOffset; }
+			get { return m_RightFootJumpLandAnimationTimeOffset; }
 		}
 
 		/// <summary>
@@ -240,7 +268,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float LeftFootJumpLandAnimationOffset
 		{
-			get { return leftFootJumpLandAnimationTimeOffset; }
+			get { return m_LeftFootJumpLandAnimationTimeOffset; }
 		}
 		
 		/// <summary>
@@ -248,7 +276,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float skipJumpWindow
 		{
-			get { return skipJumpLandWindow; }
+			get { return m_SkipJumpLandWindow; }
 		}
 
 		/// <summary>
@@ -256,7 +284,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public AnimationCurve landSpeedAsAFactorSpeed
 		{
-			get { return landSpeedAsAFactorOfSpeed; }
+			get { return m_LandSpeedAsAFactorOfSpeed; }
 		}
 
 		/// <summary>
@@ -264,7 +292,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float forwardSpeedToRoll
 		{
-			get { return normalizedForwardSpeedToRoll; }
+			get { return m_NormalizedForwardSpeedToRoll; }
 		}
 
 		/// <summary>
@@ -272,7 +300,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float fallTimeRequiredToRoll
 		{
-			get { return fallTimeRequiredToTriggerRoll; }
+			get { return m_FallTimeRequiredToTriggerRoll; }
 		}
 
 		/// <summary>
@@ -280,7 +308,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float landAnimationBlendDuration
 		{
-			get { return landAnimationBlendTime; }
+			get { return m_LandAnimationBlendTime; }
 		}
 
 		/// <summary>
@@ -288,7 +316,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float rollAnimationBlendDuration
 		{
-			get { return rollAnimationBlendTime; }
+			get { return m_RollAnimationBlendTime; }
 		}
 
 		/// <summary>
@@ -296,7 +324,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public AnimationCurve jumpTransitionDurationFactorOfSpeed
 		{
-			get { return jumpTransitionAsAFactorOfSpeed; }
+			get { return m_JumpTransitionAsAFactorOfSpeed; }
 		}
 
 		/// <summary>
@@ -304,7 +332,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float runningJumpNormalizedSpeedThreshold
 		{
-			get { return runningJumpNormalizedSpeedMinThreshold; }
+			get { return m_RunningJumpNormalizedSpeedMinThreshold; }
 		}
 
 		/// <summary>
@@ -312,7 +340,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float standingJumpNormalizedSpeedThreshold
 		{
-			get { return standingJumpNormalizedSpeedMaxThreshold; }
+			get { return m_StandingJumpNormalizedSpeedMaxThreshold; }
 		}
 		
 		/// <summary>
@@ -320,7 +348,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float noLookInputHeadLookAtScale
 		{
-			get { return headTurnProperties.noLookInputHeadLookAtScale; }
+			get { return m_HeadTurnProperties.noLookInputHeadLookAtScale; }
 		}
 		
 		/// <summary>
@@ -329,30 +357,36 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		[Serializable]
 		protected class HeadTurnProperties
 		{
+			[FormerlySerializedAs("headLookAtWeight")]
 			[SerializeField, Tooltip("The animator head look at weight.")]
-			protected float headLookAtWeight = 1f;
+			protected float m_HeadLookAtWeight = 1f;
 
+			[FormerlySerializedAs("headLookAtMaxRotation")]
 			[SerializeField, Tooltip("The max angle the head can rotate.")]
-			protected float headLookAtMaxRotation = 75f;
+			protected float m_HeadLookAtMaxRotation = 75f;
 
+			[FormerlySerializedAs("headLookAtRotationSpeed")]
 			[SerializeField, Tooltip("The speed at which head can rotate.")]
-			protected float headLookAtRotationSpeed = 15f;
+			protected float m_HeadLookAtRotationSpeed = 15f;
 			
+			[FormerlySerializedAs("noInputHeadLookAtScale")]
 			[SerializeField, Tooltip("A scale applied to look at speed when there is no look input.")]
-			protected float noInputHeadLookAtScale = 0.5f;
+			protected float m_NoInputHeadLookAtScale = 0.5f;
 
+			[FormerlySerializedAs("adjustHeadLookAtWhileAerial")]
 			[SerializeField, Tooltip("Should head rotation take place while aerial?")]
-			protected bool adjustHeadLookAtWhileAerial = true;
+			protected bool m_AdjustHeadLookAtWhileAerial = true;
 		
+			[FormerlySerializedAs("adjustHeadLookAtDuringTurnaround")]
 			[SerializeField, Tooltip("Should head rotation take place during rapid turnarounds?")]
-			protected bool adjustHeadLookAtDuringTurnaround = true;
+			protected bool m_AdjustHeadLookAtDuringTurnaround = true;
 		
 			/// <summary>
 			/// Gets the look at weight used by the animator.
 			/// </summary>
 			public float lookAtWeight
 			{
-				get { return headLookAtWeight; }
+				get { return m_HeadLookAtWeight; }
 			}
 
 			/// <summary>
@@ -360,7 +394,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			/// </summary>
 			public float lookAtMaxRotation
 			{
-				get { return headLookAtMaxRotation; }
+				get { return m_HeadLookAtMaxRotation; }
 			}
 
 			/// <summary>
@@ -368,7 +402,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			/// </summary>
 			public float lookAtRotationSpeed
 			{
-				get { return headLookAtRotationSpeed; }
+				get { return m_HeadLookAtRotationSpeed; }
 			}
 
 			/// <summary>
@@ -376,7 +410,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			/// </summary>
 			public bool lookAtWhileAerial
 			{
-				get { return adjustHeadLookAtWhileAerial; }
+				get { return m_AdjustHeadLookAtWhileAerial; }
 			}
 
 			/// <summary>
@@ -384,7 +418,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			/// </summary>
 			public bool lookAtWhileTurnaround
 			{
-				get { return adjustHeadLookAtDuringTurnaround; }
+				get { return m_AdjustHeadLookAtDuringTurnaround; }
 			}
 
 			/// <summary>
@@ -392,7 +426,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			/// </summary>
 			public float noLookInputHeadLookAtScale
 			{
-				get { return noInputHeadLookAtScale; }
+				get { return m_NoInputHeadLookAtScale; }
 			}
 		}
 	}

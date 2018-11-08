@@ -47,8 +47,8 @@ namespace Demo
 		/// </summary>
 		public Vector3 RotateByDegrees(Vector3 centre, float radius, float angle)
 		{
-			float centreX = centre.x;
-			float centreY = centre.z;
+			var centreX = centre.x;
+			var centreY = centre.z;
 
 			angle = angle * Mathf.Deg2Rad;
 
@@ -61,7 +61,7 @@ namespace Demo
 		}
 		
 		#if UNITY_EDITOR
-		private void OnDrawGizmos()
+		void OnDrawGizmos()
 		{
 			if (enablePowerDebug)
 			{
@@ -77,10 +77,10 @@ namespace Demo
 					Debug.DrawLine(transform.position, transform.position + Camera.main.transform.TransformDirection(translatedMoveInput) * 10.0f, Color.blue);
 					
 					//Intended rotation by degrees
-					float angle = characterMotor.targetYRotation;
+					var angle = characterMotor.targetYRotation;
 					
 					//Find vector rotated by given degrees
-					Vector3 targetPoint = RotateByDegrees(transform.position, 1.0f, angle);
+					var targetPoint = RotateByDegrees(transform.position, 1.0f, angle);
 					
 					//Draw the line to the intended rotation
 					Debug.DrawLine(transform.position, targetPoint, Color.red);

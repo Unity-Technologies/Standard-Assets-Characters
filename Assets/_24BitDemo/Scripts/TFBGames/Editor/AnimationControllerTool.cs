@@ -10,7 +10,7 @@ namespace StandardAssets.TFBGames.Editor
 {
 	public class AnimationControllerTool : EditorWindow
 	{
-		private struct AnimationControllerToolConfig
+		struct AnimationControllerToolConfig
 		{
 			public string newName;
 
@@ -21,27 +21,27 @@ namespace StandardAssets.TFBGames.Editor
 		}
 
 		[Serializable]
-		private struct Rule
+		struct Rule
 		{
 			public string
 				find,
 				replace;
 		}
 
-		private struct ClipResult
+		struct ClipResult
 		{
 			public Object Object;
 			public MessageType type;
 			public string message;
 		}
 
-		private enum MissingClipRule
+		enum MissingClipRule
 		{
 			UseEmpty,
 			UseSource
 		}
 
-		private enum EditorMode
+		enum EditorMode
 		{
 			Rules,
 			Paths,
@@ -49,26 +49,26 @@ namespace StandardAssets.TFBGames.Editor
 		}
 
 		// only needs to be init once
-		private static string[] s_ModeLabels;
-		private static GUIContent s_RulesTitle;
+		static string[] s_ModeLabels;
+		static GUIContent s_RulesTitle;
 
 		/// <summary>
 		/// Serialized current window.
 		/// </summary>
-		private static SerializedObject s_SerializedWindow;
+		static SerializedObject s_SerializedWindow;
 
-		private readonly List<ClipResult> lastResults = new List<ClipResult>();
-
-		[SerializeField]
-		private AnimationControllerToolConfig config;
+		readonly List<ClipResult> lastResults = new List<ClipResult>();
 
 		[SerializeField]
-		private Rule[] rules;
+		AnimationControllerToolConfig config;
 
 		[SerializeField]
-		private Vector2 scroll;
+		Rule[] rules;
 
-		private AnimatorController
+		[SerializeField]
+		Vector2 scroll;
+
+		AnimatorController
 			selectedController,
 			// the last processed results for dump.
 			lastSourceController,
@@ -77,14 +77,14 @@ namespace StandardAssets.TFBGames.Editor
 		/// <summary>
 		/// Serialized selected <see cref="AnimatorController" />
 		/// </summary>
-		private SerializedObject serializedObject;
+		SerializedObject serializedObject;
 
 		/// <summary>
 		/// The current rules property.
 		/// </summary>
-		private SerializedProperty rulesProperty;
+		SerializedProperty rulesProperty;
 
-		private EditorMode mode;
+		EditorMode mode;
 
 		[MenuItem("24 Bit Games/Animation Duplication Tool")]
 		public static AnimationControllerTool ShowWindow()
@@ -95,7 +95,7 @@ namespace StandardAssets.TFBGames.Editor
 			return window;
 		}
 
-		private void OnGUI()
+		void OnGUI()
 		{
 			scroll = EditorGUILayout.BeginScrollView(scroll);
 			scroll.x = 0;
@@ -162,7 +162,7 @@ namespace StandardAssets.TFBGames.Editor
 		/// <summary>
 		/// Entry point for processing the entire controller graph.
 		/// </summary>
-		private void Process(AnimatorController source)
+		void Process(AnimatorController source)
 		{
 			lastResults.Clear();
 
@@ -192,7 +192,7 @@ namespace StandardAssets.TFBGames.Editor
 			} 
 		}
 
-		private void TraverseStates(AnimatorStateMachine machine)
+		void TraverseStates(AnimatorStateMachine machine)
 		{
 			if (machine == null)
 			{
@@ -228,7 +228,7 @@ namespace StandardAssets.TFBGames.Editor
 			}
 		}
 
-		private void TraverseClips(BlendTree output)
+		void TraverseClips(BlendTree output)
 		{
 			if ((output == null) || (output.children.Length < 1))
 			{
@@ -270,7 +270,7 @@ namespace StandardAssets.TFBGames.Editor
 		/// Method where we try to find replacement clip and handle missing cases.
 		/// Second paramater is for logging to identify where a clip is assigned in a graph.
 		/// </summary>
-		private AnimationClip TryGetReplacementClip(AnimationClip clip, Object parent)
+		AnimationClip TryGetReplacementClip(AnimationClip clip, Object parent)
 		{
 			// errr.... NOTE: GetAssetAtPath with a Asset/SubAsset object (EG: Model) will likely return only the first animation clip in a multi asset asset.
 			// We will use CheckCLipAssetFile to check this...
@@ -311,7 +311,7 @@ namespace StandardAssets.TFBGames.Editor
 
 		// Checks animation clips in target asset to verify we actually have a clip by it's name, 
 		// with the side effect of also being able to check if we have the wrong clip (probably).
-		private void CheckClipAssetFile(AnimationClip source, ref AnimationClip target, Motion parent = null)
+		void CheckClipAssetFile(AnimationClip source, ref AnimationClip target, Motion parent = null)
 		{
 			string sourcePath = AssetDatabase.GetAssetPath(source);
 			string tgtPath = ApplyRulesToString(sourcePath); //AssetDatabase.GetAssetPath(target);
@@ -366,7 +366,7 @@ namespace StandardAssets.TFBGames.Editor
 		}
 
 		// check if asset of type with name exists in the array.
-		private static bool ContainsObject<T>(string name, Object[] inArray, out T result) where T : Object
+		static bool ContainsObject<T>(string name, Object[] inArray, out T result) where T : Object
 		{
 			foreach (Object current in inArray)
 			{
@@ -385,7 +385,7 @@ namespace StandardAssets.TFBGames.Editor
 			return false;
 		}
 
-		private string ApplyRulesToString(string value)
+		string ApplyRulesToString(string value)
 		{
 			int i = 0;
 			if (rules == null)
@@ -407,12 +407,12 @@ namespace StandardAssets.TFBGames.Editor
 			return value;
 		}
 
-		private void AddResult(string message, MessageType type, Object context = null)
+		void AddResult(string message, MessageType type, Object context = null)
 		{
 			lastResults.Add(new ClipResult {message = message, type = type, Object = context});
 		}
 
-		private void DumpResults()
+		void DumpResults()
 		{
 			if ((lastSourceController == null) || ((lastResultController == null) && (lastResults.Count > 0)))
 			{
@@ -445,7 +445,7 @@ namespace StandardAssets.TFBGames.Editor
 		 *  All GUI layout calls are prefixed with "Draw"
 		 */
 
-		private void DrawMainPanel()
+		void DrawMainPanel()
 		{
 			mode = (EditorMode) GUILayout.Toolbar((int) mode, Enum.GetNames(typeof(EditorMode)));
 
@@ -466,7 +466,7 @@ namespace StandardAssets.TFBGames.Editor
 		}
 
 		// draw asset paths.
-		private void DrawPaths()
+		void DrawPaths()
 		{
 			if (selectedController)
 			{
@@ -486,7 +486,7 @@ namespace StandardAssets.TFBGames.Editor
 			}
 		}
 
-		private void DrawResults()
+		void DrawResults()
 		{
 			EditorGUILayout.LabelField("Messages are results from the last execution.");
 			if (lastResults.Count < 1)
@@ -544,7 +544,7 @@ namespace StandardAssets.TFBGames.Editor
 			}
 		}
 
-		private bool DrawValidation()
+		bool DrawValidation()
 		{
 			bool result = true;
 
@@ -571,7 +571,7 @@ namespace StandardAssets.TFBGames.Editor
 			return result;
 		}
 
-		private bool DrawValidateRules()
+		bool DrawValidateRules()
 		{
 			int i = 0;
 			while (i < rulesProperty.arraySize)
@@ -588,7 +588,7 @@ namespace StandardAssets.TFBGames.Editor
 			return true;
 		}
 
-		private void DrawSetup()
+		void DrawSetup()
 		{
 			bool changed = false;
 			EditorGUI.BeginChangeCheck();
@@ -635,7 +635,7 @@ namespace StandardAssets.TFBGames.Editor
 				EditorGUILayout.Toggle("Auto Create Error File", config.autoCreateMissingFile);
 		}
 
-		private void DrawRules()
+		void DrawRules()
 		{
 			SerializedProperty current,
 			                   find,
@@ -702,7 +702,7 @@ namespace StandardAssets.TFBGames.Editor
 		/// Adding an item to array always duplicates the previous element.
 		/// This allows to to set the (newest) element to default/empty and accessable immedietly.
 		/// </summary>
-		private void ClearLastRule(SerializedProperty rules)
+		void ClearLastRule(SerializedProperty rules)
 		{
 			serializedObject.ApplyModifiedProperties();
 			serializedObject.UpdateIfRequiredOrScript();

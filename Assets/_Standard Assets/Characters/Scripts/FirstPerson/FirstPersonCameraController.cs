@@ -10,19 +10,20 @@ namespace StandardAssets.Characters.FirstPerson
     [RequireComponent(typeof(Animator))]
     public class FirstPersonCameraController : MonoBehaviour
     {
-        private Animator animator;
-		
+        Animator m_Animator;
+
         /// <summary>
         /// Sets the animation to the defined state
         /// </summary>
         /// <param name="state">the name of the animation state</param>
+        /// <param name="layer">the animation layer to use to play animation</param>
         public void SetAnimation(string state, int layer = 0)
         {
-            if (animator == null)
+            if (m_Animator == null)
             {
-                animator = GetComponent<Animator>();
+                m_Animator = GetComponent<Animator>();
             }
-            animator.Play(state,layer);
+            m_Animator.Play(state,layer);
         }
         
         /// <summary>
@@ -31,7 +32,7 @@ namespace StandardAssets.Characters.FirstPerson
         /// <param name="brainToUse">The FirstPersonBrain component which has a transform for the <see cref="CinemachineStateDrivenCamera"/> to follow</param>
         public void SetupBrain(FirstPersonBrain brainToUse)
         {
-            CinemachineStateDrivenCamera rootSdc = GetComponent<CinemachineStateDrivenCamera>();
+            var rootSdc = GetComponent<CinemachineStateDrivenCamera>();
             if (rootSdc != null)
             {
                 rootSdc.m_Follow = brainToUse.transform;

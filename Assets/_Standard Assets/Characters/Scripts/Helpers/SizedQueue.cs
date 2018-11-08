@@ -8,7 +8,7 @@ namespace StandardAssets.Characters.Helpers
 	/// </summary>
 	public class SizedQueue<T>
 	{
-		private readonly int windowSize;
+		readonly int m_WindowSize;
 		
 		/// <summary>
 		/// Gets the values of the queue.
@@ -25,10 +25,10 @@ namespace StandardAssets.Characters.Helpers
 
 		public SizedQueue(int size)
 		{
-			windowSize = size;
-			if (windowSize < 1)
+			m_WindowSize = size;
+			if (m_WindowSize < 1)
 			{
-				windowSize = 1;
+				m_WindowSize = 1;
 			}
 			
 			values = new Queue<T>();
@@ -41,7 +41,7 @@ namespace StandardAssets.Characters.Helpers
 		public void Add(T newValue)
 		{
 			values.Enqueue(newValue);
-			if (values.Count > windowSize)
+			if (values.Count > m_WindowSize)
 			{
 				values.Dequeue();
 			}

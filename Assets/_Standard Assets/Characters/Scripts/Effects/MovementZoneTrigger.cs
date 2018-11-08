@@ -1,5 +1,6 @@
 ﻿using StandardAssets.Characters.Common;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.Effects
 {
@@ -9,16 +10,17 @@ namespace StandardAssets.Characters.Effects
 	[RequireComponent(typeof(Collider))]
 	public class MovementZoneTrigger : MonoBehaviour
 	{
+		[FormerlySerializedAs("zoneId")]
 		[SerializeField]
-		protected MovementZoneId zoneId;
+		MovementZoneId m_ZoneId;
 		
 		/// <summary>
 		/// Change the movement event library on trigger enter
 		/// </summary>
 		/// <param name="other"></param>
-		private void OnTriggerEnter(Collider other)
+		void OnTriggerEnter(Collider other)
 		{
-			CharacterBrain brain = other.GetComponent<CharacterBrain>();
+			var brain = other.GetComponent<CharacterBrain>();
 			if (brain != null)
 			{
 				Trigger(brain);
@@ -29,9 +31,9 @@ namespace StandardAssets.Characters.Effects
 		/// Change the movement event library back to default/starting
 		/// </summary>
 		/// <param name="other"></param>
-		private void OnTriggerExit(Collider other)
+		void OnTriggerExit(Collider other)
 		{
-			CharacterBrain brain = other.GetComponent<CharacterBrain>();
+			var brain = other.GetComponent<CharacterBrain>();
 			if (brain != null)
 			{
 				ExitTrigger(brain);
@@ -49,7 +51,7 @@ namespace StandardAssets.Characters.Effects
 				return;
 			}
 			
-			brain.ChangeMovementZone(zoneId);
+			brain.ChangeMovementZone(m_ZoneId);
 		}
 		
 		/// <summary>

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.Effects.Configs
 {
@@ -9,11 +10,13 @@ namespace StandardAssets.Characters.Effects.Configs
 		menuName = "Standard Assets/Characters/Level Movement Zone Configuration", order = 1)]
 	public class LevelMovementZoneConfig : ScriptableObject
 	{
+		[FormerlySerializedAs("defaultZoneId")]
 		[SerializeField, Tooltip("The default movement event zone ID")]
-		protected MovementZoneId defaultZoneId;
+		MovementZoneId m_DefaultZoneId;
 		
+		[FormerlySerializedAs("zonesDefinition")]
 		[SerializeField, Tooltip("List of movement event libraries for different movement zones")]
-		protected MovementEventZoneDefinitionList zonesDefinition;
+		MovementEventZoneDefinitionList m_ZonesDefinition;
 
 		/// <summary>
 		/// Gets the Gets the <see cref="MovementEventLibrary"/> for a specified zoneId for a specified zoneId
@@ -24,7 +27,7 @@ namespace StandardAssets.Characters.Effects.Configs
 		{
 			get
 			{
-				return zonesDefinition[zoneId];
+				return m_ZonesDefinition[zoneId];
 			}
 		}
 
@@ -33,7 +36,7 @@ namespace StandardAssets.Characters.Effects.Configs
 		/// </summary>
 		public MovementEventLibrary defaultLibrary
 		{
-			get { return this[defaultZoneId]; }
+			get { return this[m_DefaultZoneId]; }
 		}
 		
 		/// <summary>
@@ -41,7 +44,7 @@ namespace StandardAssets.Characters.Effects.Configs
 		/// </summary>
 		public MovementZoneId defaultId
 		{
-			get { return defaultZoneId; }
+			get { return m_DefaultZoneId; }
 		}
 	}
 }

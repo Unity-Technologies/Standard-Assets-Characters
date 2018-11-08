@@ -5,21 +5,21 @@ namespace Demo
 {
 	public class ThirdPersonBrainOnGUI : MonoBehaviour
 	{
-		private ThirdPersonBrain thirdPersonBrain;
+		ThirdPersonBrain thirdPersonBrain;
 
-		private void Start()
+		void Start()
 		{
 			thirdPersonBrain = FindObjectOfType<ThirdPersonBrain>();
 		}
 
-		private void OnGUI()
+		void OnGUI()
 		{
 			if (thirdPersonBrain == null || !thirdPersonBrain.isActiveAndEnabled)
 			{
 				return;
 			}
 			
-			string turnaroundType = "None";
+			var turnaroundType = "None";
 			if (thirdPersonBrain.turnAround is BlendspaceTurnAroundBehaviour)
 			{
 				turnaroundType = "Blendspace";

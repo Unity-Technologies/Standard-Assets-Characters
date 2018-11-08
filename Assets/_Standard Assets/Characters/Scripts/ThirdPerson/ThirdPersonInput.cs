@@ -2,6 +2,8 @@ using System;
 using StandardAssets.Characters.Common;
 using UnityEngine;
 using UnityEngine.Experimental.Input;
+using UnityEngine.Serialization;
+using Object = UnityEngine.Object;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
@@ -10,14 +12,16 @@ namespace StandardAssets.Characters.ThirdPerson
 	/// </summary>
 	public class ThirdPersonInput : CharacterInput, IThirdPersonInput
 	{
+		[FormerlySerializedAs("useInputSmoother")]
 		[SerializeField, Tooltip("Should input be modified by the smoother?")]
-		protected bool useInputSmoother;
+		bool m_UseInputSmoother;
 		
 		/// <summary>
 		/// Smooths the input movement when rotating in fast circles. This makes the character run in a circle, instead of turning around on the spot.
 		/// </summary>
+		[FormerlySerializedAs("locomotionInputSmoother")]
 		[SerializeField, Tooltip("Smooths the input movement when rotating in fast circles. This makes the character run in a circle, instead of turning around on the spot.")]
-		protected CharacterInputModifier locomotionInputSmoother;
+		CharacterInputModifier m_LocomotionInputSmoother;
 
 		/// <summary>
 		/// Fired when strafe input is started
@@ -37,7 +41,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Tracks if the character is strafing 
 		/// </summary>
-		protected bool isStrafing;
+		protected bool m_IsStrafing;
 		
 		/// <summary>
 		/// Conditions the <paramref name="rawMoveInput"/>
@@ -46,9 +50,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <returns>The input vector conditioned by <see cref="CharacterInputModifier"/></returns>
 		protected override Vector2 ConditionMoveInput(Vector2 rawMoveInput)
 		{
-			if (useInputSmoother && locomotionInputSmoother != null)
+			if (m_UseInputSmoother && m_LocomotionInputSmoother != null)
 			{
-				locomotionInputSmoother.OnGotRawInput(ref rawMoveInput);
+				m_LocomotionInputSmoother.OnGotRawInput(ref rawMoveInput);
 			}
 			return rawMoveInput;
 		}
@@ -72,7 +76,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// Handles the recentre input 
 		/// </summary>
 		/// <param name="context">context is required by the performed event</param>
-		private void OnRecentreInput(InputAction.CallbackContext context)
+		void OnRecentreInput(InputAction.CallbackContext context)
 		{
 			if (recentreCamera != null)
 			{
@@ -84,17 +88,17 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// Handles the strafe input
 		/// </summary>
 		/// <param name="context">context is required by the performed event</param>
-		private void OnStrafeInput(InputAction.CallbackContext context)
+		void OnStrafeInput(InputAction.CallbackContext context)
 		{
-			BroadcastInputAction(ref isStrafing, strafeStarted, strafeEnded);
+			BroadcastInputAction(ref m_IsStrafing, strafeStarted, strafeEnded);
 		}
 
 		/// <summary>
 		/// Initializes the movement input modifier.
 		/// </summary>
-		private void Start()
+		void Start()
 		{
-			locomotionInputSmoother.Init();
+			m_LocomotionInputSmoother.Init();
 		}
 
 		/// <summary>
@@ -103,9 +107,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected override void OnDisable()
 		{
 			base.OnDisable();
-			if (locomotionInputSmoother != null)
+			if (m_LocomotionInputSmoother != null)
 			{
-				locomotionInputSmoother.OnDisable();
+				m_LocomotionInputSmoother.OnDisable();
 			}
 		}
 
@@ -115,9 +119,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		protected override void Update()
 		{
 			base.Update();
-			if (useInputSmoother && locomotionInputSmoother != null)
+			if (m_UseInputSmoother && m_LocomotionInputSmoother != null)
 			{
-				moveInput = locomotionInputSmoother.UpdateMoveInput();
+				moveInput = m_LocomotionInputSmoother.UpdateMoveInput();
 			}
 		}
 
@@ -138,33 +142,33 @@ namespace StandardAssets.Characters.ThirdPerson
 			/// <summary>
 			/// Assume frame rate is low if it drops below this rate.
 			/// </summary>
-			private const float k_LowFrameRateFramesPerSecond = 35.0f;
+			const float k_LowFrameRateFramesPerSecond = 35.0f;
 
 			/// <summary>
 			/// Low frame rate delta time (seconds).
 			/// </summary>
-			private const float k_LowFrameRateDeltaTime = 1.0f / k_LowFrameRateFramesPerSecond;
+			const float k_LowFrameRateDeltaTime = 1.0f / k_LowFrameRateFramesPerSecond;
 
 			/// <summary>
 			/// Reset the average samples after this time (seconds).
 			/// </summary>
-			private const float k_AverageSamplesMinTime = 0.5f;
+			const float k_AverageSamplesMinTime = 0.5f;
 
 			/// <summary>
 			/// Reset the average samples after this amount of samples.
 			/// </summary>
-			private const int k_AverageMinSamples = 5;
+			const int k_AverageMinSamples = 5;
 
 			/// <summary>
 			/// Stop catching up to the input vector when the angle to the vector is less than this (degrees). Must be
 			/// greater than zero.
 			/// </summary>
-			private const float k_StopCatchAfterRotateAngle = 0.1f;
+			const float k_StopCatchAfterRotateAngle = 0.1f;
 			
 			/// <summary>
 			/// The minimum move input vector magnitude require to enter the <see cref="ModifierState.RotateInCircle"/> state.
 			/// </summary>
-			private const float k_MinInputMagnitudeForRotateInCircle = 0.8f;
+			const float k_MinInputMagnitudeForRotateInCircle = 0.8f;
 
 			/// <summary>
 			/// The modifier's state
@@ -297,208 +301,223 @@ namespace StandardAssets.Characters.ThirdPerson
 			/// <summary>
 			/// The third person character brain.
 			/// </summary>
+			[FormerlySerializedAs("characterBrain")]
 			[Header("Character")]
 			[SerializeField, Tooltip("The third person character brain.")]
-			private ThirdPersonBrain characterBrain;
+			ThirdPersonBrain m_CharacterBrain;
 
 			/// <summary>
 			/// Delay before changing to Idle (seconds).
 			/// </summary>
+			[FormerlySerializedAs("changeIdleDelay")]
 			[Header("Changing States")]
 			[SerializeField, Tooltip("Delay before changing to Idle (seconds).")]
-			private float changeIdleDelay = 0.1f;
+			float m_ChangeIdleDelay = 0.1f;
 
 			/// <summary>
 			/// Delay before changing from Idle to MoveForward (seconds).
 			/// </summary>
+			[FormerlySerializedAs("changeIdleToMoveDelay")]
 			[SerializeField, Tooltip("Delay before changing from Idle to MoveForward (seconds).")]
-			private float changeIdleToMoveDelay = 0.1f;
+			float m_ChangeIdleToMoveDelay = 0.1f;
 
 			/// <summary>
 			/// Delay before changing from RotateInCircle to MoveForward (seconds).
 			/// </summary>
+			[FormerlySerializedAs("changeRotateToMoveDelay")]
 			[SerializeField, Tooltip("Delay before changing from RotateInCircle to MoveForward (seconds).")]
-			private float changeRotateToMoveDelay = 0.1f;
+			float m_ChangeRotateToMoveDelay = 0.1f;
 
 			/// <summary>
 			/// Start MoveForward when the change in direction's angle is less than this (degrees).
 			/// </summary>
+			[FormerlySerializedAs("startMoveMaxAngle")]
 			[SerializeField,
 			 Tooltip("Start MoveForward when the change in direction's angle is less than this (degrees).")]
-			private float startMoveMaxAngle = 1.0f;
+			float m_StartMoveMaxAngle = 1.0f;
 
 			/// <summary>
 			/// Start RotateInCircle after rotating input for this amount of time (seconds).
 			/// </summary>
+			[FormerlySerializedAs("startRotateInCircleMinTime")]
 			[SerializeField, Tooltip("Start RotateInCircle after rotating input for this amount of time (seconds).")]
-			private float startRotateInCircleMinTime = 1.5f;
+			float m_StartRotateInCircleMinTime = 1.5f;
 
 			/// <summary>
 			/// Start RotateInCircle after rotating input for this amount of degrees.
 			/// </summary>
+			[FormerlySerializedAs("startRotateInCircleMinTotalAngle")]
 			[SerializeField, Tooltip("Start RotateInCircle after rotating input for this amount of degrees.")]
-			private float startRotateInCircleMinTotalAngle = 270.0f;
+			float m_StartRotateInCircleMinTotalAngle = 270.0f;
 
 			/// <summary>
 			/// Start RotateInCircle if the change in direction's angle is more than this (degrees). Must be bigger
 			/// than startMoveMaxAngle.
 			/// </summary>
+			[FormerlySerializedAs("startRotateInCircleMinAngle")]
 			[SerializeField, Tooltip(
 				 "Start RotateInCircle if the change in direction's angle is more than this (degrees). " +
 				 "Must be bigger than startMoveMaxAngle.")]
-			private float startRotateInCircleMinAngle = 2.0f;
+			float m_StartRotateInCircleMinAngle = 2.0f;
 
 			/// <summary>
 			/// Max angle at which to rotate the character's forward vector towards the target vector (degrees). Do not make
 			/// this too small, because calculating the player's forward input vector is not 100% accurate.
 			/// </summary>
+			[FormerlySerializedAs("maxRotateAngle")]
 			[Header("Angles")]
 			[SerializeField, Tooltip(
 				 "Max angle at which to rotate the character's forward vector towards the target vector " +
 				 "(degrees). Do not make this too small, because calculating the player's forward input " +
 				 "vector is not 100% accurate.")]
-			private float maxRotateAngle = 20.0f;
+			float m_MaxRotateAngle = 20.0f;
 
 			/// <summary>
 			/// When RotateInCircle ends, if angle between character's forward and current input is greater than this,
 			/// then rotate to the input vector.
 			/// </summary>
+			[FormerlySerializedAs("catchUpToInputMinAngle")]
 			[SerializeField, Tooltip("When RotateInCircle ends, if angle between character's forward and current " +
 			                         "input is greater than this, then rotate to the input vector.")]
-			private float catchUpToInputMinAngle = 90.0f;
+			float m_CatchUpToInputMinAngle = 90.0f;
 
 			/// <summary>
 			/// Disable rapid turn before starting RotateInCircle after rotating input for this amount of time (seconds).
 			/// Must be less than startRotateInCircleMinTime.
 			/// </summary>
+			[FormerlySerializedAs("disableRapidTurnBeforeRotateMinTime")]
 			[Header("Disable Rapid Turn")]
 			[SerializeField, Tooltip(
 				 "Disable rapid turn before starting RotateInCircle after rotating input for this " +
 				 "amount of time (seconds). Must be less than startRotateInCircleMinTime.")]
-			private float disableRapidTurnBeforeRotateMinTime = 1.0f;
+			float m_DisableRapidTurnBeforeRotateMinTime = 1.0f;
 
 			/// <summary>
 			/// Disable rapid turn before starting RotateInCircle after rotating input for this amount of degrees. Must
 			/// be less than startRotateInCircleMinTotalAngle.
 			/// </summary>
+			[FormerlySerializedAs("disableRapidTurnBeforeRotateMinAngle")]
 			[SerializeField, Tooltip(
 				 "Disable rapid turn before starting RotateInCircle after rotating input for this amount " +
 				 "of degrees. Must be less than startRotateInCircleMinTotalAngle.")]
-			private float disableRapidTurnBeforeRotateMinAngle = 180.0f;
+			float m_DisableRapidTurnBeforeRotateMinAngle = 180.0f;
 
 			/// <summary>
 			/// Disable rapid turn before starting RotateInCircle after rotating input for this amount of degrees (when
 			/// frame rate is low). Must be less than startRotateInCircleMinTotalAngle.
 			/// </summary>
+			[FormerlySerializedAs("disableRapidTurnBeforeRotateMinAngleLowFrameRate")]
 			[SerializeField, Tooltip(
 				 "Disable rapid turn before starting RotateInCircle after rotating input for this amount " +
 				 "of degrees (when frame rate is low). Must be less than startRotateInCircleMinTotalAngle.")]
-			private float disableRapidTurnBeforeRotateMinAngleLowFrameRate = 90.0f;
+			float m_DisableRapidTurnBeforeRotateMinAngleLowFrameRate = 90.0f;
 
 			/// <summary>
 			/// Enable debug in the editor?
 			/// </summary>
+			[FormerlySerializedAs("debugEnabled")]
 			[Header("Debug")]
 			[SerializeField, Tooltip("Enable debug in the editor?")]
-			private bool debugEnabled;
+			bool m_DebugEnabled;
 
+			[FormerlySerializedAs("debugOffsetY")]
 			[SerializeField, Tooltip("Draw vectors this Y offset from the character.")]
-			private float debugOffsetY;
+			float m_DebugOffsetY;
 
 			/// <summary>
 			/// Character's transform
 			/// </summary>
-			private Transform characterTransform;
+			Transform m_CharacterTransform;
 
 			/// <summary>
 			/// The root motion motor.
 			/// </summary>
-			private ThirdPersonMotor motor;
+			ThirdPersonMotor m_Motor;
 
 			/// <summary>
 			/// The character controller controllerAdapter.
 			/// </summary>
-			private ControllerAdapter controllerAdapter;
+			ControllerAdapter m_ControllerAdapter;
 
 			/// <summary>
 			/// The camera to use for transforming input. It can be changed via SetCamera.
 			/// </summary>
-			private Camera unityCamera;
+			Camera m_UnityCamera;
 
 			/// <summary>
 			/// Transform of the camera.
 			/// </summary>
-			private Transform unityCameraTransform;
+			Transform m_UnityCameraTransform;
 
 			/// <summary>
 			/// Was disabled in the previous update?
 			/// </summary>
-			private bool wasDisabled;
+			bool m_WasDisabled;
 
 			/// <summary>
 			/// Does the current update have input?
 			/// </summary>
-			private bool hasInput;
+			bool m_HasInput;
 
 			/// <summary>
 			/// The last received raw input.
 			/// </summary>
-			private Vector2 lastRawInput;
+			Vector2 m_LastRawInput;
 
 			/// <summary>
 			/// Last real time since startup.
 			/// </summary>
-			private float lastRealTimeSinceStartup;
+			float m_LastRealTimeSinceStartup;
 
 			/// <summary>
 			/// The last non-zero-length move input vector.
 			/// </summary>
-			private Vector2 validMoveInput;
+			Vector2 m_ValidMoveInput;
 
 			/// <summary>
 			/// The character's forward vector converted to input.
 			/// </summary>
-			private Vector2 characterForwardInput;
+			Vector2 m_CharacterForwardInput;
 
 			/// <summary>
 			/// Rotate the character's forward vector to this target input vector.
 			/// </summary>
-			private Vector2? targetMoveInput;
+			Vector2? m_TargetMoveInput;
 
 			/// <summary>
 			/// Direction to rotate when rotating the character's forward vector to the target input vector.
 			/// </summary>
-			private float targetDirection;
+			float m_TargetDirection;
 
 			/// <summary>
 			/// Catching up to the input vector after rotating in a circle?
 			/// </summary>
-			private bool catchUpToInputAfterRotating;
+			bool m_CatchUpToInputAfterRotating;
 
 			/// <summary>
 			/// Is the frame rate low? We handle some special cases for low frame rates.
 			/// </summary>
-			private bool isLowFrameRate;
+			bool m_IsLowFrameRate;
 
 			/// <summary>
 			/// Continuous input info.
 			/// </summary>
-			private readonly ContinuousInfo continuousInfo = new ContinuousInfo();
+			readonly ContinuousInfo m_ContinuousInfo = new ContinuousInfo();
 
 			/// <summary>
 			/// Previous value of rotateInCircleDirection.
 			/// </summary>
-			private float previousRotateInCircleDirection;
+			float m_PreviousRotateInCircleDirection;
 
 #if UNITY_EDITOR
-			private readonly bool debugShowValidInput = true;
-			private readonly Color debugValidInputColor = Color.green;
-			private readonly bool debugShowModifiedInput = true;
-			private readonly Color debugShowModifiedInputColor = Color.red;
-			private readonly bool debugShowCharacterForward = true;
-			private readonly Color debugCharacterForwardColor = Color.blue;
-			private readonly bool debugShowCharacterForwardInput = true;
-			private readonly Color debugShowCharacterForwardInputColor = Color.white;
+			readonly bool m_DebugShowValidInput = true;
+			readonly Color m_DebugValidInputColor = Color.green;
+			readonly bool m_DebugShowModifiedInput = true;
+			readonly Color m_DebugShowModifiedInputColor = Color.red;
+			readonly bool m_DebugShowCharacterForward = true;
+			readonly Color m_DebugCharacterForwardColor = Color.blue;
+			readonly bool m_DebugShowCharacterForwardInput = true;
+			readonly Color m_DebugShowCharacterForwardInputColor = Color.white;
 #endif
 
 			/// <summary>
@@ -516,7 +535,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			/// </summary>
 			public void OnGotRawInput(ref Vector2 rawInput)
 			{
-				lastRawInput = rawInput;
+				m_LastRawInput = rawInput;
 				ModifyMoveInput(ref rawInput);
 			}
 
@@ -525,7 +544,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			/// </summary>
 			public Vector2 UpdateMoveInput()
 			{
-				Vector2 moveInput = lastRawInput;
+				var moveInput = m_LastRawInput;
 				ModifyMoveInput(ref moveInput);
 				return moveInput;
 			}
@@ -535,37 +554,37 @@ namespace StandardAssets.Characters.ThirdPerson
 			/// </summary>
 			public void ModifyMoveInput(ref Vector2 moveInput)
 			{
-				motor.EnableRapidTurn(this);
+				m_Motor.EnableRapidTurn(this);
 
 				// Only modify when enabled, character is grounded, and not straffing
-				if (characterTransform == null || 
-				    !characterTransform.gameObject.activeInHierarchy || 
-				    !controllerAdapter.isGrounded || 
-				    motor.movementMode == ThirdPersonMotorMovementMode.Strafe)
+				if (m_CharacterTransform == null || 
+				    !m_CharacterTransform.gameObject.activeInHierarchy || 
+				    !m_ControllerAdapter.isGrounded || 
+				    m_Motor.movementMode == ThirdPersonMotorMovementMode.Strafe)
 				{
-					wasDisabled = true;
+					m_WasDisabled = true;
 					return;
 				}
 
-				float dt = Time.realtimeSinceStartup - lastRealTimeSinceStartup;
-				lastRealTimeSinceStartup = Time.realtimeSinceStartup;
-				hasInput = moveInput.sqrMagnitude > 0.0f;
-				isLowFrameRate = dt > k_LowFrameRateDeltaTime;
+				var dt = Time.realtimeSinceStartup - m_LastRealTimeSinceStartup;
+				m_LastRealTimeSinceStartup = Time.realtimeSinceStartup;
+				m_HasInput = moveInput.sqrMagnitude > 0.0f;
+				m_IsLowFrameRate = dt > k_LowFrameRateDeltaTime;
 
-				if (wasDisabled)
+				if (m_WasDisabled)
 				{
-					wasDisabled = false;
+					m_WasDisabled = false;
 					SetState(ModifierState.Idle);
 				}
 
-				if (hasInput)
+				if (m_HasInput)
 				{
-					validMoveInput = moveInput;
+					m_ValidMoveInput = moveInput;
 				}
 
-				targetMoveInput = null;
-				targetDirection = 0.0f;
-				characterForwardInput = CalculateCharacterForwardInput();
+				m_TargetMoveInput = null;
+				m_TargetDirection = 0.0f;
+				m_CharacterForwardInput = CalculateCharacterForwardInput();
 
 				UpdateContinuousInfo(moveInput, dt);
 				CheckIfStateChanges();
@@ -573,7 +592,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				UpdateRotation(ref moveInput);
 
 #if UNITY_EDITOR
-				if (debugEnabled)
+				if (m_DebugEnabled)
 				{
 					DebugUpdate(moveInput);
 				}			
@@ -585,41 +604,41 @@ namespace StandardAssets.Characters.ThirdPerson
 			/// </summary>
 			public void SetCamera(Camera newCamera)
 			{
-				unityCamera = newCamera;
-				if (unityCamera != null)
+				m_UnityCamera = newCamera;
+				if (m_UnityCamera != null)
 				{
-					unityCameraTransform = unityCamera.transform;
+					m_UnityCameraTransform = m_UnityCamera.transform;
 				}
 			}
 
 			public void Init()
 			{
 				FindBrain();
-				characterTransform = characterBrain.transform;
-				motor = characterBrain.thirdPersonMotor;
-				controllerAdapter = characterBrain.controllerAdapter;
+				m_CharacterTransform = m_CharacterBrain.transform;
+				m_Motor = m_CharacterBrain.thirdPersonMotor;
+				m_ControllerAdapter = m_CharacterBrain.controllerAdapter;
 				
-				if (unityCamera == null)
+				if (m_UnityCamera == null)
 				{
 					// Use the main camera as the default. The camera can be changed later via SetCamera.
 					SetCamera(Camera.main);
-					if (unityCamera == null)
+					if (m_UnityCamera == null)
 					{
-						SetCamera(GameObject.FindObjectOfType<Camera>());
+						SetCamera(Object.FindObjectOfType<Camera>());
 					}
 				}
 
-				lastRealTimeSinceStartup = Time.realtimeSinceStartup;
+				m_LastRealTimeSinceStartup = Time.realtimeSinceStartup;
 				SetState(ModifierState.Idle);
 			}
 
 			public void OnDisable()
 			{
-				wasDisabled = true;
+				m_WasDisabled = true;
 
-				if (motor != null)
+				if (m_Motor != null)
 				{
-					motor.EnableRapidTurn(this);
+					m_Motor.EnableRapidTurn(this);
 				}
 			}
 
@@ -627,16 +646,16 @@ namespace StandardAssets.Characters.ThirdPerson
 			/// Calculate the character's forward vector as an input vector.
 			/// </summary>
 			/// <returns></returns>
-			private Vector2 CalculateCharacterForwardInput()
+			Vector2 CalculateCharacterForwardInput()
 			{
-				Vector3 direction = characterTransform.forward;
+				var direction = m_CharacterTransform.forward;
 
 				// Ignore height
 				direction.y = 0.0f;
 				direction.Normalize();
 
 				// To local, relative to camera
-				direction = unityCameraTransform.InverseTransformDirection(direction);
+				direction = m_UnityCameraTransform.InverseTransformDirection(direction);
 
 				return new Vector2(direction.x, direction.z).normalized;
 			}
@@ -644,11 +663,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			/// <summary>
 			/// Helper for checking if the <see cref="ThirdPersonBrain"/> has been assigned - otherwise looks for it in the scene
 			/// </summary>
-			private void FindBrain()
+			void FindBrain()
 			{
-				if (characterBrain == null)
+				if (m_CharacterBrain == null)
 				{
-					ThirdPersonBrain[] brainsInScene = GameObject.FindObjectsOfType<ThirdPersonBrain>();
+					var brainsInScene = Object.FindObjectsOfType<ThirdPersonBrain>();
 					if (brainsInScene.Length == 0)
 					{
 						Debug.LogError("No ThirdPersonBrain objects in scene!");
@@ -661,50 +680,50 @@ namespace StandardAssets.Characters.ThirdPerson
 						return;
 					}
 
-					characterBrain = brainsInScene[0];
+					m_CharacterBrain = brainsInScene[0];
 				}
 			}
 
 			/// <summary>
 			/// Set the modifier's state.
 			/// </summary>
-			private void SetState(ModifierState newState)
+			void SetState(ModifierState newState)
 			{
-				ModifierState oldState = state;
+				var oldState = state;
 				state = newState;
 
 				if (oldState == ModifierState.RotateInCircle)
 				{
-					previousRotateInCircleDirection = rotateInCircleDirection;
+					m_PreviousRotateInCircleDirection = rotateInCircleDirection;
 				}
 
 				switch (state)
 				{
 					case ModifierState.Idle:
 					{
-						continuousInfo.Clear();
-						catchUpToInputAfterRotating = false;
+						m_ContinuousInfo.Clear();
+						m_CatchUpToInputAfterRotating = false;
 
 						break;
 					}
 					case ModifierState.MoveForward:
 					{
-						continuousInfo.averageInputRotatingVector = Vector2.zero;
-						continuousInfo.averageInputRotatingTotalAngle = 0.0f;
+						m_ContinuousInfo.averageInputRotatingVector = Vector2.zero;
+						m_ContinuousInfo.averageInputRotatingTotalAngle = 0.0f;
 
 						if (oldState == ModifierState.RotateInCircle &&
-						    CalculateAngleBetweenInputAndCharacterForward(validMoveInput) > catchUpToInputMinAngle)
+						    CalculateAngleBetweenInputAndCharacterForward(m_ValidMoveInput) > m_CatchUpToInputMinAngle)
 						{
-							catchUpToInputAfterRotating = true;
+							m_CatchUpToInputAfterRotating = true;
 						}
 
 						break;
 					}
 					case ModifierState.RotateInCircle:
 					{
-						continuousInfo.smallAngleTime = 0.0f;
-						rotateInCircleDirection = continuousInfo.averageInputDirection;
-						catchUpToInputAfterRotating = false;
+						m_ContinuousInfo.smallAngleTime = 0.0f;
+						rotateInCircleDirection = m_ContinuousInfo.averageInputDirection;
+						m_CatchUpToInputAfterRotating = false;
 
 						break;
 					}
@@ -714,93 +733,93 @@ namespace StandardAssets.Characters.ThirdPerson
 			/// <summary>
 			/// Update the continous input info, which is used to help determine the modifier's state.
 			/// </summary>
-			private void UpdateContinuousInfo(Vector2 moveInput, float dt)
+			void UpdateContinuousInfo(Vector2 moveInput, float dt)
 			{
-				if (hasInput)
+				if (m_HasInput)
 				{
-					if (continuousInfo.hasInputTime > 0.0f)
+					if (m_ContinuousInfo.hasInputTime > 0.0f)
 					{
 						// Angle between current and previous input
-						float angle = Vector2.SignedAngle(continuousInfo.previousInput, moveInput);
-						float direction = !Mathf.Approximately(angle, 0.0f)
+						var angle = Vector2.SignedAngle(m_ContinuousInfo.previousInput, moveInput);
+						var direction = !Mathf.Approximately(angle, 0.0f)
 							                  ? Mathf.Sign(angle)
 							                  : 0.0f;
 						// Rotating in the same direction?
-						if (Mathf.Approximately(continuousInfo.inputDirection, direction))
+						if (Mathf.Approximately(m_ContinuousInfo.inputDirection, direction))
 						{
 							// Note: This also takes into account a direction of zero, which means input is not rotating.
-							continuousInfo.inputDirectionTime += dt;
+							m_ContinuousInfo.inputDirectionTime += dt;
 						}
 						else
 						{
-							continuousInfo.inputDirectionTime = dt;
+							m_ContinuousInfo.inputDirectionTime = dt;
 						}
 
-						continuousInfo.inputAngle = angle;
-						continuousInfo.inputDirection = direction;
+						m_ContinuousInfo.inputAngle = angle;
+						m_ContinuousInfo.inputDirection = direction;
 
 						// Calculate averages
-						continuousInfo.averageInputAngleTotal += angle;
-						continuousInfo.averageSamples++;
-						continuousInfo.averageTime += dt;
-						continuousInfo.averageInputAngle = continuousInfo.averageInputAngleTotal /
-						                                   continuousInfo.averageSamples;
-						continuousInfo.averageInputDirection =
-							!Mathf.Approximately(continuousInfo.averageInputAngle, 0.0f)
-								? Mathf.Sign(continuousInfo.averageInputAngle)
+						m_ContinuousInfo.averageInputAngleTotal += angle;
+						m_ContinuousInfo.averageSamples++;
+						m_ContinuousInfo.averageTime += dt;
+						m_ContinuousInfo.averageInputAngle = m_ContinuousInfo.averageInputAngleTotal /
+						                                   m_ContinuousInfo.averageSamples;
+						m_ContinuousInfo.averageInputDirection =
+							!Mathf.Approximately(m_ContinuousInfo.averageInputAngle, 0.0f)
+								? Mathf.Sign(m_ContinuousInfo.averageInputAngle)
 								: 0.0f;
 
-						if (continuousInfo.averageTime > k_AverageSamplesMinTime &&
-						    continuousInfo.averageSamples > k_AverageMinSamples)
+						if (m_ContinuousInfo.averageTime > k_AverageSamplesMinTime &&
+						    m_ContinuousInfo.averageSamples > k_AverageMinSamples)
 						{
-							continuousInfo.averageInputAngleTotal = 0.0f;
-							continuousInfo.averageSamples = 0;
-							continuousInfo.averageTime = 0.0f;
+							m_ContinuousInfo.averageInputAngleTotal = 0.0f;
+							m_ContinuousInfo.averageSamples = 0;
+							m_ContinuousInfo.averageTime = 0.0f;
 						}
 
 						// Average rotating in the same direction?
-						if (Mathf.Approximately(continuousInfo.averageInputDirection,
-						                        continuousInfo.previousAverageInputDirection))
+						if (Mathf.Approximately(m_ContinuousInfo.averageInputDirection,
+						                        m_ContinuousInfo.previousAverageInputDirection))
 						{
 							// Note: This also takes into account a direction of zero, which means input is not rotating.
-							continuousInfo.averageInputDirectionTime += dt;
-							continuousInfo.averageInputRotatingTotalAngle +=
-								Vector2.Angle(moveInput, continuousInfo.averageInputRotatingVector);
+							m_ContinuousInfo.averageInputDirectionTime += dt;
+							m_ContinuousInfo.averageInputRotatingTotalAngle +=
+								Vector2.Angle(moveInput, m_ContinuousInfo.averageInputRotatingVector);
 						}
 						else
 						{
-							continuousInfo.averageInputDirectionTime = dt;
-							continuousInfo.averageInputRotatingTotalAngle = 0.0f;
+							m_ContinuousInfo.averageInputDirectionTime = dt;
+							m_ContinuousInfo.averageInputRotatingTotalAngle = 0.0f;
 						}
 
-						continuousInfo.previousAverageInputDirection = continuousInfo.averageInputDirection;
-						continuousInfo.averageInputRotatingVector = moveInput;
+						m_ContinuousInfo.previousAverageInputDirection = m_ContinuousInfo.averageInputDirection;
+						m_ContinuousInfo.averageInputRotatingVector = moveInput;
 
-						if (Mathf.Abs(continuousInfo.averageInputAngle) < startMoveMaxAngle)
+						if (Mathf.Abs(m_ContinuousInfo.averageInputAngle) < m_StartMoveMaxAngle)
 						{
-							continuousInfo.smallAngleTime += dt;
+							m_ContinuousInfo.smallAngleTime += dt;
 						}
 						else
 						{
-							continuousInfo.smallAngleTime = 0.0f;
+							m_ContinuousInfo.smallAngleTime = 0.0f;
 						}
 					}
 
-					continuousInfo.hasInputTime += dt;
-					continuousInfo.noInputTime = 0.0f;
-					continuousInfo.previousInput = moveInput;
+					m_ContinuousInfo.hasInputTime += dt;
+					m_ContinuousInfo.noInputTime = 0.0f;
+					m_ContinuousInfo.previousInput = moveInput;
 				}
 				else
 				{
-					continuousInfo.noInputTime += dt;
-					continuousInfo.hasInputTime = 0.0f;
+					m_ContinuousInfo.noInputTime += dt;
+					m_ContinuousInfo.hasInputTime = 0.0f;
 				}
 			}
 
 			/// <summary>
 			/// Determine if the modifier's state should change.
 			/// </summary>
-			private void CheckIfStateChanges()
+			void CheckIfStateChanges()
 			{
 				switch (state)
 				{
@@ -849,50 +868,50 @@ namespace StandardAssets.Characters.ThirdPerson
 			/// <summary>
 			/// Test if the modifier state should change to the specified state.
 			/// </summary>
-			private bool ShouldChangeToState(ModifierState stateToTest)
+			bool ShouldChangeToState(ModifierState stateToTest)
 			{
 				switch (stateToTest)
 				{
 					case ModifierState.Idle:
 					{
-						return !hasInput &&
-						       continuousInfo.noInputTime > changeIdleDelay;
+						return !m_HasInput &&
+						       m_ContinuousInfo.noInputTime > m_ChangeIdleDelay;
 					}
 					case ModifierState.MoveForward:
 					{
 						if (state == ModifierState.Idle)
 						{
 							// At this point the RotateInCircle check failed (in CheckIfStateChanges), so we can safely move forward
-							return hasInput &&
-							       continuousInfo.hasInputTime > changeIdleToMoveDelay;
+							return m_HasInput &&
+							       m_ContinuousInfo.hasInputTime > m_ChangeIdleToMoveDelay;
 						}
 
-						return hasInput &&
-						       continuousInfo.smallAngleTime > changeRotateToMoveDelay &&
-						       Mathf.Abs(continuousInfo.averageInputAngle) < startMoveMaxAngle;
+						return m_HasInput &&
+						       m_ContinuousInfo.smallAngleTime > m_ChangeRotateToMoveDelay &&
+						       Mathf.Abs(m_ContinuousInfo.averageInputAngle) < m_StartMoveMaxAngle;
 					}
 					case ModifierState.RotateInCircle:
 					{
-						if (lastRawInput.magnitude < k_MinInputMagnitudeForRotateInCircle)
+						if (m_LastRawInput.magnitude < k_MinInputMagnitudeForRotateInCircle)
 						{
 							return false;
 						}
-						bool rotatedLongOrFarEnough =
-							continuousInfo.averageInputDirectionTime > startRotateInCircleMinTime ||
-							continuousInfo.averageInputRotatingTotalAngle > startRotateInCircleMinTotalAngle;
+						var rotatedLongOrFarEnough =
+							m_ContinuousInfo.averageInputDirectionTime > m_StartRotateInCircleMinTime ||
+							m_ContinuousInfo.averageInputRotatingTotalAngle > m_StartRotateInCircleMinTotalAngle;
 
-						if (hasInput &&
-						    Mathf.Abs(continuousInfo.averageInputAngle) >= startRotateInCircleMinAngle &&
-						    !Mathf.Approximately(continuousInfo.averageInputDirection, 0.0f))
+						if (m_HasInput &&
+						    Mathf.Abs(m_ContinuousInfo.averageInputAngle) >= m_StartRotateInCircleMinAngle &&
+						    !Mathf.Approximately(m_ContinuousInfo.averageInputDirection, 0.0f))
 						{
 							// If we are close to rotating in a circle then disable rapid turn
-							float angle = isLowFrameRate
-								              ? disableRapidTurnBeforeRotateMinAngleLowFrameRate
-								              : disableRapidTurnBeforeRotateMinAngle;
-							if (continuousInfo.averageInputDirectionTime > disableRapidTurnBeforeRotateMinTime ||
-							    continuousInfo.averageInputRotatingTotalAngle > angle)
+							var angle = m_IsLowFrameRate
+								              ? m_DisableRapidTurnBeforeRotateMinAngleLowFrameRate
+								              : m_DisableRapidTurnBeforeRotateMinAngle;
+							if (m_ContinuousInfo.averageInputDirectionTime > m_DisableRapidTurnBeforeRotateMinTime ||
+							    m_ContinuousInfo.averageInputRotatingTotalAngle > angle)
 							{
-								motor.DisableRapidTurn(this);
+								m_Motor.DisableRapidTurn(this);
 							}
 
 							return rotatedLongOrFarEnough;
@@ -905,7 +924,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				return false;
 			}
 
-			private void UpdateState(Vector2 moveInput)
+			void UpdateState(Vector2 moveInput)
 			{
 				switch (state)
 				{
@@ -922,68 +941,68 @@ namespace StandardAssets.Characters.ThirdPerson
 				}
 			}
 
-			private void UpdateStateMoveForward(Vector2 moveInput)
+			void UpdateStateMoveForward(Vector2 moveInput)
 			{
-				if (catchUpToInputAfterRotating)
+				if (m_CatchUpToInputAfterRotating)
 				{
-					targetMoveInput = moveInput;
-					targetDirection = -previousRotateInCircleDirection;
+					m_TargetMoveInput = moveInput;
+					m_TargetDirection = -m_PreviousRotateInCircleDirection;
 				}
 			}
 
 			/// <summary>
 			/// Rotate the character in the direction in which the input is rotating.
 			/// </summary>
-			private void UpdateStateRotateInCircle(Vector2 moveInput)
+			void UpdateStateRotateInCircle(Vector2 moveInput)
 			{
 				// Direction changed?
-				if (!Mathf.Approximately(rotateInCircleDirection, continuousInfo.averageInputDirection) &&
-				    !Mathf.Approximately(continuousInfo.averageInputDirection, 0.0f))
+				if (!Mathf.Approximately(rotateInCircleDirection, m_ContinuousInfo.averageInputDirection) &&
+				    !Mathf.Approximately(m_ContinuousInfo.averageInputDirection, 0.0f))
 				{
-					rotateInCircleDirection = continuousInfo.averageInputDirection;
+					rotateInCircleDirection = m_ContinuousInfo.averageInputDirection;
 				}
 
 				// Note: Vector2.SignedAngle gives an opposite sign to what is needed for 3D rotation, so we
 				// negate rotateInCircleDirection
-				float rotateDirection = Mathf.Sign(-rotateInCircleDirection);
+				var rotateDirection = Mathf.Sign(-rotateInCircleDirection);
 
-				targetMoveInput =
-					CalculateRotationFromCharacterForward(rotateDirection, maxRotateAngle, moveInput.magnitude);
-				targetDirection = rotateDirection;
+				m_TargetMoveInput =
+					CalculateRotationFromCharacterForward(rotateDirection, m_MaxRotateAngle, moveInput.magnitude);
+				m_TargetDirection = rotateDirection;
 			}
 
 			/// <summary>
 			/// Rotate the character's forward vector towards the target vector (if any).
 			/// </summary>
-			private void UpdateRotation(ref Vector2 moveInput)
+			void UpdateRotation(ref Vector2 moveInput)
 			{
-				if (targetMoveInput == null)
+				if (m_TargetMoveInput == null)
 				{
 					return;
 				}
 
-				motor.DisableRapidTurn(this);
+				m_Motor.DisableRapidTurn(this);
 
 				// Note: We don't use delta time for the rotation, because it may get out of sync with the
 				// character's forward vector. Which will cause jerky movement. The character itself will rotate smoothly 
 				// towards the input vector.
 
-				float length = targetMoveInput.Value.magnitude;
-				Vector3 from = new Vector3(characterForwardInput.x, 0.0f, characterForwardInput.y);
-				Vector3 target = new Vector3(targetMoveInput.Value.x, 0.0f, targetMoveInput.Value.y);
-				float signedAngle = Vector3.SignedAngle(from, target, Vector3.up);
-				float rotateAngle = Mathf.Min(Mathf.Abs(signedAngle), maxRotateAngle);
-				float rotateDirection = !Mathf.Approximately(targetDirection, 0.0f)
-					                        ? targetDirection
+				var length = m_TargetMoveInput.Value.magnitude;
+				var from = new Vector3(m_CharacterForwardInput.x, 0.0f, m_CharacterForwardInput.y);
+				var target = new Vector3(m_TargetMoveInput.Value.x, 0.0f, m_TargetMoveInput.Value.y);
+				var signedAngle = Vector3.SignedAngle(from, target, Vector3.up);
+				var rotateAngle = Mathf.Min(Mathf.Abs(signedAngle), m_MaxRotateAngle);
+				var rotateDirection = !Mathf.Approximately(m_TargetDirection, 0.0f)
+					                        ? m_TargetDirection
 					                        : Mathf.Sign(signedAngle);
-				Vector3 rotated = Quaternion.Euler(0.0f, rotateAngle * rotateDirection, 0.0f) * from;
+				var rotated = Quaternion.Euler(0.0f, rotateAngle * rotateDirection, 0.0f) * from;
 
-				if (catchUpToInputAfterRotating)
+				if (m_CatchUpToInputAfterRotating)
 				{
 					// Reached target?
 					if (Vector3.Angle(target, rotated) < k_StopCatchAfterRotateAngle)
 					{
-						catchUpToInputAfterRotating = false;
+						m_CatchUpToInputAfterRotating = false;
 					}
 				}
 
@@ -1000,32 +1019,32 @@ namespace StandardAssets.Characters.ThirdPerson
 			/// <param name="rotateDirection">The direction to rotate.</param>
 			/// <param name="rotateAngle">The angle to rotate (degrees).</param>
 			/// <param name="length">Required length of the vector.</param>
-			private Vector2 CalculateRotationFromCharacterForward(float rotateDirection, float rotateAngle,
+			Vector2 CalculateRotationFromCharacterForward(float rotateDirection, float rotateAngle,
 			                                                      float length)
 			{
-				Vector3 forward = new Vector3(characterForwardInput.x, 0.0f, characterForwardInput.y);
-				Vector3 forwardTarget = Quaternion.Euler(0.0f, rotateAngle * rotateDirection, 0.0f) * forward;
+				var forward = new Vector3(m_CharacterForwardInput.x, 0.0f, m_CharacterForwardInput.y);
+				var forwardTarget = Quaternion.Euler(0.0f, rotateAngle * rotateDirection, 0.0f) * forward;
 				return new Vector2(forwardTarget.x, forwardTarget.z).normalized * length;
 			}
 
 			/// <summary>
 			/// Calculate the angle between the character's forward input and the move input.
 			/// </summary>
-			private float CalculateAngleBetweenInputAndCharacterForward(Vector2 moveInput)
+			float CalculateAngleBetweenInputAndCharacterForward(Vector2 moveInput)
 			{
-				Vector3 from = new Vector3(characterForwardInput.x, 0.0f, characterForwardInput.y);
-				Vector3 to = new Vector3(moveInput.x, 0.0f, moveInput.y);
+				var from = new Vector3(m_CharacterForwardInput.x, 0.0f, m_CharacterForwardInput.y);
+				var to = new Vector3(moveInput.x, 0.0f, moveInput.y);
 				return Vector3.Angle(from, to);
 			}
 
 #if UNITY_EDITOR
-			private void OnValidate()
+			void OnValidate()
 			{
 				//Design pattern for fetching required scene references
 				FindBrain();
 			}
 
-			private void Reset()
+			void Reset()
 			{
 				//Design pattern for fetching required scene references
 				FindBrain();
@@ -1037,44 +1056,44 @@ namespace StandardAssets.Characters.ThirdPerson
 			/// <param name="moveInput">The moveInput. It may be modified by this point.</param>
 			/// <param name="snapShotType">0 = draw for a single frame, 1 = draw for longer duration, 2 = draw for longer
 			/// duration with less alpha.</param>
-			private void DebugUpdate(Vector2 moveInput, int snapShotType = 0)
+			void DebugUpdate(Vector2 moveInput, int snapShotType = 0)
 			{
-				if (characterTransform == null)
+				if (m_CharacterTransform == null)
 				{
 					return;
 				}
 	
-				float offsetY = debugOffsetY;
+				var offsetY = m_DebugOffsetY;
 				Color color;
-				float duration = snapShotType != 0 ? 10.0f : 0.0f;
-				float alphaMultiplier = snapShotType != 2 ? 1.0f : 0.5f;
+				var duration = snapShotType != 0 ? 10.0f : 0.0f;
+				var alphaMultiplier = snapShotType != 2 ? 1.0f : 0.5f;
 	
-				if (debugShowValidInput)
+				if (m_DebugShowValidInput)
 				{
-					color = debugValidInputColor;
+					color = m_DebugValidInputColor;
 					color.a *= alphaMultiplier;
 					if (state == ModifierState.RotateInCircle)
 					{
-						DebugDrawInput(validMoveInput, offsetY, color, duration, -rotateInCircleDirection, 1.1f);
+						DebugDrawInput(m_ValidMoveInput, offsetY, color, duration, -rotateInCircleDirection, 1.1f);
 					}
 					else
 					{
-						DebugDrawInput(validMoveInput, offsetY, color, duration, null, 1.1f);
+						DebugDrawInput(m_ValidMoveInput, offsetY, color, duration, null, 1.1f);
 					}
 				}
 	
-				if (debugShowModifiedInput &&
+				if (m_DebugShowModifiedInput &&
 					state == ModifierState.RotateInCircle ||
-					catchUpToInputAfterRotating)
+					m_CatchUpToInputAfterRotating)
 				{
-					color = debugShowModifiedInputColor;
+					color = m_DebugShowModifiedInputColor;
 					color.a *= alphaMultiplier;
-					if (catchUpToInputAfterRotating)
+					if (m_CatchUpToInputAfterRotating)
 					{
 						// "Thick" line
-						for (int i = 0; i < 4; i++)
+						for (var i = 0; i < 4; i++)
 						{
-							DebugDrawInput(moveInput, offsetY + (0.01f * i), color, duration, -previousRotateInCircleDirection, 1.5f);
+							DebugDrawInput(moveInput, offsetY + (0.01f * i), color, duration, -m_PreviousRotateInCircleDirection, 1.5f);
 						}
 					}
 					else
@@ -1084,34 +1103,34 @@ namespace StandardAssets.Characters.ThirdPerson
 				}
 				
 				// Character's forward vector
-				if (debugShowCharacterForward)
+				if (m_DebugShowCharacterForward)
 				{
-					color = debugCharacterForwardColor;
+					color = m_DebugCharacterForwardColor;
 					color.a *= alphaMultiplier;
-					DebugDrawInput(new Vector2(characterTransform.forward.x, characterTransform.forward.z), 
+					DebugDrawInput(new Vector2(m_CharacterTransform.forward.x, m_CharacterTransform.forward.z), 
 								   offsetY, color, duration);
 				}
 	
-				if (debugShowCharacterForwardInput)
+				if (m_DebugShowCharacterForwardInput)
 				{
-					color = debugShowCharacterForwardInputColor;
+					color = m_DebugShowCharacterForwardInputColor;
 					color.a *= alphaMultiplier;
-					DebugDrawInput(characterForwardInput, offsetY, color, duration);
+					DebugDrawInput(m_CharacterForwardInput, offsetY, color, duration);
 				}
 			}
 	
 			/// <summary>
 			/// DEBUG: Draw the input vector.
 			/// </summary>
-			private void DebugDrawInput(Vector2 input, float offsetY, Color color, float duration,
+			void DebugDrawInput(Vector2 input, float offsetY, Color color, float duration,
 										float? rotateDirection = null,
 										float scale = 1.0f)
 			{
-				Vector3 vector = new Vector3(input.x, 0.0f, input.y);
-				Vector3 point = characterTransform.position + new Vector3(0.0f, offsetY, 0.0f);
-				if (unityCameraTransform != null)
+				var vector = new Vector3(input.x, 0.0f, input.y);
+				var point = m_CharacterTransform.position + new Vector3(0.0f, offsetY, 0.0f);
+				if (m_UnityCameraTransform != null)
 				{
-					vector = unityCameraTransform.TransformVector(vector);
+					vector = m_UnityCameraTransform.TransformVector(vector);
 					
 					// Project onto the ground
 					vector = Vector3.ProjectOnPlane(vector, Vector3.up);
@@ -1127,7 +1146,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				if (rotateDirection != null &&
 					!Mathf.Approximately(rotateDirection.Value, 0.0f))
 				{
-					float sideLength = 0.2f;
+					var sideLength = 0.2f;
 					Vector3 side;
 					if (rotateDirection > 0.0f)
 					{

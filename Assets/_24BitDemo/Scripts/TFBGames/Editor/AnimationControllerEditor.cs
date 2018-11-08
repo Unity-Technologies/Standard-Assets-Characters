@@ -20,9 +20,9 @@ namespace StandardAssets.TFBGames.Editor
 
 		public ReplacementRule[] clipNameReplacementRules;
 
-		private AnimatorController baseController;
-		private bool useBaseClipsIfNotFound;
-		private string newControllerName = "NewAnimationController";
+		AnimatorController baseController;
+		bool useBaseClipsIfNotFound;
+		string newControllerName = "NewAnimationController";
 
 		[MenuItem("24 Bit Games/Animation Controller Clip Replacer")]
 		public static void ShowWindow()
@@ -30,7 +30,7 @@ namespace StandardAssets.TFBGames.Editor
 			GetWindow(typeof(AnimationControllerEditor));
 		}
 
-		private void ReplaceAnimationClips(BlendTree blendtree)
+		void ReplaceAnimationClips(BlendTree blendtree)
 		{
 			if ((blendtree == null) || (blendtree.children.Length == 0))
 			{
@@ -58,7 +58,7 @@ namespace StandardAssets.TFBGames.Editor
 			}
 		}
 
-		private AnimationClip GetCorrespondingClip(AnimationClip clip)
+		AnimationClip GetCorrespondingClip(AnimationClip clip)
 		{
 			string path = AssetDatabase.GetAssetPath(clip);
 			string newPath = clipNameReplacementRules.Aggregate(path, (current, rule) =>
@@ -76,7 +76,7 @@ namespace StandardAssets.TFBGames.Editor
 			return useBaseClipsIfNotFound ? clip : null;
 		}
 
-		private void OnGUI()
+		void OnGUI()
 		{
 			baseController = EditorGUILayout.ObjectField("Base controller", baseController,
 			                                             typeof(AnimatorController), false, null) as AnimatorController;
@@ -117,7 +117,7 @@ namespace StandardAssets.TFBGames.Editor
 			}
 		}
 
-		private void TraverseStatemachineToReplaceClips(AnimatorStateMachine stateMachine)
+		void TraverseStatemachineToReplaceClips(AnimatorStateMachine stateMachine)
 		{
 			foreach (ChildAnimatorState childState in stateMachine.states)
 			{

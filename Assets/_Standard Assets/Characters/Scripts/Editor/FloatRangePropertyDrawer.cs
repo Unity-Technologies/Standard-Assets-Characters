@@ -18,8 +18,8 @@ namespace Editor
 			label = EditorGUI.BeginProperty(position, label, property);
 			position = EditorGUI.PrefixLabel(position, label);
 
-			SerializedProperty minProp = property.FindPropertyRelative("minValue");
-			SerializedProperty maxProp = property.FindPropertyRelative("maxValue");
+			SerializedProperty minProp = property.FindPropertyRelative("m_MinValue");
+			SerializedProperty maxProp = property.FindPropertyRelative("m_MaxValue");
 
 			float minValue = minProp.floatValue;
 			float maxValue = maxProp.floatValue;

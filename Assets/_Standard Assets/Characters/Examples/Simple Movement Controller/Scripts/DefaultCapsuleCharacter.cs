@@ -29,64 +29,64 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 
 		[SerializeField]
 		protected float jumpSpeed = 10f;
-		
-		private float movementTime, currentSpeed, airTime, currentVerticalVelocity, initialJumpVelocity, fallTime;
-		
-		private bool previouslyHasInput;
-		
-		private CapsuleInput characterInput;
 
-		private CharacterController controller;
+		float movementTime, currentSpeed, airTime, currentVerticalVelocity, initialJumpVelocity, fallTime;
 
-		private Transform mainCameraTransform;
+		bool previouslyHasInput;
 
-		private Vector3 verticalVector;
+		CapsuleInput characterInput;
 
-		private void Awake()
+		CharacterController controller;
+
+		Transform mainCameraTransform;
+
+		Vector3 verticalVector;
+
+		void Awake()
 		{
 			characterInput = GetComponent<CapsuleInput>();
 			controller = GetComponent<CharacterController>();
 			mainCameraTransform = Camera.main.transform;
 		}
 
-		private void OnEnable()
+		void OnEnable()
 		{
 			characterInput.jumpPressed += OnJump;
 		}
 
-		private void OnJump()
+		void OnJump()
 		{
 			initialJumpVelocity = jumpSpeed;
 		}
 
-		private void OnDisable()
+		void OnDisable()
 		{
 			characterInput.jumpPressed -= OnJump;
 		}
 
-		private void Update()
+		void Update()
 		{
 			if (!characterInput.hasMovementInput)
 			{
 				return;
 			}
 
-			Vector3 flatForward = mainCameraTransform.forward;
+			var flatForward = mainCameraTransform.forward;
 			flatForward.y = 0f;
 			flatForward.Normalize();
 
-			Vector3 localMovementDirection = new Vector3(characterInput.moveInput.x, 0f, characterInput.moveInput.y);
-			Quaternion cameraToInputOffset = Quaternion.FromToRotation(Vector3.forward, localMovementDirection);
+			var localMovementDirection = new Vector3(characterInput.moveInput.x, 0f, characterInput.moveInput.y);
+			var cameraToInputOffset = Quaternion.FromToRotation(Vector3.forward, localMovementDirection);
 			cameraToInputOffset.eulerAngles = new Vector3(0f, cameraToInputOffset.eulerAngles.y, 0f);
 
-			Quaternion targetRotation = Quaternion.LookRotation(cameraToInputOffset * flatForward);
+			var targetRotation = Quaternion.LookRotation(cameraToInputOffset * flatForward);
 			transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
 		}
 		
 		/// <summary>
 		/// Handles movement on Physics update
 		/// </summary>
-		private void FixedUpdate()
+		void FixedUpdate()
 		{
 			AerialMovement(Time.fixedDeltaTime);
 			if (characterInput.hasMovementInput)
@@ -107,14 +107,14 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 				Stop();
 			}
 
-			Vector2 input = characterInput.moveInput;
+			var input = characterInput.moveInput;
 			if (input.sqrMagnitude > 1)
 			{
 				input.Normalize();
 			}
 		
-			Vector3 forward = transform.forward * input.magnitude;
-			Vector3 sideways = Vector3.zero;
+			var forward = transform.forward * input.magnitude;
+			var sideways = Vector3.zero;
 			
 			controller.Move(((forward + sideways) * currentSpeed * Time.fixedDeltaTime) + verticalVector);
 
@@ -124,7 +124,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// <summary>
 		/// Calculates current speed based on acceleration anim curve
 		/// </summary>
-		private void Accelerate()
+		void Accelerate()
 		{
 			movementTime += Time.fixedDeltaTime;
 			movementTime = Mathf.Clamp(movementTime, 0f, timeToMaxSpeed);
@@ -134,12 +134,12 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// <summary>
 		/// Stops the movement
 		/// </summary>
-		private void Stop()
+		void Stop()
 		{
 			currentSpeed = 0f;
 		}
-		
-		private bool CheckGrounded()
+
+		bool CheckGrounded()
 		{
 			Debug.DrawRay(transform.position + controller.center, 
 			              new Vector3(0,-groundCheckDistance * controller.height,0), Color.red);
@@ -149,12 +149,12 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 				return true;
 			}
 			
-			Vector3 xRayOffset = new Vector3(controller.radius,0f,0f);
-			Vector3 zRayOffset = new Vector3(0f,0f,controller.radius);		
+			var xRayOffset = new Vector3(controller.radius,0f,0f);
+			var zRayOffset = new Vector3(0f,0f,controller.radius);		
 			
-			for (int i = 0; i < 4; i++)
+			for (var i = 0; i < 4; i++)
 			{
-				float sign = 1f;
+				var sign = 1f;
 				Vector3 rayOffset;
 				if (i % 2 == 0)
 				{
@@ -177,8 +177,8 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 			}
 			return false;
 		}
-		
-		private void AerialMovement(float deltaTime)
+
+		void AerialMovement(float deltaTime)
 		{
 			airTime += deltaTime;
 			if (currentVerticalVelocity >= 0.0f)

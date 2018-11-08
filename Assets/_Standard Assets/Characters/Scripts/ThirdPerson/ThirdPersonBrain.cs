@@ -4,14 +4,15 @@ using StandardAssets.Characters.Effects;
 using StandardAssets.Characters.Helpers;
 using StandardAssets.Characters.ThirdPerson.Configs;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
 	[RequireComponent(typeof(IThirdPersonInput))]
 	public class ThirdPersonBrain : CharacterBrain
 	{
-		private const float k_HeadTurnSnapBackScale = 100f;
-		private const float k_VelocityGizmoScale = 0.2f, k_VelocityLerp = 3f;
+		const float k_HeadTurnSnapBackScale = 100f;
+		const float k_VelocityGizmoScale = 0.2f, k_VelocityLerp = 3f;
 		
 		/// <summary>
 		/// Character animation states
@@ -24,32 +25,41 @@ namespace StandardAssets.Characters.ThirdPerson
 			Landing
 		}
 
+		[FormerlySerializedAs("useSimpleCameras")]
 		[SerializeField, Tooltip("Set to true if you do not want to use the Camera animation manager")]
-		protected bool useSimpleCameras;
+		bool m_UseSimpleCameras;
 
+		[FormerlySerializedAs("motor")]
 		[SerializeField, Tooltip("Properties of the root motion motor")]
-		protected ThirdPersonMotor motor;
+		ThirdPersonMotor m_Motor;
 
+		[FormerlySerializedAs("turnaroundType")]
 		[SerializeField]
-		protected TurnaroundType turnaroundType;
+		TurnaroundType m_TurnaroundType;
 
+		[FormerlySerializedAs("blendspaceTurnAroundBehaviour")]
 		[SerializeField]
-		protected BlendspaceTurnAroundBehaviour blendspaceTurnAroundBehaviour;
+		BlendspaceTurnAroundBehaviour m_BlendspaceTurnAroundBehaviour;
 
+		[FormerlySerializedAs("animationTurnAroundBehaviour")]
 		[SerializeField]
-		protected AnimationTurnAroundBehaviour animationTurnAroundBehaviour;
+		AnimationTurnAroundBehaviour m_AnimationTurnAroundBehaviour;
 
+		[FormerlySerializedAs("thirdPersonMovementEventHandler")]
 		[SerializeField]
-		protected ThirdPersonMovementEventHandler thirdPersonMovementEventHandler;
+		ThirdPersonMovementEventHandler m_ThirdPersonMovementEventHandler;
 
+		[FormerlySerializedAs("configuration")]
 		[SerializeField, Tooltip("Configuration settings for the animator")]
-		protected AnimationConfig configuration;
+		AnimationConfig m_Configuration;
 
+		[FormerlySerializedAs("showDebugGizmos")]
 		[SerializeField]
-		protected bool showDebugGizmos;
+		bool m_ShowDebugGizmos;
 
+		[FormerlySerializedAs("gizmoSettings")]
 		[SerializeField]
-		protected DebugGizmoSettings gizmoSettings;
+		DebugGizmoSettings m_GizmoSettings;
 
 		[Serializable]
 		public struct DebugGizmoSettings
@@ -71,84 +81,84 @@ namespace StandardAssets.Characters.ThirdPerson
 			             headDesiredDirection;
 		}
 
-		private readonly Vector3 headGizmoPosition = new Vector3(0f, 1.55f, 0f);
-		private readonly Vector3 headGizmoScale = new Vector3(0.05f, 0.05f, 0.05f);
+		readonly Vector3 m_HeadGizmoPosition = new Vector3(0f, 1.55f, 0f);
+		readonly Vector3 m_HeadGizmoScale = new Vector3(0.05f, 0.05f, 0.05f);
 
-		private readonly Vector3 bodyGizmoPosition = new Vector3(0f, 0.8f, 0.1f);
-		private readonly Vector3 bodyGizmoScale = new Vector3(0.1f, 0.1f, 0.1f);
+		readonly Vector3 m_BodyGizmoPosition = new Vector3(0f, 0.8f, 0.1f);
+		readonly Vector3 m_BodyGizmoScale = new Vector3(0.1f, 0.1f, 0.1f);
 
-		private readonly Vector3 footGizmoPosition = new Vector3(0f, 0.05f, 0f);
-		private readonly Vector3 footGizmoScale = new Vector3(0.1f, 0.1f, 0.1f);
-		
-		private readonly Vector3 gizmoOffset = new Vector3(0f, 0.025f, 0f);
-		
-		private float velocityGizmoScale;
+		readonly Vector3 m_FootGizmoPosition = new Vector3(0f, 0.05f, 0f);
+		readonly Vector3 m_FootGizmoScale = new Vector3(0.1f, 0.1f, 0.1f);
+
+		readonly Vector3 m_GizmoOffset = new Vector3(0f, 0.025f, 0f);
+
+		float m_VelocityGizmoScale;
 
 		// Hashes of the animator parameters
-		private int hashForwardSpeed;
-		private int hashLateralSpeed;
-		private int hashTurningSpeed;
-		private int hashVerticalSpeed;
-		private int hashGroundedFootRight;
-		private int hashJumpedForwardSpeed;
-		private int hashJumpedLateralSpeed;
-		private int hashFall;
-		private int hashStrafe;
-		private int hashSpeedMultiplier;
+		int m_HashForwardSpeed;
+		int m_HashLateralSpeed;
+		int m_HashTurningSpeed;
+		int m_HashVerticalSpeed;
+		int m_HashGroundedFootRight;
+		int m_HashJumpedForwardSpeed;
+		int m_HashJumpedLateralSpeed;
+		int m_HashFall;
+		int m_HashStrafe;
+		int m_HashSpeedMultiplier;
 
 		// is the character grounded
-		private bool isGrounded;
+		bool m_IsGrounded;
 
 		// was the last physics jump taken during a planted right foot
-		private bool lastJumpWasRightRoot;
+		bool m_LastJumpWasRightRoot;
 
 		// angle of the head for look direction
-		private float headAngle;
-		private float targetHeadAngle;
+		float m_HeadAngle;
+		float m_TargetHeadAngle;
 
 		// cached default animator speed
-		private float cachedAnimatorSpeed = 1.0f;
+		float m_CachedAnimatorSpeed = 1.0f;
 
 		// time of the last physics jump
-		private float timeOfLastJumpLand;
+		float m_TimeOfLastJumpLand;
 
 		// whether locomotion mode is set to strafe
-		private bool isStrafing;
+		bool m_IsStrafing;
 
-		private bool isTryingStrafe;
+		bool m_IsTryingStrafe;
 
 		//the camera controller to be used
-		private ThirdPersonCameraController cameraController;
-		private bool isChangingCamera;
+		ThirdPersonCameraController m_CameraController;
+		bool m_IsChangingCamera;
 
-		private bool triggeredRapidDirectionChange;
-		private int framesToWait;
+		bool m_TriggeredRapidDirectionChange;
+		int m_FramesToWait;
 
-		private IThirdPersonInput input;
+		IThirdPersonInput m_Input;
 
-		private GameObject[] gizmoObjects;
+		GameObject[] m_GizmoObjects;
 
-		private GameObject bodyCurrentGizmo,
-		                   bodyDesiredGizmo,
-		                   inputDirectionGizmo,
-		                   velocityGizmo,
-		                   headCurrentGizmo,
-		                   headDesiredGizmo;
+		GameObject m_BodyCurrentGizmo,
+		                   m_BodyDesiredGizmo,
+		                   m_InputDirectionGizmo,
+		                   m_VelocityGizmo,
+		                   m_HeadCurrentGizmo,
+		                   m_HeadDesiredGizmo;
 
-		private Transform mainCameraTransform;
+		Transform m_MainCameraTransform;
 
-		private TurnAroundBehaviour[] turnAroundBehaviours;
+		TurnAroundBehaviour[] m_TurnAroundBehaviours;
 
-		private float rapidStrafeTime, rapidStrafeChangeDuration;
+		float m_RapidStrafeTime, m_RapidStrafeChangeDuration;
 
 		public ThirdPersonMotor thirdPersonMotor
 		{
-			get { return motor; }
+			get { return m_Motor; }
 		}
 
 		public TurnaroundType typeOfTurnaround
 		{
-			get { return turnaroundType; }
+			get { return m_TurnaroundType; }
 		}
 
 		public TurnAroundBehaviour turnAround { get; private set; }
@@ -157,41 +167,41 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			get
 			{
-				if (turnAroundBehaviours == null)
+				if (m_TurnAroundBehaviours == null)
 				{
-					turnAroundBehaviours = new TurnAroundBehaviour[]
+					m_TurnAroundBehaviours = new TurnAroundBehaviour[]
 					{
-						blendspaceTurnAroundBehaviour,
-						animationTurnAroundBehaviour
+						m_BlendspaceTurnAroundBehaviour,
+						m_AnimationTurnAroundBehaviour
 					};
 				}
 
-				return turnAroundBehaviours;
+				return m_TurnAroundBehaviours;
 			}
 		}
 
 		public override float normalizedForwardSpeed
 		{
-			get { return motor.normalizedForwardSpeed; }
+			get { return m_Motor.normalizedForwardSpeed; }
 		}
 
 		public override float targetYRotation { get; set; }
 
 		public ThirdPersonCameraController thirdPersonCameraController
 		{
-			get { return cameraController; }
+			get { return m_CameraController; }
 		}
 
 		public IThirdPersonInput thirdPersonInput
 		{
 			get
 			{
-				if (input == null)
+				if (m_Input == null)
 				{
-					input = GetComponent<IThirdPersonInput>();
+					m_Input = GetComponent<IThirdPersonInput>();
 				}
 
-				return input;
+				return m_Input;
 			}
 		}
 
@@ -213,7 +223,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <value>The animator forward speed parameter.</value>
 		public float animatorForwardSpeed
 		{
-			get { return animator.GetFloat(hashForwardSpeed); }
+			get { return animator.GetFloat(m_HashForwardSpeed); }
 		}
 
 		/// <summary>
@@ -222,7 +232,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <value>The animator forward speed parameter.</value>
 		public float animatorTurningSpeed
 		{
-			get { return animator.GetFloat(hashTurningSpeed); }
+			get { return animator.GetFloat(m_HashTurningSpeed); }
 		}
 
 		/// <summary>
@@ -247,9 +257,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// The value of the animator lateral speed parameter.
 		/// </summary>
-		private float animatorLateralSpeed
+		float animatorLateralSpeed
 		{
-			get { return animator.GetFloat(hashLateralSpeed); }
+			get { return animator.GetFloat(m_HashLateralSpeed); }
 		}
 
 		/// <summary>
@@ -258,12 +268,12 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <remarks>Should only be called by a land StateMachineBehaviour</remarks>
 		public void OnLandAnimationExit()
 		{
-			if (isGrounded)
+			if (m_IsGrounded)
 			{
 				animatorState = AnimatorState.Locomotion;
 			}
 
-			animator.speed = cachedAnimatorSpeed;
+			animator.speed = m_CachedAnimatorSpeed;
 		}
 
 		/// <summary>
@@ -276,7 +286,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			animatorState = AnimatorState.Landing;
 			if (adjustAnimationSpeedBasedOnForwardSpeed)
 			{
-				animator.speed = configuration.landSpeedAsAFactorSpeed.Evaluate(motor.normalizedForwardSpeed);
+				animator.speed = m_Configuration.landSpeedAsAFactorSpeed.Evaluate(m_Motor.normalizedForwardSpeed);
 			}
 		}
 
@@ -329,8 +339,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <param name="deltaTime">Interpolation delta time</param>
 		public void UpdateForwardSpeed(float newSpeed, float deltaTime)
 		{
-			animator.SetFloat(hashForwardSpeed, newSpeed,
-			                  configuration.forwardSpeedInterpolation.GetInterpolationTime(animatorForwardSpeed,
+			animator.SetFloat(m_HashForwardSpeed, newSpeed,
+			                  m_Configuration.forwardSpeedInterpolation.GetInterpolationTime(animatorForwardSpeed,
 			                                                                               newSpeed), deltaTime);
 		}
 
@@ -342,91 +352,91 @@ namespace StandardAssets.Characters.ThirdPerson
 		public void UpdateTurningSpeed(float newSpeed, float deltaTime)
 		{
 			// remap turning speed
-			newSpeed = configuration.animationTurningSpeedCurve.Evaluate(Mathf.Abs(newSpeed)) * Mathf.Sign(newSpeed);
-			animator.SetFloat(hashTurningSpeed, newSpeed,
-			                  configuration.turningSpeedInterpolation.GetInterpolationTime(animatorTurningSpeed,
+			newSpeed = m_Configuration.animationTurningSpeedCurve.Evaluate(Mathf.Abs(newSpeed)) * Mathf.Sign(newSpeed);
+			animator.SetFloat(m_HashTurningSpeed, newSpeed,
+			                  m_Configuration.turningSpeedInterpolation.GetInterpolationTime(animatorTurningSpeed,
 			                                                                               newSpeed), deltaTime);
 		}
 
 		protected override void Awake()
 		{
 			base.Awake();
-			blendspaceTurnAroundBehaviour.Init(this);
-			animationTurnAroundBehaviour.Init(this);
+			m_BlendspaceTurnAroundBehaviour.Init(this);
+			m_AnimationTurnAroundBehaviour.Init(this);
 			turnAround = GetCurrentTurnaroundBehaviour();
-			motor.Init(this);
+			m_Motor.Init(this);
 
 			InitAnimator();
-			mainCameraTransform = Camera.main.transform;
+			m_MainCameraTransform = Camera.main.transform;
 
-			thirdPersonMovementEventHandler.Init(this);
+			m_ThirdPersonMovementEventHandler.Init(this);
 			FindCameraController(true);
 			SetupGizmos();
 		}
 
-		private void SetupGizmos()
+		void SetupGizmos()
 		{
-			if (Application.isPlaying && gizmoObjects == null && showDebugGizmos)
+			if (Application.isPlaying && m_GizmoObjects == null && m_ShowDebugGizmos)
 			{
-				gizmoObjects = new GameObject[6];
+				m_GizmoObjects = new GameObject[6];
 
-				inputDirectionGizmo = Instantiate(gizmoSettings.arrowPrefab, transform);
-				SpriteRenderer inputSpriteRenderer = inputDirectionGizmo.GetComponentInChildren<SpriteRenderer>();
-				inputSpriteRenderer.color = gizmoSettings.inputDirection;
+				m_InputDirectionGizmo = Instantiate(m_GizmoSettings.arrowPrefab, transform);
+				var inputSpriteRenderer = m_InputDirectionGizmo.GetComponentInChildren<SpriteRenderer>();
+				inputSpriteRenderer.color = m_GizmoSettings.inputDirection;
 				inputSpriteRenderer.sortingOrder = 0;
-				inputSpriteRenderer.transform.localScale = footGizmoScale;
-				inputDirectionGizmo.transform.localPosition = footGizmoPosition;
-				gizmoObjects[0] = inputDirectionGizmo;
+				inputSpriteRenderer.transform.localScale = m_FootGizmoScale;
+				m_InputDirectionGizmo.transform.localPosition = m_FootGizmoPosition;
+				m_GizmoObjects[0] = m_InputDirectionGizmo;
 
-				velocityGizmo = Instantiate(gizmoSettings.arrowPrefab, transform);
-				SpriteRenderer velocitySpriteRenderer = velocityGizmo.GetComponentInChildren<SpriteRenderer>();
-				velocitySpriteRenderer.color = gizmoSettings.velocityIndicator;
+				m_VelocityGizmo = Instantiate(m_GizmoSettings.arrowPrefab, transform);
+				var velocitySpriteRenderer = m_VelocityGizmo.GetComponentInChildren<SpriteRenderer>();
+				velocitySpriteRenderer.color = m_GizmoSettings.velocityIndicator;
 				velocitySpriteRenderer.sortingOrder = 1;
-				velocitySpriteRenderer.transform.localScale = footGizmoScale;
-				velocityGizmo.transform.localPosition = footGizmoPosition + gizmoOffset;
-				gizmoObjects[1] = velocityGizmo;
+				velocitySpriteRenderer.transform.localScale = m_FootGizmoScale;
+				m_VelocityGizmo.transform.localPosition = m_FootGizmoPosition + m_GizmoOffset;
+				m_GizmoObjects[1] = m_VelocityGizmo;
 
-				bodyCurrentGizmo = Instantiate(gizmoSettings.arrowPrefab, transform);
-				SpriteRenderer bodyCurrentSpriteRenderer = bodyCurrentGizmo.GetComponentInChildren<SpriteRenderer>();
-				bodyCurrentSpriteRenderer.color = gizmoSettings.bodyCurrentDirection;
+				m_BodyCurrentGizmo = Instantiate(m_GizmoSettings.arrowPrefab, transform);
+				var bodyCurrentSpriteRenderer = m_BodyCurrentGizmo.GetComponentInChildren<SpriteRenderer>();
+				bodyCurrentSpriteRenderer.color = m_GizmoSettings.bodyCurrentDirection;
 				bodyCurrentSpriteRenderer.sortingOrder = 10;
-				bodyCurrentSpriteRenderer.transform.localScale = bodyGizmoScale;
-				bodyCurrentGizmo.transform.localPosition = bodyGizmoPosition;
-				gizmoObjects[2] = bodyCurrentGizmo;
+				bodyCurrentSpriteRenderer.transform.localScale = m_BodyGizmoScale;
+				m_BodyCurrentGizmo.transform.localPosition = m_BodyGizmoPosition;
+				m_GizmoObjects[2] = m_BodyCurrentGizmo;
 
-				bodyDesiredGizmo = Instantiate(gizmoSettings.arrowPrefab, transform);
-				SpriteRenderer bodyDesiredSpriteRenderer = bodyDesiredGizmo.GetComponentInChildren<SpriteRenderer>();
-				bodyDesiredSpriteRenderer.color = gizmoSettings.bodyDesiredDirection;
+				m_BodyDesiredGizmo = Instantiate(m_GizmoSettings.arrowPrefab, transform);
+				var bodyDesiredSpriteRenderer = m_BodyDesiredGizmo.GetComponentInChildren<SpriteRenderer>();
+				bodyDesiredSpriteRenderer.color = m_GizmoSettings.bodyDesiredDirection;
 				bodyDesiredSpriteRenderer.sortingOrder = 11;
-				bodyDesiredSpriteRenderer.transform.localScale = bodyGizmoScale;
-				bodyDesiredGizmo.transform.localPosition = bodyGizmoPosition + gizmoOffset;
-				gizmoObjects[3] = bodyDesiredGizmo;
+				bodyDesiredSpriteRenderer.transform.localScale = m_BodyGizmoScale;
+				m_BodyDesiredGizmo.transform.localPosition = m_BodyGizmoPosition + m_GizmoOffset;
+				m_GizmoObjects[3] = m_BodyDesiredGizmo;
 
-				headCurrentGizmo = Instantiate(gizmoSettings.arrowPrefab, transform);
-				SpriteRenderer headCurrentSpriteRenderer = headCurrentGizmo.GetComponentInChildren<SpriteRenderer>();
-				headCurrentSpriteRenderer.color = gizmoSettings.headCurrentDirection;
+				m_HeadCurrentGizmo = Instantiate(m_GizmoSettings.arrowPrefab, transform);
+				var headCurrentSpriteRenderer = m_HeadCurrentGizmo.GetComponentInChildren<SpriteRenderer>();
+				headCurrentSpriteRenderer.color = m_GizmoSettings.headCurrentDirection;
 				headCurrentSpriteRenderer.sortingOrder = 20;
-				headCurrentSpriteRenderer.transform.localScale = headGizmoScale;
-				headCurrentGizmo.transform.localPosition = headGizmoPosition;
-				gizmoObjects[4] = headCurrentGizmo;
+				headCurrentSpriteRenderer.transform.localScale = m_HeadGizmoScale;
+				m_HeadCurrentGizmo.transform.localPosition = m_HeadGizmoPosition;
+				m_GizmoObjects[4] = m_HeadCurrentGizmo;
 
-				headDesiredGizmo = Instantiate(gizmoSettings.arrowPrefab, transform);
-				SpriteRenderer headDesiredSpriteRenderer = headDesiredGizmo.GetComponentInChildren<SpriteRenderer>();
-				headDesiredSpriteRenderer.color = gizmoSettings.headDesiredDirection;
+				m_HeadDesiredGizmo = Instantiate(m_GizmoSettings.arrowPrefab, transform);
+				var headDesiredSpriteRenderer = m_HeadDesiredGizmo.GetComponentInChildren<SpriteRenderer>();
+				headDesiredSpriteRenderer.color = m_GizmoSettings.headDesiredDirection;
 				headDesiredSpriteRenderer.sortingOrder = 21;
-				headDesiredSpriteRenderer.transform.localScale = headGizmoScale;
-				headDesiredGizmo.transform.localPosition = headGizmoPosition + gizmoOffset;
-				gizmoObjects[5] = headDesiredGizmo;
+				headDesiredSpriteRenderer.transform.localScale = m_HeadGizmoScale;
+				m_HeadDesiredGizmo.transform.localPosition = m_HeadGizmoPosition + m_GizmoOffset;
+				m_GizmoObjects[5] = m_HeadDesiredGizmo;
 			}
 
-			if (gizmoObjects != null && gizmoObjects.Length > 0)
+			if (m_GizmoObjects != null && m_GizmoObjects.Length > 0)
 			{
-				inputDirectionGizmo.SetActive(showDebugGizmos && gizmoSettings.showFootGizmos);
-				velocityGizmo.SetActive(showDebugGizmos && gizmoSettings.showFootGizmos);
-				bodyCurrentGizmo.SetActive(showDebugGizmos && gizmoSettings.showBodyGizmos);
-				bodyDesiredGizmo.SetActive(showDebugGizmos && gizmoSettings.showBodyGizmos);
-				headCurrentGizmo.SetActive(showDebugGizmos && gizmoSettings.showHeadGizmos);
-				headDesiredGizmo.SetActive(showDebugGizmos && gizmoSettings.showHeadGizmos);
+				m_InputDirectionGizmo.SetActive(m_ShowDebugGizmos && m_GizmoSettings.showFootGizmos);
+				m_VelocityGizmo.SetActive(m_ShowDebugGizmos && m_GizmoSettings.showFootGizmos);
+				m_BodyCurrentGizmo.SetActive(m_ShowDebugGizmos && m_GizmoSettings.showBodyGizmos);
+				m_BodyDesiredGizmo.SetActive(m_ShowDebugGizmos && m_GizmoSettings.showBodyGizmos);
+				m_HeadCurrentGizmo.SetActive(m_ShowDebugGizmos && m_GizmoSettings.showHeadGizmos);
+				m_HeadDesiredGizmo.SetActive(m_ShowDebugGizmos && m_GizmoSettings.showHeadGizmos);
 			}
 		}
 
@@ -436,56 +446,56 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			UpdateAnimatorParameters();
 
-			motor.Update();
+			m_Motor.Update();
 
 			if (turnAround != null)
 			{
 				turnAround.Update();
 			}
 
-			targetYRotation = motor.targetYRotation;
+			targetYRotation = m_Motor.targetYRotation;
 
 			//Just for build testing
 			//TODO remove
 			if (Input.GetKeyDown(KeyCode.T))
 			{
-				turnaroundType = turnaroundType == TurnaroundType.Animation ? TurnaroundType.None : turnaroundType + 1;
+				m_TurnaroundType = m_TurnaroundType == TurnaroundType.Animation ? TurnaroundType.None : m_TurnaroundType + 1;
 				turnAround = GetCurrentTurnaroundBehaviour();
 			}
 		}
 
-		private void LateUpdate()
+		void LateUpdate()
 		{
-			motor.SetLookDirection();
+			m_Motor.SetLookDirection();
 			UpdateGizmos();
 		}
 
-		private void UpdateGizmos()
+		void UpdateGizmos()
 		{
-			if (!showDebugGizmos)
+			if (!m_ShowDebugGizmos)
 			{
 				return;
 			}
 
-			headCurrentGizmo.transform.localRotation = Quaternion.Euler(0f, headAngle, 0f);
-			headDesiredGizmo.transform.localRotation = Quaternion.Euler(0f, targetHeadAngle, 0f);
-			bodyDesiredGizmo.transform.rotation = Quaternion.Euler(0f, targetYRotation, 0f);
-			inputDirectionGizmo.SetActive(showDebugGizmos && gizmoSettings.showFootGizmos && input.hasMovementInput);
+			m_HeadCurrentGizmo.transform.localRotation = Quaternion.Euler(0f, m_HeadAngle, 0f);
+			m_HeadDesiredGizmo.transform.localRotation = Quaternion.Euler(0f, m_TargetHeadAngle, 0f);
+			m_BodyDesiredGizmo.transform.rotation = Quaternion.Euler(0f, targetYRotation, 0f);
+			m_InputDirectionGizmo.SetActive(m_ShowDebugGizmos && m_GizmoSettings.showFootGizmos && m_Input.hasMovementInput);
 			
-			if (input.hasMovementInput)
+			if (m_Input.hasMovementInput)
 			{
-				float inputAngle = Vector2.SignedAngle(new Vector2(0f, 1f), input.moveInput);
-				inputDirectionGizmo.transform.rotation =
-					Quaternion.Euler(0, mainCameraTransform.eulerAngles.y - inputAngle, 0f);
-				velocityGizmoScale = Mathf.Lerp(velocityGizmoScale, planarSpeed, Time.deltaTime * k_VelocityLerp);
+				var inputAngle = Vector2.SignedAngle(new Vector2(0f, 1f), m_Input.moveInput);
+				m_InputDirectionGizmo.transform.rotation =
+					Quaternion.Euler(0, m_MainCameraTransform.eulerAngles.y - inputAngle, 0f);
+				m_VelocityGizmoScale = Mathf.Lerp(m_VelocityGizmoScale, planarSpeed, Time.deltaTime * k_VelocityLerp);
 			}
 			else
 			{
-				velocityGizmoScale = planarSpeed;
+				m_VelocityGizmoScale = planarSpeed;
 			}
 			
-			velocityGizmo.transform.localScale = Vector3.one * velocityGizmoScale * k_VelocityGizmoScale;
-			velocityGizmo.transform.rotation = Quaternion.Euler(
+			m_VelocityGizmo.transform.localScale = Vector3.one * m_VelocityGizmoScale * k_VelocityGizmoScale;
+			m_VelocityGizmo.transform.rotation = Quaternion.Euler(
 				0f, 180f + transform.eulerAngles.y + Vector3.SignedAngle(transform.forward, planarDisplacement, transform.up),
 				0f);
 		}
@@ -493,15 +503,15 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Sets the Animator parameters.
 		/// </summary>
-		private void UpdateAnimatorParameters()
+		void UpdateAnimatorParameters()
 		{
-			UpdateTurningSpeed(motor.normalizedTurningSpeed, Time.deltaTime);
+			UpdateTurningSpeed(m_Motor.normalizedTurningSpeed, Time.deltaTime);
 
-			bool fullyGrounded = isGrounded && animatorState != AnimatorState.Landing;
+			var fullyGrounded = m_IsGrounded && animatorState != AnimatorState.Landing;
 			// only update during landing if there is input to inhibit a jarring stop post land animation.
-			bool landingWithInput = animatorState == AnimatorState.Landing &&
-			                        (CheckHasSpeed(motor.normalizedForwardSpeed) ||
-			                         CheckHasSpeed(motor.normalizedLateralSpeed));
+			var landingWithInput = animatorState == AnimatorState.Landing &&
+			                        (CheckHasSpeed(m_Motor.normalizedForwardSpeed) ||
+			                         CheckHasSpeed(m_Motor.normalizedLateralSpeed));
 
 			if (fullyGrounded || landingWithInput
 			                  || animatorState == AnimatorState.Falling
@@ -512,29 +522,29 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			else
 			{
-				animator.SetFloat(hashVerticalSpeed, motor.normalizedVerticalSpeed);
+				animator.SetFloat(m_HashVerticalSpeed, m_Motor.normalizedVerticalSpeed);
 			}
 		}
 
 		/// <summary>
 		/// Checks if <see cref="ThirdPersonCameraController"/> has been assigned - otherwise looks for it in the scene
 		/// </summary>
-		private void FindCameraController(bool autoDisable)
+		void FindCameraController(bool autoDisable)
 		{
-			if (useSimpleCameras)
+			if (m_UseSimpleCameras)
 			{
 				return;
 			}
 
-			if (cameraController == null)
+			if (m_CameraController == null)
 			{
-				ThirdPersonCameraController[] cameraControllers =
+				var cameraControllers =
 					FindObjectsOfType<ThirdPersonCameraController>();
 
-				int length = cameraControllers.Length;
+				var length = cameraControllers.Length;
 				if (length != 1)
 				{
-					string errorMessage = "No ThirdPersonCameraAnimationManagers in scene! Disabling Brain";
+					var errorMessage = "No ThirdPersonCameraAnimationManagers in scene! Disabling Brain";
 					if (length > 1)
 					{
 						errorMessage = "Too many ThirdPersonCameraAnimationManagers in scene! Disabling Brain";
@@ -549,93 +559,93 @@ namespace StandardAssets.Characters.ThirdPerson
 					return;
 				}
 
-				cameraController = cameraControllers[0];
+				m_CameraController = cameraControllers[0];
 			}
 
-			cameraController.SetThirdPersonBrain(this);
+			m_CameraController.SetThirdPersonBrain(this);
 		}
 
-		private TurnAroundBehaviour GetCurrentTurnaroundBehaviour()
+		TurnAroundBehaviour GetCurrentTurnaroundBehaviour()
 		{
-			switch (turnaroundType)
+			switch (m_TurnaroundType)
 			{
 				case TurnaroundType.None:
 					return null;
 				case TurnaroundType.Blendspace:
-					return blendspaceTurnAroundBehaviour;
+					return m_BlendspaceTurnAroundBehaviour;
 				case TurnaroundType.Animation:
-					return animationTurnAroundBehaviour;
+					return m_AnimationTurnAroundBehaviour;
 				default:
 					return null;
 			}
 		}
 
-		private void OnEnable()
+		void OnEnable()
 		{
-			characterControllerAdapter.jumpVelocitySet += thirdPersonMovementEventHandler.Jumped;
-			characterControllerAdapter.landed += thirdPersonMovementEventHandler.Landed;
-			characterControllerAdapter.landed += OnLanding;
+			controllerAdapter.jumpVelocitySet += m_ThirdPersonMovementEventHandler.Jumped;
+			controllerAdapter.landed += m_ThirdPersonMovementEventHandler.Landed;
+			controllerAdapter.landed += OnLanding;
 
-			motor.jumpStarted += OnJumpStarted;
-			motor.fallStarted += OnFallStarted;
-			motor.Subscribe();
+			m_Motor.jumpStarted += OnJumpStarted;
+			m_Motor.fallStarted += OnFallStarted;
+			m_Motor.Subscribe();
 
 			if (thirdPersonInput != null)
 			{
-				ThirdPersonInput userInput = thirdPersonInput as ThirdPersonInput;
+				var userInput = thirdPersonInput as ThirdPersonInput;
 				if (userInput != null)
 				{
-					userInput.jumpPressed += motor.OnJumpPressed;
-					userInput.sprintStarted += motor.OnSprintStarted;
-					userInput.sprintEnded += motor.OnSprintEnded;
+					userInput.jumpPressed += m_Motor.OnJumpPressed;
+					userInput.sprintStarted += m_Motor.OnSprintStarted;
+					userInput.sprintEnded += m_Motor.OnSprintEnded;
 					userInput.strafeStarted += OnStrafeStarted;
 					userInput.strafeEnded += OnStrafeEnded;
 					userInput.recentreCamera += RecenterCamera;
 				}
 			}
 
-			thirdPersonMovementEventHandler.Subscribe();
+			m_ThirdPersonMovementEventHandler.Subscribe();
 		}
 
-		private void OnDisable()
+		void OnDisable()
 		{
-			if (characterControllerAdapter != null)
+			if (controllerAdapter != null)
 			{
-				characterControllerAdapter.jumpVelocitySet -= thirdPersonMovementEventHandler.Jumped;
-				characterControllerAdapter.landed -= thirdPersonMovementEventHandler.Landed;
-				characterControllerAdapter.landed -= OnLanding;
+				controllerAdapter.jumpVelocitySet -= m_ThirdPersonMovementEventHandler.Jumped;
+				controllerAdapter.landed -= m_ThirdPersonMovementEventHandler.Landed;
+				controllerAdapter.landed -= OnLanding;
 			}
 
-			if (motor != null)
+			if (m_Motor != null)
 			{
 				if (thirdPersonInput != null)
 				{
-					ThirdPersonInput userInput = thirdPersonInput as ThirdPersonInput;
+					var userInput = thirdPersonInput as ThirdPersonInput;
 					if (userInput != null)
 					{
-						userInput.jumpPressed -= motor.OnJumpPressed;
-						userInput.sprintStarted -= motor.OnSprintStarted;
-						userInput.sprintEnded -= motor.OnSprintEnded;
+						userInput.jumpPressed -= m_Motor.OnJumpPressed;
+						userInput.sprintStarted -= m_Motor.OnSprintStarted;
+						userInput.sprintEnded -= m_Motor.OnSprintEnded;
 						userInput.strafeStarted -= OnStrafeStarted;
 						userInput.strafeEnded -= OnStrafeEnded;
 						userInput.recentreCamera -= RecenterCamera;
 					}
 				}
 
-				motor.jumpStarted -= OnJumpStarted;
-				motor.fallStarted -= OnFallStarted;
-				motor.Unsubscribe();
+				m_Motor.jumpStarted -= OnJumpStarted;
+				m_Motor.fallStarted -= OnFallStarted;
+				m_Motor.Unsubscribe();
 			}
 
-			thirdPersonMovementEventHandler.Unsubscribe();
+			m_ThirdPersonMovementEventHandler.Unsubscribe();
 		}
 
-		private void OnAnimatorMove()
+		void OnAnimatorMove()
 		{
-			motor.OnAnimatorMove();
+			m_Motor.OnAnimatorMove();
 		}
 
-		private void OnAnimatorIK(int layerIndex)
+		void OnAnimatorIK(int layerIndex)
 		{
 			HeadTurn();
 		}
@@ -643,137 +653,137 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Handles the head turning.
 		/// </summary>
-		private void HeadTurn()
+		void HeadTurn()
 		{
-			if (!configuration.enableHeadLookAt)
+			if (!m_Configuration.enableHeadLookAt)
 			{
 				return;
 			}
 
-			if (motor.currentAerialMovementState != ThirdPersonAerialMovementState.Grounded &&
-			    !configuration.lookAtWhileAerial)
+			if (m_Motor.currentAerialMovementState != ThirdPersonAerialMovementState.Grounded &&
+			    !m_Configuration.lookAtWhileAerial)
 			{
 				return;
 			}
 
-			if (motor.currentGroundMovementState == ThirdPersonGroundMovementState.TurningAround &&
-			    !configuration.lookAtWhileTurnaround)
+			if (m_Motor.currentGroundMovementState == ThirdPersonGroundMovementState.TurningAround &&
+			    !m_Configuration.lookAtWhileTurnaround)
 			{
 				return;
 			}
 
-			animator.SetLookAtWeight(configuration.lookAtWeight);
-			targetHeadAngle = Mathf.Clamp((motor.targetYRotation - gameObject.transform.eulerAngles.y).Wrap180(),
-			                              -configuration.lookAtMaxRotation, configuration.lookAtMaxRotation);
+			animator.SetLookAtWeight(m_Configuration.lookAtWeight);
+			m_TargetHeadAngle = Mathf.Clamp((m_Motor.targetYRotation - gameObject.transform.eulerAngles.y).Wrap180(),
+			                              -m_Configuration.lookAtMaxRotation, m_Configuration.lookAtMaxRotation);
 
-			float headTurn = Time.deltaTime * configuration.lookAtRotationSpeed;
+			var headTurn = Time.deltaTime * m_Configuration.lookAtRotationSpeed;
 
-			if (motor.currentGroundMovementState == ThirdPersonGroundMovementState.TurningAround)
+			if (m_Motor.currentGroundMovementState == ThirdPersonGroundMovementState.TurningAround)
 			{
-				if (Mathf.Abs(targetHeadAngle) < Mathf.Abs(headAngle))
+				if (Mathf.Abs(m_TargetHeadAngle) < Mathf.Abs(m_HeadAngle))
 				{
 					headTurn *= k_HeadTurnSnapBackScale;
 				}
 				else
 				{
-					headTurn *= motor.currentTurnAroundBehaviour.headTurnScale;
+					headTurn *= m_Motor.currentTurnAroundBehaviour.headTurnScale;
 				}
 			}
 
-			if (Mathf.Approximately(input.lookInput.sqrMagnitude, 0.0f))
+			if (Mathf.Approximately(m_Input.lookInput.sqrMagnitude, 0.0f))
 			{
-				headTurn *= configuration.noLookInputHeadLookAtScale;
+				headTurn *= m_Configuration.noLookInputHeadLookAtScale;
 			}
 
-			headAngle = Mathf.LerpAngle(headAngle, targetHeadAngle, headTurn);
+			m_HeadAngle = Mathf.LerpAngle(m_HeadAngle, m_TargetHeadAngle, headTurn);
 
-			Vector3 lookAtPos = animator.transform.position +
-			                    Quaternion.AngleAxis(headAngle, Vector3.up) * animator.transform.forward * 100f;
+			var lookAtPos = animator.transform.position +
+			                    Quaternion.AngleAxis(m_HeadAngle, Vector3.up) * animator.transform.forward * 100f;
 			animator.SetLookAtPosition(lookAtPos);
 		}
 
 		/// <summary>
 		/// Gets the required components.
 		/// </summary>
-		private void InitAnimator()
+		void InitAnimator()
 		{
-			hashForwardSpeed = Animator.StringToHash(AnimationControllerInfo.k_ForwardSpeedParameter);
-			hashLateralSpeed = Animator.StringToHash(AnimationControllerInfo.k_LateralSpeedParameter);
-			hashTurningSpeed = Animator.StringToHash(AnimationControllerInfo.k_TurningSpeedParameter);
-			hashVerticalSpeed = Animator.StringToHash(AnimationControllerInfo.k_VerticalSpeedParameter);
-			hashGroundedFootRight = Animator.StringToHash(AnimationControllerInfo.k_GroundedFootRightParameter);
-			hashJumpedForwardSpeed = Animator.StringToHash(AnimationControllerInfo.k_JumpedForwardSpeedParameter);
-			hashJumpedLateralSpeed = Animator.StringToHash(AnimationControllerInfo.k_JumpedLateralSpeedParameter);
-			hashStrafe = Animator.StringToHash(AnimationControllerInfo.k_StrafeParameter);
-			hashFall = Animator.StringToHash(AnimationControllerInfo.k_FallParameter);
-			hashSpeedMultiplier = Animator.StringToHash(AnimationControllerInfo.k_SpeedMultiplier);
+			m_HashForwardSpeed = Animator.StringToHash(AnimationControllerInfo.k_ForwardSpeedParameter);
+			m_HashLateralSpeed = Animator.StringToHash(AnimationControllerInfo.k_LateralSpeedParameter);
+			m_HashTurningSpeed = Animator.StringToHash(AnimationControllerInfo.k_TurningSpeedParameter);
+			m_HashVerticalSpeed = Animator.StringToHash(AnimationControllerInfo.k_VerticalSpeedParameter);
+			m_HashGroundedFootRight = Animator.StringToHash(AnimationControllerInfo.k_GroundedFootRightParameter);
+			m_HashJumpedForwardSpeed = Animator.StringToHash(AnimationControllerInfo.k_JumpedForwardSpeedParameter);
+			m_HashJumpedLateralSpeed = Animator.StringToHash(AnimationControllerInfo.k_JumpedLateralSpeedParameter);
+			m_HashStrafe = Animator.StringToHash(AnimationControllerInfo.k_StrafeParameter);
+			m_HashFall = Animator.StringToHash(AnimationControllerInfo.k_FallParameter);
+			m_HashSpeedMultiplier = Animator.StringToHash(AnimationControllerInfo.k_SpeedMultiplier);
 			animator = GetComponent<Animator>();
-			cachedAnimatorSpeed = animator.speed;
+			m_CachedAnimatorSpeed = animator.speed;
 		}
 
 		/// <summary>
-		/// Fires when the <see cref="motor"/> enters the fall state.
+		/// Fires when the <see cref="m_Motor"/> enters the fall state.
 		/// </summary>
-		private void OnFallStarted(float predictedFallDistance)
+		void OnFallStarted(float predictedFallDistance)
 		{
-			isGrounded = false;
-			animator.SetTrigger(hashFall);
+			m_IsGrounded = false;
+			animator.SetTrigger(m_HashFall);
 		}
 
 		/// <summary>
 		/// Logic for dealing with animation on landing
-		/// Fires when the <see cref="motor"/> enters a rapid turn.
+		/// Fires when the <see cref="m_Motor"/> enters a rapid turn.
 		/// </summary>
-		private void OnLanding()
+		void OnLanding()
 		{
-			isGrounded = true;
+			m_IsGrounded = true;
 
 			switch (animatorState)
 			{
 				// if coming from a physics jump handle animation transition
 				case AnimatorState.Jump:
-					bool rightFoot = animator.GetBool(hashGroundedFootRight);
-					float duration = configuration.jumpEndTransitionByForwardSpeed.Evaluate(
+					var rightFoot = animator.GetBool(m_HashGroundedFootRight);
+					var duration = m_Configuration.jumpEndTransitionByForwardSpeed.Evaluate(
 						Mathf.Abs(animator.GetFloat(
 							          AnimationControllerInfo
 								          .k_JumpedForwardSpeedParameter)));
-					string locomotion = isStrafing
+					var locomotion = m_IsStrafing
 						                    ? AnimationControllerInfo.k_StrafeLocomotionState
 						                    : AnimationControllerInfo.k_LocomotionState;
 					animator.CrossFadeInFixedTime(locomotion, duration, 0, rightFoot
-						                                                       ? configuration
+						                                                       ? m_Configuration
 							                                                       .RightFootJumpLandAnimationOffset
-						                                                       : configuration
+						                                                       : m_Configuration
 							                                                       .LeftFootJumpLandAnimationOffset);
-					timeOfLastJumpLand = Time.time;
+					m_TimeOfLastJumpLand = Time.time;
 					break;
 				case AnimatorState.Falling:
 					// strafe mode does not have a landing animation so transition directly to locomotion
-					if (isStrafing)
+					if (m_IsStrafing)
 					{
 						animator.CrossFade(AnimationControllerInfo.k_StrafeLocomotionState,
-						                   configuration.landAnimationBlendDuration);
+						                   m_Configuration.landAnimationBlendDuration);
 					}
 					else
 					{
-						if (motor.normalizedForwardSpeed > configuration.forwardSpeedToRoll
+						if (m_Motor.normalizedForwardSpeed > m_Configuration.forwardSpeedToRoll
 						) // moving fast enough to roll
 						{
-							if (motor.fallTime > configuration.fallTimeRequiredToRoll) // play roll
+							if (m_Motor.fallTime > m_Configuration.fallTimeRequiredToRoll) // play roll
 							{
 								animator.CrossFade(AnimationControllerInfo.k_RollLandState,
-								                   configuration.rollAnimationBlendDuration);
+								                   m_Configuration.rollAnimationBlendDuration);
 							}
 							else // has not fallen for long enough to roll
 							{
 								animator.CrossFade(AnimationControllerInfo.k_LocomotionState,
-								                   configuration.landAnimationBlendDuration);
+								                   m_Configuration.landAnimationBlendDuration);
 							}
 						}
 						else // play land 
 						{
 							animator.CrossFade(AnimationControllerInfo.k_LandState,
-							                   configuration.landAnimationBlendDuration);
+							                   m_Configuration.landAnimationBlendDuration);
 						}
 					}
 
@@ -784,62 +794,62 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 
 		/// <summary>
-		/// Updates hr animator's forward and lateral speeds. If <see cref="AnimationConfig.enableStrafeRapidDirectionChangeSmoothing"/>
+		/// Updates hr animator's forward and lateral speeds. If <see cref="AnimationConfig.m_EnableStrafeRapidDirectionChangeSmoothing"/>
 		/// is enabled special smoothing logic is performed when a strafe rapid direction change is detected.
 		/// </summary>
-		private void UpdateAnimationMovementSpeeds(float deltaTime)
+		void UpdateAnimationMovementSpeeds(float deltaTime)
 		{
 			// if in strafe move and moving enough perform strafe rapid direction change logic
-			if (configuration.enableStrafeRapidDirectionChangeSmoothingLogic &&
-			    motor.movementMode == ThirdPersonMotorMovementMode.Strafe &&
+			if (m_Configuration.enableStrafeRapidDirectionChangeSmoothingLogic &&
+			    m_Motor.movementMode == ThirdPersonMotorMovementMode.Strafe &&
 			    (Mathf.Abs(animatorLateralSpeed) >= 0.5f || Mathf.Abs(animatorForwardSpeed) >= 0.5f))
 			{
-				if (triggeredRapidDirectionChange)
+				if (m_TriggeredRapidDirectionChange)
 				{
-					rapidStrafeTime += deltaTime;
-					float progress = configuration.strafeRapidChangeSpeedCurve.Evaluate(
-						rapidStrafeTime / rapidStrafeChangeDuration);
-					float current = Mathf.Clamp(1.0f - (2.0f * progress), -1.0f, 1.0f);
-					animator.SetFloat(hashSpeedMultiplier, current);
+					m_RapidStrafeTime += deltaTime;
+					var progress = m_Configuration.strafeRapidChangeSpeedCurve.Evaluate(
+						m_RapidStrafeTime / m_RapidStrafeChangeDuration);
+					var current = Mathf.Clamp(1.0f - (2.0f * progress), -1.0f, 1.0f);
+					animator.SetFloat(m_HashSpeedMultiplier, current);
 
 					CheckForStrafeRapidDirectionChangeComplete(deltaTime);
 					return;
 				}
 
 				// check if a rapid direction change has occured.
-				float angle = (Vector2.Angle(input.moveInput, new Vector2(animatorLateralSpeed, animatorForwardSpeed)));
-				if (angle >= configuration.strafeRapidChangeAngleThreshold)
+				var angle = (Vector2.Angle(m_Input.moveInput, new Vector2(animatorLateralSpeed, animatorForwardSpeed)));
+				if (angle >= m_Configuration.strafeRapidChangeAngleThreshold)
 				{
-					triggeredRapidDirectionChange = !CheckForStrafeRapidDirectionChangeComplete(deltaTime);
-					rapidStrafeTime = 0.0f;
+					m_TriggeredRapidDirectionChange = !CheckForStrafeRapidDirectionChangeComplete(deltaTime);
+					m_RapidStrafeTime = 0.0f;
 					return;
 				}
 			}
 
 			// not rapid strafe direction change, update as normal
-			animator.SetFloat(hashLateralSpeed, motor.normalizedLateralSpeed,
-			                  configuration.lateralSpeedInterpolation.GetInterpolationTime(animatorLateralSpeed,
-			                                                                               motor
+			animator.SetFloat(m_HashLateralSpeed, m_Motor.normalizedLateralSpeed,
+			                  m_Configuration.lateralSpeedInterpolation.GetInterpolationTime(animatorLateralSpeed,
+			                                                                               m_Motor
 				                                                                               .normalizedLateralSpeed),
 			                  deltaTime);
-			UpdateForwardSpeed(motor.normalizedForwardSpeed, deltaTime);
+			UpdateForwardSpeed(m_Motor.normalizedForwardSpeed, deltaTime);
 		}
 
-		private bool CheckForStrafeRapidDirectionChangeComplete(float deltaTime)
+		bool CheckForStrafeRapidDirectionChangeComplete(float deltaTime)
 		{
-			if (IsNormalizedTimeCloseToZeroOrHalf(deltaTime, out rapidStrafeChangeDuration))
+			if (IsNormalizedTimeCloseToZeroOrHalf(deltaTime, out m_RapidStrafeChangeDuration))
 			{
-				animator.SetFloat(hashLateralSpeed, -animatorLateralSpeed);
-				animator.SetFloat(hashForwardSpeed, -animatorForwardSpeed);
-				triggeredRapidDirectionChange = false;
-				animator.SetFloat(hashSpeedMultiplier, 1.0f);
+				animator.SetFloat(m_HashLateralSpeed, -animatorLateralSpeed);
+				animator.SetFloat(m_HashForwardSpeed, -animatorForwardSpeed);
+				m_TriggeredRapidDirectionChange = false;
+				animator.SetFloat(m_HashSpeedMultiplier, 1.0f);
 				return true;
 			}
 
 			return false;
 		}
 
-		private void RecenterCamera()
+		void RecenterCamera()
 		{
 			thirdPersonCameraController.RecenterCamera();
 		}
@@ -847,11 +857,11 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Sets the animator strafe parameter to true.
 		/// </summary>
-		private void OnStrafeStarted()
+		void OnStrafeStarted()
 		{
-			isChangingCamera = true;
-			isTryingStrafe = true;
-			if (characterControllerAdapter.isGrounded)
+			m_IsChangingCamera = true;
+			m_IsTryingStrafe = true;
+			if (controllerAdapter.isGrounded)
 			{
 				SelectGroundedCamera();
 			}
@@ -860,68 +870,68 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Sets the animator strafe parameter to false.
 		/// </summary>
-		private void OnStrafeEnded()
+		void OnStrafeEnded()
 		{
-			isChangingCamera = true;
-			isTryingStrafe = false;
-			if (characterControllerAdapter.isGrounded)
+			m_IsChangingCamera = true;
+			m_IsTryingStrafe = false;
+			if (controllerAdapter.isGrounded)
 			{
 				SelectGroundedCamera();
 			}
 		}
 
-		private void SelectGroundedCamera()
+		void SelectGroundedCamera()
 		{
-			if (!isChangingCamera)
+			if (!m_IsChangingCamera)
 			{
 				return;
 			}
 
-			isStrafing = isTryingStrafe;
-			animator.SetBool(hashStrafe, isStrafing);
-			if (isStrafing)
+			m_IsStrafing = m_IsTryingStrafe;
+			animator.SetBool(m_HashStrafe, m_IsStrafing);
+			if (m_IsStrafing)
 			{
-				motor.StartStrafe();
-				cameraController.SetStrafeCamera();
+				m_Motor.StartStrafe();
+				m_CameraController.SetStrafeCamera();
 			}
 			else
 			{
-				motor.EndStrafe();
-				cameraController.SetExplorationCamera();
+				m_Motor.EndStrafe();
+				m_CameraController.SetExplorationCamera();
 			}
 
-			isChangingCamera = false;
+			m_IsChangingCamera = false;
 		}
 
 		/// <summary>
 		/// Logic for dealing with animation on jumping
-		/// Fires when the <see cref="motor"/> enters a jump.
+		/// Fires when the <see cref="m_Motor"/> enters a jump.
 		/// </summary>
-		private void OnJumpStarted()
+		void OnJumpStarted()
 		{
-			if (!isGrounded)
+			if (!m_IsGrounded)
 			{
 				return;
 			}
 
-			isGrounded = false;
+			m_IsGrounded = false;
 
-			float movementMagnitude = new Vector2(animatorLateralSpeed, animatorForwardSpeed).magnitude;
+			var movementMagnitude = new Vector2(animatorLateralSpeed, animatorForwardSpeed).magnitude;
 			SetJumpForward(animatorForwardSpeed);
-			bool rightFoot = animator.GetBool(hashGroundedFootRight);
+			var rightFoot = animator.GetBool(m_HashGroundedFootRight);
 
-			float duration = configuration.jumpTransitionDurationFactorOfSpeed.Evaluate(movementMagnitude);
+			var duration = m_Configuration.jumpTransitionDurationFactorOfSpeed.Evaluate(movementMagnitude);
 			// keep track of the last jump so legs can be alternated if necessary. ie a skip.
-			if (timeOfLastJumpLand + configuration.skipJumpWindow >= Time.time)
+			if (m_TimeOfLastJumpLand + m_Configuration.skipJumpWindow >= Time.time)
 			{
-				rightFoot = !lastJumpWasRightRoot;
+				rightFoot = !m_LastJumpWasRightRoot;
 			}
 
-			animator.SetFloat(hashJumpedLateralSpeed, 0.0f);
-			animator.SetFloat(hashVerticalSpeed, 1.0f);
+			animator.SetFloat(m_HashJumpedLateralSpeed, 0.0f);
+			animator.SetFloat(m_HashVerticalSpeed, 1.0f);
 
 			var jumpState = AnimationControllerInfo.k_StrafeJumpState;
-			if (motor.movementMode == ThirdPersonMotorMovementMode.Action)
+			if (m_Motor.movementMode == ThirdPersonMotorMovementMode.Action)
 			{
 				jumpState = rightFoot
 					            ? AnimationControllerInfo.k_RightFootJumpState
@@ -929,12 +939,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 			animator.CrossFade(jumpState, duration);
-			lastJumpWasRightRoot = rightFoot;
+			m_LastJumpWasRightRoot = rightFoot;
 		}
 
-		private bool IsNormalizedTimeCloseToZeroOrHalf(float margin, out float timeUntilZeroOrHalf)
+		bool IsNormalizedTimeCloseToZeroOrHalf(float margin, out float timeUntilZeroOrHalf)
 		{
-			float value = animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1.0f;
+			var value = animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1.0f;
 
 			timeUntilZeroOrHalf = (value >= 0.5 ? 1.0f : 0.5f) - value;
 
@@ -942,62 +952,62 @@ namespace StandardAssets.Characters.ThirdPerson
 			        (value > 0.5f - margin && value < 0.5f + margin));
 		}
 
-		private void SetJumpForward(float jumpForward)
+		void SetJumpForward(float jumpForward)
 		{
-			jumpForward = jumpForward.Remap01(configuration.standingJumpNormalizedSpeedThreshold,
-			                                  configuration.runningJumpNormalizedSpeedThreshold);
-			animator.SetFloat(hashJumpedForwardSpeed, jumpForward);
+			jumpForward = jumpForward.Remap01(m_Configuration.standingJumpNormalizedSpeedThreshold,
+			                                  m_Configuration.runningJumpNormalizedSpeedThreshold);
+			animator.SetFloat(m_HashJumpedForwardSpeed, jumpForward);
 		}
 
 		/// <summary>
 		/// Uses the normalized progress of the animation to determine the grounded foot.
 		/// </summary>
-		private void UpdateFoot()
+		void UpdateFoot()
 		{
-			AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+			var stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 			var animationNormalizedProgress = stateInfo.normalizedTime.GetFraction();
 			//TODO: remove zero index
-			if ((animationNormalizedProgress + configuration.groundedFootThresholdOffsetValue).Wrap1() >
-			    (configuration.groundedFootThresholdValue + configuration.groundedFootThresholdOffsetValue).Wrap1())
+			if ((animationNormalizedProgress + m_Configuration.groundedFootThresholdOffsetValue).Wrap1() >
+			    (m_Configuration.groundedFootThresholdValue + m_Configuration.groundedFootThresholdOffsetValue).Wrap1())
 			{
-				SetGroundedFootRight(!configuration.invertFoot);
+				SetGroundedFootRight(!m_Configuration.invertFoot);
 				return;
 			}
 
-			SetGroundedFootRight(configuration.invertFoot);
+			SetGroundedFootRight(m_Configuration.invertFoot);
 		}
 
 		/// <summary>
 		/// Sets the grounded foot of the animator. This is used to play the appropriate footed animations.
 		/// </summary>
-		private void SetGroundedFootRight(bool value)
+		void SetGroundedFootRight(bool value)
 		{
-			if (Mathf.Abs(motor.normalizedLateralSpeed) < Mathf.Epsilon)
+			if (Mathf.Abs(m_Motor.normalizedLateralSpeed) < Mathf.Epsilon)
 			{
-				animator.SetBool(hashGroundedFootRight, value);
+				animator.SetBool(m_HashGroundedFootRight, value);
 				isRightFootPlanted = value;
 				return;
 			}
 
 			// while strafing a foot is preferred depending on lateral direction
-			bool lateralSpeedRight = motor.normalizedLateralSpeed < 0.0f;
-			animator.SetBool(hashGroundedFootRight, lateralSpeedRight);
+			var lateralSpeedRight = m_Motor.normalizedLateralSpeed < 0.0f;
+			animator.SetBool(m_HashGroundedFootRight, lateralSpeedRight);
 			isRightFootPlanted = lateralSpeedRight;
 		}
 
-		private static bool CheckHasSpeed(float speed)
+		static bool CheckHasSpeed(float speed)
 		{
 			return Mathf.Abs(speed) > 0.0f;
 		}
 
 #if UNITY_EDITOR
-		private void Reset()
+		void Reset()
 		{
 			//Design pattern for fetching required scene references
 			FindCameraController(false);
 		}
 
-		private void OnValidate()
+		void OnValidate()
 		{
 			turnAround = GetCurrentTurnaroundBehaviour();
 			//Design pattern for fetching required scene references
@@ -1018,16 +1028,19 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// The movement detection colliders attached to the feet of the Third Person Character
 		/// </summary>
+		[FormerlySerializedAs("leftFootDetection")]
 		[SerializeField]
-		protected ColliderMovementDetection leftFootDetection;
+		protected ColliderMovementDetection m_LeftFootDetection;
 
+		[FormerlySerializedAs("rightFootDetection")]
 		[SerializeField]
-		protected ColliderMovementDetection rightFootDetection;
+		protected ColliderMovementDetection m_RightFootDetection;
 
+		[FormerlySerializedAs("maximumSpeed")]
 		[SerializeField]
-		protected float maximumSpeed = 10f;
+		protected float m_MaximumSpeed = 10f;
 
-		private ThirdPersonBrain thirdPersonBrain;
+		ThirdPersonBrain m_ThirdPersonBrain;
 
 		/// <summary>
 		/// Gives the <see cref="ThirdPersonMovementEventHandler"/> context of the <see cref="ThirdPersonBrain"/>
@@ -1036,7 +1049,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		public void Init(ThirdPersonBrain brainToUse)
 		{
 			base.Init(brainToUse);
-			thirdPersonBrain = brainToUse;
+			m_ThirdPersonBrain = brainToUse;
 		}
 
 		/// <summary>
@@ -1044,14 +1057,14 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		public void Subscribe()
 		{
-			if (leftFootDetection != null)
+			if (m_LeftFootDetection != null)
 			{
-				leftFootDetection.detection += HandleLeftFoot;
+				m_LeftFootDetection.detection += HandleLeftFoot;
 			}
 
-			if (rightFootDetection != null)
+			if (m_RightFootDetection != null)
 			{
-				rightFootDetection.detection += HandleRightFoot;
+				m_RightFootDetection.detection += HandleRightFoot;
 			}
 		}
 
@@ -1060,14 +1073,14 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		public void Unsubscribe()
 		{
-			if (leftFootDetection != null)
+			if (m_LeftFootDetection != null)
 			{
-				leftFootDetection.detection -= HandleLeftFoot;
+				m_LeftFootDetection.detection -= HandleLeftFoot;
 			}
 
-			if (rightFootDetection != null)
+			if (m_RightFootDetection != null)
 			{
-				rightFootDetection.detection -= HandleRightFoot;
+				m_RightFootDetection.detection -= HandleRightFoot;
 			}
 		}
 
@@ -1091,9 +1104,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// Plays the left foot movement events
 		/// </summary>
 		/// <param name="movementEventData">the data need to play the event</param>
-		private void HandleLeftFoot(MovementEventData movementEventData)
+		void HandleLeftFoot(MovementEventData movementEventData)
 		{
-			movementEventData.normalizedSpeed = Mathf.Clamp01(thirdPersonBrain.planarSpeed / maximumSpeed);
+			movementEventData.normalizedSpeed = Mathf.Clamp01(m_ThirdPersonBrain.planarSpeed / m_MaximumSpeed);
 			PlayLeftFoot(movementEventData);
 		}
 
@@ -1101,9 +1114,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// Plays the right foot movement events
 		/// </summary>
 		/// <param name="movementEventData">the data need to play the event</param>
-		private void HandleRightFoot(MovementEventData movementEventData)
+		void HandleRightFoot(MovementEventData movementEventData)
 		{
-			movementEventData.normalizedSpeed = Mathf.Clamp01(thirdPersonBrain.planarSpeed / maximumSpeed);
+			movementEventData.normalizedSpeed = Mathf.Clamp01(m_ThirdPersonBrain.planarSpeed / m_MaximumSpeed);
 			PlayRightFoot(movementEventData);
 		}
 	}

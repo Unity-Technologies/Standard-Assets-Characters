@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.Effects.Players
 {
@@ -7,26 +8,29 @@ namespace StandardAssets.Characters.Effects.Players
 	/// </summary>
 	public class AudioMovementEventPlayer : MovementEventPlayer
 	{
+		[FormerlySerializedAs("volumeFromNormalizedSpeed")]
 		[SerializeField, Tooltip("How the volume is scaled based on normalizedSpeed")]
-		protected AnimationCurve volumeFromNormalizedSpeed = AnimationCurve.Linear(0f,0f,1f,1f);
+		AnimationCurve m_VolumeFromNormalizedSpeed = AnimationCurve.Linear(0f,0f,1f,1f);
 		
 		/// <summary>
 		/// The audio source to be played
 		/// </summary>
+		[FormerlySerializedAs("source")]
 		[SerializeField, Tooltip("The AudioSource used to play the selected clip")]
-		protected AudioSource source;
+		AudioSource m_Source;
 
 		/// <summary>
 		/// Collection of audio clips that could be randomly selected by this <see cref="AudioMovementEventPlayer"/>
 		/// </summary>
+		[FormerlySerializedAs("clips")]
 		[SerializeField, Tooltip("For using multiple audio sources, i.e footstep sounds")]
-		protected AudioClip[] clips;
+		AudioClip[] m_Clips;
 
-		private int currentSoundIndex;
-		
-		private void Awake()
+		int m_CurrentSoundIndex;
+
+		void Awake()
 		{
-			currentSoundIndex = 0;
+			m_CurrentSoundIndex = 0;
 		}
 
 		/// <summary>
@@ -36,28 +40,28 @@ namespace StandardAssets.Characters.Effects.Players
 		/// <param name="effectMagnitude">The magnitude of the effect</param>
 		protected override void PlayMovementEvent(MovementEventData movementEventData, float effectMagnitude)
 		{
-			if (source == null)
+			if (m_Source == null)
 			{
 				return;
 			}
 
-			if (clips.Length != 0)
+			if (m_Clips.Length != 0)
 			{
-				if (currentSoundIndex >= clips.Length)
+				if (m_CurrentSoundIndex >= m_Clips.Length)
 				{
-					currentSoundIndex = 0;
+					m_CurrentSoundIndex = 0;
 				}
-				source.PlayOneShot(clips[currentSoundIndex++], effectMagnitude);
+				m_Source.PlayOneShot(m_Clips[m_CurrentSoundIndex++], effectMagnitude);
 				return;
 			}
 
-			source.volume = effectMagnitude;
-			source.Play();
+			m_Source.volume = effectMagnitude;
+			m_Source.Play();
 		}
 
 		protected override float Evaluate(float normalizedSpeed)
 		{
-			return volumeFromNormalizedSpeed.Evaluate(normalizedSpeed);
+			return m_VolumeFromNormalizedSpeed.Evaluate(normalizedSpeed);
 		}
 	}
 }

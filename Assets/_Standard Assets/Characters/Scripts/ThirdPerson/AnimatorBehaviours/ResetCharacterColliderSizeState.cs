@@ -1,6 +1,7 @@
 ﻿using StandardAssets.Characters.Common;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 {
@@ -12,42 +13,45 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 		/// <summary>
 		/// Reset the height?
 		/// </summary>
+		[FormerlySerializedAs("resetHeight")]
 		[Tooltip("Reset the height?")]
 		[SerializeField]
-		private bool resetHeight = true;
+		bool m_ResetHeight = true;
 		
 		/// <summary>
 		/// Reset the offset/center?
 		/// </summary>
+		[FormerlySerializedAs("resetOffset")]
 		[Tooltip("Reset the offset/center?")]
 		[SerializeField]
-		private bool resetOffset = true;
+		bool m_ResetOffset = true;
 
 		/// <summary>
 		/// Preserve the foot position when only resetting the height? (This is ignored when resetting the center.)
 		/// </summary>
+		[FormerlySerializedAs("preserveFootPosition")]
 		[Tooltip("Preserve the foot position when only resetting the height? (This is ignored when resetting the center.)")]
 		[SerializeField]
-		private bool preserveFootPosition = true;
+		bool m_PreserveFootPosition = true;
 
-		private ControllerAdapter controllerAdapter;
-		private OpenCharacterController openCharacterController;
+		ControllerAdapter m_ControllerAdapter;
+		OpenCharacterController m_OpenCharacterController;
 		
 		/// <inheritdoc />
 		public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			if (controllerAdapter == null)
+			if (m_ControllerAdapter == null)
 			{
-				CharacterBrain characterBrain = animator.GetComponentInChildren<CharacterBrain>();
-				controllerAdapter = characterBrain != null
+				var characterBrain = animator.GetComponentInChildren<CharacterBrain>();
+				m_ControllerAdapter = characterBrain != null
 					                                 ? characterBrain.controllerAdapter
 					                                 : null;
-				if (controllerAdapter == null)
+				if (m_ControllerAdapter == null)
 				{
 					return;
 				} 
-				openCharacterController = controllerAdapter.characterController;
-				if (openCharacterController == null)
+				m_OpenCharacterController = m_ControllerAdapter.characterController;
+				if (m_OpenCharacterController == null)
 				{
 					return;
 				}
@@ -62,25 +66,25 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 			HandleReset();
 		}
 
-		private void HandleReset()
+		void HandleReset()
 		{
-			if (openCharacterController == null)
+			if (m_OpenCharacterController == null)
 			{
 				return;
 			}
 
-			if (resetHeight &&
-			    resetOffset)
+			if (m_ResetHeight &&
+			    m_ResetOffset)
 			{
-				openCharacterController.ResetHeightAndCenter(true, false);
+				m_OpenCharacterController.ResetHeightAndCenter(true, false);
 			}
-			else if (resetHeight)
+			else if (m_ResetHeight)
 			{
-				openCharacterController.ResetHeight(preserveFootPosition, true, false);
+				m_OpenCharacterController.ResetHeight(m_PreserveFootPosition, true, false);
 			}
-			else if (resetOffset)
+			else if (m_ResetOffset)
 			{
-				openCharacterController.ResetCenter(true, false);
+				m_OpenCharacterController.ResetCenter(true, false);
 			}
 		}
 	}

@@ -9,14 +9,14 @@ public class SimpleMovementCharacterSelect : MonoBehaviour
 {
 	[Header("Game Objects")]
 	[SerializeField, Tooltip("The freelook camera.")]
-	private CinemachineFreeLook freeLook;
+	CinemachineFreeLook freeLook;
 
 	[SerializeField, Tooltip("Characters to select.")]
-	private GameObject[] characters;
+	GameObject[] characters;
 
 	[Header("Elements")]
 	[SerializeField, Tooltip("A toggle for each character.")]
-	private Toggle[] toggles;
+	Toggle[] toggles;
 	
 	/// <summary>
 	/// Called when a toggle's value changed.
@@ -25,7 +25,7 @@ public class SimpleMovementCharacterSelect : MonoBehaviour
 	{
 		for (int i = 0, len = toggles.Length; i < len; i++)
 		{
-			Toggle toggle = toggles[i];
+			var toggle = toggles[i];
 			if (toggle != null &&
 			    toggle.isOn)
 			{
@@ -38,7 +38,7 @@ public class SimpleMovementCharacterSelect : MonoBehaviour
 	/// <summary>
 	/// Select the default character controller.
 	/// </summary>
-	private void Start()
+	void Start()
 	{
 		if (characters.Length != toggles.Length)
 		{
@@ -50,9 +50,9 @@ public class SimpleMovementCharacterSelect : MonoBehaviour
 	/// <summary>
 	/// Select the character by index.
 	/// </summary>
-	private void SelectCharacter(int index)
+	void SelectCharacter(int index)
 	{
-		int len = characters.Length;
+		var len = characters.Length;
 		if (index < 0)
 		{
 			index = len - 1;
@@ -63,10 +63,10 @@ public class SimpleMovementCharacterSelect : MonoBehaviour
 		}
 
 		GameObject activeCharacter = null;
-		for (int i = 0; i < len; i++)
+		for (var i = 0; i < len; i++)
 		{
-			bool isSelected = (index == i);
-			GameObject character = characters[i];
+			var isSelected = (index == i);
+			var character = characters[i];
 			if (character != null)
 			{
 				character.SetActive(false);
@@ -82,7 +82,7 @@ public class SimpleMovementCharacterSelect : MonoBehaviour
 				}
 			}
 
-			Toggle toggle = toggles[i];
+			var toggle = toggles[i];
 			if (toggle != null)
 			{
 				toggle.isOn = isSelected;

@@ -50,7 +50,7 @@ namespace Editor
 		protected const string k_Help =
 			"Configurations are separate assets (ScriptableObjects). Click on the associated configuration to locate it in the Project View. Values can be edited here during runtime and not be lost. It also allows one to create different settings and swap between them. To create a new setting Right click -> Create -> Standard Assets -> Characters -> ...";
 
-		private bool motorFoldOut;
+		bool motorFoldOut;
 
 		public override void OnInspectorGUI()
 		{
@@ -76,7 +76,7 @@ namespace Editor
 			return exclusionList.ToArray();
 		}
 
-		private List<string> GetTurnaroundExclusions()
+		List<string> GetTurnaroundExclusions()
 		{
 			ThirdPersonBrain brain = target as ThirdPersonBrain;
 

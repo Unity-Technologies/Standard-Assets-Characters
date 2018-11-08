@@ -5,8 +5,8 @@ using UnityEngine;
 namespace Editor
 {
     /// <summary>
-    /// Custom Editor for <see cref="ThirdPersonInput"/> that will hide <see cref="ThirdPersonInput.locomotionInputSmoother"/> if
-    /// <see cref="ThirdPersonInput.useInputSmoother"/> is false;
+    /// Custom Editor for <see cref="ThirdPersonInput"/> that will hide <see cref="ThirdPersonInput.m_LocomotionInputSmoother"/> if
+    /// <see cref="ThirdPersonInput.m_UseInputSmoother"/> is false;
     /// </summary>
     [CustomEditor(typeof(ThirdPersonInput))]
     public class ThirdPersonInputEditor : UnityEditor.Editor

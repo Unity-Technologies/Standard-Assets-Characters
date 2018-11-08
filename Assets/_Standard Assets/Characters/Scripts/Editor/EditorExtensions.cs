@@ -109,7 +109,7 @@ namespace Editor
 		}
 
 		// Creates a new ScriptableObject via the default Save File panel
-		private static ScriptableObject CreateAssetWithSavePrompt(Type type, string path)
+		static ScriptableObject CreateAssetWithSavePrompt(Type type, string path)
 		{
 			string defaultName = string.Format("New {0}.asset", type.Name);
 			string message = string.Format("Enter a file name for the {0} ScriptableObject.", type.Name);

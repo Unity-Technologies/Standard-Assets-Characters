@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.ThirdPerson.Configs
 {
@@ -10,98 +11,125 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		menuName = "Standard Assets/Characters/Third Person Motor Configuration", order = 1)]
 	public class MotorConfig : ScriptableObject
 	{
+		[FormerlySerializedAs("autoToggleSprint")]
 		[Header("Ground Motion")]
 		[SerializeField, Tooltip("When using a controller should sprint auto turn off when releasing the left analogue stick?")]
-		protected bool autoToggleSprint = true;
+		bool m_AutoToggleSprint = true;
 		
+		[FormerlySerializedAs("rootMotionMovementScale")]
 		[SerializeField, Tooltip("The root motion will be scaled by this before movement is applied")]
-		protected float rootMotionMovementScale = 1f;
+		float m_RootMotionMovementScale = 1f;
 
+		[FormerlySerializedAs("sprintNormalizedSpeedIncrease")]
 		[SerializeField, Tooltip("During sprint normalized speed will be 1 + this. Used to extend the locomotion blend tree.")]
-		protected float sprintNormalizedSpeedIncrease = 0.5f;
+		float m_SprintNormalizedSpeedIncrease = 0.5f;
 		
+		[FormerlySerializedAs("useCustomActionParameters")]
 		[SerializeField]
-		protected bool useCustomActionParameters = true;
+		bool m_UseCustomActionParameters = true;
 
+		[FormerlySerializedAs("action")]
 		[SerializeField]
-		protected ActionProperties action;
+		ActionProperties m_Action;
 
+		[FormerlySerializedAs("useCustomStrafeParameters")]
 		[SerializeField]
-		protected bool useCustomStrafeParameters = true;
+		bool m_UseCustomStrafeParameters = true;
 
+		[FormerlySerializedAs("strafing")]
 		[SerializeField]
-		protected StrafeProperties strafing;
+		StrafeProperties m_Strafing;
 		
+		[FormerlySerializedAs("initialStrafeLookTime")]
 		[SerializeField, Tooltip("The duration of the initial turn into strafe mode.")]
-		protected float initialStrafeLookTime = 0.125f;
+		float m_InitialStrafeLookTime = 0.125f;
 
+		[FormerlySerializedAs("jumpHeightAsAFactorOfForwardSpeed")]
 		[Header("Jumping")]
 		[SerializeField, Tooltip("Curve used to determine jump height based on normalized forward speed.")]
-		protected AnimationCurve jumpHeightAsAFactorOfForwardSpeed = AnimationCurve.Constant(0,1,4);
+		AnimationCurve m_JumpHeightAsAFactorOfForwardSpeed = AnimationCurve.Constant(0,1,4);
 
+		[FormerlySerializedAs("jumpGroundVelocitySamples")]
 		[SerializeField, Tooltip("Number of samples used to average forward velocity to use as jump velocity.")]
-		protected int jumpGroundVelocitySamples = 10;
+		int m_JumpGroundVelocitySamples = 10;
 
+		[FormerlySerializedAs("jumpTurningSpeedScale")]
 		[SerializeField, Tooltip("Turn speed is scaled by this value during an aerial state.")]
-		protected float jumpTurningSpeedScale = 0.5f;
+		float m_JumpTurningSpeedScale = 0.5f;
 		
+		[FormerlySerializedAs("standingJumpForwardSpeed")]
 		[Header("Standing Jump")]
 		[SerializeField, Tooltip("Jump forward speed applied during a standing forward jump.")]
-		protected float standingJumpForwardSpeed = 3.5f;
+		float m_StandingJumpForwardSpeed = 3.5f;
 
+		[FormerlySerializedAs("minInputThreshold")]
 		[SerializeField, Tooltip("The minimum input allowed to trigger a standing forward jump.")]
-		protected float minInputThreshold = 0.5f;
+		float m_MinInputThreshold = 0.5f;
 		
+		[FormerlySerializedAs("maxMovementThreshold")]
 		[SerializeField, Tooltip("The maximum character forward movement allowed to trigger a standing forward jump.")]
-		protected float maxMovementThreshold = 0.01f;
+		float m_MaxMovementThreshold = 0.01f;
 
+		[FormerlySerializedAs("standingJumpMoveTimeThreshold")]
 		[SerializeField, Tooltip("Time allowed after movement from idle that a standing jump can be triggered.")]
-		protected float standingJumpMoveTimeThreshold = 0.5f;
+		float m_StandingJumpMoveTimeThreshold = 0.5f;
 
+		[FormerlySerializedAs("fallingMaxForwardSpeed")]
 		[Header("Falling")]
 		[SerializeField, Tooltip("The maximum forward speed while falling.")]
-		protected float fallingMaxForwardSpeed = 5;
+		float m_FallingMaxForwardSpeed = 5;
 
+		[FormerlySerializedAs("fallForwardSpeedDeceleration")]
 		[SerializeField, Tooltip("The speed at which falling speed can decrease.")]
-		protected float fallForwardSpeedDeceleration = 0.0025f;
+		float m_FallForwardSpeedDeceleration = 0.0025f;
 		
+		[FormerlySerializedAs("fallForwardSpeedAcceleration")]
 		[SerializeField, Tooltip("The speed at which falling speed can increase.")]
-		protected float fallForwardSpeedAcceleration = 0.05f;
+		float m_FallForwardSpeedAcceleration = 0.05f;
 
+		[FormerlySerializedAs("fallDirectionChangeSpeed")]
 		[SerializeField, Tooltip("The speed at which fall direction can change.")] 
-		protected float fallDirectionChangeSpeed = 0.025f;
+		float m_FallDirectionChangeSpeed = 0.025f;
 
+		[FormerlySerializedAs("turningSpeed")]
 		[Header("Turning")]
 		[SerializeField, Tooltip("The degrees per second that the character can turn.")]
-		protected float turningSpeed = 300f;
+		float m_TurningSpeed = 300f;
 
+		[FormerlySerializedAs("turningSpeedVisualScale")]
 		[SerializeField, Tooltip("Used for effecting how much of the -1 to 1 range of normalizedTurningSpeed")]
-		protected float turningSpeedVisualScale = 0.5f;
+		float m_TurningSpeedVisualScale = 0.5f;
 
+		[FormerlySerializedAs("normalizedTurningSpeedLerpSpeed")]
 		[SerializeField, Tooltip("The speed at which the normalized turning speed can change")]
-		protected float normalizedTurningSpeedLerpSpeed = 2f;
+		float m_NormalizedTurningSpeedLerpSpeed = 2f;
 
+		[FormerlySerializedAs("rapidTurnInputAngle")]
 		[SerializeField, Tooltip("Minimum angle required to trigger a rapid turn during movement.")]
-		protected float rapidTurnInputAngle = 140f;
+		float m_RapidTurnInputAngle = 140f;
 
+		[FormerlySerializedAs("stationaryRapidTurnAngle")]
 		[SerializeField, Tooltip("Minimum angle required to trigger a stationary rapid.")]
-		protected float stationaryRapidTurnAngle = 90f;
+		float m_StationaryRapidTurnAngle = 90f;
 		
+		[FormerlySerializedAs("maxSpeedForStandingTurnaround")]
 		[SerializeField, Tooltip("Maximum forward speed that will trigger a standing rapid turn.")]
-		protected float maxSpeedForStandingTurnaround = 0.25f;
+		float m_MaxSpeedForStandingTurnaround = 0.25f;
 
+		[FormerlySerializedAs("rapidTurnIgnoreInputTime")]
 		[SerializeField, Tooltip("Time in seconds that input will be ignore after the triggering of a rapid turn.")]
-		protected float rapidTurnIgnoreInputTime = 0.05f;
+		float m_RapidTurnIgnoreInputTime = 0.05f;
 
+		[FormerlySerializedAs("inputBufferSize")]
 		[SerializeField, Tooltip("The number of frames of input will used to determine if a rapid turn was triggered.")]
-		protected int inputBufferSize = 5;
+		 int m_InputBufferSize = 5;
 
 		/// <summary>
 		/// Gets the maximum forward speed that will trigger a standing rapid turn.
 		/// </summary>
 		public float standingTurnaroundSpeedThreshold
 		{
-			get { return maxSpeedForStandingTurnaround; }
+			get { return m_MaxSpeedForStandingTurnaround; }
 		}
 
 		/// <summary>
@@ -109,7 +137,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float fallDirectionChange
 		{
-			get { return fallDirectionChangeSpeed; }
+			get { return m_FallDirectionChangeSpeed; }
 		}
 
 		/// <summary>
@@ -117,7 +145,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public AnimationCurve jumpHeightAsFactorOfForwardSpeed
 		{
-			get { return jumpHeightAsAFactorOfForwardSpeed; }
+			get { return m_JumpHeightAsAFactorOfForwardSpeed; }
 		}
 
 		/// <summary>
@@ -125,7 +153,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float turningYSpeed
 		{
-			get { return turningSpeed; }
+			get { return m_TurningSpeed; }
 		}
 
 		/// <summary>
@@ -134,16 +162,16 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float turningSpeedScaleVisual
 		{
-			get { return turningSpeedVisualScale; }
+			get { return m_TurningSpeedVisualScale; }
 		}
 
 		/// <summary>
 		/// Gets the degrees per second that the character can turn during a jump.
 		/// </summary>
-		/// <value><see cref="turningSpeed"/> with <see cref="jumpTurningSpeedScale"/> applied.</value>
+		/// <value><see cref="m_TurningSpeed"/> with <see cref="m_JumpTurningSpeedScale"/> applied.</value>
 		public float jumpTurningYSpeed
 		{
-			get { return turningSpeed * jumpTurningSpeedScale; }
+			get { return m_TurningSpeed * m_JumpTurningSpeedScale; }
 		}
 
 		/// <summary>
@@ -151,7 +179,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public int jumpGroundVelocityWindowSize
 		{
-			get { return jumpGroundVelocitySamples; }
+			get { return m_JumpGroundVelocitySamples; }
 		}
 
 		/// <summary>
@@ -159,7 +187,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float scaleRootMovement
 		{
-			get { return rootMotionMovementScale; }
+			get { return m_RootMotionMovementScale; }
 		}
 
 		/// <summary>
@@ -167,7 +195,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float normalizedTurningSpeedLerpSpeedFactor
 		{
-			get { return normalizedTurningSpeedLerpSpeed; }
+			get { return m_NormalizedTurningSpeedLerpSpeed; }
 		}
 
 		/// <summary>
@@ -175,7 +203,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float inputAngleRapidTurn
 		{
-			get { return rapidTurnInputAngle; }
+			get { return m_RapidTurnInputAngle; }
 		}
 
 		/// <summary>
@@ -183,7 +211,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float stationaryAngleRapidTurn
 		{
-			get { return stationaryRapidTurnAngle; }
+			get { return m_StationaryRapidTurnAngle; }
 		}
 
 		/// <summary>
@@ -191,17 +219,17 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float ignoreInputTimeRapidTurn
 		{
-			get { return rapidTurnIgnoreInputTime; }
+			get { return m_RapidTurnIgnoreInputTime; }
 		}
 
 		public bool customActionParametersToBeUsed
 		{
-			get { return useCustomActionParameters; }
+			get { return m_UseCustomActionParameters; }
 		}
 		
 		public bool customStrafeParametersToBeUsed
 		{
-			get { return useCustomStrafeParameters; }
+			get { return m_UseCustomStrafeParameters; }
 		}
 		
 		/// <summary>
@@ -209,68 +237,68 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float initialStrafeLookDuration
 		{
-			get { return initialStrafeLookTime; }
+			get { return m_InitialStrafeLookTime; }
 		}
 
 
 		/// <summary>
 		/// Gets the maximum normalized forward speed during strafe.
 		/// </summary>
-		/// <value>1 if <see cref="useCustomStrafeParameters"/> is false otherwise returns <see cref="strafing"/>'s
+		/// <value>1 if <see cref="m_UseCustomStrafeParameters"/> is false otherwise returns <see cref="m_Strafing"/>'s
 		/// <see cref="StrafeProperties.normalizedForwardStrafeSpeed"/></value>
 		public float normalizedForwardStrafeSpeed
 		{
-			get { return useCustomStrafeParameters ? strafing.normalizedForwardStrafeSpeed : 1f; }
+			get { return m_UseCustomStrafeParameters ? m_Strafing.normalizedForwardStrafeSpeed : 1f; }
 		}
 		
 		/// <summary>
 		/// Gets the strafe turning speed scale.
 		/// </summary>
-		/// <value>1 if <see cref="useCustomStrafeParameters"/> is false otherwise returns <see cref="strafing"/>'s
+		/// <value>1 if <see cref="m_UseCustomStrafeParameters"/> is false otherwise returns <see cref="m_Strafing"/>'s
 		/// <see cref="StrafeProperties.strafeTurningSpeed"/></value>
 		public float strafeTurningSpeedScale
 		{
-			get { return useCustomStrafeParameters ? strafing.strafeTurningSpeed : 1f; }
+			get { return m_UseCustomStrafeParameters ? m_Strafing.strafeTurningSpeed : 1f; }
 		}
 
 		/// <summary>
 		/// Gets the maximum normalized backwards speed during strafe.
 		/// </summary>
-		/// <value>1 if <see cref="useCustomStrafeParameters"/> is false otherwise returns <see cref="strafing"/>'s
+		/// <value>1 if <see cref="m_UseCustomStrafeParameters"/> is false otherwise returns <see cref="m_Strafing"/>'s
 		/// <see cref="StrafeProperties.normalizedBackwardStrafeSpeed"/></value>
 		public float normalizedBackwardStrafeSpeed
 		{
-			get { return useCustomStrafeParameters ? strafing.normalizedBackwardStrafeSpeed : 1f; }
+			get { return m_UseCustomStrafeParameters ? m_Strafing.normalizedBackwardStrafeSpeed : 1f; }
 		}
 
 		/// <summary>
 		/// Gets the maximum normalized lateral speed during strafe.
 		/// </summary>
-		/// <value>1 if <see cref="useCustomStrafeParameters"/> is false otherwise returns <see cref="strafing"/>'s
+		/// <value>1 if <see cref="m_UseCustomStrafeParameters"/> is false otherwise returns <see cref="m_Strafing"/>'s
 		/// <see cref="StrafeProperties.normalizedLateralStrafeSpeed"/></value>
 		public float normalizedLateralStrafeSpeed
 		{
-			get { return useCustomStrafeParameters ? strafing.normalizedLateralStrafeSpeed : 1f; }
+			get { return m_UseCustomStrafeParameters ? m_Strafing.normalizedLateralStrafeSpeed : 1f; }
 		}
 
 		/// <summary>
 		/// Gets the strafe input window size.
 		/// </summary>
-		/// <value>1 if <see cref="useCustomStrafeParameters"/> is false otherwise returns <see cref="strafing"/>'s
+		/// <value>1 if <see cref="m_UseCustomStrafeParameters"/> is false otherwise returns <see cref="m_Strafing"/>'s
 		/// <see cref="StrafeProperties.strafeInputWindowSize"/></value>
 		public int strafeInputWindowSize
 		{
-			get { return useCustomStrafeParameters ? strafing.strafeInputWindowSize : 1; }
+			get { return m_UseCustomStrafeParameters ? m_Strafing.strafeInputWindowSize : 1; }
 		}
 
 		/// <summary>
 		/// Gets the forward input window size.
 		/// </summary>
-		/// <value>1 if <see cref="useCustomActionParameters"/> is false otherwise returns <see cref="strafing"/>'s
+		/// <value>1 if <see cref="m_UseCustomActionParameters"/> is false otherwise returns <see cref="m_Strafing"/>'s
 		/// <see cref="ActionProperties.forwardInputWindowSize"/></value>
 		public int forwardInputWindowSize
 		{
-			get { return useCustomActionParameters ? action.forwardInputWindowSize : 1; }
+			get { return m_UseCustomActionParameters ? m_Action.forwardInputWindowSize : 1; }
 		}
 
 		/// <summary>
@@ -278,7 +306,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float fallingForwardSpeed
 		{
-			get { return fallingMaxForwardSpeed; }
+			get { return m_FallingMaxForwardSpeed; }
 		}
 
 		/// <summary>
@@ -286,7 +314,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float fallSpeedDeceleration
 		{
-			get { return fallForwardSpeedDeceleration; }
+			get { return m_FallForwardSpeedDeceleration; }
 		}
 
 		/// <summary>
@@ -294,7 +322,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float fallSpeedAcceleration
 		{
-			get { return fallForwardSpeedAcceleration; }
+			get { return m_FallForwardSpeedAcceleration; }
 		}
 
 		/// <summary>
@@ -302,7 +330,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float sprintNormalizedForwardSpeedIncrease
 		{
-			get { return sprintNormalizedSpeedIncrease; }
+			get { return m_SprintNormalizedSpeedIncrease; }
 		}
 
 		/// <summary>
@@ -310,7 +338,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public int bufferSizeInput
 		{
-			get { return inputBufferSize; }
+			get { return m_InputBufferSize; }
 		}
 
 		/// <summary>
@@ -318,7 +346,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float standingJumpSpeed
 		{
-			get { return standingJumpForwardSpeed; }
+			get { return m_StandingJumpForwardSpeed; }
 		}
 
 		/// <summary>
@@ -326,7 +354,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float standingJumpMinInputThreshold
 		{
-			get { return minInputThreshold; }
+			get { return m_MinInputThreshold; }
 		}
 
 		/// <summary>
@@ -334,7 +362,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float standingJumpMaxMovementThreshold
 		{
-			get { return maxMovementThreshold; }
+			get { return m_MaxMovementThreshold; }
 		}
 
 		/// <summary>
@@ -342,7 +370,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public bool autoToggleSprintOnNoInput
 		{
-			get { return autoToggleSprint; }
+			get { return m_AutoToggleSprint; }
 		}
 
 		/// <summary>
@@ -350,7 +378,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float standingJumpMoveThresholdTime
 		{
-			get { return standingJumpMoveTimeThreshold; }
+			get { return m_StandingJumpMoveTimeThreshold; }
 		}
 	}
 	
@@ -360,55 +388,61 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 	[Serializable]
 	public class ActionProperties
 	{
+		[FormerlySerializedAs("forwardInputSamples")]
 		[SerializeField, Tooltip("Number of samples used for forward input smoothing.")]
-		protected int forwardInputSamples = 1;
+		protected int m_ForwardInputSamples = 1;
 		
 		/// <summary>
 		/// Gets the forward input window size used to create a moving average.
 		/// </summary>
 		public int forwardInputWindowSize
 		{
-			get { return forwardInputSamples; }
+			get { return m_ForwardInputSamples; }
 		}
 	}
 	
 	[Serializable]
 	public class StrafeProperties
 	{
+		[FormerlySerializedAs("strafeInputSamples")]
 		[SerializeField]
-		protected int strafeInputSamples = 1;
+		protected int m_StrafeInputSamples = 1;
+		[FormerlySerializedAs("strafeForwardSpeed")]
 		[SerializeField, Range(0f,1f)]
-		protected float strafeForwardSpeed = 1f; 
+		protected float m_StrafeForwardSpeed = 1f; 
+		[FormerlySerializedAs("strafeBackwardSpeed")]
 		[SerializeField, Range(0f,1f)]
-		protected float strafeBackwardSpeed = 1f; 
+		protected float m_StrafeBackwardSpeed = 1f; 
+		[FormerlySerializedAs("strafeLateralSpeed")]
 		[SerializeField, Range(0f,1f)]
-		protected float strafeLateralSpeed = 1f;
+		protected float m_StrafeLateralSpeed = 1f;
+		[FormerlySerializedAs("strafeTurningSpeedScale")]
 		[SerializeField, Range(0f,1f)]
-		protected float strafeTurningSpeedScale = 1f;
+		protected float m_StrafeTurningSpeedScale = 1f;
 
 		public float normalizedForwardStrafeSpeed
 		{
-			get { return strafeForwardSpeed; }
+			get { return m_StrafeForwardSpeed; }
 		}
 
 		public float normalizedBackwardStrafeSpeed
 		{
-			get { return strafeBackwardSpeed; }
+			get { return m_StrafeBackwardSpeed; }
 		}
 
 		public float normalizedLateralStrafeSpeed
 		{
-			get { return strafeLateralSpeed; }
+			get { return m_StrafeLateralSpeed; }
 		}
 
 		public int strafeInputWindowSize
 		{
-			get { return strafeInputSamples; }
+			get { return m_StrafeInputSamples; }
 		}
 		
 		public float strafeTurningSpeed
 		{
-			get { return strafeTurningSpeedScale; }
+			get { return m_StrafeTurningSpeedScale; }
 		}
 	}
 }
