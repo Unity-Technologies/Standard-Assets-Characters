@@ -5,10 +5,10 @@ namespace StandardAssets.Characters.ThirdPerson
 	/// </summary>
 	public static class AnimationControllerInfo
 	{
-		public const string k_LocomotionState = "Action Locomotion",
+		public const string k_LocomotionState = "Exploration Locomotion",
 		                    k_StrafeLocomotionState = "Strafe Locomotion",
-		                    k_RightFootJumpState = "RightFootPhysicsJump",
-		                    k_LeftFootJumpState = "LeftFootPhysicsJump",
+		                    k_RightFootJumpState = "RightFootJump",
+		                    k_LeftFootJumpState = "LeftFootJump",
 							k_StrafeJumpState = "StrafeJump",
 		                    k_RollLandState = "RollLand",
 		                    k_LandState = "Land";

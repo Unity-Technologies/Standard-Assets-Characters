@@ -19,7 +19,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		public enum AnimatorState
 		{
 			Locomotion,
-			PhysicsJump,
+			Jump,
 			Falling,
 			Landing
 		}
@@ -100,7 +100,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private bool isGrounded;
 
 		// was the last physics jump taken during a planted right foot
-		private bool lastPhysicsJumpRightRoot;
+		private bool lastJumpWasRightRoot;
 
 		// angle of the head for look direction
 		private float headAngle;
@@ -110,7 +110,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		private float cachedAnimatorSpeed = 1.0f;
 
 		// time of the last physics jump
-		private float timeOfLastPhysicsJumpLand;
+		private float timeOfLastJumpLand;
 
 		// whether locomotion mode is set to strafe
 		private bool isStrafing;
@@ -284,9 +284,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// Called on the exit of the physics jump animation.
 		/// </summary>
 		/// <remarks>Should only be called by a physics jump StateMachineBehaviour</remarks>
-		public void OnPhysicsJumpAnimationExit()
+		public void OnJumpAnimationExit()
 		{
-			if (animatorState == AnimatorState.PhysicsJump)
+			if (animatorState == AnimatorState.Jump)
 			{
 				animatorState = AnimatorState.Locomotion;
 			}
@@ -296,9 +296,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// Called on the enter of the physics jump animation.
 		/// </summary>
 		/// <remarks>Should only be called by a physics jump StateMachineBehaviour</remarks>
-		public void OnPhysicsJumpAnimationEnter()
+		public void OnJumpAnimationEnter()
 		{
-			animatorState = AnimatorState.PhysicsJump;
+			animatorState = AnimatorState.Jump;
 		}
 
 		/// <summary>
@@ -731,7 +731,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			switch (animatorState)
 			{
 				// if coming from a physics jump handle animation transition
-				case AnimatorState.PhysicsJump:
+				case AnimatorState.Jump:
 					bool rightFoot = animator.GetBool(hashGroundedFootRight);
 					float duration = configuration.jumpEndTransitionByForwardSpeed.Evaluate(
 						Mathf.Abs(animator.GetFloat(
@@ -742,10 +742,10 @@ namespace StandardAssets.Characters.ThirdPerson
 						                    : AnimationControllerInfo.k_LocomotionState;
 					animator.CrossFadeInFixedTime(locomotion, duration, 0, rightFoot
 						                                                       ? configuration
-							                                                       .rightFootPhysicsJumpLandAnimationOffset
+							                                                       .RightFootJumpLandAnimationOffset
 						                                                       : configuration
-							                                                       .leftFootPhysicsJumpLandAnimationOffset);
-					timeOfLastPhysicsJumpLand = Time.time;
+							                                                       .LeftFootJumpLandAnimationOffset);
+					timeOfLastJumpLand = Time.time;
 					break;
 				case AnimatorState.Falling:
 					// strafe mode does not have a landing animation so transition directly to locomotion
@@ -912,9 +912,9 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			float duration = configuration.jumpTransitionDurationFactorOfSpeed.Evaluate(movementMagnitude);
 			// keep track of the last jump so legs can be alternated if necessary. ie a skip.
-			if (timeOfLastPhysicsJumpLand + configuration.skipJumpWindow >= Time.time)
+			if (timeOfLastJumpLand + configuration.skipJumpWindow >= Time.time)
 			{
-				rightFoot = !lastPhysicsJumpRightRoot;
+				rightFoot = !lastJumpWasRightRoot;
 			}
 
 			animator.SetFloat(hashJumpedLateralSpeed, 0.0f);
@@ -929,7 +929,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 			animator.CrossFade(jumpState, duration);
-			lastPhysicsJumpRightRoot = rightFoot;
+			lastJumpWasRightRoot = rightFoot;
 		}
 
 		private bool IsNormalizedTimeCloseToZeroOrHalf(float margin, out float timeUntilZeroOrHalf)

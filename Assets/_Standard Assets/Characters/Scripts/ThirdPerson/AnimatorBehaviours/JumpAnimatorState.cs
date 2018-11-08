@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 {
@@ -6,10 +7,19 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 	{
 		public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			var brain = animator.GetComponent<ThirdPersonBrain>();
-			if (brain != null)
+			var thirdPersonBrain = animator.GetComponent<ThirdPersonBrain>();
+			if (thirdPersonBrain != null)
 			{
-				brain.thirdPersonMotor.OnJumpAnimationComplete();
+				thirdPersonBrain.OnJumpAnimationExit();
+			}
+		}
+		
+		public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+		{
+			var thirdPersonBrain = animator.GetComponent<ThirdPersonBrain>();
+			if (thirdPersonBrain != null)
+			{
+				thirdPersonBrain.OnJumpAnimationEnter();
 			}
 		}
 	}

@@ -46,8 +46,8 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		protected AnimationCurve jumpEndTransitionDurationByForwardSpeed = AnimationCurve.Linear(0,0,1,0.125f);
 		
 		[SerializeField, Tooltip("Cross fade cycle offset for transition into locomotion state after a physics jump")]
-		protected float rightFootPhysicsJumpLandAnimationTimeOffset = 0.6f,
-						leftFootPhysicsJumpLandAnimationTimeOffset = 0.3f;
+		protected float rightFootJumpLandAnimationTimeOffset = 0.6f,
+						leftFootJumpLandAnimationTimeOffset = 0.3f;
 
 		[SerializeField, Tooltip("Time in seconds allowed between jumps to create a skip effect")]
 		protected float skipJumpLandWindow = 0.25f;
@@ -230,17 +230,17 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// <summary>
 		/// Gets the offset used during the cross fade out of right foot physics jump.
 		/// </summary>
-		public float rightFootPhysicsJumpLandAnimationOffset
+		public float RightFootJumpLandAnimationOffset
 		{
-			get { return rightFootPhysicsJumpLandAnimationTimeOffset; }
+			get { return rightFootJumpLandAnimationTimeOffset; }
 		}
 
 		/// <summary>
 		/// Gets the offset used during the cross fade out of left foot physics jump.
 		/// </summary>
-		public float leftFootPhysicsJumpLandAnimationOffset
+		public float LeftFootJumpLandAnimationOffset
 		{
-			get { return leftFootPhysicsJumpLandAnimationTimeOffset; }
+			get { return leftFootJumpLandAnimationTimeOffset; }
 		}
 		
 		/// <summary>

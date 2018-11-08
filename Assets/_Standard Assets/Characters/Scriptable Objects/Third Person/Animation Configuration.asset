@@ -55,6 +55,30 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  turningSpeedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   jumpTransitionAsAFactorOfSpeed:
     serializedVersion: 2
     m_Curve:
@@ -103,8 +127,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  rightFootPhysicsJumpLandAnimationTimeOffset: 0.6
-  leftFootPhysicsJumpLandAnimationTimeOffset: 0.3
+  rightFootJumpLandAnimationTimeOffset: 0.6
+  leftFootJumpLandAnimationTimeOffset: 0.3
   skipJumpLandWindow: 0.38
   standingJumpNormalizedSpeedMaxThreshold: 0.25
   runningJumpNormalizedSpeedMinThreshold: 0.8
@@ -144,5 +168,6 @@ MonoBehaviour:
     headLookAtWeight: 1
     headLookAtMaxRotation: 75
     headLookAtRotationSpeed: 15
+    noInputHeadLookAtScale: 0.5
     adjustHeadLookAtWhileAerial: 0
     adjustHeadLookAtDuringTurnaround: 1
