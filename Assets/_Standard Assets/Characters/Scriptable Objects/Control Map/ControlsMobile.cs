@@ -15,10 +15,8 @@ public class ControlsMobile : InputActionAssetReference
         : base(asset)
     {
     }
-
-    bool m_Initialized;
-
-    void Initialize()
+    private bool m_Initialized;
+    private void Initialize()
     {
         // Movement
         m_Movement = asset.GetActionMap("Movement");
@@ -31,8 +29,7 @@ public class ControlsMobile : InputActionAssetReference
         m_Movement_strafe = m_Movement.GetAction("strafe");
         m_Initialized = true;
     }
-
-    void Uninitialize()
+    private void Uninitialize()
     {
         m_Movement = null;
         m_Movement_look = null;
@@ -55,17 +52,17 @@ public class ControlsMobile : InputActionAssetReference
         SetAsset(ScriptableObject.Instantiate(asset));
     }
     // Movement
-    InputActionMap m_Movement;
-    InputAction m_Movement_look;
-    InputAction m_Movement_move;
-    InputAction m_Movement_sprint;
-    InputAction m_Movement_jump;
-    InputAction m_Movement_crouch;
-    InputAction m_Movement_recentre;
-    InputAction m_Movement_strafe;
+    private InputActionMap m_Movement;
+    private InputAction m_Movement_look;
+    private InputAction m_Movement_move;
+    private InputAction m_Movement_sprint;
+    private InputAction m_Movement_jump;
+    private InputAction m_Movement_crouch;
+    private InputAction m_Movement_recentre;
+    private InputAction m_Movement_strafe;
     public struct MovementActions
     {
-        ControlsMobile m_Wrapper;
+        private ControlsMobile m_Wrapper;
         public MovementActions(ControlsMobile wrapper) { m_Wrapper = wrapper; }
         public InputAction @look { get { return m_Wrapper.m_Movement_look; } }
         public InputAction @move { get { return m_Wrapper.m_Movement_move; } }
