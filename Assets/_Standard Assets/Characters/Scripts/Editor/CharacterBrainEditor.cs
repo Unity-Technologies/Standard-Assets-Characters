@@ -41,11 +41,11 @@ namespace Editor
 	[CustomEditor(typeof(ThirdPersonBrain))]
 	public class ThirdPersonBrainEditor : CharacterBrainEditor
 	{
-		protected const string k_AnimationTurnaroundName = "animationTurnaroundBehaviour",
-		                       k_BlendspaceTurnaroundName = "blendspaceTurnaroundBehaviour",
-		                       k_AnimationConfigName = "configuration",
-		                       k_MotorName = "motor",
-		                       k_MotorConfigPath = "motor.configuration";
+		protected const string k_AnimationTurnaroundName = "m_AnimationTurnaroundBehaviour",
+		                       k_BlendspaceTurnaroundName = "m_BlendspaceTurnaroundBehaviour",
+		                       k_AnimationConfigName = "m_Configuration",
+		                       k_MotorName = "m_Motor";
+		string k_MotorConfigPath = string.Format("{0}.{1}", k_MotorName, k_AnimationConfigName);
 
 		protected const string k_Help =
 			"Configurations are separate assets (ScriptableObjects). Click on the associated configuration to locate it in the Project View. Values can be edited here during runtime and not be lost. It also allows one to create different settings and swap between them. To create a new setting Right click -> Create -> Standard Assets -> Characters -> ...";
