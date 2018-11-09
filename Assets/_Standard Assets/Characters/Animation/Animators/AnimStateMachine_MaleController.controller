@@ -1130,7 +1130,7 @@ BlendTree:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: BlendTree
+  m_Name: RightFootSprintingJump
   m_Childs:
   - serializedVersion: 2
     m_Motion: {fileID: 7400002, guid: b9709ec07d31c490cacc8a490fa9fef0, type: 3}
@@ -1728,6 +1728,20 @@ BlendTree:
   m_Childs: []
   m_BlendParameter: FallDistance
   m_BlendParameterY: Blend
+  m_MinThreshold: 0
+  m_MaxThreshold: 1
+  m_UseAutomaticThresholds: 1
+  m_NormalizedBlendValues: 0
+  m_BlendType: 0
+--- !u!206 &206553008512793128
+BlendTree:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: BlendTree
+  m_Childs: []
+  m_BlendParameter: ForwardSpeed
+  m_BlendParameterY: ForwardSpeed
   m_MinThreshold: 0
   m_MaxThreshold: 1
   m_UseAutomaticThresholds: 1
