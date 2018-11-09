@@ -128,7 +128,8 @@ namespace StandardAssets.Characters.Common
 		/// </summary>
 		void Awake()
 		{
-			
+
+			hasJumpInput = false;
 			CinemachineCore.GetInputAxis = LookInputOverride;
 
 #if (!UNITY_EDITOR && (UNITY_ANDROID || UNITY_IOS))
