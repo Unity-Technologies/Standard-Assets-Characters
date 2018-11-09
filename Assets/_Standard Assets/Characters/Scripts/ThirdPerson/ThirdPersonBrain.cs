@@ -751,16 +751,16 @@ namespace StandardAssets.Characters.ThirdPerson
 				// if coming from a physics jump handle animation transition
 				case AnimatorState.Jump:
 					bool rightFoot = animator.GetBool(m_HashGroundedFootRight);
-					float duration = m_Configuration.jumpEndTransitionByForwardSpeed.Evaluate(
+					float duration = m_Configuration.jumpEndTransitionAsAFactorOfSpeed.Evaluate(
 						Mathf.Abs(animator.GetFloat(AnimationControllerInfo.k_ForwardSpeedParameter)));
 					string locomotion = m_IsStrafing
 						                    ? AnimationControllerInfo.k_StrafeLocomotionState
 						                    : AnimationControllerInfo.k_LocomotionState;
 					animator.CrossFadeInFixedTime(locomotion, duration, 0, rightFoot
 						                                                       ? m_Configuration
-							                                                       .RightFootJumpLandAnimationOffset
+							                                                       .rightFootJumpLandAnimationOffset
 						                                                       : m_Configuration
-							                                                       .LeftFootJumpLandAnimationOffset);
+							                                                       .leftFootJumpLandAnimationOffset);
 					m_TimeOfLastJumpLand = Time.time;
 					break;
 				case AnimatorState.Falling:
@@ -922,7 +922,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			SetJumpForward(animatorForwardSpeed);
 			bool rightFoot = animator.GetBool(m_HashGroundedFootRight);
 
-			float duration = m_Configuration.jumpTransitionDurationFactorOfSpeed.Evaluate(movementMagnitude);
+			float duration = m_Motor.movementMode == ThirdPersonMotorMovementMode.Exploration
+				                 ? m_Configuration.jumpTransitionAsAFactorOfSpeed.Evaluate(movementMagnitude)
+				                 : m_Configuration.strafeJumpTransitionAsAFactorOfSpeed.Evaluate(movementMagnitude);
 			// keep track of the last jump so legs can be alternated if necessary. ie a skip.
 			if (m_TimeOfLastJumpLand + m_Configuration.skipJumpWindow >= Time.time)
 			{
@@ -955,9 +957,10 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		void SetJumpForward(float jumpForward)
 		{
+			float sign = Mathf.Sign(jumpForward);
 			jumpForward = jumpForward.Remap01(m_Configuration.standingJumpNormalizedSpeedThreshold,
 			                                  m_Configuration.runningJumpNormalizedSpeedThreshold);
-			animator.SetFloat(m_HashForwardSpeed, jumpForward);
+			animator.SetFloat(m_HashForwardSpeed, jumpForward * sign);
 		}
 
 		/// <summary>

@@ -458,7 +458,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		public void OnJumpPressed()
 		{
-			m_JumpQueued = true;
+			TryJump(out m_JumpQueued);
 		}
 
 		/// <summary>
@@ -717,6 +717,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			
 			m_AerialState = ThirdPersonAerialMovementState.Jumping;
+			m_FallDirection = CalculateLocalInputDirection();
 			
 			if (IsIdleForwardJump())
 			{
@@ -738,7 +739,10 @@ namespace StandardAssets.Characters.ThirdPerson
 				cachedForwardVelocity = m_AverageForwardVelocity.average;
 			}
 			
-			m_FallDirection = CalculateLocalInputDirection();
+			if (Mathf.Abs(normalizedLateralSpeed) >= 0.8f)
+			{
+				cachedForwardVelocity *= m_Configuration.lateralStrafeJumpMultiplier;
+			}
 			
 			m_ControllerAdapter.SetJumpVelocity(
 				m_Configuration.jumpHeightAsFactorOfForwardSpeed.Evaluate(normalizedForwardSpeed));

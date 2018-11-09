@@ -47,13 +47,17 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		[FormerlySerializedAs("jumpTransitionAsAFactorOfSpeed")]
 		[Header("Jumping")]
 		[SerializeField, Tooltip("Curve used to determine the cross fade duration of the transition into the jump " +
-								 "animation state")]
+								 "animation state in exploration mode.")]
 		AnimationCurve m_JumpTransitionAsAFactorOfSpeed = AnimationCurve.Constant(0, 1, 0.15f);
+		
+		[SerializeField, Tooltip("Curve used to determine the cross fade duration of the transition into the jump " +
+		                         "animation state in strafe mode.")]
+		AnimationCurve m_StrafeJumpTransitionAsAFactorOfSpeed = AnimationCurve.Constant(0, 1, 0.15f);
 
-		[FormerlySerializedAs("jumpEndTransitionDurationByForwardSpeed")]
+		[FormerlySerializedAs("m_JumpEndTransitionDurationByForwardSpeed"),FormerlySerializedAs("jumpEndTransitionDurationByForwardSpeed")]
 		[SerializeField, Tooltip("Curve used to determine the cross fade duration of the transition into the " +
 								 "locomotion animation from the jump animation state")]
-		AnimationCurve m_JumpEndTransitionDurationByForwardSpeed = AnimationCurve.Linear(0,0,1,0.125f);
+		AnimationCurve m_JumpEndTransitionAsAFactorOfSpeed = AnimationCurve.Linear(0,0,1,0.125f);
 		
 		[FormerlySerializedAs("rightFootJumpLandAnimationTimeOffset")]
 		[SerializeField, Tooltip("Cross fade cycle offset for transition into locomotion state after a physics jump")]
@@ -250,15 +254,15 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// <summary>
 		/// Gets the curve to be used to evaluate the transition duration out of the jump state.
 		/// </summary>
-		public AnimationCurve jumpEndTransitionByForwardSpeed
+		public AnimationCurve jumpEndTransitionAsAFactorOfSpeed
 		{
-			get { return m_JumpEndTransitionDurationByForwardSpeed; }
+			get { return m_JumpEndTransitionAsAFactorOfSpeed; }
 		}
 
 		/// <summary>
 		/// Gets the offset used during the cross fade out of right foot physics jump.
 		/// </summary>
-		public float RightFootJumpLandAnimationOffset
+		public float rightFootJumpLandAnimationOffset
 		{
 			get { return m_RightFootJumpLandAnimationTimeOffset; }
 		}
@@ -266,7 +270,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// <summary>
 		/// Gets the offset used during the cross fade out of left foot physics jump.
 		/// </summary>
-		public float LeftFootJumpLandAnimationOffset
+		public float leftFootJumpLandAnimationOffset
 		{
 			get { return m_LeftFootJumpLandAnimationTimeOffset; }
 		}
@@ -320,11 +324,19 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		}
 
 		/// <summary>
-		/// Gets the curve to be used to evaluate the transition duration into the jump state.
+		/// Gets the curve to be used to evaluate the transition duration into the jump state in exploration mode.
 		/// </summary>
-		public AnimationCurve jumpTransitionDurationFactorOfSpeed
+		public AnimationCurve jumpTransitionAsAFactorOfSpeed
 		{
 			get { return m_JumpTransitionAsAFactorOfSpeed; }
+		}
+		
+		/// <summary>
+		/// Gets the curve to be used to evaluate the transition duration into the jump state in strafe mode.
+		/// </summary>
+		public AnimationCurve strafeJumpTransitionAsAFactorOfSpeed
+		{
+			get { return m_StrafeJumpTransitionAsAFactorOfSpeed; }
 		}
 
 		/// <summary>
