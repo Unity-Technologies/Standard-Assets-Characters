@@ -925,7 +925,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			m_IsGrounded = false;
 
 			float movementMagnitude = new Vector2(animatorLateralSpeed, animatorForwardSpeed).magnitude;
-			SetJumpForward(animatorForwardSpeed);
 			bool rightFoot = animator.GetBool(m_HashGroundedFootRight);
 
 			float duration = m_Motor.movementMode == ThirdPersonMotorMovementMode.Exploration
@@ -961,14 +960,6 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			return (value > 1.0f - margin || value < margin ||
 			        (value > 0.5f - margin && value < 0.5f + margin));
-		}
-
-		void SetJumpForward(float jumpForward)
-		{
-			float sign = Mathf.Sign(jumpForward);
-			jumpForward = Mathf.Abs(jumpForward).Remap01(m_Configuration.standingJumpNormalizedSpeedThreshold,
-			                                  m_Configuration.runningJumpNormalizedSpeedThreshold);
-			animator.SetFloat(m_HashForwardSpeed, jumpForward * sign);
 		}
 
 		/// <summary>

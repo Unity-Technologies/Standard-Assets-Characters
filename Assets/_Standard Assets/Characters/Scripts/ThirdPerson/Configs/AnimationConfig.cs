@@ -69,14 +69,6 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		[FormerlySerializedAs("skipJumpLandWindow")]
 		[SerializeField, Tooltip("Time in seconds allowed between jumps to create a skip effect")]
 		float m_SkipJumpLandWindow = 0.25f;
-
-		[FormerlySerializedAs("standingJumpNormalizedSpeedMaxThreshold")]
-		[SerializeField, Tooltip("A forward jump speed less than this will be clamped to 0")]
-		float m_StandingJumpNormalizedSpeedMaxThreshold = 0.1f;
-		
-		[FormerlySerializedAs("runningJumpNormalizedSpeedMinThreshold")]
-		[SerializeField, Tooltip("A forward jump speed more than this will be clamped to 1")]
-		float m_RunningJumpNormalizedSpeedMinThreshold = 0.9f;
 		
 		[FormerlySerializedAs("landSpeedAsAFactorOfSpeed")]
 		[Header("Landing")]
@@ -339,22 +331,6 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			get { return m_StrafeJumpTransitionAsAFactorOfSpeed; }
 		}
 
-		/// <summary>
-		/// Gets the normalized speed threshold used to clamp jump forward speed to 1.
-		/// </summary>
-		public float runningJumpNormalizedSpeedThreshold
-		{
-			get { return m_RunningJumpNormalizedSpeedMinThreshold; }
-		}
-
-		/// <summary>
-		/// Gets the normalized speed threshold used to clamp jump forward speed down to 0.
-		/// </summary>
-		public float standingJumpNormalizedSpeedThreshold
-		{
-			get { return m_StandingJumpNormalizedSpeedMaxThreshold; }
-		}
-		
 		/// <summary>
 		/// Gets the scale applied to head look at speed when there is no look input.
 		/// </summary>
