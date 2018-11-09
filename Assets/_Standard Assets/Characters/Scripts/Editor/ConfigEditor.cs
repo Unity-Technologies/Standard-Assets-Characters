@@ -24,7 +24,7 @@ namespace Editor
 	[CustomEditor(typeof(MotorConfig))]
 	public class MotorConfigEditor : ConfigEditor
 	{
-		const string k_ActionName = "action", k_StrafeName = "strafing";
+		const string k_ExplorationName = "m_Exploration", k_StrafeName = "m_Strafing";
 		
 		protected override string[] GetExclusions()
 		{
@@ -34,7 +34,7 @@ namespace Editor
 
 			if (!config.CustomExplorationParametersToBeUsed)
 			{
-				exclusions.Add(k_ActionName);
+				exclusions.Add(k_ExplorationName);
 			}
 			
 			if (!config.customStrafeParametersToBeUsed)
@@ -49,9 +49,9 @@ namespace Editor
 	[CustomEditor(typeof(AnimationConfig))]
 	public class AnimationConfigEditor : ConfigEditor
 	{
-		const string k_HeadTurn = "headTurnProperties",
-		                     k_StrafeChangeAngle = "strafeRapidDirectionChangeAngle",
-		                     k_StrafeChangeCurve = "strafeRapidDirectionChangeSpeedCurve";
+		const string k_HeadTurn = "m_HeadTurnProperties",
+		                     k_StrafeChangeAngle = "m_StrafeRapidDirectionChangeAngle",
+		                     k_StrafeChangeCurve = "m_StrafeRapidDirectionChangeSpeedCurve";
 		
 		protected override string[] GetExclusions()
 		{

@@ -11,18 +11,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a968cd77fa044ffdaab9a7f295931436, type: 3}
   m_Name: Animation Configuration
   m_EditorClassIdentifier: 
-  forwardSpeedInterpolationRange:
-    minValue: 0.2
-    maxValue: 0.35
-  lateralSpeedInterpolationRange:
-    minValue: 0.2
-    maxValue: 0.35
-  turningSpeedInterpolationRange:
-    minValue: 0.01
-    maxValue: 0.05
-  enableStrafeRapidDirectionChangeSmoothing: 1
-  strafeRapidDirectionChangeAngle: 140
-  strafeRapidDirectionChangeSpeedCurve:
+  m_ForwardSpeedInterpolationRange:
+    m_MinValue: 0.2
+    m_MaxValue: 0.35
+  m_LateralSpeedInterpolationRange:
+    m_MinValue: 0.2
+    m_MaxValue: 0.35
+  m_TurningSpeedInterpolationRange:
+    m_MinValue: 0.01
+    m_MaxValue: 0.05
+  m_EnableStrafeRapidDirectionChangeSmoothing: 1
+  m_StrafeRapidDirectionChangeAngle: 140
+  m_StrafeRapidDirectionChangeSpeedCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -55,7 +55,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  turningSpeedCurve:
+  m_TurningSpeedCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -79,7 +79,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  jumpTransitionAsAFactorOfSpeed:
+  m_JumpTransitionAsAFactorOfSpeed:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -103,7 +103,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  jumpEndTransitionDurationByForwardSpeed:
+  m_JumpEndTransitionDurationByForwardSpeed:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -127,12 +127,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  rightFootJumpLandAnimationTimeOffset: 0.6
-  leftFootJumpLandAnimationTimeOffset: 0.3
-  skipJumpLandWindow: 0.38
-  standingJumpNormalizedSpeedMaxThreshold: 0.25
-  runningJumpNormalizedSpeedMinThreshold: 0.8
-  landSpeedAsAFactorOfSpeed:
+  m_RightFootJumpLandAnimationTimeOffset: 0.6
+  m_LeftFootJumpLandAnimationTimeOffset: 0.3
+  m_SkipJumpLandWindow: 0.38
+  m_StandingJumpNormalizedSpeedMaxThreshold: 0.25
+  m_RunningJumpNormalizedSpeedMinThreshold: 0.8
+  m_LandSpeedAsAFactorOfSpeed:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -156,18 +156,18 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  normalizedForwardSpeedToRoll: 0.3
-  fallTimeRequiredToTriggerRoll: 0.75
-  rollAnimationBlendTime: 0.15
-  landAnimationBlendTime: 0.11
-  startRightFootGrounded: 0
-  groundedFootThreshold: 0.25
-  groundedFootThresholdOffset: 0.25
-  enableHeadTurn: 1
-  headTurnProperties:
-    headLookAtWeight: 1
-    headLookAtMaxRotation: 75
-    headLookAtRotationSpeed: 15
-    noInputHeadLookAtScale: 0.5
-    adjustHeadLookAtWhileAerial: 0
-    adjustHeadLookAtDuringTurnaround: 1
+  m_NormalizedForwardSpeedToRoll: 0.3
+  m_FallTimeRequiredToTriggerRoll: 0.75
+  m_RollAnimationBlendTime: 0.15
+  m_LandAnimationBlendTime: 0.11
+  m_StartRightFootGrounded: 0
+  m_GroundedFootThreshold: 0.25
+  m_GroundedFootThresholdOffset: 0.25
+  m_EnableHeadTurn: 1
+  m_HeadTurnProperties:
+    m_HeadLookAtWeight: 1
+    m_HeadLookAtMaxRotation: 75
+    m_HeadLookAtRotationSpeed: 15
+    m_NoInputHeadLookAtScale: 0.5
+    m_AdjustHeadLookAtWhileAerial: 0
+    m_AdjustHeadLookAtDuringTurnaround: 1

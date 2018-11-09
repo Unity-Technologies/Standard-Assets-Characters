@@ -9,7 +9,9 @@ namespace StandardAssets.Characters.Helpers
 	[Serializable]
 	public struct FloatRange
 	{
+		[SerializeField]
 		float m_MinValue;
+		[SerializeField]
 		float m_MaxValue;
 
 		public FloatRange(float minValue, float maxValue)
@@ -32,7 +34,7 @@ namespace StandardAssets.Characters.Helpers
 		}
 	}
 	
-
+	/// <summary>
 	/// Attribute for set minimum and maximum values on <see cref="FloatRange"/>
 	/// </summary>
 	public class FloatRangeSetupAttribute : Attribute
