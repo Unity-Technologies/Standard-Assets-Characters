@@ -45,7 +45,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		protected float m_InitialStrafeLookTime = 0.125f;
 		
 		[SerializeField, Tooltip("Multiplier applied to a lateral strafe jump.")]
-		protected float m_lateralStrafeJumpMultiplier = 1.5f;
+		protected float m_lateralStrafeJumpMultiplier = 1.0f;
 
 		[FormerlySerializedAs("jumpHeightAsAFactorOfForwardSpeed")]
 		[Header("Jumping")]
