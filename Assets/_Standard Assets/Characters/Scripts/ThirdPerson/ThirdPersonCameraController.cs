@@ -13,29 +13,6 @@ namespace StandardAssets.Characters.ThirdPerson
 	[RequireComponent(typeof(Animator))]
 	public class ThirdPersonCameraController : MonoBehaviour
 	{
-		string m_ExplorationState = "Exploration", m_StrafeState = "Strafe";
-
-		/// <summary>
-		/// Enum used to describe third person camera type.
-		/// </summary>
-		enum CameraType
-		{
-			Exploration,
-			Strafe
-		}
-
-		[FormerlySerializedAs("startingCameraMode")]
-		[SerializeField, Tooltip("Define the starting camera mode")]
-		CameraType m_StartingCameraMode = CameraType.Exploration;
-
-		[FormerlySerializedAs("explorationStateDrivenCamera")]
-		[SerializeField, Tooltip("Cinemachine State Driven Camera")]
-		CinemachineStateDrivenCamera m_ExplorationStateDrivenCamera;
-
-		[FormerlySerializedAs("strafeStateDrivenCamera")]
-		[SerializeField, Tooltip("Cinemachine State Driven Camera")]
-		CinemachineStateDrivenCamera m_StrafeStateDrivenCamera;
-
 		[FormerlySerializedAs("idleCamera")]
 		[SerializeField, Tooltip("This is the free look camera that will be able to get recentered")]
 		CinemachineFreeLook m_IdleCamera;
@@ -48,40 +25,12 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		Animator m_Animator;
 
-		/// <summary>
-		/// Sets the animation to the defined state
-		/// </summary>
-		/// <param name="state">the name of the animation state</param>
-		/// <param name="layer">the layer that the animation state is on</param>
-		public void SetAnimation(string state, int layer = 0)
-		{
-			if (m_Animator == null)
-			{
-				m_Animator = GetComponent<Animator>();
-			}
-			m_Animator.Play(state,layer);
-		}
 
 		public void RecenterCamera()
 		{
 			if (!m_ThirdPersonBrain.thirdPersonInput.hasMovementInput)
 			{
 				RecenterFreeLookCam(m_IdleCamera);
-			}
-		}
-
-		void Start()
-		{
-			if (m_StartingCameraMode == CameraType.Exploration)
-			{
-				SetAnimation(m_ExplorationState);
-				SetCrosshairVisible(false);
-				
-			}
-			else
-			{
-				SetAnimation(m_StrafeState);
-				SetCrosshairVisible();
 			}
 		}
 
@@ -113,34 +62,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			freeLook.m_YAxisRecentering.m_enabled = false;
 		}
 
-		/// <summary>
-		/// Keep virtual camera children of a state driven camera all
-		/// pointing in the same direction when changing between state driven cameras
-		/// </summary>
-		/// <param name="sourceStateDrivenCamera">The state driven camera that is being transitioned from</param>
-		/// <param name="destinationStateDrivenCamera">The state driven camera that is being transitioned to</param>
-		void SetCameraAxes(CinemachineStateDrivenCamera sourceStateDrivenCamera,
-		                           CinemachineStateDrivenCamera destinationStateDrivenCamera)
-		{
-			foreach (var camera in sourceStateDrivenCamera.ChildCameras)
-			{
-				if (sourceStateDrivenCamera.IsLiveChild(camera))
-				{
-					var cameraX = camera.GetComponent<CinemachineFreeLook>().m_XAxis.Value;
-					var cameraY = camera.GetComponent<CinemachineFreeLook>().m_YAxis.Value;
-					SetChildCameraAxes(destinationStateDrivenCamera, cameraX, cameraY);
-				}
-			}
-		}
-
-		void SetChildCameraAxes(CinemachineStateDrivenCamera stateDrivenCamera, float xAxis, float yAxis)
-		{
-			foreach (var childCamera in stateDrivenCamera.ChildCameras)
-			{
-				childCamera.GetComponent<CinemachineFreeLook>().m_XAxis.Value = xAxis;
-				childCamera.GetComponent<CinemachineFreeLook>().m_YAxis.Value = yAxis;
-			}
-		}
 
 		void SetCrosshairVisible(bool isVisible = true)
 		{
@@ -154,15 +75,11 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		public void SetStrafeCamera()
 		{
-			SetCameraAxes(m_ExplorationStateDrivenCamera, m_StrafeStateDrivenCamera);
-			SetAnimation(m_StrafeState);
 			SetCrosshairVisible();
 		}
 
 		public void SetExplorationCamera()
 		{
-			SetCameraAxes(m_StrafeStateDrivenCamera, m_ExplorationStateDrivenCamera);
-			SetAnimation(m_ExplorationState);
 			SetCrosshairVisible(false);
 		}
 
@@ -174,22 +91,12 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			m_ThirdPersonBrain = brainToUse;
 
-			//Automatically handle Cinemachine setup
-			if (m_StrafeStateDrivenCamera.m_AnimatedTarget == null)
-			{
-				m_StrafeStateDrivenCamera.m_AnimatedTarget = m_ThirdPersonBrain.GetComponent<Animator>();
-			}
-
-			if (m_ExplorationStateDrivenCamera.m_AnimatedTarget == null)
-			{
-				m_ExplorationStateDrivenCamera.m_AnimatedTarget = m_ThirdPersonBrain.GetComponent<Animator>();
-			}
-
 			var rootSdc = GetComponent<CinemachineStateDrivenCamera>();
 			if (rootSdc != null)
 			{
 				rootSdc.m_LookAt = m_ThirdPersonBrain.transform;
 				rootSdc.m_Follow = m_ThirdPersonBrain.transform;
+				rootSdc.m_AnimatedTarget = m_ThirdPersonBrain.GetComponent<Animator>();
 			}
 		}
 	}
