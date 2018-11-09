@@ -771,7 +771,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				             ? m_Configuration.fallSpeedDeceleration
 				             : m_Configuration.fallSpeedAcceleration;
 			cachedForwardVelocity = Mathf.Lerp(cachedForwardVelocity, target, time);
-			normalizedForwardSpeed = cachedForwardVelocity / maxFallForward;
+			normalizedForwardSpeed = Mathf.Sign(normalizedForwardSpeed) * cachedForwardVelocity / maxFallForward;
 		}
 	}
 	

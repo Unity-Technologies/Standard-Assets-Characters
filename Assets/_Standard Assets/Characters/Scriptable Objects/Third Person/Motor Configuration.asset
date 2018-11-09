@@ -25,6 +25,7 @@ MonoBehaviour:
     m_StrafeLateralSpeed: 1
     m_StrafeTurningSpeedScale: 0.667
   m_InitialStrafeLookTime: 0.125
+  m_lateralStrafeJumpMultiplier: 1
   m_JumpHeightAsAFactorOfForwardSpeed:
     serializedVersion: 2
     m_Curve:
@@ -85,4 +86,3 @@ MonoBehaviour:
   m_MaxSpeedForStandingTurnaround: 0.25
   m_RapidTurnIgnoreInputTime: 0.1
   m_InputBufferSize: 5
-  lateralStrafeJumpMultiplier: 1.6
