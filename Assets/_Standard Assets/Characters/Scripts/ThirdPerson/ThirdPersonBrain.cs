@@ -125,6 +125,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		bool m_IsTryingStrafe;
 
+		bool justJumped;
+
 		//the camera controller to be used
 		ThirdPersonCameraController m_CameraController;
 		bool m_IsChangingCamera;
@@ -530,9 +532,13 @@ namespace StandardAssets.Characters.ThirdPerson
 				UpdateAnimationMovementSpeeds(Time.deltaTime);
 				UpdateFoot();
 			}
-			else
+			else if (!justJumped)
 			{
 				animator.SetFloat(m_HashVerticalSpeed, m_Motor.normalizedVerticalSpeed);
+			}
+			else
+			{
+				justJumped = false;
 			}
 		}
 
@@ -943,6 +949,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			animator.CrossFade(jumpState, duration);
 			m_LastJumpWasRightRoot = rightFoot;
+			
+			justJumped = true;
 		}
 
 		bool IsNormalizedTimeCloseToZeroOrHalf(float margin, out float timeUntilZeroOrHalf)
@@ -958,7 +966,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		void SetJumpForward(float jumpForward)
 		{
 			float sign = Mathf.Sign(jumpForward);
-			jumpForward = jumpForward.Remap01(m_Configuration.standingJumpNormalizedSpeedThreshold,
+			jumpForward = Mathf.Abs(jumpForward).Remap01(m_Configuration.standingJumpNormalizedSpeedThreshold,
 			                                  m_Configuration.runningJumpNormalizedSpeedThreshold);
 			animator.SetFloat(m_HashForwardSpeed, jumpForward * sign);
 		}
