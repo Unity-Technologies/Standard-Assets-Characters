@@ -1,4 +1,8 @@
-﻿using System;
+﻿#if !UNITY_EDITOR && (UNITY_ANDROID || UNITY_IOS)
+#define TOUCH_CONTROLS
+#endif
+
+using System;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.Experimental.Input;
@@ -128,18 +132,18 @@ namespace StandardAssets.Characters.Common
 		/// </summary>
 		void Awake()
 		{
-			
+			hasJumpInput = false;
 			CinemachineCore.GetInputAxis = LookInputOverride;
 
-#if (!UNITY_EDITOR && (UNITY_ANDROID || UNITY_IOS))
-	
+#if TOUCH_CONTROLS
 			m_CursorLocked = false;
 			HandleCursorLock();
 			if (m_MobileControls != null)
 			{
 				m_MobileControls.Movement.move.performed +=OnMoveInput;
 				m_MobileControls.Movement.look.performed += OnLookInput;
-				m_MobileControls.Movement.jump.performed += OnJumpInput;
+				m_MobileControls.Movement.jump.performed += OnJumpInputEnded;
+				m_MobileControls.Movement.jump.started += OnJumpInputStarted;
 				m_MobileControls.Movement.sprint.performed += OnSprintInput;
 
 				RegisterAdditionalInputsMobile();
@@ -151,8 +155,9 @@ namespace StandardAssets.Characters.Common
 			{
 				m_Controls.Movement.move.performed +=OnMoveInput;
 				m_Controls.Movement.look.performed += OnLookInput;
-				m_Controls.Movement.jump.performed += OnJumpInput;
 				m_Controls.Movement.sprint.performed += OnSprintInput;
+				m_Controls.Movement.jump.performed += OnJumpInputEnded;
+				m_Controls.Movement.jump.started += OnJumpInputStarted;
 			
 				RegisterAdditionalInputs();
 			}
@@ -214,7 +219,7 @@ namespace StandardAssets.Characters.Common
 		/// </summary>
 		protected virtual void OnEnable()
 		{
-#if !UNITY_EDITOR && (UNITY_ANDROID || UNITY_IOS)
+#if TOUCH_CONTROLS
 			m_MobileControls.Enable();
 #else
 			m_Controls.Enable();
@@ -227,7 +232,7 @@ namespace StandardAssets.Characters.Common
 		/// </summary>
 		protected virtual void OnDisable()
 		{
-#if !UNITY_EDITOR && (UNITY_ANDROID || UNITY_IOS)
+#if TOUCH_CONTROLS
 			m_MobileControls.Disable();
 #else
 			m_Controls.Disable();
@@ -256,15 +261,17 @@ namespace StandardAssets.Characters.Common
 		/// Handles the jump event from the new input system
 		/// </summary>
 		/// <param name="context">context is required by the performed event</param>
-		void OnJumpInput(InputAction.CallbackContext context)
+		void OnJumpInputEnded(InputAction.CallbackContext context)
 		{
-			hasJumpInput = !hasJumpInput;
-			if (hasJumpInput)
+			hasJumpInput = false;
+		}
+		
+		void OnJumpInputStarted(InputAction.CallbackContext context)
+		{
+			hasJumpInput = true;
+			if (jumpPressed != null)
 			{
-				if (jumpPressed != null)
-				{
-					jumpPressed();
-				}
+				jumpPressed();
 			}
 		}
 

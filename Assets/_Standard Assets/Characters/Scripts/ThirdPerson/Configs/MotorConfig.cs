@@ -43,6 +43,9 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		[FormerlySerializedAs("initialStrafeLookTime")]
 		[SerializeField, Tooltip("The duration of the initial turn into strafe mode.")]
 		protected float m_InitialStrafeLookTime = 0.125f;
+		
+		[SerializeField, Tooltip("Multiplier applied to a lateral strafe jump.")]
+		protected float m_lateralStrafeJumpMultiplier = 1.0f;
 
 		[FormerlySerializedAs("jumpHeightAsAFactorOfForwardSpeed")]
 		[Header("Jumping")]
@@ -239,7 +242,16 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		{
 			get { return m_InitialStrafeLookTime; }
 		}
+		
+		/// <summary>
+		/// Gets the multiplier applied to a lateral strafe jump.
+		/// </summary>
+		public float lateralStrafeJumpMultiplier
+		{
+			get { return m_lateralStrafeJumpMultiplier; }
+		}
 
+		
 
 		/// <summary>
 		/// Gets the maximum normalized forward speed during strafe.
