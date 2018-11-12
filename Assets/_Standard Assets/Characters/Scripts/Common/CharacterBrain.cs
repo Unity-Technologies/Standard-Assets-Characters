@@ -183,7 +183,7 @@ namespace StandardAssets.Characters.Common
 		/// <summary>
 		/// The predicted landing position of the character. Null if a position could not be predicted.
 		/// </summary>
-		protected Vector3? m_PredictedLandingPosition;
+		Vector3? m_PredictedLandingPosition;
 #if UNITY_EDITOR
 		readonly Vector3[] m_JumpSteps = new Vector3[k_TrajectorySteps];
 		int m_JumpStepCount;
@@ -204,14 +204,14 @@ namespace StandardAssets.Characters.Common
 		/// The initial jump velocity.
 		/// </summary>
 		/// <value>Velocity used to initiate a jump.</value>
-		protected float m_InitialJumpVelocity;
+		float m_InitialJumpVelocity;
 
 		/// <summary>
 		/// The current vertical velocity.
 		/// </summary>
 		/// <value>Calculated using <see cref="m_InitialJumpVelocity"/>, <see cref="airTime"/> and
 		/// <see cref="CalculateGravity"/></value>
-		protected float m_CurrentVerticalVelocity;
+		float m_CurrentVerticalVelocity;
 
 		/// <summary>
 		/// The last used ground (vertical velocity excluded ie 0) velocity.
@@ -273,18 +273,6 @@ namespace StandardAssets.Characters.Common
 			MoveCharacter(moveVector + m_VerticalVector);
 			m_CachedGroundVelocity = moveVector / deltaTime;
 		}
-
-		/// <summary>
-		/// Calculates the current predicted fall distance based on the predicted landing position
-		/// </summary>
-		/// <returns>The predicted fall distance</returns>
-		public float GetPredictedFallDistance()
-		{
-			UpdatePredictedLandingPosition();
-			return m_PredictedLandingPosition == null
-				? float.MaxValue
-				: footWorldPosition.y - ((Vector3) m_PredictedLandingPosition).y;
-		}
 		
 		/// <summary>
 		/// Calculates whether the current fall is defined as a short fall.
@@ -337,6 +325,18 @@ namespace StandardAssets.Characters.Common
 			}
 
 			m_Gravity = UnityPhysics.gravity.y;
+		}
+		
+		/// <summary>
+		/// Calculates the current predicted fall distance based on the predicted landing position
+		/// </summary>
+		/// <returns>The predicted fall distance</returns>
+		float GetPredictedFallDistance()
+		{
+			UpdatePredictedLandingPosition();
+			return m_PredictedLandingPosition == null
+				? float.MaxValue
+				: footWorldPosition.y - ((Vector3) m_PredictedLandingPosition).y;
 		}
 
 		/// <summary>
@@ -477,7 +477,7 @@ namespace StandardAssets.Characters.Common
 		/// Moves the character by <paramref name="movement"/> world units.
 		/// </summary>
 		/// <param name="movement">The value to move the character by in world units.</param>
-		protected void MoveCharacter(Vector3 movement)
+		void MoveCharacter(Vector3 movement)
 		{
 			var collisionFlags = characterController.Move(movement);
 			if ((collisionFlags & CollisionFlags.CollidedAbove) == CollisionFlags.CollidedAbove)
