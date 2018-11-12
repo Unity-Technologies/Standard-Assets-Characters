@@ -54,9 +54,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 
 		/// <summary>
-		/// Gets the current target y rotation.
+		/// Gets the desired target y rotation.
 		/// </summary>
-		/// <value>The current y rotation, in degrees.</value>
+		/// <value>The target y rotation of the character, in degrees.</value>
 		public float targetYRotation { get; private set; }
 
 		/// <summary>

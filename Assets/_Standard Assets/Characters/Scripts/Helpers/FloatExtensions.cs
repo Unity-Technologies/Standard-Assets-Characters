@@ -34,16 +34,15 @@ namespace StandardAssets.Characters.Helpers
 		/// <returns>A value between -180 and 180.</returns>
 		public static float Wrap180(this float toWrap)
 		{
-			while (toWrap < -180)
+			toWrap %= 360.0f;
+			if (toWrap < -180.0f)
 			{
-				toWrap += 360;
+				toWrap += 360.0f;
 			}
-			
-			while (toWrap > 180)
+			if (toWrap > 180.0f)
 			{
-				toWrap -= 360;
+				toWrap -= 360.0f;
 			}
-
 			return toWrap;
 		}
 
@@ -54,16 +53,11 @@ namespace StandardAssets.Characters.Helpers
 		/// <returns>A value between 0 and 1.</returns>
 		public static float Wrap1(this float toWrap)
 		{
-			while (toWrap < 0)
+			toWrap %= 1.0f;
+			if (toWrap < 0.0f)
 			{
 				toWrap += 1.0f;
 			}
-
-			while (toWrap > 1.0f)
-			{
-				toWrap -= 1.0f;
-			}
-
 			return toWrap;
 		}
 
