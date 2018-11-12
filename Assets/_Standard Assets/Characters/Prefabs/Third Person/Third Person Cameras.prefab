@@ -307,7 +307,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1557592021602478}
-  m_LocalRotation: {x: -0.16427164, y: 0.19499907, z: -0.009252213, w: 0.96690464}
+  m_LocalRotation: {x: -0.105569705, y: 0.19408421, z: -0.021013465, w: 0.9750615}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.99999994, y: 1, z: 1}
   m_Children:
@@ -461,7 +461,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1974304299149468}
   m_LocalRotation: {x: 0.105569705, y: -0.19408421, z: 0.02101346, w: 0.9750615}
-  m_LocalPosition: {x: 10.497017, y: 1.3635428, z: -18.934336}
+  m_LocalPosition: {x: 10.497017, y: 1.6926857, z: -18.72462}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4975511701756788}
@@ -489,7 +489,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1052611622905174}
-  m_LocalRotation: {x: -0.16427164, y: 0.19499907, z: -0.009252213, w: 0.96690464}
+  m_LocalRotation: {x: -0.105569705, y: 0.19408421, z: -0.021013465, w: 0.9750615}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.99999994, y: 1, z: 1}
   m_Children:
@@ -503,8 +503,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1769938592661578}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.00000073037114, y: 0.00000037711553, z: 0.0000017211394}
+  m_LocalRotation: {x: -0.105569705, y: 0.19408421, z: -0.021013457, w: 0.9750615}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.99999994, y: 1, z: 1}
   m_Children:
   - {fileID: 4846243128673540}
@@ -696,7 +696,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: -0.32914287, z: -2.7097144}
+  m_FollowOffset: {x: 0, y: 0, z: -2.5}
   m_XDamping: 1
   m_YDamping: 2
   m_ZDamping: 1
@@ -710,7 +710,7 @@ MonoBehaviour:
     m_VelocityFilterStrength: 4
     m_Bias: 0
   m_RecenterToTargetHeading:
-    m_enabled: 0
+    m_enabled: 1
     m_WaitTime: 0
     m_RecenteringTime: 0.75
     m_LegacyHeadingDefinition: -1
@@ -759,7 +759,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: -0.32914287, z: -2.7097144}
+  m_FollowOffset: {x: 0, y: 0, z: -2.5}
   m_XDamping: 1
   m_YDamping: 2
   m_ZDamping: 1
@@ -848,6 +848,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Crosshair: {fileID: 1347731958961072}
   m_ThirdPersonBrain: {fileID: 0}
+  recenterNow: 0
 --- !u!114 &114264314794950682
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1459,8 +1460,8 @@ MonoBehaviour:
       m_LegacyVelocityFilterStrength: -1
   m_YAxisRecentering:
     m_enabled: 0
-    m_WaitTime: 1
-    m_RecenteringTime: 2
+    m_WaitTime: 0
+    m_RecenteringTime: 0.75
     m_LegacyHeadingDefinition: -1
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
@@ -1618,7 +1619,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: -0.32914287, z: -2.7097144}
+  m_FollowOffset: {x: 0, y: 0, z: -2.5}
   m_XDamping: 1
   m_YDamping: 2
   m_ZDamping: 1
@@ -1879,7 +1880,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
   m_LegacyBlendHint: 0
   m_YAxis:
-    Value: 0.4
+    Value: 0.5
     m_MaxSpeed: 1.25
     m_AccelTime: 0.05
     m_DecelTime: 0.05
@@ -1896,9 +1897,9 @@ MonoBehaviour:
       m_LegacyHeadingDefinition: -1
       m_LegacyVelocityFilterStrength: -1
   m_YAxisRecentering:
-    m_enabled: 0
-    m_WaitTime: 1
-    m_RecenteringTime: 2
+    m_enabled: 1
+    m_WaitTime: 0
+    m_RecenteringTime: 0.75
     m_LegacyHeadingDefinition: -1
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
@@ -1923,7 +1924,7 @@ MonoBehaviour:
     m_VelocityFilterStrength: 4
     m_Bias: 0
   m_RecenterToTargetHeading:
-    m_enabled: 0
+    m_enabled: 1
     m_WaitTime: 0
     m_RecenteringTime: 0.75
     m_LegacyHeadingDefinition: -1
