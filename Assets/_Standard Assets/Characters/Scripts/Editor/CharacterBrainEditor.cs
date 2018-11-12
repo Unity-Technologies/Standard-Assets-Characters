@@ -41,8 +41,8 @@ namespace Editor
 	[CustomEditor(typeof(ThirdPersonBrain))]
 	public class ThirdPersonBrainEditor : CharacterBrainEditor
 	{
-		protected const string k_AnimationTurnaroundName = "m_AnimationTurnaroundBehaviour",
-		                       k_BlendspaceTurnaroundName = "m_BlendspaceTurnaroundBehaviour",
+		protected const string k_AnimationTurnaroundName = "m_AnimationTurnAroundBehaviour",
+		                       k_BlendspaceTurnaroundName = "m_BlendspaceTurnAroundBehaviour",
 		                       k_AnimationConfigName = "m_Configuration",
 		                       k_MotorName = "m_Motor";
 		string k_MotorConfigPath = string.Format("{0}.{1}", k_MotorName, k_AnimationConfigName);
