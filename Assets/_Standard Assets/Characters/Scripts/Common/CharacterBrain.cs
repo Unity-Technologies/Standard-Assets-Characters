@@ -90,7 +90,7 @@ namespace StandardAssets.Characters.Common
 		/// Used as a clamp for downward velocity.
 		/// </summary>
 		[FormerlySerializedAs("terminalVelocity")]
-		[SerializeField, Tooltip("The maximum speed that the character can move downwards")]
+		[SerializeField, Tooltip("Maximum speed that the character can move downwards")]
 		float m_TerminalVelocity = 10f;
 
 		[FormerlySerializedAs("jumpGravityMultiplierAsAFactorOfForwardSpeed")]
@@ -109,15 +109,15 @@ namespace StandardAssets.Characters.Common
 			AnimationCurve.Constant(0.0f, 1.0f, 1.0f);
 
 		[FormerlySerializedAs("gravityChangeSpeed")]
-		[SerializeField, Tooltip("The speed at which gravity is allowed to change")]
+		[SerializeField, Tooltip("Speed at which gravity is allowed to change")]
 		float m_GravityChangeSpeed = 10f;
 		
 		[FormerlySerializedAs("minFallDistance")]
-		[SerializeField, Tooltip("The minimum fall distance required to trigger the fall state.")]
+		[SerializeField, Tooltip("Minimum fall distance required to trigger the fall state")]
 		float m_MinFallDistance = 1.1f;
 		
 		[FormerlySerializedAs("groundingGravityMultiplier")]
-		[SerializeField, Tooltip("The gravity multiplier applied when falling less that the minFallDistance")]
+		[SerializeField, Tooltip("Gravity multiplier applied when falling less that the Min Fall Distance (set above)")]
 		float m_GroundingGravityMultiplier = 2.0f; 
 
 		public bool isGrounded { get; private set; }

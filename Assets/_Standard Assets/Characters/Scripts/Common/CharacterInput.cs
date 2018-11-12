@@ -34,56 +34,56 @@ namespace StandardAssets.Characters.Common
 		/// The Input Action Map asset
 		/// </summary>
 		[FormerlySerializedAs("mobileControls")]
-		[SerializeField, Tooltip("The Input Action Map asset for on screen controls")]
+		[SerializeField, Tooltip("Input Action Map asset for on screen controls")]
 		ControlsMobile m_MobileControls;
 
 		/// <summary>
 		/// The Input Action Map asset for on screen controls
 		/// </summary>
 		[FormerlySerializedAs("controls")]
-		[SerializeField, Tooltip("The Input Action Map asset")]
+		[SerializeField, Tooltip("Input Action Map asset for mouse/keyboard and controller")]
 		Controls m_Controls;
 
 		/// <summary>
 		/// The on screen controls canvas
 		/// </summary>
 		[FormerlySerializedAs("onScreenControlsCanvas")]
-		[SerializeField, Tooltip("The canvas for the onscreen controls")]
+		[SerializeField, Tooltip("Canvas for the onscreen controls")]
 		GameObject m_OnScreenControlsCanvas;
 
 		/// <summary>
 		/// Invert horizontal look direction
 		/// </summary>
 		[FormerlySerializedAs("invertX")]
-		[SerializeField, Tooltip("Invert horizontal look direction")]
+		[SerializeField, Tooltip("Invert horizontal look direction?")]
 		bool m_InvertX;
 		
 		/// <summary>
 		/// Invert vertical look direction
 		/// </summary>
 		[FormerlySerializedAs("invertY")]
-		[SerializeField, Tooltip("Invert vertical look direction")]
+		[SerializeField, Tooltip("Invert vertical look direction?")]
 		bool m_InvertY;
 
 		/// <summary>
 		/// The horizontal look sensitivity
 		/// </summary>
 		[FormerlySerializedAs("xSensitivity")]
-		[SerializeField, Range(0f, 1f), Tooltip("The horizontal look sensitivity")]
+		[SerializeField, Range(0f, 1f), Tooltip("Horizontal look sensitivity")]
 		float m_XSensitivity = 1f;
 
 		/// <summary>
 		/// The vertical look sensitivity
 		/// </summary>
 		[FormerlySerializedAs("ySensitivity")]
-		[SerializeField, Range(0f, 1f), Tooltip("The vertical look sensitivity")]
+		[SerializeField, Range(0f, 1f), Tooltip("Vertical look sensitivity")]
 		float m_YSensitivity = 1f;
 
 		/// <summary>
 		/// Toggle the cursor lock mode while in play mode.
 		/// </summary>
 		[FormerlySerializedAs("cursorLocked")]
-		[SerializeField, Tooltip("Toggle the Cursor Lock Mode, press ESCAPE during play mode")]
+		[SerializeField, Tooltip("Toggle the Cursor Lock Mode? Press ESCAPE during play mode to unlock")]
 		bool m_CursorLocked = true;
 
 		bool m_IsSprinting;

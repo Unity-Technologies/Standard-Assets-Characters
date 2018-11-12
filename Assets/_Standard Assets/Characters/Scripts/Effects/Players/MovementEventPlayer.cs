@@ -9,7 +9,7 @@ namespace StandardAssets.Characters.Effects.Players
 	public abstract class MovementEventPlayer : MonoBehaviour
 	{
 		[FormerlySerializedAs("setRotation")]
-		[SerializeField, Tooltip("Should rotation be set on play")]
+		[SerializeField, Tooltip("Should rotation be set on play?")]
 		bool m_SetRotation;
 		
 		/// <summary>

@@ -14,14 +14,14 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// Make input relative to the camera.
 		/// </summary>
 		[FormerlySerializedAs("inputRelativeToCamera")]
-		[SerializeField, Tooltip("Make input relative to the camera.")]
+		[SerializeField, Tooltip("Make input relative to the camera?")]
 		bool m_InputRelativeToCamera = true;
 
 		/// <summary>
 		/// Character stops moving when it is this close to the agent.
 		/// </summary>
 		[FormerlySerializedAs("nearDistance")]
-		[SerializeField, Tooltip("Character stops moving when it is this close to the agent.")]
+		[SerializeField, Tooltip("Stop the Character moving when it is this close to the agent?")]
 		float m_NearDistance = 0.2f;
 		
 		/// <summary>
@@ -42,14 +42,14 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// Reset the agent if it is further than this distance from the character.
 		/// </summary>
 		[FormerlySerializedAs("resetDistance")]
-		[SerializeField, Tooltip("Reset the agent if it is further than this distance from the character.")]
+		[SerializeField, Tooltip("Reset the agent if it is further than this distance from the character?")]
 		float m_ResetDistance = 3.0f;
 
 		/// <summary>
 		/// Reset the agent if its Y position is further than this distance from the character.
 		/// </summary>
 		[FormerlySerializedAs("resetHeight")]
-		[SerializeField, Tooltip("Reset the agent if its Y position is further than this distance from the character.")]
+		[SerializeField, Tooltip("Reset the agent if its Y position is further than this distance from the character?")]
 		float m_ResetHeight = 3.0f;
 
 		/// <summary>

@@ -2,7 +2,6 @@
 using StandardAssets.Characters.Common;
 using StandardAssets.Characters.Effects;
 using UnityEngine;
-using Cinemachine;
 using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.FirstPerson
@@ -31,14 +30,14 @@ namespace StandardAssets.Characters.FirstPerson
 			/// The maximum movement speed
 			/// </summary>
 			[FormerlySerializedAs("maxSpeed")]
-			[SerializeField, Tooltip("The maximum movement speed of the character"), Range(0.1f, 20f)]
+			[SerializeField, Tooltip("Maximum movement speed of the character"), Range(0.1f, 20f)]
 			float m_MaxSpeed;
 
 			/// <summary>
 			/// The initial Y velocity of a Jump
 			/// </summary>
 			[FormerlySerializedAs("jumpSpeed")]
-			[SerializeField, Tooltip("The initial Y velocity of a Jump"), Range(0f, 10f)]
+			[SerializeField, Tooltip("Initial Y velocity of a Jump"), Range(0f, 10f)]
 			float m_JumpSpeed;
 
 			/// <summary>
@@ -97,7 +96,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// Manages movement events
 		/// </summary>
 		[FormerlySerializedAs("firstPersonMovementEventHandler")]
-		[SerializeField, Tooltip("The management of movement events e.g. footsteps")]
+		[SerializeField, Tooltip("Management of movement events e.g. footsteps")]
 		FirstPersonMovementEventHandler m_FirstPersonMovementEventHandler;
 
 		/// <summary>

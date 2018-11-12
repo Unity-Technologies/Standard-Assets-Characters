@@ -11,7 +11,7 @@ namespace StandardAssets.Characters.Effects
 	public class MovementZoneTrigger : MonoBehaviour
 	{
 		[FormerlySerializedAs("zoneId")]
-		[SerializeField]
+		[SerializeField, Tooltip("ID used to correspond with a zone definition")]
 		MovementZoneId m_ZoneId;
 		
 		/// <summary>

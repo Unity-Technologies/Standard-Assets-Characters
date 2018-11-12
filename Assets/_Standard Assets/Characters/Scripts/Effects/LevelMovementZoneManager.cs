@@ -10,7 +10,7 @@ namespace StandardAssets.Characters.Effects
 	public class LevelMovementZoneManager : MonoBehaviour
 	{
 		[FormerlySerializedAs("configuration")]
-		[SerializeField, Tooltip("References a ScriptableObject that contains default MovementEventLibraries for different zones")]
+		[SerializeField, Tooltip("Contains default MovementEventLibraries for different zones")]
 		LevelMovementZoneConfig m_Configuration;
 		
 		/// <summary>

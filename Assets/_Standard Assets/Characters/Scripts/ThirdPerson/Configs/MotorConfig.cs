@@ -17,7 +17,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		protected bool m_AutoToggleSprint = true;
 		
 		[FormerlySerializedAs("rootMotionMovementScale")]
-		[SerializeField, Tooltip("The root motion will be scaled by this before movement is applied")]
+		[SerializeField, Tooltip("Root motion will be scaled by this before movement is applied")]
 		protected float m_RootMotionMovementScale = 1f;
 
 		[FormerlySerializedAs("sprintNormalizedSpeedIncrease")]
@@ -41,62 +41,62 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		protected StrafeProperties m_Strafing;
 		
 		[FormerlySerializedAs("initialStrafeLookTime")]
-		[SerializeField, Tooltip("The duration of the initial turn into strafe mode.")]
+		[SerializeField, Tooltip("Duration of the initial turn into strafe mode")]
 		protected float m_InitialStrafeLookTime = 0.125f;
 		
-		[SerializeField, Tooltip("Multiplier applied to a lateral strafe jump.")]
+		[SerializeField, Tooltip("Scale applied to a lateral strafe jump")]
 		protected float m_lateralStrafeJumpMultiplier = 1.0f;
 
 		[FormerlySerializedAs("jumpHeightAsAFactorOfForwardSpeed")]
 		[Header("Jumping")]
-		[SerializeField, Tooltip("Curve used to determine jump height based on normalized forward speed.")]
+		[SerializeField, Tooltip("Curve used to determine jump height based on normalized forward speed")]
 		protected AnimationCurve m_JumpHeightAsAFactorOfForwardSpeed = AnimationCurve.Constant(0,1,4);
 
 		[FormerlySerializedAs("jumpGroundVelocitySamples")]
-		[SerializeField, Tooltip("Number of samples used to average forward velocity to use as jump velocity.")]
+		[SerializeField, Tooltip("Number of samples used to average forward velocity to use as jump velocity")]
 		protected int m_JumpGroundVelocitySamples = 10;
 
 		[FormerlySerializedAs("jumpTurningSpeedScale")]
-		[SerializeField, Tooltip("Turn speed is scaled by this value during an aerial state.")]
+		[SerializeField, Tooltip("Turn speed is scaled by this value during an aerial state")]
 		protected float m_JumpTurningSpeedScale = 0.5f;
 		
 		[FormerlySerializedAs("standingJumpForwardSpeed")]
 		[Header("Standing Jump")]
-		[SerializeField, Tooltip("Jump forward speed applied during a standing forward jump.")]
+		[SerializeField, Tooltip("Jump forward speed applied during a standing forward jump")]
 		protected float m_StandingJumpForwardSpeed = 3.5f;
 
 		[FormerlySerializedAs("minInputThreshold")]
-		[SerializeField, Tooltip("The minimum input allowed to trigger a standing forward jump.")]
+		[SerializeField, Tooltip("Minimum input allowed to trigger a standing forward jump")]
 		protected float m_MinInputThreshold = 0.5f;
 		
 		[FormerlySerializedAs("maxMovementThreshold")]
-		[SerializeField, Tooltip("The maximum character forward movement allowed to trigger a standing forward jump.")]
+		[SerializeField, Tooltip("Maximum character forward movement allowed to trigger a standing forward jump")]
 		protected float m_MaxMovementThreshold = 0.01f;
 
 		[FormerlySerializedAs("standingJumpMoveTimeThreshold")]
-		[SerializeField, Tooltip("Time allowed after movement from idle that a standing jump can be triggered.")]
+		[SerializeField, Tooltip("Time allowed after movement from idle that a standing jump can be triggered")]
 		protected float m_StandingJumpMoveTimeThreshold = 0.5f;
 
 		[FormerlySerializedAs("fallingMaxForwardSpeed")]
 		[Header("Falling")]
-		[SerializeField, Tooltip("The maximum forward speed while falling.")]
+		[SerializeField, Tooltip("Maximum forward speed while falling")]
 		protected float m_FallingMaxForwardSpeed = 5;
 
 		[FormerlySerializedAs("fallForwardSpeedDeceleration")]
-		[SerializeField, Tooltip("The speed at which falling speed can decrease.")]
+		[SerializeField, Tooltip("Speed at which falling speed can decrease")]
 		protected float m_FallForwardSpeedDeceleration = 0.0025f;
 		
 		[FormerlySerializedAs("fallForwardSpeedAcceleration")]
-		[SerializeField, Tooltip("The speed at which falling speed can increase.")]
+		[SerializeField, Tooltip("Speed at which falling speed can increase")]
 		protected float m_FallForwardSpeedAcceleration = 0.05f;
 
 		[FormerlySerializedAs("fallDirectionChangeSpeed")]
-		[SerializeField, Tooltip("The speed at which fall direction can change.")] 
+		[SerializeField, Tooltip("Speed at which fall direction can change")] 
 		protected float m_FallDirectionChangeSpeed = 0.025f;
 
 		[FormerlySerializedAs("turningSpeed")]
 		[Header("Turning")]
-		[SerializeField, Tooltip("The degrees per second that the character can turn.")]
+		[SerializeField, Tooltip("Degrees per second that the character can turn")]
 		protected float m_TurningSpeed = 300f;
 
 		[FormerlySerializedAs("turningSpeedVisualScale")]
@@ -104,27 +104,27 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		protected float m_TurningSpeedVisualScale = 0.5f;
 
 		[FormerlySerializedAs("normalizedTurningSpeedLerpSpeed")]
-		[SerializeField, Tooltip("The speed at which the normalized turning speed can change")]
+		[SerializeField, Tooltip("Speed at which the normalized turning speed can change")]
 		protected float m_NormalizedTurningSpeedLerpSpeed = 2f;
 
 		[FormerlySerializedAs("rapidTurnInputAngle")]
-		[SerializeField, Tooltip("Minimum angle required to trigger a rapid turn during movement.")]
+		[SerializeField, Tooltip("Minimum angle required to trigger a rapid turn during movement")]
 		protected float m_RapidTurnInputAngle = 140f;
 
 		[FormerlySerializedAs("stationaryRapidTurnAngle")]
-		[SerializeField, Tooltip("Minimum angle required to trigger a stationary rapid.")]
+		[SerializeField, Tooltip("Minimum angle required to trigger a stationary rapid")]
 		protected float m_StationaryRapidTurnAngle = 90f;
 		
 		[FormerlySerializedAs("maxSpeedForStandingTurnaround")]
-		[SerializeField, Tooltip("Maximum forward speed that will trigger a standing rapid turn.")]
+		[SerializeField, Tooltip("Maximum forward speed that will trigger a standing rapid turn")]
 		protected float m_MaxSpeedForStandingTurnaround = 0.25f;
 
 		[FormerlySerializedAs("rapidTurnIgnoreInputTime")]
-		[SerializeField, Tooltip("Time in seconds that input will be ignore after the triggering of a rapid turn.")]
+		[SerializeField, Tooltip("Time in seconds that input will be ignore after the triggering of a rapid turn")]
 		protected float m_RapidTurnIgnoreInputTime = 0.05f;
 
 		[FormerlySerializedAs("inputBufferSize")]
-		[SerializeField, Tooltip("The number of frames of input will used to determine if a rapid turn was triggered.")]
+		[SerializeField, Tooltip("Number of frames of input will used to determine if a rapid turn was triggered")]
 		protected int m_InputBufferSize = 5;
 
 		/// <summary>

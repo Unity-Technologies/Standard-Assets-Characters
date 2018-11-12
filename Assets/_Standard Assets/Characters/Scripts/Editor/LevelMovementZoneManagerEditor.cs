@@ -7,12 +7,9 @@ namespace Editor
 	[CustomEditor(typeof(LevelMovementZoneManager))]
 	public class LevelMovementZoneManagerEditor : UnityEditor.Editor
 	{
-		const string k_Configuration = "configuration";
+		const string k_Configuration = "m_Configuration";
 
-		string[] exclusions = new string[]
-		{
-			k_Configuration
-		};
+		string[] exclusions = { k_Configuration };
 		
 		public override void OnInspectorGUI()
 		{

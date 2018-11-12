@@ -23,7 +23,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// Various configuration settings more movement.
 		/// </summary>
 		[FormerlySerializedAs("configuration")]
-		[SerializeField, Tooltip("Reference to the configuration with all the movement settings")]
+		[SerializeField, Tooltip("Configuration with all the movement settings")]
 		protected MotorConfig m_Configuration;
 
 		/// <summary>
@@ -342,6 +342,23 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (m_TrackGroundHeight)
 			{
 				UpdateTrackGroundHeight();
+			}
+		}
+
+		private Texture2D texture;
+		public void OnGUI()
+		{
+			if (texture == null)
+			{
+				texture = new Texture2D(1, 1);
+			}
+			Rect firstRect = new Rect(100, Screen.height - 100, 15, 15);
+			foreach (var value in m_PreviousInputs.values)
+			{
+				var rect = new Rect(firstRect);
+				rect.x += value.x * 50;
+				rect.y -= value.y * 50;
+				GUI.DrawTexture(rect, texture);
 			}
 		}
 

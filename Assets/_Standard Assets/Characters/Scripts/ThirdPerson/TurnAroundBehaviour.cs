@@ -105,11 +105,11 @@ namespace StandardAssets.Characters.ThirdPerson
         [Serializable]
         protected class AnimationInfo
         {
-            [Tooltip("Animation state name.")]
+            [Tooltip("Animation state name")]
             public string name;
-            [Tooltip("Animation play speed.")]
+            [Tooltip("Animation play speed")]
             public float speed = 1.0f;
-            [Tooltip("Head look at angle scale during animation.")]
+            [Tooltip("Head look at angle scale during animation")]
             public float headTurnScale = 1.0f;
 
             public AnimationInfo(string name)
@@ -120,22 +120,22 @@ namespace StandardAssets.Characters.ThirdPerson
 
         // the data for each animation turnaround
         [FormerlySerializedAs("runLeftTurn")]
-        [SerializeField, Tooltip("Data for run 180 left turn animation")]
+        [SerializeField, Tooltip("Configuration for run 180 left turn animation")]
         AnimationInfo m_RunLeftTurn = new AnimationInfo("RunForwardTurnLeft180");
         [FormerlySerializedAs("runRightTurn")]
-        [SerializeField, Tooltip("Data for run 180 right turn animation")]
+        [SerializeField, Tooltip("Configuration for run 180 right turn animation")]
         AnimationInfo m_RunRightTurn = new AnimationInfo("RunForwardTurnRight180_Mirror");
         [FormerlySerializedAs("sprintLeftTurn")]
-        [SerializeField, Tooltip("Data for sprint 180 left turn animation")]
+        [SerializeField, Tooltip("Configuration for sprint 180 left turn animation")]
         AnimationInfo m_SprintLeftTurn = new AnimationInfo("RunForwardTurnLeft180");
         [FormerlySerializedAs("sprintRightTurn")]
-        [SerializeField, Tooltip("Data for sprint 180 right turn animation")]
+        [SerializeField, Tooltip("Configuration for sprint 180 right turn animation")]
         AnimationInfo m_SprintRightTurn = new AnimationInfo("RunForwardTurnRight180_Mirror");
         [FormerlySerializedAs("idleLeftTurn")]
-        [SerializeField, Tooltip("Data for idle 180 left turn animation")]
+        [SerializeField, Tooltip("Configuration for idle 180 left turn animation")]
         AnimationInfo m_IdleLeftTurn = new AnimationInfo("IdleTurnLeft180");
         [FormerlySerializedAs("idleRightTurn")]
-        [SerializeField, Tooltip("Data for idle 180 right turn animation")]
+        [SerializeField, Tooltip("Configuration for idle 180 right turn animation")]
         AnimationInfo m_IdleRightTurn = new AnimationInfo("IdleTurnRight180_Mirror");
 
         [FormerlySerializedAs("rotationCurve")]
@@ -329,7 +329,7 @@ namespace StandardAssets.Characters.ThirdPerson
         protected bool m_ConfigureBlendspace;
 
         [FormerlySerializedAs("configuration")]
-        [SerializeField, Tooltip("The configuration settings of the turnaround.")]
+        [SerializeField, Tooltip("Configuration settings of the turnaround")]
         protected BlendspaceProperties m_Configuration;
 
         bool m_IsSmallTurn;
@@ -488,35 +488,35 @@ namespace StandardAssets.Characters.ThirdPerson
         protected class BlendspaceProperties
         {
             [FormerlySerializedAs("timeToTurn")]
-            [SerializeField, Tooltip("Duration of the turnaround.")]
+            [SerializeField, Tooltip("Duration of the turnaround")]
             float m_TimeToTurn = 0.2f;
 
             [FormerlySerializedAs("rotationDuringTurn")]
-            [SerializeField, Tooltip("Curve used to evaluate rotation throughout turnaround.")]
+            [SerializeField, Tooltip("Curve used to evaluate rotation throughout turnaround")]
             AnimationCurve m_RotationDuringTurn = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
 
             [FormerlySerializedAs("forwardSpeed")]
-            [SerializeField, Tooltip("Curve used to evaluate forward speed throughout turnaround.")]
+            [SerializeField, Tooltip("Curve used to evaluate forward speed throughout turnaround")]
             AnimationCurve m_ForwardSpeed = AnimationCurve.Linear(0.0f, 1.0f, 1.0f, 1.0f);
 
             [FormerlySerializedAs("forwardSpeedCalculation")]
-            [SerializeField, Tooltip("Method to apply forward speed during turnaround.")]
+            [SerializeField, Tooltip("Method to apply forward speed during turnaround")]
             BlendspaceCalculation m_ForwardSpeedCalculation = BlendspaceCalculation.Multiplicative;
 
             [FormerlySerializedAs("turnClassificationAngle")]
-            [SerializeField, Tooltip("An angle less than this is classified as a small turn.")]
+            [SerializeField, Tooltip("An angle less than this is classified as a small turn")]
             float m_TurnClassificationAngle = 150.0f;
 
             [FormerlySerializedAs("movementDuring180Turn")]
-            [SerializeField, Tooltip("Curve used to evaluate movement throughout a 180° turnaround.")]
+            [SerializeField, Tooltip("Curve used to evaluate movement throughout a 180° turnaround")]
             AnimationCurve m_MovementDuring180Turn = AnimationCurve.Linear(0.0f, 1.0f, 1.0f, 1.0f);
 
             [FormerlySerializedAs("movementDuring90Turn")]
-            [SerializeField, Tooltip("Curve used to evaluate movement throughout a 90° turnaround.")]
+            [SerializeField, Tooltip("Curve used to evaluate movement throughout a 90° turnaround")]
             AnimationCurve m_MovementDuring90Turn = AnimationCurve.Linear(0.0f, 1.0f, 1.0f, 1.0f);
 
             [FormerlySerializedAs("headTurnMultiplier")]
-            [SerializeField, Tooltip("Head look at angle scale during animation.")]
+            [SerializeField, Tooltip("Head look at angle scale during animation")]
             float m_HeadTurnMultiplier = 1.0f;
 
             /// <summary>
@@ -587,7 +587,7 @@ namespace StandardAssets.Characters.ThirdPerson
         /// <summary>
         /// Enum describing a mathematics operation.
         /// </summary>
-        public enum BlendspaceCalculation
+        protected enum BlendspaceCalculation
         {
             Additive,
             Multiplicative
