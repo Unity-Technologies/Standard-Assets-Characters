@@ -62,7 +62,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		[FormerlySerializedAs("m_JumpEndTransitionDurationByForwardSpeed"),FormerlySerializedAs("jumpEndTransitionDurationByForwardSpeed")]
 		[SerializeField, Tooltip("Curve used to determine the cross fade duration of the transition into the " +
 								 "locomotion animation from the jump animation state")]
-		AnimationCurve m_JumpEndTransitionAsAFactorOfSpeed = AnimationCurve.Linear(0.0f, 0.0f ,1.0f ,0.125f);
+		AnimationCurve m_JumpEndTransitionAsAFactorOfSpeed = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 0.125f);
 		
 		[FormerlySerializedAs("rightFootJumpLandAnimationTimeOffset")]
 		[SerializeField, Tooltip("Cross fade cycle offset for transition into locomotion state after a right foot jump")]
