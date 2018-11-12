@@ -345,23 +345,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
-		private Texture2D texture;
-		public void OnGUI()
-		{
-			if (texture == null)
-			{
-				texture = new Texture2D(1, 1);
-			}
-			Rect firstRect = new Rect(100, Screen.height - 100, 15, 15);
-			foreach (var value in m_PreviousInputs.values)
-			{
-				var rect = new Rect(firstRect);
-				rect.x += value.x * 50;
-				rect.y -= value.y * 50;
-				GUI.DrawTexture(rect, texture);
-			}
-		}
-
 		public void SetLookDirection()
 		{
 			if (m_MovementState == ThirdPersonGroundMovementState.TurningAround)
