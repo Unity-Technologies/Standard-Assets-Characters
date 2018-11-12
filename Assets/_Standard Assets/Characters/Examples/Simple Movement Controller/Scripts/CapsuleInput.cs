@@ -15,7 +15,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 			Debug.Log("No extra inputs");
 		}
 
-		protected override void RegisterAdditionalInputsMobile()
+		protected override void RegisterAdditionalTouchInputs()
 		{
 		}
 	}

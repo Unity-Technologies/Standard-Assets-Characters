@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/_Standard Assets/Characters/Scriptable Objects/Control Map/ControlsMobile.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/_Standard Assets/Characters/Scriptable Objects/Control Map/TouchControls.inputactions'
 
 using System;
 using UnityEngine;
@@ -6,12 +6,12 @@ using UnityEngine.Experimental.Input;
 
 
 [Serializable]
-public class ControlsMobile : InputActionAssetReference
+public class TouchControls : InputActionAssetReference
 {
-    public ControlsMobile()
+    public TouchControls()
     {
     }
-    public ControlsMobile(InputActionAsset asset)
+    public TouchControls(InputActionAsset asset)
         : base(asset)
     {
     }
@@ -62,8 +62,8 @@ public class ControlsMobile : InputActionAssetReference
     private InputAction m_Movement_strafe;
     public struct MovementActions
     {
-        private ControlsMobile m_Wrapper;
-        public MovementActions(ControlsMobile wrapper) { m_Wrapper = wrapper; }
+        private TouchControls m_Wrapper;
+        public MovementActions(TouchControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @look { get { return m_Wrapper.m_Movement_look; } }
         public InputAction @move { get { return m_Wrapper.m_Movement_move; } }
         public InputAction @sprint { get { return m_Wrapper.m_Movement_sprint; } }

@@ -109,11 +109,12 @@ namespace StandardAssets.Characters.Common
 			AnimationCurve.Constant(0.0f, 1.0f, 1.0f);
 
 		[FormerlySerializedAs("gravityChangeSpeed")]
-		[SerializeField, Tooltip("Speed at which gravity is allowed to change")]
+		[SerializeField, Tooltip("How quickly the Gravity that affects the character is allowed to change, when it is" +
+		                         " being dynamically modified by Jumping or Falling Gravity modifiers")]
 		float m_GravityChangeSpeed = 10f;
 		
 		[FormerlySerializedAs("minFallDistance")]
-		[SerializeField, Tooltip("Minimum fall distance required to trigger the fall state")]
+		[SerializeField, Tooltip("How far the character must fall in order to trigger the Fall State")]
 		float m_MinFallDistance = 1.1f;
 		
 		[FormerlySerializedAs("groundingGravityMultiplier")]

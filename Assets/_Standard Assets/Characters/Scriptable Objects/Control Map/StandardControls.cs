@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/_Standard Assets/Characters/Scriptable Objects/Control Map/Controls.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/_Standard Assets/Characters/Scriptable Objects/Control Map/StandardControls.inputactions'
 
 using System;
 using UnityEngine;
@@ -6,12 +6,12 @@ using UnityEngine.Experimental.Input;
 
 
 [Serializable]
-public class Controls : InputActionAssetReference
+public class StandardControls : InputActionAssetReference
 {
-    public Controls()
+    public StandardControls()
     {
     }
-    public Controls(InputActionAsset asset)
+    public StandardControls(InputActionAsset asset)
         : base(asset)
     {
     }
@@ -62,8 +62,8 @@ public class Controls : InputActionAssetReference
     private InputAction m_Movement_recentre;
     public struct MovementActions
     {
-        private Controls m_Wrapper;
-        public MovementActions(Controls wrapper) { m_Wrapper = wrapper; }
+        private StandardControls m_Wrapper;
+        public MovementActions(StandardControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @move { get { return m_Wrapper.m_Movement_move; } }
         public InputAction @look { get { return m_Wrapper.m_Movement_look; } }
         public InputAction @jump { get { return m_Wrapper.m_Movement_jump; } }

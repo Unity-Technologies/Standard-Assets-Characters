@@ -40,12 +40,12 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		protected override void RegisterAdditionalInputs()
 		{
-			controls.Movement.crouch.performed += OnCrouchInput;
+			standardControls.Movement.crouch.performed += OnCrouchInput;
 		}
 
-		protected override void RegisterAdditionalInputsMobile()
+		protected override void RegisterAdditionalTouchInputs()
 		{
-			mobileControls.Movement.crouch.performed += OnCrouchInput;
+			touchControls.Movement.crouch.performed += OnCrouchInput;
 		}
 
 		/// <summary>
