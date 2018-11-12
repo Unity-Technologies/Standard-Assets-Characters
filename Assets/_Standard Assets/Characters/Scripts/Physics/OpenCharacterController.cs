@@ -338,7 +338,7 @@ namespace StandardAssets.Characters.Physics
 			                        Vector3 originalMoveVector)
 			{
 				// First test
-				if (isStuck == false)
+				if (!isStuck)
 				{
 					// From Quake2: "if velocity is against the original velocity, stop dead to avoid tiny occilations in sloping corners"
 					if (currentMoveVector.sqrMagnitude.NotEqualToZero() &&
@@ -349,7 +349,7 @@ namespace StandardAssets.Characters.Physics
 				}
 
 				// Second test
-				if (isStuck == false)
+				if (!isStuck)
 				{
 					// Test if collided and while position remains the same
 					if (hitCount < k_HitCountForStuck)
@@ -645,7 +645,7 @@ namespace StandardAssets.Characters.Physics
 		[FormerlySerializedAs("slideDownTerminalVelocity")]
 		[Tooltip("The maximum speed that the character can slide downwards")]
 		[SerializeField]
-		protected float m_SlideDownTerminalVelocity = 10.0f;
+		float m_SlideDownTerminalVelocity = 10.0f;
 
 		/// <summary>
 		/// Scale gravity when sliding down slopes.
@@ -1885,7 +1885,7 @@ namespace StandardAssets.Characters.Physics
 			}
 
 			// Did the big radius not hit an obstacle?
-			if (bigRadiusHit == false)
+			if (!bigRadiusHit)
 			{
 				// The small radius hit an obstacle, so character is inside an obstacle
 				MoveAwayFromObstacle(ref moveVector, ref smallRadiusHitInfo,
@@ -2003,7 +2003,7 @@ namespace StandardAssets.Characters.Physics
 			RaycastHit hitInfoCapsule;
 
 			// Did the big radius not hit an obstacle?
-			if (bigRadiusHit == false)
+			if (!bigRadiusHit)
 			{
 				// The small radius hit an obstacle
 				hitInfoCapsule = smallRadiusHitInfo;
@@ -2656,7 +2656,7 @@ namespace StandardAssets.Characters.Physics
 			{
 				var collider = hitInfo.Value.collider;
 				// We only care about the first collision with a collider
-				if (m_CollisionInfoDictionary.ContainsKey(collider) == false)
+				if (!m_CollisionInfoDictionary.ContainsKey(collider))
 				{
 					var moved = m_CachedTransform.position - m_StartPosition;
 					var newCollisionInfo =
