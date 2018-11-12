@@ -488,19 +488,19 @@ namespace StandardAssets.Characters.ThirdPerson
         protected class BlendspaceProperties
         {
             [FormerlySerializedAs("timeToTurn")]
-            [SerializeField, Tooltip("Duration of the turnaround")]
+            [SerializeField, Tooltip("Duration of the turn around")]
             float m_TimeToTurn = 0.2f;
 
             [FormerlySerializedAs("rotationDuringTurn")]
-            [SerializeField, Tooltip("Curve used to evaluate rotation throughout turnaround")]
+            [SerializeField, Tooltip("Curve used to evaluate rotation throughout turn around")]
             AnimationCurve m_RotationDuringTurn = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
 
             [FormerlySerializedAs("forwardSpeed")]
-            [SerializeField, Tooltip("Curve used to evaluate forward speed throughout turnaround")]
+            [SerializeField, Tooltip("Curve used to evaluate forward speed throughout turn around")]
             AnimationCurve m_ForwardSpeed = AnimationCurve.Linear(0.0f, 1.0f, 1.0f, 1.0f);
 
             [FormerlySerializedAs("forwardSpeedCalculation")]
-            [SerializeField, Tooltip("Method to apply forward speed during turnaround")]
+            [SerializeField, Tooltip("Method to apply forward speed during turn around")]
             BlendspaceCalculation m_ForwardSpeedCalculation = BlendspaceCalculation.Multiplicative;
 
             [FormerlySerializedAs("turnClassificationAngle")]
@@ -508,11 +508,11 @@ namespace StandardAssets.Characters.ThirdPerson
             float m_TurnClassificationAngle = 150.0f;
 
             [FormerlySerializedAs("movementDuring180Turn")]
-            [SerializeField, Tooltip("Curve used to evaluate movement throughout a 180° turnaround")]
+            [SerializeField, Tooltip("Curve used to evaluate movement throughout a 180° turn around")]
             AnimationCurve m_MovementDuring180Turn = AnimationCurve.Linear(0.0f, 1.0f, 1.0f, 1.0f);
 
             [FormerlySerializedAs("movementDuring90Turn")]
-            [SerializeField, Tooltip("Curve used to evaluate movement throughout a 90° turnaround")]
+            [SerializeField, Tooltip("Curve used to evaluate movement throughout a 90° turn around")]
             AnimationCurve m_MovementDuring90Turn = AnimationCurve.Linear(0.0f, 1.0f, 1.0f, 1.0f);
 
             [FormerlySerializedAs("headTurnMultiplier")]

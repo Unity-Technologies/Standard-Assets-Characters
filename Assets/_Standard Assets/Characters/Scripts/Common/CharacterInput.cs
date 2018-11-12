@@ -34,22 +34,22 @@ namespace StandardAssets.Characters.Common
 		/// The Input Action Map asset
 		/// </summary>
 		[FormerlySerializedAs("mobileControls")]
-		[SerializeField, Tooltip("Input Action Map asset for on screen controls")]
-		ControlsMobile m_MobileControls;
+		[SerializeField, Tooltip("Input Action Map asset for touch controls")]
+		TouchControls m_TouchControls;
 
 		/// <summary>
 		/// The Input Action Map asset for on screen controls
 		/// </summary>
 		[FormerlySerializedAs("controls")]
-		[SerializeField, Tooltip("Input Action Map asset for mouse/keyboard and controller")]
-		Controls m_Controls;
+		[SerializeField, Tooltip("Input Action Map asset for mouse/keyboard and game pad inputs")]
+		StandardControls m_StandardControls;
 
 		/// <summary>
 		/// The on screen controls canvas
 		/// </summary>
 		[FormerlySerializedAs("onScreenControlsCanvas")]
-		[SerializeField, Tooltip("Canvas for the onscreen controls")]
-		GameObject m_OnScreenControlsCanvas;
+		[SerializeField, Tooltip("Canvas used to render the on screen touch control graphics")]
+		GameObject m_TouchControlsCanvas;
 
 		/// <summary>
 		/// Invert horizontal look direction
@@ -111,14 +111,14 @@ namespace StandardAssets.Characters.Common
 		/// </summary>
 		public bool hasJumpInput { get; private set; }
 		
-		protected ControlsMobile mobileControls
+		protected TouchControls touchControls
 		{
-			get { return m_MobileControls; }
+			get { return m_TouchControls; }
 		}
 
-		protected Controls controls
+		protected StandardControls standardControls
 		{
-			get { return m_Controls; }
+			get { return m_StandardControls; }
 		}
 		
 		protected bool isSprinting
@@ -138,31 +138,31 @@ namespace StandardAssets.Characters.Common
 #if TOUCH_CONTROLS
 			m_CursorLocked = false;
 			HandleCursorLock();
-			if (m_MobileControls != null)
+			if (m_TouchControls != null)
 			{
-				m_MobileControls.Movement.move.performed +=OnMoveInput;
-				m_MobileControls.Movement.look.performed += OnLookInput;
-				m_MobileControls.Movement.jump.performed += OnJumpInputEnded;
-				m_MobileControls.Movement.jump.started += OnJumpInputStarted;
-				m_MobileControls.Movement.sprint.performed += OnSprintInput;
+				m_TouchControls.Movement.move.performed +=OnMoveInput;
+				m_TouchControls.Movement.look.performed += OnLookInput;
+				m_TouchControls.Movement.jump.performed += OnJumpInputEnded;
+				m_TouchControls.Movement.jump.started += OnJumpInputStarted;
+				m_TouchControls.Movement.sprint.performed += OnSprintInput;
 
-				RegisterAdditionalInputsMobile();
+				RegisterAdditionalTouchInputs();
 			}
 
-			ToggleOnScreenCanvas(true);
+			ToggleTouchControlsCanvas(true);
 #else
-			if(m_Controls !=null)
+			if(m_StandardControls !=null)
 			{
-				m_Controls.Movement.move.performed +=OnMoveInput;
-				m_Controls.Movement.look.performed += OnLookInput;
-				m_Controls.Movement.sprint.performed += OnSprintInput;
-				m_Controls.Movement.jump.performed += OnJumpInputEnded;
-				m_Controls.Movement.jump.started += OnJumpInputStarted;
+				m_StandardControls.Movement.move.performed +=OnMoveInput;
+				m_StandardControls.Movement.look.performed += OnLookInput;
+				m_StandardControls.Movement.sprint.performed += OnSprintInput;
+				m_StandardControls.Movement.jump.performed += OnJumpInputEnded;
+				m_StandardControls.Movement.jump.started += OnJumpInputStarted;
 			
 				RegisterAdditionalInputs();
 			}
 			
-			ToggleOnScreenCanvas(false);	
+			ToggleTouchControlsCanvas(false);	
 #endif
 		}
 
@@ -191,17 +191,17 @@ namespace StandardAssets.Characters.Common
 		/// <summary>
 		/// Handles registration of additional on screen inputs that are not common between the First and Third person characters 
 		/// </summary>
-		protected abstract void RegisterAdditionalInputsMobile();
+		protected abstract void RegisterAdditionalTouchInputs();
 
 		/// <summary>
 		/// Toggle the onscreen controls canvas 
 		/// </summary>
 		/// <param name="active">canvas game object on or off</param>
-		void ToggleOnScreenCanvas(bool active)
+		void ToggleTouchControlsCanvas(bool active)
 		{
-			if (m_OnScreenControlsCanvas != null)
+			if (m_TouchControlsCanvas != null)
 			{
-				m_OnScreenControlsCanvas.SetActive(active);
+				m_TouchControlsCanvas.SetActive(active);
 			}
 		}
 
@@ -220,9 +220,9 @@ namespace StandardAssets.Characters.Common
 		protected virtual void OnEnable()
 		{
 #if TOUCH_CONTROLS
-			m_MobileControls.Enable();
+			m_TouchControls.Enable();
 #else
-			m_Controls.Enable();
+			m_StandardControls.Enable();
 			#endif
 			HandleCursorLock();
 		}
@@ -233,9 +233,9 @@ namespace StandardAssets.Characters.Common
 		protected virtual void OnDisable()
 		{
 #if TOUCH_CONTROLS
-			m_MobileControls.Disable();
+			m_TouchControls.Disable();
 #else
-			m_Controls.Disable();
+			m_StandardControls.Disable();
 			#endif
 		}
 

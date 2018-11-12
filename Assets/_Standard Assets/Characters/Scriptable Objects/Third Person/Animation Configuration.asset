@@ -117,7 +117,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 0.1
+      value: 0.25
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -154,8 +154,6 @@ MonoBehaviour:
   m_RightFootJumpLandAnimationTimeOffset: 0.6
   m_LeftFootJumpLandAnimationTimeOffset: 0.3
   m_SkipJumpLandWindow: 0.38
-  m_StandingJumpNormalizedSpeedMaxThreshold: 0.25
-  m_RunningJumpNormalizedSpeedMinThreshold: 0.8
   m_LandSpeedAsAFactorOfSpeed:
     serializedVersion: 2
     m_Curve:
@@ -185,8 +183,6 @@ MonoBehaviour:
   m_RollAnimationBlendTime: 0.15
   m_LandAnimationBlendTime: 0.11
   m_StartRightFootGrounded: 0
-  m_GroundedFootThreshold: 0.25
-  m_GroundedFootThresholdOffset: 0.25
   m_EnableHeadTurn: 1
   m_HeadTurnProperties:
     m_HeadLookAtWeight: 1

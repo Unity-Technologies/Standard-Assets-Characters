@@ -62,14 +62,14 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		protected override void RegisterAdditionalInputs()
 		{
-			controls.Movement.strafe.performed += OnStrafeInput;
-			controls.Movement.recentre.performed += OnRecentreInput;
+			standardControls.Movement.strafe.performed += OnStrafeInput;
+			standardControls.Movement.recentre.performed += OnRecentreInput;
 		}
 
-		protected override void RegisterAdditionalInputsMobile()
+		protected override void RegisterAdditionalTouchInputs()
 		{
-			mobileControls.Movement.strafe.performed += OnStrafeInput;
-			mobileControls.Movement.recentre.performed += OnRecentreInput;
+			touchControls.Movement.strafe.performed += OnStrafeInput;
+			touchControls.Movement.recentre.performed += OnRecentreInput;
 		}
 
 		/// <summary>

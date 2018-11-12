@@ -33,12 +33,12 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 
 		[FormerlySerializedAs("enableStrafeRapidDirectionChangeSmoothing")]
 		[SerializeField, Tooltip("Should a strafe rapid direction change be detected and smoothed. This should only " +
-		                         "be enabled if apposing strafe animations are reverses of each other. eg walk " +
+		                         "be enabled if opposing strafe animations are reverses of each other. eg walk " +
 		                         "backwards is walk forward played at a -1 speed")]
 		bool m_EnableStrafeRapidDirectionChangeSmoothing = true;
 		
 		[FormerlySerializedAs("strafeRapidDirectionChangeAngle")]
-		[SerializeField, Tooltip("Angle threshold used to trigger a strafe rapid direction change")]
+		[SerializeField, Tooltip("Input change angle threshold used to trigger a strafe rapid direction change")]
 		float m_StrafeRapidDirectionChangeAngle = 140.0f;
 
 		[FormerlySerializedAs("strafeRapidDirectionChangeSpeedCurve")]
@@ -46,7 +46,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		AnimationCurve m_StrafeRapidDirectionChangeSpeedCurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
 		
 		[FormerlySerializedAs("turningSpeedCurve")]
-		[SerializeField, Tooltip("Curve used to remap turning speed")]
+		[SerializeField, Tooltip("Curve used to remap raw normailized turning speed")]
 		AnimationCurve m_TurningSpeedCurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
 
 		[FormerlySerializedAs("jumpTransitionAsAFactorOfSpeed")]
@@ -99,7 +99,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 
 		[FormerlySerializedAs("startRightFootGrounded")]
 		[Header("Grounded Foot")]
-		[SerializeField, Tooltip("Should the right foot, not the left, start as grounded?")]
+		[SerializeField, Tooltip("Should the right foot start as grounded? Default is the left foot")]
 		bool m_StartRightFootGrounded;
 
 		[FormerlySerializedAs("enableHeadTurn")]
