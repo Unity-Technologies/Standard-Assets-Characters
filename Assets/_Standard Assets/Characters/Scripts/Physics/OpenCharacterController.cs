@@ -64,8 +64,53 @@ namespace StandardAssets.Characters.Physics
 			/// </summary>
 			readonly Transform m_Transform;
 
+			public Collider collider
+			{
+				get { return m_Collider; }
+			}
+
+			public OpenCharacterController controller
+			{
+				get { return m_Controller; }
+			}
+
+			public GameObject gameObject
+			{
+				get { return m_GameObject; }
+			}
+
+			public Vector3 moveDirection
+			{
+				get { return m_MoveDirection; }
+			}
+
+			public float moveLength
+			{
+				get { return m_MoveLength; }
+			}
+
+			public Vector3 normal
+			{
+				get { return m_Normal; }
+			}
+
+			public Vector3 point
+			{
+				get { return m_Point; }
+			}
+
+			public Rigidbody rigidbody
+			{
+				get { return m_Rigidbody; }
+			}
+
+			public Transform transform
+			{
+				get { return m_Transform; }
+			}
+
 			/// <summary>
-			/// Constructor.
+			/// Constructor
 			/// </summary>
 			/// <param name="openCharacterController">The character controller that hit.</param>
 			/// <param name="hitInfo">The hit info.</param>
@@ -97,15 +142,15 @@ namespace StandardAssets.Characters.Physics
 			/// The move vector.
 			/// Note: This gets used up during the move loop, so will be zero by the end of the loop.
 			/// </summary>
-			public Vector3 moveVector;
+			public Vector3 moveVector { get; set; }
 
 			/// <summary>
 			/// Can the movement slide along obstacles?
 			/// </summary>
-			public bool canSlide;
+			public bool canSlide { get; set; }
 
 #if UNITY_EDITOR
-			public Vector3 debugOriginalVector;
+			public Vector3 debugOriginalVector { get; set; }
 #endif
 
 			/// <summary>
@@ -114,6 +159,7 @@ namespace StandardAssets.Characters.Physics
 			/// <param name="newMoveVector">The move vector.</param>
 			/// <param name="newCanSlide">Can the movement slide along obstacles?</param>
 			public MoveVector(Vector3 newMoveVector, bool newCanSlide = true)
+				: this()
 			{
 				moveVector = newMoveVector;
 				canSlide = newCanSlide;
@@ -253,12 +299,12 @@ namespace StandardAssets.Characters.Physics
 			/// <summary>
 			/// Is the character stuck in the current move loop itteration?
 			/// </summary>
-			public bool isStuck;
+			public bool isStuck { get; set; }
 
 			/// <summary>
 			/// Count the number of collisions during movement, to determine when the character gets stuck.
 			/// </summary>
-			public int hitCount;
+			public int hitCount { get; set; }
 
 			/// <summary>
 			/// For keeping track of the character's position, to determine when the character gets stuck.
@@ -1736,9 +1782,12 @@ namespace StandardAssets.Characters.Physics
 			// The loop
 			for (var i = 0; i < k_MaxMoveIterations; i++)
 			{
-				var collided = MoveMajorStep(ref remainingMoveVector.moveVector,
+				var refMoveVector = remainingMoveVector.moveVector;
+				var collided = MoveMajorStep(ref refMoveVector,
 				                              remainingMoveVector.canSlide,
 				                              didTryToStickToGround);
+
+				remainingMoveVector.moveVector = refMoveVector;
 
 				// Character stuck?
 				if (m_StuckInfo.UpdateStuck(m_CachedTransform.position,
