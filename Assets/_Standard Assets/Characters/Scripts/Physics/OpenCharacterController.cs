@@ -17,7 +17,7 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Collision info used by the OpenCharacterController and sent to the OnOpenCharacterControllerHit message.
 		/// </summary>
-		struct CollisionInfo
+		public struct CollisionInfo
 		{
 			/// <summary>
 			/// The collider that was hit by the controller.
@@ -292,12 +292,12 @@ namespace StandardAssets.Characters.Physics
 			const int k_HitCountForStuck = 6;
 
 			/// <summary>
-			/// Assume character is stuck if the position is the same for longer than this number of loop itterations
+			/// Assume character is stuck if the position is the same for longer than this number of loop iterations
 			/// </summary>
 			const int k_MaxStuckPositionCount = 1;
 
 			/// <summary>
-			/// Is the character stuck in the current move loop itteration?
+			/// Is the character stuck in the current move loop iteration?
 			/// </summary>
 			public bool isStuck { get; set; }
 
@@ -426,7 +426,7 @@ namespace StandardAssets.Characters.Physics
 		const float k_MinSkinWidth = 0.0001f;
 
 		/// <summary>
-		/// The maximum move itterations. Mainly used as a fail safe to prevent an infinite loop.
+		/// The maximum move iterations. Mainly used as a fail safe to prevent an infinite loop.
 		/// </summary>
 		const int k_MaxMoveIterations = 20;
 
