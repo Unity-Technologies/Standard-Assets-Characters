@@ -79,7 +79,12 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
         ControllerAdapter m_Adapter;
         OpenCharacterController m_Controller;
 
-        // OnStateEnter is called before OnStateEnter is called on any state inside this state machine
+        /// <summary>
+        /// OnStateEnter is called on any state inside this state machine
+        /// </summary>
+        /// <param name="animator">Animator to be used</param>
+        /// <param name="stateInfo">Info about state</param>
+        /// <param name="layerIndex">Index of layer</param>
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             if (m_Adapter == null)

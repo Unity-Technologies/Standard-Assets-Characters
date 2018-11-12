@@ -235,13 +235,13 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		void OnEnable()
 		{
+			controllerAdapter.landed += OnLanded;
 			m_FirstPersonMovementEventHandler.Subscribe();
 			characterInput.jumpPressed += OnJumpPressed;
 			characterInput.sprintStarted += StartSprinting;
 			characterInput.sprintEnded += StartWalking;
 			characterInput.crouchStarted += StartCrouching;
 			characterInput.crouchEnded += StartWalking;
-			controllerAdapter.landed += OnLanded;
 		}
 
 		/// <summary>
@@ -249,6 +249,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		void OnDisable()
 		{
+			controllerAdapter.landed -= OnLanded;
 			m_FirstPersonMovementEventHandler.Unsubscribe();
 			if (characterInput == null)
 			{
@@ -260,7 +261,6 @@ namespace StandardAssets.Characters.FirstPerson
 			characterInput.sprintEnded -= StartWalking;
 			characterInput.crouchStarted -= StartCrouching;
 			characterInput.crouchEnded -= StartWalking;
-			controllerAdapter.landed -= OnLanded;
 		}
 
 		/// <summary>

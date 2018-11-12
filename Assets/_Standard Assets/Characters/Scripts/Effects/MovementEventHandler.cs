@@ -35,7 +35,6 @@ namespace StandardAssets.Characters.Effects
         protected CharacterBrain brain
         {
             get { return m_Brain; }
-            //set { m_Brain = value; }
         }
 
         protected MovementEventLibrary defaultLibrary
