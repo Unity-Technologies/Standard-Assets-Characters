@@ -41,7 +41,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Tracks if the character is strafing 
 		/// </summary>
-		protected bool m_IsStrafing;
+		bool m_IsStrafing;
 		
 		/// <summary>
 		/// Conditions the <paramref name="rawMoveInput"/>
@@ -303,7 +303,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			/// </summary>
 			[FormerlySerializedAs("characterBrain")]
 			[Header("Character")]
-			[SerializeField, Tooltip("The third person character brain.")]
+			[SerializeField, Tooltip("Third person character brain")]
 			ThirdPersonBrain m_CharacterBrain;
 
 			/// <summary>
@@ -311,21 +311,21 @@ namespace StandardAssets.Characters.ThirdPerson
 			/// </summary>
 			[FormerlySerializedAs("changeIdleDelay")]
 			[Header("Changing States")]
-			[SerializeField, Tooltip("Delay before changing to Idle (seconds).")]
+			[SerializeField, Tooltip("Delay before changing to Idle (seconds)")]
 			float m_ChangeIdleDelay = 0.1f;
 
 			/// <summary>
 			/// Delay before changing from Idle to MoveForward (seconds).
 			/// </summary>
 			[FormerlySerializedAs("changeIdleToMoveDelay")]
-			[SerializeField, Tooltip("Delay before changing from Idle to MoveForward (seconds).")]
+			[SerializeField, Tooltip("Delay before changing from Idle to MoveForward (seconds)")]
 			float m_ChangeIdleToMoveDelay = 0.1f;
 
 			/// <summary>
 			/// Delay before changing from RotateInCircle to MoveForward (seconds).
 			/// </summary>
 			[FormerlySerializedAs("changeRotateToMoveDelay")]
-			[SerializeField, Tooltip("Delay before changing from RotateInCircle to MoveForward (seconds).")]
+			[SerializeField, Tooltip("Delay before changing from RotateInCircle to MoveForward (seconds)")]
 			float m_ChangeRotateToMoveDelay = 0.1f;
 
 			/// <summary>
@@ -333,21 +333,21 @@ namespace StandardAssets.Characters.ThirdPerson
 			/// </summary>
 			[FormerlySerializedAs("startMoveMaxAngle")]
 			[SerializeField,
-			 Tooltip("Start MoveForward when the change in direction's angle is less than this (degrees).")]
+			 Tooltip("Start MoveForward when the change in direction's angle is less than this (degrees)")]
 			float m_StartMoveMaxAngle = 1.0f;
 
 			/// <summary>
 			/// Start RotateInCircle after rotating input for this amount of time (seconds).
 			/// </summary>
 			[FormerlySerializedAs("startRotateInCircleMinTime")]
-			[SerializeField, Tooltip("Start RotateInCircle after rotating input for this amount of time (seconds).")]
+			[SerializeField, Tooltip("Start RotateInCircle after rotating input for this amount of time (seconds)")]
 			float m_StartRotateInCircleMinTime = 1.5f;
 
 			/// <summary>
 			/// Start RotateInCircle after rotating input for this amount of degrees.
 			/// </summary>
 			[FormerlySerializedAs("startRotateInCircleMinTotalAngle")]
-			[SerializeField, Tooltip("Start RotateInCircle after rotating input for this amount of degrees.")]
+			[SerializeField, Tooltip("Start RotateInCircle after rotating input for this amount of degrees")]
 			float m_StartRotateInCircleMinTotalAngle = 270.0f;
 
 			/// <summary>
@@ -357,7 +357,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			[FormerlySerializedAs("startRotateInCircleMinAngle")]
 			[SerializeField, Tooltip(
 				 "Start RotateInCircle if the change in direction's angle is more than this (degrees). " +
-				 "Must be bigger than startMoveMaxAngle.")]
+				 "Must be bigger than Start Move Max Angle")]
 			float m_StartRotateInCircleMinAngle = 2.0f;
 
 			/// <summary>
@@ -369,7 +369,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			[SerializeField, Tooltip(
 				 "Max angle at which to rotate the character's forward vector towards the target vector " +
 				 "(degrees). Do not make this too small, because calculating the player's forward input " +
-				 "vector is not 100% accurate.")]
+				 "vector is not 100% accurate")]
 			float m_MaxRotateAngle = 20.0f;
 
 			/// <summary>
@@ -378,7 +378,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			/// </summary>
 			[FormerlySerializedAs("catchUpToInputMinAngle")]
 			[SerializeField, Tooltip("When RotateInCircle ends, if angle between character's forward and current " +
-			                         "input is greater than this, then rotate to the input vector.")]
+			                         "input is greater than this, then rotate to the input vector")]
 			float m_CatchUpToInputMinAngle = 90.0f;
 
 			/// <summary>
@@ -389,7 +389,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			[Header("Disable Rapid Turn")]
 			[SerializeField, Tooltip(
 				 "Disable rapid turn before starting RotateInCircle after rotating input for this " +
-				 "amount of time (seconds). Must be less than startRotateInCircleMinTime.")]
+				 "amount of time (seconds). Must be less than startRotateInCircleMinTime")]
 			float m_DisableRapidTurnBeforeRotateMinTime = 1.0f;
 
 			/// <summary>
@@ -399,7 +399,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			[FormerlySerializedAs("disableRapidTurnBeforeRotateMinAngle")]
 			[SerializeField, Tooltip(
 				 "Disable rapid turn before starting RotateInCircle after rotating input for this amount " +
-				 "of degrees. Must be less than startRotateInCircleMinTotalAngle.")]
+				 "of degrees. Must be less than startRotateInCircleMinTotalAngle")]
 			float m_DisableRapidTurnBeforeRotateMinAngle = 180.0f;
 
 			/// <summary>
@@ -409,7 +409,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			[FormerlySerializedAs("disableRapidTurnBeforeRotateMinAngleLowFrameRate")]
 			[SerializeField, Tooltip(
 				 "Disable rapid turn before starting RotateInCircle after rotating input for this amount " +
-				 "of degrees (when frame rate is low). Must be less than startRotateInCircleMinTotalAngle.")]
+				 "of degrees (when frame rate is low). Must be less than startRotateInCircleMinTotalAngle")]
 			float m_DisableRapidTurnBeforeRotateMinAngleLowFrameRate = 90.0f;
 
 			/// <summary>
@@ -421,7 +421,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			bool m_DebugEnabled;
 
 			[FormerlySerializedAs("debugOffsetY")]
-			[SerializeField, Tooltip("Draw vectors this Y offset from the character.")]
+			[SerializeField, Tooltip("Draw vectors this Y offset from the character")]
 			float m_DebugOffsetY;
 
 			/// <summary>

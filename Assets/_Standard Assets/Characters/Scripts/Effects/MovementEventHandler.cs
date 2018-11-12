@@ -1,6 +1,5 @@
 ﻿using System;
 using StandardAssets.Characters.Common;
-using StandardAssets.Characters.Effects.Configs;
 using StandardAssets.Characters.Effects.Players;
 using UnityEngine;
 using UnityEngine.Serialization;

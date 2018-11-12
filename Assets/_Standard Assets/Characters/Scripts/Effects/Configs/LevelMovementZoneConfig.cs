@@ -11,7 +11,7 @@ namespace StandardAssets.Characters.Effects.Configs
 	public class LevelMovementZoneConfig : ScriptableObject
 	{
 		[FormerlySerializedAs("defaultZoneId")]
-		[SerializeField, Tooltip("The default movement event zone ID")]
+		[SerializeField, Tooltip("Default movement event zone ID")]
 		MovementZoneId m_DefaultZoneId;
 		
 		[FormerlySerializedAs("zonesDefinition")]

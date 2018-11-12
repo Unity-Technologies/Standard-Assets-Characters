@@ -13,8 +13,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		                    k_RollLandState = "RollLand",
 		                    k_LandState = "Land";
 
-		public const string k_JumpedLateralSpeedParameter = "JumpedLateralSpeed",
-		                    k_GroundedFootRightParameter = "OnRightFoot",
+		public const string k_GroundedFootRightParameter = "OnRightFoot",
 		                    k_VerticalSpeedParameter = "VerticalSpeed",
 		                    k_StrafeParameter = "Strafe",
 		                    k_FallParameter = "Fall",

@@ -12,6 +12,11 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		menuName = "Standard Assets/Characters/Third Person Animation Configuration", order = 1)]
 	public class AnimationConfig : ScriptableObject
 	{
+		// values used to determine the grounded foot based on animation normalized time. These should only be changed
+		// if locomotion animations are irregular.
+		const float k_GroundedFootThreshold = 0.25f;
+		const float k_GroundedFootThresholdOffset = 0.25f;
+		
 		[FormerlySerializedAs("forwardSpeedInterpolationRange")]
 		[Header("Ground Movement")]
 		[Tooltip("Configuration for the forward speed animation parameter")]
@@ -29,41 +34,41 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		[FormerlySerializedAs("enableStrafeRapidDirectionChangeSmoothing")]
 		[SerializeField, Tooltip("Should a strafe rapid direction change be detected and smoothed. This should only " +
 		                         "be enabled if apposing strafe animations are reverses of each other. eg walk " +
-		                         "backwards is walk forward played at a -1 speed.")]
+		                         "backwards is walk forward played at a -1 speed")]
 		bool m_EnableStrafeRapidDirectionChangeSmoothing = true;
 		
 		[FormerlySerializedAs("strafeRapidDirectionChangeAngle")]
-		[SerializeField, Tooltip("The angle threshold used to trigger a strafe rapid direction change.")]
+		[SerializeField, Tooltip("Angle threshold used to trigger a strafe rapid direction change")]
 		float m_StrafeRapidDirectionChangeAngle = 140.0f;
 
 		[FormerlySerializedAs("strafeRapidDirectionChangeSpeedCurve")]
-		[SerializeField, Tooltip("The curve used to change animator movement speeds during a strafe rapid direction change")]
+		[SerializeField, Tooltip("Curve used to change animator movement speeds during a strafe rapid direction change")]
 		AnimationCurve m_StrafeRapidDirectionChangeSpeedCurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
 		
 		[FormerlySerializedAs("turningSpeedCurve")]
-		[SerializeField, Tooltip("The curve used to remap turning speed")]
+		[SerializeField, Tooltip("Curve used to remap turning speed")]
 		AnimationCurve m_TurningSpeedCurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
 
 		[FormerlySerializedAs("jumpTransitionAsAFactorOfSpeed")]
 		[Header("Jumping")]
 		[SerializeField, Tooltip("Curve used to determine the cross fade duration of the transition into the jump " +
-								 "animation state in exploration mode.")]
-		AnimationCurve m_JumpTransitionAsAFactorOfSpeed = AnimationCurve.Constant(0, 1, 0.15f);
+								 "animation state in exploration mode")]
+		AnimationCurve m_JumpTransitionAsAFactorOfSpeed = AnimationCurve.Constant(0.0f, 1.0f, 0.15f);
 		
 		[SerializeField, Tooltip("Curve used to determine the cross fade duration of the transition into the jump " +
-		                         "animation state in strafe mode.")]
-		AnimationCurve m_StrafeJumpTransitionAsAFactorOfSpeed = AnimationCurve.Constant(0, 1, 0.15f);
+		                         "animation state in strafe mode")]
+		AnimationCurve m_StrafeJumpTransitionAsAFactorOfSpeed = AnimationCurve.Constant(0.0f, 1.0f, 0.15f);
 
 		[FormerlySerializedAs("m_JumpEndTransitionDurationByForwardSpeed"),FormerlySerializedAs("jumpEndTransitionDurationByForwardSpeed")]
 		[SerializeField, Tooltip("Curve used to determine the cross fade duration of the transition into the " +
 								 "locomotion animation from the jump animation state")]
-		AnimationCurve m_JumpEndTransitionAsAFactorOfSpeed = AnimationCurve.Linear(0,0,1,0.125f);
+		AnimationCurve m_JumpEndTransitionAsAFactorOfSpeed = AnimationCurve.Linear(0.0f, 0.0f ,1.0f ,0.125f);
 		
 		[FormerlySerializedAs("rightFootJumpLandAnimationTimeOffset")]
-		[SerializeField, Tooltip("Cross fade cycle offset for transition into locomotion state after a physics jump")]
+		[SerializeField, Tooltip("Cross fade cycle offset for transition into locomotion state after a right foot jump")]
 		float m_RightFootJumpLandAnimationTimeOffset = 0.6f;
 		[FormerlySerializedAs("leftFootJumpLandAnimationTimeOffset")]
-		[SerializeField, Tooltip("Cross fade cycle offset for transition into locomotion state after a physics jump")]
+		[SerializeField, Tooltip("Cross fade cycle offset for transition into locomotion state after a left foot jump")]
 		float m_LeftFootJumpLandAnimationTimeOffset = 0.3f;
 
 		[FormerlySerializedAs("skipJumpLandWindow")]
@@ -73,7 +78,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		[FormerlySerializedAs("landSpeedAsAFactorOfSpeed")]
 		[Header("Landing")]
 		[SerializeField, Tooltip("Curve used to determine the land animation speed")]
-		AnimationCurve m_LandSpeedAsAFactorOfSpeed = AnimationCurve.Linear(0,1,1,2);
+		AnimationCurve m_LandSpeedAsAFactorOfSpeed = AnimationCurve.Linear(0.0f, 1.0f, 1.0f, 2.0f);
 
 		[FormerlySerializedAs("normalizedForwardSpeedToRoll")]
 		[SerializeField, Tooltip("A forward speed higher than this will trigger a roll on land")]
@@ -94,15 +99,8 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 
 		[FormerlySerializedAs("startRightFootGrounded")]
 		[Header("Grounded Foot")]
-		[SerializeField, Tooltip("Should the right foot start as grounded?")]
+		[SerializeField, Tooltip("Should the right foot, not the left, start as grounded?")]
 		bool m_StartRightFootGrounded;
-
-		[FormerlySerializedAs("groundedFootThreshold")]
-		[SerializeField, Tooltip("Value used to determine the grounded foot based on animation normalized time")]
-		float m_GroundedFootThreshold = 0.25f;
-		[FormerlySerializedAs("groundedFootThresholdOffset")]
-		[SerializeField, Tooltip("Value used to determine the grounded foot based on animation normalized time")]
-		float m_GroundedFootThresholdOffset = 0.25f;
 
 		[FormerlySerializedAs("enableHeadTurn")]
 		[Header("Head Movement"), Tooltip("Should the head look be turned off?")]
@@ -183,7 +181,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float groundedFootThresholdValue
 		{
-			get { return m_GroundedFootThreshold; }
+			get { return k_GroundedFootThreshold; }
 		}
 
 		/// <summary>
@@ -191,7 +189,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float groundedFootThresholdOffsetValue
 		{
-			get { return m_GroundedFootThresholdOffset; }
+			get { return k_GroundedFootThresholdOffset; }
 		}
 
 		/// <summary>

@@ -1019,6 +1019,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			SetupGizmos();
 		}
 #endif
+
+		private void OnGUI()
+		{
+			m_Motor.OnGUI();
+		}
 	}
 
 	/// <summary>
