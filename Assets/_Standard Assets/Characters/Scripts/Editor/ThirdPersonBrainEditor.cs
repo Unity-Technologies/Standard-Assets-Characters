@@ -32,19 +32,9 @@ namespace Editor
 			serializedObject.DrawExtendedScriptableObject(k_MotorConfigPath, "Motor Settings");
 			serializedObject.DrawExtendedScriptableObject(k_AnimationConfigName, "Animation Settings");
 
-			GUI.Box(EditorGUILayout.BeginVertical(), GUIContent.none);
-			advancedFoldOut = EditorGUILayout.Foldout(advancedFoldOut, "Advanced Settings");
-			if (advancedFoldOut)
-			{
-				EditorGUI.indentLevel++;
-				DrawTurnaround();
-				foreach (var propertyPath in advancedFields)
-				{
-					EditorGUILayout.PropertyField(serializedObject.FindProperty(propertyPath), true);
-				}
-				EditorGUI.indentLevel--;
-			}
-			GUILayout.EndHorizontal();
+			EditorGUILayout.Space();
+			DrawTurnaround();
+			serializedObject.DrawFoldoutBoxedFields("Advanced Settings", advancedFields, ref advancedFoldOut);;
 		}
 
 		protected override string[] GetExclusions()

@@ -109,6 +109,43 @@ namespace Editor
 			property.serializedObject.ApplyModifiedProperties();
 		}
 
+		/// <summary>
+		/// Finds and draws the properties given under a foldout and within a GUI.Box if <paramref name="foldout"/> is true.
+		/// </summary>
+		/// <param name="serializedObject">The serializedProperty with the given fields</param>
+		/// <param name="title">The title of the drawn box</param>
+		/// <param name="fields">The fields to draw</param>
+		/// <param name="foldout">The value of the drawn foldout</param>
+		public static void DrawFoldoutBoxedFields(this SerializedObject serializedObject, string title, string[] fields, ref bool foldout)
+		{
+			GUI.Box(EditorGUILayout.BeginVertical(), GUIContent.none);
+			foldout = EditorGUILayout.Foldout(foldout, title);
+			if (foldout)
+			{
+				EditorGUI.indentLevel++;
+				foreach (var propertyPath in fields)
+				{
+					SerializedProperty property = serializedObject.FindProperty(propertyPath);
+					if (property != null)
+					{
+						EditorGUILayout.PropertyField(property, true);
+					}
+					else
+					{
+						Debug.LogErrorFormat("Property: {0} not found in {1}", propertyPath, 
+						                     serializedObject.targetObject);
+					}
+				}
+				EditorGUI.indentLevel--;
+			}
+			GUILayout.EndHorizontal();
+			
+			if (GUI.changed)
+			{
+				serializedObject.ApplyModifiedProperties();
+			}
+		}
+
 		// Creates a new ScriptableObject via the default Save File panel
 		static ScriptableObject CreateAssetWithSavePrompt(Type type, string path)
 		{
