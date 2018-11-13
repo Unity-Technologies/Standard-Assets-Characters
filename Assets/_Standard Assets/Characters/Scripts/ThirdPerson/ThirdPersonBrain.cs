@@ -938,12 +938,18 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			animator.SetFloat(m_HashVerticalSpeed, 1.0f);
 
-			var jumpState = AnimationControllerInfo.k_StrafeJumpState;
+			string jumpState;
 			if (m_Motor.movementMode == ThirdPersonMotorMovementMode.Exploration)
 			{
 				jumpState = rightFoot
 					            ? AnimationControllerInfo.k_RightFootJumpState
 					            : AnimationControllerInfo.k_LeftFootJumpState;
+			}
+			else
+			{
+				jumpState = rightFoot
+					            ? AnimationControllerInfo.k_RightFootStrafeJump
+					            : AnimationControllerInfo.k_LeftFootStrafeJump;
 			}
 
 			animator.CrossFade(jumpState, duration);
