@@ -116,13 +116,20 @@ namespace Editor
 		/// <param name="title">The title of the drawn box</param>
 		/// <param name="fields">The fields to draw</param>
 		/// <param name="foldout">The value of the drawn foldout</param>
-		public static void DrawFoldoutBoxedFields(this SerializedObject serializedObject, string title, string[] fields, ref bool foldout)
+		/// <param name="beginning">Action fired at the start of the GUI.Box</param>
+		/// <param name="end">Action fired at the end of the GUI.Box</param>
+		public static void DrawFoldoutBoxedFields(this SerializedObject serializedObject, string title, string[] fields,
+		                                          ref bool foldout, Action beginning = null, Action end = null)
 		{
 			GUI.Box(EditorGUILayout.BeginVertical(), GUIContent.none);
 			foldout = EditorGUILayout.Foldout(foldout, title);
 			if (foldout)
 			{
 				EditorGUI.indentLevel++;
+				if (beginning != null)
+				{
+					beginning();
+				}
 				foreach (var propertyPath in fields)
 				{
 					SerializedProperty property = serializedObject.FindProperty(propertyPath);
@@ -135,6 +142,10 @@ namespace Editor
 						Debug.LogErrorFormat("Property: {0} not found in {1}", propertyPath, 
 						                     serializedObject.targetObject);
 					}
+				}
+				if (end != null)
+				{
+					end();
 				}
 				EditorGUI.indentLevel--;
 			}
