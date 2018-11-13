@@ -703,7 +703,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		void TryJump(out bool reattempt)
 		{
 			if (m_MovementState == ThirdPersonGroundMovementState.TurningAround || 
-			    m_ThirdPersonBrain.animatorState == ThirdPersonBrain.AnimatorState.Landing)
+			    m_ThirdPersonBrain.animatorState == ThirdPersonBrain.AnimatorState.Landing ||
+			    m_ThirdPersonBrain.animatorState == ThirdPersonBrain.AnimatorState.JumpLanding)
 			{
 				reattempt = true;
 				return;

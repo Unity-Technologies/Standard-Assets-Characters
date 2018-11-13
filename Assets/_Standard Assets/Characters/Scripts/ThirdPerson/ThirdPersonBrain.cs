@@ -22,7 +22,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			Locomotion,
 			Jump,
 			Falling,
-			Landing
+			Landing,
+			JumpLanding,
 		}
 
 		[FormerlySerializedAs("useSimpleCameras")]
@@ -296,7 +297,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <remarks>Should only be called by a physics jump StateMachineBehaviour</remarks>
 		public void OnJumpAnimationExit()
 		{
-			if (animatorState == AnimatorState.Jump)
+			if (animatorState == AnimatorState.Jump || animatorState == AnimatorState.JumpLanding)
 			{
 				animatorState = AnimatorState.Locomotion;
 			}
@@ -320,6 +321,10 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (animatorState == AnimatorState.Falling)
 			{
 				animatorState = AnimatorState.Locomotion;
+			}
+			else if (animatorState == AnimatorState.Jump)
+			{
+				animatorState = AnimatorState.JumpLanding;
 			}
 		}
 
