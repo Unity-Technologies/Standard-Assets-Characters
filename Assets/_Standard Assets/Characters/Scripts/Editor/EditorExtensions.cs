@@ -21,9 +21,9 @@ namespace Editor
 		/// </summary>
 		/// <param name="serializedObject">The serializedProperty containing the ScriptableObject.</param>
 		/// <param name="scriptableObjectName">The field name of the ScriptableObject to draw.</param>
-		/// <param name="exclusions">A list of field names to exclude.</param>
+		/// <param name="labelOverride">The title of the field</param>
 		/// <param name="bindingFlags">The flags used to find the field's type through reflection.</param>
-		public static void DrawExtendedScriptableObject(this SerializedObject serializedObject, string scriptableObjectName, string[] exclusions = null,
+		public static void DrawExtendedScriptableObject(this SerializedObject serializedObject, string scriptableObjectName, string labelOverride = "",
 		                                BindingFlags bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance)
 		{
 			string[] properties = scriptableObjectName.Split('.');
@@ -50,7 +50,8 @@ namespace Editor
 			if (property.objectReferenceValue != null)
 			{
 				GUILayout.BeginHorizontal();
-				property.isExpanded = EditorGUILayout.Foldout(property.isExpanded, property.displayName, true);
+				var title = string.IsNullOrEmpty(labelOverride) ? property.displayName : labelOverride;
+				property.isExpanded = EditorGUILayout.Foldout(property.isExpanded, title, true);
 				EditorGUILayout.PropertyField(property, GUIContent.none, true);
 				GUILayout.EndHorizontal();
 				
