@@ -473,7 +473,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			
 			movementMode = ThirdPersonMotorMovementMode.Strafe;
 			m_IsInitialStrafeLook = true;
-			m_InitialStrafeLookCount = m_Configuration.initialStrafeLookDuration;
+			m_InitialStrafeLookCount = m_Configuration.turnForwardOnStartStrafeDuration;
 			m_RotationOnStrafeStart = m_Transform.rotation;
 		}
 		
@@ -494,7 +494,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (m_IsInitialStrafeLook)
 			{
 				newRotation = Quaternion.Lerp(m_RotationOnStrafeStart, targetRotation, 
-					1.0f - m_InitialStrafeLookCount / m_Configuration.initialStrafeLookDuration);
+					1.0f - m_InitialStrafeLookCount / m_Configuration.turnForwardOnStartStrafeDuration);
 				m_InitialStrafeLookCount -= Time.deltaTime;
 				if (m_InitialStrafeLookCount <= 0.0f)
 				{
@@ -504,7 +504,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			else
 			{
 				newRotation = Quaternion.RotateTowards(m_Transform.rotation, targetRotation,
-								m_Configuration.turningYSpeed * m_Configuration.strafeTurningSpeedScale * Time.deltaTime);
+								m_Configuration.turningYSpeed * Time.deltaTime);
 			}
 			
 			SetTurningSpeed(m_Transform.rotation, newRotation);
@@ -567,11 +567,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			m_StrafeAverageLateralInput.Add(m_CharacterInput.moveInput.x);
 			float averageLateralInput = m_StrafeAverageLateralInput.average;
 			
-			normalizedForwardSpeed =
-				Mathf.Clamp((Mathf.Approximately(averageForwardInput, 0f) ? 0f : averageForwardInput),
-							-m_Configuration.normalizedBackwardStrafeSpeed, m_Configuration.normalizedForwardStrafeSpeed);
+			normalizedForwardSpeed = Mathf.Approximately(averageForwardInput, 0f) ? 0f : averageForwardInput;
 			normalizedLateralSpeed = Mathf.Approximately(averageLateralInput, 0f)
-				? 0f : averageLateralInput * m_Configuration.normalizedLateralStrafeSpeed;
+				? 0f : averageLateralInput;
 		}
 
 		Vector3 CalculateLocalInputDirection()

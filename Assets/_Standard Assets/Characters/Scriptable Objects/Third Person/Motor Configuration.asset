@@ -11,21 +11,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d70839d074c4aaf8d6d3e6c7b3cfbc7, type: 3}
   m_Name: Motor Configuration
   m_EditorClassIdentifier: 
-  m_AutoToggleSprint: 1
   m_RootMotionMovementScale: 1
-  m_SprintNormalizedSpeedIncrease: 0.5
-  m_UseCustomExplorationParameters: 1
-  m_Exploration:
-    m_ForwardInputSamples: 5
-  m_UseCustomStrafeParameters: 0
-  m_Strafing:
-    m_StrafeInputSamples: 5
-    m_StrafeForwardSpeed: 0.9
-    m_StrafeBackwardSpeed: 1
-    m_StrafeLateralSpeed: 1
-    m_StrafeTurningSpeedScale: 0.667
-  m_InitialStrafeLookTime: 0.125
-  m_lateralStrafeJumpMultiplier: 1
+  m_TurnForwardOnStartStrafeTime: 0.125
+  m_LateralStrafeJumpMultiplier: 1
   m_JumpHeightAsAFactorOfForwardSpeed:
     serializedVersion: 2
     m_Curve:
@@ -68,21 +56,26 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_JumpGroundVelocitySamples: 10
-  m_JumpTurningSpeedScale: 0.25
   m_StandingJumpForwardSpeed: 3.5
-  m_MinInputThreshold: 0.05
-  m_MaxMovementThreshold: 0.75
-  m_StandingJumpMoveTimeThreshold: 0.5
   m_FallingMaxForwardSpeed: 5
   m_FallForwardSpeedDeceleration: 0.0025
   m_FallForwardSpeedAcceleration: 0.05
   m_FallDirectionChangeSpeed: 0.025
   m_TurningSpeed: 300
-  m_TurningSpeedVisualScale: 1.4
-  m_NormalizedTurningSpeedLerpSpeed: 2
   m_RapidTurnInputAngle: 160
   m_StationaryRapidTurnAngle: 89
-  m_MaxSpeedForStandingTurnaround: 0.25
-  m_RapidTurnIgnoreInputTime: 0.1
-  m_InputBufferSize: 5
+  advanced:
+    m_SprintNormalizedSpeedIncrease: 0.5
+    m_ForwardInputSamples: 5
+    m_StrafeInputWindowSize: 5
+    m_AutoToggleSprint: 1
+    m_JumpGroundVelocitySamples: 10
+    m_JumpTurningSpeedScale: 0.5
+    m_MinInputThreshold: 0.5
+    m_MaxMovementThreshold: 0.01
+    m_StandingJumpMoveTimeThreshold: 0.5
+    m_TurningSpeedVisualScale: 1.4
+    m_NormalizedTurningSpeedLerpSpeed: 2
+    m_MaxSpeedForStandingTurnaround: 0.25
+    m_RapidTurnIgnoreInputTime: 0.1
+    m_InputBufferSize: 5
