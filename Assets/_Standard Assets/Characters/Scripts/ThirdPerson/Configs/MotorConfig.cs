@@ -226,7 +226,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			get { return m_RapidTurnIgnoreInputTime; }
 		}
 
-		public bool CustomExplorationParametersToBeUsed
+		public bool customExplorationParametersToBeUsed
 		{
 			get { return m_UseCustomExplorationParameters; }
 		}
