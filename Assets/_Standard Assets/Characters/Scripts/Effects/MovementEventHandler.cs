@@ -21,32 +21,82 @@ namespace StandardAssets.Characters.Effects
 
         CharacterBrain m_Brain;
 
+        PhysicMaterial m_PhysicMaterial;
+
         protected CharacterBrain brain
         {
             get { return m_Brain; }
-            //set { m_Brain = value; }
         }
 
         protected bool canPlayEffect
         {
             get { return m_CurrentMovementEventLibrary != null; }
         }
+        
+        protected MovementEventLibrary defaultLibrary
+        {
+            get
+            {
+                var configuration = LevelMovementZoneManager.config;
+                if (configuration != null)
+                {
+                    var library = m_ZonesDefinition[configuration.defaultPhysicMaterial];
+                    if (library != null)
+                    {
+                        return library;
+                    }
+
+                    return configuration.defaultLibrary;
+                }
+
+                return null;
+            }
+        }
 
         /// <summary>
         /// Sets the current <see cref="MovementEventLibrary"/>
         /// </summary>
         /// <param name="newMovementEventLibrary">Movement event library data</param>
-        public void SetCurrentMovementEventLibrary(MovementEventLibrary newMovementEventLibrary)
+        void SetCurrentMovementEventLibrary(MovementEventLibrary newMovementEventLibrary)
         {
             m_CurrentMovementEventLibrary = newMovementEventLibrary;
+        }
+        
+        void ChangeMovementZone(PhysicMaterial physicMaterial)
+        {
+            var library = m_ZonesDefinition[physicMaterial];
+
+            if (library != null)
+            {
+                SetCurrentMovementEventLibrary(library);
+                return;
+            }
+
+            var configuration = LevelMovementZoneManager.config;
+
+            if (configuration != null)
+            {
+                library = configuration[physicMaterial];
+                if (library != null)
+                {
+                    SetCurrentMovementEventLibrary(library);
+                    return;
+                }
+            }
+
+            if (defaultLibrary != null)
+            {
+                SetCurrentMovementEventLibrary(defaultLibrary);
+            }
         }
 
         /// <summary>
         /// Sets the current event library to the starting event library
         /// </summary>
-        public void Init(CharacterBrain brainToUse)
+        protected void Init(CharacterBrain brainToUse)
         {
             m_Brain = brainToUse;
+            SetCurrentMovementEventLibrary(defaultLibrary);
         }
 
         protected virtual void PlayLeftFoot(MovementEventData data)
@@ -79,6 +129,16 @@ namespace StandardAssets.Characters.Effects
             {
                 m_CurrentMovementEventLibrary.PlayJumping(data);
             }
+        }
+
+        protected void SetPhysicMaterial(PhysicMaterial physicMaterial)
+        {
+            if (m_PhysicMaterial != physicMaterial)
+            {
+                ChangeMovementZone(physicMaterial);
+            }
+
+            m_PhysicMaterial = physicMaterial;
         }
     }
 

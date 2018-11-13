@@ -28,7 +28,7 @@ namespace StandardAssets.Characters.Effects
 			}
 
 			var movementEventData = new MovementEventData(transform);
-			OnDetection(movementEventData, other.material);			
+			OnDetection(movementEventData, other.sharedMaterial);			
 		}
 
 		/// <summary>
