@@ -90,7 +90,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		[FormerlySerializedAs("crouching")]
 		[SerializeField, Tooltip("Movement properties of the character while crouching")]
-		protected MovementProperties m_Crouching;
+		MovementProperties m_Crouching;
 
 		/// <summary>
 		/// Manages movement events
@@ -402,7 +402,10 @@ namespace StandardAssets.Characters.FirstPerson
 	{
 		[FormerlySerializedAs("maximumSpeed")]
 		[SerializeField, Tooltip("The maximum speed of the character")]
-		protected float m_MaximumSpeed = 10f;
+		float m_MaximumSpeed = 10f;
+
+		[SerializeField]
+		LayerMask m_LayerMask;
 
 		float m_SqrTravelledDistance;
 
@@ -444,18 +447,7 @@ namespace StandardAssets.Characters.FirstPerson
 			if (m_SqrTravelledDistance >= m_SqrDistanceThreshold)
 			{
 				m_SqrTravelledDistance = 0;
-				var data =
-					new MovementEventData(m_Transform, Mathf.Clamp01(brain.planarSpeed / m_MaximumSpeed));
-				if (m_IsLeftFoot)
-				{
-					PlayLeftFoot(data);
-				}
-				else
-				{
-					PlayRightFoot(data);
-				}
-
-				m_IsLeftFoot = !m_IsLeftFoot;
+				PlayFootstep(new MovementEventData(m_Transform, Mathf.Clamp01(brain.planarSpeed / m_MaximumSpeed)));
 			}
 
 			m_PreviousPosition = currentPosition;
@@ -501,6 +493,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		void Jumped()
 		{
+			CheckArea();
 			PlayJumping(new MovementEventData(m_Transform));
 		}
 
@@ -509,7 +502,32 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		void Landed()
 		{
+			CheckArea();
 			PlayLanding(new MovementEventData(m_Transform));
+		}
+
+		void PlayFootstep(MovementEventData movementEventData)
+		{
+			CheckArea();
+			if (m_IsLeftFoot)
+			{
+				PlayLeftFoot(movementEventData);
+			}
+			else
+			{
+				PlayRightFoot(movementEventData);
+			}
+			
+			m_IsLeftFoot = !m_IsLeftFoot;
+		}
+
+		void CheckArea()
+		{
+			RaycastHit hit;
+			if (UnityEngine.Physics.Raycast(m_Transform.position, Vector3.down, out hit, m_LayerMask))
+			{
+				SetPhysicMaterial(hit.collider.sharedMaterial);
+			}
 		}
 	}
 }
