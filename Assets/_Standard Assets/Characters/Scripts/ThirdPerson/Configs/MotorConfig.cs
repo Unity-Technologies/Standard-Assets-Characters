@@ -60,7 +60,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			[SerializeField, Tooltip("Time that input will be ignored after the triggering of a rapid turn")]
 			float m_RapidTurnIgnoreInputTime = 0.1f;
 
-			[SerializeField, Tooltip("Number of frames of input that will used to determine if a rapid turn was triggered")]
+			[SerializeField, Tooltip("Number of frames of input that will be used to determine if a rapid turn was triggered")]
 			int m_InputBufferSize = 5;
 
 			public float sprintNormalizedSpeedIncrease
@@ -168,7 +168,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		[FormerlySerializedAs("fallingMaxForwardSpeed")]
 		[Header("Falling")]
 		[SerializeField, Tooltip("Maximum forward speed while falling")]
-		float m_FallingMaxForwardSpeed = 5;
+		float m_FallingMaxForwardSpeed = 5.0f;
 
 		[FormerlySerializedAs("fallForwardSpeedDeceleration")]
 		[SerializeField, Tooltip("Rate at which falling forward speed can decrease")]
