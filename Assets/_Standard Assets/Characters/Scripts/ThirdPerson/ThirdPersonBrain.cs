@@ -26,10 +26,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			JumpLanding,
 		}
 
-		[FormerlySerializedAs("useSimpleCameras")]
-		[SerializeField, Tooltip("Set to true if you do not want to use the Camera animation manager")]
-		bool m_UseSimpleCameras;
-
 		[FormerlySerializedAs("motor")]
 		[SerializeField, Tooltip("Properties of the root motion motor")]
 		ThirdPersonMotor m_Motor;
@@ -552,11 +548,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		void FindCameraController(bool autoDisable)
 		{
-			if (m_UseSimpleCameras)
-			{
-				return;
-			}
-
 			if (m_CameraController == null)
 			{
 				ThirdPersonCameraController[] cameraControllers =
