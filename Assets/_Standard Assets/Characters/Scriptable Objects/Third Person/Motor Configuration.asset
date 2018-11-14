@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Motor Configuration
   m_EditorClassIdentifier: 
   m_RootMotionMovementScale: 1
-  m_TurnForwardOnStartStrafeTime: 0.125
+  m_TurnForwardOnStartStrafeDuration: 0.125
   m_LateralStrafeJumpMultiplier: 1
   m_JumpHeightAsAFactorOfForwardSpeed:
     serializedVersion: 2
@@ -70,7 +70,7 @@ MonoBehaviour:
     m_StrafeInputWindowSize: 5
     m_AutoToggleSprint: 1
     m_JumpGroundVelocitySamples: 10
-    m_JumpTurningSpeedScale: 0.5
+    m_JumpTurningSpeedScale: 0.25
     m_MinInputThreshold: 0.5
     m_MaxMovementThreshold: 0.01
     m_StandingJumpMoveTimeThreshold: 0.5
