@@ -28,39 +28,39 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		[FormerlySerializedAs("useSimpleCameras")]
 		[SerializeField, Tooltip("Set to true if you do not want to use the Camera animation manager")]
-		protected bool m_UseSimpleCameras;
+		bool m_UseSimpleCameras;
 
 		[FormerlySerializedAs("motor")]
 		[SerializeField, Tooltip("Properties of the root motion motor")]
-		protected ThirdPersonMotor m_Motor;
+		ThirdPersonMotor m_Motor;
 
 		[FormerlySerializedAs("turnaroundType")]
 		[SerializeField]
-		protected TurnaroundType m_TurnaroundType;
+		TurnaroundType m_TurnaroundType;
 
 		[FormerlySerializedAs("blendspaceTurnAroundBehaviour")]
 		[SerializeField]
-		protected BlendspaceTurnAroundBehaviour m_BlendspaceTurnAroundBehaviour;
+		BlendspaceTurnAroundBehaviour m_BlendspaceTurnAroundBehaviour;
 
 		[FormerlySerializedAs("animationTurnAroundBehaviour")]
 		[SerializeField]
-		protected AnimationTurnAroundBehaviour m_AnimationTurnAroundBehaviour;
+		AnimationTurnAroundBehaviour m_AnimationTurnAroundBehaviour;
 
 		[FormerlySerializedAs("thirdPersonMovementEventHandler")]
 		[SerializeField]
-		protected ThirdPersonMovementEventHandler m_ThirdPersonMovementEventHandler;
+		ThirdPersonMovementEventHandler m_ThirdPersonMovementEventHandler;
 
 		[FormerlySerializedAs("configuration")]
 		[SerializeField, Tooltip("Configuration settings for the animator")]
-		protected AnimationConfig m_Configuration;
+		AnimationConfig m_Configuration;
 
 		[FormerlySerializedAs("showDebugGizmos")]
 		[SerializeField]
-		protected bool m_ShowDebugGizmos;
+		bool m_ShowDebugGizmos;
 
 		[FormerlySerializedAs("gizmoSettings")]
 		[SerializeField]
-		protected DebugGizmoSettings m_GizmoSettings;
+		DebugGizmoSettings m_GizmoSettings;
 
 		[Serializable]
 		public struct DebugGizmoSettings
@@ -1044,15 +1044,15 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		[FormerlySerializedAs("leftFootDetection")]
 		[SerializeField]
-		protected ColliderMovementDetection m_LeftFootDetection;
+		ColliderMovementDetection m_LeftFootDetection;
 
 		[FormerlySerializedAs("rightFootDetection")]
 		[SerializeField]
-		protected ColliderMovementDetection m_RightFootDetection;
+		ColliderMovementDetection m_RightFootDetection;
 
 		[FormerlySerializedAs("maximumSpeed")]
 		[SerializeField]
-		protected float m_MaximumSpeed = 10f;
+		float m_MaximumSpeed = 10f;
 
 		ThirdPersonBrain m_ThirdPersonBrain;
 
