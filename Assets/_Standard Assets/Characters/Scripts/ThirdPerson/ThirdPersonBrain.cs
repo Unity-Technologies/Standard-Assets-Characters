@@ -783,7 +783,7 @@ namespace StandardAssets.Characters.ThirdPerson
 					}
 					else
 					{
-						if (m_Motor.normalizedForwardSpeed > m_Configuration.forwardSpeedToRoll
+						if (m_Motor.normalizedForwardSpeed > m_Configuration.forwardSpeedRequiredToRoll
 						) // moving fast enough to roll
 						{
 							if (m_Motor.fallTime > m_Configuration.fallTimeRequiredToRoll) // play roll

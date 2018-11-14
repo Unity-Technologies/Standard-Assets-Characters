@@ -16,8 +16,22 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		protected class AdvancedAnimationConfig
 		{
 			[Header("Ground Movement")]
+			[SerializeField, Tooltip("Configuration for the forward speed animation parameter")]
+			FloatRange m_ForwardSpeedInterpolationRange = new FloatRange(0.2f, 0.35f);
+
+			[SerializeField, Tooltip("Configuration for the lateral speed animation parameter")]
+			FloatRange m_LateralSpeedInterpolationRange = new FloatRange(0.2f, 0.35f);
+
+			[SerializeField, Tooltip("Configuration for the turning speed animation parameter")]
+			FloatRange m_TurningSpeedInterpolationRange = new FloatRange(0.01f, 0.05f);
+			
 			[SerializeField, Tooltip("Input change angle threshold used to trigger a strafe rapid direction change")]
 			float m_StrafeRapidDirectionChangeAngle = 140.0f;
+			
+			[SerializeField, Tooltip("Should a strafe rapid direction change be detected and smoothed. This should only " +
+			                         "be enabled if opposing strafe animations are reverses of each other. eg walk " +
+			                         "backwards is walk forward played at a -1 speed")]
+			bool m_EnableStrafeRapidDirectionChangeSmoothing = true;
 			
 			[SerializeField, Tooltip("Curve used to change animator movement speeds during a strafe rapid direction change")]
 			AnimationCurve m_StrafeRapidDirectionChangeSpeedCurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
@@ -26,6 +40,18 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			AnimationCurve m_TurningSpeedCurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
 					
 			[Header("Jumping")]
+			[SerializeField, Tooltip("Curve used to determine the cross fade duration of the transition into the jump " +
+			                         "animation state in exploration mode")]
+			AnimationCurve m_JumpTransitionAsAFactorOfSpeed = AnimationCurve.Constant(0.0f, 1.0f, 0.15f);
+		
+			[SerializeField, Tooltip("Curve used to determine the cross fade duration of the transition into the jump " +
+			                         "animation state in strafe mode")]
+			AnimationCurve m_StrafeJumpTransitionAsAFactorOfSpeed = AnimationCurve.Constant(0.0f, 1.0f, 0.15f);
+
+			[SerializeField, Tooltip("Curve used to determine the cross fade duration of the transition into the " +
+			                         "locomotion animation from the jump animation state")]
+			AnimationCurve m_JumpEndTransitionAsAFactorOfSpeed = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 0.125f);
+			
 			[SerializeField, Tooltip("Cross fade cycle offset for transition into locomotion state after a right foot jump")]
 			float m_RightFootJumpLandAnimationTimeOffset = 0.6f;
 			
@@ -35,6 +61,16 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			[SerializeField, Tooltip("Time in seconds allowed between jumps to create a skip effect")]
 			float m_SkipJumpLandWindow = 0.38f;
 			
+			[Header("Landing")]
+			[SerializeField, Tooltip("Curve used to determine the land animation speed")]
+			AnimationCurve m_LandSpeedAsAFactorOfSpeed = AnimationCurve.Linear(0.0f, 1.0f, 1.0f, 2.0f);
+			
+			[SerializeField, Tooltip("Time used for the cross fade into the roll animation state")]
+			float m_RollAnimationBlendTime = 0.15f;
+
+			[SerializeField, Tooltip("Time used for the cross fade into the land animation state")]
+			float m_LandAnimationBlendTime = 0.11f;
+			
 			[Header("Grounded Foot")]
 			[SerializeField, Tooltip("Should the right foot start as grounded? Default is the left foot")]
 			bool m_StartRightFootGrounded;
@@ -43,6 +79,11 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			[SerializeField, Tooltip("Configuration for the head turning/looking")]
 			HeadTurnProperties m_HeadTurnProperties;
 
+			public bool enableStrafeRapidDirectionChangeSmoothing
+			{
+				get { return m_EnableStrafeRapidDirectionChangeSmoothing; }
+			}
+			
 			public HeadTurnProperties headTurnProperties
 			{
 				get { return m_HeadTurnProperties; }
@@ -51,6 +92,21 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			public bool startRightFootGrounded
 			{
 				get { return m_StartRightFootGrounded; }
+			}
+
+			public float landAnimationBlendTime
+			{
+				get { return m_LandAnimationBlendTime; }
+			}
+
+			public float rollAnimationBlendTime
+			{
+				get { return m_RollAnimationBlendTime; }
+			}
+
+			public AnimationCurve landSpeedAsAFactorOfSpeed
+			{
+				get { return m_LandSpeedAsAFactorOfSpeed; }
 			}
 
 			public float skipJumpLandWindow
@@ -68,19 +124,49 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 				get { return m_RightFootJumpLandAnimationTimeOffset; }
 			}
 
+			public AnimationCurve jumpEndTransitionAsAFactorOfSpeed
+			{
+				get { return m_JumpEndTransitionAsAFactorOfSpeed; }
+			}
+
+			public AnimationCurve strafeJumpTransitionAsAFactorOfSpeed
+			{
+				get { return m_StrafeJumpTransitionAsAFactorOfSpeed; }
+			}
+
+			public AnimationCurve jumpTransitionAsAFactorOfSpeed
+			{
+				get { return m_JumpTransitionAsAFactorOfSpeed; }
+			}
+
 			public AnimationCurve turningSpeedCurve
 			{
 				get { return m_TurningSpeedCurve; }
+			}
+
+			public AnimationCurve strafeRapidDirectionChangeSpeedCurve
+			{
+				get { return m_StrafeRapidDirectionChangeSpeedCurve; }
 			}
 
 			public float strafeRapidDirectionChangeAngle
 			{
 				get { return m_StrafeRapidDirectionChangeAngle; }
 			}
-			
-			public AnimationCurve strafeRapidDirectionChangeSpeedCurve
+
+			public FloatRange turningSpeedInterpolationRange
 			{
-				get { return m_StrafeRapidDirectionChangeSpeedCurve; }
+				get { return m_TurningSpeedInterpolationRange; }
+			}
+
+			public FloatRange lateralSpeedInterpolationRange
+			{
+				get { return m_LateralSpeedInterpolationRange; }
+			}
+
+			public FloatRange forwardSpeedInterpolationRange
+			{
+				get { return m_ForwardSpeedInterpolationRange; }
 			}
 		}
 		
@@ -89,60 +175,17 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		const float k_GroundedFootThreshold = 0.25f;
 		const float k_GroundedFootThresholdOffset = 0.25f;
 
-		[Header("Ground Movement")]
-		[SerializeField, Tooltip("Configuration for the forward speed animation parameter")]
-		FloatRange m_ForwardSpeedInterpolationRange = new FloatRange(0.2f, 0.35f);
-
-		[SerializeField, Tooltip("Configuration for the lateral speed animation parameter")]
-		FloatRange m_LateralSpeedInterpolationRange = new FloatRange(0.2f, 0.35f);
-
-		[SerializeField, Tooltip("Configuration for the turning speed animation parameter")]
-		FloatRange m_TurningSpeedInterpolationRange = new FloatRange(0.01f, 0.05f);
-		
-		[FormerlySerializedAs("enableStrafeRapidDirectionChangeSmoothing")]
-		[SerializeField, Tooltip("Should a strafe rapid direction change be detected and smoothed. This should only " +
-		                         "be enabled if opposing strafe animations are reverses of each other. eg walk " +
-		                         "backwards is walk forward played at a -1 speed")]
-		bool m_EnableStrafeRapidDirectionChangeSmoothing = true;
-
-
-		[FormerlySerializedAs("jumpTransitionAsAFactorOfSpeed")]
-		[Header("Jumping")]
-		[SerializeField, Tooltip("Curve used to determine the cross fade duration of the transition into the jump " +
-								 "animation state in exploration mode")]
-		AnimationCurve m_JumpTransitionAsAFactorOfSpeed = AnimationCurve.Constant(0.0f, 1.0f, 0.15f);
-		
-		[SerializeField, Tooltip("Curve used to determine the cross fade duration of the transition into the jump " +
-		                         "animation state in strafe mode")]
-		AnimationCurve m_StrafeJumpTransitionAsAFactorOfSpeed = AnimationCurve.Constant(0.0f, 1.0f, 0.15f);
-
-		[FormerlySerializedAs("m_JumpEndTransitionDurationByForwardSpeed"),FormerlySerializedAs("jumpEndTransitionDurationByForwardSpeed")]
-		[SerializeField, Tooltip("Curve used to determine the cross fade duration of the transition into the " +
-								 "locomotion animation from the jump animation state")]
-		AnimationCurve m_JumpEndTransitionAsAFactorOfSpeed = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 0.125f);
-
-		
 		[FormerlySerializedAs("landSpeedAsAFactorOfSpeed")]
 		[Header("Landing")]
-		[SerializeField, Tooltip("Curve used to determine the land animation speed")]
-		AnimationCurve m_LandSpeedAsAFactorOfSpeed = AnimationCurve.Linear(0.0f, 1.0f, 1.0f, 2.0f);
-
 		[FormerlySerializedAs("normalizedForwardSpeedToRoll")]
 		[SerializeField, Tooltip("A forward speed higher than this will trigger a roll on land")]
-		float m_NormalizedForwardSpeedToRoll = 0.3f;
+		float m_NormalizedForwardSpeedRequiredToRoll = 0.3f;
 
 		[FormerlySerializedAs("fallTimeRequiredToTriggerRoll")]
 		[SerializeField, Tooltip("A fall time greater than this will trigger a roll. Less than this will transition to" +
 								 "locomotion")]
 		float m_FallTimeRequiredToTriggerRoll = 1.0f;
 
-		[FormerlySerializedAs("rollAnimationBlendTime")]
-		[SerializeField, Tooltip("Time used for the cross fade into the roll animation state")]
-		float m_RollAnimationBlendTime = 0.15f;
-
-		[FormerlySerializedAs("landAnimationBlendTime")]
-		[SerializeField, Tooltip("Time used for the cross fade into the land animation state")]
-		float m_LandAnimationBlendTime = 0.11f;
 
 		[FormerlySerializedAs("enableHeadTurn")]
 		[Header("Head Movement"), Tooltip("Should the head look be turned off?")]
@@ -157,7 +200,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public bool enableStrafeRapidDirectionChangeSmoothingLogic
 		{
-			get { return m_EnableStrafeRapidDirectionChangeSmoothing; }
+			get { return advancedSettings.enableStrafeRapidDirectionChangeSmoothing; }
 		}
 		
 		/// <summary>
@@ -189,7 +232,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public FloatRange forwardSpeedInterpolation
 		{
-			get { return m_ForwardSpeedInterpolationRange; }
+			get { return advancedSettings.forwardSpeedInterpolationRange; }
 		}
 
 		/// <summary>
@@ -197,7 +240,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public FloatRange lateralSpeedInterpolation
 		{
-			get { return m_LateralSpeedInterpolationRange; }
+			get { return advancedSettings.lateralSpeedInterpolationRange; }
 		}
 
 		/// <summary>
@@ -205,7 +248,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public FloatRange turningSpeedInterpolation
 		{
-			get { return m_TurningSpeedInterpolationRange; }
+			get { return advancedSettings.turningSpeedInterpolationRange; }
 		}
 
 		/// <summary>
@@ -287,7 +330,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public AnimationCurve jumpEndTransitionAsAFactorOfSpeed
 		{
-			get { return m_JumpEndTransitionAsAFactorOfSpeed; }
+			get { return advancedSettings.jumpEndTransitionAsAFactorOfSpeed; }
 		}
 
 		/// <summary>
@@ -319,15 +362,15 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public AnimationCurve landSpeedAsAFactorSpeed
 		{
-			get { return m_LandSpeedAsAFactorOfSpeed; }
+			get { return advancedSettings.landSpeedAsAFactorOfSpeed; }
 		}
 
 		/// <summary>
 		/// Gets the normalized forward speed required to initiate a roll during a land.
 		/// </summary>
-		public float forwardSpeedToRoll
+		public float forwardSpeedRequiredToRoll
 		{
-			get { return m_NormalizedForwardSpeedToRoll; }
+			get { return m_NormalizedForwardSpeedRequiredToRoll; }
 		}
 
 		/// <summary>
@@ -343,7 +386,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float landAnimationBlendDuration
 		{
-			get { return m_LandAnimationBlendTime; }
+			get { return advancedSettings.landAnimationBlendTime; }
 		}
 
 		/// <summary>
@@ -351,7 +394,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float rollAnimationBlendDuration
 		{
-			get { return m_RollAnimationBlendTime; }
+			get { return advancedSettings.rollAnimationBlendTime; }
 		}
 
 		/// <summary>
@@ -359,7 +402,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public AnimationCurve jumpTransitionAsAFactorOfSpeed
 		{
-			get { return m_JumpTransitionAsAFactorOfSpeed; }
+			get { return advancedSettings.jumpTransitionAsAFactorOfSpeed; }
 		}
 		
 		/// <summary>
@@ -367,7 +410,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public AnimationCurve strafeJumpTransitionAsAFactorOfSpeed
 		{
-			get { return m_StrafeJumpTransitionAsAFactorOfSpeed; }
+			get { return advancedSettings.strafeJumpTransitionAsAFactorOfSpeed; }
 		}
 
 		/// <summary>
