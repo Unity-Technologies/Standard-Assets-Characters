@@ -26,16 +26,6 @@ namespace StandardAssets.Characters.FirstPerson
 		bool m_IsCrouching;
 
 		/// <summary>
-		/// Returns the <paramref name="rawMoveInput"/>
-		/// </summary>
-		/// <param name="rawMoveInput">The move input vector received from the input action</param>
-		/// <returns><paramref name="rawMoveInput"/></returns>
-		protected override Vector2 ConditionMoveInput(Vector2 rawMoveInput)
-		{
-			return rawMoveInput;
-		}
-
-		/// <summary>
 		/// Registers crouch
 		/// </summary>
 		protected override void RegisterAdditionalInputs()

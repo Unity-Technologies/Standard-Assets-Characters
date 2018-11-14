@@ -173,15 +173,8 @@ namespace StandardAssets.Characters.Common
 
 		void OnMoveInput(InputAction.CallbackContext context)
 		{
-			moveInput = ConditionMoveInput(context.ReadValue<Vector2>());
+			moveInput = context.ReadValue<Vector2>();
 		}
-
-		/// <summary>
-		/// Conditions the move input vector
-		/// </summary>
-		/// <param name="rawMoveInput">The move input vector received from the input action</param>
-		/// <returns>A conditioned version of the <paramref name="rawMoveInput"/></returns>
-		protected abstract Vector2 ConditionMoveInput(Vector2 rawMoveInput);
 
 		/// <summary>
 		/// Handles registration of additional inputs that are not common between the First and Third person characters
