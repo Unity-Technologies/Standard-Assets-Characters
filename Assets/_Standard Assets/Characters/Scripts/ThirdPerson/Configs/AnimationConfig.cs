@@ -25,19 +25,20 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			[SerializeField, Tooltip("Configuration for the turning speed animation parameter")]
 			FloatRange m_TurningSpeedInterpolationRange = new FloatRange(0.01f, 0.05f);
 			
-			[SerializeField, Tooltip("Input change angle threshold used to trigger a strafe rapid direction change")]
-			float m_StrafeRapidDirectionChangeAngle = 140.0f;
+			[SerializeField, Tooltip("Curve used to remap raw normailized turning speed")]
+			AnimationCurve m_TurningSpeedCurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
 			
+			[Header("Strafe Rapid Direction Change")]
 			[SerializeField, Tooltip("Should a strafe rapid direction change be detected and smoothed. This should only " +
 			                         "be enabled if opposing strafe animations are reverses of each other. eg walk " +
 			                         "backwards is walk forward played at a -1 speed")]
 			bool m_EnableStrafeRapidDirectionChangeSmoothing = true;
 			
+			[SerializeField, Tooltip("Input change angle threshold used to trigger a strafe rapid direction change")]
+			float m_StrafeRapidDirectionChangeAngle = 140.0f;
+			
 			[SerializeField, Tooltip("Curve used to change animator movement speeds during a strafe rapid direction change")]
 			AnimationCurve m_StrafeRapidDirectionChangeSpeedCurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
-		
-			[SerializeField, Tooltip("Curve used to remap raw normailized turning speed")]
-			AnimationCurve m_TurningSpeedCurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
 					
 			[Header("Jumping")]
 			[SerializeField, Tooltip("Curve used to determine the cross fade duration of the transition into the jump " +
