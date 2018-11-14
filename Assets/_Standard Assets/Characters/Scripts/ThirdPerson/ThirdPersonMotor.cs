@@ -24,7 +24,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		[FormerlySerializedAs("configuration")]
 		[SerializeField, Tooltip("Configuration with all the movement settings")]
-		protected MotorConfig m_Configuration;
+		MotorConfig m_Configuration;
 
 		/// <summary>
 		/// Gets the normalized turning speed
@@ -243,6 +243,10 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
+		/// <summary>
+		/// Initializes the motor
+		/// </summary>
+		/// <param name="brain"><see cref="ThirdPersonBrain"/> calling the initialization</param>
 		public void Init(ThirdPersonBrain brain)
 		{
 			m_MainCamera = Camera.main;
@@ -277,11 +281,17 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
+		/// <summary>
+		/// Toggles sprint
+		/// </summary>
 		public void OnSprintStarted()
 		{
 			sprint = !sprint;
 		}
 		
+		/// <summary>
+		/// Ends sprint
+		/// </summary>
 		public void OnSprintEnded()
 		{
 			sprint = false;
@@ -345,6 +355,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
+		/// <summary>
+		/// Sets the character's look direction
+		/// </summary>
 		public void SetLookDirection()
 		{
 			if (m_MovementState == ThirdPersonGroundMovementState.TurningAround)
@@ -491,6 +504,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			movementMode = ThirdPersonMotorMovementMode.Exploration;
 		}
 
+		/// <summary>
+		/// Sets the character's look direction during strafe
+		/// </summary>
 		void SetStrafeLookDirection()
 		{
 			Quaternion targetRotation = CalculateTargetRotation(Vector3.forward);
@@ -517,6 +533,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			m_Transform.rotation = newRotation;
 		}
 
+		/// <summary>
+		/// Sets the character's look direction during exploration
+		/// </summary>
 		void SetExplorationLookDirection()
 		{
 			if (!m_CharacterInput.hasMovementInput)
@@ -547,6 +566,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			m_Transform.rotation = newRotation;
 		}
 
+		/// <summary>
+		/// Calculates the character's forward normalized speed for exploration
+		/// </summary>
 		void CalculateForwardMovement()
 		{
 			if (m_MovementState == ThirdPersonGroundMovementState.TurningAround &&
@@ -569,6 +591,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			normalizedForwardSpeed = m_ExplorationAverageForwardInput.average;
 		}
 
+		/// <summary>
+		/// Calculates the character's normalized forward and lateral speeds for strafe
+		/// </summary>
 		void CalculateStrafeMovement()
 		{
 			m_StrafeAverageForwardInput.Add(m_CharacterInput.moveInput.y);
@@ -581,6 +606,10 @@ namespace StandardAssets.Characters.ThirdPerson
 				? 0f : averageLateralInput;
 		}
 
+		/// <summary>
+		/// Calculates the local input direction
+		/// </summary>
+		/// <returns>Input direction relative to main camera</returns>
 		Vector3 CalculateLocalInputDirection()
 		{
 			var localMovementDirection = new Vector3(m_CharacterInput.moveInput.x, 0f, m_CharacterInput.moveInput.y);
@@ -588,23 +617,21 @@ namespace StandardAssets.Characters.ThirdPerson
 			       localMovementDirection.normalized;
 		}
 
+		/// <summary>
+		/// Calculate character's target rotation
+		/// </summary>
+		/// <param name="localDirection">character's current rotation</param>
+		/// <returns>Target rotation</returns>
 		Quaternion CalculateTargetRotation(Vector3 localDirection)
 		{
-			Vector3 flatForward = CalculateCharacterBearing();
+			Vector3 flatForward = m_MainCamera.transform.forward;
+			flatForward.y = 0f;
+			flatForward.Normalize();
 			
 			Quaternion cameraToInputOffset = Quaternion.FromToRotation(Vector3.forward, localDirection);
 			cameraToInputOffset.eulerAngles = new Vector3(0f, cameraToInputOffset.eulerAngles.y, 0f);
 
 			return Quaternion.LookRotation(cameraToInputOffset * flatForward);
-		}
-
-		Vector3 CalculateCharacterBearing()
-		{
-			Vector3 bearing = m_MainCamera.transform.forward;
-			bearing.y = 0f;
-			bearing.Normalize();
-
-			return bearing;
 		}
 
 		/// <summary>
@@ -631,6 +658,11 @@ namespace StandardAssets.Characters.ThirdPerson
 			m_MovementState = m_PreTurnMovementState;
 		}
 
+		/// <summary>
+		/// Checks and handles rapid turn
+		/// </summary>
+		/// <param name="target">character target rotation</param>
+		/// <returns>true if a rapid turn occurs</returns>
 		bool CheckForAndHandleRapidTurn(Quaternion target)
 		{
 			if (m_ThirdPersonBrain.turnAround == null || disableRapidTurn)
@@ -647,6 +679,10 @@ namespace StandardAssets.Characters.ThirdPerson
 			return false;
 		}
 
+		/// <summary>
+		/// Starts the turn around
+		/// </summary>
+		/// <param name="angle">Turn around angle</param>
 		void StartTurnAround(float angle)
 		{
 			m_TurnaroundMovementTime = 0f;
@@ -658,6 +694,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			m_ThirdPersonBrain.turnAround.turnaroundComplete += OnTurnAroundComplete;
 		}
 
+		/// <summary>
+		/// Fired when the turn around is finished
+		/// </summary>
 		void OnTurnAroundComplete()
 		{
 			m_ThirdPersonBrain.turnAround.turnaroundComplete -= OnTurnAroundComplete;
@@ -763,6 +802,10 @@ namespace StandardAssets.Characters.ThirdPerson
 			reattempt = false;
 		}
 
+		/// <summary>
+		/// Helper for deciding jump is idle forward jump
+		/// </summary>
+		/// <returns>true if idle forward jump</returns>
 		bool IsIdleForwardJump()
 		{
 			return m_CharacterInput.moveInput.magnitude > m_Configuration.standingJumpMinInputThreshold &&
@@ -771,6 +814,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			        m_Configuration.standingJumpMaxMovementThreshold * Time.deltaTime;
 		}
 
+		/// <summary>
+		/// Updates the character fall forward speed
+		/// </summary>
 		void UpdateFallForwardSpeed()
 		{
 			float maxFallForward = m_Configuration.fallingForwardSpeed;
