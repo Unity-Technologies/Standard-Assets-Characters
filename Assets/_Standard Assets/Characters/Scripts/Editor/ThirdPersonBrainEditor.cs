@@ -53,12 +53,12 @@ namespace Editor
 		{
 			ThirdPersonBrain brain = (ThirdPersonBrain)target;
 
-			switch (brain.typeOfTurnaround)
+			switch (brain.typeOfTurnAround)
 			{
-				case TurnaroundType.Animation:
+				case TurnAroundType.Animation:
 					EditorGUILayout.PropertyField(serializedObject.FindProperty(k_AnimationTurnaroundName), true);
 					break;
-				case TurnaroundType.Blendspace:
+				case TurnAroundType.Blendspace:
 					EditorGUILayout.PropertyField(serializedObject.FindProperty(k_BlendspaceTurnaroundName), true);
 					break;
 			}

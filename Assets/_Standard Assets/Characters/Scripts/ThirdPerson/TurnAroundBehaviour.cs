@@ -76,7 +76,7 @@ namespace StandardAssets.Characters.ThirdPerson
     /// <summary>
     /// Enum used to describe a turnaround type.
     /// </summary>
-    public enum TurnaroundType
+    public enum TurnAroundType
     {
         None,
         Blendspace,
