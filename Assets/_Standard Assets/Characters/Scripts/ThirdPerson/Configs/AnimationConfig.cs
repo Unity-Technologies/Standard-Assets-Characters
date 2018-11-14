@@ -193,15 +193,16 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		[SerializeField]
 		bool m_EnableHeadTurn = true;
 
+		[FormerlySerializedAs("advancedSettings")]
 		[SerializeField, Space]
-		private AdvancedAnimationConfig advancedSettings;
+		AdvancedAnimationConfig m_AdvancedSettings;
 
 		/// <summary>
 		/// Gets whether strafe rapid direction smoothing logic should be performed.
 		/// </summary>
 		public bool enableStrafeRapidDirectionChangeSmoothingLogic
 		{
-			get { return advancedSettings.enableStrafeRapidDirectionChangeSmoothing; }
+			get { return m_AdvancedSettings.enableStrafeRapidDirectionChangeSmoothing; }
 		}
 		
 		/// <summary>
@@ -209,7 +210,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float strafeRapidChangeAngleThreshold
 		{
-			get { return advancedSettings.strafeRapidDirectionChangeAngle; }
+			get { return m_AdvancedSettings.strafeRapidDirectionChangeAngle; }
 		}
 		
 		/// <summary>
@@ -217,7 +218,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public AnimationCurve strafeRapidChangeSpeedCurve
 		{
-			get { return advancedSettings.strafeRapidDirectionChangeSpeedCurve; }
+			get { return m_AdvancedSettings.strafeRapidDirectionChangeSpeedCurve; }
 		}
 		
 		/// <summary>
@@ -225,7 +226,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public AnimationCurve animationTurningSpeedCurve
 		{
-			get { return advancedSettings.turningSpeedCurve; }
+			get { return m_AdvancedSettings.turningSpeedCurve; }
 		}
 
 		/// <summary>
@@ -233,7 +234,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public FloatRange forwardSpeedInterpolation
 		{
-			get { return advancedSettings.forwardSpeedInterpolationRange; }
+			get { return m_AdvancedSettings.forwardSpeedInterpolationRange; }
 		}
 
 		/// <summary>
@@ -241,7 +242,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public FloatRange lateralSpeedInterpolation
 		{
-			get { return advancedSettings.lateralSpeedInterpolationRange; }
+			get { return m_AdvancedSettings.lateralSpeedInterpolationRange; }
 		}
 
 		/// <summary>
@@ -249,7 +250,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public FloatRange turningSpeedInterpolation
 		{
-			get { return advancedSettings.turningSpeedInterpolationRange; }
+			get { return m_AdvancedSettings.turningSpeedInterpolationRange; }
 		}
 
 		/// <summary>
@@ -258,7 +259,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// <value>True if the right foot should start grounded; false if the left foot should.</value>
 		public bool invertFoot
 		{
-			get { return advancedSettings.startRightFootGrounded; }
+			get { return m_AdvancedSettings.startRightFootGrounded; }
 		}
 
 		/// <summary>
@@ -291,7 +292,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float lookAtWeight
 		{
-			get { return advancedSettings.headTurnProperties.lookAtWeight; }
+			get { return m_AdvancedSettings.headTurnProperties.lookAtWeight; }
 		}
 
 		/// <summary>
@@ -299,7 +300,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float lookAtMaxRotation
 		{
-			get { return advancedSettings.headTurnProperties.lookAtMaxRotation; }
+			get { return m_AdvancedSettings.headTurnProperties.lookAtMaxRotation; }
 		}
 
 		/// <summary>
@@ -307,7 +308,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float lookAtRotationSpeed
 		{
-			get { return advancedSettings.headTurnProperties.lookAtRotationSpeed; }
+			get { return m_AdvancedSettings.headTurnProperties.lookAtRotationSpeed; }
 		}
 		
 		/// <summary>
@@ -315,7 +316,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public bool lookAtWhileAerial
 		{
-			get { return advancedSettings.headTurnProperties.lookAtWhileAerial; }
+			get { return m_AdvancedSettings.headTurnProperties.lookAtWhileAerial; }
 		}
 
 		/// <summary>
@@ -323,7 +324,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public bool lookAtWhileTurnaround
 		{
-			get { return advancedSettings.headTurnProperties.lookAtWhileTurnaround; }
+			get { return m_AdvancedSettings.headTurnProperties.lookAtWhileTurnaround; }
 		}
 
 		/// <summary>
@@ -331,7 +332,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public AnimationCurve jumpEndTransitionAsAFactorOfSpeed
 		{
-			get { return advancedSettings.jumpEndTransitionAsAFactorOfSpeed; }
+			get { return m_AdvancedSettings.jumpEndTransitionAsAFactorOfSpeed; }
 		}
 
 		/// <summary>
@@ -339,7 +340,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float rightFootJumpLandAnimationOffset
 		{
-			get { return advancedSettings.rightFootJumpLandAnimationTimeOffset; }
+			get { return m_AdvancedSettings.rightFootJumpLandAnimationTimeOffset; }
 		}
 
 		/// <summary>
@@ -347,7 +348,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float leftFootJumpLandAnimationOffset
 		{
-			get { return advancedSettings.leftFootJumpLandAnimationTimeOffset; }
+			get { return m_AdvancedSettings.leftFootJumpLandAnimationTimeOffset; }
 		}
 		
 		/// <summary>
@@ -355,7 +356,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float skipJumpWindow
 		{
-			get { return advancedSettings.skipJumpLandWindow; }
+			get { return m_AdvancedSettings.skipJumpLandWindow; }
 		}
 
 		/// <summary>
@@ -363,7 +364,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public AnimationCurve landSpeedAsAFactorSpeed
 		{
-			get { return advancedSettings.landSpeedAsAFactorOfSpeed; }
+			get { return m_AdvancedSettings.landSpeedAsAFactorOfSpeed; }
 		}
 
 		/// <summary>
@@ -387,7 +388,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float landAnimationBlendDuration
 		{
-			get { return advancedSettings.landAnimationBlendTime; }
+			get { return m_AdvancedSettings.landAnimationBlendTime; }
 		}
 
 		/// <summary>
@@ -395,7 +396,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float rollAnimationBlendDuration
 		{
-			get { return advancedSettings.rollAnimationBlendTime; }
+			get { return m_AdvancedSettings.rollAnimationBlendTime; }
 		}
 
 		/// <summary>
@@ -403,7 +404,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public AnimationCurve jumpTransitionAsAFactorOfSpeed
 		{
-			get { return advancedSettings.jumpTransitionAsAFactorOfSpeed; }
+			get { return m_AdvancedSettings.jumpTransitionAsAFactorOfSpeed; }
 		}
 		
 		/// <summary>
@@ -411,7 +412,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public AnimationCurve strafeJumpTransitionAsAFactorOfSpeed
 		{
-			get { return advancedSettings.strafeJumpTransitionAsAFactorOfSpeed; }
+			get { return m_AdvancedSettings.strafeJumpTransitionAsAFactorOfSpeed; }
 		}
 
 		/// <summary>
@@ -419,7 +420,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float noLookInputHeadLookAtScale
 		{
-			get { return advancedSettings.headTurnProperties.noLookInputHeadLookAtScale; }
+			get { return m_AdvancedSettings.headTurnProperties.noLookInputHeadLookAtScale; }
 		}
 		
 		/// <summary>
