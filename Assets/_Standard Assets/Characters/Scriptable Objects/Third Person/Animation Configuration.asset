@@ -21,64 +21,6 @@ MonoBehaviour:
     m_MinValue: 0.01
     m_MaxValue: 0.05
   m_EnableStrafeRapidDirectionChangeSmoothing: 1
-  m_StrafeRapidDirectionChangeAngle: 140
-  m_StrafeRapidDirectionChangeSpeedCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.085745275
-      value: 0.6814658
-      inSlope: 1.0995749
-      outSlope: 1.0995749
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.16142991
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_TurningSpeedCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 1
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
   m_JumpTransitionAsAFactorOfSpeed:
     serializedVersion: 2
     m_Curve:
@@ -151,9 +93,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_RightFootJumpLandAnimationTimeOffset: 0.6
-  m_LeftFootJumpLandAnimationTimeOffset: 0.3
-  m_SkipJumpLandWindow: 0.38
   m_LandSpeedAsAFactorOfSpeed:
     serializedVersion: 2
     m_Curve:
@@ -182,12 +121,74 @@ MonoBehaviour:
   m_FallTimeRequiredToTriggerRoll: 0.75
   m_RollAnimationBlendTime: 0.15
   m_LandAnimationBlendTime: 0.11
-  m_StartRightFootGrounded: 0
   m_EnableHeadTurn: 1
-  m_HeadTurnProperties:
-    m_HeadLookAtWeight: 1
-    m_HeadLookAtMaxRotation: 75
-    m_HeadLookAtRotationSpeed: 15
-    m_NoInputHeadLookAtScale: 0.5
-    m_AdjustHeadLookAtWhileAerial: 0
-    m_AdjustHeadLookAtDuringTurnaround: 1
+  advancedSettings:
+    m_StrafeRapidDirectionChangeAngle: 140
+    m_StrafeRapidDirectionChangeSpeedCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.085745275
+        value: 0.6814658
+        inSlope: 1.0995749
+        outSlope: 1.0995749
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.16142991
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_TurningSpeedCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 1
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_RightFootJumpLandAnimationTimeOffset: 0.6
+    m_LeftFootJumpLandAnimationTimeOffset: 0.3
+    m_SkipJumpLandWindow: 0.38
+    m_StartRightFootGrounded: 0
+    m_HeadTurnProperties:
+      m_HeadLookAtWeight: 1
+      m_HeadLookAtMaxRotation: 75
+      m_HeadLookAtRotationSpeed: 15
+      m_NoInputHeadLookAtScale: 0.5
+      m_AdjustHeadLookAtWhileAerial: 0
+      m_AdjustHeadLookAtDuringTurnaround: 1
