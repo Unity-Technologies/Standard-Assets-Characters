@@ -51,6 +51,9 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			[SerializeField, Tooltip("Speed at which the normalized turning speed can change")]
 			float m_NormalizedTurningSpeedLerpSpeed = 2f;
 			
+			[SerializeField, Tooltip("Rate at which normalized turn speed will return to zero when there is no turn input")]
+			float m_NoLookInputTurnSpeedDeceleration = 5.0f;
+			
 			[SerializeField, Tooltip("A forward movement less than this would allow a standing turnaround")] 
 			float m_MaxSpeedForStandingTurnaround = 0.25f;
 
@@ -129,6 +132,12 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			{
 				get { return m_InputBufferSize; }
 			}
+			
+			public float noLookInputTurnSpeedDeceleration
+			{
+				get { return m_NoLookInputTurnSpeedDeceleration; }
+			}
+			
 		}
 		
 		[FormerlySerializedAs("autoToggleSprint")]
@@ -237,6 +246,14 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		public float jumpTurningYSpeed
 		{
 			get { return m_TurningSpeed * advanced.jumpTurningSpeedScale; }
+		}
+		
+		/// <summary>
+		/// Gets the rate at which normalized turn speed will return to zero when there is no turn input.
+		/// </summary>
+		public float noLookInputTurnSpeedDeceleration
+		{
+			get { return advanced.noLookInputTurnSpeedDeceleration; }
 		}
 
 		/// <summary>

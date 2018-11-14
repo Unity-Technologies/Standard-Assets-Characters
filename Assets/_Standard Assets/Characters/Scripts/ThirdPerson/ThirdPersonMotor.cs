@@ -360,6 +360,12 @@ namespace StandardAssets.Characters.ThirdPerson
 					SetStrafeLookDirection();
 					break;
 			}
+
+			if (Mathf.Approximately(m_CharacterInput.lookInput.magnitude, 0.0f))
+			{
+				normalizedTurningSpeed = Mathf.Lerp(normalizedTurningSpeed, 0.0f, 
+				                                    Time.deltaTime * m_Configuration.noLookInputTurnSpeedDeceleration);
+			}
 		}
 
 		/// <summary>
@@ -503,7 +509,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			else
 			{
-				newRotation = Quaternion.RotateTowards(m_Transform.rotation, targetRotation,
+				newRotation = Quaternion.Slerp(m_Transform.rotation, targetRotation,
 								m_Configuration.turningYSpeed * Time.deltaTime);
 			}
 			
@@ -520,7 +526,8 @@ namespace StandardAssets.Characters.ThirdPerson
 				return;
 			}
 
-			Quaternion targetRotation = CalculateTargetRotation(new Vector3(m_CharacterInput.moveInput.x, 0, m_CharacterInput.moveInput.y));
+			Quaternion targetRotation = CalculateTargetRotation(
+				new Vector3(m_CharacterInput.moveInput.x, 0, m_CharacterInput.moveInput.y));
 			targetYRotation = targetRotation.eulerAngles.y;
 
 			if (IsGrounded && CheckForAndHandleRapidTurn(targetRotation))
@@ -532,7 +539,8 @@ namespace StandardAssets.Characters.ThirdPerson
 				? m_Configuration.turningYSpeed
 				: m_Configuration.jumpTurningYSpeed;
 
-			Quaternion newRotation = Quaternion.RotateTowards(m_Transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
+			Quaternion newRotation = Quaternion.Slerp(m_Transform.rotation, targetRotation, 
+			                                                  turnSpeed * Time.deltaTime);
 
 			SetTurningSpeed(m_Transform.rotation, newRotation);
 
@@ -541,7 +549,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		void CalculateForwardMovement()
 		{
-			if (m_MovementState == ThirdPersonGroundMovementState.TurningAround && m_TurnaroundMovementTime < m_Configuration.ignoreInputTimeRapidTurn)
+			if (m_MovementState == ThirdPersonGroundMovementState.TurningAround &&
+			    m_TurnaroundMovementTime < m_Configuration.ignoreInputTimeRapidTurn)
 			{
 				m_TurnaroundMovementTime += Time.deltaTime;
 				return; 
