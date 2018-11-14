@@ -12,42 +12,99 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		menuName = "Standard Assets/Characters/Third Person Animation Configuration", order = 1)]
 	public class AnimationConfig : ScriptableObject
 	{
+		[Serializable]
+		protected class AdvancedAnimationConfig
+		{
+			[Header("Ground Movement")]
+			[SerializeField, Tooltip("Input change angle threshold used to trigger a strafe rapid direction change")]
+			float m_StrafeRapidDirectionChangeAngle = 140.0f;
+			
+			[SerializeField, Tooltip("Curve used to change animator movement speeds during a strafe rapid direction change")]
+			AnimationCurve m_StrafeRapidDirectionChangeSpeedCurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
+		
+			[SerializeField, Tooltip("Curve used to remap raw normailized turning speed")]
+			AnimationCurve m_TurningSpeedCurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
+					
+			[Header("Jumping")]
+			[SerializeField, Tooltip("Cross fade cycle offset for transition into locomotion state after a right foot jump")]
+			float m_RightFootJumpLandAnimationTimeOffset = 0.6f;
+			
+			[SerializeField, Tooltip("Cross fade cycle offset for transition into locomotion state after a left foot jump")]
+			float m_LeftFootJumpLandAnimationTimeOffset = 0.3f;
+
+			[SerializeField, Tooltip("Time in seconds allowed between jumps to create a skip effect")]
+			float m_SkipJumpLandWindow = 0.38f;
+			
+			[Header("Grounded Foot")]
+			[SerializeField, Tooltip("Should the right foot start as grounded? Default is the left foot")]
+			bool m_StartRightFootGrounded;
+			
+			[Header("Head Turn")]
+			[SerializeField, Tooltip("Configuration for the head turning/looking")]
+			HeadTurnProperties m_HeadTurnProperties;
+
+			public HeadTurnProperties headTurnProperties
+			{
+				get { return m_HeadTurnProperties; }
+			}
+
+			public bool startRightFootGrounded
+			{
+				get { return m_StartRightFootGrounded; }
+			}
+
+			public float skipJumpLandWindow
+			{
+				get { return m_SkipJumpLandWindow; }
+			}
+
+			public float leftFootJumpLandAnimationTimeOffset
+			{
+				get { return m_LeftFootJumpLandAnimationTimeOffset; }
+			}
+
+			public float rightFootJumpLandAnimationTimeOffset
+			{
+				get { return m_RightFootJumpLandAnimationTimeOffset; }
+			}
+
+			public AnimationCurve turningSpeedCurve
+			{
+				get { return m_TurningSpeedCurve; }
+			}
+
+			public float strafeRapidDirectionChangeAngle
+			{
+				get { return m_StrafeRapidDirectionChangeAngle; }
+			}
+			
+			public AnimationCurve strafeRapidDirectionChangeSpeedCurve
+			{
+				get { return m_StrafeRapidDirectionChangeSpeedCurve; }
+			}
+		}
+		
 		// values used to determine the grounded foot based on animation normalized time. These should only be changed
 		// if locomotion animations are irregular.
 		const float k_GroundedFootThreshold = 0.25f;
 		const float k_GroundedFootThresholdOffset = 0.25f;
-		
-		[FormerlySerializedAs("forwardSpeedInterpolationRange")]
+
 		[Header("Ground Movement")]
-		[Tooltip("Configuration for the forward speed animation parameter")]
-		[SerializeField]
+		[SerializeField, Tooltip("Configuration for the forward speed animation parameter")]
 		FloatRange m_ForwardSpeedInterpolationRange = new FloatRange(0.2f, 0.35f);
 
-		[FormerlySerializedAs("lateralSpeedInterpolationRange")]
 		[SerializeField, Tooltip("Configuration for the lateral speed animation parameter")]
 		FloatRange m_LateralSpeedInterpolationRange = new FloatRange(0.2f, 0.35f);
 
-		[FormerlySerializedAs("turningSpeedInterpolationRange")]
 		[SerializeField, Tooltip("Configuration for the turning speed animation parameter")]
 		FloatRange m_TurningSpeedInterpolationRange = new FloatRange(0.01f, 0.05f);
-
+		
 		[FormerlySerializedAs("enableStrafeRapidDirectionChangeSmoothing")]
 		[SerializeField, Tooltip("Should a strafe rapid direction change be detected and smoothed. This should only " +
 		                         "be enabled if opposing strafe animations are reverses of each other. eg walk " +
 		                         "backwards is walk forward played at a -1 speed")]
 		bool m_EnableStrafeRapidDirectionChangeSmoothing = true;
-		
-		[FormerlySerializedAs("strafeRapidDirectionChangeAngle")]
-		[SerializeField, Tooltip("Input change angle threshold used to trigger a strafe rapid direction change")]
-		float m_StrafeRapidDirectionChangeAngle = 140.0f;
 
-		[FormerlySerializedAs("strafeRapidDirectionChangeSpeedCurve")]
-		[SerializeField, Tooltip("Curve used to change animator movement speeds during a strafe rapid direction change")]
-		AnimationCurve m_StrafeRapidDirectionChangeSpeedCurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
-		
-		[FormerlySerializedAs("turningSpeedCurve")]
-		[SerializeField, Tooltip("Curve used to remap raw normailized turning speed")]
-		AnimationCurve m_TurningSpeedCurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
 
 		[FormerlySerializedAs("jumpTransitionAsAFactorOfSpeed")]
 		[Header("Jumping")]
@@ -63,17 +120,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		[SerializeField, Tooltip("Curve used to determine the cross fade duration of the transition into the " +
 								 "locomotion animation from the jump animation state")]
 		AnimationCurve m_JumpEndTransitionAsAFactorOfSpeed = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 0.125f);
-		
-		[FormerlySerializedAs("rightFootJumpLandAnimationTimeOffset")]
-		[SerializeField, Tooltip("Cross fade cycle offset for transition into locomotion state after a right foot jump")]
-		float m_RightFootJumpLandAnimationTimeOffset = 0.6f;
-		[FormerlySerializedAs("leftFootJumpLandAnimationTimeOffset")]
-		[SerializeField, Tooltip("Cross fade cycle offset for transition into locomotion state after a left foot jump")]
-		float m_LeftFootJumpLandAnimationTimeOffset = 0.3f;
 
-		[FormerlySerializedAs("skipJumpLandWindow")]
-		[SerializeField, Tooltip("Time in seconds allowed between jumps to create a skip effect")]
-		float m_SkipJumpLandWindow = 0.25f;
 		
 		[FormerlySerializedAs("landSpeedAsAFactorOfSpeed")]
 		[Header("Landing")]
@@ -97,19 +144,13 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		[SerializeField, Tooltip("Time used for the cross fade into the land animation state")]
 		float m_LandAnimationBlendTime = 0.11f;
 
-		[FormerlySerializedAs("startRightFootGrounded")]
-		[Header("Grounded Foot")]
-		[SerializeField, Tooltip("Should the right foot start as grounded? Default is the left foot")]
-		bool m_StartRightFootGrounded;
-
 		[FormerlySerializedAs("enableHeadTurn")]
 		[Header("Head Movement"), Tooltip("Should the head look be turned off?")]
 		[SerializeField]
 		bool m_EnableHeadTurn = true;
 
-		[FormerlySerializedAs("headTurnProperties")]
-		[SerializeField, Tooltip("Configuration for the head turning/looking")]
-		HeadTurnProperties m_HeadTurnProperties;
+		[SerializeField, Space]
+		private AdvancedAnimationConfig advancedSettings;
 
 		/// <summary>
 		/// Gets whether strafe rapid direction smoothing logic should be performed.
@@ -124,7 +165,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float strafeRapidChangeAngleThreshold
 		{
-			get { return m_StrafeRapidDirectionChangeAngle; }
+			get { return advancedSettings.strafeRapidDirectionChangeAngle; }
 		}
 		
 		/// <summary>
@@ -132,7 +173,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public AnimationCurve strafeRapidChangeSpeedCurve
 		{
-			get { return m_StrafeRapidDirectionChangeSpeedCurve; }
+			get { return advancedSettings.strafeRapidDirectionChangeSpeedCurve; }
 		}
 		
 		/// <summary>
@@ -140,7 +181,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public AnimationCurve animationTurningSpeedCurve
 		{
-			get { return m_TurningSpeedCurve; }
+			get { return advancedSettings.turningSpeedCurve; }
 		}
 
 		/// <summary>
@@ -173,7 +214,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// <value>True if the right foot should start grounded; false if the left foot should.</value>
 		public bool invertFoot
 		{
-			get { return m_StartRightFootGrounded; }
+			get { return advancedSettings.startRightFootGrounded; }
 		}
 
 		/// <summary>
@@ -206,7 +247,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float lookAtWeight
 		{
-			get { return m_HeadTurnProperties.lookAtWeight; }
+			get { return advancedSettings.headTurnProperties.lookAtWeight; }
 		}
 
 		/// <summary>
@@ -214,7 +255,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float lookAtMaxRotation
 		{
-			get { return m_HeadTurnProperties.lookAtMaxRotation; }
+			get { return advancedSettings.headTurnProperties.lookAtMaxRotation; }
 		}
 
 		/// <summary>
@@ -222,7 +263,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float lookAtRotationSpeed
 		{
-			get { return m_HeadTurnProperties.lookAtRotationSpeed; }
+			get { return advancedSettings.headTurnProperties.lookAtRotationSpeed; }
 		}
 		
 		/// <summary>
@@ -230,7 +271,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public bool lookAtWhileAerial
 		{
-			get { return m_HeadTurnProperties.lookAtWhileAerial; }
+			get { return advancedSettings.headTurnProperties.lookAtWhileAerial; }
 		}
 
 		/// <summary>
@@ -238,7 +279,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public bool lookAtWhileTurnaround
 		{
-			get { return m_HeadTurnProperties.lookAtWhileTurnaround; }
+			get { return advancedSettings.headTurnProperties.lookAtWhileTurnaround; }
 		}
 
 		/// <summary>
@@ -254,7 +295,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float rightFootJumpLandAnimationOffset
 		{
-			get { return m_RightFootJumpLandAnimationTimeOffset; }
+			get { return advancedSettings.rightFootJumpLandAnimationTimeOffset; }
 		}
 
 		/// <summary>
@@ -262,7 +303,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float leftFootJumpLandAnimationOffset
 		{
-			get { return m_LeftFootJumpLandAnimationTimeOffset; }
+			get { return advancedSettings.leftFootJumpLandAnimationTimeOffset; }
 		}
 		
 		/// <summary>
@@ -270,7 +311,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float skipJumpWindow
 		{
-			get { return m_SkipJumpLandWindow; }
+			get { return advancedSettings.skipJumpLandWindow; }
 		}
 
 		/// <summary>
@@ -334,7 +375,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float noLookInputHeadLookAtScale
 		{
-			get { return m_HeadTurnProperties.noLookInputHeadLookAtScale; }
+			get { return advancedSettings.headTurnProperties.noLookInputHeadLookAtScale; }
 		}
 		
 		/// <summary>
