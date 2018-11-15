@@ -32,6 +32,9 @@ namespace StandardAssets.Characters.ThirdPerson
         [SerializeField, Tooltip("Mechanism used in rapid direction changes")]
         TurnAroundType m_TurnAroundType;
 
+        [SerializeField, Tooltip("Transform that acts as the target for the Cinemachine SDC")]
+        Transform m_VCamTarget;
+
         [SerializeField, Tooltip("Properties of the blendspace-based turn around")]
         BlendspaceTurnAroundBehaviour m_BlendspaceTurnAroundBehaviour;
 
@@ -173,6 +176,12 @@ namespace StandardAssets.Characters.ThirdPerson
         readonly Vector3 m_FootGizmoScale = new Vector3(0.1f, 0.1f, 0.1f);
         readonly Vector3 m_GizmoOffset = new Vector3(0f, 0.025f, 0f);
 
+        /// <summary>
+        /// Event that can be subscribed to for when there is a camera change
+        /// </summary>
+        public event Action onCameraChange;
+
+
         //current scale of the velocity gizmo
         float m_VelocityGizmoScale;
 
@@ -202,15 +211,11 @@ namespace StandardAssets.Characters.ThirdPerson
         // time of the last physics jump
         float m_TimeOfLastJumpLand;
 
-        // whether locomotion mode is set to strafe
-        bool m_IsStrafing;
-
         bool m_IsTryingStrafe;
 
         bool m_JustJumped;
 
         //the camera controller to be used
-        ThirdPersonCameraController m_CameraController;
         bool m_IsChangingCamera;
 
         bool m_TriggeredRapidDirectionChange;
@@ -234,11 +239,24 @@ namespace StandardAssets.Characters.ThirdPerson
         float m_RapidStrafeTime, m_RapidStrafeChangeDuration;
 
         /// <summary>
+        /// Gets/sets whether the locomotion mode is set to Strafe
+        /// </summary>
+        public bool IsStrafing { get; private set; }
+
+        /// <summary>
         /// Gets the <see cref="ThirdPersonMotor"/>
         /// </summary>
         public ThirdPersonMotor thirdPersonMotor
         {
             get { return m_Motor; }
+        }
+
+        /// <summary>
+        /// Gets the VCam Target Transform/>
+        /// </summary>
+        public Transform vcamTarget
+        {
+            get { return m_VCamTarget; }
         }
 
         /// <summary>
@@ -287,13 +305,6 @@ namespace StandardAssets.Characters.ThirdPerson
         /// </summary>
         public override float targetYRotation { get; set; }
 
-        /// <summary>
-        /// Gets the <see cref="ThirdPersonCameraController"/>
-        /// </summary>
-        public ThirdPersonCameraController thirdPersonCameraController
-        {
-            get { return m_CameraController; }
-        }
 
         /// <summary>
         /// Gets the <see cref="IThirdPersonInput"/>
@@ -495,7 +506,6 @@ namespace StandardAssets.Characters.ThirdPerson
             m_MainCameraTransform = Camera.main.transform;
 
             m_ThirdPersonMovementEventHandler.Init(this);
-            FindCameraController(true);
             SetupGizmos();
         }
 
@@ -574,14 +584,6 @@ namespace StandardAssets.Characters.ThirdPerson
             }
 
             targetYRotation = m_Motor.targetYRotation;
-
-            //Just for build testing
-            //TODO remove
-            if (Input.GetKeyDown(KeyCode.T))
-            {
-                m_TurnAroundType = m_TurnAroundType == TurnAroundType.Animation ? TurnAroundType.None : m_TurnAroundType + 1;
-                turnAround = GetCurrentTurnaroundBehaviour();
-            }
         }
 
         /// <summary>
@@ -657,39 +659,6 @@ namespace StandardAssets.Characters.ThirdPerson
             }
         }
 
-        /// <summary>
-        /// Checks if <see cref="ThirdPersonCameraController"/> has been assigned - otherwise looks for it in the scene
-        /// </summary>
-        void FindCameraController(bool autoDisable)
-        {
-            if (m_CameraController == null)
-            {
-                ThirdPersonCameraController[] cameraControllers =
-                    FindObjectsOfType<ThirdPersonCameraController>();
-
-                int length = cameraControllers.Length;
-                if (length != 1)
-                {
-                    string errorMessage = "No ThirdPersonCameraAnimationManagers in scene! Disabling Brain";
-                    if (length > 1)
-                    {
-                        errorMessage = "Too many ThirdPersonCameraAnimationManagers in scene! Disabling Brain";
-                    }
-
-                    if (autoDisable)
-                    {
-                        Debug.LogError(errorMessage);
-                        gameObject.SetActive(false);
-                    }
-
-                    return;
-                }
-
-                m_CameraController = cameraControllers[0];
-            }
-
-            m_CameraController.SetThirdPersonBrain(this);
-        }
 
         /// <summary>
         /// Gets the current turn around
@@ -733,7 +702,6 @@ namespace StandardAssets.Characters.ThirdPerson
                     userInput.sprintEnded += m_Motor.OnSprintEnded;
                     userInput.strafeStarted += OnStrafeStarted;
                     userInput.strafeEnded += OnStrafeEnded;
-                    userInput.recentreCamera += RecenterCamera;
                 }
             }
 
@@ -764,7 +732,6 @@ namespace StandardAssets.Characters.ThirdPerson
                         userInput.sprintEnded -= m_Motor.OnSprintEnded;
                         userInput.strafeStarted -= OnStrafeStarted;
                         userInput.strafeEnded -= OnStrafeEnded;
-                        userInput.recentreCamera -= RecenterCamera;
                     }
                 }
 
@@ -878,7 +845,7 @@ namespace StandardAssets.Characters.ThirdPerson
                     bool rightFoot = animator.GetBool(m_HashGroundedFootRight);
                     float duration = m_Configuration.jumpEndTransitionAsAFactorOfSpeed.Evaluate(
                         Mathf.Abs(animator.GetFloat(AnimationControllerInfo.k_ForwardSpeedParameter)));
-                    string locomotion = m_IsStrafing
+                    string locomotion = IsStrafing
                         ? AnimationControllerInfo.k_StrafeLocomotionState
                         : AnimationControllerInfo.k_LocomotionState;
                     animator.CrossFadeInFixedTime(locomotion, duration, 0, rightFoot
@@ -891,7 +858,7 @@ namespace StandardAssets.Characters.ThirdPerson
                 case AnimatorState.Falling:
 
                     // strafe mode does not have a landing animation so transition directly to locomotion
-                    if (m_IsStrafing)
+                    if (IsStrafing)
                     {
                         animator.CrossFade(AnimationControllerInfo.k_StrafeLocomotionState,
                             m_Configuration.landAnimationBlendDuration);
@@ -982,13 +949,6 @@ namespace StandardAssets.Characters.ThirdPerson
             return false;
         }
 
-        /// <summary>
-        /// Handles camera recentering
-        /// </summary>
-        void RecenterCamera()
-        {
-            thirdPersonCameraController.RecenterCamera();
-        }
 
         /// <summary>
         /// Sets the animator strafe parameter to true.
@@ -1026,17 +986,21 @@ namespace StandardAssets.Characters.ThirdPerson
                 return;
             }
 
-            m_IsStrafing = m_IsTryingStrafe;
-            animator.SetBool(m_HashStrafe, m_IsStrafing);
-            if (m_IsStrafing)
+            IsStrafing = m_IsTryingStrafe;
+            animator.SetBool(m_HashStrafe, IsStrafing);
+            if (IsStrafing)
             {
                 m_Motor.StartStrafe();
-                m_CameraController.SetStrafeCamera();
             }
             else
             {
                 m_Motor.EndStrafe();
-                m_CameraController.SetExplorationCamera();
+            }
+            
+            //call any registered events for when the camera has hagned
+            if(onCameraChange != null)
+            {
+                onCameraChange();
             }
 
             m_IsChangingCamera = false;
@@ -1145,24 +1109,11 @@ namespace StandardAssets.Characters.ThirdPerson
 
 #if UNITY_EDITOR
         /// <summary>
-        /// On reset of component
-        /// </summary>
-        void Reset()
-        {
-            //Design pattern for fetching required scene references
-            FindCameraController(false);
-        }
-
-        /// <summary>
         /// On change of component
         /// </summary>
         void OnValidate()
         {
             turnAround = GetCurrentTurnaroundBehaviour();
-
-            //Design pattern for fetching required scene references
-            FindCameraController(false);
-
             SetupGizmos();
         }
 #endif

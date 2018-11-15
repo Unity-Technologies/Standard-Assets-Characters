@@ -14,8 +14,8 @@ namespace Editor
 		                       k_MotorName = "m_Motor",
 		                       k_GizmoSettings = "m_GizmoSettings",
 		                       k_MovementEvent = "m_ThirdPersonMovementEventHandler",
-		                       k_AdapterName = "m_CharacterControllerAdapter";
-		string m_MotorConfigPath = string.Format("{0}.{1}", k_MotorName, k_AnimationConfigName);
+		                       k_AdapterName = "m_CharacterControllerAdapter",
+							   k_MotorConfigPath = "m_Motor.m_Configuration";
 
 		readonly string[] m_AdvancedFields = {k_AdapterName, k_MovementEvent, k_GizmoSettings};
 
@@ -28,10 +28,10 @@ namespace Editor
 		{
 			EditorGUILayout.HelpBox(k_Help, MessageType.Info);
 			base.OnInspectorGUI();
-			serializedObject.DrawFieldsUnderFoldout("Advanced Settings", m_AdvancedFields, ref m_AdvancedFoldOut, 
+			serializedObject.DrawFieldsUnderFoldout("Advanced", m_AdvancedFields, ref m_AdvancedFoldOut, 
 			                                        DrawTurnaround);
 			
-			serializedObject.DrawExtendedScriptableObject(m_MotorConfigPath, "Motor Settings");
+			serializedObject.DrawExtendedScriptableObject(k_MotorConfigPath, "Motor Settings");
 			serializedObject.DrawExtendedScriptableObject(k_AnimationConfigName, "Animation Settings");
 		}
 
