@@ -90,7 +90,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		[FormerlySerializedAs("crouching")]
 		[SerializeField, Tooltip("Movement properties of the character while crouching")]
-		protected MovementProperties m_Crouching;
+		MovementProperties m_Crouching;
 
 		/// <summary>
 		/// Manages movement events
@@ -402,7 +402,7 @@ namespace StandardAssets.Characters.FirstPerson
 	{
 		[FormerlySerializedAs("maximumSpeed")]
 		[SerializeField, Tooltip("The maximum speed of the character")]
-		protected float m_MaximumSpeed = 10f;
+		float m_MaximumSpeed = 10f;
 
 		float m_SqrTravelledDistance;
 

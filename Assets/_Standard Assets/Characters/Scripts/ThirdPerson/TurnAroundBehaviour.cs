@@ -326,11 +326,11 @@ namespace StandardAssets.Characters.ThirdPerson
     {
         [FormerlySerializedAs("configureBlendspace")]
         [SerializeField, Tooltip("Should the turnaround be configured or just use defaults?")]
-        protected bool m_ConfigureBlendspace;
+        bool m_ConfigureBlendspace;
 
         [FormerlySerializedAs("configuration")]
         [SerializeField, Tooltip("Configuration settings of the turnaround")]
-        protected BlendspaceProperties m_Configuration;
+        BlendspaceProperties m_Configuration;
 
         bool m_IsSmallTurn;
         float m_TurningTime;

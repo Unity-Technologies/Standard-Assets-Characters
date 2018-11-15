@@ -431,27 +431,27 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		{
 			[FormerlySerializedAs("headLookAtWeight")]
 			[SerializeField, Tooltip("The animator head look at weight.")]
-			protected float m_HeadLookAtWeight = 1f;
+			float m_HeadLookAtWeight = 1f;
 
 			[FormerlySerializedAs("headLookAtMaxRotation")]
 			[SerializeField, Tooltip("The max angle the head can rotate.")]
-			protected float m_HeadLookAtMaxRotation = 75f;
+			float m_HeadLookAtMaxRotation = 75f;
 
 			[FormerlySerializedAs("headLookAtRotationSpeed")]
 			[SerializeField, Tooltip("The speed at which head can rotate.")]
-			protected float m_HeadLookAtRotationSpeed = 15f;
+			float m_HeadLookAtRotationSpeed = 15f;
 			
 			[FormerlySerializedAs("noInputHeadLookAtScale")]
 			[SerializeField, Tooltip("A scale applied to look at speed when there is no look input.")]
-			protected float m_NoInputHeadLookAtScale = 0.5f;
+			float m_NoInputHeadLookAtScale = 0.5f;
 
 			[FormerlySerializedAs("adjustHeadLookAtWhileAerial")]
 			[SerializeField, Tooltip("Should head rotation take place while aerial?")]
-			protected bool m_AdjustHeadLookAtWhileAerial = true;
+			bool m_AdjustHeadLookAtWhileAerial = true;
 		
 			[FormerlySerializedAs("adjustHeadLookAtDuringTurnaround")]
 			[SerializeField, Tooltip("Should head rotation take place during rapid turnarounds?")]
-			protected bool m_AdjustHeadLookAtDuringTurnaround = true;
+			bool m_AdjustHeadLookAtDuringTurnaround = true;
 		
 			/// <summary>
 			/// Gets the look at weight used by the animator.
