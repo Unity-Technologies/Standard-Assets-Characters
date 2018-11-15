@@ -31,16 +31,16 @@ namespace StandardAssets.Characters.Common
 		public event Action sprintEnded;
 
 		/// <summary>
-		/// The Input Action Map asset
-		/// </summary>
-		[SerializeField, Tooltip("Input Action Map asset for touch controls")]
-		TouchControls m_TouchControls;
-
-		/// <summary>
 		/// The Input Action Map asset for on screen controls
 		/// </summary>
 		[SerializeField, Tooltip("Input Action Map asset for mouse/keyboard and game pad inputs")]
 		StandardControls m_StandardControls;
+
+		/// <summary>
+		/// The Input Action Map asset
+		/// </summary>
+		[SerializeField, Tooltip("Input Action Map asset for touch controls")]
+		TouchControls m_TouchControls;
 
 		/// <summary>
 		/// The on screen controls canvas
