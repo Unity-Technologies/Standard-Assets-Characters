@@ -287,6 +287,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1176292737005282
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4174794399979458}
+  m_Layer: 0
+  m_Name: VCam Target
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1191584423246730
 GameObject:
   m_ObjectHideFlags: 1
@@ -1185,6 +1200,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4971338634202510}
+  - {fileID: 4174794399979458}
   m_Father: {fileID: 4076727408819664}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1223,7 +1239,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1294013925418394}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 33, y: 0, z: 9.31}
+  m_LocalPosition: {x: 33, y: -1, z: 8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4373934692070628}
@@ -1368,6 +1384,19 @@ Transform:
   - {fileID: 4740225140391930}
   m_Father: {fileID: 4191023085299888}
   m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4174794399979458
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1176292737005282}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.6, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4040340540093194}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4186143521540892
 Transform:
@@ -2187,10 +2216,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f789398defdd4003ac23dd2094bddaa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TouchControls:
-    m_Asset: {fileID: 11400000, guid: 5e0a061bdf17543b6b5dc2ab23540605, type: 3}
   m_StandardControls:
     m_Asset: {fileID: 11400000, guid: 6b7e0365c2048446aafe64ff5b240173, type: 3}
+  m_TouchControls:
+    m_Asset: {fileID: 11400000, guid: 5e0a061bdf17543b6b5dc2ab23540605, type: 3}
   m_TouchControlsCanvas: {fileID: 0}
   m_InvertX: 0
   m_InvertY: 0
@@ -2287,7 +2316,8 @@ MonoBehaviour:
     m_GroundingGravityMultiplier: 2
   m_Motor:
     m_Configuration: {fileID: 11400000, guid: 33e0d88026c128b4ca3076e2e5149510, type: 2}
-  m_TurnAroundType: 0
+  m_TurnAroundType: 1
+  m_VCamTarget: {fileID: 4174794399979458}
   m_BlendspaceTurnAroundBehaviour:
     m_ConfigureBlendspace: 0
     m_Configuration:
