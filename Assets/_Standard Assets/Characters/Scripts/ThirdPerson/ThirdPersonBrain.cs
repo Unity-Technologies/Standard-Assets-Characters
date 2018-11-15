@@ -1260,8 +1260,10 @@ namespace StandardAssets.Characters.ThirdPerson
         /// Plays the left foot movement events
         /// </summary>
         /// <param name="movementEventData">the data need to play the event</param>
-        void HandleLeftFoot(MovementEventData movementEventData)
+        /// <param name="physicMaterial">physic material of the footstep</param>
+        void HandleLeftFoot(MovementEventData movementEventData, PhysicMaterial physicMaterial)
         {
+            SetPhysicMaterial(physicMaterial);
             movementEventData.normalizedSpeed = Mathf.Clamp01(m_ThirdPersonBrain.planarSpeed / m_MaximumSpeed);
             PlayLeftFoot(movementEventData);
         }
@@ -1270,8 +1272,10 @@ namespace StandardAssets.Characters.ThirdPerson
         /// Plays the right foot movement events
         /// </summary>
         /// <param name="movementEventData">the data need to play the event</param>
-        void HandleRightFoot(MovementEventData movementEventData)
+        /// <param name="physicMaterial">physic material of the footstep</param>
+        void HandleRightFoot(MovementEventData movementEventData, PhysicMaterial physicMaterial)
         {
+            SetPhysicMaterial(physicMaterial);
             movementEventData.normalizedSpeed = Mathf.Clamp01(m_ThirdPersonBrain.planarSpeed / m_MaximumSpeed);
             PlayRightFoot(movementEventData);
         }

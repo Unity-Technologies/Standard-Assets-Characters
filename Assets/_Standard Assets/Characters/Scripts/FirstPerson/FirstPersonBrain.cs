@@ -395,6 +395,9 @@ namespace StandardAssets.Characters.FirstPerson
 	{
 		[SerializeField, Tooltip("The maximum speed of the character")]
 		float m_MaximumSpeed = 10f;
+		
+		[SerializeField, Tooltip("Layermask used for checking movement area")]
+		LayerMask m_LayerMask;
 
 		float m_SqrTravelledDistance;
 
@@ -438,14 +441,7 @@ namespace StandardAssets.Characters.FirstPerson
 				m_SqrTravelledDistance = 0;
 				var data =
 					new MovementEventData(m_Transform, Mathf.Clamp01(brain.planarSpeed / m_MaximumSpeed));
-				if (m_IsLeftFoot)
-				{
-					PlayLeftFoot(data);
-				}
-				else
-				{
-					PlayRightFoot(data);
-				}
+				PlayFootstep(data);
 
 				m_IsLeftFoot = !m_IsLeftFoot;
 			}
@@ -493,6 +489,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		void Jumped()
 		{
+			CheckArea();
 			PlayJumping(new MovementEventData(m_Transform));
 		}
 
@@ -501,7 +498,32 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		void Landed()
 		{
+			CheckArea();
 			PlayLanding(new MovementEventData(m_Transform));
+		}
+		
+		void PlayFootstep(MovementEventData movementEventData)
+		{
+			CheckArea();
+			if (m_IsLeftFoot)
+			{
+				PlayLeftFoot(movementEventData);
+			}
+			else
+			{
+				PlayRightFoot(movementEventData);
+			}
+			
+			m_IsLeftFoot = !m_IsLeftFoot;
+		}
+
+		void CheckArea()
+		{
+			RaycastHit hit;
+			if (UnityEngine.Physics.Raycast(m_Transform.position, Vector3.down, out hit, m_LayerMask))
+			{
+				SetPhysicMaterial(hit.collider.sharedMaterial);
+			}
 		}
 	}
 }

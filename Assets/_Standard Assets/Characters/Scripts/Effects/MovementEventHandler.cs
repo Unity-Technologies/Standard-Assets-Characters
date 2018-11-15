@@ -8,17 +8,6 @@ using Object = UnityEngine.Object;
 namespace StandardAssets.Characters.Effects
 {
     /// <summary>
-    /// Enum for representing the different type of movement zones
-    /// </summary>
-    public enum MovementZoneId
-    {
-        Concrete,
-        Metal,
-        Grass,
-        Gravel
-    }
-
-    /// <summary>
     /// Abstract class for handling MovementEvents
     /// </summary>
     [Serializable]
@@ -31,11 +20,18 @@ namespace StandardAssets.Characters.Effects
 
         CharacterBrain m_Brain;
 
+        PhysicMaterial m_PhysicMaterial;
+
         protected CharacterBrain brain
         {
             get { return m_Brain; }
         }
 
+        protected bool canPlayEffect
+        {
+            get { return m_CurrentMovementEventLibrary != null; }
+        }
+        
         protected MovementEventLibrary defaultLibrary
         {
             get
@@ -43,7 +39,7 @@ namespace StandardAssets.Characters.Effects
                 var configuration = LevelMovementZoneManager.config;
                 if (configuration != null)
                 {
-                    var library = m_ZonesDefinition[configuration.defaultId];
+                    var library = m_ZonesDefinition[configuration.defaultPhysicMaterial];
                     if (library != null)
                     {
                         return library;
@@ -56,33 +52,18 @@ namespace StandardAssets.Characters.Effects
             }
         }
 
-        protected bool canPlayEffect
-        {
-            get { return m_CurrentMovementEventLibrary != null; }
-        }
-
         /// <summary>
         /// Sets the current <see cref="MovementEventLibrary"/>
         /// </summary>
         /// <param name="newMovementEventLibrary">Movement event library data</param>
-        public void SetCurrentMovementEventLibrary(MovementEventLibrary newMovementEventLibrary)
+        void SetCurrentMovementEventLibrary(MovementEventLibrary newMovementEventLibrary)
         {
             m_CurrentMovementEventLibrary = newMovementEventLibrary;
         }
-
-        /// <summary>
-        /// Sets the current event library to the starting event library
-        /// </summary>
-        public void Init(CharacterBrain brainToUse)
+        
+        void ChangeMovementZone(PhysicMaterial physicMaterial)
         {
-            m_Brain = brainToUse;
-            m_Brain.changeMovementZone += ChangeMovementZone;
-            SetCurrentMovementEventLibrary(defaultLibrary);
-        }
-
-        void ChangeMovementZone(MovementZoneId? zoneId)
-        {
-            var library = m_ZonesDefinition[zoneId];
+            var library = m_ZonesDefinition[physicMaterial];
 
             if (library != null)
             {
@@ -94,7 +75,7 @@ namespace StandardAssets.Characters.Effects
 
             if (configuration != null)
             {
-                library = configuration[zoneId];
+                library = configuration[physicMaterial];
                 if (library != null)
                 {
                     SetCurrentMovementEventLibrary(library);
@@ -106,6 +87,15 @@ namespace StandardAssets.Characters.Effects
             {
                 SetCurrentMovementEventLibrary(defaultLibrary);
             }
+        }
+
+        /// <summary>
+        /// Sets the current event library to the starting event library
+        /// </summary>
+        protected void Init(CharacterBrain brainToUse)
+        {
+            m_Brain = brainToUse;
+            SetCurrentMovementEventLibrary(defaultLibrary);
         }
 
         protected virtual void PlayLeftFoot(MovementEventData data)
@@ -138,6 +128,16 @@ namespace StandardAssets.Characters.Effects
             {
                 m_CurrentMovementEventLibrary.PlayJumping(data);
             }
+        }
+
+        protected void SetPhysicMaterial(PhysicMaterial physicMaterial)
+        {
+            if (m_PhysicMaterial != physicMaterial)
+            {
+                ChangeMovementZone(physicMaterial);
+            }
+
+            m_PhysicMaterial = physicMaterial;
         }
     }
 
@@ -269,7 +269,7 @@ namespace StandardAssets.Characters.Effects
     public class MovementEventZoneDefinition
     {
         [SerializeField, Tooltip("The ID of the zone used to play the effect")]
-        MovementZoneId m_ZoneId;
+        PhysicMaterial m_PhysicMaterial;
 
         [SerializeField, Tooltip("The corresponding library of effects")]
         MovementEventLibrary m_ZoneLibrary;
@@ -277,9 +277,9 @@ namespace StandardAssets.Characters.Effects
         /// <summary>
         /// Gets the zoneId
         /// </summary>
-        public MovementZoneId id
+        public PhysicMaterial physicMaterial
         {
-            get { return m_ZoneId; }
+            get { return m_PhysicMaterial; }
         }
 
         /// <summary>
@@ -300,23 +300,18 @@ namespace StandardAssets.Characters.Effects
         [SerializeField, Tooltip("List of movement event libraries for different movement zones")]
         MovementEventZoneDefinition[] m_MovementZoneLibraries;
 
-        /// <summary>
-        /// Gets the Gets the <see cref="MovementEventLibrary"/> for a specified zoneId for a specified zoneId
-        /// </summary>
-        /// <param name="zoneId">The zoneId needed to look up the <see cref="MovementEventLibrary"/></param>
-        /// <value>Gets the <see cref="MovementEventLibrary"/> for a specified zoneId. returns null if the zoneId does not have an associated <see cref="MovementEventLibrary"/></value>
-        public MovementEventLibrary this[MovementZoneId? zoneId]
+        public MovementEventLibrary this[PhysicMaterial physicMaterial]
         {
             get
             {
-                if (!zoneId.HasValue)
+                if (physicMaterial == null)
                 {
                     return null;
                 }
 
                 foreach (var movementEventZoneDefinition in m_MovementZoneLibraries)
                 {
-                    if (movementEventZoneDefinition.id == zoneId)
+                    if (movementEventZoneDefinition.physicMaterial == physicMaterial)
                     {
                         return movementEventZoneDefinition.library;
                     }

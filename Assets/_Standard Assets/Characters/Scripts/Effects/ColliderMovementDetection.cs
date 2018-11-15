@@ -17,60 +17,32 @@ namespace StandardAssets.Characters.Effects
 		/// <summary>
 		/// Fired when movement is detected
 		/// </summary>
-		public event Action<MovementEventData> detection;
-
-		bool m_IsTrigger;
-
-		void Awake()
-		{
-			m_IsTrigger = GetComponent<Collider>().isTrigger;
-		}
+		public event Action<MovementEventData, PhysicMaterial> detection;
 
 		void OnTriggerEnter(Collider other)
 		{
-			
-			if (!m_IsTrigger)
-			{
-				return;
-			}
-
 			if (m_LayerMask != (m_LayerMask | (1 << other.gameObject.layer)))
 			{
 				return;
 			}
 
 			var movementEventData = new MovementEventData(transform);
-			OnDetection(movementEventData);			
-		}
-
-		void OnCollisionEnter(Collision other)
-		{
-			if (m_IsTrigger)
-			{
-				return;
-			}
-			
-			if (m_LayerMask != (m_LayerMask | (1 << other.gameObject.layer)))
-			{
-				return;
-			}
-
-			var movementEventData = new MovementEventData(transform);
-			OnDetection(movementEventData);
+			OnDetection(movementEventData, other.sharedMaterial);			
 		}
 
 		/// <summary>
 		/// Safely broadcast movement event after collider detection
 		/// </summary>
 		/// <param name="movementEventData">Movement event data</param>
-		void OnDetection(MovementEventData movementEventData)
+		/// <param name="physicMaterial">the corresponding physic material</param>
+		void OnDetection(MovementEventData movementEventData, PhysicMaterial physicMaterial)
 		{
 			if (detection == null)
 			{
 				return;
 			}
 			
-			detection(movementEventData);
+			detection(movementEventData, physicMaterial);
 		}
 	}
 }

@@ -13,8 +13,6 @@ namespace StandardAssets.Characters.Common
 	[RequireComponent(typeof(OpenCharacterController))]
 	public abstract class CharacterBrain : MonoBehaviour
 	{
-		public Action<MovementZoneId?> changeMovementZone;
-
 		[SerializeField, Tooltip("Settings for the OpenCharacterController.")]
 		ControllerAdapter m_CharacterControllerAdapter;
 
@@ -69,14 +67,6 @@ namespace StandardAssets.Characters.Common
 				planarSpeed = displacement / Time.deltaTime;
 			}
 			m_LastPosition = newPosition;
-		}
-
-		public void ChangeMovementZone(MovementZoneId? zoneId)
-		{
-			if (changeMovementZone != null)
-			{
-				changeMovementZone(zoneId);
-			}
 		}
 	}
 	

@@ -183,7 +183,8 @@ MonoBehaviour:
   m_FirstPersonMovementEventHandler:
     m_ZonesDefinition:
       m_MovementZoneLibraries:
-      - m_ZoneId: 0
+      - m_PhysicMaterial: {fileID: 13400000, guid: 29b2c1bb6c1514a8481c9824004f1bfa,
+          type: 2}
         m_ZoneLibrary:
           m_LeftFootStepPrefab: {fileID: 114703649657986578, guid: 39b499a1da7614637b04ee652e561932,
             type: 2}
@@ -193,7 +194,8 @@ MonoBehaviour:
             type: 2}
           m_JumpingPrefab: {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868,
             type: 2}
-      - m_ZoneId: 1
+      - m_PhysicMaterial: {fileID: 13400000, guid: 6940cb6fb8efe45f18f8f38410c06794,
+          type: 2}
         m_ZoneLibrary:
           m_LeftFootStepPrefab: {fileID: 114703649657986578, guid: d5b731d417b5a43f0970e4eb0b903491,
             type: 2}
@@ -204,6 +206,9 @@ MonoBehaviour:
           m_JumpingPrefab: {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868,
             type: 2}
     m_MaximumSpeed: 10
+    m_LayerMask:
+      serializedVersion: 2
+      m_Bits: 256
 --- !u!114 &114890619256215582
 MonoBehaviour:
   m_ObjectHideFlags: 1
