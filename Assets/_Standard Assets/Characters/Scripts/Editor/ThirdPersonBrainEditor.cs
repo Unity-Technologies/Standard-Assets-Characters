@@ -28,13 +28,11 @@ namespace Editor
 		{
 			EditorGUILayout.HelpBox(k_Help, MessageType.Info);
 			base.OnInspectorGUI();
+			serializedObject.DrawFieldsUnderFoldout("Advanced Settings", m_AdvancedFields, ref m_AdvancedFoldOut, 
+			                                        DrawTurnaround);
 			
 			serializedObject.DrawExtendedScriptableObject(m_MotorConfigPath, "Motor Settings");
 			serializedObject.DrawExtendedScriptableObject(k_AnimationConfigName, "Animation Settings");
-
-			EditorGUILayout.Space();
-			serializedObject.DrawFieldsUnderFoldout("Advanced Settings", m_AdvancedFields, ref m_AdvancedFoldOut, 
-			                                        DrawTurnaround);
 		}
 
 		protected override string[] GetExclusions()
