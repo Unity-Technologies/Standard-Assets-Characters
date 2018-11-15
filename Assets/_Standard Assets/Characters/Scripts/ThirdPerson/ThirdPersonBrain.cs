@@ -1129,17 +1129,8 @@ namespace StandardAssets.Characters.ThirdPerson
         /// </summary>
         void SetGroundedFootRight(bool value)
         {
-            if (Mathf.Abs(m_Motor.normalizedLateralSpeed) < Mathf.Epsilon)
-            {
-                animator.SetBool(m_HashGroundedFootRight, value);
-                isRightFootPlanted = value;
-                return;
-            }
-
-            // while strafing a foot is preferred depending on lateral direction
-            bool lateralSpeedRight = m_Motor.normalizedLateralSpeed < 0.0f;
-            animator.SetBool(m_HashGroundedFootRight, lateralSpeedRight);
-            isRightFootPlanted = lateralSpeedRight;
+            animator.SetBool(m_HashGroundedFootRight, value);
+            isRightFootPlanted = value;
         }
 
         /// <summary>
