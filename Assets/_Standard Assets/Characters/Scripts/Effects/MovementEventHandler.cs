@@ -188,21 +188,21 @@ namespace StandardAssets.Characters.Effects
     public class MovementEventLibrary
     {
         [SerializeField, Tooltip("The movement event player prefab for handling left foot step")]
-        MovementEventPlayer m_LeftFootStepPrefab;
+        MovementEventPlayer[] m_LeftFootStepPrefabs;
 
         [SerializeField, Tooltip("The movement event player prefab for handling right foot step")]
-        MovementEventPlayer m_RightFootStepPrefab;
+        MovementEventPlayer[] m_RightFootStepPrefabs;
 
         [SerializeField, Tooltip("The movement event player prefab for handling landing")]
-        MovementEventPlayer m_LandingPrefab;
+        MovementEventPlayer[] m_LandingPrefabs;
 
         [SerializeField, Tooltip("The movement event player prefab for handling jumping")]
-        MovementEventPlayer m_JumpingPrefab;
+        MovementEventPlayer[] m_JumpingPrefabs;
 
         /// <summary>
         /// Cache of the various instances so that the prefab is only spawned once
         /// </summary>
-        MovementEventPlayer m_LeftFootStepInstance, m_RightFootStepInstance, m_LandingInstance, m_JumpingInstance;
+        MovementEventPlayer[] m_LeftFootStepInstances, m_RightFootStepInstances, m_LandingInstances, m_JumpingInstances;
 
         /// <summary>
         /// Helper function for ensuring that the <see cref="MovementEventPlayer"/> prefab is only instantiated once and the cached version is then used
@@ -210,19 +210,28 @@ namespace StandardAssets.Characters.Effects
         /// <param name="movementEventData">The data relating to the movement event</param>
         /// <param name="prefab">The prefab to instantiate, if it is not cached</param>
         /// <param name="instance">The cached instance of the prefab - this could be null and therefore the keyword ref is required</param>
-        void PlayInstancedEvent(MovementEventData movementEventData, MovementEventPlayer prefab, ref MovementEventPlayer instance)
+        void PlayInstancedEvent(MovementEventData movementEventData, MovementEventPlayer[] prefabs, ref MovementEventPlayer[] instances)
         {
-            if (prefab == null)
+            if (prefabs == null || prefabs.Length == 0)
             {
                 return;
             }
 
-            if (instance == null)
+            if (instances == null || instances.Length == 0)
             {
-                instance = Object.Instantiate(prefab);
+                instances = new MovementEventPlayer[prefabs.Length];
+                int i = -1;
+                foreach (var movementEventPlayer in prefabs)
+                {
+                    i++;
+                    instances[i] = Object.Instantiate(movementEventPlayer);
+                }
             }
 
-            instance.Play(movementEventData);
+            foreach (var movementEventPlayer in instances)
+            {
+                movementEventPlayer.Play(movementEventData);
+            }
         }
 
         /// <summary>
@@ -231,7 +240,7 @@ namespace StandardAssets.Characters.Effects
         /// <param name="movementEventData">The data relating to the movement event</param>
         public void PlayLeftFoot(MovementEventData movementEventData)
         {
-            PlayInstancedEvent(movementEventData, m_LeftFootStepPrefab, ref m_LeftFootStepInstance);
+            PlayInstancedEvent(movementEventData, m_LeftFootStepPrefabs, ref m_LeftFootStepInstances);
         }
 
         /// <summary>
@@ -240,7 +249,7 @@ namespace StandardAssets.Characters.Effects
         /// <param name="movementEventData">The data relating to the movement event</param>
         public void PlayRightFoot(MovementEventData movementEventData)
         {
-            PlayInstancedEvent(movementEventData, m_RightFootStepPrefab, ref m_RightFootStepInstance);
+            PlayInstancedEvent(movementEventData, m_RightFootStepPrefabs, ref m_RightFootStepInstances);
         }
 
         /// <summary>
@@ -249,7 +258,7 @@ namespace StandardAssets.Characters.Effects
         /// <param name="movementEventData">The data relating to the movement event</param>
         public void PlayLanding(MovementEventData movementEventData)
         {
-            PlayInstancedEvent(movementEventData, m_LandingPrefab, ref m_LandingInstance);
+            PlayInstancedEvent(movementEventData, m_LandingPrefabs, ref m_LandingInstances);
         }
 
         /// <summary>
@@ -258,7 +267,7 @@ namespace StandardAssets.Characters.Effects
         /// <param name="movementEventData">The data relating to the movement event</param>
         public void PlayJumping(MovementEventData movementEventData)
         {
-            PlayInstancedEvent(movementEventData, m_JumpingPrefab, ref m_JumpingInstance);
+            PlayInstancedEvent(movementEventData, m_JumpingPrefabs, ref m_JumpingInstances);
         }
     }
 

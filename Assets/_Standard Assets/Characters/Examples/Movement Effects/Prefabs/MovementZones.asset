@@ -18,44 +18,48 @@ MonoBehaviour:
     - m_PhysicMaterial: {fileID: 13400000, guid: 6940cb6fb8efe45f18f8f38410c06794,
         type: 2}
       m_ZoneLibrary:
-        m_LeftFootStepPrefab: {fileID: 114311900519629896, guid: 7768038ceb1534eb290b18f8f1b9fc91,
-          type: 2}
-        m_RightFootStepPrefab: {fileID: 114967407487660778, guid: 1042bcfeb6da64b59be44196325254b9,
-          type: 2}
-        m_LandingPrefab: {fileID: 114805303375849546, guid: ecb7fd2a290b048dabc44bf7feffd33e,
-          type: 2}
-        m_JumpingPrefab: {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868,
-          type: 2}
+        m_LeftFootStepPrefabs:
+        - {fileID: 114958508550175952, guid: 394a8cff30d674216ab8a2697ff41bf5, type: 2}
+        - {fileID: 114703649657986578, guid: d5b731d417b5a43f0970e4eb0b903491, type: 2}
+        m_RightFootStepPrefabs:
+        - {fileID: 114573446991303072, guid: 28245b52fbd7344629177cbdb3f67dc3, type: 2}
+        - {fileID: 114303766495856896, guid: 117ab76cf73814692bc3891a8f04bada, type: 2}
+        m_LandingPrefabs:
+        - {fileID: 114805303375849546, guid: ecb7fd2a290b048dabc44bf7feffd33e, type: 2}
+        m_JumpingPrefabs:
+        - {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868, type: 2}
     - m_PhysicMaterial: {fileID: 13400000, guid: 29b2c1bb6c1514a8481c9824004f1bfa,
         type: 2}
       m_ZoneLibrary:
-        m_LeftFootStepPrefab: {fileID: 114311900519629896, guid: a0865b7ba94ac4fd49e0ca925b0e000d,
-          type: 2}
-        m_RightFootStepPrefab: {fileID: 114967407487660778, guid: 9461adc39c7dd4bf186ac2ec83478b25,
-          type: 2}
-        m_LandingPrefab: {fileID: 114805303375849546, guid: ecb7fd2a290b048dabc44bf7feffd33e,
-          type: 2}
-        m_JumpingPrefab: {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868,
-          type: 2}
+        m_LeftFootStepPrefabs:
+        - {fileID: 114958508550175952, guid: 394a8cff30d674216ab8a2697ff41bf5, type: 2}
+        - {fileID: 114703649657986578, guid: 39b499a1da7614637b04ee652e561932, type: 2}
+        m_RightFootStepPrefabs:
+        - {fileID: 114573446991303072, guid: 28245b52fbd7344629177cbdb3f67dc3, type: 2}
+        - {fileID: 114303766495856896, guid: 12ff91133c90745e9bef34ba039e129d, type: 2}
+        m_LandingPrefabs:
+        - {fileID: 114805303375849546, guid: ecb7fd2a290b048dabc44bf7feffd33e, type: 2}
+        m_JumpingPrefabs:
+        - {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868, type: 2}
     - m_PhysicMaterial: {fileID: 13400000, guid: 61e4433a36eda45909e5fc80900eeff5,
         type: 2}
       m_ZoneLibrary:
-        m_LeftFootStepPrefab: {fileID: 114311900519629896, guid: cbbf268b858c849ef92b2a5317360b96,
-          type: 2}
-        m_RightFootStepPrefab: {fileID: 114967407487660778, guid: ed747ea00ffbd4f03bea6d08a3f23d68,
-          type: 2}
-        m_LandingPrefab: {fileID: 114805303375849546, guid: ecb7fd2a290b048dabc44bf7feffd33e,
-          type: 2}
-        m_JumpingPrefab: {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868,
-          type: 2}
+        m_LeftFootStepPrefabs:
+        - {fileID: 114703649657986578, guid: ceb6ec415aaa84fb4a73dcf5f152407e, type: 2}
+        m_RightFootStepPrefabs:
+        - {fileID: 114303766495856896, guid: f594c798303724941b43c5af006154dc, type: 2}
+        m_LandingPrefabs:
+        - {fileID: 114805303375849546, guid: ecb7fd2a290b048dabc44bf7feffd33e, type: 2}
+        m_JumpingPrefabs:
+        - {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868, type: 2}
     - m_PhysicMaterial: {fileID: 13400000, guid: 1f4a4e305582244e5a77ee89c2e7d0dc,
         type: 2}
       m_ZoneLibrary:
-        m_LeftFootStepPrefab: {fileID: 114311900519629896, guid: e519c5baea00643fa9ad4bcddf451d11,
-          type: 2}
-        m_RightFootStepPrefab: {fileID: 114967407487660778, guid: 0559031a2dbab4f52ac00ac81def606f,
-          type: 2}
-        m_LandingPrefab: {fileID: 114805303375849546, guid: ecb7fd2a290b048dabc44bf7feffd33e,
-          type: 2}
-        m_JumpingPrefab: {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868,
-          type: 2}
+        m_LeftFootStepPrefabs:
+        - {fileID: 114703649657986578, guid: 73c4ea376d906458eaa1ecc057497fe4, type: 2}
+        m_RightFootStepPrefabs:
+        - {fileID: 114303766495856896, guid: ac35542f86e3c485b8b686cd56dd261c, type: 2}
+        m_LandingPrefabs:
+        - {fileID: 114805303375849546, guid: ecb7fd2a290b048dabc44bf7feffd33e, type: 2}
+        m_JumpingPrefabs:
+        - {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868, type: 2}
