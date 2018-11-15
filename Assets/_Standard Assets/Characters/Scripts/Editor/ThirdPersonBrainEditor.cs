@@ -33,7 +33,7 @@ namespace Editor
 			serializedObject.DrawExtendedScriptableObject(k_AnimationConfigName, "Animation Settings");
 
 			EditorGUILayout.Space();
-			serializedObject.DrawFoldoutBoxedFields("Advanced Settings", m_AdvancedFields, ref m_AdvancedFoldOut, 
+			serializedObject.DrawFieldsUnderFoldout("Advanced Settings", m_AdvancedFields, ref m_AdvancedFoldOut, 
 			                                        DrawTurnaround);
 		}
 

@@ -67,7 +67,7 @@ namespace Editor
 				if (property.isExpanded)
 				{
 					// Draw a background that shows us clearly which fields are part of the ScriptableObject
-					GUI.Box(EditorGUILayout.BeginVertical(), GUIContent.none);
+					EditorGUILayout.BeginVertical();
 					UnityEditor.Editor editor = UnityEditor.Editor.CreateEditor(property.objectReferenceValue);
 					editor.OnInspectorGUI();
 					EditorGUILayout.EndVertical();
@@ -75,7 +75,6 @@ namespace Editor
 			}
 			else
 			{
-				GUILayout.BeginHorizontal();
 				EditorGUILayout.ObjectField(property);
 				if (GUILayout.Button("Create"))
 				{
@@ -103,7 +102,6 @@ namespace Editor
 					}
 					property.objectReferenceValue = CreateAssetWithSavePrompt(type, selectedAssetPath);
 				}
-				GUILayout.EndHorizontal();
 			}
 
 			property.serializedObject.ApplyModifiedProperties();
@@ -118,10 +116,9 @@ namespace Editor
 		/// <param name="foldout">The value of the drawn foldout</param>
 		/// <param name="beginning">Action fired at the start of the GUI.Box</param>
 		/// <param name="end">Action fired at the end of the GUI.Box</param>
-		public static void DrawFoldoutBoxedFields(this SerializedObject serializedObject, string title, string[] fields,
+		public static void DrawFieldsUnderFoldout(this SerializedObject serializedObject, string title, string[] fields,
 		                                          ref bool foldout, Action beginning = null, Action end = null)
 		{
-			GUI.Box(EditorGUILayout.BeginVertical(), GUIContent.none);
 			foldout = EditorGUILayout.Foldout(foldout, title);
 			if (foldout)
 			{
@@ -149,7 +146,6 @@ namespace Editor
 				}
 				EditorGUI.indentLevel--;
 			}
-			GUILayout.EndHorizontal();
 			
 			if (GUI.changed)
 			{
