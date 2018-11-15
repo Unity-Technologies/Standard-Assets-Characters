@@ -147,8 +147,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 891ac0eabe9c488f9f8c02d0f6a4e39a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  setRotation: 0
-  volumeFromNormalizedSpeed:
+  m_SetRotation: 0
+  m_VolumeFromNormalizedSpeed:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -172,8 +172,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  source: {fileID: 82770682402124096}
-  clips:
+  m_Source: {fileID: 82770682402124096}
+  m_Clips:
   - {fileID: 8300000, guid: 176da27ecf5374bf299c672f20025dd6, type: 3}
   - {fileID: 8300000, guid: 4290dc2fdbaae4d6ca189be937471ff8, type: 3}
   - {fileID: 8300000, guid: 0879500010cdb4d5695250255de279c4, type: 3}

@@ -183,16 +183,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5745c47e1fe497bafd5e8e235deaea9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mobileControls:
+  m_TouchControls:
     m_Asset: {fileID: 0}
-  controls:
+  m_StandardControls:
     m_Asset: {fileID: 11400000, guid: 6b7e0365c2048446aafe64ff5b240173, type: 3}
-  onScreenControlsCanvas: {fileID: 0}
-  invertX: 0
-  invertY: 0
-  xSensitivity: 1
-  ySensitivity: 1
-  cursorLocked: 1
+  m_TouchControlsCanvas: {fileID: 0}
+  m_InvertX: 0
+  m_InvertY: 0
+  m_XSensitivity: 1
+  m_YSensitivity: 1
+  m_CursorLocked: 1
 --- !u!114 &114672970358626264
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -204,16 +204,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4516be7195e4412b695afa742a1eb93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 5
-  timeToMaxSpeed: 0.5
-  turnSpeed: 300
-  groundCheckDistance: 0.55
-  groundCheckMask:
+  m_MaxSpeed: 5
+  m_TimeToMaxSpeed: 0.5
+  m_TurnSpeed: 300
+  m_GroundCheckDistance: 0.55
+  m_GroundCheckMask:
     serializedVersion: 2
     m_Bits: 256
-  gravity: -9.81
-  terminalVelocity: -100
-  jumpSpeed: 5
+  m_Gravity: -9.81
+  m_TerminalVelocity: -100
+  m_JumpSpeed: 5
 --- !u!143 &143417532114150374
 CharacterController:
   m_ObjectHideFlags: 1

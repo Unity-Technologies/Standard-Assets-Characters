@@ -11,26 +11,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 979c01115def454ba10ad1af450a9bdf, type: 3}
   m_Name: Movement Zone Configuration
   m_EditorClassIdentifier: 
-  defaultZoneId: 0
-  zonesDefinition:
-    movementZoneLibraries:
-    - zoneId: 0
-      zoneLibrary:
-        leftFootStepPrefab: {fileID: 114311900519629896, guid: a0865b7ba94ac4fd49e0ca925b0e000d,
+  m_DefaultZoneId: 0
+  m_ZonesDefinition:
+    m_MovementZoneLibraries:
+    - m_ZoneId: 0
+      m_ZoneLibrary:
+        m_LeftFootStepPrefab: {fileID: 114311900519629896, guid: a0865b7ba94ac4fd49e0ca925b0e000d,
           type: 2}
-        rightFootStepPrefab: {fileID: 114967407487660778, guid: 9461adc39c7dd4bf186ac2ec83478b25,
+        m_RightFootStepPrefab: {fileID: 114967407487660778, guid: 9461adc39c7dd4bf186ac2ec83478b25,
           type: 2}
-        landingPrefab: {fileID: 114805303375849546, guid: ecb7fd2a290b048dabc44bf7feffd33e,
+        m_LandingPrefab: {fileID: 114805303375849546, guid: ecb7fd2a290b048dabc44bf7feffd33e,
           type: 2}
-        jumpingPrefab: {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868,
+        m_JumpingPrefab: {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868,
           type: 2}
-    - zoneId: 1
-      zoneLibrary:
-        leftFootStepPrefab: {fileID: 114311900519629896, guid: 7768038ceb1534eb290b18f8f1b9fc91,
+    - m_ZoneId: 1
+      m_ZoneLibrary:
+        m_LeftFootStepPrefab: {fileID: 114311900519629896, guid: 7768038ceb1534eb290b18f8f1b9fc91,
           type: 2}
-        rightFootStepPrefab: {fileID: 114967407487660778, guid: 1042bcfeb6da64b59be44196325254b9,
+        m_RightFootStepPrefab: {fileID: 114967407487660778, guid: 1042bcfeb6da64b59be44196325254b9,
           type: 2}
-        landingPrefab: {fileID: 114805303375849546, guid: ecb7fd2a290b048dabc44bf7feffd33e,
+        m_LandingPrefab: {fileID: 114805303375849546, guid: ecb7fd2a290b048dabc44bf7feffd33e,
           type: 2}
-        jumpingPrefab: {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868,
+        m_JumpingPrefab: {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868,
           type: 2}

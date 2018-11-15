@@ -147,38 +147,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 891ac0eabe9c488f9f8c02d0f6a4e39a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  setRotation: 0
-  normalizedEffectMagnitudeBasedOnNormalizedSpeed:
+  m_SetRotation: 0
+  m_VolumeFromNormalizedSpeed:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
-      outSlope: 0
-      tangentMode: 34
+      outSlope: 1
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0
+      inSlope: 1
       outSlope: 0
-      tangentMode: 34
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  source: {fileID: 82770682402124096}
-  clips:
+  m_Source: {fileID: 82770682402124096}
+  m_Clips:
   - {fileID: 8300000, guid: 89650943064fc4c5d88270e54abf2173, type: 3}
   - {fileID: 8300000, guid: b41774951f625421d92d576ead265971, type: 3}
   - {fileID: 8300000, guid: ec2d3903091fb498ca48e860e4b68df0, type: 3}
-  maximumVolume: 1
-  minimumVolume: 0.1
-  volume:
-    minValue: 0.096722186
-    maxValue: 1

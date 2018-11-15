@@ -64,7 +64,7 @@ MonoBehaviour:
   m_TurningSpeed: 7
   m_RapidTurnInputAngle: 160
   m_StationaryRapidTurnAngle: 89
-  advanced:
+  m_AdvancedSettings:
     m_SprintNormalizedSpeedIncrease: 0.5
     m_ForwardInputSamples: 5
     m_StrafeInputWindowSize: 5
@@ -76,6 +76,7 @@ MonoBehaviour:
     m_StandingJumpMoveTimeThreshold: 0.5
     m_TurningSpeedVisualScale: 1.4
     m_NormalizedTurningSpeedLerpSpeed: 0.5
+    m_NoLookInputTurnSpeedDeceleration: 5
     m_MaxSpeedForStandingTurnaround: 0.25
     m_RapidTurnIgnoreInputTime: 0.1
     m_InputBufferSize: 5

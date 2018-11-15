@@ -2197,23 +2197,6 @@ MonoBehaviour:
   m_XSensitivity: 1
   m_YSensitivity: 1
   m_CursorLocked: 1
-  m_UseInputSmoother: 0
-  m_LocomotionInputSmoother:
-    m_CharacterBrain: {fileID: 0}
-    m_ChangeIdleDelay: 0.1
-    m_ChangeIdleToMoveDelay: 0.1
-    m_ChangeRotateToMoveDelay: 0.1
-    m_StartMoveMaxAngle: 1
-    m_StartRotateInCircleMinTime: 1.5
-    m_StartRotateInCircleMinTotalAngle: 270
-    m_StartRotateInCircleMinAngle: 2
-    m_MaxRotateAngle: 20
-    m_CatchUpToInputMinAngle: 90
-    m_DisableRapidTurnBeforeRotateMinTime: 1
-    m_DisableRapidTurnBeforeRotateMinAngle: 180
-    m_DisableRapidTurnBeforeRotateMinAngleLowFrameRate: 90
-    m_DebugEnabled: 0
-    m_DebugOffsetY: 0
 --- !u!114 &114403526203746496
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2302,10 +2285,9 @@ MonoBehaviour:
     m_GravityChangeSpeed: 10
     m_MinFallDistance: 1.1
     m_GroundingGravityMultiplier: 2
-  m_UseSimpleCameras: 0
   m_Motor:
     m_Configuration: {fileID: 11400000, guid: 33e0d88026c128b4ca3076e2e5149510, type: 2}
-  m_TurnaroundType: 1
+  m_TurnAroundType: 0
   m_BlendspaceTurnAroundBehaviour:
     m_ConfigureBlendspace: 0
     m_Configuration:
@@ -2469,17 +2451,17 @@ MonoBehaviour:
   m_Configuration: {fileID: 11400000, guid: 16861f506e03f4b39a1b25e1bb3e307f, type: 2}
   m_ShowDebugGizmos: 0
   m_GizmoSettings:
-    arrowPrefab: {fileID: 1320860003083594, guid: 61fb8f96b4412463eb0f0522876fee5a,
+    m_ArrowPrefab: {fileID: 1320860003083594, guid: 61fb8f96b4412463eb0f0522876fee5a,
       type: 2}
-    showBodyGizmos: 1
-    bodyCurrentDirection: {r: 1, g: 0, b: 0, a: 1}
-    bodyDesiredDirection: {r: 0, g: 0, b: 1, a: 1}
-    showFootGizmos: 1
-    inputDirection: {r: 0.101812795, g: 0.4056604, b: 0, a: 1}
-    velocityIndicator: {r: 1, g: 0.62933606, b: 0, a: 1}
-    showHeadGizmos: 1
-    headCurrentDirection: {r: 1, g: 0, b: 0, a: 1}
-    headDesiredDirection: {r: 0, g: 0, b: 1, a: 1}
+    m_ShowBodyGizmos: 1
+    m_BodyCurrentDirection: {r: 1, g: 0, b: 0, a: 1}
+    m_BodyDesiredDirection: {r: 0, g: 0, b: 1, a: 1}
+    m_ShowFootGizmos: 1
+    m_InputDirection: {r: 0.101812795, g: 0.4056604, b: 0, a: 1}
+    m_VelocityIndicator: {r: 1, g: 0.62933606, b: 0, a: 1}
+    m_ShowHeadGizmos: 1
+    m_HeadCurrentDirection: {r: 1, g: 0, b: 0, a: 1}
+    m_HeadDesiredDirection: {r: 0, g: 0, b: 1, a: 1}
 --- !u!114 &114447118663720106
 MonoBehaviour:
   m_ObjectHideFlags: 1
