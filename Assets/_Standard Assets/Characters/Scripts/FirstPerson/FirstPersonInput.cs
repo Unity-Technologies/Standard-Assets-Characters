@@ -33,6 +33,9 @@ namespace StandardAssets.Characters.FirstPerson
 			standardControls.Movement.crouch.performed += OnCrouchInput;
 		}
 
+		/// <summary>
+		/// Registers crouch touch input
+		/// </summary>
 		protected override void RegisterAdditionalTouchInputs()
 		{
 			touchControls.Movement.crouch.performed += OnCrouchInput;
