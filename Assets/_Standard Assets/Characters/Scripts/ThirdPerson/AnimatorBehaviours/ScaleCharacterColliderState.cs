@@ -22,13 +22,11 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 
         // If true, use the current state's normalizeTime value (ideally, not looped animations),
         // otherwise, we will use our own time.
-        [FormerlySerializedAs("useNormalizedTime")]
         [SerializeField]
         bool m_UseNormalizedTime = true;
 
         // We are using curve only for normalized time from the animation,
         // but for looping animations it is useless (looping collider size...).
-        [FormerlySerializedAs("curve")]
         [SerializeField]
         AnimationCurve m_Curve = new AnimationCurve()
         {
@@ -39,34 +37,29 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
             }
         };
 
-        [FormerlySerializedAs("animationMode")]
         [SerializeField]
         NormalizedMode m_AnimationMode;
 
         /// <summary>
         /// How many seconds it will take to change the height.
         /// </summary>
-        [FormerlySerializedAs("duration")]
         [SerializeField]
         float m_Duration = 1.0f;
 
         /// <summary>
         /// Adjusted character scale.
         /// </summary>
-        [FormerlySerializedAs("heightScale")]
         [SerializeField]
         float m_HeightScale = 1.0f;
 
         /// <summary>
         /// Scale character's collider and offset relative to character's height. 0.5 is center.
         /// </summary>
-        [FormerlySerializedAs("heightOrigin")]
         [SerializeField, Range(0.0f, 1.0f)]
         float m_HeightOrigin = 0.5f;
 
         // if false, we will not restore collider on exit
         // (allows another state behavior to use the last state of the collider)
-        [FormerlySerializedAs("resetOnExit")]
         [SerializeField]
         bool m_ResetOnExit = true;
 
@@ -79,7 +72,12 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
         ControllerAdapter m_Adapter;
         OpenCharacterController m_Controller;
 
-        // OnStateEnter is called before OnStateEnter is called on any state inside this state machine
+        /// <summary>
+        /// OnStateEnter is called on any state inside this state machine
+        /// </summary>
+        /// <param name="animator">Animator to be used</param>
+        /// <param name="stateInfo">Info about state</param>
+        /// <param name="layerIndex">Index of layer</param>
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             if (m_Adapter == null)

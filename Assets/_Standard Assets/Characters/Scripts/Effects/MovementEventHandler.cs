@@ -13,7 +13,6 @@ namespace StandardAssets.Characters.Effects
     [Serializable]
     public abstract class MovementEventHandler
     {
-        [FormerlySerializedAs("zonesDefinition")]
         [SerializeField, Tooltip("List of movement event libraries for different movement zones")]
         MovementEventZoneDefinitionList m_ZonesDefinition;
 
@@ -188,19 +187,15 @@ namespace StandardAssets.Characters.Effects
     [Serializable]
     public class MovementEventLibrary
     {
-        [FormerlySerializedAs("leftFootStepPrefab")]
         [SerializeField, Tooltip("The movement event player prefab for handling left foot step")]
         MovementEventPlayer m_LeftFootStepPrefab;
 
-        [FormerlySerializedAs("rightFootStepPrefab")]
         [SerializeField, Tooltip("The movement event player prefab for handling right foot step")]
         MovementEventPlayer m_RightFootStepPrefab;
 
-        [FormerlySerializedAs("landingPrefab")]
         [SerializeField, Tooltip("The movement event player prefab for handling landing")]
         MovementEventPlayer m_LandingPrefab;
 
-        [FormerlySerializedAs("jumpingPrefab")]
         [SerializeField, Tooltip("The movement event player prefab for handling jumping")]
         MovementEventPlayer m_JumpingPrefab;
 
@@ -276,7 +271,6 @@ namespace StandardAssets.Characters.Effects
         [SerializeField, Tooltip("The ID of the zone used to play the effect")]
         PhysicMaterial m_PhysicMaterial;
 
-        [FormerlySerializedAs("zoneLibrary")]
         [SerializeField, Tooltip("The corresponding library of effects")]
         MovementEventLibrary m_ZoneLibrary;
 
@@ -303,7 +297,6 @@ namespace StandardAssets.Characters.Effects
     [Serializable]
     public class MovementEventZoneDefinitionList
     {
-        [FormerlySerializedAs("movementZoneLibraries")]
         [SerializeField, Tooltip("List of movement event libraries for different movement zones")]
         MovementEventZoneDefinition[] m_MovementZoneLibraries;
 

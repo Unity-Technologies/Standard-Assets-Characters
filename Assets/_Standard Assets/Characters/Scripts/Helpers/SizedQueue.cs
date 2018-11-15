@@ -13,7 +13,7 @@ namespace StandardAssets.Characters.Helpers
 		/// <summary>
 		/// Gets the values of the queue.
 		/// </summary>
-		public Queue<T> values { get; protected set; }
+		public Queue<T> values { get; private set; }
 		
 		/// <summary>
 		/// Gets the count of <see cref="values"/>.

@@ -3,9 +3,11 @@ using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 {
+	/// <summary>
+	/// Allow the animation state to pass Landing animation start and end events to the <see cref="ThirdPersonBrain"/> 
+	/// </summary>
 	public class LandAnimatorState : StateMachineBehaviour
 	{
-		[FormerlySerializedAs("adjustAnimationSpeedBasedOnForwardSpeed")]
 		[SerializeField]
 		bool m_AdjustAnimationSpeedBasedOnForwardSpeed;
 		

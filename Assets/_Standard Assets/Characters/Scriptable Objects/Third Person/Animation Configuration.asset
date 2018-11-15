@@ -11,187 +11,184 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a968cd77fa044ffdaab9a7f295931436, type: 3}
   m_Name: Animation Configuration
   m_EditorClassIdentifier: 
-  m_ForwardSpeedInterpolationRange:
-    m_MinValue: 0.2
-    m_MaxValue: 0.35
-  m_LateralSpeedInterpolationRange:
-    m_MinValue: 0.2
-    m_MaxValue: 0.35
-  m_TurningSpeedInterpolationRange:
-    m_MinValue: 0.01
-    m_MaxValue: 0.05
-  m_EnableStrafeRapidDirectionChangeSmoothing: 1
-  m_StrafeRapidDirectionChangeAngle: 140
-  m_StrafeRapidDirectionChangeSpeedCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.085745275
-      value: 0.6814658
-      inSlope: 1.0995749
-      outSlope: 1.0995749
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.16142991
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_TurningSpeedCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 1
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_JumpTransitionAsAFactorOfSpeed:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0.05
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 0.125
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_StrafeJumpTransitionAsAFactorOfSpeed:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0.05
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 0.1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_JumpEndTransitionAsAFactorOfSpeed:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: -0.00205544
-      value: 0.125
-      inSlope: 0.0017899871
-      outSlope: 0.0017899871
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.50416666
-    - serializedVersion: 3
-      time: 1
-      value: 0.2
-      inSlope: 0.0038748302
-      outSlope: 0.0038748302
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.25000006
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_RightFootJumpLandAnimationTimeOffset: 0.6
-  m_LeftFootJumpLandAnimationTimeOffset: 0.3
-  m_SkipJumpLandWindow: 0.38
-  m_StandingJumpNormalizedSpeedMaxThreshold: 0.25
-  m_RunningJumpNormalizedSpeedMinThreshold: 0.8
-  m_LandSpeedAsAFactorOfSpeed:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: -0.0020858198
-      value: 1.2537782
-      inSlope: 1.1152011
-      outSlope: 0.7151468
-      tangentMode: 1
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.21727835
-    - serializedVersion: 3
-      time: 1.5
-      value: 2
-      inSlope: -0.016110726
-      outSlope: -0.016110726
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.3068348
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_NormalizedForwardSpeedToRoll: 0.3
+  m_NormalizedForwardSpeedRequiredToRoll: 0.3
   m_FallTimeRequiredToTriggerRoll: 0.75
-  m_RollAnimationBlendTime: 0.15
-  m_LandAnimationBlendTime: 0.11
-  m_StartRightFootGrounded: 0
-  m_GroundedFootThreshold: 0.25
-  m_GroundedFootThresholdOffset: 0.25
   m_EnableHeadTurn: 1
-  m_HeadTurnProperties:
-    m_HeadLookAtWeight: 1
-    m_HeadLookAtMaxRotation: 75
-    m_HeadLookAtRotationSpeed: 15
-    m_NoInputHeadLookAtScale: 0.5
-    m_AdjustHeadLookAtWhileAerial: 0
-    m_AdjustHeadLookAtDuringTurnaround: 1
+  m_AdvancedSettings:
+    m_ForwardSpeedInterpolationRange:
+      m_MinValue: 0.2
+      m_MaxValue: 0.35
+    m_LateralSpeedInterpolationRange:
+      m_MinValue: 0.2
+      m_MaxValue: 0.35
+    m_TurningSpeedInterpolationRange:
+      m_MinValue: 0.01
+      m_MaxValue: 0.05
+    m_TurningSpeedCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 1
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_EnableStrafeRapidDirectionChangeSmoothing: 1
+    m_StrafeRapidDirectionChangeAngle: 140
+    m_StrafeRapidDirectionChangeSpeedCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.085745275
+        value: 0.6814658
+        inSlope: 1.0995749
+        outSlope: 1.0995749
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.16142991
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_JumpTransitionAsAFactorOfSpeed:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0.05
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0.125
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_StrafeJumpTransitionAsAFactorOfSpeed:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0.05
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0.15
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_JumpEndTransitionAsAFactorOfSpeed:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0.1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0.2
+        inSlope: 0.00000003005276
+        outSlope: 0.00000003005276
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.49583334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_RightFootJumpLandAnimationTimeOffset: 0.6
+    m_LeftFootJumpLandAnimationTimeOffset: 0.3
+    m_SkipJumpLandWindow: 0.38
+    m_LandSpeedAsAFactorOfSpeed:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1.2
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1.5
+        inSlope: 0.018868176
+        outSlope: 0.018868176
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.6625
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_RollAnimationBlendTime: 0.15
+    m_LandAnimationBlendTime: 0.11
+    m_StartRightFootGrounded: 0
+    m_HeadTurnProperties:
+      m_HeadLookAtWeight: 1
+      m_HeadLookAtMaxRotation: 75
+      m_HeadLookAtRotationSpeed: 15
+      m_NoInputHeadLookAtScale: 0.5
+      m_AdjustHeadLookAtWhileAerial: 0
+      m_AdjustHeadLookAtDuringTurnaround: 1

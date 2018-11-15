@@ -11,7 +11,6 @@ namespace StandardAssets.Characters.Effects
 	[RequireComponent(typeof(Collider))]
 	public class ColliderMovementDetection : MonoBehaviour
 	{
-		[FormerlySerializedAs("layerMask")]
 		[SerializeField, Tooltip("Layer that will trigger the broadcast of this movement event handler ID")]
 		LayerMask m_LayerMask;
 		

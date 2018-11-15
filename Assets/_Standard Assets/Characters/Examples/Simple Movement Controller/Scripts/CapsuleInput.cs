@@ -3,20 +3,25 @@ using UnityEngine;
 
 namespace StandardAssets.Characters.Examples.SimpleMovementController
 {
+	/// <summary>
+	/// Implementation of <see cref="CharacterInput"/> with no additional inputs 
+	/// </summary>
 	public class CapsuleInput : CharacterInput
 	{
-		protected override Vector2 ConditionMoveInput(Vector2 rawMoveInput)
-		{			
-			return rawMoveInput;
-		}
-
+		/// <summary>
+		/// No extra inputs to be registered
+		/// </summary>
 		protected override void RegisterAdditionalInputs()
 		{
 			Debug.Log("No extra inputs");
 		}
 
-		protected override void RegisterAdditionalInputsMobile()
+		/// <summary>
+		/// No extra inputs to be registered
+		/// </summary>
+		protected override void RegisterAdditionalTouchInputs()
 		{
+			Debug.Log("No extra inputs");
 		}
 	}
 }

@@ -26,26 +26,19 @@ namespace StandardAssets.Characters.FirstPerson
 		bool m_IsCrouching;
 
 		/// <summary>
-		/// Returns the <paramref name="rawMoveInput"/>
-		/// </summary>
-		/// <param name="rawMoveInput">The move input vector received from the input action</param>
-		/// <returns><paramref name="rawMoveInput"/></returns>
-		protected override Vector2 ConditionMoveInput(Vector2 rawMoveInput)
-		{
-			return rawMoveInput;
-		}
-
-		/// <summary>
 		/// Registers crouch
 		/// </summary>
 		protected override void RegisterAdditionalInputs()
 		{
-			controls.Movement.crouch.performed += OnCrouchInput;
+			standardControls.Movement.crouch.performed += OnCrouchInput;
 		}
 
-		protected override void RegisterAdditionalInputsMobile()
+		/// <summary>
+		/// Registers crouch touch input
+		/// </summary>
+		protected override void RegisterAdditionalTouchInputs()
 		{
-			mobileControls.Movement.crouch.performed += OnCrouchInput;
+			touchControls.Movement.crouch.performed += OnCrouchInput;
 		}
 
 		/// <summary>

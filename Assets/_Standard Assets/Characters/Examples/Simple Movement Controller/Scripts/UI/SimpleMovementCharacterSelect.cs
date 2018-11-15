@@ -1,99 +1,107 @@
 ﻿using Cinemachine;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-/// <summary>
-/// UI for selecting a character via toggle buttons.
-/// </summary>
-public class SimpleMovementCharacterSelect : MonoBehaviour
+namespace StandardAssets.Characters.Examples.SimpleMovementController.UI
 {
-	[Header("Game Objects")]
-	[SerializeField, Tooltip("The freelook camera.")]
-	CinemachineFreeLook freeLook;
-
-	[SerializeField, Tooltip("Characters to select.")]
-	GameObject[] characters;
-
-	[Header("Elements")]
-	[SerializeField, Tooltip("A toggle for each character.")]
-	Toggle[] toggles;
-	
 	/// <summary>
-	/// Called when a toggle's value changed.
+	/// UI for selecting a character via toggle buttons.
 	/// </summary>
-	public void OnToggleValueChanged(bool isOn)
+	public class SimpleMovementCharacterSelect : MonoBehaviour
 	{
-		for (int i = 0, len = toggles.Length; i < len; i++)
+
+		[Header("Game Objects")]
+		[SerializeField, Tooltip("The freelook camera.")]
+		CinemachineFreeLook m_FreeLook;
+
+		[SerializeField, Tooltip("Characters to select.")]
+		GameObject[] m_Characters;
+
+		[Header("Elements")]
+		[SerializeField, Tooltip("A toggle for each character.")]
+		Toggle[] m_Toggles;
+
+		/// <summary>
+		/// Called when a toggle's value changed.
+		/// </summary>
+		public void OnToggleValueChanged(bool isOn)
 		{
-			var toggle = toggles[i];
-			if (toggle != null &&
-			    toggle.isOn)
+			for (int i = 0, len = m_Toggles.Length; i < len; i++)
 			{
-				SelectCharacter(i);
-				break;
-			}
-		}
-	}
-	
-	/// <summary>
-	/// Select the default character controller.
-	/// </summary>
-	void Start()
-	{
-		if (characters.Length != toggles.Length)
-		{
-			Debug.LogError("The number of characters and toggles are not the same.");
-		}
-		SelectCharacter(0);
-	}
-
-	/// <summary>
-	/// Select the character by index.
-	/// </summary>
-	void SelectCharacter(int index)
-	{
-		var len = characters.Length;
-		if (index < 0)
-		{
-			index = len - 1;
-		}
-		if (index >= len)
-		{
-			index = 0;
-		}
-
-		GameObject activeCharacter = null;
-		for (var i = 0; i < len; i++)
-		{
-			var isSelected = (index == i);
-			var character = characters[i];
-			if (character != null)
-			{
-				character.SetActive(false);
-				if (isSelected &&
-				    freeLook != null)
+				var toggle = m_Toggles[i];
+				if (toggle != null &&
+					toggle.isOn)
 				{
-					freeLook.LookAt = character.transform;
-					freeLook.Follow = character.transform;
-				}
-				if (isSelected)
-				{
-					activeCharacter = character;
+					SelectCharacter(i);
+					break;
 				}
 			}
-
-			var toggle = toggles[i];
-			if (toggle != null)
-			{
-				toggle.isOn = isSelected;
-			}
 		}
-		
-		// Enable the correct character after the others have been disabled, in case one of the others
-		// disables the global Controls.
-		if (activeCharacter != null)
+
+		/// <summary>
+		/// Select the default character controller.
+		/// </summary>
+		void Start()
 		{
-			activeCharacter.SetActive(true);
+			if (m_Characters.Length != m_Toggles.Length)
+			{
+				Debug.LogError("The number of characters and toggles are not the same.");
+			}
+
+			SelectCharacter(0);
+		}
+
+		/// <summary>
+		/// Select the character by index.
+		/// </summary>
+		void SelectCharacter(int index)
+		{
+			var len = m_Characters.Length;
+			if (index < 0)
+			{
+				index = len - 1;
+			}
+
+			if (index >= len)
+			{
+				index = 0;
+			}
+
+			GameObject activeCharacter = null;
+			for (var i = 0; i < len; i++)
+			{
+				var isSelected = (index == i);
+				var character = m_Characters[i];
+				if (character != null)
+				{
+					character.SetActive(false);
+					if (isSelected &&
+						m_FreeLook != null)
+					{
+						m_FreeLook.LookAt = character.transform;
+						m_FreeLook.Follow = character.transform;
+					}
+
+					if (isSelected)
+					{
+						activeCharacter = character;
+					}
+				}
+
+				var toggle = m_Toggles[i];
+				if (toggle != null)
+				{
+					toggle.isOn = isSelected;
+				}
+			}
+
+			// Enable the correct character after the others have been disabled, in case one of the others
+			// disables the global Controls.
+			if (activeCharacter != null)
+			{
+				activeCharacter.SetActive(true);
+			}
 		}
 	}
 }

@@ -36,9 +36,8 @@ namespace Editor
 				decimalPoints = ranges[0].decimalPoints;
 			}
 
-			const float rangeBoundsLabelWidth = 40f;
-			var rangeBoundsLabel1Rect = new Rect(position);
-			rangeBoundsLabel1Rect.width = rangeBoundsLabelWidth;
+			const float rangeBoundsLabelWidth = 50f;
+			var rangeBoundsLabel1Rect = new Rect(position) {width = rangeBoundsLabelWidth};
 			position.xMin += rangeBoundsLabelWidth;
 
 			var rangeBoundsLabel2Rect = new Rect(position);

@@ -2120,92 +2120,91 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 475c226dbac9416ea06c859daeb6d183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterControllerAdapter:
-    terminalVelocity: 10
-    jumpGravityMultiplierAsAFactorOfForwardSpeed:
+  m_CharacterControllerAdapter:
+    m_TerminalVelocity: 10
+    m_JumpGravityMultiplierAsAFactorOfForwardSpeed:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.85
-        inSlope: -0.050000012
-        outSlope: -0.050000012
-        tangentMode: 34
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
-        outWeight: 0.33333334
+        outWeight: 0
       - serializedVersion: 3
         time: 1
-        value: 0.8
-        inSlope: -0.050000012
-        outSlope: -0.050000012
-        tangentMode: 34
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
+        inWeight: 0
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    fallGravityMultiplierAsAFactorOfForwardSpeed:
+    m_FallGravityMultiplierAsAFactorOfForwardSpeed:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1.5
-        inSlope: 0.5
-        outSlope: 0.5
-        tangentMode: 34
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
-        outWeight: 0.33333334
+        outWeight: 0
       - serializedVersion: 3
         time: 1
-        value: 2
-        inSlope: 0.5
-        outSlope: 0.5
-        tangentMode: 34
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
+        inWeight: 0
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    minJumpHeightMultiplierAsAFactorOfForwardSpeed:
+    m_MinJumpHeightMultiplierAsAFactorOfForwardSpeed:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1.6
-        inSlope: -0.20000005
-        outSlope: -0.20000005
-        tangentMode: 34
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
-        outWeight: 0.33333334
+        outWeight: 0
       - serializedVersion: 3
         time: 1
-        value: 1.4
-        inSlope: -0.20000005
-        outSlope: -0.20000005
-        tangentMode: 34
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
+        inWeight: 0
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    gravityChangeSpeed: 10
-    minFallDistance: 1.1
-    groundingGravityMultiplier: 2
-  useSimpleCameras: 0
-  motor:
-    configuration: {fileID: 11400000, guid: 33e0d88026c128b4ca3076e2e5149510, type: 2}
-  turnaroundType: 1
-  blendspaceTurnAroundBehaviour:
-    configureBlendspace: 0
-    configuration:
-      timeToTurn: 0.2
-      rotationDuringTurn:
+    m_GravityChangeSpeed: 10
+    m_MinFallDistance: 1.1
+    m_GroundingGravityMultiplier: 2
+  m_Motor:
+    m_Configuration: {fileID: 11400000, guid: 33e0d88026c128b4ca3076e2e5149510, type: 2}
+  m_TurnAroundType: 1
+  m_BlendspaceTurnAroundBehaviour:
+    m_ConfigureBlendspace: 0
+    m_Configuration:
+      m_TimeToTurn: 0.2
+      m_RotationDuringTurn:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 3
@@ -2229,7 +2228,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      forwardSpeed:
+      m_ForwardSpeed:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 3
@@ -2253,9 +2252,9 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      forwardSpeedCalculation: 1
-      turnClassificationAngle: 150
-      movementDuring180Turn:
+      m_ForwardSpeedCalculation: 1
+      m_TurnClassificationAngle: 150
+      m_MovementDuring180Turn:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 3
@@ -2279,7 +2278,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      movementDuring90Turn:
+      m_MovementDuring90Turn:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 3
@@ -2303,33 +2302,33 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      headTurnMultiplier: 1
-  animationTurnAroundBehaviour:
-    runLeftTurn:
+      m_HeadTurnMultiplier: 1
+  m_AnimationTurnAroundBehaviour:
+    m_RunLeftTurn:
       name: RunForwardTurnLeft180
       speed: 1.1
       headTurnScale: 1
-    runRightTurn:
+    m_RunRightTurn:
       name: RunForwardTurnRight180_Mirror
       speed: 1.1
       headTurnScale: 1
-    sprintLeftTurn:
+    m_SprintLeftTurn:
       name: RunForwardTurnLeft180
       speed: 1.3
       headTurnScale: 1
-    sprintRightTurn:
+    m_SprintRightTurn:
       name: RunForwardTurnRight180_Mirror
       speed: 1.3
       headTurnScale: 1
-    idleLeftTurn:
+    m_IdleLeftTurn:
       name: IdleTurnLeft180
       speed: 3
       headTurnScale: 1
-    idleRightTurn:
+    m_IdleRightTurn:
       name: IdleTurnRight180_Mirror
       speed: 3
       headTurnScale: 1
-    rotationCurve:
+    m_RotationCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -2353,23 +2352,27 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    normalizedRunSpeedThreshold: 0.35
-    crossfadeDuration: 0.25
-  thirdPersonMovementEventHandler:
-    zonesDefinition:
-      movementZoneLibraries: []
-    leftFootDetection: {fileID: 0}
-    rightFootDetection: {fileID: 0}
-    maximumSpeed: 10
-  configuration: {fileID: 11400000, guid: 16861f506e03f4b39a1b25e1bb3e307f, type: 2}
-  showDebugGizmos: 0
-  gizmoSettings:
-    arrowPrefab: {fileID: 0}
-    bodyCurrentDirection: {r: 0, g: 0, b: 0, a: 0}
-    bodyDesiredDirection: {r: 0, g: 0, b: 0, a: 0}
-    inputDirection: {r: 0, g: 0, b: 0, a: 0}
-    headCurrentDirection: {r: 0, g: 0, b: 0, a: 0}
-    headDesiredDirection: {r: 0, g: 0, b: 0, a: 0}
+    m_NormalizedRunSpeedThreshold: 0.35
+    m_CrossfadeDuration: 0.25
+  m_ThirdPersonMovementEventHandler:
+    m_ZonesDefinition:
+      m_MovementZoneLibraries: []
+    m_LeftFootDetection: {fileID: 0}
+    m_RightFootDetection: {fileID: 0}
+    m_MaximumSpeed: 10
+  m_Configuration: {fileID: 11400000, guid: 16861f506e03f4b39a1b25e1bb3e307f, type: 2}
+  m_ShowDebugGizmos: 0
+  m_GizmoSettings:
+    m_ArrowPrefab: {fileID: 0}
+    m_ShowBodyGizmos: 0
+    m_BodyCurrentDirection: {r: 0, g: 0, b: 0, a: 0}
+    m_BodyDesiredDirection: {r: 0, g: 0, b: 0, a: 0}
+    m_ShowFootGizmos: 0
+    m_InputDirection: {r: 0, g: 0, b: 0, a: 0}
+    m_VelocityIndicator: {r: 0, g: 0, b: 0, a: 0}
+    m_ShowHeadGizmos: 0
+    m_HeadCurrentDirection: {r: 0, g: 0, b: 0, a: 0}
+    m_HeadDesiredDirection: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &114779351724003978
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2381,26 +2384,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b5c6cf5f04e4e2b9c79ad2fda5ddbea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerRootTransform: {fileID: 4692263124047446}
-  rootTransformOffset: {x: 0, y: 0, z: 0}
-  slopeLimit: 45
-  stepOffset: 0.3
-  skinWidth: 0.08
-  minMoveDistance: 0
-  center: {x: 0, y: 0.87, z: 0}
-  radius: 0.4
-  height: 1.6
-  collisionLayerMask:
+  m_PlayerRootTransform: {fileID: 4692263124047446}
+  m_RootTransformOffset: {x: 0, y: 0, z: 0}
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0
+  m_Center: {x: 0, y: 0.87, z: 0}
+  m_Radius: 0.4
+  m_Height: 1.6
+  m_CollisionLayerMask:
     serializedVersion: 2
     m_Bits: 257
-  localHumanControlled: 1
-  canSlideAgainstCeiling: 1
-  sendColliderHitMessages: 0
-  queryTriggerInteraction: 1
-  slideDownSlopes: 1
-  slideDownTerminalVelocity: 10
-  slideDownGravityScale: 1
-  slideDownStartDuration: 0.25
+  m_LocalHumanControlled: 1
+  m_CanSlideAgainstCeiling: 1
+  m_SendColliderHitMessages: 0
+  m_QueryTriggerInteraction: 1
+  m_SlideDownSlopes: 1
+  m_SlideDownTerminalVelocity: 10
+  m_SlideDownGravityScale: 1
+  m_SlideDownStartDuration: 0.25
 --- !u!114 &114877076533816532
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2412,32 +2415,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f789398defdd4003ac23dd2094bddaa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mobileControls:
+  m_TouchControls:
     m_Asset: {fileID: 11400000, guid: 5e0a061bdf17543b6b5dc2ab23540605, type: 3}
-  controls:
+  m_StandardControls:
     m_Asset: {fileID: 11400000, guid: 6b7e0365c2048446aafe64ff5b240173, type: 3}
-  onScreenControlsCanvas: {fileID: 0}
-  invertX: 0
-  invertY: 0
-  xSensitivity: 1
-  ySensitivity: 1
-  cursorLocked: 1
-  locomotionInputSmoother:
-    characterBrain: {fileID: 0}
-    changeIdleDelay: 0.1
-    changeIdleToMoveDelay: 0.1
-    changeRotateToMoveDelay: 0.1
-    startMoveMaxAngle: 1
-    startRotateInCircleMinTime: 1.5
-    startRotateInCircleMinTotalAngle: 270
-    startRotateInCircleMinAngle: 2
-    maxRotateAngle: 20
-    catchUpToInputMinAngle: 90
-    disableRapidTurnBeforeRotateMinTime: 1
-    disableRapidTurnBeforeRotateMinAngle: 180
-    disableRapidTurnBeforeRotateMinAngleLowFrameRate: 90
-    debugEnabled: 0
-    debugOffsetY: 0
+  m_TouchControlsCanvas: {fileID: 0}
+  m_InvertX: 0
+  m_InvertY: 0
+  m_XSensitivity: 1
+  m_YSensitivity: 1
+  m_CursorLocked: 1
 --- !u!136 &136357341931638132
 CapsuleCollider:
   m_ObjectHideFlags: 1

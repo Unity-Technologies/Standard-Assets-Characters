@@ -24,25 +24,9 @@ namespace Editor
 	[CustomEditor(typeof(MotorConfig))]
 	public class MotorConfigEditor : ConfigEditor
 	{
-		const string k_ExplorationName = "m_Exploration", k_StrafeName = "m_Strafing";
-		
 		protected override string[] GetExclusions()
 		{
-			List<string> exclusions = new List<string>(); 
-			
-			var config = (MotorConfig)target;
-
-			if (!config.CustomExplorationParametersToBeUsed)
-			{
-				exclusions.Add(k_ExplorationName);
-			}
-			
-			if (!config.customStrafeParametersToBeUsed)
-			{
-				exclusions.Add(k_StrafeName);
-			}
-			
-			return exclusions.ToArray();	
+			return new string[0];
 		}
 	}
 	

@@ -21,9 +21,9 @@ namespace Editor
 		/// </summary>
 		/// <param name="serializedObject">The serializedProperty containing the ScriptableObject.</param>
 		/// <param name="scriptableObjectName">The field name of the ScriptableObject to draw.</param>
-		/// <param name="exclusions">A list of field names to exclude.</param>
+		/// <param name="labelOverride">The title of the field</param>
 		/// <param name="bindingFlags">The flags used to find the field's type through reflection.</param>
-		public static void DrawExtendedScriptableObject(this SerializedObject serializedObject, string scriptableObjectName, string[] exclusions = null,
+		public static void DrawExtendedScriptableObject(this SerializedObject serializedObject, string scriptableObjectName, string labelOverride = "",
 		                                BindingFlags bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance)
 		{
 			string[] properties = scriptableObjectName.Split('.');
@@ -50,7 +50,8 @@ namespace Editor
 			if (property.objectReferenceValue != null)
 			{
 				GUILayout.BeginHorizontal();
-				property.isExpanded = EditorGUILayout.Foldout(property.isExpanded, property.displayName, true);
+				var title = string.IsNullOrEmpty(labelOverride) ? property.displayName : labelOverride;
+				property.isExpanded = EditorGUILayout.Foldout(property.isExpanded, title, true);
 				EditorGUILayout.PropertyField(property, GUIContent.none, true);
 				GUILayout.EndHorizontal();
 				
@@ -106,6 +107,54 @@ namespace Editor
 			}
 
 			property.serializedObject.ApplyModifiedProperties();
+		}
+
+		/// <summary>
+		/// Finds and draws the properties given under a foldout and within a GUI.Box if <paramref name="foldout"/> is true.
+		/// </summary>
+		/// <param name="serializedObject">The serializedProperty with the given fields</param>
+		/// <param name="title">The title of the drawn box</param>
+		/// <param name="fields">The fields to draw</param>
+		/// <param name="foldout">The value of the drawn foldout</param>
+		/// <param name="beginning">Action fired at the start of the GUI.Box</param>
+		/// <param name="end">Action fired at the end of the GUI.Box</param>
+		public static void DrawFoldoutBoxedFields(this SerializedObject serializedObject, string title, string[] fields,
+		                                          ref bool foldout, Action beginning = null, Action end = null)
+		{
+			GUI.Box(EditorGUILayout.BeginVertical(), GUIContent.none);
+			foldout = EditorGUILayout.Foldout(foldout, title);
+			if (foldout)
+			{
+				EditorGUI.indentLevel++;
+				if (beginning != null)
+				{
+					beginning();
+				}
+				foreach (var propertyPath in fields)
+				{
+					SerializedProperty property = serializedObject.FindProperty(propertyPath);
+					if (property != null)
+					{
+						EditorGUILayout.PropertyField(property, true);
+					}
+					else
+					{
+						Debug.LogErrorFormat("Property: {0} not found in {1}", propertyPath, 
+						                     serializedObject.targetObject);
+					}
+				}
+				if (end != null)
+				{
+					end();
+				}
+				EditorGUI.indentLevel--;
+			}
+			GUILayout.EndHorizontal();
+			
+			if (GUI.changed)
+			{
+				serializedObject.ApplyModifiedProperties();
+			}
 		}
 
 		// Creates a new ScriptableObject via the default Save File panel

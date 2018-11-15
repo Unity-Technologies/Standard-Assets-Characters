@@ -402,10 +402,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1423ebaa2ce24feda8b1ab6a05b11778, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  joystickMovementLimit: 1
-  joystickBase: {fileID: 224534728620511760}
-  joystickHat: {fileID: 224582354911193892}
-  deadZone: 0.1
 --- !u!114 &114385602437075586
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -450,14 +446,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1052986cb0c4fe4b8cfbdfeba746ea0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cinemachineLookXAxisName: Horizontal
-  cinemachineLookYAxisName: Vertical
-  lookXAxisName: LookX
-  lookYAxisName: LookY
-  useMouseLookOnly: 0
-  horizontalAxisName: Horizontal
-  verticalAxisName: Vertical
-  keyboardJumpName: Jump
 --- !u!114 &114448950358151790
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -900,11 +888,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dccffe17c4b4678912f9f7cee52230c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cinemachineLookXAxisName: Horizontal
-  cinemachineLookYAxisName: Vertical
-  moveInputJoystick: {fileID: 114968127724309476}
-  lookInputJoystick: {fileID: 114245230718336908}
-  childControls: {fileID: 1804137301148676}
 --- !u!114 &114968127724309476
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -916,10 +899,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1423ebaa2ce24feda8b1ab6a05b11778, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  joystickMovementLimit: 1
-  joystickBase: {fileID: 224851298346640644}
-  joystickHat: {fileID: 224954811023066968}
-  deadZone: 0.1
 --- !u!222 &222101648190912780
 CanvasRenderer:
   m_ObjectHideFlags: 1

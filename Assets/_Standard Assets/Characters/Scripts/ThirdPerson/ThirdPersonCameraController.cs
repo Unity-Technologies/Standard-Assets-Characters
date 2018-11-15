@@ -13,11 +13,9 @@ namespace StandardAssets.Characters.ThirdPerson
 	[RequireComponent(typeof(Animator))]
 	public class ThirdPersonCameraController : MonoBehaviour
 	{
-		[FormerlySerializedAs("idleCamera")]
 		[SerializeField, Tooltip("This is the free look camera that will be able to get recentered")]
 		CinemachineFreeLook m_IdleCamera;
 
-		[FormerlySerializedAs("crosshair")]
 		[SerializeField, Tooltip("The aiming crosshair that is visible during strafe")]
 		GameObject m_Crosshair;
 
