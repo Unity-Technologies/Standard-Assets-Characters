@@ -11,10 +11,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 979c01115def454ba10ad1af450a9bdf, type: 3}
   m_Name: MovementZones
   m_EditorClassIdentifier: 
-  m_DefaultZoneId: 0
+  m_DefaultPhysicMaterial: {fileID: 13400000, guid: 29b2c1bb6c1514a8481c9824004f1bfa,
+    type: 2}
   m_ZonesDefinition:
     m_MovementZoneLibraries:
-    - m_ZoneId: 1
+    - m_PhysicMaterial: {fileID: 13400000, guid: 6940cb6fb8efe45f18f8f38410c06794,
+        type: 2}
       m_ZoneLibrary:
         m_LeftFootStepPrefab: {fileID: 114311900519629896, guid: 7768038ceb1534eb290b18f8f1b9fc91,
           type: 2}
@@ -24,7 +26,8 @@ MonoBehaviour:
           type: 2}
         m_JumpingPrefab: {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868,
           type: 2}
-    - m_ZoneId: 0
+    - m_PhysicMaterial: {fileID: 13400000, guid: 29b2c1bb6c1514a8481c9824004f1bfa,
+        type: 2}
       m_ZoneLibrary:
         m_LeftFootStepPrefab: {fileID: 114311900519629896, guid: a0865b7ba94ac4fd49e0ca925b0e000d,
           type: 2}
@@ -34,7 +37,8 @@ MonoBehaviour:
           type: 2}
         m_JumpingPrefab: {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868,
           type: 2}
-    - m_ZoneId: 3
+    - m_PhysicMaterial: {fileID: 13400000, guid: 61e4433a36eda45909e5fc80900eeff5,
+        type: 2}
       m_ZoneLibrary:
         m_LeftFootStepPrefab: {fileID: 114311900519629896, guid: cbbf268b858c849ef92b2a5317360b96,
           type: 2}
@@ -44,7 +48,8 @@ MonoBehaviour:
           type: 2}
         m_JumpingPrefab: {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868,
           type: 2}
-    - m_ZoneId: 2
+    - m_PhysicMaterial: {fileID: 13400000, guid: 1f4a4e305582244e5a77ee89c2e7d0dc,
+        type: 2}
       m_ZoneLibrary:
         m_LeftFootStepPrefab: {fileID: 114311900519629896, guid: e519c5baea00643fa9ad4bcddf451d11,
           type: 2}
