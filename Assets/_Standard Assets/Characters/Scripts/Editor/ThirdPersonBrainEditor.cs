@@ -28,7 +28,7 @@ namespace Editor
 		{
 			EditorGUILayout.HelpBox(k_Help, MessageType.Info);
 			base.OnInspectorGUI();
-			serializedObject.DrawFieldsUnderFoldout("Advanced Settings", m_AdvancedFields, ref m_AdvancedFoldOut, 
+			serializedObject.DrawFieldsUnderFoldout("Advanced", m_AdvancedFields, ref m_AdvancedFoldOut, 
 			                                        DrawTurnaround);
 			
 			serializedObject.DrawExtendedScriptableObject(m_MotorConfigPath, "Motor Settings");

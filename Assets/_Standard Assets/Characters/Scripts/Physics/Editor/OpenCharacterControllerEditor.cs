@@ -19,7 +19,7 @@ namespace Editor
 			DrawPropertiesExcluding(serializedObject, advancedFields);
 
 			EditorGUILayout.Space();
-			serializedObject.DrawFieldsUnderFoldout("Advanced Settings", advancedFields, ref advancedFoldOut);
+			serializedObject.DrawFieldsUnderFoldout("Advanced", advancedFields, ref advancedFoldOut);
 		}
 	}
 }

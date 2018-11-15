@@ -182,15 +182,16 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		[SerializeField, Tooltip("Minimum angle required to trigger a stationary rapid")]
 		float m_StationaryRapidTurnAngle = 90f;
 
+		[FormerlySerializedAs("m_AdvancedSettings")]
 		[SerializeField, Space]
-		AdvancedMotorConfig m_AdvancedSettings;
+		AdvancedMotorConfig m_Advanced;
 
 		/// <summary>
 		/// Gets the maximum forward speed that will trigger a standing rapid turn.
 		/// </summary>
 		public float standingTurnaroundSpeedThreshold
 		{
-			get { return m_AdvancedSettings.maxSpeedForStandingTurnaround; }
+			get { return m_Advanced.maxSpeedForStandingTurnaround; }
 		}
 
 		/// <summary>
@@ -223,7 +224,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float turningSpeedScaleVisual
 		{
-			get { return m_AdvancedSettings.turningSpeedVisualScale; }
+			get { return m_Advanced.turningSpeedVisualScale; }
 		}
 
 		/// <summary>
@@ -232,7 +233,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// <value><see cref="m_TurningSpeed"/> with <see cref="m_JumpTurningSpeedScale"/> applied.</value>
 		public float jumpTurningYSpeed
 		{
-			get { return m_TurningSpeed * m_AdvancedSettings.jumpTurningSpeedScale; }
+			get { return m_TurningSpeed * m_Advanced.jumpTurningSpeedScale; }
 		}
 		
 		/// <summary>
@@ -240,7 +241,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float noLookInputTurnSpeedDeceleration
 		{
-			get { return m_AdvancedSettings.noLookInputTurnSpeedDeceleration; }
+			get { return m_Advanced.noLookInputTurnSpeedDeceleration; }
 		}
 
 		/// <summary>
@@ -248,7 +249,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public int jumpGroundVelocityWindowSize
 		{
-			get { return m_AdvancedSettings.jumpGroundVelocitySamples; }
+			get { return m_Advanced.jumpGroundVelocitySamples; }
 		}
 
 		/// <summary>
@@ -264,7 +265,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float normalizedTurningSpeedLerpSpeedFactor
 		{
-			get { return m_AdvancedSettings.normalizedTurningSpeedLerpSpeed; }
+			get { return m_Advanced.normalizedTurningSpeedLerpSpeed; }
 		}
 
 		/// <summary>
@@ -288,7 +289,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float ignoreInputTimeRapidTurn
 		{
-			get { return m_AdvancedSettings.rapidTurnIgnoreInputTime; }
+			get { return m_Advanced.rapidTurnIgnoreInputTime; }
 		}
 		
 		/// <summary>
@@ -312,7 +313,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public int strafeInputWindowSize
 		{
-			get { return m_AdvancedSettings.strafeInputWindowSize; }
+			get { return m_Advanced.strafeInputWindowSize; }
 		}
 
 		/// <summary>
@@ -320,7 +321,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public int forwardInputWindowSize
 		{
-			get { return m_AdvancedSettings.forwardInputWindowSize;}
+			get { return m_Advanced.forwardInputWindowSize;}
 		}
 
 		/// <summary>
@@ -352,7 +353,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float sprintNormalizedForwardSpeedIncrease
 		{
-			get { return m_AdvancedSettings.sprintNormalizedSpeedIncrease; }
+			get { return m_Advanced.sprintNormalizedSpeedIncrease; }
 		}
 
 		/// <summary>
@@ -360,7 +361,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public int bufferSizeInput
 		{
-			get { return m_AdvancedSettings.inputBufferSize; }
+			get { return m_Advanced.inputBufferSize; }
 		}
 
 		/// <summary>
@@ -376,7 +377,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float standingJumpMinInputThreshold
 		{
-			get { return m_AdvancedSettings.minInputThreshold; }
+			get { return m_Advanced.minInputThreshold; }
 		}
 
 		/// <summary>
@@ -384,7 +385,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float standingJumpMaxMovementThreshold
 		{
-			get { return m_AdvancedSettings.maxMovementThreshold; }
+			get { return m_Advanced.maxMovementThreshold; }
 		}
 
 		/// <summary>
@@ -392,7 +393,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public bool autoToggleSprintOnNoInput
 		{
-			get { return m_AdvancedSettings.autoToggleSprint; }
+			get { return m_Advanced.autoToggleSprint; }
 		}
 
 		/// <summary>
@@ -400,7 +401,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// </summary>
 		public float standingJumpMoveThresholdTime
 		{
-			get { return m_AdvancedSettings.standingJumpMoveTimeThreshold; }
+			get { return m_Advanced.standingJumpMoveTimeThreshold; }
 		}
 	}
 }
