@@ -29,21 +29,18 @@ namespace StandardAssets.Characters.FirstPerson
 			/// <summary>
 			/// The maximum movement speed
 			/// </summary>
-			[FormerlySerializedAs("maxSpeed")]
 			[SerializeField, Tooltip("Maximum movement speed of the character"), Range(0.1f, 20f)]
 			float m_MaxSpeed;
 
 			/// <summary>
 			/// The initial Y velocity of a Jump
 			/// </summary>
-			[FormerlySerializedAs("jumpSpeed")]
 			[SerializeField, Tooltip("Initial Y velocity of a Jump"), Range(0f, 10f)]
 			float m_JumpSpeed;
 
 			/// <summary>
 			/// The length of a stride
 			/// </summary>
-			[FormerlySerializedAs("strideLength")]
 			[SerializeField, Tooltip("Distance that is considered a stride"), Range(0f, 1f)]
 			float m_StrideLength;
 
@@ -74,28 +71,24 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// The state that first person motor starts in
 		/// </summary>
-		[FormerlySerializedAs("walking")]
 		[SerializeField, Tooltip("Movement properties of the character while walking")]
 		MovementProperties m_Walking;
 
 		/// <summary>
 		/// The state that first person motor starts in
 		/// </summary>
-		[FormerlySerializedAs("sprinting")]
 		[SerializeField, Tooltip("Movement properties of the character while sprinting")]
 		MovementProperties m_Sprinting;
 
 		/// <summary>
 		/// The state that first person motor starts in
 		/// </summary>
-		[FormerlySerializedAs("crouching")]
 		[SerializeField, Tooltip("Movement properties of the character while crouching")]
 		MovementProperties m_Crouching;
 
 		/// <summary>
 		/// Manages movement events
 		/// </summary>
-		[FormerlySerializedAs("firstPersonMovementEventHandler")]
 		[SerializeField, Tooltip("Management of movement events e.g. footsteps")]
 		FirstPersonMovementEventHandler m_FirstPersonMovementEventHandler;
 
@@ -400,7 +393,6 @@ namespace StandardAssets.Characters.FirstPerson
 	[Serializable]
 	public class FirstPersonMovementEventHandler : MovementEventHandler
 	{
-		[FormerlySerializedAs("maximumSpeed")]
 		[SerializeField, Tooltip("The maximum speed of the character")]
 		float m_MaximumSpeed = 10f;
 

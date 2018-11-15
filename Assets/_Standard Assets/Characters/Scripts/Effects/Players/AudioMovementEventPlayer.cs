@@ -8,21 +8,18 @@ namespace StandardAssets.Characters.Effects.Players
 	/// </summary>
 	public class AudioMovementEventPlayer : MovementEventPlayer
 	{
-		[FormerlySerializedAs("volumeFromNormalizedSpeed")]
 		[SerializeField, Tooltip("Curve for scaling volume based on normalizedSpeed")]
 		AnimationCurve m_VolumeFromNormalizedSpeed = AnimationCurve.Linear(0f,0f,1f,1f);
 		
 		/// <summary>
 		/// The audio source to be played
 		/// </summary>
-		[FormerlySerializedAs("source")]
 		[SerializeField, Tooltip("AudioSource used to play the selected clip")]
 		AudioSource m_Source;
 
 		/// <summary>
 		/// Collection of audio clips that could be randomly selected by this <see cref="AudioMovementEventPlayer"/>
 		/// </summary>
-		[FormerlySerializedAs("clips")]
 		[SerializeField, Tooltip("For using multiple audio sources, i.e footstep sounds")]
 		AudioClip[] m_Clips;
 

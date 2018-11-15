@@ -89,35 +89,28 @@ namespace StandardAssets.Characters.Common
 		/// <summary>
 		/// Used as a clamp for downward velocity.
 		/// </summary>
-		[FormerlySerializedAs("terminalVelocity")]
 		[SerializeField, Tooltip("Maximum speed that the character can move downwards")]
 		float m_TerminalVelocity = 10f;
 
-		[FormerlySerializedAs("jumpGravityMultiplierAsAFactorOfForwardSpeed")]
 		[SerializeField, Tooltip("Gravity scale applied during a jump")]
 		AnimationCurve m_JumpGravityMultiplierAsAFactorOfForwardSpeed =
 			AnimationCurve.Constant(0.0f, 1.0f, 1.0f);
 
-		[FormerlySerializedAs("fallGravityMultiplierAsAFactorOfForwardSpeed")]
 		[SerializeField, Tooltip("Gravity scale applied during a fall")]
 		AnimationCurve m_FallGravityMultiplierAsAFactorOfForwardSpeed =
 			AnimationCurve.Constant(0.0f, 1.0f, 1.0f);
 
-		[FormerlySerializedAs("minJumpHeightMultiplierAsAFactorOfForwardSpeed")]
 		[SerializeField, Tooltip("Gravity scale applied during a jump without jump button held")]
 		AnimationCurve m_MinJumpHeightMultiplierAsAFactorOfForwardSpeed =
 			AnimationCurve.Constant(0.0f, 1.0f, 1.0f);
 
-		[FormerlySerializedAs("gravityChangeSpeed")]
 		[SerializeField, Tooltip("How quickly the Gravity that affects the character is allowed to change, when it is" +
 		                         " being dynamically modified by Jumping or Falling Gravity modifiers")]
 		float m_GravityChangeSpeed = 10f;
 		
-		[FormerlySerializedAs("minFallDistance")]
 		[SerializeField, Tooltip("How far the character must fall in order to trigger the Fall State")]
 		float m_MinFallDistance = 1.1f;
 		
-		[FormerlySerializedAs("groundingGravityMultiplier")]
 		[SerializeField, Tooltip("Gravity multiplier applied when falling less that the Min Fall Distance (set above)")]
 		float m_GroundingGravityMultiplier = 2.0f; 
 

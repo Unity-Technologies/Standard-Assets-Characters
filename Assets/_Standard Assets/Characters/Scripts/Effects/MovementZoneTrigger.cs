@@ -10,7 +10,6 @@ namespace StandardAssets.Characters.Effects
 	[RequireComponent(typeof(Collider))]
 	public class MovementZoneTrigger : MonoBehaviour
 	{
-		[FormerlySerializedAs("zoneId")]
 		[SerializeField, Tooltip("ID used to correspond with a zone definition")]
 		MovementZoneId m_ZoneId;
 		

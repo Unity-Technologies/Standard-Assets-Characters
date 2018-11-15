@@ -10,16 +10,14 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController.UI
 	/// </summary>
 	public class SimpleMovementCharacterSelect : MonoBehaviour
 	{
-		[FormerlySerializedAs("freeLook")]
+
 		[Header("Game Objects")]
 		[SerializeField, Tooltip("The freelook camera.")]
 		CinemachineFreeLook m_FreeLook;
 
-		[FormerlySerializedAs("characters")]
 		[SerializeField, Tooltip("Characters to select.")]
 		GameObject[] m_Characters;
 
-		[FormerlySerializedAs("toggles")]
 		[Header("Elements")]
 		[SerializeField, Tooltip("A toggle for each character.")]
 		Toggle[] m_Toggles;

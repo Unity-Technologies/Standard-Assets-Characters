@@ -140,14 +140,10 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			
 		}
 		
-		[FormerlySerializedAs("autoToggleSprint")]
 		[Header("Ground Motion")]
-		
-		[FormerlySerializedAs("rootMotionMovementScale")]
 		[SerializeField, Tooltip("Root motion will be scaled by this before movement is applied")]
 		float m_RootMotionMovementScale = 1f;
 
-		[FormerlySerializedAs("initialStrafeLookTime")]
 		[SerializeField, Tooltip("Time it takes for the character to turn and face the camera orientation when Strafe " +
 		                         "Mode has been entered")]
 		float m_TurnForwardOnStartStrafeDuration = 0.125f;
@@ -155,47 +151,37 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		[SerializeField, Tooltip("Scale applied to a lateral strafe jump speed")]
 		float m_LateralStrafeJumpMultiplier = 1.0f;
 
-		[FormerlySerializedAs("jumpHeightAsAFactorOfForwardSpeed")]
 		[Header("Jumping")]
 		[SerializeField, Tooltip("Curve used to determine jump height based on normalized forward speed")]
 		AnimationCurve m_JumpHeightAsAFactorOfForwardSpeed = AnimationCurve.Constant(0,1,4);
 		
-		[FormerlySerializedAs("standingJumpForwardSpeed")]
 		[Header("Standing Jump")]
 		[SerializeField, Tooltip("Fixed jump speed used when a character initiated a Standing Forward Jump")]
 		float m_StandingJumpForwardSpeed = 3.5f;
 
-		[FormerlySerializedAs("fallingMaxForwardSpeed")]
 		[Header("Falling")]
 		[SerializeField, Tooltip("Maximum forward speed while falling")]
 		float m_FallingMaxForwardSpeed = 5.0f;
 
-		[FormerlySerializedAs("fallForwardSpeedDeceleration")]
 		[SerializeField, Tooltip("Rate at which falling forward speed can decrease")]
 		float m_FallForwardSpeedDeceleration = 0.0025f;
 		
-		[FormerlySerializedAs("fallForwardSpeedAcceleration")]
 		[SerializeField, Tooltip("Rate at which falling forward speed can increase")]
 		float m_FallForwardSpeedAcceleration = 0.05f;
 
-		[FormerlySerializedAs("fallDirectionChangeSpeed")]
 		[SerializeField, Tooltip("Speed at which fall direction can change")] 
 		float m_FallDirectionChangeSpeed = 0.025f;
 
-		[FormerlySerializedAs("turningSpeed")]
 		[Header("Turning")]
 		[SerializeField, Tooltip("Degrees per second that the character can turn")]
 		float m_TurningSpeed = 300f;
 
-		[FormerlySerializedAs("rapidTurnInputAngle")]
 		[SerializeField, Tooltip("Minimum angle required to trigger a rapid turn during movement")]
 		float m_RapidTurnInputAngle = 140f;
 
-		[FormerlySerializedAs("stationaryRapidTurnAngle")]
 		[SerializeField, Tooltip("Minimum angle required to trigger a stationary rapid")]
 		float m_StationaryRapidTurnAngle = 90f;
 
-		[FormerlySerializedAs("advanced")]
 		[SerializeField, Space]
 		AdvancedMotorConfig m_AdvancedSettings;
 

@@ -8,7 +8,6 @@ namespace StandardAssets.Characters.Effects.Players
 	/// </summary>
 	public class CompoundMovementEventPlayer : MovementEventPlayer
 	{
-		[FormerlySerializedAs("playerPrefabs")]
 		[SerializeField, Tooltip("Prefabs of the movement event players - these are spawned once and played")]
 		MovementEventPlayer[] m_PlayerPrefabs;
 

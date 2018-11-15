@@ -10,11 +10,9 @@ namespace StandardAssets.Characters.Effects.Configs
 		menuName = "Standard Assets/Characters/Level Movement Zone Configuration", order = 1)]
 	public class LevelMovementZoneConfig : ScriptableObject
 	{
-		[FormerlySerializedAs("defaultZoneId")]
 		[SerializeField, Tooltip("Default movement event zone ID")]
 		MovementZoneId m_DefaultZoneId;
-		
-		[FormerlySerializedAs("zonesDefinition")]
+
 		[SerializeField, Tooltip("List of movement event libraries for different movement zones")]
 		MovementEventZoneDefinitionList m_ZonesDefinition;
 

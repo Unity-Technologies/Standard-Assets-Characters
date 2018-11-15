@@ -8,7 +8,6 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 	/// </summary>
 	public class LandAnimatorState : StateMachineBehaviour
 	{
-		[FormerlySerializedAs("adjustAnimationSpeedBasedOnForwardSpeed")]
 		[SerializeField]
 		bool m_AdjustAnimationSpeedBasedOnForwardSpeed;
 		

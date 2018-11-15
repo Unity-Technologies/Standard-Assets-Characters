@@ -504,7 +504,6 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// The root bone in the avatar.
 		/// </summary>
-		[FormerlySerializedAs("playerRootTransform")]
 		[Header("Player Root")]
 		[Tooltip("The root bone in the avatar.")]
 		[SerializeField]
@@ -513,7 +512,6 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// The root transform will be positioned at this offset.
 		/// </summary>
-		[FormerlySerializedAs("rootTransformOffset")]
 		[Tooltip("The root transform will be positioned at this offset.")]
 		[SerializeField]
 		Vector3 m_RootTransformOffset = new Vector3(0, 0, 0);
@@ -521,7 +519,6 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Limits the collider to only climb slopes that are less steep (in degrees) than the indicated value.
 		/// </summary>
-		[FormerlySerializedAs("slopeLimit")]
 		[Header("Collision")]
 		[Tooltip("Limits the collider to only climb slopes that are less steep (in degrees) than the indicated value.")]
 		[SerializeField]
@@ -532,7 +529,6 @@ namespace StandardAssets.Characters.Physics
 		/// This should not be greater than the Character Controller’s height or it will generate an error.
 		/// Generally this should be kept as small as possible.
 		/// </summary>
-		[FormerlySerializedAs("stepOffset")]
 		[Tooltip("The character will step up a stair only if it is closer to the ground than the indicated value. " +
 		         "This should not be greater than the Character Controller’s height or it will generate an error. " +
 		         "Generally this should be kept as small as possible.")]
@@ -543,7 +539,6 @@ namespace StandardAssets.Characters.Physics
 		/// Two colliders can penetrate each other as deep as their Skin Width. Larger Skin Widths reduce jitter.
 		/// Low Skin Width can cause the character to get stuck. A good setting is to make this value 10% of the Radius.
 		/// </summary>
-		[FormerlySerializedAs("skinWidth")]
 		[Tooltip(
 			"Two colliders can penetrate each other as deep as their Skin Width. Larger Skin Widths reduce jitter. " +
 			"Low Skin Width can cause the character to get stuck. A good setting is to make this value 10% of the Radius.")]
@@ -554,7 +549,6 @@ namespace StandardAssets.Characters.Physics
 		/// If the character tries to move below the indicated value, it will not move at all. This can be used to reduce jitter.
 		/// In most situations this value should be left at 0.
 		/// </summary>
-		[FormerlySerializedAs("minMoveDistance")]
 		[Tooltip(
 			"If the character tries to move below the indicated value, it will not move at all. This can be used to reduce jitter. " +
 			"In most situations this value should be left at 0.")]
@@ -565,7 +559,6 @@ namespace StandardAssets.Characters.Physics
 		/// This will offset the Capsule Collider in world space, and won’t affect how the Character pivots.
 		/// Ideally, x and z should be zero to avoid rotating into another collider.
 		/// </summary>
-		[FormerlySerializedAs("center")]
 		[Tooltip("This will offset the Capsule Collider in world space, and won’t affect how the Character pivots. " +
 		         "Ideally, x and z should be zero to avoid rotating into another collider.")]
 		[SerializeField]
@@ -574,7 +567,6 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Length of the Capsule Collider’s radius. This is essentially the width of the collider.
 		/// </summary>
-		[FormerlySerializedAs("radius")]
 		[Tooltip("Length of the Capsule Collider’s radius. This is essentially the width of the collider.")]
 		[SerializeField]
 		float m_Radius = 0.5f;
@@ -582,7 +574,6 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// The Character’s Capsule Collider height. It should be at least double the radius.
 		/// </summary>
-		[FormerlySerializedAs("height")]
 		[Tooltip("The Character’s Capsule Collider height. It should be at least double the radius.")]
 		[SerializeField]
 		float m_Height = 2.0f;
@@ -590,7 +581,6 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Layers to test for collision.
 		/// </summary>
-		[FormerlySerializedAs("collisionLayerMask")]
 		[Tooltip("Layers to test for collision.")]
 		[SerializeField]
 		LayerMask m_CollisionLayerMask = ~0; // ~0 sets it to Everything
@@ -598,7 +588,6 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Is the character controlled by a local human? If true then more calculations are done for more accurate movement.
 		/// </summary>
-		[FormerlySerializedAs("localHumanControlled")]
 		[Tooltip("Is the character controlled by a local human? If true then more calculations are done for more " +
 		         "accurate movement.")]
 		[SerializeField]
@@ -607,15 +596,13 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Can character slide vertically when touching the ceiling? (For example, if ceiling is sloped.)
 		/// </summary>
-		[FormerlySerializedAs("canSlideAgainstCeiling")]
 		[Tooltip("Can character slide vertically when touching the ceiling? (For example, if ceiling is sloped.)")]
 		[SerializeField]
 		bool m_CanSlideAgainstCeiling = true;
 
 		/// <summary>
 		/// Send "OnOpenCharacterControllerHit" messages to game objects? Messages are sent when the character hits a collider while performing a move.
-		/// </summary>
-		[FormerlySerializedAs("sendColliderHitMessages")]
+		/// </summary>	
 		[Tooltip(
 			"Send \"OnOpenCharacterControllerHit\" messages to game objects? Messages are sent when the character " +
 			"hits a collider while performing a move. WARNING: This does create garbage.")]
@@ -625,7 +612,6 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Should cast queries hit trigger colliders?
 		/// </summary>
-		[FormerlySerializedAs("queryTriggerInteraction")]
 		[Tooltip("Should cast queries hit trigger colliders?")]
 		[SerializeField]
 		QueryTriggerInteraction m_QueryTriggerInteraction = QueryTriggerInteraction.Ignore;
@@ -633,7 +619,6 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Slide down slopes when their angle is more than the slope limit?
 		/// </summary>
-		[FormerlySerializedAs("slideDownSlopes")]
 		[Header("Slide Down Slopes")]
 		[Tooltip("Slide down slopes when their angle is more than the slope limit?")]
 		[SerializeField]
@@ -642,7 +627,6 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// The maximum speed that the character can slide downwards
 		/// </summary>
-		[FormerlySerializedAs("slideDownTerminalVelocity")]
 		[Tooltip("The maximum speed that the character can slide downwards")]
 		[SerializeField]
 		float m_SlideDownTerminalVelocity = 10.0f;
@@ -650,7 +634,6 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Scale gravity when sliding down slopes.
 		/// </summary>
-		[FormerlySerializedAs("slideDownGravityScale")]
 		[Tooltip("Scale gravity when sliding down slopes.")]
 		[SerializeField]
 		float m_SlideDownGravityScale = 1.0f;
@@ -658,7 +641,6 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// The time after initiating a slide classified as a slide start. Used to disable jumping.
 		/// </summary>
-		[FormerlySerializedAs("slideDownStartDuration")]
 		[Tooltip("The time after initiating a slide classified as a slide start. Used to disable jumping.")]
 		[SerializeField]
 		float m_SlideDownStartDuration = 0.25f;

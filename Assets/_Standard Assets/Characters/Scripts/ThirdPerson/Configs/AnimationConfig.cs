@@ -176,24 +176,18 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		const float k_GroundedFootThreshold = 0.25f;
 		const float k_GroundedFootThresholdOffset = 0.25f;
 
-		[FormerlySerializedAs("landSpeedAsAFactorOfSpeed")]
 		[Header("Landing")]
-		[FormerlySerializedAs("normalizedForwardSpeedToRoll")]
 		[SerializeField, Tooltip("A forward speed higher than this will trigger a roll on land")]
 		float m_NormalizedForwardSpeedRequiredToRoll = 0.3f;
 
-		[FormerlySerializedAs("fallTimeRequiredToTriggerRoll")]
 		[SerializeField, Tooltip("A fall time greater than this will trigger a roll. Less than this will transition to" +
 								 "locomotion")]
 		float m_FallTimeRequiredToTriggerRoll = 1.0f;
 
-
-		[FormerlySerializedAs("enableHeadTurn")]
 		[Header("Head Movement"), Tooltip("Should the head look be turned off?")]
 		[SerializeField]
 		bool m_EnableHeadTurn = true;
 
-		[FormerlySerializedAs("advancedSettings")]
 		[SerializeField, Space]
 		AdvancedAnimationConfig m_AdvancedSettings;
 
@@ -429,27 +423,21 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		[Serializable]
 		protected class HeadTurnProperties
 		{
-			[FormerlySerializedAs("headLookAtWeight")]
 			[SerializeField, Tooltip("The animator head look at weight.")]
 			float m_HeadLookAtWeight = 1f;
 
-			[FormerlySerializedAs("headLookAtMaxRotation")]
 			[SerializeField, Tooltip("The max angle the head can rotate.")]
 			float m_HeadLookAtMaxRotation = 75f;
 
-			[FormerlySerializedAs("headLookAtRotationSpeed")]
 			[SerializeField, Tooltip("The speed at which head can rotate.")]
 			float m_HeadLookAtRotationSpeed = 15f;
 			
-			[FormerlySerializedAs("noInputHeadLookAtScale")]
 			[SerializeField, Tooltip("A scale applied to look at speed when there is no look input.")]
 			float m_NoInputHeadLookAtScale = 0.5f;
 
-			[FormerlySerializedAs("adjustHeadLookAtWhileAerial")]
 			[SerializeField, Tooltip("Should head rotation take place while aerial?")]
 			bool m_AdjustHeadLookAtWhileAerial = true;
 		
-			[FormerlySerializedAs("adjustHeadLookAtDuringTurnaround")]
 			[SerializeField, Tooltip("Should head rotation take place during rapid turnarounds?")]
 			bool m_AdjustHeadLookAtDuringTurnaround = true;
 		

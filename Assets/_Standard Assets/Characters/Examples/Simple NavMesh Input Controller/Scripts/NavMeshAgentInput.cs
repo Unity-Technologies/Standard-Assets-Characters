@@ -14,49 +14,42 @@ namespace StandardAssets.Characters.Examples.SimpleNavMeshInputController
 		/// <summary>
 		/// Make input relative to the camera.
 		/// </summary>
-		[FormerlySerializedAs("inputRelativeToCamera")]
 		[SerializeField, Tooltip("Make input relative to the camera?")]
 		bool m_InputRelativeToCamera = true;
 
 		/// <summary>
 		/// Character stops moving when it is this close to the agent.
 		/// </summary>
-		[FormerlySerializedAs("nearDistance")]
 		[SerializeField, Tooltip("Stop the Character moving when it is this close to the agent")]
 		float m_NearDistance = 0.2f;
 		
 		/// <summary>
 		/// Agent pauses movement when it is this distance away, to wait for the character
 		/// </summary>
-		[FormerlySerializedAs("farDistance")]
 		[SerializeField, Tooltip("Agent pauses movement when it is this distance away, to wait for the character")]
 		float m_FarDistance = 1.5f;
 
 		/// <summary>
 		/// Agent pauses movement when it reaches a corner/waypoint and it is this distance away, to wait for the character
 		/// </summary>
-		[FormerlySerializedAs("cornerFarDistance")]
 		[SerializeField, Tooltip("Agent pauses movement when it reaches a corner/waypoint and it is this distance away, to wait for the character")]
 		float m_CornerFarDistance = 0.5f;
 
 		/// <summary>
 		/// Reset the agent if it is further than this distance from the character.
 		/// </summary>
-		[FormerlySerializedAs("resetDistance")]
 		[SerializeField, Tooltip("Reset the agent if it is further than this distance from the character")]
 		float m_ResetDistance = 3.0f;
 
 		/// <summary>
 		/// Reset the agent if its Y position is further than this distance from the character.
 		/// </summary>
-		[FormerlySerializedAs("resetHeight")]
 		[SerializeField, Tooltip("Reset the agent if its Y position is further than this distance from the character")]
 		float m_ResetHeight = 3.0f;
 
 		/// <summary>
 		/// Assume character is stuck if it cannot reach the agent within this time.
 		/// </summary>
-		[FormerlySerializedAs("stuckDuration")]
 		[SerializeField, Tooltip("Assume character is stuck if it cannot reach the agent within this time.")]
 		float m_StuckDuration = 3.0f;
 

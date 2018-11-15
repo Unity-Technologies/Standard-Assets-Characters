@@ -9,7 +9,6 @@ namespace StandardAssets.Characters.Effects.Players
 	[RequireComponent(typeof(ParticleSystem))]
 	public class ParticleMovementEventPlayer : MovementEventPlayer
 	{
-		[FormerlySerializedAs("particleScaleFromNormalizedSpeed")]
 		[SerializeField, Tooltip("Curve used to scale the particle system based on normalizedSpeed")]
 		AnimationCurve m_ParticleScaleFromNormalizedSpeed = AnimationCurve.Linear(0f,0f,1f,1f);
 

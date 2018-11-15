@@ -10,35 +10,27 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 	[RequireComponent(typeof(CharacterController))]
 	public class DefaultCapsuleCharacter : MonoBehaviour
 	{
-		[FormerlySerializedAs("maxSpeed")]
 		[SerializeField, Tooltip("Character's maximum movement speed")]
 		float m_MaxSpeed = 5f;
 
-		[FormerlySerializedAs("timeToMaxSpeed")]
 		[SerializeField, Tooltip("Time take to accelerate from rest to max speed")]
 		float m_TimeToMaxSpeed = 0.5f;
 
-		[FormerlySerializedAs("turnSpeed")]
 		[SerializeField, Tooltip("Character's rotational speed")]
 		float m_TurnSpeed = 300f;
 		
-		[FormerlySerializedAs("groundCheckDistance")]
 		[SerializeField, Tooltip("Downward distance from transform centre to check if character is grounded")]
 		float m_GroundCheckDistance = 0.51f;
 
-		[FormerlySerializedAs("groundCheckMask")]
 		[SerializeField, Tooltip("Layer mask to check for grounding via ray cast")]
 		LayerMask m_GroundCheckMask;
 
-		[FormerlySerializedAs("gravity")]
 		[SerializeField, Tooltip("Acceleration due to gravity")]
 		float m_Gravity = -9.81f;
 
-		[FormerlySerializedAs("terminalVelocity")]
 		[SerializeField, Tooltip("Maximum falling speed of the character")]
 		float m_TerminalVelocity = -100f;
 
-		[FormerlySerializedAs("jumpSpeed")]
 		[SerializeField, Tooltip("Initial upward velocity applied on jumping")]
 		float m_JumpSpeed = 10f;
 

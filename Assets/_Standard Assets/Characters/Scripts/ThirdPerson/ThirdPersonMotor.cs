@@ -22,7 +22,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Various configuration settings more movement.
 		/// </summary>
-		[FormerlySerializedAs("configuration")]
 		[SerializeField, Tooltip("Configuration with all the movement settings")]
 		MotorConfig m_Configuration;
 

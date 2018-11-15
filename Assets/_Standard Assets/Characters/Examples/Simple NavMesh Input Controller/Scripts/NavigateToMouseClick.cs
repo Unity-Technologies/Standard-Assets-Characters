@@ -13,7 +13,6 @@ namespace StandardAssets.Characters.Examples.SimpleNavMeshInputController
 		/// <summary>
 		/// Layers to use in the ground check
 		/// </summary>
-		[FormerlySerializedAs("groundCheckMask")]
 		[SerializeField, Tooltip("Layers to use in the ground click check")]
 		LayerMask m_GroundCheckMask;
 

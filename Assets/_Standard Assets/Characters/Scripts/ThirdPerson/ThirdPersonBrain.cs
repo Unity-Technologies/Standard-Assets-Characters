@@ -26,78 +26,60 @@ namespace StandardAssets.Characters.ThirdPerson
             JumpLanding,
         }
 
-        [FormerlySerializedAs("motor")]
         [SerializeField, Tooltip("Properties of the root motion motor")]
         ThirdPersonMotor m_Motor;
 
-        [FormerlySerializedAs("turnaroundType")]
         [SerializeField, Tooltip("Mechanism used in rapid direction changes")]
         TurnAroundType m_TurnAroundType;
 
-        [FormerlySerializedAs("blendspaceTurnAroundBehaviour")]
         [SerializeField, Tooltip("Properties of the blendspace-based turn around")]
         BlendspaceTurnAroundBehaviour m_BlendspaceTurnAroundBehaviour;
 
-        [FormerlySerializedAs("animationTurnAroundBehaviour")]
         [SerializeField, Tooltip("Properties of the animation-based turn around")]
         AnimationTurnAroundBehaviour m_AnimationTurnAroundBehaviour;
 
-        [FormerlySerializedAs("thirdPersonMovementEventHandler")]
         [SerializeField, Tooltip("Properties of the movement event handler")]
         ThirdPersonMovementEventHandler m_ThirdPersonMovementEventHandler;
 
-        [FormerlySerializedAs("configuration")]
         [SerializeField, Tooltip("Configuration settings for the animator")]
         AnimationConfig m_Configuration;
 
-        [FormerlySerializedAs("showDebugGizmos")]
         [SerializeField, Tooltip("Show the debug gizmos?")]
         bool m_ShowDebugGizmos;
 
-        [FormerlySerializedAs("gizmoSettings")]
         [SerializeField, Tooltip("Properties of the debug gizmos")]
         DebugGizmoSettings m_GizmoSettings;
 
         [Serializable]
         public struct DebugGizmoSettings
         {
-            [FormerlySerializedAs("arrowPrefab")]
             [SerializeField, Tooltip("Arrow prefab used for each gizmo")]
             GameObject m_ArrowPrefab;
 
-            [FormerlySerializedAs("showBodyGizmos")]
             [SerializeField, Tooltip("Show the body direction gizmos?")]
             bool m_ShowBodyGizmos;
 
-            [FormerlySerializedAs("bodyCurrentDirection")]
             [SerializeField, Tooltip("Color of body current direction gizmo")]
             Color m_BodyCurrentDirection;
 
-            [FormerlySerializedAs("bodyDesiredDirection")]
             [SerializeField, Tooltip("Color of body desired direction gizmo")]
             Color m_BodyDesiredDirection;
 
-            [FormerlySerializedAs("showFootGizmos")]
             [SerializeField, Tooltip("Show the input direction and velocity indicator gizmos?")]
             bool m_ShowFootGizmos;
-
-            [FormerlySerializedAs("inputDirection")]
+            
             [SerializeField, Tooltip("Color of input direction gizmo")]
             Color m_InputDirection;
 
-            [FormerlySerializedAs("velocityIndicator")]
             [SerializeField, Tooltip("Color of velocity indicator gizmo")]
             Color m_VelocityIndicator;
 
-            [FormerlySerializedAs("showHeadGizmos")]
             [SerializeField, Tooltip("Show the head direction gizmos?")]
             bool m_ShowHeadGizmos;
 
-            [FormerlySerializedAs("headCurrentDirection")]
             [SerializeField, Tooltip("Color of head current direction gizmo")]
             Color m_HeadCurrentDirection;
 
-            [FormerlySerializedAs("headDesiredDirection")]
             [SerializeField, Tooltip("Color of head desired direction gizmo")]
             Color m_HeadDesiredDirection;
 
@@ -1205,15 +1187,12 @@ namespace StandardAssets.Characters.ThirdPerson
         /// <summary>
         /// The movement detection colliders attached to the feet of the Third Person Character
         /// </summary>
-        [FormerlySerializedAs("leftFootDetection")]
         [SerializeField]
         ColliderMovementDetection m_LeftFootDetection;
 
-        [FormerlySerializedAs("rightFootDetection")]
         [SerializeField]
         ColliderMovementDetection m_RightFootDetection;
 
-        [FormerlySerializedAs("maximumSpeed")]
         [SerializeField]
         float m_MaximumSpeed = 10f;
 

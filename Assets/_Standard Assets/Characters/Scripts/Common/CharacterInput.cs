@@ -33,56 +33,48 @@ namespace StandardAssets.Characters.Common
 		/// <summary>
 		/// The Input Action Map asset
 		/// </summary>
-		[FormerlySerializedAs("mobileControls")]
 		[SerializeField, Tooltip("Input Action Map asset for touch controls")]
 		TouchControls m_TouchControls;
 
 		/// <summary>
 		/// The Input Action Map asset for on screen controls
 		/// </summary>
-		[FormerlySerializedAs("controls")]
 		[SerializeField, Tooltip("Input Action Map asset for mouse/keyboard and game pad inputs")]
 		StandardControls m_StandardControls;
 
 		/// <summary>
 		/// The on screen controls canvas
 		/// </summary>
-		[FormerlySerializedAs("onScreenControlsCanvas")]
 		[SerializeField, Tooltip("Canvas used to render the on screen touch control graphics")]
 		GameObject m_TouchControlsCanvas;
 
 		/// <summary>
 		/// Invert horizontal look direction
 		/// </summary>
-		[FormerlySerializedAs("invertX")]
 		[SerializeField, Tooltip("Invert horizontal look direction?")]
 		bool m_InvertX;
 		
 		/// <summary>
 		/// Invert vertical look direction
 		/// </summary>
-		[FormerlySerializedAs("invertY")]
 		[SerializeField, Tooltip("Invert vertical look direction?")]
 		bool m_InvertY;
 
 		/// <summary>
 		/// The horizontal look sensitivity
 		/// </summary>
-		[FormerlySerializedAs("xSensitivity")]
 		[SerializeField, Range(0f, 1f), Tooltip("Horizontal look sensitivity")]
 		float m_XSensitivity = 1f;
 
 		/// <summary>
 		/// The vertical look sensitivity
 		/// </summary>
-		[FormerlySerializedAs("ySensitivity")]
 		[SerializeField, Range(0f, 1f), Tooltip("Vertical look sensitivity")]
 		float m_YSensitivity = 1f;
 
 		/// <summary>
 		/// Toggle the cursor lock mode while in play mode.
 		/// </summary>
-		[FormerlySerializedAs("cursorLocked")]
 		[SerializeField, Tooltip("Toggle the Cursor Lock Mode? Press ESCAPE during play mode to unlock")]
 		bool m_CursorLocked = true;
 

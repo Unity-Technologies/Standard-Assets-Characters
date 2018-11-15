@@ -13,7 +13,6 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 		/// <summary>
 		/// Reset the height?
 		/// </summary>
-		[FormerlySerializedAs("resetHeight")]
 		[Tooltip("Reset the height?")]
 		[SerializeField]
 		bool m_ResetHeight = true;
@@ -21,7 +20,6 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 		/// <summary>
 		/// Reset the offset/center?
 		/// </summary>
-		[FormerlySerializedAs("resetOffset")]
 		[Tooltip("Reset the offset/center?")]
 		[SerializeField]
 		bool m_ResetOffset = true;
@@ -29,7 +27,6 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 		/// <summary>
 		/// Preserve the foot position when only resetting the height? (This is ignored when resetting the center.)
 		/// </summary>
-		[FormerlySerializedAs("preserveFootPosition")]
 		[Tooltip("Preserve the foot position when only resetting the height? (This is ignored when resetting the center.)")]
 		[SerializeField]
 		bool m_PreserveFootPosition = true;

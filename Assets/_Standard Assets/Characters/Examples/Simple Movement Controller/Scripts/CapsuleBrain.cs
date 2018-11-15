@@ -10,19 +10,15 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 	public class CapsuleBrain : CharacterBrain
 	{
 		[Header("Capsule Brain")]
-		[FormerlySerializedAs("maxSpeed")]
 		[SerializeField, Tooltip("Character's max movement speed")]
 		float m_MaxSpeed = 5f;
 
-		[FormerlySerializedAs("timeToMaxSpeed")]
 		[SerializeField, Tooltip("Time take to accelerate from rest to max speed")]
 		float m_TimeToMaxSpeed = 0.5f;
 		
-		[FormerlySerializedAs("turnSpeed")]
 		[SerializeField, Tooltip("Character's rotational speed")] 
 		float m_TurnSpeed = 300f;
 
-		[FormerlySerializedAs("jumpSpeed")]
 		[SerializeField, Tooltip("Initial upward velocity applied on jumping")]
 		float m_JumpSpeed = 5f;
 	   
