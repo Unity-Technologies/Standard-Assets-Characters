@@ -220,7 +220,7 @@ namespace StandardAssets.Characters.Effects
             if (instances == null || instances.Length == 0)
             {
                 instances = new MovementEventPlayer[prefabs.Length];
-                int i = -1;
+                var i = -1;
                 foreach (var movementEventPlayer in prefabs)
                 {
                     i++;
@@ -228,9 +228,20 @@ namespace StandardAssets.Characters.Effects
                 }
             }
 
+            var j = -1;
             foreach (var movementEventPlayer in instances)
             {
-                movementEventPlayer.Play(movementEventData);
+                j++;
+                if (movementEventPlayer == null)
+                {
+                    var player = Object.Instantiate(prefabs[j]);
+                    instances[j] =  player;
+                    player.Play(movementEventData);               
+                }
+                else
+                {
+                    movementEventPlayer.Play(movementEventData);
+                }
             }
         }
 
