@@ -99,12 +99,12 @@ namespace StandardAssets.Characters.Common
 		/// <summary>
 		/// Gets/sets the look input vector
 		/// </summary>
-		public Vector2 lookInput { get; protected set; }
+		public Vector2 lookInput { get; private set; }
 
 		/// <summary>
 		/// Gets/sets the move input vector
 		/// </summary>
-		public Vector2 moveInput { get; protected set; }
+		public Vector2 moveInput { get; private set; }
 
 		/// <summary>
 		/// Gets whether or not the jump input is currently applied
