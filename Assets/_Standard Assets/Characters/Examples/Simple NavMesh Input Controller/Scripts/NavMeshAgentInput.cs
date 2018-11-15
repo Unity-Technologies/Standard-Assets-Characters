@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using StandardAssets.Characters.ThirdPerson;
+using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
 
-namespace StandardAssets.Characters.ThirdPerson
+namespace StandardAssets.Characters.Examples.SimpleNavMeshInputController
 {
 	/// <summary>
 	/// Makes a character controller follow a NavMeshAgent. It sets input to move the character.
@@ -67,13 +68,24 @@ namespace StandardAssets.Characters.ThirdPerson
 		float m_StuckTime;
 		Camera m_CurrentCamera;
 
+		/// <summary>
+		/// Gets/sets look input vector
+		/// </summary>
 		public Vector2 lookInput { get; private set; }
+		
+		
+		/// <summary>
+		/// Gets/sets move input vector
+		/// </summary>
 		public Vector2 moveInput { get; private set; }
+		
+		/// <summary>
+		/// Gets if there is movement input being applied
+		/// </summary>
 		public bool hasMovementInput
 		{
 			get { return moveInput != Vector2.zero; }
 		}
-		public bool hasJumpInput { get; private set; }
 
 		/// <summary>
 		/// Set the camera to use, for making input relative to the camera. 
@@ -83,32 +95,29 @@ namespace StandardAssets.Characters.ThirdPerson
 			m_CurrentCamera = newCamera;
 		}
 
+		/// <summary>
+		/// Initializes NavMeshAgent, caches transform and main camera
+		/// </summary>
 		void Awake()
 		{
 			m_CachedTransform = transform;
-			
 			m_CurrentCamera = Camera.main;
-			
 			m_NavMeshAgent = GetComponent<NavMeshAgent>();
 			m_NavMeshAgent.updatePosition = false;
 			m_NavMeshAgent.updateRotation = false;
 			m_NavMeshAgent.updateUpAxis = false;
-		}
-
-		void Update()
-		{		
-			UpdateInput(Time.deltaTime);
+			lookInput = Vector2.zero;
 		}
 
 		/// <summary>
-		/// Update the move input.
+		/// Updates the move input.
 		/// </summary>
-		void UpdateInput(float dt)
-		{
+		void Update()
+		{		
 			moveInput = Vector3.zero;
 
 			if (!m_NavMeshAgent.isOnNavMesh ||
-			    BusyCalculatingPath())
+				BusyCalculatingPath())
 			{
 				m_MovingToSimulatedPoint = false;
 				return;
@@ -116,7 +125,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			// Started following a new path?
 			if (!m_MovingToSimulatedPoint &&
-			    m_NavMeshAgent.hasPath)
+				m_NavMeshAgent.hasPath)
 			{
 				m_MovingToSimulatedPoint = true;
 				m_DynamicFarDistance = m_FarDistance;
@@ -126,7 +135,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 			if (m_MovingToSimulatedPoint)
 			{
-				UpdateMoveToSimulatedPoint(dt);
+				UpdateMoveToSimulatedPoint(Time.deltaTime);
 				return;
 			}
 

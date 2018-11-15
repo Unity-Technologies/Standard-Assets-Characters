@@ -1,42 +1,51 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.Examples.SimpleNavMeshInputController
 {
+	/// <summary>
+	/// Simple mouse click input for Nav mesh character
+	/// </summary>
 	[RequireComponent(typeof(NavMeshAgent))]
 	public class NavigateToMouseClick : MonoBehaviour
-	{
-		[SerializeField]
-		protected Camera mainCamera;
-		
+	{		
 		/// <summary>
 		/// Layers to use in the ground check
 		/// </summary>
-		[SerializeField, Tooltip("Layers to use in the ground check")]
-		protected LayerMask groundCheckMask;
+		[FormerlySerializedAs("groundCheckMask")]
+		[SerializeField, Tooltip("Layers to use in the ground click check")]
+		LayerMask m_GroundCheckMask;
 
-		NavMeshAgent navMesh;
+		Camera m_MainCamera;
+		NavMeshAgent m_NavMesh;
 
+		/// <summary>
+		/// Caches main camera and get reference to NavMeshAgent
+		/// </summary>
 		void Start()
 		{
-			if (mainCamera == null)
+			if (m_MainCamera == null)
 			{
-				mainCamera = Camera.main;
+				m_MainCamera = Camera.main;
 			}
 
-			navMesh = GetComponent<NavMeshAgent>();
+			m_NavMesh = GetComponent<NavMeshAgent>();
 		}
 
+		/// <summary>
+		/// Checks for click intersecting the world
+		/// </summary>
 		public void Update()
 		{
-			if (UnityEngine.Input.GetKeyDown(KeyCode.Mouse0))
+			if (Input.GetKeyDown(KeyCode.Mouse0))
 			{
-				var ray = mainCamera.ScreenPointToRay(UnityEngine.Input.mousePosition);
+				var ray = m_MainCamera.ScreenPointToRay(Input.mousePosition);
 				RaycastHit hit;
 
-				if (UnityEngine.Physics.Raycast(ray, out hit, float.MaxValue, groundCheckMask))
+				if (UnityEngine.Physics.Raycast(ray, out hit, float.MaxValue, m_GroundCheckMask))
 				{
-					navMesh.SetDestination(hit.point);
+					m_NavMesh.SetDestination(hit.point);
 				}
 			}
 		}
