@@ -182,7 +182,6 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		[SerializeField, Tooltip("Minimum angle required to trigger a stationary rapid")]
 		float m_StationaryRapidTurnAngle = 90f;
 
-		[FormerlySerializedAs("m_AdvancedSettings")]
 		[SerializeField, Space]
 		AdvancedMotorConfig m_Advanced;
 

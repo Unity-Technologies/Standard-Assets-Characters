@@ -205,7 +205,6 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		[SerializeField]
 		bool m_EnableHeadTurn = true;
 
-		[FormerlySerializedAs("m_AdvancedSettings")]
 		[SerializeField, Space]
 		AdvancedAnimationConfig m_Advanced;
 
