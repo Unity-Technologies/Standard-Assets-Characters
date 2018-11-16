@@ -115,6 +115,11 @@ namespace Editor
             }
         }
 
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        {
+            return m_ReorderableList == null ? base.GetPropertyHeight(property, label) : m_ReorderableList.GetHeight();
+        }
+
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             SetupReorderableList(property);
