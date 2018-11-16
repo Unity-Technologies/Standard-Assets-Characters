@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.Effects.Configs
 {
@@ -13,7 +12,6 @@ namespace StandardAssets.Characters.Effects.Configs
 		[SerializeField, Tooltip("Default movement event zone ID")]
 		PhysicMaterial m_DefaultPhysicMaterial;
 		
-		[FormerlySerializedAs("zonesDefinition")]
 		[SerializeField, Tooltip("List of movement event libraries for different movement zones")]
 		MovementEventZoneDefinitionList m_ZonesDefinition;
 

@@ -228,7 +228,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// <summary>
 		/// Gets the degrees per second that the character can turn during a jump.
 		/// </summary>
-		/// <value><see cref="m_TurningSpeed"/> with <see cref="m_JumpTurningSpeedScale"/> applied.</value>
+		/// <value><see cref="m_TurningSpeed"/> with <see cref="AdvancedMotorConfig.m_JumpTurningSpeedScale"/> applied.</value>
 		public float jumpTurningYSpeed
 		{
 			get { return m_TurningSpeed * m_Advanced.jumpTurningSpeedScale; }

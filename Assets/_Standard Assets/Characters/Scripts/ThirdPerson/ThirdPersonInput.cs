@@ -2,8 +2,6 @@ using System;
 using StandardAssets.Characters.Common;
 using UnityEngine;
 using UnityEngine.Experimental.Input;
-using UnityEngine.Serialization;
-using Object = UnityEngine.Object;
 
 namespace StandardAssets.Characters.ThirdPerson
 {

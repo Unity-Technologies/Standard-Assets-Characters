@@ -4,7 +4,6 @@ using StandardAssets.Characters.Effects;
 using StandardAssets.Characters.Helpers;
 using StandardAssets.Characters.ThirdPerson.Configs;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.ThirdPerson
 {

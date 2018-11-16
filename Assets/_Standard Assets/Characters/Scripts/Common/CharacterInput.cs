@@ -6,7 +6,6 @@ using System;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.Experimental.Input;
-using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.Common
 {

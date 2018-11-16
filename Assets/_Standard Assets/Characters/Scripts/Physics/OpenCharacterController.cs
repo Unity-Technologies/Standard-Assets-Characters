@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using StandardAssets.Characters.Helpers;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.Physics
 {
