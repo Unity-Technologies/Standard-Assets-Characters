@@ -14,6 +14,7 @@ namespace Editor
         const float k_ArrayElementHeightScale = 1.1f;
 
         ReorderableList m_ReorderableList;
+        SerializedProperty rootProperty;
         SerializedProperty listProperty;
         List<float> m_ElementHeights = new List<float>();
 
@@ -23,6 +24,8 @@ namespace Editor
             {
                 return;
             }
+
+            rootProperty = property;
 
             listProperty = property.FindPropertyRelative("m_MovementZoneLibraries");
             for (int i = 0; i < listProperty.arraySize; i++)
@@ -45,7 +48,7 @@ namespace Editor
 
         void OnChangedCallback(ReorderableList list)
         {
-            listProperty.serializedObject.ApplyModifiedProperties();
+            rootProperty.serializedObject.ApplyModifiedProperties();
         }
 
         void OnRemoveCallback(ReorderableList list)
@@ -53,11 +56,7 @@ namespace Editor
             m_ElementHeights.RemoveAt(list.index);
 
             list.serializedProperty.DeleteArrayElementAtIndex(list.index);
-            if (list.index < list.serializedProperty.arraySize - 1)
-            {
-                return;
-            }
-            else
+            if (list.index >= list.serializedProperty.arraySize - 1)
             {
                 list.index = list.serializedProperty.arraySize - 1;
             }
@@ -78,6 +77,8 @@ namespace Editor
         {
             var elementHeight = EditorGUIUtility.singleLineHeight;
             var elementProperty = listProperty.GetArrayElementAtIndex(index);
+
+            EditorGUI.BeginChangeCheck();
             EditorGUI.PropertyField(rect, elementProperty.FindPropertyRelative("m_PhysicMaterial"), true);
             EditorGUI.indentLevel++;
             rect.y += EditorGUIUtility.singleLineHeight;
@@ -96,6 +97,10 @@ namespace Editor
 
             elementHeight += EditorGUIUtility.singleLineHeight;
             m_ElementHeights[index] = elementHeight;
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorUtility.SetDirty(rootProperty.serializedObject.targetObject);
+            }
         }
 
         float GetExpandedArrayHeight(SerializedProperty arrayElement)
@@ -113,8 +118,8 @@ namespace Editor
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             SetupReorderableList(property);
-            m_ReorderableList.DoLayoutList();
-            property.serializedObject.ApplyModifiedProperties();
+            m_ReorderableList.DoList(position);
+            rootProperty.serializedObject.ApplyModifiedProperties();
         }
     }
 }
