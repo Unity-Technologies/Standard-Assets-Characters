@@ -85,102 +85,161 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			HeadTurnProperties m_HeadTurnProperties;
 
 
+			/// <summary>
+			/// COMMENT TODO
+			/// </summary>
 			public bool enableStrafeRapidDirectionChangeSmoothing
 			{
 				get { return m_EnableStrafeRapidDirectionChangeSmoothing; }
 			}
 			
+			/// <summary>
+			/// COMMENT TODO
+			/// </summary>
 			public HeadTurnProperties headTurnProperties
 			{
 				get { return m_HeadTurnProperties; }
 			}
 
+			/// <summary>
+			/// COMMENT TODO
+			/// </summary>
 			public bool startRightFootGrounded
 			{
 				get { return m_StartRightFootGrounded; }
 			}
 
+			/// <summary>
+			/// COMMENT TODO
+			/// </summary>
 			public float landAnimationBlendTime
 			{
 				get { return m_LandAnimationBlendTime; }
 			}
 
+			/// <summary>
+			/// COMMENT TODO
+			/// </summary>
 			public float rollAnimationBlendTime
 			{
 				get { return m_RollAnimationBlendTime; }
 			}
 
+			/// <summary>
+			/// COMMENT TODO
+			/// </summary>
 			public AnimationCurve landSpeedAsAFactorOfSpeed
 			{
 				get { return m_LandSpeedAsAFactorOfSpeed; }
 			}
 
+			/// <summary>
+			/// COMMENT TODO
+			/// </summary>
 			public float skipJumpLandWindow
 			{
 				get { return m_SkipJumpLandWindow; }
 			}
 
+			/// <summary>
+			/// COMMENT TODO
+			/// </summary>
 			public float leftFootJumpLandAnimationTimeOffset
 			{
 				get { return m_LeftFootJumpLandAnimationTimeOffset; }
 			}
 
+			/// <summary>
+			/// COMMENT TODO
+			/// </summary>
 			public float rightFootJumpLandAnimationTimeOffset
 			{
 				get { return m_RightFootJumpLandAnimationTimeOffset; }
 			}
 
+			/// <summary>
+			/// COMMENT TODO
+			/// </summary>
 			public AnimationCurve jumpEndTransitionAsAFactorOfSpeed
 			{
 				get { return m_JumpEndTransitionAsAFactorOfSpeed; }
 			}
 
+			/// <summary>
+			/// COMMENT TODO
+			/// </summary>
 			public AnimationCurve strafeJumpTransitionAsAFactorOfSpeed
 			{
 				get { return m_StrafeJumpTransitionAsAFactorOfSpeed; }
 			}
 
+			/// <summary>
+			/// COMMENT TODO
+			/// </summary>
 			public AnimationCurve jumpTransitionAsAFactorOfSpeed
 			{
 				get { return m_JumpTransitionAsAFactorOfSpeed; }
 			}
 			
+			/// <summary>
+			/// COMMENT TODO
+			/// </summary>
 			public float jumpBlendTimeInc
 			{
 				get { return m_JumpBlendTimeInc; }
 			}
 			
+			/// <summary>
+			/// COMMENT TODO
+			/// </summary>
 			public AnimationCurve footPositionJumpIncRemap
 			{
 				get { return m_FootPositionJumpIncRemap; }
 			}
 			
-
+			/// <summary>
+			/// COMMENT TODO
+			/// </summary>
 			public AnimationCurve turningSpeedCurve
 			{
 				get { return m_TurningSpeedCurve; }
 			}
 
+			/// <summary>
+			/// COMMENT TODO
+			/// </summary>
 			public AnimationCurve strafeRapidDirectionChangeSpeedCurve
 			{
 				get { return m_StrafeRapidDirectionChangeSpeedCurve; }
 			}
 
+			/// <summary>
+			/// COMMENT TODO
+			/// </summary>
 			public float strafeRapidDirectionChangeAngle
 			{
 				get { return m_StrafeRapidDirectionChangeAngle; }
 			}
 
+			/// <summary>
+			/// COMMENT TODO
+			/// </summary>
 			public FloatRange turningSpeedInterpolationRange
 			{
 				get { return m_TurningSpeedInterpolationRange; }
 			}
 
+			/// <summary>
+			/// COMMENT TODO
+			/// </summary>
 			public FloatRange lateralSpeedInterpolationRange
 			{
 				get { return m_LateralSpeedInterpolationRange; }
 			}
 
+			/// <summary>
+			/// COMMENT TODO
+			/// </summary>
 			public FloatRange forwardSpeedInterpolationRange
 			{
 				get { return m_ForwardSpeedInterpolationRange; }
@@ -448,6 +507,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		{
 			get { return m_Advanced.headTurnProperties.noLookInputHeadLookAtScale; }
 		}
+		
 		
 		/// <summary>
 		/// A serializable class used to store configuration settings for the head turing/look at.

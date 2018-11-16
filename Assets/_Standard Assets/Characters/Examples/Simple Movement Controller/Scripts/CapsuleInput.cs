@@ -15,13 +15,5 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		{
 			Debug.Log("No extra inputs");
 		}
-
-		/// <summary>
-		/// No extra inputs to be registered
-		/// </summary>
-		protected override void RegisterAdditionalTouchInputs()
-		{
-			Debug.Log("No extra inputs");
-		}
 	}
 }

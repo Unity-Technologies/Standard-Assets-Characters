@@ -10,20 +10,17 @@ namespace StandardAssets.Characters.Effects.Players
 		[SerializeField, Tooltip("Curve for scaling volume based on normalizedSpeed")]
 		AnimationCurve m_VolumeFromNormalizedSpeed = AnimationCurve.Linear(0f,0f,1f,1f);
 		
-		/// <summary>
-		/// The audio source to be played
-		/// </summary>
 		[SerializeField, Tooltip("AudioSource used to play the selected clip")]
 		AudioSource m_Source;
 
-		/// <summary>
-		/// Collection of audio clips that could be randomly selected by this <see cref="AudioMovementEventPlayer"/>
-		/// </summary>
 		[SerializeField, Tooltip("For using multiple audio sources, i.e footstep sounds")]
 		AudioClip[] m_Clips;
 
+		//COMMENT TODO
 		int m_CurrentSoundIndex;
 
+
+		//COMMENT TODO
 		void Awake()
 		{
 			m_CurrentSoundIndex = 0;
@@ -55,6 +52,9 @@ namespace StandardAssets.Characters.Effects.Players
 			m_Source.Play();
 		}
 
+		/// <summary>
+		/// COMMENT TODO
+		/// </summary>
 		protected override float Evaluate(float normalizedSpeed)
 		{
 			return m_VolumeFromNormalizedSpeed.Evaluate(normalizedSpeed);

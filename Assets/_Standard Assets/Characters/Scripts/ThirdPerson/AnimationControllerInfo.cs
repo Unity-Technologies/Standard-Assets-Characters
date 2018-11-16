@@ -5,6 +5,7 @@ namespace StandardAssets.Characters.ThirdPerson
 	/// </summary>
 	public static class AnimationControllerInfo
 	{
+//KEVIN TODO: Remove the Space from the Locomotion State Name to standardize it with everything else		
 		public const string k_LocomotionState = "Exploration Locomotion",
 		                    k_StrafeLocomotionState = "Strafe Locomotion",
 		                    k_RightFootJumpState = "RightFootJump",

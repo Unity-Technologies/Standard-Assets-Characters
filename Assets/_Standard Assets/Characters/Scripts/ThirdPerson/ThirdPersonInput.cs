@@ -25,30 +25,36 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		public event Action recentreCamera;
 
-		/// <summary>
-		/// Tracks if the character is strafing 
-		/// </summary>
+		// Tracks if the character is strafing 
 		bool m_IsStrafing;
+
+
+		/// <summary>
+		/// Sets the sprinting state to false
+		/// </summary>
+		public void ResetSprint()
+		{
+			isSprinting = false;
+		}
 
 		/// <summary>
 		/// Registers strafe and recentre inputs.
 		/// </summary>
 		protected override void RegisterAdditionalInputs()
 		{
-			standardControls.Movement.strafe.performed += OnStrafeInput;
-			standardControls.Movement.recentre.performed += OnRecentreInput;
+			if(UseTouchControls())
+			{
+				touchControls.Movement.strafe.performed += OnStrafeInput;
+				touchControls.Movement.recentre.performed += OnRecentreInput;
+			}
+			else
+			{
+				standardControls.Movement.strafe.performed += OnStrafeInput;
+				standardControls.Movement.recentre.performed += OnRecentreInput;
+			}
 		}
 
-		protected override void RegisterAdditionalTouchInputs()
-		{
-			touchControls.Movement.strafe.performed += OnStrafeInput;
-			touchControls.Movement.recentre.performed += OnRecentreInput;
-		}
-
-		/// <summary>
-		/// Handles the recentre input 
-		/// </summary>
-		/// <param name="context">context is required by the performed event</param>
+		// Handles the recentre input 
 		void OnRecentreInput(InputAction.CallbackContext context)
 		{
 			if (recentreCamera != null)
@@ -57,21 +63,10 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
-		/// <summary>
-		/// Handles the strafe input
-		/// </summary>
-		/// <param name="context">context is required by the performed event</param>
+		// Handles the strafe input
 		void OnStrafeInput(InputAction.CallbackContext context)
 		{
 			BroadcastInputAction(ref m_IsStrafing, strafeStarted, strafeEnded);
-		}
-
-		/// <summary>
-		/// Sets the sprinting state to false
-		/// </summary>
-		public void ResetSprint()
-		{
-			isSprinting = false;
 		}
 	}
 }

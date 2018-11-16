@@ -18,6 +18,8 @@ namespace StandardAssets.Characters.Effects
 		/// </summary>
 		public event Action<MovementEventData, PhysicMaterial> detection;
 
+
+		// COMMENT TODO
 		void OnTriggerEnter(Collider other)
 		{
 			if (m_LayerMask != (m_LayerMask | (1 << other.gameObject.layer)))
@@ -29,11 +31,9 @@ namespace StandardAssets.Characters.Effects
 			OnDetection(movementEventData, other.sharedMaterial);			
 		}
 
-		/// <summary>
-		/// Safely broadcast movement event after collider detection
-		/// </summary>
-		/// <param name="movementEventData">Movement event data</param>
-		/// <param name="physicMaterial">the corresponding physic material</param>
+		// Safely broadcast movement event after collider detection
+		//		movementEventData: Movement event data
+		//		physicMaterial: the corresponding physic material
 		void OnDetection(MovementEventData movementEventData, PhysicMaterial physicMaterial)
 		{
 			if (detection == null)

@@ -14,8 +14,12 @@ namespace StandardAssets.Characters.Common
 		[SerializeField, Tooltip("Settings for the OpenCharacterController.")]
 		ControllerAdapter m_CharacterControllerAdapter;
 
+		// cached last position vector
 		Vector3 m_LastPosition;
 		
+		/// <summary>
+		/// COMMENT TODO
+		/// </summary>
 		public ControllerAdapter controllerAdapter
 		{
 			get { return m_CharacterControllerAdapter; }
@@ -25,10 +29,22 @@ namespace StandardAssets.Characters.Common
 		/// Gets/sets the planar speed (i.e. ignoring the displacement) of the CharacterBrain
 		/// </summary>
 		public float planarSpeed { get; private set; }
+		
+		/// <summary>
+		/// COMMENT TODO
+		/// </summary>
 		public abstract float normalizedForwardSpeed { get;}
+
+		/// <summary>
+		/// COMMENT TODO
+		/// </summary>
 		public abstract float targetYRotation { get; set; }
 		
+		/// <summary>
+		/// COMMENT TODO
+		/// </summary>
 		protected Vector3 planarDisplacement { get; private set; }
+
 
 		/// <summary>
 		/// Get controller adapters and input on Awake
@@ -67,6 +83,7 @@ namespace StandardAssets.Characters.Common
 			m_LastPosition = newPosition;
 		}
 	}
+
 	
 	/// <summary>
 	/// Wrapper for the OpenCharacterController
@@ -74,23 +91,17 @@ namespace StandardAssets.Characters.Common
 	[Serializable]
 	public class ControllerAdapter
 	{
-		/// <summary>
-		/// Used as a clamp for downward velocity.
-		/// </summary>
 		[SerializeField, Tooltip("Maximum speed that the character can move downwards")]
 		float m_TerminalVelocity = 10f;
 
 		[SerializeField, Tooltip("Gravity scale applied during a jump")]
-		AnimationCurve m_JumpGravityMultiplierAsAFactorOfForwardSpeed =
-			AnimationCurve.Constant(0.0f, 1.0f, 1.0f);
+		AnimationCurve m_JumpGravityMultiplierAsAFactorOfForwardSpeed = AnimationCurve.Constant(0.0f, 1.0f, 1.0f);
 
 		[SerializeField, Tooltip("Gravity scale applied during a fall")]
-		AnimationCurve m_FallGravityMultiplierAsAFactorOfForwardSpeed =
-			AnimationCurve.Constant(0.0f, 1.0f, 1.0f);
+		AnimationCurve m_FallGravityMultiplierAsAFactorOfForwardSpeed = AnimationCurve.Constant(0.0f, 1.0f, 1.0f);
 
 		[SerializeField, Tooltip("Gravity scale applied during a jump without jump button held")]
-		AnimationCurve m_MinJumpHeightMultiplierAsAFactorOfForwardSpeed =
-			AnimationCurve.Constant(0.0f, 1.0f, 1.0f);
+		AnimationCurve m_MinJumpHeightMultiplierAsAFactorOfForwardSpeed = AnimationCurve.Constant(0.0f, 1.0f, 1.0f);
 
 		[SerializeField, Tooltip("How quickly the Gravity that affects the character is allowed to change, when it is" +
 		                         " being dynamically modified by Jumping or Falling Gravity modifiers")]
@@ -102,51 +113,15 @@ namespace StandardAssets.Characters.Common
 		[SerializeField, Tooltip("Gravity multiplier applied when falling less that the Min Fall Distance (set above)")]
 		float m_GroundingGravityMultiplier = 2.0f; 
 
-		public bool isGrounded { get; private set; }
-		
-		public OpenCharacterController characterController { get; private set; }
-
-		public bool startedSlide
-		{
-			get { return characterController.startedSlide; }
-		}
-
+		// COMMENT TODO
 		public event Action landed;
 
+		// COMMENT TODO
 		public event Action jumpVelocitySet;
 
+		// COMMENT TODO
 		public event Action<float> startedFalling;
-
-		public float fallTime { get; private set; }
 		
-		float airTime { get; set; }
-
-		/// <summary>
-		/// Gets the radius of the character.
-		/// </summary>
-		/// <value>The radius used for predicting the landing position.</value>
-		float radius
-		{
-			get { return characterController.scaledRadius + characterController.GetSkinWidth(); }
-		}
-
-		/// <summary>
-		/// Gets the character's world foot position.
-		/// </summary>
-		/// <value>A world position at the bottom of the character</value>
-		Vector3 footWorldPosition
-		{
-			get { return characterController.GetFootWorldPosition(); }
-		}
-
-		/// <summary>
-		/// Gets the collision layer mask used for physics grounding,
-		/// </summary>
-		LayerMask collisionLayerMask
-		{
-			get { return characterController.GetCollisionLayerMask(); }
-		}
-
 		// the number of time sets used for trajectory prediction.
 		const int k_TrajectorySteps = 60;
 
@@ -162,59 +137,89 @@ namespace StandardAssets.Characters.Common
 		// the source of the normalized forward speed.
 		CharacterBrain m_CharacterBrain;
 
-		/// <summary>
-		/// The predicted landing position of the character. Null if a position could not be predicted.
-		/// </summary>
+		// The predicted landing position of the character. Null if a position could not be predicted.
 		Vector3? m_PredictedLandingPosition;
+
+		// The initial jump velocity.
+		float m_InitialJumpVelocity;
+
+		// The current vertical velocity.
+		float m_CurrentVerticalVelocity;
+
+		// The last used ground (vertical velocity excluded ie 0) velocity.
+		Vector3 m_CachedGroundVelocity;
+
+		// The current vertical vector.
+		Vector3 m_VerticalVector = Vector3.zero;
+
+		// COMMENT TODO
+		CharacterInput m_CharacterInput;
+
+		// COMMENT TODO
+		bool m_ShortFall;
+
+		// COMMENT TODO
+		bool m_DidJump;
+
 #if UNITY_EDITOR
+		// COMMENT TODO
 		readonly Vector3[] m_JumpSteps = new Vector3[k_TrajectorySteps];
+
+		// COMMENT TODO
 		int m_JumpStepCount;
 #endif
+
+		// COMMENT TODO
+		public bool isGrounded { get; private set; }
 		
+		// COMMENT TODO
+		public OpenCharacterController characterController { get; private set; }
+
+		// COMMENT TODO
+		public bool startedSlide
+		{
+			get { return characterController.startedSlide; }
+		}
+
+		// COMMENT TODO
+		public float fallTime { get; private set; }
+
 		/// <summary>
 		/// Reference to the transform of the game object, on which this class will do work.
 		/// </summary>
 		public Transform cachedTransform { get; private set; }
 
+		/// <summary>
+		/// COMMENT TODO
+		/// </summary>
 		public float normalizedVerticalSpeed
 		{
 			get;
 			private set;
 		}
 
-		/// <summary>
-		/// The initial jump velocity.
-		/// </summary>
-		/// <value>Velocity used to initiate a jump.</value>
-		float m_InitialJumpVelocity;
+		// COMMENT TODO
+		float airTime { get; set; }
 
-		/// <summary>
-		/// The current vertical velocity.
-		/// </summary>
-		/// <value>Calculated using <see cref="m_InitialJumpVelocity"/>, <see cref="airTime"/> and
-		/// <see cref="CalculateGravity"/></value>
-		float m_CurrentVerticalVelocity;
+		// Gets the radius of the character.
+		float radius
+		{
+			get { return characterController.scaledRadius + characterController.GetSkinWidth(); }
+		}
 
-		/// <summary>
-		/// The last used ground (vertical velocity excluded ie 0) velocity.
-		/// </summary>
-		/// <value>Velocity based on the moveVector used by <see cref="Move"/>.</value>
-		Vector3 m_CachedGroundVelocity;
+		// Gets the character's world foot position.
+		Vector3 footWorldPosition
+		{
+			get { return characterController.GetFootWorldPosition(); }
+		}
 
-		/// <summary>
-		/// The current vertical vector.
-		/// </summary>
-		/// <value><see cref="Vector3.zero"/> with a y based on <see cref="m_CurrentVerticalVelocity"/>.</value>
-		Vector3 m_VerticalVector = Vector3.zero;
+		// Gets the collision layer mask used for physics grounding,
+		LayerMask collisionLayerMask
+		{
+			get { return characterController.GetCollisionLayerMask(); }
+		}		
 
-		CharacterInput m_CharacterInput;
-
-		bool m_ShortFall,
-			m_DidJump;
-
-		/// <summary>
-		/// Gets the current jump gravity multiplier as a factor of normalized forward speed.
-		/// </summary>
+		// Gets the current jump gravity multiplier as a factor of normalized forward speed.
 		float jumpGravityMultiplier
 		{
 			get
@@ -224,9 +229,7 @@ namespace StandardAssets.Characters.Common
 			}
 		}
 		
-		/// <summary>
-		/// Gets the current minimum jump height gravity multiplier as a factor of normalized forward speed.
-		/// </summary>
+		// Gets the current minimum jump height gravity multiplier as a factor of normalized forward speed.
 		float minJumpHeightMultiplier
 		{
 			get
@@ -236,9 +239,7 @@ namespace StandardAssets.Characters.Common
 			}
 		}
 		
-		/// <summary>
-		/// Gets the current fall gravity multiplier as a factor of normalized forward speed.
-		/// </summary>
+		// Gets the current fall gravity multiplier as a factor of normalized forward speed.
 		float fallGravityMultiplier
 		{
 			get
@@ -248,6 +249,10 @@ namespace StandardAssets.Characters.Common
 			}
 		}
 
+
+		/// <summary>
+		/// COMMENT TODO
+		/// </summary>
 		public void Move(Vector3 moveVector, float deltaTime)
 		{
 			isGrounded = characterController.isGrounded;
@@ -309,10 +314,8 @@ namespace StandardAssets.Characters.Common
 			m_Gravity = UnityPhysics.gravity.y;
 		}
 		
-		/// <summary>
-		/// Calculates the current predicted fall distance based on the predicted landing position
-		/// </summary>
-		/// <returns>The predicted fall distance</returns>
+		// Calculates the current predicted fall distance based on the predicted landing position
+		// 		return: The predicted fall distance
 		float GetPredictedFallDistance()
 		{
 			UpdatePredictedLandingPosition();
@@ -321,9 +324,7 @@ namespace StandardAssets.Characters.Common
 				: footWorldPosition.y - ((Vector3) m_PredictedLandingPosition).y;
 		}
 
-		/// <summary>
 		/// Updates the predicted landing position by stepping through the fall trajectory
-		/// </summary>
 		void UpdatePredictedLandingPosition()
 		{
 			var currentPosition = footWorldPosition;
@@ -354,11 +355,9 @@ namespace StandardAssets.Characters.Common
 			m_PredictedLandingPosition = null;
 		}
 
-		/// <summary>
-		/// Checks if the given position would collide with the ground collision layer.
-		/// </summary>
-		/// <param name="position">Position to check</param>
-		/// <returns>True if a ground collision would occur at the given position.</returns>
+		// Checks if the given position would collide with the ground collision layer.
+		// 		position: Position to check
+		// 		return: True if a ground collision would occur at the given position
 		bool IsGroundCollision(Vector3 position)
 		{
 			// move sphere but to match bottom of character's capsule collider
@@ -368,11 +367,10 @@ namespace StandardAssets.Characters.Common
 			return colliderCount > 0.0f;
 		}
 
-		/// <summary>
-		/// Handles Jumping and Falling
-		/// </summary>
+		// Handles Jumping and Falling
 		void AerialMovement(float deltaTime)
 		{
+			// COMMENT TODO: What does this do?
 			airTime += deltaTime;
 			CalculateGravity(deltaTime);
 			if (m_CurrentVerticalVelocity >= 0.0f)
@@ -383,6 +381,7 @@ namespace StandardAssets.Characters.Common
 			
 			var previousFallTime = fallTime;
 
+			// COMMENT TODO: What does this do?
 			if (m_CurrentVerticalVelocity < 0.0f)
 			{
 				m_CurrentVerticalVelocity = Mathf.Clamp(m_Gravity * fallTime, m_TerminalVelocity, Mathf.Infinity);
@@ -405,6 +404,7 @@ namespace StandardAssets.Characters.Common
 				}
 			}
 
+			// COMMENT TODO: What does this do?
 			if (Mathf.Approximately(previousFallTime, 0.0f) && fallTime > Mathf.Epsilon)
 			{
 				var predictedFallDistance = GetPredictedFallDistance();
@@ -417,9 +417,7 @@ namespace StandardAssets.Characters.Common
 			m_VerticalVector = new Vector3(0.0f, m_CurrentVerticalVelocity * deltaTime, 0.0f);
 		}
 
-		/// <summary>
-		/// Calculates the current gravity modified based on current vertical velocity
-		/// </summary>
+		// Calculates the current gravity modified based on current vertical velocity
 		void CalculateGravity(float deltaTime)
 		{
 			float gravityFactor;
@@ -455,10 +453,8 @@ namespace StandardAssets.Characters.Common
 			m_Gravity = Mathf.Lerp(m_Gravity, newGravity, deltaTime * m_GravityChangeSpeed);
 		}
 
-		/// <summary>
-		/// Moves the character by <paramref name="movement"/> world units.
-		/// </summary>
-		/// <param name="movement">The value to move the character by in world units.</param>
+		// Moves the character by 'movement' world units
+		// 		movement: The value to move the character by in world units
 		void MoveCharacter(Vector3 movement)
 		{
 			var collisionFlags = characterController.Move(movement);

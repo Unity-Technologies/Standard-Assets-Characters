@@ -15,9 +15,9 @@ namespace StandardAssets.Characters.FirstPerson
 		/// <summary>
 		/// The names of the states in the camera animator
 		/// </summary>
-		const string k_CrouchAnimationStateName = "Crouch",
-		                     k_SprintAnimationStateName = "Sprint",
-		                     k_WalkAnimationStateName = "Walk";
+		const string k_CrouchAnimationStateName 	= "Crouch";
+		const string k_SprintAnimationStateName 	= "Sprint";
+		const string k_WalkAnimationStateName 		= "Walk";
 
 		/// <summary>
 		/// Stores movement properties for the different states - e.g. walk
@@ -25,21 +25,12 @@ namespace StandardAssets.Characters.FirstPerson
 		[Serializable]
 		public struct MovementProperties
 		{
-			/// <summary>
-			/// The maximum movement speed
-			/// </summary>
 			[SerializeField, Tooltip("Maximum movement speed of the character"), Range(0.1f, 20f)]
 			float m_MaxSpeed;
 
-			/// <summary>
-			/// The initial Y velocity of a Jump
-			/// </summary>
 			[SerializeField, Tooltip("Initial Y velocity of a Jump"), Range(0f, 10f)]
 			float m_JumpSpeed;
 
-			/// <summary>
-			/// The length of a stride
-			/// </summary>
 			[SerializeField, Tooltip("Distance that is considered a stride"), Range(0f, 1f)]
 			float m_StrideLength;
 
@@ -51,91 +42,60 @@ namespace StandardAssets.Characters.FirstPerson
 				get { return m_JumpSpeed > 0f; }
 			}
 
+			/// <summary>
+			/// COMMENT TODO
+			/// </summary>
 			public float maxSpeed
 			{
 				get { return m_MaxSpeed; }
 			}
 
+			/// <summary>
+			/// COMMENT TODO
+			/// </summary>
 			public float jumpSpeed
 			{
 				get { return m_JumpSpeed; }
 			}
 
+			/// <summary>
+			/// COMMENT TODO
+			/// </summary>
 			public float strideLength
 			{
 				get { return m_StrideLength; }
 			}
 		}
 
-		/// <summary>
-		/// The state that first person motor starts in
-		/// </summary>
 		[SerializeField, Tooltip("Movement properties of the character while walking")]
 		MovementProperties m_Walking;
 
-		/// <summary>
-		/// The state that first person motor starts in
-		/// </summary>
 		[SerializeField, Tooltip("Movement properties of the character while sprinting")]
 		MovementProperties m_Sprinting;
 
-		/// <summary>
-		/// The state that first person motor starts in
-		/// </summary>
 		[SerializeField, Tooltip("Movement properties of the character while crouching")]
 		MovementProperties m_Crouching;
 
-		/// <summary>
-		/// Manages movement events
-		/// </summary>
 		[SerializeField, Tooltip("Management of movement events e.g. footsteps")]
 		FirstPersonMovementEventHandler m_FirstPersonMovementEventHandler;
 
-		/// <summary>
-		/// The movement state is passed to the camera manager so that there can be different cameras e.g. crouch
-		/// </summary>
+		// The movement state is passed to the camera manager so that there can be different cameras e.g. crouch
 		FirstPersonCameraController m_FirstPersonCameraController;
 
-		/// <summary>
-		/// The current movement properties
-		/// </summary>
+		// The current movement properties
 		float m_CurrentSpeed;
 
-		/// <summary>
-		/// Backing field to prevent the currentProperties from being null
-		/// </summary>
+		// Backing field to prevent the currentProperties from being null
 		MovementProperties m_CurrentMovementProperties;
 
-		/// <summary>
-		/// Stores the new movement properties if the character tries to change movement state in mid-air
-		/// </summary>
+		// Stores the new movement properties if the character tries to change movement state in mid-air
 		MovementProperties m_NewMovementProperties;
 		
-		/// <summary>
-		/// Cached instance of Camera.main
-		/// </summary>
+		// Cached instance of Camera.main
 		Camera m_MainCamera;
 
-		/// <summary>
-		/// Backing field for lazily loading the character input
-		/// </summary>
+		// Backing field for lazily loading the character input
 		FirstPersonInput m_Input;
-
-		/// <summary>
-		/// Lazily loads the <see cref="FirstPersonInput"/>
-		/// </summary>
-		FirstPersonInput characterInput
-		{
-			get
-			{
-				if (m_Input == null)
-				{
-					m_Input = GetComponent<FirstPersonInput>();
-				}
-
-				return m_Input;
-			}
-		}
 
 		/// <summary>
 		/// Returns the characters normalized speed
@@ -159,20 +119,20 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		public override float targetYRotation { get; set; }
 
-		/// <summary>
-		/// Helper method for setting the animation
-		/// </summary>
-		/// <param name="animation">The case sensitive name of the animation state</param>
-		void SetAnimation(string animation)
+		// Lazily loads the FirstPersonInput
+		FirstPersonInput characterInput
 		{
-			if (m_FirstPersonCameraController == null)
+			get
 			{
-				Debug.LogWarning("No camera animation manager setup");
-				return;
-			}
+				if (m_Input == null)
+				{
+					m_Input = GetComponent<FirstPersonInput>();
+				}
 
-			m_FirstPersonCameraController.SetAnimation(animation);
+				return m_Input;
+			}
 		}
+
 
 		/// <summary>
 		/// Get the attached implementations on awake
@@ -188,43 +148,7 @@ namespace StandardAssets.Characters.FirstPerson
 			m_MainCamera = Camera.main;
 		}
 
-		/// <summary>
-		/// Checks if the <see cref="FirstPersonCameraController"/> has been assigned otherwise finds it in the scene
-		/// </summary>
-		void FindCameraController(bool autoDisable)
-		{
-			if (m_FirstPersonCameraController == null)
-			{
-				var firstPersonCameraControllers =
-					FindObjectsOfType<FirstPersonCameraController>();
-
-				var length = firstPersonCameraControllers.Length;
-				if (length != 1)
-				{
-					var errorMessage = "No FirstPersonCameraAnimationManagers in scene! Disabling Brain";
-					if (length > 1)
-					{
-						errorMessage = "Too many FirstPersonCameraAnimationManagers in scene! Disabling Brain";
-					}
-
-					if (autoDisable)
-					{
-						Debug.LogError(errorMessage);
-						gameObject.SetActive(false);	
-					}
-					
-					return;
-				}
-
-				m_FirstPersonCameraController = firstPersonCameraControllers[0];
-			}
-
-			m_FirstPersonCameraController.SetupBrain(this);
-		}
-
-		/// <summary>
-		/// Subscribes to the various events
-		/// </summary>
+		// Subscribes to the various events
 		void OnEnable()
 		{
 			controllerAdapter.landed += OnLanded;
@@ -236,9 +160,7 @@ namespace StandardAssets.Characters.FirstPerson
 			characterInput.crouchEnded += StartWalking;
 		}
 
-		/// <summary>
-		/// Unsubscribes to the various events
-		/// </summary>
+		// Unsubscribes to the various events
 		void OnDisable()
 		{
 			controllerAdapter.landed -= OnLanded;
@@ -255,28 +177,7 @@ namespace StandardAssets.Characters.FirstPerson
 			characterInput.crouchEnded -= StartWalking;
 		}
 
-		/// <summary>
-		/// Called on character landing
-		/// </summary>
-		void OnLanded()
-		{
-			m_CurrentMovementProperties = m_NewMovementProperties;
-		}
-
-		/// <summary>
-		/// Handles jumping
-		/// </summary>
-		void OnJumpPressed()
-		{
-			if (controllerAdapter.isGrounded && m_CurrentMovementProperties.canJump)
-			{
-				controllerAdapter.SetJumpVelocity(m_CurrentMovementProperties.jumpSpeed);
-			}
-		}
-
-		/// <summary>
-		/// Handles movement and rotation
-		/// </summary>
+		// Handles movement and rotation
 		void FixedUpdate()
 		{
 			var currentRotation = transform.rotation.eulerAngles;
@@ -284,74 +185,6 @@ namespace StandardAssets.Characters.FirstPerson
 			transform.rotation = Quaternion.Euler(currentRotation);
 			Move();
 			m_FirstPersonMovementEventHandler.Tick();
-		}
-
-		/// <summary>
-		/// State based movement
-		/// </summary>
-		void Move()
-		{
-			if (!characterInput.hasMovementInput)
-			{
-				m_CurrentSpeed = 0f;
-			}
-
-			var move
-				= characterInput.moveInput;
-			if (move.sqrMagnitude > 1)
-			{
-				move.Normalize();
-			}
-
-			var forward = transform.forward * move.y;
-			var sideways = transform.right * move.x;
-			var currentVelocity = (forward + sideways) * m_CurrentMovementProperties.maxSpeed;
-			m_CurrentSpeed = currentVelocity.magnitude;
-			controllerAdapter.Move(currentVelocity * Time.fixedDeltaTime, Time.fixedDeltaTime);
-		}
-
-		/// <summary>
-		/// Sets the character to the walking state
-		/// </summary>
-		void StartWalking()
-		{
-			characterInput.ResetInputs();
-			ChangeState(m_Walking);
-			SetAnimation(k_WalkAnimationStateName);
-		}
-
-		/// <summary>
-		/// Sets the character to the sprinting state
-		/// </summary>
-		void StartSprinting()
-		{
-			ChangeState(m_Sprinting);
-			SetAnimation(k_SprintAnimationStateName);
-		}
-
-		/// <summary>
-		/// Sets the character to crouching state
-		/// </summary>
-		void StartCrouching()
-		{
-			ChangeState(m_Crouching);
-			SetAnimation(k_CrouchAnimationStateName);
-		}
-
-		/// <summary>
-		/// Changes the current motor state and play events associated with state change
-		/// </summary>
-		/// <param name="newState"></param>
-		void ChangeState(MovementProperties newState)
-		{
-			m_NewMovementProperties = newState;
-
-			if (controllerAdapter.isGrounded)
-			{
-				m_CurrentMovementProperties = m_NewMovementProperties;
-			}
-
-			m_FirstPersonMovementEventHandler.AdjustTriggerThreshold(newState.strideLength);
 		}
 		
 #if UNITY_EDITOR
@@ -383,6 +216,121 @@ namespace StandardAssets.Characters.FirstPerson
 		public void ResetState()
 		{
 			ChangeState(m_Walking);
+		}		
+
+		// Helper method for setting the animation
+		// 		animation: The case sensitive name of the animation state
+		void SetAnimation(string animation)
+		{
+			if (m_FirstPersonCameraController == null)
+			{
+				Debug.LogWarning("No camera animation manager setup");
+				return;
+			}
+
+			m_FirstPersonCameraController.SetAnimation(animation);
+		}
+
+		// Checks if the FirstPersonCameraController has been assigned otherwise finds it in the scene
+		void FindCameraController(bool autoDisable)
+		{
+			if (m_FirstPersonCameraController == null)
+			{
+				var firstPersonCameraControllers = FindObjectsOfType<FirstPersonCameraController>();
+				var length = firstPersonCameraControllers.Length;
+				if (length != 1)
+				{
+					var errorMessage = "No FirstPersonCameraAnimationManagers in scene! Disabling Brain";
+					if (length > 1)
+					{
+						errorMessage = "Too many FirstPersonCameraAnimationManagers in scene! Disabling Brain";
+					}
+
+					if (autoDisable)
+					{
+						Debug.LogError(errorMessage);
+						gameObject.SetActive(false);	
+					}
+					
+					return;
+				}
+
+				m_FirstPersonCameraController = firstPersonCameraControllers[0];
+			}
+
+			m_FirstPersonCameraController.SetupBrain(this);
+		}
+
+		// Called on character landing
+		void OnLanded()
+		{
+			m_CurrentMovementProperties = m_NewMovementProperties;
+		}
+
+		// Handles jumping
+		void OnJumpPressed()
+		{
+			if (controllerAdapter.isGrounded && m_CurrentMovementProperties.canJump)
+			{
+				controllerAdapter.SetJumpVelocity(m_CurrentMovementProperties.jumpSpeed);
+			}
+		}
+
+		// State based movement
+		void Move()
+		{
+			if (!characterInput.hasMovementInput)
+			{
+				m_CurrentSpeed = 0f;
+			}
+
+			var move
+				= characterInput.moveInput;
+			if (move.sqrMagnitude > 1)
+			{
+				move.Normalize();
+			}
+
+			var forward = transform.forward * move.y;
+			var sideways = transform.right * move.x;
+			var currentVelocity = (forward + sideways) * m_CurrentMovementProperties.maxSpeed;
+			m_CurrentSpeed = currentVelocity.magnitude;
+			controllerAdapter.Move(currentVelocity * Time.fixedDeltaTime, Time.fixedDeltaTime);
+		}
+
+		// Sets the character to the walking state
+		void StartWalking()
+		{
+			characterInput.ResetInputs();
+			ChangeState(m_Walking);
+			SetAnimation(k_WalkAnimationStateName);
+		}
+
+		// Sets the character to the sprinting state
+		void StartSprinting()
+		{
+			ChangeState(m_Sprinting);
+			SetAnimation(k_SprintAnimationStateName);
+		}
+
+		// Sets the character to crouching state
+		void StartCrouching()
+		{
+			ChangeState(m_Crouching);
+			SetAnimation(k_CrouchAnimationStateName);
+		}
+
+		// Changes the current motor state and play events associated with state change
+		void ChangeState(MovementProperties newState)
+		{
+			m_NewMovementProperties = newState;
+
+			if (controllerAdapter.isGrounded)
+			{
+				m_CurrentMovementProperties = m_NewMovementProperties;
+			}
+
+			m_FirstPersonMovementEventHandler.AdjustTriggerThreshold(newState.strideLength);
 		}
 	}
 	
@@ -398,15 +346,21 @@ namespace StandardAssets.Characters.FirstPerson
 		[SerializeField, Tooltip("Layermask used for checking movement area")]
 		LayerMask m_LayerMask;
 
+		// COMMENT TODO
 		float m_SqrTravelledDistance;
 
+		// COMMENT TODO
 		float m_SqrDistanceThreshold;
 
+		// COMMENT TODO
 		Vector3 m_PreviousPosition;
 
+		// COMMENT TODO
 		bool m_IsLeftFoot;
 
+		// COMMENT TODO
 		Transform m_Transform;
+
 
 		/// <summary>
 		/// Initializes the handler with the correct character brain and sets up the transform and previousPosition needed to calculate distance travelled
@@ -449,7 +403,7 @@ namespace StandardAssets.Characters.FirstPerson
 		}
 
 		/// <summary>
-		/// Subscribe
+		// COMMENT TODO
 		/// </summary>
 		public void Subscribe()
 		{
@@ -462,7 +416,7 @@ namespace StandardAssets.Characters.FirstPerson
 		}
 
 		/// <summary>
-		/// Unsubscribe
+		// COMMENT TODO
 		/// </summary>
 		public void Unsubscribe()
 		{
@@ -483,24 +437,21 @@ namespace StandardAssets.Characters.FirstPerson
 			m_SqrDistanceThreshold = strideLength * strideLength;
 		}
 		
-		/// <summary>
-		/// Calls PlayEvent on the jump ID
-		/// </summary>
+		// Calls PlayEvent on the jump ID
 		void Jumped()
 		{
 			CheckArea();
 			PlayJumping(new MovementEventData(m_Transform));
 		}
 
-		/// <summary>
-		/// Calls PlayEvent on the landing ID
-		/// </summary>
+		// Calls PlayEvent on the landing ID
 		void Landed()
 		{
 			CheckArea();
 			PlayLanding(new MovementEventData(m_Transform));
 		}
 		
+		// COMMENT TODO
 		void PlayFootstep(MovementEventData movementEventData)
 		{
 			CheckArea();
@@ -516,6 +467,7 @@ namespace StandardAssets.Characters.FirstPerson
 			m_IsLeftFoot = !m_IsLeftFoot;
 		}
 
+		// COMMENT TODO
 		void CheckArea()
 		{
 			RaycastHit hit;

@@ -7,6 +7,9 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 	/// </summary>
 	public class FallingLoopAnimatorState : StateMachineBehaviour 
 	{
+        /// <summary>
+        /// COMMENT TODO
+        /// </summary>
 		public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 			var thirdPersonBrain = animator.GetComponent<ThirdPersonBrain>();

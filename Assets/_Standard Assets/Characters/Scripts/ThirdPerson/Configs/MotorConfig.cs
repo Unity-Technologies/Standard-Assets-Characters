@@ -20,6 +20,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			[SerializeField, Tooltip("Number of samples used for forward input smoothing.")]
 			int m_ForwardInputSamples = 5;
 
+			// COMMENT TODO:  Tooltip required
 			[SerializeField]
 			int m_StrafeInputWindowSize = 5;
 			
@@ -62,11 +63,18 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			[SerializeField, Tooltip("Number of frames of input that will be used to determine if a rapid turn was triggered")]
 			int m_InputBufferSize = 5;
 
+
+	        /// <summary>
+	        /// COMMENT TODO
+	        /// </summary>
 			public float sprintNormalizedSpeedIncrease
 			{
 				get { return m_SprintNormalizedSpeedIncrease; }
 			}
 
+	        /// <summary>
+	        /// COMMENT TODO
+	        /// </summary>
 			public int forwardInputWindowSize
 			{
 				get { return m_ForwardInputSamples; }

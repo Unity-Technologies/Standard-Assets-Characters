@@ -8,8 +8,10 @@ namespace StandardAssets.Characters.Helpers
 	/// </summary>
 	public class SlidingAverage
 	{
+		// COMMENT TODO		
 		SizedQueue<float> m_Values;
 
+		// COMMENT TODO
 		readonly int m_WindowSize;
 
 		/// <summary>
@@ -35,6 +37,10 @@ namespace StandardAssets.Characters.Helpers
 			}
 		}
 
+
+		/// <summary>
+		/// COMMENT TODO
+		/// </summary>
 		public SlidingAverage(int setWindowSize)
 		{
 			m_Values = new SizedQueue<float>(setWindowSize);

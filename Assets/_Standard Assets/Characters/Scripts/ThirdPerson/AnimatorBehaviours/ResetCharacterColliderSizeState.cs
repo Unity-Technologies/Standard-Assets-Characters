@@ -9,28 +9,19 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 	/// </summary>
 	public class ResetCharacterColliderSizeState : StateMachineBehaviour
 	{
-		/// <summary>
-		/// Reset the height?
-		/// </summary>
-		[Tooltip("Reset the height?")]
-		[SerializeField]
+		[SerializeField, Tooltip("Reset the height?")]
 		bool m_ResetHeight = true;
 		
-		/// <summary>
-		/// Reset the offset/center?
-		/// </summary>
-		[Tooltip("Reset the offset/center?")]
-		[SerializeField]
+		[SerializeField, Tooltip("Reset the offset/center?")]
 		bool m_ResetOffset = true;
 
-		/// <summary>
-		/// Preserve the foot position when only resetting the height? (This is ignored when resetting the center.)
-		/// </summary>
-		[Tooltip("Preserve the foot position when only resetting the height? (This is ignored when resetting the center.)")]
-		[SerializeField]
+		[SerializeField, Tooltip("Preserve the foot position when only resetting the height? (This is ignored when resetting the center.)")]
 		bool m_PreserveFootPosition = true;
 
+		// COMMENT TODO
 		ControllerAdapter m_ControllerAdapter;
+
+		// COMMENT TODO
 		OpenCharacterController m_OpenCharacterController;
 		
 		/// <inheritdoc />
@@ -56,12 +47,16 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 			HandleReset();
 		}
 		
+        /// <summary>
+        /// COMMENT TODO
+        /// </summary>
 		public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 			// Have to call this every frame, in case we're busy transitioning from another state that's updating the size as well.
 			HandleReset();
 		}
 
+		// COMMENT TODO
 		void HandleReset()
 		{
 			if (m_OpenCharacterController == null)

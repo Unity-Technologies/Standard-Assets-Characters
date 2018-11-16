@@ -15,6 +15,9 @@ namespace StandardAssets.Characters.Effects.Configs
 		[SerializeField, Tooltip("List of movement event libraries for different movement zones")]
 		MovementEventZoneDefinitionList m_ZonesDefinition;
 
+		/// <summary>
+		/// COMMENT TODO
+		/// </summary>
 		public MovementEventLibrary this[PhysicMaterial physicMaterial]
 		{
 			get

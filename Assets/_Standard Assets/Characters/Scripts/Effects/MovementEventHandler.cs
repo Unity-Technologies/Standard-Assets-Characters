@@ -15,22 +15,34 @@ namespace StandardAssets.Characters.Effects
         [SerializeField, Tooltip("List of movement event libraries for different movement zones")]
         MovementEventZoneDefinitionList m_ZonesDefinition;
 
+        // COMMENT TODO
         MovementEventLibrary m_CurrentMovementEventLibrary;
 
+        // COMMENT TODO
         CharacterBrain m_Brain;
 
+        // COMMENT TODO
         PhysicMaterial m_PhysicMaterial;
 
+        /// <summary>
+        /// COMMENT TODO
+        /// </summary>
         protected CharacterBrain brain
         {
             get { return m_Brain; }
         }
 
+        /// <summary>
+        /// COMMENT TODO
+        /// </summary>
         protected bool canPlayEffect
         {
             get { return m_CurrentMovementEventLibrary != null; }
         }
         
+        /// <summary>
+        /// COMMENT TODO
+        /// </summary>
         protected MovementEventLibrary defaultLibrary
         {
             get
@@ -51,15 +63,81 @@ namespace StandardAssets.Characters.Effects
             }
         }
 
+
         /// <summary>
-        /// Sets the current <see cref="MovementEventLibrary"/>
+        /// Sets the current event library to the starting event library
         /// </summary>
-        /// <param name="newMovementEventLibrary">Movement event library data</param>
+        protected void Init(CharacterBrain brainToUse)
+        {
+            m_Brain = brainToUse;
+            SetCurrentMovementEventLibrary(defaultLibrary);
+        }
+
+        /// <summary>
+        /// COMMENT TODO
+        /// </summary>
+        protected virtual void PlayLeftFoot(MovementEventData data)
+        {
+            if (canPlayEffect)
+            {
+                m_CurrentMovementEventLibrary.PlayLeftFoot(data);
+            }
+        }
+
+        /// <summary>
+        /// COMMENT TODO
+        /// </summary>
+        protected virtual void PlayRightFoot(MovementEventData data)
+        {
+            if (canPlayEffect)
+            {
+                m_CurrentMovementEventLibrary.PlayRightFoot(data);
+            }
+        }
+
+        /// <summary>
+        /// COMMENT TODO
+        /// </summary>
+        protected virtual void PlayLanding(MovementEventData data)
+        {
+            if (canPlayEffect)
+            {
+                m_CurrentMovementEventLibrary.PlayLanding(data);
+            }
+        }
+
+        /// <summary>
+        /// COMMENT TODO
+        /// </summary>
+        protected virtual void PlayJumping(MovementEventData data)
+        {
+            if (canPlayEffect)
+            {
+                m_CurrentMovementEventLibrary.PlayJumping(data);
+            }
+        }
+
+        /// <summary>
+        /// COMMENT TODO
+        /// </summary>
+        protected void SetPhysicMaterial(PhysicMaterial physicMaterial)
+        {
+            if (m_PhysicMaterial != physicMaterial)
+            {
+                ChangeMovementZone(physicMaterial);
+            }
+
+            m_PhysicMaterial = physicMaterial;
+        }
+
+        // Sets the current MovementEventLibrary
+        //      newMovementEventLibrary: Movement event library data
         void SetCurrentMovementEventLibrary(MovementEventLibrary newMovementEventLibrary)
         {
             m_CurrentMovementEventLibrary = newMovementEventLibrary;
         }
         
+        // COMMENT TODO
         void ChangeMovementZone(PhysicMaterial physicMaterial)
         {
             var library = m_ZonesDefinition[physicMaterial];
@@ -86,67 +164,19 @@ namespace StandardAssets.Characters.Effects
             {
                 SetCurrentMovementEventLibrary(defaultLibrary);
             }
-        }
-
-        /// <summary>
-        /// Sets the current event library to the starting event library
-        /// </summary>
-        protected void Init(CharacterBrain brainToUse)
-        {
-            m_Brain = brainToUse;
-            SetCurrentMovementEventLibrary(defaultLibrary);
-        }
-
-        protected virtual void PlayLeftFoot(MovementEventData data)
-        {
-            if (canPlayEffect)
-            {
-                m_CurrentMovementEventLibrary.PlayLeftFoot(data);
-            }
-        }
-
-        protected virtual void PlayRightFoot(MovementEventData data)
-        {
-            if (canPlayEffect)
-            {
-                m_CurrentMovementEventLibrary.PlayRightFoot(data);
-            }
-        }
-
-        protected virtual void PlayLanding(MovementEventData data)
-        {
-            if (canPlayEffect)
-            {
-                m_CurrentMovementEventLibrary.PlayLanding(data);
-            }
-        }
-
-        protected virtual void PlayJumping(MovementEventData data)
-        {
-            if (canPlayEffect)
-            {
-                m_CurrentMovementEventLibrary.PlayJumping(data);
-            }
-        }
-
-        protected void SetPhysicMaterial(PhysicMaterial physicMaterial)
-        {
-            if (m_PhysicMaterial != physicMaterial)
-            {
-                ChangeMovementZone(physicMaterial);
-            }
-
-            m_PhysicMaterial = physicMaterial;
-        }
+        }        
     }
+
 
     /// <summary>
     /// Container of data associated with a movement event
     /// </summary>
     public struct MovementEventData
     {
+        // COMMENT TODO
         Transform m_FiredFrom;
 
+        // COMMENT TODO
         float m_NormalizedSpeed;
 
         /// <summary>
@@ -178,6 +208,7 @@ namespace StandardAssets.Characters.Effects
         }
     }
 
+
     /// <summary>
     /// A library of movement effects.
     /// This is what would be swapped out for different zones.
@@ -198,51 +229,12 @@ namespace StandardAssets.Characters.Effects
         [SerializeField, Tooltip("The movement event player prefab for handling jumping")]
         MovementEventPlayer[] m_JumpingPrefabs;
 
-        /// <summary>
-        /// Cache of the various instances so that the prefab is only spawned once
-        /// </summary>
-        MovementEventPlayer[] m_LeftFootStepInstances, m_RightFootStepInstances, m_LandingInstances, m_JumpingInstances;
+        // Cache of the various instances so that the prefab is only spawned once
+        MovementEventPlayer[] m_LeftFootStepInstances;
+        MovementEventPlayer[] m_RightFootStepInstances;
+        MovementEventPlayer[] m_LandingInstances;
+        MovementEventPlayer[] m_JumpingInstances;
 
-        /// <summary>
-        /// Helper function for ensuring that the <see cref="MovementEventPlayer"/> prefab is only instantiated once and the cached version is then used
-        /// </summary>
-        /// <param name="movementEventData">The data relating to the movement event</param>
-        /// <param name="prefab">The prefab to instantiate, if it is not cached</param>
-        /// <param name="instance">The cached instance of the prefab - this could be null and therefore the keyword ref is required</param>
-        void PlayInstancedEvent(MovementEventData movementEventData, MovementEventPlayer[] prefabs, ref MovementEventPlayer[] instances)
-        {
-            if (prefabs == null || prefabs.Length == 0)
-            {
-                return;
-            }
-
-            if (instances == null || instances.Length == 0)
-            {
-                instances = new MovementEventPlayer[prefabs.Length];
-                var i = -1;
-                foreach (var movementEventPlayer in prefabs)
-                {
-                    i++;
-                    instances[i] = Object.Instantiate(movementEventPlayer);
-                }
-            }
-
-            var j = -1;
-            foreach (var movementEventPlayer in instances)
-            {
-                j++;
-                if (movementEventPlayer == null)
-                {
-                    var player = Object.Instantiate(prefabs[j]);
-                    instances[j] =  player;
-                    player.Play(movementEventData);               
-                }
-                else
-                {
-                    movementEventPlayer.Play(movementEventData);
-                }
-            }
-        }
 
         /// <summary>
         /// Helper for playing the Left Foot movement event
@@ -279,7 +271,47 @@ namespace StandardAssets.Characters.Effects
         {
             PlayInstancedEvent(movementEventData, m_JumpingPrefabs, ref m_JumpingInstances);
         }
+
+        // Helper function for ensuring that the MovementEventPlayer prefab is only instantiated once and the cached version is then used
+        //      movementEventData: The data relating to the movement event
+        //      prefab: The prefab to instantiate, if it is not cached
+        //      instance: The cached instance of the prefab - this could be null and therefore the keyword ref is required
+        void PlayInstancedEvent(MovementEventData movementEventData, MovementEventPlayer[] prefabs, ref MovementEventPlayer[] instances)
+        {
+            if (prefabs == null || prefabs.Length == 0)
+            {
+                return;
+            }
+
+            if (instances == null || instances.Length == 0)
+            {
+                instances = new MovementEventPlayer[prefabs.Length];
+                var i = -1;
+                foreach (var movementEventPlayer in prefabs)
+                {
+                    i++;
+                    instances[i] = Object.Instantiate(movementEventPlayer);
+                }
+            }
+
+            var j = -1;
+            foreach (var movementEventPlayer in instances)
+            {
+                j++;
+                if (movementEventPlayer == null)
+                {
+                    var player = Object.Instantiate(prefabs[j]);
+                    instances[j] =  player;
+                    player.Play(movementEventData);               
+                }
+                else
+                {
+                    movementEventPlayer.Play(movementEventData);
+                }
+            }
+        }        
     }
+
 
     /// <summary>
     /// Defines which zone ID matches to which <see cref="MovementEventLibrary"/>
@@ -310,6 +342,7 @@ namespace StandardAssets.Characters.Effects
         }
     }
 
+
     /// <summary>
     /// A set of <see cref="MovementEventLibrary"/> for different zone IDs
     /// </summary>
@@ -319,6 +352,9 @@ namespace StandardAssets.Characters.Effects
         [SerializeField, Tooltip("List of movement event libraries for different movement zones")]
         MovementEventZoneDefinition[] m_MovementZoneLibraries;
 
+        /// <summary>
+        // COMMENT TODO
+        /// </summary>
         public MovementEventLibrary this[PhysicMaterial physicMaterial]
         {
             get
