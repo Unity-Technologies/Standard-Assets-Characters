@@ -900,7 +900,7 @@ namespace StandardAssets.Characters.ThirdPerson
         void UpdateAnimationMovementSpeeds(float deltaTime)
         {
             // if in strafe move and moving enough perform strafe rapid direction change logic
-            if (m_Configuration.enableStrafeRapidDirectionChangeSmoothingLogic &&
+            if (m_Configuration.enableStrafeRapidDirectionChangeSmoothing &&
                 m_Motor.movementMode == ThirdPersonMotorMovementMode.Strafe &&
                 (Mathf.Abs(animatorLateralSpeed) >= 0.5f || Mathf.Abs(animatorForwardSpeed) >= 0.5f))
             {

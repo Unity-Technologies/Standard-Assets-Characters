@@ -147,11 +147,7 @@ namespace StandardAssets.Characters.Physics
 			/// Can the movement slide along obstacles?
 			/// </summary>
 			public bool canSlide { get; set; }
-
-#if UNITY_EDITOR
-			public Vector3 debugOriginalVector { get; set; }
-#endif
-
+			
 			/// <summary>
 			/// Constructor.
 			/// </summary>
@@ -162,10 +158,6 @@ namespace StandardAssets.Characters.Physics
 			{
 				moveVector = newMoveVector;
 				canSlide = newCanSlide;
-
-#if UNITY_EDITOR
-				debugOriginalVector = newMoveVector;
-#endif
 			}
 		}
 
@@ -552,7 +544,7 @@ namespace StandardAssets.Characters.Physics
 			"If the character tries to move below the indicated value, it will not move at all. This can be used to reduce jitter. " +
 			"In most situations this value should be left at 0.")]
 		[SerializeField]
-		float m_MinMoveDistance = 0.0f;
+		float m_MinMoveDistance;
 
 		/// <summary>
 		/// This will offset the Capsule Collider in world space, and won’t affect how the Character pivots.
@@ -1492,14 +1484,8 @@ namespace StandardAssets.Characters.Physics
 		}
 
 #if UNITY_EDITOR
-		/// <inheritdoc />
-		void OnDrawGizmosSelected(Transform transform)
+		void OnDrawGizmosSelected()
 		{
-			if (m_CachedTransform == null)
-			{
-				m_CachedTransform = transform;
-			}
-
 			// Foot position
 			Gizmos.color = Color.cyan;
 			var footPosition = GetFootWorldPosition();
@@ -1521,20 +1507,6 @@ namespace StandardAssets.Characters.Physics
 			                centerPosition + Vector3.right * scaledRadius);
 			Gizmos.DrawLine(centerPosition + Vector3.back * scaledRadius,
 			                centerPosition + Vector3.forward * scaledRadius);
-
-			var tempCapsuleCollider = m_CapsuleCollider;
-			if (tempCapsuleCollider == null)
-			{
-				// Check if there's an attached collider
-				tempCapsuleCollider =
-					(CapsuleCollider) m_CachedTransform.gameObject.GetComponent(typeof(CapsuleCollider));
-			}
-
-			if (tempCapsuleCollider != null)
-			{
-				// No need to draw a fake collider, because the real collider will draw itself
-				return;
-			}
 		}
 #endif
 
@@ -1617,11 +1589,10 @@ namespace StandardAssets.Characters.Physics
 		/// Moves the characters.
 		/// </summary>
 		/// <param name="moveVector">Move vector.</param>
-		/// <param name="slideWhenMovingDown">Slide against obstacles when moving down? (e.g. we don't want to slide when applying gravity while the charcter is grounded)</param>
+		/// <param name="slideWhenMovingDown">Slide against obstacles when moving down? (e.g. we don't want to slide when applying gravity while the character is grounded)</param>
 		/// <param name="forceTryStickToGround">Force try to stick to ground? Only used if character is grounded before moving.</param>
 		/// <param name="doNotStepOffset">Do not try to perform the step offset?</param>
-		/// <returns>CollisionFlags is the summary of collisions that occurred during the move.</returns>
-		CollisionFlags MoveInternal(Vector3 moveVector, bool slideWhenMovingDown,
+		void MoveInternal(Vector3 moveVector, bool slideWhenMovingDown,
 		                                    bool forceTryStickToGround = false,
 		                                    bool doNotStepOffset = false)
 		{
@@ -1630,7 +1601,7 @@ namespace StandardAssets.Characters.Physics
 			    sqrDistance < GetMinMoveSqrDistance() ||
 			    sqrDistance < k_MinMoveSqrDistance)
 			{
-				return CollisionFlags.None;
+				return;
 			}
 
 			var wasGrounded = isGrounded;
@@ -1681,8 +1652,6 @@ namespace StandardAssets.Characters.Physics
 			{
 				SendHitMessages();
 			}
-
-			return collisionFlags;
 		}
 
 		/// <summary>
@@ -2122,43 +2091,9 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		/// <param name="moveVector">Move vector to add.</param>
 		/// <param name="canSlide">Can the movement slide along obstacles?</param>
-		int AddMoveVector(Vector3 moveVector, bool canSlide = true)
+		void AddMoveVector(Vector3 moveVector, bool canSlide = true)
 		{
 			m_MoveVectors.Add(new MoveVector(moveVector, canSlide));
-			return m_MoveVectors.Count - 1;
-		}
-
-		/// <summary>
-		/// Insert the movement vector into the moveVectors list.
-		/// </summary>
-		/// <param name="index">Index.</param>
-		/// <param name="moveVector">Move vector to add.</param>
-		/// <param name="canSlide">Can the movement slide along obstacles?</param>
-		/// <returns>The index where it was inserted.</returns>
-		int InsertMoveVector(int index, Vector3 moveVector, bool canSlide = true)
-		{
-			if (index < 0)
-			{
-				index = 0;
-			}
-
-			if (index >= m_MoveVectors.Count)
-			{
-				m_MoveVectors.Add(new MoveVector(moveVector, canSlide));
-				return m_MoveVectors.Count - 1;
-			}
-
-			m_MoveVectors.Insert(index, new MoveVector(moveVector, canSlide));
-			return index;
-		}
-
-		/// <summary>
-		/// Is the move loop on the final move vector?
-		/// </summary>
-		bool IsFinalMoveVector()
-		{
-			return m_MoveVectors.Count == 0 ||
-			       m_NextMoveVectorIndex >= m_MoveVectors.Count;
 		}
 
 		/// <summary>

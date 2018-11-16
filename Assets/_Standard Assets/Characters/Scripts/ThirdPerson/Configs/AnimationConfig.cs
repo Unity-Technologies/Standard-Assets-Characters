@@ -210,7 +210,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// <summary>
 		/// Gets whether strafe rapid direction smoothing logic should be performed.
 		/// </summary>
-		public bool enableStrafeRapidDirectionChangeSmoothingLogic
+		public bool enableStrafeRapidDirectionChangeSmoothing
 		{
 			get { return m_Advanced.enableStrafeRapidDirectionChangeSmoothing; }
 		}
