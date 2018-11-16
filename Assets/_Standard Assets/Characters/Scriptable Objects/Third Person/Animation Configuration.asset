@@ -14,7 +14,7 @@ MonoBehaviour:
   m_NormalizedForwardSpeedRequiredToRoll: 0.3
   m_FallTimeRequiredToTriggerRoll: 0.75
   m_EnableHeadTurn: 1
-  m_AdvancedSettings:
+  m_Advanced:
     m_ForwardSpeedInterpolationRange:
       m_MinValue: 0.2
       m_MaxValue: 0.35
@@ -127,6 +127,58 @@ MonoBehaviour:
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_JumpBlendTimeInc: 0.1
+    m_FootPositionJumpIncRemap:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: -0.00000042073867
+        outSlope: -0.00000042073867
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 1
+      - serializedVersion: 3
+        time: 0.25
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.5
+        value: 1
+        inSlope: -0.000000560985
+        outSlope: -0.000000560985
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.8499999
+      - serializedVersion: 3
+        time: 0.75
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.89608437
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0.0000005501968
+        outSlope: 0.0000005501968
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.86666656
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2

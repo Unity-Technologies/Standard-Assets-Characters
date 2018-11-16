@@ -215,6 +215,8 @@ namespace StandardAssets.Characters.ThirdPerson
 
         bool m_JustJumped;
 
+        float m_TimeSinceGroundedFootChange;
+
         //the camera controller to be used
         bool m_IsChangingCamera;
 
@@ -1034,6 +1036,10 @@ namespace StandardAssets.Characters.ThirdPerson
 
             animator.SetFloat(m_HashVerticalSpeed, 1.0f);
 
+            var timeSincePlantedFootChange = 
+                m_Configuration.footPositionJumpIncRemap.Evaluate(m_TimeSinceGroundedFootChange * 2.0f);
+            var extraDuration = timeSincePlantedFootChange * m_Configuration.jumpBlendTimeInc;
+            
             string jumpState;
             if (m_Motor.movementMode == ThirdPersonMotorMovementMode.Exploration)
             {
@@ -1048,7 +1054,7 @@ namespace StandardAssets.Characters.ThirdPerson
                     : AnimationControllerInfo.k_LeftFootStrafeJump;
             }
 
-            animator.CrossFade(jumpState, duration);
+            animator.CrossFade(jumpState, duration + extraDuration);
             m_LastJumpWasRightRoot = rightFoot;
 
             m_JustJumped = true;
@@ -1081,10 +1087,12 @@ namespace StandardAssets.Characters.ThirdPerson
             if ((animationNormalizedProgress + m_Configuration.groundedFootThresholdOffsetValue).Wrap1() >
                 (m_Configuration.groundedFootThresholdValue + m_Configuration.groundedFootThresholdOffsetValue).Wrap1())
             {
+                m_TimeSinceGroundedFootChange = animationNormalizedProgress - m_Configuration.groundedFootThresholdOffsetValue;
                 SetGroundedFootRight(!m_Configuration.invertFoot);
                 return;
             }
-
+            m_TimeSinceGroundedFootChange = (animationNormalizedProgress + m_Configuration.groundedFootThresholdValue) 
+                % 1.0f;
             SetGroundedFootRight(m_Configuration.invertFoot);
         }
 
