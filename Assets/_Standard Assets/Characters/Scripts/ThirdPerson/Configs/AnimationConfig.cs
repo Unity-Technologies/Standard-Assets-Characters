@@ -12,7 +12,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 	public class AnimationConfig : ScriptableObject
 	{
 		[Serializable]
-		protected class AdvancedAnimationConfig
+		class AdvancedAnimationConfig
 		{
 			[Header("Ground Movement")]
 			[SerializeField, Tooltip("Configuration for the forward speed animation parameter")]

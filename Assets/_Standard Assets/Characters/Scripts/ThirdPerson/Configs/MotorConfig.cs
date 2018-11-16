@@ -11,7 +11,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 	public class MotorConfig : ScriptableObject
 	{
 		[Serializable]
-		protected class AdvancedMotorConfig
+		class AdvancedMotorConfig
 		{
 			[Header("Ground Motion")]
 			[SerializeField, Tooltip("During sprint normalized speed will be 1 + this. Used to extend the locomotion blend tree.")]
