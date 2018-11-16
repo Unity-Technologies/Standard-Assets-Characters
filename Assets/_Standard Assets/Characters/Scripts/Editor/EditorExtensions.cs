@@ -75,6 +75,7 @@ namespace Editor
 			}
 			else
 			{
+				EditorGUILayout.BeginHorizontal();
 				EditorGUILayout.ObjectField(property);
 				if (GUILayout.Button("Create"))
 				{
@@ -102,6 +103,7 @@ namespace Editor
 					}
 					property.objectReferenceValue = CreateAssetWithSavePrompt(type, selectedAssetPath);
 				}
+				EditorGUILayout.EndHorizontal();
 			}
 
 			property.serializedObject.ApplyModifiedProperties();
@@ -186,9 +188,54 @@ namespace Editor
 		/// <returns></returns>
 		public static Type GetType(this SerializedProperty property, BindingFlags bindingFlags)
 		{
-			Type containingType = property.serializedObject.targetObject.GetType();
-			FieldInfo fieldInfo = containingType.GetField(property.propertyPath, bindingFlags);
+			var targetObject = GetTargetObjectWithProperty(property);
+			if (targetObject == null)
+			{
+				return null;
+			}
+			Type type = targetObject.GetType();
+			var fieldName = property.propertyPath.Split('.').Last();
+			FieldInfo fieldInfo = type.GetField(fieldName, bindingFlags);
 			return fieldInfo == null ? null : fieldInfo.FieldType;
 		}
+		
+		static object GetTargetObjectWithProperty(SerializedProperty prop)
+		{
+			object obj = prop.serializedObject.targetObject;
+			var elements = prop.propertyPath.Split('.');
+			foreach (var element in elements.Take(elements.Length - 1))
+			{
+				obj = GetValue_Imp(obj, element);
+			}
+			return obj;
+		}
+
+		static object GetValue_Imp(object source, string name)
+		{
+			if (source == null)
+			{
+				return null;
+			}
+			
+			var type = source.GetType();
+			while (type != null)
+			{
+				var field = type.GetField(name, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
+				if (field != null)
+				{
+					return field.GetValue(source);
+				}
+				var property = type.GetProperty(name, BindingFlags.NonPublic | BindingFlags.Public | 
+												      BindingFlags.Instance | BindingFlags.IgnoreCase);
+				if (property != null)
+				{
+					return property.GetValue(source, null);
+				}
+				type = type.BaseType;
+			}
+			return null;
+		}
 	}
+	
+	
 }
