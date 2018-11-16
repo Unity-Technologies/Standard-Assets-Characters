@@ -5,13 +5,14 @@ using StandardAssets.Characters.Effects;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
+
 namespace Editor
 {
     [CustomPropertyDrawer(typeof(MovementEventZoneDefinitionList))]
     public class MovementEventZoneDefinitionListPropertyDrawer : PropertyDrawer
     {
         const float k_ArrayElementHeightScale = 1.1f;
-        
+
         ReorderableList m_ReorderableList;
         SerializedProperty listProperty;
         List<float> m_ElementHeights = new List<float>();
@@ -22,38 +23,51 @@ namespace Editor
             {
                 return;
             }
-            
+
             listProperty = property.FindPropertyRelative("m_MovementZoneLibraries");
             for (int i = 0; i < listProperty.arraySize; i++)
             {
                 m_ElementHeights.Add(2 * EditorGUIUtility.singleLineHeight);
             }
-            
+
             m_ReorderableList = new ReorderableList(listProperty.serializedObject, listProperty, false, false, true, true);
             m_ReorderableList.drawHeaderCallback = rect =>
             {
                 GUI.Label(rect, "Movement Zones");
             };
-            
+
             m_ReorderableList.drawElementCallback = DrawElementCallback;
             m_ReorderableList.elementHeightCallback = ElementHeightCallback;
-//            m_ReorderableList.onAddCallback = OnAddCallback;
-//            m_ReorderableList.onRemoveCallback = OnRemoveCallback;
+            m_ReorderableList.onAddCallback = OnAddCallback;
+            m_ReorderableList.onRemoveCallback = OnRemoveCallback;
+            m_ReorderableList.onChangedCallback = OnChangedCallback; 
         }
 
-//        void OnRemoveCallback(ReorderableList list)
-//        {
-//            m_ElementHeights.RemoveAt(list.index);
-//            list.list.RemoveAt(list.index);
-//            //EditorUtility.SetDirty(listProperty.objectReferenceValue);
-//        }
-//
-//        void OnAddCallback(ReorderableList list)
-//        {
-//            m_ElementHeights.Add(2 * EditorGUIUtility.singleLineHeight);
-//            //listProperty.Add(new MovementEventZoneDefinition());
-//            EditorUtility.SetDirty(listProperty.objectReferenceValue);
-//        }
+        void OnChangedCallback(ReorderableList list)
+        {
+            listProperty.serializedObject.ApplyModifiedProperties();
+        }
+
+        void OnRemoveCallback(ReorderableList list)
+        {
+            m_ElementHeights.RemoveAt(list.index);
+
+            list.serializedProperty.DeleteArrayElementAtIndex(list.index);
+            if (list.index < list.serializedProperty.arraySize - 1)
+            {
+                return;
+            }
+            else
+            {
+                list.index = list.serializedProperty.arraySize - 1;
+            }
+        }
+
+        void OnAddCallback(ReorderableList list)
+        {
+            m_ElementHeights.Add(2 * EditorGUIUtility.singleLineHeight);
+            listProperty.arraySize++;
+        }
 
         float ElementHeightCallback(int index)
         {
@@ -79,6 +93,7 @@ namespace Editor
                 elementHeight += GetExpandedArrayHeight(zoneLibary.FindPropertyRelative("m_LandingPrefabs"));
                 elementHeight += GetExpandedArrayHeight(zoneLibary.FindPropertyRelative("m_JumpingPrefabs"));
             }
+
             elementHeight += EditorGUIUtility.singleLineHeight;
             m_ElementHeights[index] = elementHeight;
         }
@@ -96,8 +111,8 @@ namespace Editor
         }
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-        { 
-            SetupReorderableList(property);   
+        {
+            SetupReorderableList(property);
             m_ReorderableList.DoLayoutList();
             property.serializedObject.ApplyModifiedProperties();
         }
