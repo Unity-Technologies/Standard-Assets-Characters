@@ -95,7 +95,6 @@ namespace Editor
                 elementHeight += GetExpandedArrayHeight(zoneLibary.FindPropertyRelative("m_JumpingPrefabs"));
             }
 
-            elementHeight += EditorGUIUtility.singleLineHeight;
             m_ElementHeights[index] = elementHeight;
             if (EditorGUI.EndChangeCheck())
             {
