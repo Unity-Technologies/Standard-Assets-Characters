@@ -1,6 +1,5 @@
 ﻿using StandardAssets.Characters.Common;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.Examples.SimpleMovementController
 {

@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.Examples.SimpleNavMeshInputController
 {

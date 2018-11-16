@@ -1,6 +1,5 @@
 ﻿using Cinemachine;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace StandardAssets.Characters.Examples.SimpleMovementController.UI

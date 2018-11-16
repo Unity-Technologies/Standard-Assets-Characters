@@ -1,7 +1,6 @@
 ﻿using StandardAssets.Characters.Common;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 {

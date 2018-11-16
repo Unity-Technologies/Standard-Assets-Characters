@@ -39,7 +39,7 @@ namespace StandardAssets.Characters.Helpers
 			{
 				toWrap += 360.0f;
 			}
-			if (toWrap > 180.0f)
+			else if (toWrap > 180.0f)
 			{
 				toWrap -= 360.0f;
 			}

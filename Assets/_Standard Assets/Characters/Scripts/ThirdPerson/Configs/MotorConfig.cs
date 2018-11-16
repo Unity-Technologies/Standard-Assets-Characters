@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.ThirdPerson.Configs
 {
@@ -12,7 +11,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 	public class MotorConfig : ScriptableObject
 	{
 		[Serializable]
-		protected class AdvancedMotorConfig
+		class AdvancedMotorConfig
 		{
 			[Header("Ground Motion")]
 			[SerializeField, Tooltip("During sprint normalized speed will be 1 + this. Used to extend the locomotion blend tree.")]
@@ -182,7 +181,6 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		[SerializeField, Tooltip("Minimum angle required to trigger a stationary rapid")]
 		float m_StationaryRapidTurnAngle = 90f;
 
-		[FormerlySerializedAs("m_AdvancedSettings")]
 		[SerializeField, Space]
 		AdvancedMotorConfig m_Advanced;
 
@@ -230,7 +228,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// <summary>
 		/// Gets the degrees per second that the character can turn during a jump.
 		/// </summary>
-		/// <value><see cref="m_TurningSpeed"/> with <see cref="m_JumpTurningSpeedScale"/> applied.</value>
+		/// <value><see cref="m_TurningSpeed"/> with <see cref="AdvancedMotorConfig.m_JumpTurningSpeedScale"/> applied.</value>
 		public float jumpTurningYSpeed
 		{
 			get { return m_TurningSpeed * m_Advanced.jumpTurningSpeedScale; }

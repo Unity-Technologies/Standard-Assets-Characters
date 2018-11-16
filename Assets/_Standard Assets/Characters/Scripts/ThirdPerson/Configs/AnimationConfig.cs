@@ -1,7 +1,6 @@
 ﻿using System;
 using StandardAssets.Characters.Helpers;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.ThirdPerson.Configs
 {
@@ -13,7 +12,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 	public class AnimationConfig : ScriptableObject
 	{
 		[Serializable]
-		protected class AdvancedAnimationConfig
+		class AdvancedAnimationConfig
 		{
 			[Header("Ground Movement")]
 			[SerializeField, Tooltip("Configuration for the forward speed animation parameter")]
@@ -44,11 +43,16 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			[SerializeField, Tooltip("Curve used to determine the cross fade duration of the transition into the jump " +
 			                         "animation state in exploration mode")]
 			AnimationCurve m_JumpTransitionAsAFactorOfSpeed = AnimationCurve.Constant(0.0f, 1.0f, 0.15f);
-		
 			[SerializeField, Tooltip("Curve used to determine the cross fade duration of the transition into the jump " +
 			                         "animation state in strafe mode")]
 			AnimationCurve m_StrafeJumpTransitionAsAFactorOfSpeed = AnimationCurve.Constant(0.0f, 1.0f, 0.15f);
 
+			[SerializeField, Tooltip("Time to add to the jump blend duration based on current grounded foot's position")]
+			float m_JumpBlendTimeInc = 0.05f;
+
+			[SerializeField, Tooltip("Curved used to evaluate the current foots position in order to add Jump Blend Time Inc")]
+			AnimationCurve m_FootPositionJumpIncRemap = AnimationCurve.Constant(0.0f, 0.0f, 0.0f);
+			
 			[SerializeField, Tooltip("Curve used to determine the cross fade duration of the transition into the " +
 			                         "locomotion animation from the jump animation state")]
 			AnimationCurve m_JumpEndTransitionAsAFactorOfSpeed = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 0.125f);
@@ -79,6 +83,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			[Header("Head Turn")]
 			[SerializeField, Tooltip("Configuration for the head turning/looking")]
 			HeadTurnProperties m_HeadTurnProperties;
+
 
 			public bool enableStrafeRapidDirectionChangeSmoothing
 			{
@@ -139,6 +144,17 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			{
 				get { return m_JumpTransitionAsAFactorOfSpeed; }
 			}
+			
+			public float jumpBlendTimeInc
+			{
+				get { return m_JumpBlendTimeInc; }
+			}
+			
+			public AnimationCurve footPositionJumpIncRemap
+			{
+				get { return m_FootPositionJumpIncRemap; }
+			}
+			
 
 			public AnimationCurve turningSpeedCurve
 			{
@@ -188,14 +204,13 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		[SerializeField]
 		bool m_EnableHeadTurn = true;
 
-		[FormerlySerializedAs("m_AdvancedSettings")]
 		[SerializeField, Space]
 		AdvancedAnimationConfig m_Advanced;
 
 		/// <summary>
 		/// Gets whether strafe rapid direction smoothing logic should be performed.
 		/// </summary>
-		public bool enableStrafeRapidDirectionChangeSmoothingLogic
+		public bool enableStrafeRapidDirectionChangeSmoothing
 		{
 			get { return m_Advanced.enableStrafeRapidDirectionChangeSmoothing; }
 		}
@@ -408,6 +423,22 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		public AnimationCurve strafeJumpTransitionAsAFactorOfSpeed
 		{
 			get { return m_Advanced.strafeJumpTransitionAsAFactorOfSpeed; }
+		}
+		
+		/// <summary>
+		/// Gets the time to add to the jump blend duration based on current grounded foot's position
+		/// </summary>
+		public float jumpBlendTimeInc
+		{
+			get { return m_Advanced.jumpBlendTimeInc; }
+		}
+		
+		/// <summary>
+		/// Gets the curved used to evaluate the current foots position in order to add <see cref="jumpBlendTimeInc"/>
+		/// </summary>
+		public AnimationCurve footPositionJumpIncRemap
+		{
+			get { return m_Advanced.footPositionJumpIncRemap; }
 		}
 
 		/// <summary>

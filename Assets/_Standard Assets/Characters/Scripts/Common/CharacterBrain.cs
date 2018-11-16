@@ -1,8 +1,6 @@
 using System;
-using StandardAssets.Characters.Effects;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityPhysics = UnityEngine.Physics;
 
 namespace StandardAssets.Characters.Common

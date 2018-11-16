@@ -2,7 +2,6 @@
 using StandardAssets.Characters.Common;
 using StandardAssets.Characters.Effects;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.FirstPerson
 {

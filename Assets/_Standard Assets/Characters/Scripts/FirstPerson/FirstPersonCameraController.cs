@@ -1,5 +1,4 @@
 using Cinemachine;
-using StandardAssets.Characters.Common;
 using UnityEngine;
 
 namespace StandardAssets.Characters.FirstPerson

@@ -2,7 +2,6 @@
 using StandardAssets.Characters.Common;
 using StandardAssets.Characters.Effects.Players;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Object = UnityEngine.Object;
 
 namespace StandardAssets.Characters.Effects

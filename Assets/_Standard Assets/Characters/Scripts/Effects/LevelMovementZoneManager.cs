@@ -1,6 +1,5 @@
 using StandardAssets.Characters.Effects.Configs;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.Effects
 {
