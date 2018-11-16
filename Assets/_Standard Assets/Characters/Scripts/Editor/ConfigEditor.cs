@@ -46,7 +46,7 @@ namespace Editor
 			{
 				exclusions.Add(k_HeadTurn);
 			}
-			if (!config.enableStrafeRapidDirectionChangeSmoothingLogic)
+			if (!config.enableStrafeRapidDirectionChangeSmoothing)
 			{
 				exclusions.Add(k_StrafeChangeAngle);
 				exclusions.Add(k_StrafeChangeCurve);

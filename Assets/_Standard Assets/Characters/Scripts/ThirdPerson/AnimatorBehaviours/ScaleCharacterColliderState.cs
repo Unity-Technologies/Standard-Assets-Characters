@@ -29,7 +29,7 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
         [SerializeField]
         AnimationCurve m_Curve = new AnimationCurve()
         {
-            keys = new Keyframe[]
+            keys = new[]
             {
                 new Keyframe(0, 0),
                 new Keyframe(1, 1),
