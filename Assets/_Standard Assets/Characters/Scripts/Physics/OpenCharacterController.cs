@@ -18,95 +18,77 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		public struct CollisionInfo
 		{
-			/// <summary>
 			/// The collider that was hit by the controller.
-			/// </summary>
 			readonly Collider m_Collider;
 
-			/// <summary>
 			/// The controller that hit the collider.
-			/// </summary>
 			readonly OpenCharacterController m_Controller;
 
-			/// <summary>
 			/// The game object that was hit by the controller.
-			/// </summary>
 			readonly GameObject m_GameObject;
 
-			/// <summary>
 			/// The direction the character Controller was moving in when the collision occured.
-			/// </summary>
 			readonly Vector3 m_MoveDirection;
 
-			/// <summary>
 			/// How far the character has travelled until it hit the collider.
-			/// </summary>
 			readonly float m_MoveLength;
 
-			/// <summary>
 			/// The normal of the surface we collided with in world space.
-			/// </summary>
 			readonly Vector3 m_Normal;
 
-			/// <summary>
 			/// The impact point in world space.
-			/// </summary>
 			readonly Vector3 m_Point;
 
-			/// <summary>
 			/// The rigidbody that was hit by the controller.
-			/// </summary>
 			readonly Rigidbody m_Rigidbody;
 
-			/// <summary>
 			/// The transform that was hit by the controller.
-			/// </summary>
 			readonly Transform m_Transform;
 
-			public Collider collider
-			{
-				get { return m_Collider; }
-			}
+			/// <summary>
+			/// COMMENT TODO
+			/// </summary>
+			public Collider collider { get { return m_Collider; } }
 
-			public OpenCharacterController controller
-			{
-				get { return m_Controller; }
-			}
+			/// <summary>
+			/// COMMENT TODO
+			/// </summary>
+			public OpenCharacterController controller { get { return m_Controller; } }
 
-			public GameObject gameObject
-			{
-				get { return m_GameObject; }
-			}
+			/// <summary>
+			/// COMMENT TODO
+			/// </summary>
+			public GameObject gameObject { get { return m_GameObject; } }
 
-			public Vector3 moveDirection
-			{
-				get { return m_MoveDirection; }
-			}
+			/// <summary>
+			/// COMMENT TODO
+			/// </summary>
+			public Vector3 moveDirection { get { return m_MoveDirection; } }
 
-			public float moveLength
-			{
-				get { return m_MoveLength; }
-			}
+			/// <summary>
+			/// COMMENT TODO
+			/// </summary>
+			public float moveLength { get { return m_MoveLength; } }
 
-			public Vector3 normal
-			{
-				get { return m_Normal; }
-			}
+			/// <summary>
+			/// COMMENT TODO
+			/// </summary>
+			public Vector3 normal { get { return m_Normal; } }
 
-			public Vector3 point
-			{
-				get { return m_Point; }
-			}
+			/// <summary>
+			/// COMMENT TODO
+			/// </summary>
+			public Vector3 point { get { return m_Point; } }
 
-			public Rigidbody rigidbody
-			{
-				get { return m_Rigidbody; }
-			}
+			/// <summary>
+			/// COMMENT TODO
+			/// </summary>
+			public Rigidbody rigidbody { get { return m_Rigidbody; } }
 
-			public Transform transform
-			{
-				get { return m_Transform; }
-			}
+			/// <summary>
+			/// COMMENT TODO
+			/// </summary>
+			public Transform transform { get { return m_Transform; } }
 
 			/// <summary>
 			/// Constructor
@@ -132,9 +114,8 @@ namespace StandardAssets.Characters.Physics
 			}
 		}
 
-		/// <summary>
-		/// A vector used by the OpenCharacterController.
-		/// </summary>
+
+		// A vector used by the OpenCharacterController.
 		struct MoveVector
 		{
 			/// <summary>
@@ -161,14 +142,10 @@ namespace StandardAssets.Characters.Physics
 			}
 		}
 
-		/// <summary>
-		/// Resize info for OpenCharacterController (e.g. delayed resizing until it is safe to resize).
-		/// </summary>
+		// Resize info for OpenCharacterController (e.g. delayed resizing until it is safe to resize).
 		class ResizeInfo
 		{
-			/// <summary>
-			/// Intervals (seconds) in which to check if the capsule's height/center must be changed.
-			/// </summary>
+			// Intervals (seconds) in which to check if the capsule's height/center must be changed.
 			const float k_PendingUpdateIntervals = 1.0f;
 
 			/// <summary>
@@ -190,6 +167,7 @@ namespace StandardAssets.Characters.Physics
 			/// Time.time when the center must be set.
 			/// </summary>
 			public float? centerTime { get; private set; }
+
 
 			/// <summary>
 			/// Set the pending height.
@@ -261,30 +239,26 @@ namespace StandardAssets.Characters.Physics
 			}
 		}
 
-		/// <summary>
-		/// Stuck info and logic used by the OpenCharacterController.
-		/// </summary>
+
+		// Stuck info and logic used by the OpenCharacterController.
 		class StuckInfo
 		{
-			/// <summary>
-			/// If character's position does not change by more than this amount then we assume the character is stuck.
-			/// </summary>
+			// For keeping track of the character's position, to determine when the character gets stuck.
+			Vector3? m_StuckPosition;
+
+			// Count how long the character is in the same position.
+			int m_StuckPositionCount;
+
+			// If character's position does not change by more than this amount then we assume the character is stuck.
 			const float k_StuckDistance = 0.001f;
 
-			/// <summary>
-			/// If character's position does not change by more than this amount then we assume the character is stuck.
-			/// </summary>
+			// If character's position does not change by more than this amount then we assume the character is stuck.
 			const float k_StuckSqrDistance = k_StuckDistance * k_StuckDistance;
 
-			/// <summary>
-			/// If character collided this number of times during the movement loop then test if character is stuck by
-			/// examining the position
-			/// </summary>
+			// If character collided this number of times during the movement loop then test if character is stuck by examining the position
 			const int k_HitCountForStuck = 6;
 
-			/// <summary>
-			/// Assume character is stuck if the position is the same for longer than this number of loop iterations
-			/// </summary>
+			// Assume character is stuck if the position is the same for longer than this number of loop iterations
 			const int k_MaxStuckPositionCount = 1;
 
 			/// <summary>
@@ -297,15 +271,6 @@ namespace StandardAssets.Characters.Physics
 			/// </summary>
 			public int hitCount { get; set; }
 
-			/// <summary>
-			/// For keeping track of the character's position, to determine when the character gets stuck.
-			/// </summary>
-			Vector3? m_StuckPosition;
-
-			/// <summary>
-			/// Count how long the character is in the same position.
-			/// </summary>
-			int m_StuckPositionCount;
 
 			/// <summary>
 			/// Called when the move loop starts.
@@ -381,101 +346,73 @@ namespace StandardAssets.Characters.Physics
 			}
 		}
 
-		/// <summary>
-		/// Max slope limit.
-		/// </summary>
-		const float k_MaxSlopeLimit = 90.0f;
 
-		/// <summary>
-		/// Max slope angle on which character can slide down automatically.
-		/// </summary>
-		const float k_MaxSlopeSlideAngle = 90.0f;
+		[Header("Player Root")]
+		[SerializeField, Tooltip("The root bone in the avatar.")]
+		Transform m_PlayerRootTransform;
 
-		/// <summary>
-		/// Distance to test for ground when sliding down slopes.
-		/// </summary>
-		const float k_SlideDownSlopeTestDistance = 1.0f;
+		[SerializeField, Tooltip("The root transform will be positioned at this offset.")]
+		Vector3 m_RootTransformOffset = new Vector3(0, 0, 0);
 
-		/// <summary>
-		/// Slight delay before we stop sliding down slopes. To handle cases where sliding test fails for a few frames.
-		/// </summary>
-		const float k_StopSlideDownSlopeDelay = 0.5f;
+		[Header("Collision")]
+		[SerializeField, Tooltip("Limits the collider to only climb slopes that are less steep (in degrees) than the indicated value.")]
+		float m_SlopeLimit = 45.0f;
 
-		/// <summary>
-		/// Distance to push away from slopes when sliding down them.
-		/// </summary>
-		const float k_PushAwayFromSlopeDistance = 0.001f;
+		[SerializeField, Tooltip("The character will step up a stair only if it is closer to the ground than the indicated value. " +
+		         "This should not be greater than the Character Controller’s height or it will generate an error. " +
+		         "Generally this should be kept as small as possible.")]
+		float m_StepOffset = 0.3f;
 
-		/// <summary>
-		/// Minimum distance to use when checking ahead for steep slopes, when checking if it's safe to do the step offset.
-		/// </summary>
-		const float k_MinCheckSteepSlopeAheadDistance = 0.2f;
+		[SerializeField, Tooltip(
+			"Two colliders can penetrate each other as deep as their Skin Width. Larger Skin Widths reduce jitter. " +
+			"Low Skin Width can cause the character to get stuck. A good setting is to make this value 10% of the Radius.")]
+		float m_SkinWidth = 0.08f;
 
-		/// <summary>
-		/// Min skin width.
-		/// </summary>
-		const float k_MinSkinWidth = 0.0001f;
+		[SerializeField, Tooltip(
+			"If the character tries to move below the indicated value, it will not move at all. This can be used to reduce jitter. " +
+			"In most situations this value should be left at 0.")]
+		float m_MinMoveDistance;
 
-		/// <summary>
-		/// The maximum move iterations. Mainly used as a fail safe to prevent an infinite loop.
-		/// </summary>
-		const int k_MaxMoveIterations = 20;
+		[SerializeField, Tooltip("This will offset the Capsule Collider in world space, and won’t affect how the Character pivots. " +
+		         "Ideally, x and z should be zero to avoid rotating into another collider.")]
+		Vector3 m_Center;
 
-		/// <summary>
-		/// Stick to the ground if it is less than this distance from the character.
-		/// </summary>
-		const float k_MaxStickToGroundDownDistance = 1.0f;
+		[SerializeField, Tooltip("Length of the Capsule Collider’s radius. This is essentially the width of the collider.")]
+		float m_Radius = 0.5f;
 
-		/// <summary>
-		/// Min distance to test for the ground when sticking to the ground.
-		/// </summary>
-		const float k_MinStickToGroundDownDistance = 0.01f;
+		[SerializeField, Tooltip("The Character’s Capsule Collider height. It should be at least double the radius.")]
+		float m_Height = 2.0f;
 
-		/// <summary>
-		/// Max colliders to use in the overlap methods.
-		/// </summary>
-		const int k_MaxOverlapColliders = 10;
+		[SerializeField, Tooltip("Layers to test for collision.")]
+		LayerMask m_CollisionLayerMask = ~0; // ~0 sets it to Everything
 
-		/// <summary>
-		/// Offset to use when moving to a collision point, to try to prevent overlapping the colliders
-		/// </summary>
-		const float k_CollisionOffset = 0.001f;
+		[SerializeField, Tooltip("Is the character controlled by a local human? If true then more calculations are done for more " +
+		         "accurate movement.")]
+		bool m_LocalHumanControlled = true;
 
-		/// <summary>
-		/// Distance to test beneath the character when doing the grounded test
-		/// </summary>
-		const float k_GroundedTestDistance = 0.001f;
+		[SerializeField, Tooltip("Can character slide vertically when touching the ceiling? (For example, if ceiling is sloped.)")]
+		bool m_CanSlideAgainstCeiling = true;
 
-		/// <summary>
-		/// Minimum distance to move. This minimizes small penetrations and inaccurate casts (e.g. into the floor)
-		/// </summary>
-		const float k_MinMoveDistance = 0.0001f;
+		[SerializeField, Tooltip(
+			"Send \"OnOpenCharacterControllerHit\" messages to game objects? Messages are sent when the character " +
+			"hits a collider while performing a move. WARNING: This does create garbage.")]
+		bool m_SendColliderHitMessages;
 
-		/// <summary>
-		/// Minimum sqr distance to move. This minimizes small penetrations and inaccurate casts (e.g. into the floor)
-		/// </summary>
-		const float k_MinMoveSqrDistance = k_MinMoveDistance * k_MinMoveDistance;
+		[SerializeField, Tooltip("Should cast queries hit trigger colliders?")]
+		QueryTriggerInteraction m_QueryTriggerInteraction = QueryTriggerInteraction.Ignore;
 
-		/// <summary>
-		/// Minimum step offset height to move (if character has a step offset).
-		/// </summary>
-		const float k_MinStepOffsetHeight = k_MinMoveDistance;
+		[Header("Slide Down Slopes")]
+		[SerializeField, Tooltip("Slide down slopes when their angle is more than the slope limit?")]
+		bool m_SlideDownSlopes = true;
 
-		/// <summary>
-		/// Small value to test if the movement vector is small.
-		/// </summary>
-		const float k_SmallMoveVector = 1e-6f;
+		[SerializeField, Tooltip("The maximum speed that the character can slide downwards")]
+		float m_SlideDownTerminalVelocity = 10.0f;
 
-		/// <summary>
-		/// If angle between raycast and capsule/sphere cast normal is less than this then use the raycast normal,
-		/// which is more accurate.
-		/// </summary>
-		const float k_MaxAngleToUseRaycastNormal = 5.0f;
+		[SerializeField, Tooltip("Scale gravity when sliding down slopes.")]
+		float m_SlideDownGravityScale = 1.0f;
 
-		/// <summary>
-		/// Scale the capsule/sphere hit distance when doing the additional raycast to get a more accurate normal
-		/// </summary>
-		const float k_RaycastScaleDistance = 2.0f;
+		[SerializeField, Tooltip("The time after initiating a slide classified as a slide start. Used to disable jumping.")]
+		float m_SlideDownStartDuration = 0.25f;
 
 		/// <summary>
 		/// Fired when the grounded state changed.
@@ -492,204 +429,94 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		public event Action<CollisionFlags> onCollisionFlagsChanged;
 
-		/// <summary>
-		/// The root bone in the avatar.
-		/// </summary>
-		[Header("Player Root")]
-		[Tooltip("The root bone in the avatar.")]
-		[SerializeField]
-		Transform m_PlayerRootTransform;
+		// Max slope limit.
+		const float k_MaxSlopeLimit = 90.0f;
 
-		/// <summary>
-		/// The root transform will be positioned at this offset.
-		/// </summary>
-		[Tooltip("The root transform will be positioned at this offset.")]
-		[SerializeField]
-		Vector3 m_RootTransformOffset = new Vector3(0, 0, 0);
+		// Max slope angle on which character can slide down automatically.
+		const float k_MaxSlopeSlideAngle = 90.0f;
 
-		/// <summary>
-		/// Limits the collider to only climb slopes that are less steep (in degrees) than the indicated value.
-		/// </summary>
-		[Header("Collision")]
-		[Tooltip("Limits the collider to only climb slopes that are less steep (in degrees) than the indicated value.")]
-		[SerializeField]
-		float m_SlopeLimit = 45.0f;
+		// Distance to test for ground when sliding down slopes.
+		const float k_SlideDownSlopeTestDistance = 1.0f;
 
-		/// <summary>
-		/// The character will step up a stair only if it is closer to the ground than the indicated value.
-		/// This should not be greater than the Character Controller’s height or it will generate an error.
-		/// Generally this should be kept as small as possible.
-		/// </summary>
-		[Tooltip("The character will step up a stair only if it is closer to the ground than the indicated value. " +
-		         "This should not be greater than the Character Controller’s height or it will generate an error. " +
-		         "Generally this should be kept as small as possible.")]
-		[SerializeField]
-		float m_StepOffset = 0.3f;
+		// Slight delay before we stop sliding down slopes. To handle cases where sliding test fails for a few frames.
+		const float k_StopSlideDownSlopeDelay = 0.5f;
 
-		/// <summary>
-		/// Two colliders can penetrate each other as deep as their Skin Width. Larger Skin Widths reduce jitter.
-		/// Low Skin Width can cause the character to get stuck. A good setting is to make this value 10% of the Radius.
-		/// </summary>
-		[Tooltip(
-			"Two colliders can penetrate each other as deep as their Skin Width. Larger Skin Widths reduce jitter. " +
-			"Low Skin Width can cause the character to get stuck. A good setting is to make this value 10% of the Radius.")]
-		[SerializeField]
-		float m_SkinWidth = 0.08f;
+		// Distance to push away from slopes when sliding down them.
+		const float k_PushAwayFromSlopeDistance = 0.001f;
 
-		/// <summary>
-		/// If the character tries to move below the indicated value, it will not move at all. This can be used to reduce jitter.
-		/// In most situations this value should be left at 0.
-		/// </summary>
-		[Tooltip(
-			"If the character tries to move below the indicated value, it will not move at all. This can be used to reduce jitter. " +
-			"In most situations this value should be left at 0.")]
-		[SerializeField]
-		float m_MinMoveDistance;
+		// Minimum distance to use when checking ahead for steep slopes, when checking if it's safe to do the step offset.
+		const float k_MinCheckSteepSlopeAheadDistance = 0.2f;
 
-		/// <summary>
-		/// This will offset the Capsule Collider in world space, and won’t affect how the Character pivots.
-		/// Ideally, x and z should be zero to avoid rotating into another collider.
-		/// </summary>
-		[Tooltip("This will offset the Capsule Collider in world space, and won’t affect how the Character pivots. " +
-		         "Ideally, x and z should be zero to avoid rotating into another collider.")]
-		[SerializeField]
-		Vector3 m_Center;
+		// Min skin width.
+		const float k_MinSkinWidth = 0.0001f;
 
-		/// <summary>
-		/// Length of the Capsule Collider’s radius. This is essentially the width of the collider.
-		/// </summary>
-		[Tooltip("Length of the Capsule Collider’s radius. This is essentially the width of the collider.")]
-		[SerializeField]
-		float m_Radius = 0.5f;
+		// The maximum move iterations. Mainly used as a fail safe to prevent an infinite loop.
+		const int k_MaxMoveIterations = 20;
 
-		/// <summary>
-		/// The Character’s Capsule Collider height. It should be at least double the radius.
-		/// </summary>
-		[Tooltip("The Character’s Capsule Collider height. It should be at least double the radius.")]
-		[SerializeField]
-		float m_Height = 2.0f;
+		// Stick to the ground if it is less than this distance from the character.
+		const float k_MaxStickToGroundDownDistance = 1.0f;
 
-		/// <summary>
-		/// Layers to test for collision.
-		/// </summary>
-		[Tooltip("Layers to test for collision.")]
-		[SerializeField]
-		LayerMask m_CollisionLayerMask = ~0; // ~0 sets it to Everything
+		// Min distance to test for the ground when sticking to the ground.
+		const float k_MinStickToGroundDownDistance = 0.01f;
 
-		/// <summary>
-		/// Is the character controlled by a local human? If true then more calculations are done for more accurate movement.
-		/// </summary>
-		[Tooltip("Is the character controlled by a local human? If true then more calculations are done for more " +
-		         "accurate movement.")]
-		[SerializeField]
-		bool m_LocalHumanControlled = true;
+		// Max colliders to use in the overlap methods.
+		const int k_MaxOverlapColliders = 10;
 
-		/// <summary>
-		/// Can character slide vertically when touching the ceiling? (For example, if ceiling is sloped.)
-		/// </summary>
-		[Tooltip("Can character slide vertically when touching the ceiling? (For example, if ceiling is sloped.)")]
-		[SerializeField]
-		bool m_CanSlideAgainstCeiling = true;
+		// Offset to use when moving to a collision point, to try to prevent overlapping the colliders
+		const float k_CollisionOffset = 0.001f;
 
-		/// <summary>
-		/// Send "OnOpenCharacterControllerHit" messages to game objects? Messages are sent when the character hits a collider while performing a move.
-		/// </summary>	
-		[Tooltip(
-			"Send \"OnOpenCharacterControllerHit\" messages to game objects? Messages are sent when the character " +
-			"hits a collider while performing a move. WARNING: This does create garbage.")]
-		[SerializeField]
-		bool m_SendColliderHitMessages;
+		// Distance to test beneath the character when doing the grounded test
+		const float k_GroundedTestDistance = 0.001f;
 
-		/// <summary>
-		/// Should cast queries hit trigger colliders?
-		/// </summary>
-		[Tooltip("Should cast queries hit trigger colliders?")]
-		[SerializeField]
-		QueryTriggerInteraction m_QueryTriggerInteraction = QueryTriggerInteraction.Ignore;
+		// Minimum distance to move. This minimizes small penetrations and inaccurate casts (e.g. into the floor)
+		const float k_MinMoveDistance = 0.0001f;
 
-		/// <summary>
-		/// Slide down slopes when their angle is more than the slope limit?
-		/// </summary>
-		[Header("Slide Down Slopes")]
-		[Tooltip("Slide down slopes when their angle is more than the slope limit?")]
-		[SerializeField]
-		bool m_SlideDownSlopes = true;
+		// Minimum sqr distance to move. This minimizes small penetrations and inaccurate casts (e.g. into the floor)
+		const float k_MinMoveSqrDistance = k_MinMoveDistance * k_MinMoveDistance;
 
-		/// <summary>
-		/// The maximum speed that the character can slide downwards
-		/// </summary>
-		[Tooltip("The maximum speed that the character can slide downwards")]
-		[SerializeField]
-		float m_SlideDownTerminalVelocity = 10.0f;
+		// Minimum step offset height to move (if character has a step offset).
+		const float k_MinStepOffsetHeight = k_MinMoveDistance;
 
-		/// <summary>
-		/// Scale gravity when sliding down slopes.
-		/// </summary>
-		[Tooltip("Scale gravity when sliding down slopes.")]
-		[SerializeField]
-		float m_SlideDownGravityScale = 1.0f;
+		// Small value to test if the movement vector is small.
+		const float k_SmallMoveVector = 1e-6f;
 
-		/// <summary>
-		/// The time after initiating a slide classified as a slide start. Used to disable jumping.
-		/// </summary>
-		[Tooltip("The time after initiating a slide classified as a slide start. Used to disable jumping.")]
-		[SerializeField]
-		float m_SlideDownStartDuration = 0.25f;
+		// If angle between raycast and capsule/sphere cast normal is less than this then use the raycast normal, which is more accurate.
+		const float k_MaxAngleToUseRaycastNormal = 5.0f;
 
-		/// <summary>
-		/// The capsule collider.
-		/// </summary>
+		// Scale the capsule/sphere hit distance when doing the additional raycast to get a more accurate normal
+		const float k_RaycastScaleDistance = 2.0f;
+
+		// The capsule collider.
 		CapsuleCollider m_CapsuleCollider;
 
-		/// <summary>
-		/// Cached reference to the transform.
-		/// </summary>
+		// Cached reference to the transform.
 		Transform m_CachedTransform;
 
-		/// <summary>
-		/// The position at the start of the movement.
-		/// </summary>
+		// The position at the start of the movement.
 		Vector3 m_StartPosition;
 
-		/// <summary>
-		/// Movement vectors used in the move loop.
-		/// </summary>
+		// Movement vectors used in the move loop.
 		List<MoveVector> m_MoveVectors = new List<MoveVector>();
 
-		/// <summary>
-		/// Next index in the moveVectors list.
-		/// </summary>
+		// Next index in the moveVectors list.
 		int m_NextMoveVectorIndex;
 
-		/// <summary>
-		/// Surface normal of the last collision while moving down.
-		/// </summary>
+		// Surface normal of the last collision while moving down.
 		Vector3? m_DownCollisionNormal;
 
-		/// <summary>
-		/// Stuck info.
-		/// </summary>
+		// Stuck info.
 		StuckInfo m_StuckInfo = new StuckInfo();
 
-		/// <summary>
-		/// The collision info when hitting colliders.
-		/// </summary>
-		Dictionary<Collider, CollisionInfo> m_CollisionInfoDictionary =
-			new Dictionary<Collider, CollisionInfo>();
+		// The collision info when hitting colliders.
+		Dictionary<Collider, CollisionInfo> m_CollisionInfoDictionary = new Dictionary<Collider, CollisionInfo>();
 
-		/// <summary>
-		/// Slight delay before stopping the sliding down slopes. 
-		/// </summary>
+		// Slight delay before stopping the sliding down slopes. 
 		float m_DelayStopSlidingDownSlopeTime;
 
-		/// <summary>
-		/// Pending resize info to set when it is safe to do so.
-		/// </summary>
+		// Pending resize info to set when it is safe to do so.
 		readonly ResizeInfo m_PendingResize = new ResizeInfo();
 
-		/// <summary>
-		/// Collider array used for <see cref="UnityEngine.Physics.OverlapCapsuleNonAlloc"/> in <see cref="GetPenetrationInfo"/>
-		/// </summary>	
+		// Collider array used for UnityEngine.Physics.OverlapCapsuleNonAlloc in GetPenetrationInfo
 		readonly Collider[] m_PenetrationInfoColliders = new Collider[k_MaxOverlapColliders];
 
 		/// <summary>
@@ -720,18 +547,12 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Is character busy sliding down a steep slope?
 		/// </summary>
-		public bool isSlidingDownSlope
-		{
-			get { return slidingDownSlopeTime > 0.0f; }
-		}
+		public bool isSlidingDownSlope { get { return slidingDownSlopeTime > 0.0f; } }
 
 		/// <summary>
 		/// Is the character sliding and has been sliding less than slideDownTimeUntilJumAllowed
 		/// </summary>
-		public bool startedSlide
-		{
-			get { return isSlidingDownSlope && slidingDownSlopeTime <= m_SlideDownStartDuration; }
-		}
+		public bool startedSlide { get { return isSlidingDownSlope && slidingDownSlopeTime <= m_SlideDownStartDuration; } }
 
 		/// <summary>
 		/// How long has character been sliding down a steep slope? (Zero means not busy sliding.)
@@ -741,10 +562,7 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// The capsule center with scaling and rotation applied.
 		/// </summary>
-		public Vector3 transformedCenter
-		{
-			get { return m_CachedTransform.TransformVector(m_Center); }
-		}
+		public Vector3 transformedCenter { get { return m_CachedTransform.TransformVector(m_Center); } }
 
 		/// <summary>
 		/// The capsule radius with the relevant scaling applied (e.g. if object scale is not 1,1,1)
@@ -762,10 +580,65 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// The capsule height with the relevant scaling applied (e.g. if object scale is not 1,1,1)
 		/// </summary>
-		public float scaledHeight
+		public float scaledHeight { get { return m_Height * m_CachedTransform.lossyScale.y; } }
+
+
+		// Initialise the capsule and rigidbody, and set the root position.
+		void Awake()
 		{
-			get { return m_Height * m_CachedTransform.lossyScale.y; }
+			m_CachedTransform = transform;
+			InitCapsuleColliderAndRigidbody();
+
+			SetRootToOffset();
 		}
+
+		// Set the root position.
+		void LateUpdate()
+		{
+			SetRootToOffset();
+		}
+
+		// Update sliding down slopes, and changes to the capsule's height and center.
+		void Update()
+		{
+			UpdateSlideDownSlopes();
+			UpdatePendingHeightAndCenter();
+		}
+
+#if UNITY_EDITOR
+		// Validate the capsule.
+		void OnValidate()
+		{
+			ValidateCapsule(false);
+			SetRootToOffset();
+		}
+
+		// COMMENT TODO
+		void OnDrawGizmosSelected()
+		{
+			// Foot position
+			Gizmos.color = Color.cyan;
+			var footPosition = GetFootWorldPosition();
+			Gizmos.DrawLine(footPosition + Vector3.left * scaledRadius,
+			                footPosition + Vector3.right * scaledRadius);
+			Gizmos.DrawLine(footPosition + Vector3.back * scaledRadius,
+			                footPosition + Vector3.forward * scaledRadius);
+
+			// Top of head
+			var headPosition = GetHeadWorldPosition();
+			Gizmos.DrawLine(headPosition + Vector3.left * scaledRadius,
+			                headPosition + Vector3.right * scaledRadius);
+			Gizmos.DrawLine(headPosition + Vector3.back * scaledRadius,
+			                headPosition + Vector3.forward * scaledRadius);
+
+			// Center position
+			var centerPosition = GetCapsuleWorldPosition();
+			Gizmos.DrawLine(centerPosition + Vector3.left * scaledRadius,
+			                centerPosition + Vector3.right * scaledRadius);
+			Gizmos.DrawLine(centerPosition + Vector3.back * scaledRadius,
+			                centerPosition + Vector3.forward * scaledRadius);
+		}
+#endif
 
 		/// <summary>
 		/// Move the character. This function does not apply any gravity.
@@ -787,8 +660,7 @@ namespace StandardAssets.Characters.Physics
 		public bool SimpleMove(Vector3 speed)
 		{
 			// Reminder: Time.deltaTime returns the fixed delta time when called from inside FixedUpdate.
-			var moveVector =
-				new Vector3(speed.x, speed.y + UnityEngine.Physics.gravity.y, speed.z) * Time.deltaTime;
+			var moveVector = new Vector3(speed.x, speed.y + UnityEngine.Physics.gravity.y, speed.z) * Time.deltaTime;
 
 			MoveInternal(moveVector, false);
 			return isGrounded;
@@ -871,9 +743,7 @@ namespace StandardAssets.Characters.Physics
 		                                bool adjustPositionSlightly = false)
 		{
 			var didCollide = false;
-			var extraDistance = adjustPositionSlightly
-				                      ? k_CollisionOffset
-				                      : 0.0f;
+			var extraDistance = adjustPositionSlightly ? k_CollisionOffset : 0.0f;
 			if (!useSphereCast)
 			{
 				if (UnityEngine.Physics.Raycast(GetFootWorldPosition() + offsetPosition + Vector3.up * extraDistance,
@@ -899,8 +769,7 @@ namespace StandardAssets.Characters.Physics
 					hitInfo.distance = Mathf.Max(0.0f, hitInfo.distance - GetSkinWidth());
 				}
 
-				if (!didCollide &&
-				    useSecondSphereCast)
+				if (!didCollide && useSecondSphereCast)
 				{
 					if (BigSphereCast(Vector3.down,
 					                  distance + extraDistance,
@@ -934,9 +803,7 @@ namespace StandardAssets.Characters.Physics
 		                                bool adjustPositionSlightly = false)
 		{
 			var didCollide = false;
-			var extraDistance = adjustPositionSlightly
-				                      ? k_CollisionOffset
-				                      : 0.0f;
+			var extraDistance = adjustPositionSlightly ? k_CollisionOffset : 0.0f;
 			if (!useSphereCast)
 			{
 				if (UnityEngine.Physics.Raycast(GetHeadWorldPosition() + offsetPosition + Vector3.down * extraDistance,
@@ -962,8 +829,7 @@ namespace StandardAssets.Characters.Physics
 					hitInfo.distance = Mathf.Max(0.0f, hitInfo.distance - GetSkinWidth());
 				}
 
-				if (!didCollide &&
-				    useSecondSphereCast)
+				if (!didCollide && useSecondSphereCast)
 				{
 					if (BigSphereCast(Vector3.up,
 					                  distance + extraDistance,
@@ -1190,9 +1056,7 @@ namespace StandardAssets.Characters.Physics
 		                       bool updateGrounded)
 		{
 			var changeCenter = preserveFootPosition;
-			var newCenter = changeCenter
-				                    ? CalculateCenterWithSameFootPosition(newHeight)
-				                    : m_Center;
+			var newCenter = changeCenter ? CalculateCenterWithSameFootPosition(newHeight) : m_Center;
 			newHeight = ValidateHeight(newHeight);
 			if (Mathf.Approximately(m_Height, newHeight))
 			{
@@ -1444,75 +1308,7 @@ namespace StandardAssets.Characters.Physics
 			return m_CapsuleCollider.ClosestPoint(position);
 		}
 
-		/// <summary>
-		/// Initialise the capsule and rigidbody, and set the root position.
-		/// </summary>
-		void Awake()
-		{
-			m_CachedTransform = transform;
-			InitCapsuleColliderAndRigidbody();
-
-			SetRootToOffset();
-		}
-
-#if UNITY_EDITOR
-		/// <summary>
-		/// Validate the capsule.
-		/// </summary>
-		void OnValidate()
-		{
-			ValidateCapsule(false);
-			SetRootToOffset();
-		}
-#endif
-
-		/// <summary>
-		/// Set the root position.
-		/// </summary>
-		void LateUpdate()
-		{
-			SetRootToOffset();
-		}
-
-		/// <summary>
-		/// Update sliding down slopes, and changes to the capsule's height and center.
-		/// </summary>
-		void Update()
-		{
-			UpdateSlideDownSlopes();
-			UpdatePendingHeightAndCenter();
-		}
-
-#if UNITY_EDITOR
-		void OnDrawGizmosSelected()
-		{
-			// Foot position
-			Gizmos.color = Color.cyan;
-			var footPosition = GetFootWorldPosition();
-			Gizmos.DrawLine(footPosition + Vector3.left * scaledRadius,
-			                footPosition + Vector3.right * scaledRadius);
-			Gizmos.DrawLine(footPosition + Vector3.back * scaledRadius,
-			                footPosition + Vector3.forward * scaledRadius);
-
-			// Top of head
-			var headPosition = GetHeadWorldPosition();
-			Gizmos.DrawLine(headPosition + Vector3.left * scaledRadius,
-			                headPosition + Vector3.right * scaledRadius);
-			Gizmos.DrawLine(headPosition + Vector3.back * scaledRadius,
-			                headPosition + Vector3.forward * scaledRadius);
-
-			// Center position
-			var centerPosition = GetCapsuleWorldPosition();
-			Gizmos.DrawLine(centerPosition + Vector3.left * scaledRadius,
-			                centerPosition + Vector3.right * scaledRadius);
-			Gizmos.DrawLine(centerPosition + Vector3.back * scaledRadius,
-			                centerPosition + Vector3.forward * scaledRadius);
-		}
-#endif
-
-		/// <summary>
-		/// Initialize the capsule collider and the rigidbody
-		/// </summary>
+		// Initialize the capsule collider and the rigidbody
 		void InitCapsuleColliderAndRigidbody()
 		{
 			var go = m_CachedTransform.gameObject;
@@ -1532,15 +1328,11 @@ namespace StandardAssets.Characters.Physics
 			defaultCenter = m_Center;
 		}
 
-		/// <summary>
-		/// Call this when the capsule's values change.
-		/// </summary>
-		/// <param name="updateCapsuleCollider">Update the capsule collider's values (e.g. center, height, radius)?</param>
-		/// <param name="checkForPenetration">Check for collision, and then de-penetrate if there's collision?</param>
-		/// <param name="updateGrounded">Update the grounded state? This uses a cast, so only set it to true if you need it.</param>
-		void ValidateCapsule(bool updateCapsuleCollider,
-		                             bool checkForPenetration = false,
-		                             bool updateGrounded = false)
+		// Call this when the capsule's values change.
+		// 		updateCapsuleCollider: Update the capsule collider's values (e.g. center, height, radius)?
+		// 		checkForPenetration: Check for collision, and then de-penetrate if there's collision?
+		//	 	updateGrounded: Update the grounded state? This uses a cast, so only set it to true if you need it.
+		void ValidateCapsule(bool updateCapsuleCollider, bool checkForPenetration = false, bool updateGrounded = false)
 		{
 			m_SlopeLimit = Mathf.Clamp(m_SlopeLimit, 0.0f, k_MaxSlopeLimit);
 			m_SkinWidth = Mathf.Clamp(m_SkinWidth, k_MinSkinWidth, float.MaxValue);
@@ -1574,10 +1366,8 @@ namespace StandardAssets.Characters.Physics
 			}
 		}
 
-		/// <summary>
-		/// Calculate a new center if the height changes and preserve the foot position.
-		/// </summary>
-		/// <param name="newHeight">New height.</param>
+		// Calculate a new center if the height changes and preserve the foot position.
+		//		newHeight: New height
 		Vector3 CalculateCenterWithSameFootPosition(float newHeight)
 		{
 			var localFootY = m_Center.y - (m_Height / 2.0f + m_SkinWidth);
@@ -1585,21 +1375,17 @@ namespace StandardAssets.Characters.Physics
 			return new Vector3(m_Center.x, newCenterY, m_Center.z);
 		}
 
-		/// <summary>
-		/// Moves the characters.
-		/// </summary>
-		/// <param name="moveVector">Move vector.</param>
-		/// <param name="slideWhenMovingDown">Slide against obstacles when moving down? (e.g. we don't want to slide when applying gravity while the character is grounded)</param>
-		/// <param name="forceTryStickToGround">Force try to stick to ground? Only used if character is grounded before moving.</param>
-		/// <param name="doNotStepOffset">Do not try to perform the step offset?</param>
+		// Moves the characters.
+		// 		moveVector: Move vector
+		// 		slideWhenMovingDown: Slide against obstacles when moving down? (e.g. we don't want to slide when applying gravity while the character is grounded)
+		// 		forceTryStickToGround: Force try to stick to ground? Only used if character is grounded before moving.
+		// 		doNotStepOffset: Do not try to perform the step offset?
 		void MoveInternal(Vector3 moveVector, bool slideWhenMovingDown,
 		                                    bool forceTryStickToGround = false,
 		                                    bool doNotStepOffset = false)
 		{
 			var sqrDistance = moveVector.sqrMagnitude;
-			if (sqrDistance <= 0.0f ||
-			    sqrDistance < GetMinMoveSqrDistance() ||
-			    sqrDistance < k_MinMoveSqrDistance)
+			if (sqrDistance <= 0.0f || sqrDistance < GetMinMoveSqrDistance() || sqrDistance < k_MinMoveSqrDistance)
 			{
 				return;
 			}
@@ -1608,11 +1394,7 @@ namespace StandardAssets.Characters.Physics
 			var oldVelocity = velocity;
 			var oldCollisionFlags = collisionFlags;
 			var moveVectorNoY = new Vector3(moveVector.x, 0.0f, moveVector.z);
-			var tryToStickToGround = (wasGrounded &&
-			                           moveVector.y <= 0.0f &&
-			                           moveVectorNoY.sqrMagnitude.NotEqualToZero()) ||
-			                          (wasGrounded &&
-			                           forceTryStickToGround);
+			var tryToStickToGround = wasGrounded && (forceTryStickToGround || (moveVector.y <= 0.0f && moveVectorNoY.sqrMagnitude.NotEqualToZero()));
 
 			m_StartPosition = m_CachedTransform.position;
 
@@ -1621,8 +1403,7 @@ namespace StandardAssets.Characters.Physics
 			m_DownCollisionNormal = null;
 
 			// Stop sliding down slopes when character jumps
-			if (moveVector.y > 0.0f &&
-			    isSlidingDownSlope)
+			if (moveVector.y > 0.0f && isSlidingDownSlope)
 			{
 				StopSlideDownSlopes();
 			}
@@ -1636,14 +1417,12 @@ namespace StandardAssets.Characters.Physics
 			velocity = m_CachedTransform.position - m_StartPosition;
 
 			// Check is the changed events should be fired
-			if (onVelocityChanged != null &&
-			    oldVelocity != velocity)
+			if (onVelocityChanged != null && oldVelocity != velocity)
 			{
 				onVelocityChanged(velocity);
 			}
 
-			if (onCollisionFlagsChanged != null &&
-			    oldCollisionFlags != collisionFlags)
+			if (onCollisionFlagsChanged != null && oldCollisionFlags != collisionFlags)
 			{
 				onCollisionFlagsChanged(collisionFlags);
 			}
@@ -1654,13 +1433,10 @@ namespace StandardAssets.Characters.Physics
 			}
 		}
 
-		/// <summary>
-		/// Send hit messages.
-		/// </summary>
+		// Send hit messages.
 		void SendHitMessages()
 		{
-			if (m_CollisionInfoDictionary == null ||
-			    m_CollisionInfoDictionary.Count <= 0)
+			if (m_CollisionInfoDictionary == null || m_CollisionInfoDictionary.Count <= 0)
 			{
 				return;
 			}
@@ -1673,11 +1449,9 @@ namespace StandardAssets.Characters.Physics
 			}
 		}
 
-		/// <summary>
-		/// Determine if the character is grounded.
-		/// </summary>
-		/// <param name="movedCollisionFlags">Moved collision flags of the current move. Set to None if not moving.</param>
-		/// <param name="doDownCast">Do a down cast? We want to avoid this when the character is jumping upwards.</param>
+		// Determine if the character is grounded.
+		// 		movedCollisionFlags: Moved collision flags of the current move. Set to None if not moving.
+		// 		doDownCast: Do a down cast? We want to avoid this when the character is jumping upwards.
 		void UpdateGrounded(CollisionFlags movedCollisionFlags, bool doDownCast = true)
 		{
 			var wasGrounded = isGrounded;
@@ -1701,22 +1475,18 @@ namespace StandardAssets.Characters.Physics
 				isGrounded = false;
 			}
 
-			if (onGroundedChanged != null &&
-			    wasGrounded != isGrounded)
+			if (onGroundedChanged != null && wasGrounded != isGrounded)
 			{
 				onGroundedChanged(isGrounded);
 			}
 		}
 
-		/// <summary>
-		/// Movement loop. Keep moving until completely blocked by obstacles, or we reached the desired position/distance.
-		/// </summary>
-		/// <param name="moveVector">The move vector.</param>
-		/// <param name="tryToStickToGround">Try to stick to the ground?</param>
-		/// <param name="slideWhenMovingDown">Slide against obstacles when moving down? (e.g. we don't want to slide when applying gravity while the charcter is grounded)</param>
-		/// <param name="doNotStepOffset">Do not try to perform the step offset?</param>
-		void MoveLoop(Vector3 moveVector, bool tryToStickToGround, bool slideWhenMovingDown,
-		                      bool doNotStepOffset)
+		// Movement loop. Keep moving until completely blocked by obstacles, or we reached the desired position/distance.
+		// 		moveVector: The move vector.
+		// 		tryToStickToGround: Try to stick to the ground?
+		// 		slideWhenMovingDown: Slide against obstacles when moving down? (e.g. we don't want to slide when applying gravity while the charcter is grounded)
+		// 		doNotStepOffset: Do not try to perform the step offset?
+		void MoveLoop(Vector3 moveVector, bool tryToStickToGround, bool slideWhenMovingDown, bool doNotStepOffset)
 		{
 			m_MoveVectors.Clear();
 			m_NextMoveVectorIndex = 0;
@@ -1733,30 +1503,24 @@ namespace StandardAssets.Characters.Physics
 			for (var i = 0; i < k_MaxMoveIterations; i++)
 			{
 				var refMoveVector = remainingMoveVector.moveVector;
-				var collided = MoveMajorStep(ref refMoveVector,
-				                              remainingMoveVector.canSlide,
-				                              didTryToStickToGround);
+				var collided = MoveMajorStep(ref refMoveVector, remainingMoveVector.canSlide, didTryToStickToGround);
 
 				remainingMoveVector.moveVector = refMoveVector;
 
 				// Character stuck?
-				if (m_StuckInfo.UpdateStuck(m_CachedTransform.position,
-				                          remainingMoveVector.moveVector,
-				                          moveVector))
+				if (m_StuckInfo.UpdateStuck(m_CachedTransform.position, remainingMoveVector.moveVector, moveVector))
 				{
 					// Stop current move loop vector
 					remainingMoveVector = new MoveVector(Vector3.zero);
 				}
-				else if (!m_LocalHumanControlled &&
-				         collided)
+				else if (!m_LocalHumanControlled && collided)
 				{
 					// Only slide once for non-human controlled characters
 					remainingMoveVector.canSlide = false;
 				}
 
 				// Not collided OR vector used up (i.e. vector is zero)?
-				if (!collided ||
-				    remainingMoveVector.moveVector.sqrMagnitude.IsEqualToZero())
+				if (!collided || remainingMoveVector.moveVector.sqrMagnitude.IsEqualToZero())
 				{
 					// Are there remaining movement vectors?
 					if (m_NextMoveVectorIndex < m_MoveVectors.Count)
@@ -1766,8 +1530,7 @@ namespace StandardAssets.Characters.Physics
 					}
 					else
 					{
-						if (!tryToStickToGround ||
-						    didTryToStickToGround)
+						if (!tryToStickToGround || didTryToStickToGround)
 						{
 							break;
 						}
@@ -1796,12 +1559,10 @@ namespace StandardAssets.Characters.Physics
 			}
 		}
 
-		/// <summary>
-		/// A single movement major step. Returns true when there is collision.
-		/// </summary>
-		/// <param name="moveVector">The move vector.</param>
-		/// <param name="canSlide">Can slide against obsyacles?</param>
-		/// <param name="tryGrounding">Try grounding the player?</param>
+		// A single movement major step. Returns true when there is collision.
+		//		moveVector: The move vector.
+		// 		canSlide: Can slide against obsyacles?
+		// 		tryGrounding: Try grounding the player?
 		bool MoveMajorStep(ref Vector3 moveVector, bool canSlide, bool tryGrounding)
 		{
 			var direction = moveVector.normalized;
@@ -1848,8 +1609,7 @@ namespace StandardAssets.Characters.Physics
 			}
 
 			// Use the nearest collision point (e.g. to handle cases where 2 or more colliders' edges meet)
-			if (smallRadiusHit &&
-			    smallRadiusHitInfo.distance < bigRadiusHitInfo.distance)
+			if (smallRadiusHit && smallRadiusHitInfo.distance < bigRadiusHitInfo.distance)
 			{
 				MoveAwayFromObstacle(ref moveVector, ref smallRadiusHitInfo,
 				                     direction, distance,
@@ -1868,10 +1628,8 @@ namespace StandardAssets.Characters.Physics
 			return true;
 		}
 
-		/// <summary>
-		/// Can the character perform a step offset?
-		/// </summary>
-		/// <param name="moveVector">Horizontal movement vector.</param>
+		// Can the character perform a step offset?
+		// 		moveVector: Horizontal movement vector.
 		bool CanStepOffset(Vector3 moveVector)
 		{
 			var moveVectorMagnitude = moveVector.magnitude;
@@ -1903,11 +1661,9 @@ namespace StandardAssets.Characters.Physics
 			return !CheckSteepSlopeAhead(moveVector);
 		}
 
-		/// <summary>
-		/// Returns true if there's a steep slope ahead.
-		/// </summary>
-		/// <param name="moveVector">The movement vector.</param>
-		/// <param name="alsoCheckForStepOffset">Do a second test where the step offset will move the player to?</param>
+		// Returns true if there's a steep slope ahead.
+		//		moveVector: The movement vector.
+		// 		alsoCheckForStepOffset: Do a second test where the step offset will move the player to?
 		bool CheckSteepSlopeAhead(Vector3 moveVector, bool alsoCheckForStepOffset = true)
 		{
 			var direction = moveVector.normalized;
@@ -1919,8 +1675,7 @@ namespace StandardAssets.Characters.Physics
 			}
 
 			// Only need to do the second test for human controlled character
-			if (!alsoCheckForStepOffset ||
-			    !m_LocalHumanControlled)
+			if (!alsoCheckForStepOffset || !m_LocalHumanControlled)
 			{
 				return false;
 			}
@@ -1931,9 +1686,7 @@ namespace StandardAssets.Characters.Physics
 			                           Vector3.up * GetStepOffset());
 		}
 
-		/// <summary>
-		/// Returns true if there's a steep slope ahead.
-		/// </summary>
+		// Returns true if there's a steep slope ahead.
 		bool CheckSteepSlopAhead(Vector3 direction, float distance, Vector3 offsetPosition)
 		{
 			RaycastHit bigRadiusHitInfo;
@@ -1950,27 +1703,9 @@ namespace StandardAssets.Characters.Physics
 				return false;
 			}
 
-			RaycastHit hitInfoCapsule;
-
-			// Did the big radius not hit an obstacle?
-			if (!bigRadiusHit)
-			{
-				// The small radius hit an obstacle
-				hitInfoCapsule = smallRadiusHitInfo;
-			}
-			else
-			{
-				// Use the nearest collision point (e.g. to handle cases where 2 or more colliders' edges meet)
-				if (smallRadiusHit &&
-				    smallRadiusHitInfo.distance < bigRadiusHitInfo.distance)
-				{
-					hitInfoCapsule = smallRadiusHitInfo;
-				}
-				else
-				{
-					hitInfoCapsule = bigRadiusHitInfo;
-				}
-			}
+			RaycastHit hitInfoCapsule = (!bigRadiusHit || (smallRadiusHit && smallRadiusHitInfo.distance < bigRadiusHitInfo.distance)) ? 
+										smallRadiusHitInfo : 
+										bigRadiusHitInfo;
 
 			RaycastHit hitInfoRay;
 			var rayOrigin = GetCapsuleWorldPosition() + offsetPosition;
@@ -1996,14 +1731,11 @@ namespace StandardAssets.Characters.Physics
 			return slopeIsSteep;
 		}
 
-		/// <summary>
-		/// Split the move vector into horizontal and vertical components. The results are added to the moveVectors list.
-		/// </summary>
-		/// <param name="moveVector">The move vector.</param>
-		/// <param name="slideWhenMovingDown">Slide against obstacles when moving down? (e.g. we don't want to slide when applying gravity while the charcter is grounded)</param>
-		/// <param name="doNotStepOffset">Do not try to perform the step offset?</param>
-		void SplitMoveVector(Vector3 moveVector, bool slideWhenMovingDown,
-		                             bool doNotStepOffset)
+		// Split the move vector into horizontal and vertical components. The results are added to the moveVectors list.
+		// 		moveVector: The move vector.
+		// 		slideWhenMovingDown: Slide against obstacles when moving down? (e.g. we don't want to slide when applying gravity while the charcter is grounded)
+		// 		doNotStepOffset: Do not try to perform the step offset?
+		void SplitMoveVector(Vector3 moveVector, bool slideWhenMovingDown, bool doNotStepOffset)
 		{
 			var horizontal = new Vector3(moveVector.x, 0.0f, moveVector.z);
 			var vertical = new Vector3(0.0f, moveVector.y, 0.0f);
@@ -2019,8 +1751,7 @@ namespace StandardAssets.Characters.Physics
 			if (vertical.y > 0.0f)
 			{
 				// Up
-				if (horizontal.x.NotEqualToZero() ||
-				    horizontal.z.NotEqualToZero())
+				if (horizontal.x.NotEqualToZero() || horizontal.z.NotEqualToZero())
 				{
 					// Move up then horizontal
 					AddMoveVector(vertical, m_CanSlideAgainstCeiling);
@@ -2035,11 +1766,9 @@ namespace StandardAssets.Characters.Physics
 			else if (vertical.y < 0.0f)
 			{
 				// Down
-				if (horizontal.x.NotEqualToZero() ||
-				    horizontal.z.NotEqualToZero())
+				if (horizontal.x.NotEqualToZero() || horizontal.z.NotEqualToZero())
 				{
-					if (doStepOffset &&
-					    CanStepOffset(horizontal))
+					if (doStepOffset && CanStepOffset(horizontal))
 					{
 						// Move up, horizontal then down
 						AddMoveVector(Vector3.up * tempStepOffset, false);
@@ -2070,8 +1799,7 @@ namespace StandardAssets.Characters.Physics
 			else
 			{
 				// Horizontal
-				if (doStepOffset &&
-				    CanStepOffset(horizontal))
+				if (doStepOffset && CanStepOffset(horizontal))
 				{
 					// Move up, horizontal then down
 					AddMoveVector(Vector3.up * tempStepOffset, false);
@@ -2086,36 +1814,25 @@ namespace StandardAssets.Characters.Physics
 			}
 		}
 
-		/// <summary>
-		/// Add the movement vector to the moveVectors list.
-		/// </summary>
-		/// <param name="moveVector">Move vector to add.</param>
-		/// <param name="canSlide">Can the movement slide along obstacles?</param>
+		// Add the movement vector to the moveVectors list.
+		// 		moveVector: Move vector to add.
+		// 		canSlide: Can the movement slide along obstacles?
 		void AddMoveVector(Vector3 moveVector, bool canSlide = true)
 		{
 			m_MoveVectors.Add(new MoveVector(moveVector, canSlide));
 		}
 
-		/// <summary>
-		/// Is the movement vector almost zero (i.e. very small)?
-		/// </summary>
+		// Is the movement vector almost zero (i.e. very small)?
 		bool IsMoveVectorAlmostZero(Vector3 moveVector)
 		{
-			if (Mathf.Abs(moveVector.x) > k_SmallMoveVector ||
-			    Mathf.Abs(moveVector.y) > k_SmallMoveVector ||
-			    Mathf.Abs(moveVector.z) > k_SmallMoveVector)
-			{
-				return false;
-			}
-
-			return true;
+			return (Mathf.Abs(moveVector.x) > k_SmallMoveVector ||
+			    	Mathf.Abs(moveVector.y) > k_SmallMoveVector ||
+			    	Mathf.Abs(moveVector.z) > k_SmallMoveVector) ? false : true;
 		}
 
-		/// <summary>
-		/// Test if character can stick to the ground, and set the down vector if so.
-		/// </summary>
-		/// <param name="moveVector">The original movement vector.</param>
-		/// <param name="getDownVector">Get the down vector.</param>
+		// Test if character can stick to the ground, and set the down vector if so.
+		// 		moveVector: The original movement vector.
+		// 		getDownVector: Get the down vector.
 		bool CanStickToGround(Vector3 moveVector, out MoveVector getDownVector)
 		{
 			var moveVectorNoY = new Vector3(moveVector.x, 0.0f, moveVector.z);
@@ -2135,16 +1852,14 @@ namespace StandardAssets.Characters.Physics
 			return false;
 		}
 
-		/// <summary>
-		/// Do two capsule casts. One excluding the capsule's skin width and one including the skin width.
-		/// </summary>
-		/// <param name="direction">Direction to cast.</param>
-		/// <param name="distance">Distance to cast.</param>
-		/// <param name="smallRadiusHit">Did hit, excluding the skin width?</param>
-		/// <param name="bigRadiusHit">Did hit, including the skin width?</param>
-		/// <param name="smallRadiusHitInfo">Hit info for cast exlucing the skin width.</param>
-		/// <param name="bigRadiusHitInfo">Hit info for cast including the skin width.</param>
-		/// <param name="offsetPosition">Offset position, if we want to test somewhere relative to the capsule's position.</param>
+		// Do two capsule casts. One excluding the capsule's skin width and one including the skin width.
+		// 		direction: Direction to cast
+		// 		distance: Distance to cast
+		// 		smallRadiusHit: Did hit, excluding the skin width?
+		// 		bigRadiusHit: Did hit, including the skin width?
+		// 		smallRadiusHitInfo: Hit info for cast exlucing the skin width.
+		// 		bigRadiusHitInfo: Hit info for cast including the skin width.
+		// 		offsetPosition: Offset position, if we want to test somewhere relative to the capsule's position.
 		bool CapsuleCast(Vector3 direction, float distance,
 		                         out bool smallRadiusHit, out bool bigRadiusHit,
 		                         out RaycastHit smallRadiusHitInfo, out RaycastHit bigRadiusHitInfo,
@@ -2156,17 +1871,14 @@ namespace StandardAssets.Characters.Physics
 			// Include the skin width in the test
 			bigRadiusHit = BigCapsuleCast(direction, distance, out bigRadiusHitInfo, offsetPosition);
 
-			return smallRadiusHit ||
-			       bigRadiusHit;
+			return smallRadiusHit || bigRadiusHit;
 		}
 
-		/// <summary>
-		/// Do a capsule cast, exlucliding the skin width.
-		/// </summary>
-		/// <param name="direction">Direction to cast.</param>
-		/// <param name="distance">Distance to cast.</param>
-		/// <param name="smallRadiusHitInfo">Hit info.</param>
-		/// <param name="offsetPosition">Offset position, if we want to test somewhere relative to the capsule's position.</param>
+		// Do a capsule cast, exlucliding the skin width.
+		//		direction: Direction to cast.
+		// 		distance: Distance to cast.
+		// 		smallRadiusHitInfo: Hit info.
+		// 		offsetPosition: Offset position, if we want to test somewhere relative to the capsule's position.
 		bool SmallCapsuleCast(Vector3 direction, float distance,
 		                              out RaycastHit smallRadiusHitInfo,
 		                              Vector3 offsetPosition)
@@ -2190,13 +1902,11 @@ namespace StandardAssets.Characters.Physics
 			return false;
 		}
 
-		/// <summary>
-		/// Do a capsule cast, includes the skin width.
-		/// </summary>
-		/// <param name="direction">Direction to cast.</param>
-		/// <param name="distance">Distance to cast.</param>
-		/// <param name="bigRadiusHitInfo">Hit info.</param>
-		/// <param name="offsetPosition">Offset position, if we want to test somewhere relative to the capsule's position.</param>
+		// Do a capsule cast, includes the skin width.
+		//		direction: Direction to cast.
+		// 		distance: Distance to cast.
+		// 		bigRadiusHitInfo: Hit info.
+		// 		offsetPosition: Offset position, if we want to test somewhere relative to the capsule's position.
 		bool BigCapsuleCast(Vector3 direction, float distance,
 		                            out RaycastHit bigRadiusHitInfo,
 		                            Vector3 offsetPosition)
@@ -2220,14 +1930,12 @@ namespace StandardAssets.Characters.Physics
 			return false;
 		}
 
-		/// <summary>
-		/// Do a sphere cast, excludes the skin width. Sphere position is at the top or bottom of the capsule.
-		/// </summary>
-		/// <param name="direction">Direction to cast.</param>
-		/// <param name="distance">Distance to cast.</param>
-		/// <param name="smallRadiusHitInfo">Hit info.</param>
-		/// <param name="offsetPosition">Offset position, if we want to test somewhere relative to the capsule's position.</param>
-		/// <param name="useBottomSphere">Use the sphere at the bottom of the capsule? If false then use the top sphere.</param>
+		// Do a sphere cast, excludes the skin width. Sphere position is at the top or bottom of the capsule.
+		// 		direction: Direction to cast.
+		// 		distance: Distance to cast.
+		// 		smallRadiusHitInfo: Hit info.
+		// 		offsetPosition: Offset position, if we want to test somewhere relative to the capsule's position.
+		// 		useBottomSphere: Use the sphere at the bottom of the capsule? If false then use the top sphere.
 		bool SmallSphereCast(Vector3 direction, float distance,
 		                             out RaycastHit smallRadiusHitInfo,
 		                             Vector3 offsetPosition,
@@ -2237,9 +1945,7 @@ namespace StandardAssets.Characters.Physics
 			// when moving almost parallel to an obstacle for small distances).
 			var extraDistance = scaledRadius;
 
-			var spherePosition = useBottomSphere
-				                         ? GetBottomSphereWorldPosition() + offsetPosition
-				                         : GetTopSphereWorldPosition() + offsetPosition;
+			var spherePosition = useBottomSphere ? GetBottomSphereWorldPosition() + offsetPosition : GetTopSphereWorldPosition() + offsetPosition;
 			if (UnityEngine.Physics.SphereCast(spherePosition,
 			                                   scaledRadius,
 			                                   direction,
@@ -2254,14 +1960,12 @@ namespace StandardAssets.Characters.Physics
 			return false;
 		}
 
-		/// <summary>
-		/// Do a sphere cast, including the skin width. Sphere position is at the top or bottom of the capsule.
-		/// </summary>
-		/// <param name="direction">Direction to cast.</param>
-		/// <param name="distance">Distance to cast.</param>
-		/// <param name="bigRadiusHitInfo">Hit info.</param>
-		/// <param name="offsetPosition">Offset position, if we want to test somewhere relative to the capsule's position.</param>
-		/// <param name="useBottomSphere">Use the sphere at the bottom of the capsule? If false then use the top sphere.</param>
+		// Do a sphere cast, including the skin width. Sphere position is at the top or bottom of the capsule.
+		// 		direction">Direction to cast.
+		// 		distance">Distance to cast.
+		// 		bigRadiusHitInfo">Hit info.
+		// 		offsetPosition">Offset position, if we want to test somewhere relative to the capsule's position.
+		// 		useBottomSphere">Use the sphere at the bottom of the capsule? If false then use the top sphere.
 		bool BigSphereCast(Vector3 direction, float distance,
 		                           out RaycastHit bigRadiusHitInfo,
 		                           Vector3 offsetPosition,
@@ -2271,9 +1975,7 @@ namespace StandardAssets.Characters.Physics
 			// when moving almost parallel to an obstacle for small distances).
 			var extraDistance = scaledRadius + GetSkinWidth();
 
-			var spherePosition = useBottomSphere
-				                         ? GetBottomSphereWorldPosition() + offsetPosition
-				                         : GetTopSphereWorldPosition() + offsetPosition;
+			var spherePosition = useBottomSphere ? GetBottomSphereWorldPosition() + offsetPosition : GetTopSphereWorldPosition() + offsetPosition;
 			if (UnityEngine.Physics.SphereCast(spherePosition,
 			                                   scaledRadius + GetSkinWidth(),
 			                                   direction,
@@ -2288,16 +1990,14 @@ namespace StandardAssets.Characters.Physics
 			return false;
 		}
 
-		/// <summary>
-		/// Called whan a capsule cast detected an obstacle. Move away from the obstacle and slide against it if needed.
-		/// </summary>
-		/// <param name="moveVector">The movement vector.</param>
-		/// <param name="hitInfoCapsule">Hit info of the capsule cast collision.</param>
-		/// <param name="direction">Direction of the cast.</param>
-		/// <param name="distance">Distance of the cast.</param>
-		/// <param name="canSlide">Can slide against obstacles?</param>
-		/// <param name="tryGrounding">Try grounding the player?</param>
-		/// <param name="hitSmallCapsule">Did the collision occur with the small capsule (i.e. no skin width)?</param>
+		// Called whan a capsule cast detected an obstacle. Move away from the obstacle and slide against it if needed.
+		// 		moveVector: The movement vector.
+		// 		hitInfoCapsule: Hit info of the capsule cast collision.
+		// 		direction: Direction of the cast.
+		// 		distance: Distance of the cast.
+		// 		canSlide: Can slide against obstacles?
+		// 		tryGrounding: Try grounding the player?
+		// 		hitSmallCapsule: Did the collision occur with the small capsule (i.e. no skin width)?
 		void MoveAwayFromObstacle(ref Vector3 moveVector, ref RaycastHit hitInfoCapsule,
 		                                  Vector3 direction, float distance,
 		                                  bool canSlide,
@@ -2307,9 +2007,7 @@ namespace StandardAssets.Characters.Physics
 			// IMPORTANT: This method must set moveVector.
 
 			// When the small capsule hit then stop skinWidth away from obstacles
-			var collisionOffset = hitSmallCapsule
-				                        ? GetSkinWidth()
-				                        : k_CollisionOffset;
+			var collisionOffset = hitSmallCapsule ? GetSkinWidth() : k_CollisionOffset;
 
 			var hitDistance = Mathf.Max(hitInfoCapsule.distance - collisionOffset, 0.0f);
 			// Note: remainingDistance is more accurate is we use hitDistance, but using hitInfoCapsule.distance gives a tiny 
@@ -2352,30 +2050,24 @@ namespace StandardAssets.Characters.Physics
 			}
 
 			var slopeIsSteep = false;
-			if (tryGrounding ||
-			    m_StuckInfo.isStuck)
+			if (tryGrounding || m_StuckInfo.isStuck)
 			{
 				// No further movement when grounding the character, or the character is stuck
 				canSlide = false;
 			}
-			else if (moveVector.x.NotEqualToZero() ||
-			         moveVector.z.NotEqualToZero())
+			else if (moveVector.x.NotEqualToZero() || moveVector.z.NotEqualToZero())
 			{
 				// Test if character is trying to walk up a steep slope
 				var slopeAngle = Vector3.Angle(Vector3.up, hitNormal);
-				slopeIsSteep = slopeAngle > GetSlopeLimit() &&
-				               slopeAngle < k_MaxSlopeLimit &&
-				               Vector3.Dot(direction, hitNormal) < 0.0f;
+				slopeIsSteep = slopeAngle > GetSlopeLimit() && slopeAngle < k_MaxSlopeLimit && Vector3.Dot(direction, hitNormal) < 0.0f;
 			}
 
 			// Set moveVector
-			if (canSlide &&
-			    remainingDistance > 0.0f)
+			if (canSlide && remainingDistance > 0.0f)
 			{
 				var slideNormal = hitNormal;
 
-				if (slopeIsSteep &&
-				    slideNormal.y > 0.0f)
+				if (slopeIsSteep && slideNormal.y > 0.0f)
 				{
 					// Do not move up the slope
 					slideNormal.y = 0.0f;
@@ -2386,8 +2078,7 @@ namespace StandardAssets.Characters.Physics
 				var project = Vector3.Cross(direction, slideNormal);
 				project = Vector3.Cross(slideNormal, project);
 
-				if (slopeIsSteep &&
-				    project.y > 0.0f)
+				if (slopeIsSteep && project.y > 0.0f)
 				{
 					// Do not move up the slope
 					project.y = 0.0f;
@@ -2404,18 +2095,14 @@ namespace StandardAssets.Characters.Physics
 				moveVector = Vector3.zero;
 			}
 
-			if (direction.y < 0.0f &&
-			    Mathf.Approximately(direction.x, 0.0f) &&
-			    Mathf.Approximately(direction.z, 0.0f))
+			if (direction.y < 0.0f && Mathf.Approximately(direction.x, 0.0f) && Mathf.Approximately(direction.z, 0.0f))
 			{
 				// This is used by the sliding down slopes
 				m_DownCollisionNormal = hitNormal;
 			}
 		}
 
-		/// <summary>
-		/// Check for collision penetration, then try to de-penetrate if there is collision.
-		/// </summary>
+		// Check for collision penetration, then try to de-penetrate if there is collision.
 		bool Depenetrate()
 		{
 			float distance;
@@ -2429,14 +2116,12 @@ namespace StandardAssets.Characters.Physics
 			return false;
 		}
 
-		/// <summary>
-		/// Get direction and distance to move out of the obstacle.
-		/// </summary>
-		/// <param name="getDistance">Get distance to move out of the obstacle.</param>
-		/// <param name="getDirection">Get direction to move out of the obstacle.</param>
-		/// <param name="includSkinWidth">Include the skin width in the test?</param>
-		/// <param name="offsetPosition">Offset position, if we want to test somewhere relative to the capsule's position.</param>
-		/// <param name="hitInfo">The hit info.</param>
+		// Get direction and distance to move out of the obstacle.
+		// 		getDistance: Get distance to move out of the obstacle.
+		// 		getDirection: Get direction to move out of the obstacle.
+		// 		includSkinWidth: Include the skin width in the test?
+		// 		offsetPosition: Offset position, if we want to test somewhere relative to the capsule's position.
+		// 		hitInfo: The hit info.
 		bool GetPenetrationInfo(out float getDistance, out Vector3 getDirection,
 		                                bool includSkinWidth = true,
 		                                Vector3? offsetPosition = null,
@@ -2445,20 +2130,15 @@ namespace StandardAssets.Characters.Physics
 			getDistance = 0.0f;
 			getDirection = Vector3.zero;
 
-			var offset = offsetPosition != null
-				                 ? offsetPosition.Value
-				                 : Vector3.zero;
-			var tempSkinWidth = includSkinWidth
-				                      ? GetSkinWidth()
-				                      : 0.0f;
+			var offset = offsetPosition != null ? offsetPosition.Value : Vector3.zero;
+			var tempSkinWidth = includSkinWidth ? GetSkinWidth() : 0.0f;
 			var overlapCount = UnityEngine.Physics.OverlapCapsuleNonAlloc(GetTopSphereWorldPosition() + offset,
 			                                                              GetBottomSphereWorldPosition() + offset,
 			                                                              scaledRadius + tempSkinWidth,
 			                                                              m_PenetrationInfoColliders,
 			                                                              GetCollisionLayerMask(),
 			                                                              m_QueryTriggerInteraction);
-			if (overlapCount <= 0 ||
-			    m_PenetrationInfoColliders.Length <= 0)
+			if (overlapCount <= 0 || m_PenetrationInfoColliders.Length <= 0)
 			{
 				return false;
 			}
@@ -2483,8 +2163,7 @@ namespace StandardAssets.Characters.Physics
 					localPos += direction * (distance + k_CollisionOffset);
 					result = true;
 				}
-				else if (hitInfo != null &&
-				         hitInfo.Value.collider == collider)
+				else if (hitInfo != null && hitInfo.Value.collider == collider)
 				{
 					// We can use the hit normal to push away from the collider, because CapsuleCast generally returns a normal
 					// that pushes away from the collider.
@@ -2502,20 +2181,14 @@ namespace StandardAssets.Characters.Physics
 			return result;
 		}
 
-		/// <summary>
-		/// Check if any colliders overlap the capsule.
-		/// </summary>
-		/// <param name="includSkinWidth">Include the skin width in the test?</param>
-		/// <param name="offsetPosition">Offset position, if we want to test somewhere relative to the capsule's position.</param>
+		// Check if any colliders overlap the capsule.
+		// 		includSkinWidth: Include the skin width in the test?
+		// 		offsetPosition: Offset position, if we want to test somewhere relative to the capsule's position.
 		bool CheckCapsule(bool includSkinWidth = true,
 		                          Vector3? offsetPosition = null)
 		{
-			var offset = offsetPosition != null
-				                 ? offsetPosition.Value
-				                 : Vector3.zero;
-			var tempSkinWidth = includSkinWidth
-				                      ? GetSkinWidth()
-				                      : 0.0f;
+			var offset = offsetPosition != null ? offsetPosition.Value : Vector3.zero;
+			var tempSkinWidth = includSkinWidth ? GetSkinWidth() : 0.0f;
 			return UnityEngine.Physics.CheckCapsule(GetTopSphereWorldPosition() + offset,
 			                                        GetBottomSphereWorldPosition() + offset,
 			                                        scaledRadius + tempSkinWidth,
@@ -2523,12 +2196,10 @@ namespace StandardAssets.Characters.Physics
 			                                        m_QueryTriggerInteraction);
 		}
 
-		/// <summary>
-		/// Move the capsule position.
-		/// </summary>
-		/// <param name="moveVector">Move vector.</param>
-		/// <param name="collideDirection">Direction we encountered collision. Null if no collision.</param>
-		/// <param name="hitInfo">Hit info of the collision. Null if no collision.</param>
+		// Move the capsule position.
+		// 		moveVector: Move vector.
+		// 		ollideDirection: Direction we encountered collision. Null if no collision.
+		//		hitInfo: Hit info of the collision. Null if no collision.
 		void MovePosition(Vector3 moveVector, Vector3? collideDirection, RaycastHit? hitInfo)
 		{
 			if (moveVector.sqrMagnitude.NotEqualToZero())
@@ -2536,66 +2207,54 @@ namespace StandardAssets.Characters.Physics
 				m_CachedTransform.position += moveVector;
 			}
 
-			if (collideDirection != null &&
-			    hitInfo != null)
+			if (collideDirection != null && hitInfo != null)
 			{
 				UpdateCollisionInfo(collideDirection.Value, hitInfo.Value);
 			}
 		}
 
-		/// <summary>
-		/// Update the collision flags and info.
-		/// </summary>
-		/// <param name="direction">The direction moved.</param>
-		/// <param name="hitInfo">The hit info of the collision.</param>
+		// Update the collision flags and info.
+		// 		direction: The direction moved.
+		//		hitInfo: The hit info of the collision.
 		void UpdateCollisionInfo(Vector3 direction, RaycastHit? hitInfo)
 		{
-			if (direction.x.NotEqualToZero() ||
-			    direction.z.NotEqualToZero())
+			if (direction.x.NotEqualToZero() || direction.z.NotEqualToZero())
 			{
 				collisionFlags |= CollisionFlags.Sides;
 			}
 
-			if (direction.y > 0.0)
+			if (direction.y > 0.0f)
 			{
 				collisionFlags |= CollisionFlags.CollidedAbove;
 			}
-			else if (direction.y < 0.0)
+			else if (direction.y < 0.0f)
 			{
 				collisionFlags |= CollisionFlags.CollidedBelow;
 			}
 
 			m_StuckInfo.hitCount++;
 
-			if (m_SendColliderHitMessages &&
-			    hitInfo != null)
+			if (m_SendColliderHitMessages && hitInfo != null)
 			{
 				var collider = hitInfo.Value.collider;
+				
 				// We only care about the first collision with a collider
 				if (!m_CollisionInfoDictionary.ContainsKey(collider))
 				{
 					var moved = m_CachedTransform.position - m_StartPosition;
-					var newCollisionInfo =
-						new CollisionInfo(this,
-						                  hitInfo.Value,
-						                  direction,
-						                  moved.magnitude);
+					var newCollisionInfo = new CollisionInfo(this, hitInfo.Value, direction, moved.magnitude);
 					m_CollisionInfoDictionary.Add(collider, newCollisionInfo);
 				}
 			}
 		}
 
-		/// <summary>
-		/// Stop auto-slide down steep slopes.
-		/// </summary>
+		// Stop auto-slide down steep slopes.
 		void StopSlideDownSlopes()
 		{
 			slidingDownSlopeTime = 0.0f;
 		}
 
-		/// <summary>
-		/// Auto-slide down steep slopes.
-		/// </summary>
+		// Auto-slide down steep slopes.
 		void UpdateSlideDownSlopes()
 		{
 			var dt = Time.deltaTime;
@@ -2623,13 +2282,10 @@ namespace StandardAssets.Characters.Physics
 			}
 		}
 
-		/// <summary>
-		/// Auto-slide down steep slopes.
-		/// </summary>
+		// Auto-slide down steep slopes.
 		bool UpdateSlideDownSlopesInternal(float dt)
 		{
-			if (!m_SlideDownSlopes ||
-			    !isGrounded)
+			if (!m_SlideDownSlopes || !isGrounded)
 			{
 				return false;
 			}
@@ -2637,8 +2293,7 @@ namespace StandardAssets.Characters.Physics
 			Vector3 hitNormal;
 
 			// Collided downwards during the last slide movement?
-			if (isSlidingDownSlope &&
-			    m_DownCollisionNormal != null)
+			if (isSlidingDownSlope && m_DownCollisionNormal != null)
 			{
 				// This fixes bug: character does not slide off the edge of a slope
 				hitNormal = m_DownCollisionNormal.Value;
@@ -2678,8 +2333,7 @@ namespace StandardAssets.Characters.Physics
 
 			var slopeAngle = Vector3.Angle(Vector3.up, hitNormal);
 			var slopeIsSteep = slopeAngle > GetSlopeLimit();
-			if (!slopeIsSteep ||
-			    slopeAngle >= k_MaxSlopeSlideAngle)
+			if (!slopeIsSteep || slopeAngle >= k_MaxSlopeSlideAngle)
 			{
 				return false;
 			}
@@ -2694,8 +2348,7 @@ namespace StandardAssets.Characters.Physics
 
 			// Apply gravity and slide along the obstacle
 			var gravity = Mathf.Abs(UnityEngine.Physics.gravity.y) * m_SlideDownGravityScale * slideSpeedScale;
-			var verticalVelocity =
-				Mathf.Clamp(gravity * slidingDownSlopeTime, 0.0f, Mathf.Abs(m_SlideDownTerminalVelocity));
+			var verticalVelocity = Mathf.Clamp(gravity * slidingDownSlopeTime, 0.0f, Mathf.Abs(m_SlideDownTerminalVelocity));
 			var moveVector = new Vector3(0.0f, -verticalVelocity, 0.0f) * dt;
 
 			// Push slightly away from the slope
@@ -2719,24 +2372,17 @@ namespace StandardAssets.Characters.Physics
 			return didSlide;
 		}
 
-		/// <summary>
-		/// Update pending height and center when it is safe.
-		/// </summary>
+		// Update pending height and center when it is safe.
 		void UpdatePendingHeightAndCenter()
 		{
-			if (m_PendingResize.heightTime == null &&
-			    m_PendingResize.centerTime == null)
+			if (m_PendingResize.heightTime == null && m_PendingResize.centerTime == null)
 			{
 				return;
 			}
 
 			// Use smallest time
-			var time = m_PendingResize.heightTime != null
-				             ? m_PendingResize.heightTime.Value
-				             : float.MaxValue;
-			time = Mathf.Min(time, m_PendingResize.centerTime != null
-				                       ? m_PendingResize.centerTime.Value
-				                       : float.MaxValue);
+			var time = m_PendingResize.heightTime != null ? m_PendingResize.heightTime.Value : float.MaxValue;
+			time = Mathf.Min(time, m_PendingResize.centerTime != null ? m_PendingResize.centerTime.Value : float.MaxValue);
 			if (time > Time.time)
 			{
 				return;
@@ -2744,8 +2390,7 @@ namespace StandardAssets.Characters.Physics
 
 			m_PendingResize.ClearTimers();
 
-			if (m_PendingResize.height != null &&
-			    m_PendingResize.center != null)
+			if (m_PendingResize.height != null && m_PendingResize.center != null)
 			{
 				SetHeightAndCenter(m_PendingResize.height.Value, m_PendingResize.center.Value, true, false);
 			}
@@ -2759,9 +2404,7 @@ namespace StandardAssets.Characters.Physics
 			}
 		}
 
-		/// <summary>
-		/// Sets the playerRootTransform's localPosition to the rootTransformOffset
-		/// </summary>
+		// Sets the playerRootTransform's localPosition to the rootTransformOffset
 		void SetRootToOffset()
 		{
 			if (m_PlayerRootTransform != null)

@@ -25,10 +25,8 @@ namespace StandardAssets.Characters.ThirdPerson
         /// <summary>
         /// COMMENT TODO
         /// </summary>
-        public bool isTurningAround
-        {
-            get { return m_IsTurningAround; }
-        }
+        public bool isTurningAround { get { return m_IsTurningAround; } }
+
 
         /// <summary>
         /// COMMENT TODO
@@ -191,10 +189,8 @@ namespace StandardAssets.Characters.ThirdPerson
         }
 
         // COMMENT TODO
-        Animator animator
-        {
-            get { return m_ThirdPersonBrain.animator; }
-        }
+        Animator animator { get { return m_ThirdPersonBrain.animator; } }
+
 
         /// <inheritdoc/>
         public override void Init(ThirdPersonBrain brain)
@@ -445,6 +441,7 @@ namespace StandardAssets.Characters.ThirdPerson
             get { return m_ConfigureBlendspace ? m_Configuration.headTurnScale : k_DefaultHeadTurnScale; }
         }
 
+
         /// <summary>
         /// COMMENT TODO
         /// </summary>
@@ -568,66 +565,42 @@ namespace StandardAssets.Characters.ThirdPerson
             /// <summary>
             /// Gets the turn duration in seconds.
             /// </summary>
-            public float turnTime
-            {
-                get { return m_TimeToTurn; }
-            }
+            public float turnTime { get { return m_TimeToTurn; } }
 
             /// <summary>
             /// Gets the curve to evaluate forward speed over time.
             /// </summary>
-            public AnimationCurve forwardSpeedOverTime
-            {
-                get { return m_ForwardSpeed; }
-            }
+            public AnimationCurve forwardSpeedOverTime { get { return m_ForwardSpeed; } }
 
             /// <summary>
             /// Gets the method of applying forward speed.
             /// </summary>
-            public BlendspaceCalculation forwardSpeedCalc
-            {
-                get { return m_ForwardSpeedCalculation; }
-            }
+            public BlendspaceCalculation forwardSpeedCalc { get { return m_ForwardSpeedCalculation; } }
 
             /// <summary>
             /// Gets the angle used for small turn classification.
             /// </summary>
-            public float classificationAngle
-            {
-                get { return m_TurnClassificationAngle; }
-            }
+            public float classificationAngle { get { return m_TurnClassificationAngle; } }
 
             /// <summary>
             /// Gets the curve used to evaluate movement throughout a 180° turnaround.
             /// </summary>
-            public AnimationCurve turn180MovementOverTime
-            {
-                get { return m_MovementDuring180Turn; }
-            }
+            public AnimationCurve turn180MovementOverTime { get { return m_MovementDuring180Turn; } }
 
             /// <summary>
             /// Gets the curve used to evaluate movement throughout a 90° turnaround.
             /// </summary>
-            public AnimationCurve turn90MovementOverTime
-            {
-                get { return m_MovementDuring90Turn; }
-            }
+            public AnimationCurve turn90MovementOverTime { get { return m_MovementDuring90Turn; } }
 
             /// <summary>
             /// Gets the curve used to evaluate rotation over time.
             /// </summary>
-            public AnimationCurve rotationOverTime
-            {
-                get { return m_RotationDuringTurn; }
-            }
+            public AnimationCurve rotationOverTime { get { return m_RotationDuringTurn; } }
 
             /// <summary>
             /// Gets the head turn scale to be applied during a turnaround.
             /// </summary>
-            public float headTurnScale
-            {
-                get { return m_HeadTurnMultiplier; }
-            }
+            public float headTurnScale { get { return m_HeadTurnMultiplier; } }
         }
 
 

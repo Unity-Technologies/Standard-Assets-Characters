@@ -20,10 +20,7 @@ namespace StandardAssets.Characters.Common
 		/// <summary>
 		/// COMMENT TODO
 		/// </summary>
-		public ControllerAdapter controllerAdapter
-		{
-			get { return m_CharacterControllerAdapter; }
-		}
+		public ControllerAdapter controllerAdapter { get { return m_CharacterControllerAdapter; } }
 		
 		/// <summary>
 		/// Gets/sets the planar speed (i.e. ignoring the displacement) of the CharacterBrain
@@ -176,10 +173,7 @@ namespace StandardAssets.Characters.Common
 		public OpenCharacterController characterController { get; private set; }
 
 		// COMMENT TODO
-		public bool startedSlide
-		{
-			get { return characterController.startedSlide; }
-		}
+		public bool startedSlide { get { return characterController.startedSlide; } }
 
 		// COMMENT TODO
 		public float fallTime { get; private set; }
@@ -192,62 +186,28 @@ namespace StandardAssets.Characters.Common
 		/// <summary>
 		/// COMMENT TODO
 		/// </summary>
-		public float normalizedVerticalSpeed
-		{
-			get;
-			private set;
-		}
+		public float normalizedVerticalSpeed { get; private set; }
 
 		// COMMENT TODO
 		float airTime { get; set; }
 
 		// Gets the radius of the character.
-		float radius
-		{
-			get { return characterController.scaledRadius + characterController.GetSkinWidth(); }
-		}
+		float radius { get { return characterController.scaledRadius + characterController.GetSkinWidth(); } }
 
 		// Gets the character's world foot position.
-		Vector3 footWorldPosition
-		{
-			get { return characterController.GetFootWorldPosition(); }
-		}
+		Vector3 footWorldPosition { get { return characterController.GetFootWorldPosition(); } }
 
 		// Gets the collision layer mask used for physics grounding,
-		LayerMask collisionLayerMask
-		{
-			get { return characterController.GetCollisionLayerMask(); }
-		}		
+		LayerMask collisionLayerMask { get { return characterController.GetCollisionLayerMask(); } }		
 
 		// Gets the current jump gravity multiplier as a factor of normalized forward speed.
-		float jumpGravityMultiplier
-		{
-			get
-			{
-				return m_JumpGravityMultiplierAsAFactorOfForwardSpeed.Evaluate(
-					m_CharacterBrain.normalizedForwardSpeed);
-			}
-		}
+		float jumpGravityMultiplier { get { return m_JumpGravityMultiplierAsAFactorOfForwardSpeed.Evaluate(m_CharacterBrain.normalizedForwardSpeed); } }
 		
 		// Gets the current minimum jump height gravity multiplier as a factor of normalized forward speed.
-		float minJumpHeightMultiplier
-		{
-			get
-			{
-				return m_MinJumpHeightMultiplierAsAFactorOfForwardSpeed.Evaluate(
-					m_CharacterBrain.normalizedForwardSpeed);
-			}
-		}
+		float minJumpHeightMultiplier { get { return m_MinJumpHeightMultiplierAsAFactorOfForwardSpeed.Evaluate( m_CharacterBrain.normalizedForwardSpeed); } }
 		
 		// Gets the current fall gravity multiplier as a factor of normalized forward speed.
-		float fallGravityMultiplier
-		{
-			get
-			{
-				return m_FallGravityMultiplierAsAFactorOfForwardSpeed.Evaluate(
-					m_CharacterBrain.normalizedForwardSpeed);
-			}
-		}
+		float fallGravityMultiplier { get { return m_FallGravityMultiplierAsAFactorOfForwardSpeed.Evaluate(m_CharacterBrain.normalizedForwardSpeed); } }
 
 
 		/// <summary>

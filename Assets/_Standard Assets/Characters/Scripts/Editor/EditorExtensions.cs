@@ -175,6 +175,7 @@ namespace Editor
 		}
 	}
 
+
 	/// <summary>
 	/// <see cref="SerializedProperty"/> extensions.
 	/// </summary>
@@ -199,6 +200,7 @@ namespace Editor
 			return fieldInfo == null ? null : fieldInfo.FieldType;
 		}
 		
+		// COMMENT TODO
 		static object GetTargetObjectWithProperty(SerializedProperty prop)
 		{
 			object obj = prop.serializedObject.targetObject;
@@ -210,6 +212,7 @@ namespace Editor
 			return obj;
 		}
 
+		// COMMENT TODO
 		static object GetValue_Imp(object source, string name)
 		{
 			if (source == null)
@@ -236,6 +239,4 @@ namespace Editor
 			return null;
 		}
 	}
-	
-	
 }

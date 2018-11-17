@@ -18,28 +18,16 @@ namespace StandardAssets.Characters.Effects.Configs
 		/// <summary>
 		/// COMMENT TODO
 		/// </summary>
-		public MovementEventLibrary this[PhysicMaterial physicMaterial]
-		{
-			get
-			{
-				return m_ZonesDefinition[physicMaterial];
-			}
-		}
+		public MovementEventLibrary this[PhysicMaterial physicMaterial] { get { return m_ZonesDefinition[physicMaterial]; } }
 
 		/// <summary>
 		/// Gets the default <see cref="MovementEventLibrary"/>
 		/// </summary>
-		public MovementEventLibrary defaultLibrary
-		{
-			get { return this[m_DefaultPhysicMaterial]; }
-		}
+		public MovementEventLibrary defaultLibrary { get { return this[m_DefaultPhysicMaterial]; } }
 		
 		/// <summary>
 		/// Gets the default Ids
 		/// </summary>
-		public PhysicMaterial defaultPhysicMaterial
-		{
-			get { return m_DefaultPhysicMaterial; }
-		}
+		public PhysicMaterial defaultPhysicMaterial { get { return m_DefaultPhysicMaterial; } }
 	}
 }

@@ -27,18 +27,12 @@ namespace StandardAssets.Characters.Effects
         /// <summary>
         /// COMMENT TODO
         /// </summary>
-        protected CharacterBrain brain
-        {
-            get { return m_Brain; }
-        }
+        protected CharacterBrain brain { get { return m_Brain; } }
 
         /// <summary>
         /// COMMENT TODO
         /// </summary>
-        protected bool canPlayEffect
-        {
-            get { return m_CurrentMovementEventLibrary != null; }
-        }
+        protected bool canPlayEffect { get { return m_CurrentMovementEventLibrary != null; } }
         
         /// <summary>
         /// COMMENT TODO
@@ -182,10 +176,7 @@ namespace StandardAssets.Characters.Effects
         /// <summary>
         /// Where the event was fired from
         /// </summary>
-        public Transform firedFrom
-        {
-            get { return m_FiredFrom; }
-        }
+        public Transform firedFrom { get { return m_FiredFrom; } }
 
         /// <summary>
         /// The velocity that the effect occurs at
@@ -328,18 +319,12 @@ namespace StandardAssets.Characters.Effects
         /// <summary>
         /// Gets the zoneId
         /// </summary>
-        public PhysicMaterial physicMaterial
-        {
-            get { return m_PhysicMaterial; }
-        }
+        public PhysicMaterial physicMaterial { get { return m_PhysicMaterial; } }
 
         /// <summary>
         /// Gets the <see cref="MovementEventLibrary"/>
         /// </summary>
-        public MovementEventLibrary library
-        {
-            get { return m_ZoneLibrary; }
-        }
+        public MovementEventLibrary library { get { return m_ZoneLibrary; } }
     }
 
 

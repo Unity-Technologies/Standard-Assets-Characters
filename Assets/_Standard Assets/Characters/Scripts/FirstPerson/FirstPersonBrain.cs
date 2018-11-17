@@ -37,34 +37,22 @@ namespace StandardAssets.Characters.FirstPerson
 			/// <summary>
 			/// Can the first person character jump in this state
 			/// </summary>
-			public bool canJump
-			{
-				get { return m_JumpSpeed > 0f; }
-			}
+			public bool canJump { get { return m_JumpSpeed > 0f; } }
 
 			/// <summary>
 			/// COMMENT TODO
 			/// </summary>
-			public float maxSpeed
-			{
-				get { return m_MaxSpeed; }
-			}
+			public float maxSpeed { get { return m_MaxSpeed; } }
 
 			/// <summary>
 			/// COMMENT TODO
 			/// </summary>
-			public float jumpSpeed
-			{
-				get { return m_JumpSpeed; }
-			}
+			public float jumpSpeed { get { return m_JumpSpeed; } }
 
 			/// <summary>
 			/// COMMENT TODO
 			/// </summary>
-			public float strideLength
-			{
-				get { return m_StrideLength; }
-			}
+			public float strideLength { get { return m_StrideLength; } }
 		}
 
 		[SerializeField, Tooltip("Movement properties of the character while walking")]

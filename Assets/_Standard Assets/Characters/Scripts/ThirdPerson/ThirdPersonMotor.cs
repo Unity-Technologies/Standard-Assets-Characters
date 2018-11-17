@@ -120,10 +120,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// Gets the character's current fall time.
 		/// </summary>
 		/// <value>The time, in seconds, the character has been in a falling state.</value>
-		public float fallTime
-		{
-			get { return m_ControllerAdapter.fallTime; }
-		}
+		public float fallTime { get { return m_ControllerAdapter.fallTime; } }
 
 		/// <summary>
 		/// Gets the desired target y rotation.
@@ -146,20 +143,14 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Gets the current <see cref="TurnAroundBehaviour"/>.
 		/// </summary>
-		public TurnAroundBehaviour currentTurnAroundBehaviour
-		{
-			get { return m_ThirdPersonBrain.turnAround; }
-		}
+		public TurnAroundBehaviour currentTurnAroundBehaviour { get { return m_ThirdPersonBrain.turnAround; } }
 	
 		/// <summary>
 		/// Gets the vertical speed.
 		/// </summary>
 		/// <value>Range = -1 (falling) to 1 (jumping).</value>
 		/// <remarks>Returns <see cref="ControllerAdapter"/>'s <see cref="ControllerAdapter.normalizedVerticalSpeed"/>.</remarks>
-		public float normalizedVerticalSpeed
-		{
-			get { return m_ControllerAdapter.normalizedVerticalSpeed; }
-		}
+		public float normalizedVerticalSpeed { get { return m_ControllerAdapter.normalizedVerticalSpeed; } }
 		
 		/// <summary>
 		/// Gets whether the character is in a sprint state.
@@ -170,33 +161,21 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Gets the current <see cref="ThirdPersonGroundMovementState"/>.
 		/// </summary>
-		public ThirdPersonGroundMovementState currentGroundMovementState
-		{
-			get { return m_MovementState; }
-		}
+		public ThirdPersonGroundMovementState currentGroundMovementState { get { return m_MovementState; } }
 		
 		/// <summary>
 		/// Gets the current <see cref="ThirdPersonAerialMovementState"/>.
 		/// </summary>
-		public ThirdPersonAerialMovementState currentAerialMovementState
-		{
-			get { return m_AerialState; }
-		}
+		public ThirdPersonAerialMovementState currentAerialMovementState { get { return m_AerialState; } }
 
 		/// <summary>
 		/// Whether the character it grounded
 		/// </summary>
 		/// <value>True if <see cref="m_AerialState"/> is grounded</value>
-		bool IsGrounded
-		{
-			get { return m_AerialState == ThirdPersonAerialMovementState.Grounded; }
-		}	
+		bool IsGrounded { get { return m_AerialState == ThirdPersonAerialMovementState.Grounded; } }	
 
 		// Is rapid turn disabled? (Enable/Disable it via EnableRapidTurn / DisableRapidTurn).
-		bool disableRapidTurn
-		{
-			get { return m_ObjectsThatDisabledRapidTurn.Count > 0; }
-		}
+		bool disableRapidTurn { get { return m_ObjectsThatDisabledRapidTurn.Count > 0; } }
 
 
 		/// <summary>

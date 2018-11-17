@@ -19,10 +19,7 @@ namespace StandardAssets.Characters.Helpers
 		/// <summary>
 		/// Gets the count of <see cref="values"/>.
 		/// </summary>
-		public int count
-		{
-			get { return values.Count; }
-		}
+		public int count { get { return values.Count; } }
 		
 
 		/// <summary>

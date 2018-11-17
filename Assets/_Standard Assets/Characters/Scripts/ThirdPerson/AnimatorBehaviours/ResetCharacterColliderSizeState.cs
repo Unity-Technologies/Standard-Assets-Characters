@@ -24,6 +24,7 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 		// COMMENT TODO
 		OpenCharacterController m_OpenCharacterController;
 		
+		
 		/// <inheritdoc />
 		public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{

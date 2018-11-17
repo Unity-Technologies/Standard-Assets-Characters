@@ -10,18 +10,18 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
     public class ScaleCharacterColliderState : StateMachineBehaviour
     {
         // COMMENT TODO
-        const float k_MinHeightScale = 0.0f;
-
-        // COMMENT TODO
-        const float k_MaxHeightScale = 2.0f;
-
-        // COMMENT TODO
         enum NormalizedMode
         {
             Once,
             Loop,
             PingPong
         }
+
+        // COMMENT TODO
+        const float k_MinHeightScale = 0.0f;
+
+        // COMMENT TODO
+        const float k_MaxHeightScale = 2.0f;
 
         // If true, use the current state's normalizeTime value (ideally, not looped animations),
         // otherwise, we will use our own time.
@@ -78,6 +78,7 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 
         // COMMENT TODO
         OpenCharacterController m_Controller;
+
 
         /// <summary>
         /// OnStateEnter is called on any state inside this state machine

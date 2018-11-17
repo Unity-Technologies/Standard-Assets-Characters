@@ -55,10 +55,7 @@ namespace StandardAssets.Characters.Common
 		/// <summary>
 		/// Gets if the movement input is being applied
 		/// </summary>
-		public bool hasMovementInput
-		{
-			get { return moveInput != Vector2.zero; }
-		}
+		public bool hasMovementInput { get { return moveInput != Vector2.zero; } }
 
 		/// <summary>
 		/// Gets/sets the look input vector
@@ -78,18 +75,12 @@ namespace StandardAssets.Characters.Common
         /// <summary>
         /// Gets a reference to the currently set Touch Controls scriptable object
         /// </summary>
-		protected TouchControls touchControls
-		{
-			get { return m_TouchControls; }
-		}
+		protected TouchControls touchControls { get { return m_TouchControls; } }
 
         /// <summary>
         /// Gets a reference to the currently set Standard Controls asset
         /// </summary>
-		protected StandardControls standardControls
-		{
-			get { return m_StandardControls; }
-		}
+		protected StandardControls standardControls { get { return m_StandardControls; } }
 
         /// <summary>
         /// Gets/sets the internal flag that tracks the Sprinting state

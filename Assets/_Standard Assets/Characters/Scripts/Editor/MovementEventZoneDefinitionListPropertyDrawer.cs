@@ -8,16 +8,47 @@ using UnityEngine;
 
 namespace Editor
 {
+    /// <summary>
+    /// COMMENT TODO
+    /// </summary>
     [CustomPropertyDrawer(typeof(MovementEventZoneDefinitionList))]
     public class MovementEventZoneDefinitionListPropertyDrawer : PropertyDrawer
     {
+        // COMMENT TODO
         const float k_ArrayElementHeightScale = 1.1f;
 
+        // COMMENT TODO
         ReorderableList m_ReorderableList;
+        
+        // COMMENT TODO
         SerializedProperty rootProperty;
+        
+        // COMMENT TODO
         SerializedProperty listProperty;
+        
+        // COMMENT TODO
         List<float> m_ElementHeights = new List<float>();
 
+
+        /// <summary>
+        /// COMMENT TODO
+        /// </summary>
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        {
+            return m_ReorderableList == null ? base.GetPropertyHeight(property, label) : m_ReorderableList.GetHeight();
+        }
+
+        /// <summary>
+        /// COMMENT TODO
+        /// </summary>
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        {
+            SetupReorderableList(property);
+            m_ReorderableList.DoList(position);
+            rootProperty.serializedObject.ApplyModifiedProperties();
+        }
+
+        // COMMENT TODO
         void SetupReorderableList(SerializedProperty property)
         {
             if (m_ReorderableList != null)
@@ -46,11 +77,13 @@ namespace Editor
             m_ReorderableList.onChangedCallback = OnChangedCallback; 
         }
 
+        // COMMENT TODO
         void OnChangedCallback(ReorderableList list)
         {
             rootProperty.serializedObject.ApplyModifiedProperties();
         }
 
+        // COMMENT TODO
         void OnRemoveCallback(ReorderableList list)
         {
             m_ElementHeights.RemoveAt(list.index);
@@ -62,17 +95,20 @@ namespace Editor
             }
         }
 
+        // COMMENT TODO
         void OnAddCallback(ReorderableList list)
         {
             m_ElementHeights.Add(2 * EditorGUIUtility.singleLineHeight);
             listProperty.arraySize++;
         }
 
+        // COMMENT TODO
         float ElementHeightCallback(int index)
         {
             return m_ElementHeights[index];
         }
 
+        // COMMENT TODO
         void DrawElementCallback(Rect rect, int index, bool isactive, bool isfocused)
         {
             var elementHeight = EditorGUIUtility.singleLineHeight;
@@ -103,6 +139,7 @@ namespace Editor
             }
         }
 
+        // COMMENT TODO
         float GetExpandedArrayHeight(SerializedProperty arrayElement)
         {
             if (arrayElement.isExpanded)
@@ -113,18 +150,6 @@ namespace Editor
             {
                 return EditorGUIUtility.singleLineHeight;
             }
-        }
-
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-        {
-            return m_ReorderableList == null ? base.GetPropertyHeight(property, label) : m_ReorderableList.GetHeight();
-        }
-
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-        {
-            SetupReorderableList(property);
-            m_ReorderableList.DoList(position);
-            rootProperty.serializedObject.ApplyModifiedProperties();
         }
     }
 }

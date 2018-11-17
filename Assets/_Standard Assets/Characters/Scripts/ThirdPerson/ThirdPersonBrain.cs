@@ -10,21 +10,6 @@ namespace StandardAssets.Characters.ThirdPerson
     [RequireComponent(typeof(IThirdPersonInput))]
     public class ThirdPersonBrain : CharacterBrain
     {
-        const float k_HeadTurnSnapBackScale = 100f;
-        const float k_VelocityGizmoScale = 0.2f, k_VelocityLerp = 3f;
-
-        /// <summary>
-        /// Character animation states
-        /// </summary>
-        public enum AnimatorState
-        {
-            Locomotion,
-            Jump,
-            Falling,
-            Landing,
-            JumpLanding,
-        }
-
         [SerializeField, Tooltip("Properties of the root motion motor")]
         ThirdPersonMotor m_Motor;
 
@@ -52,6 +37,23 @@ namespace StandardAssets.Characters.ThirdPerson
         [SerializeField, Tooltip("Properties of the debug gizmos")]
         DebugGizmoSettings m_GizmoSettings;
 
+
+        /// <summary>
+        /// Character animation states
+        /// </summary>
+        public enum AnimatorState
+        {
+            Locomotion,
+            Jump,
+            Falling,
+            Landing,
+            JumpLanding,
+        }
+
+
+        /// <summary>
+        /// COMMENT TODO
+        /// </summary>
         [Serializable]
         public struct DebugGizmoSettings
         {
@@ -88,83 +90,58 @@ namespace StandardAssets.Characters.ThirdPerson
             /// <summary>
             /// Gets the arrow prefab
             /// </summary>
-            public GameObject arrowPrefab
-            {
-                get { return m_ArrowPrefab; }
-            }
+            public GameObject arrowPrefab{ get { return m_ArrowPrefab; } }
 
             /// <summary>
             /// Gets the show body gizmos bool
             /// </summary>
-            public bool showBodyGizmos
-            {
-                get { return m_ShowBodyGizmos; }
-            }
+            public bool showBodyGizmos { get { return m_ShowBodyGizmos; } }
 
             /// <summary>
             /// Gets the body current direction color
             /// </summary>
-            public Color bodyCurrentDirection
-            {
-                get { return m_BodyCurrentDirection; }
-            }
+            public Color bodyCurrentDirection { get { return m_BodyCurrentDirection; } }
 
             /// <summary>
             /// Gets the body desired direction color
             /// </summary>
-            public Color bodyDesiredDirection
-            {
-                get { return m_BodyDesiredDirection; }
-            }
+            public Color bodyDesiredDirection { get { return m_BodyDesiredDirection; } }
 
             /// <summary>
             /// Gets the show foot gizmos bool
             /// </summary>
-            public bool showFootGizmos
-            {
-                get { return m_ShowFootGizmos; }
-            }
+            public bool showFootGizmos { get { return m_ShowFootGizmos; } }
 
             /// <summary>
             /// Gets the input direction color
             /// </summary>
-            public Color inputDirection
-            {
-                get { return m_InputDirection; }
-            }
+            public Color inputDirection { get { return m_InputDirection; } }
 
             /// <summary>
             /// Gets the velocity indicator color
             /// </summary>
-            public Color velocityIndicator
-            {
-                get { return m_VelocityIndicator; }
-            }
+            public Color velocityIndicator { get { return m_VelocityIndicator; } }
 
             /// <summary>
             /// Gets the show head gizmos bool
             /// </summary>
-            public bool showHeadGizmos
-            {
-                get { return m_ShowHeadGizmos; }
-            }
+            public bool showHeadGizmos { get { return m_ShowHeadGizmos; } }
 
             /// <summary>
             /// Gets the head current direction color
             /// </summary>
-            public Color headCurrentDirection
-            {
-                get { return m_HeadCurrentDirection; }
-            }
+            public Color headCurrentDirection { get { return m_HeadCurrentDirection; } }
 
             /// <summary>
             /// Gets the head desired direction color
             /// </summary>
-            public Color headDesiredDirection
-            {
-                get { return m_HeadDesiredDirection; }
-            }
+            public Color headDesiredDirection { get { return m_HeadDesiredDirection; } }
         }
+
+        // COMMENT TODO
+        const float k_HeadTurnSnapBackScale = 100f;
+        const float k_VelocityGizmoScale = 0.2f;
+        const float k_VelocityLerp = 3f;
 
         //Gizmo readonly vectors
         readonly Vector3 m_HeadGizmoPosition = new Vector3(0f, 1.55f, 0f);
@@ -210,34 +187,56 @@ namespace StandardAssets.Characters.ThirdPerson
         // time of the last physics jump
         float m_TimeOfLastJumpLand;
 
+        // COMMENT TODO
         bool m_IsTryingStrafe;
 
+        // COMMENT TODO
         bool m_JustJumped;
 
+        // COMMENT TODO
         float m_TimeSinceGroundedFootChange;
 
         //the camera controller to be used
         bool m_IsChangingCamera;
 
+        // COMMENT TODO
         bool m_TriggeredRapidDirectionChange;
+
+        // COMMENT TODO
         int m_FramesToWait;
 
+        // COMMENT TODO
         IThirdPersonInput m_Input;
 
+        // COMMENT TODO
         GameObject[] m_GizmoObjects;
 
-        GameObject m_BodyCurrentGizmo,
-            m_BodyDesiredGizmo,
-            m_InputDirectionGizmo,
-            m_VelocityGizmo,
-            m_HeadCurrentGizmo,
-            m_HeadDesiredGizmo;
+        // COMMENT TODO
+        GameObject m_BodyCurrentGizmo;
+        GameObject m_BodyDesiredGizmo;
+        GameObject m_InputDirectionGizmo;
+        GameObject m_VelocityGizmo;
+        GameObject m_HeadCurrentGizmo;
+        GameObject m_HeadDesiredGizmo;
 
+        // COMMENT TODO
         Transform m_MainCameraTransform;
 
+        // COMMENT TODO
         TurnAroundBehaviour[] m_TurnAroundBehaviours;
 
+        // COMMENT TODO
         float m_RapidStrafeTime, m_RapidStrafeChangeDuration;
+
+        /// <summary>
+        /// Gets the <see cref="ThirdPersonMotor"/>'s normalized forward speed
+        /// </summary>
+        public override float normalizedForwardSpeed { get { return m_Motor.normalizedForwardSpeed; } }
+
+        /// <summary>
+        /// Gets/sets the character target Y rotation
+        /// </summary>
+        public override float targetYRotation { get; set; }
 
         /// <summary>
         /// Gets/sets whether the locomotion mode is set to Strafe
@@ -247,26 +246,17 @@ namespace StandardAssets.Characters.ThirdPerson
         /// <summary>
         /// Gets the <see cref="ThirdPersonMotor"/>
         /// </summary>
-        public ThirdPersonMotor thirdPersonMotor
-        {
-            get { return m_Motor; }
-        }
+        public ThirdPersonMotor thirdPersonMotor { get { return m_Motor; } }
 
         /// <summary>
         /// Gets the VCam Target Transform/>
         /// </summary>
-        public Transform vcamTarget
-        {
-            get { return m_VCamTarget; }
-        }
+        public Transform vcamTarget { get { return m_VCamTarget; } }
 
         /// <summary>
         /// Gets the <see cref="TurnAroundType"/>
         /// </summary>
-        public TurnAroundType typeOfTurnAround
-        {
-            get { return m_TurnAroundType; }
-        }
+        public TurnAroundType typeOfTurnAround { get { return m_TurnAroundType; } }
 
         /// <summary>
         /// Gets/sets the <see cref="TurnAroundBehaviour"/>
@@ -292,20 +282,6 @@ namespace StandardAssets.Characters.ThirdPerson
                 return m_TurnAroundBehaviours;
             }
         }
-
-        /// <summary>
-        /// Gets the <see cref="ThirdPersonMotor"/>'s normalized forward speed
-        /// </summary>
-        public override float normalizedForwardSpeed
-        {
-            get { return m_Motor.normalizedForwardSpeed; }
-        }
-
-        /// <summary>
-        /// Gets/sets the character target Y rotation
-        /// </summary>
-        public override float targetYRotation { get; set; }
-
 
         /// <summary>
         /// Gets the <see cref="IThirdPersonInput"/>
@@ -339,19 +315,13 @@ namespace StandardAssets.Characters.ThirdPerson
         /// Gets the animator forward speed.
         /// </summary>
         /// <value>The animator forward speed parameter.</value>
-        public float animatorForwardSpeed
-        {
-            get { return animator.GetFloat(m_HashForwardSpeed); }
-        }
+        public float animatorForwardSpeed { get { return animator.GetFloat(m_HashForwardSpeed); } }
 
         /// <summary>
         /// Gets the animator turning speed.
         /// </summary>
         /// <value>The animator forward speed parameter.</value>
-        public float animatorTurningSpeed
-        {
-            get { return animator.GetFloat(m_HashTurningSpeed); }
-        }
+        public float animatorTurningSpeed { get { return animator.GetFloat(m_HashTurningSpeed); } }
 
         /// <summary>
         /// Gets whether the right foot is planted
@@ -372,12 +342,178 @@ namespace StandardAssets.Characters.ThirdPerson
             }
         }
 
+        // The value of the animator lateral speed parameter.
+        float animatorLateralSpeed { get { return animator.GetFloat(m_HashLateralSpeed); } }
+
+
         /// <summary>
-        /// The value of the animator lateral speed parameter.
+        /// Initializes <see cref="TurnAroundBehaviour"/>s, <see cref="ThirdPersonMotor"/>, <see cref="ThirdPersonMovementEventHandler"/>, cameras, gizmos and the animator.
         /// </summary>
-        float animatorLateralSpeed
+        protected override void Awake()
         {
-            get { return animator.GetFloat(m_HashLateralSpeed); }
+            base.Awake();
+            m_BlendspaceTurnAroundBehaviour.Init(this);
+            m_AnimationTurnAroundBehaviour.Init(this);
+            turnAround = GetCurrentTurnaroundBehaviour();
+            m_Motor.Init(this);
+
+            InitAnimator();
+            m_MainCameraTransform = Camera.main.transform;
+
+            m_ThirdPersonMovementEventHandler.Init(this);
+            SetupGizmos();
+        }
+
+#if UNITY_EDITOR
+        // On change of component
+        void OnValidate()
+        {
+            turnAround = GetCurrentTurnaroundBehaviour();
+            SetupGizmos();
+        }
+#endif
+
+        // Subscribes to various events
+        void OnEnable()
+        {
+            controllerAdapter.jumpVelocitySet += m_ThirdPersonMovementEventHandler.Jumped;
+            controllerAdapter.landed += m_ThirdPersonMovementEventHandler.Landed;
+            controllerAdapter.landed += OnLanding;
+
+            m_Motor.jumpStarted += OnJumpStarted;
+            m_Motor.fallStarted += OnFallStarted;
+            m_Motor.Subscribe();
+
+            if (thirdPersonInput != null)
+            {
+                ThirdPersonInput userInput = thirdPersonInput as ThirdPersonInput;
+                if (userInput != null)
+                {
+                    userInput.jumpPressed += m_Motor.OnJumpPressed;
+                    userInput.sprintStarted += m_Motor.OnSprintStarted;
+                    userInput.sprintEnded += m_Motor.OnSprintEnded;
+                    userInput.strafeStarted += OnStrafeStarted;
+                    userInput.strafeEnded += OnStrafeEnded;
+                }
+            }
+
+            m_ThirdPersonMovementEventHandler.Subscribe();
+        }
+
+        // Unsubscribes from various events
+        void OnDisable()
+        {
+            if (controllerAdapter != null)
+            {
+                controllerAdapter.jumpVelocitySet -= m_ThirdPersonMovementEventHandler.Jumped;
+                controllerAdapter.landed -= m_ThirdPersonMovementEventHandler.Landed;
+                controllerAdapter.landed -= OnLanding;
+            }
+
+            if (m_Motor != null)
+            {
+                if (thirdPersonInput != null)
+                {
+                    ThirdPersonInput userInput = thirdPersonInput as ThirdPersonInput;
+                    if (userInput != null)
+                    {
+                        userInput.jumpPressed -= m_Motor.OnJumpPressed;
+                        userInput.sprintStarted -= m_Motor.OnSprintStarted;
+                        userInput.sprintEnded -= m_Motor.OnSprintEnded;
+                        userInput.strafeStarted -= OnStrafeStarted;
+                        userInput.strafeEnded -= OnStrafeEnded;
+                    }
+                }
+
+                m_Motor.jumpStarted -= OnJumpStarted;
+                m_Motor.fallStarted -= OnFallStarted;
+                m_Motor.Unsubscribe();
+            }
+
+            m_ThirdPersonMovementEventHandler.Unsubscribe();
+        }
+
+        /// <summary>
+        /// Updates animator, motor, turn around
+        /// </summary>
+        protected override void Update()
+        {
+            base.Update();
+
+            UpdateAnimatorParameters();
+
+            m_Motor.Update();
+
+            if (turnAround != null)
+            {
+                turnAround.Update();
+            }
+
+            targetYRotation = m_Motor.targetYRotation;
+        }
+
+        // Updates the motor look direction and the gizmos
+        void LateUpdate()
+        {
+            m_Motor.SetLookDirection();
+            UpdateGizmos();
+        }        
+
+        // Handles motor movement
+        void OnAnimatorMove()
+        {
+            m_Motor.OnAnimatorMove();
+        }
+
+        // Handles head turn
+        //      layerIndex: Animation layer index as required by the Unity message
+        void OnAnimatorIK(int layerIndex)
+        {
+            if (!m_Configuration.enableHeadLookAt)
+            {
+                return;
+            }
+
+            if (m_Motor.currentAerialMovementState != ThirdPersonAerialMovementState.Grounded &&
+                !m_Configuration.lookAtWhileAerial)
+            {
+                return;
+            }
+
+            if (m_Motor.currentGroundMovementState == ThirdPersonGroundMovementState.TurningAround &&
+                !m_Configuration.lookAtWhileTurnaround)
+            {
+                return;
+            }
+
+            animator.SetLookAtWeight(m_Configuration.lookAtWeight);
+            m_TargetHeadAngle = Mathf.Clamp((m_Motor.targetYRotation - gameObject.transform.eulerAngles.y).Wrap180(),
+                -m_Configuration.lookAtMaxRotation, m_Configuration.lookAtMaxRotation);
+
+            float headTurn = Time.deltaTime * m_Configuration.lookAtRotationSpeed;
+
+            if (m_Motor.currentGroundMovementState == ThirdPersonGroundMovementState.TurningAround)
+            {
+                if (Mathf.Abs(m_TargetHeadAngle) < Mathf.Abs(m_HeadAngle))
+                {
+                    headTurn *= k_HeadTurnSnapBackScale;
+                }
+                else
+                {
+                    headTurn *= m_Motor.currentTurnAroundBehaviour.headTurnScale;
+                }
+            }
+
+            if (Mathf.Approximately(m_Input.lookInput.sqrMagnitude, 0.0f))
+            {
+                headTurn *= m_Configuration.noLookInputHeadLookAtScale;
+            }
+
+            m_HeadAngle = Mathf.LerpAngle(m_HeadAngle, m_TargetHeadAngle, headTurn);
+
+            Vector3 lookAtPos = animator.transform.position +
+                Quaternion.AngleAxis(m_HeadAngle, Vector3.up) * animator.transform.forward * 100f;
+            animator.SetLookAtPosition(lookAtPos);
         }
 
         /// <summary>
@@ -492,27 +628,7 @@ namespace StandardAssets.Characters.ThirdPerson
                     animatorTurningSpeed, newSpeed), deltaTime);
         }
 
-        /// <summary>
-        /// Initializes <see cref="TurnAroundBehaviour"/>s, <see cref="ThirdPersonMotor"/>, <see cref="ThirdPersonMovementEventHandler"/>, cameras, gizmos and the animator.
-        /// </summary>
-        protected override void Awake()
-        {
-            base.Awake();
-            m_BlendspaceTurnAroundBehaviour.Init(this);
-            m_AnimationTurnAroundBehaviour.Init(this);
-            turnAround = GetCurrentTurnaroundBehaviour();
-            m_Motor.Init(this);
-
-            InitAnimator();
-            m_MainCameraTransform = Camera.main.transform;
-
-            m_ThirdPersonMovementEventHandler.Init(this);
-            SetupGizmos();
-        }
-
-        /// <summary>
-        /// Sets up the gizmos when they are enabled (either in Awake or OnValidate)
-        /// </summary>
+        // Sets up the gizmos when they are enabled (either in Awake or OnValidate)
         void SetupGizmos()
         {
             if (Application.isPlaying && m_GizmoObjects == null && m_ShowDebugGizmos)
@@ -549,14 +665,12 @@ namespace StandardAssets.Characters.ThirdPerson
             }
         }
 
-        /// <summary>
-        /// Helper function for initializing a gizmo GameObject
-        /// </summary>
-        /// <param name="gizmoColor">Color of the gizmo</param>
-        /// <param name="sortingOrder">Sprite sorting order</param>
-        /// <param name="localScale">Size of the gizmo</param>
-        /// <param name="position">Position of the gizmo</param>
-        /// <returns>Set up gizmo GameObject</returns>
+        // Helper function for initializing a gizmo GameObject
+        //      gizmoColor: Color of the gizmo
+        //      sortingOrder: Sprite sorting order
+        //      localScale: Size of the gizmo
+        //      position: Position of the gizmo
+        //      return: Set up gizmo GameObject
         GameObject SetupGizmoObject(Color gizmoColor, int sortingOrder, Vector3 localScale, Vector3 position)
         {
             GameObject gameObj = Instantiate(m_GizmoSettings.arrowPrefab, transform);
@@ -568,37 +682,7 @@ namespace StandardAssets.Characters.ThirdPerson
             return gameObj;
         }
 
-        /// <summary>
-        /// Updates animator, motor, turn around
-        /// </summary>
-        protected override void Update()
-        {
-            base.Update();
-
-            UpdateAnimatorParameters();
-
-            m_Motor.Update();
-
-            if (turnAround != null)
-            {
-                turnAround.Update();
-            }
-
-            targetYRotation = m_Motor.targetYRotation;
-        }
-
-        /// <summary>
-        /// Updates the motor look direction and the gizmos
-        /// </summary>
-        void LateUpdate()
-        {
-            m_Motor.SetLookDirection();
-            UpdateGizmos();
-        }
-
-        /// <summary>
-        /// Updates the gizmos
-        /// </summary>
+        // Updates the gizmos
         void UpdateGizmos()
         {
             if (!m_ShowDebugGizmos)
@@ -629,9 +713,7 @@ namespace StandardAssets.Characters.ThirdPerson
                 0f);
         }
 
-        /// <summary>
-        /// Sets the Animator parameters.
-        /// </summary>
+        // Sets the Animator parameters.
         void UpdateAnimatorParameters()
         {
             UpdateTurningSpeed(m_Motor.normalizedTurningSpeed, Time.deltaTime);
@@ -660,11 +742,8 @@ namespace StandardAssets.Characters.ThirdPerson
             }
         }
 
-
-        /// <summary>
-        /// Gets the current turn around
-        /// </summary>
-        /// <returns>Current <see cref="TurnAroundBehaviour"/></returns>
+        // Gets the current turn around
+        //      return: Current TurnAroundBehaviour
         TurnAroundBehaviour GetCurrentTurnaroundBehaviour()
         {
             switch (m_TurnAroundType)
@@ -680,134 +759,7 @@ namespace StandardAssets.Characters.ThirdPerson
             }
         }
 
-        /// <summary>
-        /// Subscribes to various events
-        /// </summary>
-        void OnEnable()
-        {
-            controllerAdapter.jumpVelocitySet += m_ThirdPersonMovementEventHandler.Jumped;
-            controllerAdapter.landed += m_ThirdPersonMovementEventHandler.Landed;
-            controllerAdapter.landed += OnLanding;
-
-            m_Motor.jumpStarted += OnJumpStarted;
-            m_Motor.fallStarted += OnFallStarted;
-            m_Motor.Subscribe();
-
-            if (thirdPersonInput != null)
-            {
-                ThirdPersonInput userInput = thirdPersonInput as ThirdPersonInput;
-                if (userInput != null)
-                {
-                    userInput.jumpPressed += m_Motor.OnJumpPressed;
-                    userInput.sprintStarted += m_Motor.OnSprintStarted;
-                    userInput.sprintEnded += m_Motor.OnSprintEnded;
-                    userInput.strafeStarted += OnStrafeStarted;
-                    userInput.strafeEnded += OnStrafeEnded;
-                }
-            }
-
-            m_ThirdPersonMovementEventHandler.Subscribe();
-        }
-
-        /// <summary>
-        /// Unsubscribes from various events
-        /// </summary>
-        void OnDisable()
-        {
-            if (controllerAdapter != null)
-            {
-                controllerAdapter.jumpVelocitySet -= m_ThirdPersonMovementEventHandler.Jumped;
-                controllerAdapter.landed -= m_ThirdPersonMovementEventHandler.Landed;
-                controllerAdapter.landed -= OnLanding;
-            }
-
-            if (m_Motor != null)
-            {
-                if (thirdPersonInput != null)
-                {
-                    ThirdPersonInput userInput = thirdPersonInput as ThirdPersonInput;
-                    if (userInput != null)
-                    {
-                        userInput.jumpPressed -= m_Motor.OnJumpPressed;
-                        userInput.sprintStarted -= m_Motor.OnSprintStarted;
-                        userInput.sprintEnded -= m_Motor.OnSprintEnded;
-                        userInput.strafeStarted -= OnStrafeStarted;
-                        userInput.strafeEnded -= OnStrafeEnded;
-                    }
-                }
-
-                m_Motor.jumpStarted -= OnJumpStarted;
-                m_Motor.fallStarted -= OnFallStarted;
-                m_Motor.Unsubscribe();
-            }
-
-            m_ThirdPersonMovementEventHandler.Unsubscribe();
-        }
-
-        /// <summary>
-        /// Handles motor movement
-        /// </summary>
-        void OnAnimatorMove()
-        {
-            m_Motor.OnAnimatorMove();
-        }
-
-        /// <summary>
-        /// Handles head turn
-        /// </summary>
-        /// <param name="layerIndex">Animation layer index as required by the Unity message</param>
-        void OnAnimatorIK(int layerIndex)
-        {
-            if (!m_Configuration.enableHeadLookAt)
-            {
-                return;
-            }
-
-            if (m_Motor.currentAerialMovementState != ThirdPersonAerialMovementState.Grounded &&
-                !m_Configuration.lookAtWhileAerial)
-            {
-                return;
-            }
-
-            if (m_Motor.currentGroundMovementState == ThirdPersonGroundMovementState.TurningAround &&
-                !m_Configuration.lookAtWhileTurnaround)
-            {
-                return;
-            }
-
-            animator.SetLookAtWeight(m_Configuration.lookAtWeight);
-            m_TargetHeadAngle = Mathf.Clamp((m_Motor.targetYRotation - gameObject.transform.eulerAngles.y).Wrap180(),
-                -m_Configuration.lookAtMaxRotation, m_Configuration.lookAtMaxRotation);
-
-            float headTurn = Time.deltaTime * m_Configuration.lookAtRotationSpeed;
-
-            if (m_Motor.currentGroundMovementState == ThirdPersonGroundMovementState.TurningAround)
-            {
-                if (Mathf.Abs(m_TargetHeadAngle) < Mathf.Abs(m_HeadAngle))
-                {
-                    headTurn *= k_HeadTurnSnapBackScale;
-                }
-                else
-                {
-                    headTurn *= m_Motor.currentTurnAroundBehaviour.headTurnScale;
-                }
-            }
-
-            if (Mathf.Approximately(m_Input.lookInput.sqrMagnitude, 0.0f))
-            {
-                headTurn *= m_Configuration.noLookInputHeadLookAtScale;
-            }
-
-            m_HeadAngle = Mathf.LerpAngle(m_HeadAngle, m_TargetHeadAngle, headTurn);
-
-            Vector3 lookAtPos = animator.transform.position +
-                Quaternion.AngleAxis(m_HeadAngle, Vector3.up) * animator.transform.forward * 100f;
-            animator.SetLookAtPosition(lookAtPos);
-        }
-
-        /// <summary>
-        /// Sets up the animator hashes and gets the required components.
-        /// </summary>
+        // Sets up the animator hashes and gets the required components.
         void InitAnimator()
         {
             m_HashForwardSpeed = Animator.StringToHash(AnimationControllerInfo.k_ForwardSpeedParameter);
@@ -822,19 +774,14 @@ namespace StandardAssets.Characters.ThirdPerson
             m_CachedAnimatorSpeed = animator.speed;
         }
 
-        /// <summary>
-        /// Fires when the <see cref="m_Motor"/> enters the fall state.
-        /// </summary>
+        // Fires when the 'm_Motor' enters the fall state
         void OnFallStarted(float predictedFallDistance)
         {
             m_IsGrounded = false;
             animator.SetTrigger(m_HashFall);
         }
 
-        /// <summary>
-        /// Logic for dealing with animation on landing
-        /// Fires when the <see cref="m_Motor"/> enters a rapid turn
-        /// </summary>
+        // Logic for dealing with animation on landing. Fires when the 'm_Motor' enters a rapid turn
         void OnLanding()
         {
             m_IsGrounded = true;
@@ -893,10 +840,8 @@ namespace StandardAssets.Characters.ThirdPerson
             SelectGroundedCamera();
         }
 
-        /// <summary>
-        /// Updates animator's forward and lateral speeds. If <see cref="AnimationConfig.enableStrafeRapidDirectionChangeSmoothing"/>
-        /// is enabled special smoothing logic is performed when a strafe rapid direction change is detected.
-        /// </summary>
+        // Updates animator's forward and lateral speeds. If 'AnimationConfig.enableStrafeRapidDirectionChangeSmoothing'
+        // is enabled special smoothing logic is performed when a strafe rapid direction change is detected.
         void UpdateAnimationMovementSpeeds(float deltaTime)
         {
             // if in strafe move and moving enough perform strafe rapid direction change logic
@@ -931,11 +876,9 @@ namespace StandardAssets.Characters.ThirdPerson
             UpdateForwardSpeed(m_Motor.normalizedForwardSpeed, deltaTime);
         }
 
-        /// <summary>
-        /// Checks if the strafe rapid direction change (e.g. left to right and vice versa) is complete
-        /// </summary>
-        /// <param name="deltaTime">Time difference per Update frame</param>
-        /// <returns>true if complete, false otherwise</returns>
+        // Checks if the strafe rapid direction change (e.g. left to right and vice versa) is complete
+        //      deltaTime: Time difference per Update frame
+        //      return: true if complete, false otherwise
         bool CheckForStrafeRapidDirectionChangeComplete(float deltaTime)
         {
             if (IsNormalizedTimeCloseToZeroOrHalf(deltaTime, out m_RapidStrafeChangeDuration))
@@ -950,10 +893,7 @@ namespace StandardAssets.Characters.ThirdPerson
             return false;
         }
 
-
-        /// <summary>
-        /// Sets the animator strafe parameter to true.
-        /// </summary>
+        // Sets the animator strafe parameter to true.
         void OnStrafeStarted()
         {
             m_IsChangingCamera = true;
@@ -964,9 +904,7 @@ namespace StandardAssets.Characters.ThirdPerson
             }
         }
 
-        /// <summary>
-        /// Sets the animator strafe parameter to false.
-        /// </summary>
+        // Sets the animator strafe parameter to false.
         void OnStrafeEnded()
         {
             m_IsChangingCamera = true;
@@ -977,9 +915,7 @@ namespace StandardAssets.Characters.ThirdPerson
             }
         }
 
-        /// <summary>
-        /// Helper for selecting correct camera on grounding
-        /// </summary>
+        // Helper for selecting correct camera on grounding
         void SelectGroundedCamera()
         {
             if (!m_IsChangingCamera)
@@ -1007,10 +943,7 @@ namespace StandardAssets.Characters.ThirdPerson
             m_IsChangingCamera = false;
         }
 
-        /// <summary>
-        /// Logic for dealing with animation on jumping
-        /// Fires when the <see cref="m_Motor"/> enters a jump.
-        /// </summary>
+        // Logic for dealing with animation on jumping. Fires when the 'm_Motor' enters a jump.
         void OnJumpStarted()
         {
             if (!m_IsGrounded)
@@ -1059,12 +992,10 @@ namespace StandardAssets.Characters.ThirdPerson
             m_JustJumped = true;
         }
 
-        /// <summary>
-        /// Checks if the normalized time is close to zero or half
-        /// </summary>
-        /// <param name="margin">Margin for deciding whether the time is close</param>
-        /// <param name="timeUntilZeroOrHalf">how long until zero or half</param>
-        /// <returns>true if close</returns>
+        // Checks if the normalized time is close to zero or half
+        //      margin: Margin for deciding whether the time is close
+        //      timeUntilZeroOrHalf: how long until zero or half
+        //      return: true if close
         bool IsNormalizedTimeCloseToZeroOrHalf(float margin, out float timeUntilZeroOrHalf)
         {
             float value = animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1.0f;
@@ -1075,9 +1006,7 @@ namespace StandardAssets.Characters.ThirdPerson
                 (value > 0.5f - margin && value < 0.5f + margin));
         }
 
-        /// <summary>
-        /// Uses the normalized progress of the animation to determine the grounded foot.
-        /// </summary>
+        // Uses the normalized progress of the animation to determine the grounded foot.
         void UpdateFoot()
         {
             AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
@@ -1095,36 +1024,20 @@ namespace StandardAssets.Characters.ThirdPerson
             SetGroundedFootRight(m_Configuration.invertFoot);
         }
 
-        /// <summary>
-        /// Sets the grounded foot of the animator. This is used to play the appropriate footed animations.
-        /// </summary>
+        // Sets the grounded foot of the animator. This is used to play the appropriate footed animations.
         void SetGroundedFootRight(bool value)
         {
             animator.SetBool(m_HashGroundedFootRight, value);
             isRightFootPlanted = value;
         }
 
-        /// <summary>
-        /// Checks if character is moving
-        /// </summary>
-        /// <param name="speed">Speed value</param>
-        /// <returns></returns>
+        // Checks if character is moving
         static bool CheckHasSpeed(float speed)
         {
             return Mathf.Abs(speed) > 0.0f;
         }
-
-#if UNITY_EDITOR
-        /// <summary>
-        /// On change of component
-        /// </summary>
-        void OnValidate()
-        {
-            turnAround = GetCurrentTurnaroundBehaviour();
-            SetupGizmos();
-        }
-#endif
     }
+
 
     /// <summary>
     /// Handles the third person movement event triggers and event IDs.
@@ -1133,19 +1046,21 @@ namespace StandardAssets.Characters.ThirdPerson
     [Serializable]
     public class ThirdPersonMovementEventHandler : MovementEventHandler
     {
-        /// <summary>
-        /// The movement detection colliders attached to the feet of the Third Person Character
-        /// </summary>
+        // COMMENT TODO: Tooltip required
         [SerializeField]
         ColliderMovementDetection m_LeftFootDetection;
 
+        // COMMENT TODO: Tooltip required
         [SerializeField]
         ColliderMovementDetection m_RightFootDetection;
 
+        // COMMENT TODO: Tooltip required
         [SerializeField]
         float m_MaximumSpeed = 10f;
 
+        // COMMENT TODO
         ThirdPersonBrain m_ThirdPersonBrain;
+
 
         /// <summary>
         /// Gives the <see cref="ThirdPersonMovementEventHandler"/> context of the <see cref="ThirdPersonBrain"/>
@@ -1205,11 +1120,9 @@ namespace StandardAssets.Characters.ThirdPerson
             PlayLanding(new MovementEventData(brain.transform));
         }
 
-        /// <summary>
-        /// Plays the left foot movement events
-        /// </summary>
-        /// <param name="movementEventData">the data need to play the event</param>
-        /// <param name="physicMaterial">physic material of the footstep</param>
+        // Plays the left foot movement events
+        //      movementEventData: the data need to play the event
+        //      physicMaterial: physic material of the footstep
         void HandleLeftFoot(MovementEventData movementEventData, PhysicMaterial physicMaterial)
         {
             SetPhysicMaterial(physicMaterial);
@@ -1217,11 +1130,9 @@ namespace StandardAssets.Characters.ThirdPerson
             PlayLeftFoot(movementEventData);
         }
 
-        /// <summary>
-        /// Plays the right foot movement events
-        /// </summary>
-        /// <param name="movementEventData">the data need to play the event</param>
-        /// <param name="physicMaterial">physic material of the footstep</param>
+        // Plays the right foot movement events
+        //      movementEventData: the data need to play the event
+        //      physicMaterial: physic material of the footstep
         void HandleRightFoot(MovementEventData movementEventData, PhysicMaterial physicMaterial)
         {
             SetPhysicMaterial(physicMaterial);
