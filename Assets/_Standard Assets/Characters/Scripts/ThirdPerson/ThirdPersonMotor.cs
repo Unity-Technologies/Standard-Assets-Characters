@@ -315,7 +315,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		public void Update()
 		{
-			if (m_Configuration.autoToggleSprintOnNoInput && sprint && !m_CharacterInput.hasMovementInput)
+			if (m_Configuration.autoToggleSprint && sprint && !m_CharacterInput.hasMovementInput)
 			{
 				OnSprintEnded();
 			}
@@ -686,7 +686,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		// 		return: True is a rapid turn has been detected
 		bool ShouldTurnAround(out float angle, Quaternion target)
 		{
-			if (normalizedForwardSpeed < m_Configuration.standingTurnaroundSpeedThreshold)
+			if (normalizedForwardSpeed < m_Configuration.maxSpeedForStandingTurnaround)
 			{
 				m_PreviousInputs.Clear();
 				angle = (target.eulerAngles.y - m_Transform.eulerAngles.y).Wrap180();
@@ -769,7 +769,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		bool IsIdleForwardJump()
 		{
 			return m_CharacterInput.moveInput.magnitude > m_Configuration.standingJumpMinInputThreshold &&
-			        m_LastIdleTime + m_Configuration.standingJumpMoveThresholdTime >= Time.time &&
+			        m_LastIdleTime + m_Configuration.standingJumpMoveTimeThreshold >= Time.time &&
 			        m_Animator.deltaPosition.GetMagnitudeOnAxis(m_Transform.forward) <=
 			        m_Configuration.standingJumpMaxMovementThreshold * Time.deltaTime;
 		}

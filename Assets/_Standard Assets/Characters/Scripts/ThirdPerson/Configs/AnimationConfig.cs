@@ -84,104 +84,104 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			[SerializeField, Tooltip("Configuration for the head turning/looking")]
 			HeadTurnProperties m_HeadTurnProperties;
 
-
 			/// <summary>
-			/// COMMENT TODO
+			/// Gets whether strafe rapid direction smoothing logic should be performed.
 			/// </summary>
 			public bool enableStrafeRapidDirectionChangeSmoothing { get { return m_EnableStrafeRapidDirectionChangeSmoothing; } }
 			
 			/// <summary>
-			/// COMMENT TODO
+			/// Gets the head turn properties.
 			/// </summary>
 			public HeadTurnProperties headTurnProperties { get { return m_HeadTurnProperties; } }
 
 			/// <summary>
-			/// COMMENT TODO
+			/// Gets whether the right foot should start as grounded.
 			/// </summary>
+			/// <value>True if the right foot should start grounded; false if the left foot should.</value>
 			public bool startRightFootGrounded { get { return m_StartRightFootGrounded; } }
 
 			/// <summary>
-			/// COMMENT TODO
+			/// Gets the duration of the transition into the land animator state.
 			/// </summary>
 			public float landAnimationBlendTime { get { return m_LandAnimationBlendTime; } }
 
 			/// <summary>
-			/// COMMENT TODO
+			/// Gets the duration of the transition into the roll land animator state.
 			/// </summary>
 			public float rollAnimationBlendTime { get { return m_RollAnimationBlendTime; } }
 
 			/// <summary>
-			/// COMMENT TODO
+			/// Gets the curve to be used to evaluate the animation speed of a land animation.
 			/// </summary>
 			public AnimationCurve landSpeedAsAFactorOfSpeed { get { return m_LandSpeedAsAFactorOfSpeed; } }
 
 			/// <summary>
-			/// COMMENT TODO
+			/// Gets the time allowed between physics jumps to alternate the grounded foot.
 			/// </summary>
 			public float skipJumpLandWindow { get { return m_SkipJumpLandWindow; } }
 
 			/// <summary>
-			/// COMMENT TODO
+			/// Gets the offset used during the cross fade out of left foot physics jump.
 			/// </summary>
 			public float leftFootJumpLandAnimationTimeOffset { get { return m_LeftFootJumpLandAnimationTimeOffset; } }
 
 			/// <summary>
-			/// COMMENT TODO
+			/// Gets the offset used during the cross fade out of right foot physics jump.
 			/// </summary>
 			public float rightFootJumpLandAnimationTimeOffset { get { return m_RightFootJumpLandAnimationTimeOffset; } }
 
 			/// <summary>
-			/// COMMENT TODO
+			/// Gets the curve to be used to evaluate the transition duration out of the jump state.
 			/// </summary>
 			public AnimationCurve jumpEndTransitionAsAFactorOfSpeed { get { return m_JumpEndTransitionAsAFactorOfSpeed; } }
 
 			/// <summary>
-			/// COMMENT TODO
+			/// Gets the curve to be used to evaluate the transition duration into the jump state in strafe mode.
 			/// </summary>
 			public AnimationCurve strafeJumpTransitionAsAFactorOfSpeed { get { return m_StrafeJumpTransitionAsAFactorOfSpeed; } }
 
 			/// <summary>
-			/// COMMENT TODO
+			/// Gets the curve to be used to evaluate the transition duration into the jump state in exploration mode.
 			/// </summary>
 			public AnimationCurve jumpTransitionAsAFactorOfSpeed { get { return m_JumpTransitionAsAFactorOfSpeed; } }
 			
 			/// <summary>
-			/// COMMENT TODO
+			/// Gets the time to add to the jump blend duration based on current grounded foot's position.
 			/// </summary>
 			public float jumpBlendTimeInc { get { return m_JumpBlendTimeInc; } }
 			
 			/// <summary>
-			/// COMMENT TODO
+			/// Gets the curved used to evaluate the current foots position in order to add <see cref="jumpBlendTimeInc"/>
 			/// </summary>
 			public AnimationCurve footPositionJumpIncRemap { get { return m_FootPositionJumpIncRemap; } }
 			
 			/// <summary>
-			/// COMMENT TODO
+			/// Gets the animation curved used for remapping turning speed.
 			/// </summary>
 			public AnimationCurve turningSpeedCurve { get { return m_TurningSpeedCurve; } }
 
 			/// <summary>
-			/// COMMENT TODO
+			/// Gets the curve used to interpolate animator movement speeds during a strafe rapid direction change.
 			/// </summary>
 			public AnimationCurve strafeRapidDirectionChangeSpeedCurve { get { return m_StrafeRapidDirectionChangeSpeedCurve; } }
 
 			/// <summary>
-			/// COMMENT TODO
+			/// Gets the angle threshold used to trigger a strafe rapid direction change.
 			/// </summary>
 			public float strafeRapidDirectionChangeAngle{ get { return m_StrafeRapidDirectionChangeAngle; } }
 
 			/// <summary>
-			/// COMMENT TODO
+			/// Gets the turning speed parameter configuration.
 			/// </summary>
 			public FloatRange turningSpeedInterpolationRange { get { return m_TurningSpeedInterpolationRange; } }
 
 			/// <summary>
-			/// COMMENT TODO
+			/// Gets the lateral speed parameter configuration.
 			/// </summary>
 			public FloatRange lateralSpeedInterpolationRange { get { return m_LateralSpeedInterpolationRange; } }
 
 			/// <summary>
-			/// COMMENT TODO
+			/// Gets the forward speed parameter configuration.
 			/// </summary>
 			public FloatRange forwardSpeedInterpolationRange { get { return m_ForwardSpeedInterpolationRange; } }
 		}
@@ -227,22 +227,22 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		public AnimationCurve animationTurningSpeedCurve { get { return m_Advanced.turningSpeedCurve; } }
 
 		/// <summary>
-		/// Gets the forward speed parameter configuration
+		/// Gets the forward speed parameter configuration.
 		/// </summary>
 		public FloatRange forwardSpeedInterpolation { get { return m_Advanced.forwardSpeedInterpolationRange; } }
 
 		/// <summary>
-		/// Gets the lateral speed parameter configuration
+		/// Gets the lateral speed parameter configuration.
 		/// </summary>
 		public FloatRange lateralSpeedInterpolation { get { return m_Advanced.lateralSpeedInterpolationRange; } }
 
 		/// <summary>
-		/// Gets the turning speed parameter configuration
+		/// Gets the turning speed parameter configuration.
 		/// </summary>
 		public FloatRange turningSpeedInterpolation { get { return m_Advanced.turningSpeedInterpolationRange; } }
 
 		/// <summary>
-		/// Gets whether the right foot should start as grounded
+		/// Gets whether the right foot should start as grounded.
 		/// </summary>
 		/// <value>True if the right foot should start grounded; false if the left foot should.</value>
 		public bool invertFoot { get { return m_Advanced.startRightFootGrounded; } }
@@ -258,7 +258,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		public float groundedFootThresholdOffsetValue { get { return k_GroundedFootThresholdOffset; } }
 
 		/// <summary>
-		/// Gets whether the head turning/look at should be enabled
+		/// Gets whether the head turning/look at should be enabled.
 		/// </summary>
 		/// <value>True if the head turning should enabled; false if it is to be disabled. </value>
 		public bool enableHeadLookAt { get { return m_EnableHeadTurn; } }
