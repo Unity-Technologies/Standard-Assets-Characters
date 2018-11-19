@@ -1,6 +1,6 @@
-﻿using StandardAssets.Characters.Common;
-using StandardAssets.Characters.Physics;
+﻿using StandardAssets.Characters.Physics;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 {
@@ -9,7 +9,11 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
     /// </summary>
     public class ScaleCharacterColliderState : StateMachineBehaviour
     {
-        // COMMENT TODO
+        // values used for data validation.
+        const float k_MinHeightScale = 0.0f;
+        const float k_MaxHeightScale = 2.0f;
+        
+        // enum used to determine the way in which time is tracked.
         enum NormalizedMode
         {
             Once,
@@ -17,21 +21,13 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
             PingPong
         }
 
-        // COMMENT TODO
-        const float k_MinHeightScale = 0.0f;
 
-        // COMMENT TODO
-        const float k_MaxHeightScale = 2.0f;
-
-        // If true, use the current state's normalizeTime value (ideally, not looped animations),
-        // otherwise, we will use our own time.
-        [SerializeField]
+        [SerializeField, Tooltip("Should the animator's normalized time be used? Otherwise time is tracked manually.")]
         bool m_UseNormalizedTime = true;
 
-        // We are using curve only for normalized time from the animation,
-        // but for looping animations it is useless (looping collider size...).
-        [SerializeField]
-        AnimationCurve m_Curve = new AnimationCurve()
+        [FormerlySerializedAs("m_Curve")]
+        [SerializeField, Tooltip("Curve used for adjusting the collider scale. This curve is unused for looping animations.")]
+        AnimationCurve m_ScaleBasedOnNormalizedTime = new AnimationCurve()
         {
             keys = new[]
             {
@@ -40,84 +36,59 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
             }
         };
 
-        // COMMENT TODO
-        [SerializeField]
+        [SerializeField, Tooltip("Normalized time mode")]
         NormalizedMode m_AnimationMode;
 
-        // How many seconds it will take to change the height.
-        [SerializeField]
+        [SerializeField, Tooltip("How many seconds it will take to change the height")]
         float m_Duration = 1.0f;
 
-        // Adjusted character scale.
-        [SerializeField]
+        [SerializeField, Tooltip("Adjusted character scale")]
         float m_HeightScale = 1.0f;
 
-        // Scale character's collider and offset relative to character's height. 0.5 is center.
-        [SerializeField, Range(0.0f, 1.0f)]
+        [SerializeField, Range(0.0f, 1.0f), Tooltip("Scale character's collider and offset relative to character's height. 0.5 is center")]
         float m_HeightOrigin = 0.5f;
 
-        // if false, we will not restore collider on exit
-        // (allows another state behavior to use the last state of the collider)
-        [SerializeField]
+        [SerializeField, Tooltip("If false, we will not restore collider on exit this allows another state behavior " +
+             "to use the last state of the collider")]
         bool m_ResetOnExit = true;
 
         // Using own time as normalized time seems to be looping.
         float m_Time;
 
-        // COMMENT TODO
+        // The current scale of the collider.
         float m_CurrentScale;
 
-        // COMMENT TODO
+        // The entry scale of the collider.
         float m_EntryScale;
 
-        // COMMENT TODO
+        // The entry offset of the collider.
         float m_EntryOffset;
 
-        // COMMENT TODO
-        ControllerAdapter m_Adapter;
-
-        // COMMENT TODO
+        // Cached reference of the controller.
         OpenCharacterController m_Controller;
 
 
         /// <summary>
-        /// OnStateEnter is called on any state inside this state machine
+        /// Caches a reference to <see cref="OpenCharacterController"/> and the current state of the collider.
         /// </summary>
-        /// <param name="animator">Animator to be used</param>
-        /// <param name="stateInfo">Info about state</param>
-        /// <param name="layerIndex">Index of layer</param>
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (m_Adapter == null)
+            if (m_Controller == null)
             {
-                var characterBrain = animator.GetComponentInChildren<CharacterBrain>();
-                m_Adapter = characterBrain != null
-                    ? characterBrain.controllerAdapter
-                    : null;
-                if (m_Adapter == null)
-                {
-                    return;
-                }
-
-                m_Controller = m_Adapter.characterController;
+                m_Controller = animator.GetComponent<OpenCharacterController>();
                 if (m_Controller == null)
                 {
                     return;
                 }
             }
 
-            if (m_Controller == null)
-            {
-                return;
-            }
-
-            // if another state does not reset the collider on exit, we can blend collider from it's existing state:
+            // If another state does not reset the collider on exit, we can blend collider from it's existing state:
             m_CurrentScale = m_EntryScale = m_Controller.GetHeight() / m_Controller.defaultHeight;
             m_EntryOffset = m_Controller.GetCenter().y;
         }
 
         /// <summary>
-        /// COMMENT TODO
+        /// Adjusts the <see cref="OpenCharacterController"/> collider scale and offset.
         /// </summary>
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
@@ -141,7 +112,7 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
                         break;
                 }
 
-                m_CurrentScale = m_Curve.Evaluate(m_Time);
+                m_CurrentScale = m_ScaleBasedOnNormalizedTime.Evaluate(m_Time);
             }
             else
             {
@@ -152,13 +123,13 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 
             var height = m_Controller.ValidateHeight(m_CurrentScale * m_Controller.defaultHeight);
 
-            var offset = m_UseNormalizedTime ? Mathf.Lerp(m_EntryOffset, Center(), 1.0f - m_Curve.Evaluate(m_Time)) : Mathf.Lerp(m_EntryOffset, Center(), 1.0f - m_Time);
+            var offset = m_UseNormalizedTime ? Mathf.Lerp(m_EntryOffset, GetCenter(), 1.0f - m_ScaleBasedOnNormalizedTime.Evaluate(m_Time)) : Mathf.Lerp(m_EntryOffset, GetCenter(), 1.0f - m_Time);
 
             m_Controller.SetHeightAndCenter(height, new Vector3(0.0f, offset, 0.0f), true, false);
         }
 
         /// <summary>
-        /// COMMENT TODO
+        /// Resets the <see cref="OpenCharacterController"/> collider if <see cref="m_ResetOnExit"/> is true;
         /// </summary>
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
@@ -166,14 +137,14 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
         }
 
         /// <summary>
-        /// COMMENT TODO
+        /// Resets the <see cref="OpenCharacterController"/> collider if <see cref="m_ResetOnExit"/> is true;
         /// </summary>
         public override void OnStateMachineExit(Animator animator, int stateMachinePathHash)
         {
             HandleStateExit();
         }
 
-        // COMMENT TODO
+        // Resets the collider if necessary.
         void HandleStateExit()
         {
             if (m_Controller == null)
@@ -189,20 +160,18 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
             m_Time = 0.0f;
         }
 
-        // COMMENT TODO
+        // Validates the height scale and duration.
         void OnValidate()
         {
             m_HeightScale = Mathf.Clamp(m_HeightScale, k_MinHeightScale, k_MaxHeightScale);
             m_Duration = Mathf.Max(0.0f, m_Duration);
         }
 
-        // COMMENT TODO
-        float Center()
+        // Gets the center of the collider.
+        float GetCenter()
         {
-            var charHeight = m_Controller.defaultHeight;
-
             // collider is centered on character:
-            var center = (m_CurrentScale * charHeight) * 0.5f;
+            var center = (m_CurrentScale * m_Controller.defaultHeight) * 0.5f;
             var offset = center * (m_HeightOrigin - 0.5f);
             return center + offset;
         }
