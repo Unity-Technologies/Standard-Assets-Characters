@@ -46,47 +46,47 @@ namespace StandardAssets.Characters.Physics
 			readonly Transform m_Transform;
 
 			/// <summary>
-			/// COMMENT TODO
+			/// Gets the <see cref="Collider"/> associated with the collision
 			/// </summary>
 			public Collider collider { get { return m_Collider; } }
 
 			/// <summary>
-			/// COMMENT TODO
+			/// Gets the <see cref="OpenCharacterController"/> associated with the collision
 			/// </summary>
 			public OpenCharacterController controller { get { return m_Controller; } }
 
 			/// <summary>
-			/// COMMENT TODO
+			/// Gets the <see cref="GameObject"/> associated with the collision
 			/// </summary>
 			public GameObject gameObject { get { return m_GameObject; } }
 
 			/// <summary>
-			/// COMMENT TODO
+			/// Gets the move direction associated with the collision
 			/// </summary>
 			public Vector3 moveDirection { get { return m_MoveDirection; } }
 
 			/// <summary>
-			/// COMMENT TODO
+			/// Gets the length of the move associated with the collision
 			/// </summary>
 			public float moveLength { get { return m_MoveLength; } }
 
 			/// <summary>
-			/// COMMENT TODO
+			/// Gets the normal of the collision
 			/// </summary>
 			public Vector3 normal { get { return m_Normal; } }
 
 			/// <summary>
-			/// COMMENT TODO
+			/// Gets the point of the collision
 			/// </summary>
 			public Vector3 point { get { return m_Point; } }
 
 			/// <summary>
-			/// COMMENT TODO
+			/// Gets the <see cref="Rigidbody"/> associated with the collision
 			/// </summary>
 			public Rigidbody rigidbody { get { return m_Rigidbody; } }
 
 			/// <summary>
-			/// COMMENT TODO
+			/// Gets the <see cref="Transform"/> associated with the collision
 			/// </summary>
 			public Transform transform { get { return m_Transform; } }
 
@@ -113,7 +113,6 @@ namespace StandardAssets.Characters.Physics
 				m_Transform = hitInfo.transform;
 			}
 		}
-
 
 		// A vector used by the OpenCharacterController.
 		struct MoveVector
@@ -582,7 +581,6 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		public float scaledHeight { get { return m_Height * m_CachedTransform.lossyScale.y; } }
 
-
 		// Initialise the capsule and rigidbody, and set the root position.
 		void Awake()
 		{
@@ -613,7 +611,7 @@ namespace StandardAssets.Characters.Physics
 			SetRootToOffset();
 		}
 
-		// COMMENT TODO
+		// Draws the debug Gizmos
 		void OnDrawGizmosSelected()
 		{
 			// Foot position
@@ -2295,7 +2293,6 @@ namespace StandardAssets.Characters.Physics
 			// Collided downwards during the last slide movement?
 			if (isSlidingDownSlope && m_DownCollisionNormal != null)
 			{
-				// This fixes bug: character does not slide off the edge of a slope
 				hitNormal = m_DownCollisionNormal.Value;
 			}
 			else
