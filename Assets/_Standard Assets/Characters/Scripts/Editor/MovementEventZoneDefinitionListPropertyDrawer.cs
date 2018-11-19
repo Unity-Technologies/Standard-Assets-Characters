@@ -30,10 +30,10 @@ namespace Editor
         ReorderableList m_ReorderableList;
 
         //Reference to root property, i.e. MovementEventZoneDefinitionList
-        SerializedProperty rootProperty;
+        SerializedProperty m_RootProperty;
         
         //Reference to list property, i.e. m_MovementZoneLibraries
-        SerializedProperty listProperty;
+        SerializedProperty m_ListProperty;
         
         //List of heights of different elements of the reorderable list
         List<float> m_ElementHeights = new List<float>();
@@ -46,15 +46,15 @@ namespace Editor
                 return;
             }
 
-            rootProperty = property;
+            m_RootProperty = property;
 
-            listProperty = property.FindPropertyRelative(k_ListPropertyName);
-            for (int i = 0; i < listProperty.arraySize; i++)
+            m_ListProperty = property.FindPropertyRelative(k_ListPropertyName);
+            for (int i = 0; i < m_ListProperty.arraySize; i++)
             {
                 m_ElementHeights.Add(2 * EditorGUIUtility.singleLineHeight);
             }
 
-            m_ReorderableList = new ReorderableList(listProperty.serializedObject, listProperty, false, false, true, true);
+            m_ReorderableList = new ReorderableList(m_ListProperty.serializedObject, m_ListProperty, false, false, true, true);
             m_ReorderableList.drawHeaderCallback = rect =>
             {
                 GUI.Label(rect, k_Header);
@@ -73,7 +73,7 @@ namespace Editor
         /// <param name="list">ReorderableList parameter required by the ReorderableList</param>
         void OnChangedCallback(ReorderableList list)
         {
-            rootProperty.serializedObject.ApplyModifiedProperties();
+            m_RootProperty.serializedObject.ApplyModifiedProperties();
         }
 
         // Remove callback used to decrease the size of the element height list
@@ -92,7 +92,7 @@ namespace Editor
         void OnAddCallback(ReorderableList list)
         {
             m_ElementHeights.Add(2 * EditorGUIUtility.singleLineHeight);
-            listProperty.arraySize++;
+            m_ListProperty.arraySize++;
         }
 
         // Callback used to adjust the rendered height of an element
@@ -105,7 +105,7 @@ namespace Editor
         void DrawElementCallback(Rect rect, int index, bool isActive, bool isFocused)
         {
             var elementHeight = EditorGUIUtility.singleLineHeight;
-            var elementProperty = listProperty.GetArrayElementAtIndex(index);
+            var elementProperty = m_ListProperty.GetArrayElementAtIndex(index);
 
             EditorGUI.BeginChangeCheck();
             EditorGUI.PropertyField(rect, elementProperty.FindPropertyRelative(k_PhysicMaterialPropertyName), true);
@@ -127,7 +127,7 @@ namespace Editor
             m_ElementHeights[index] = elementHeight;
             if (EditorGUI.EndChangeCheck())
             {
-                EditorUtility.SetDirty(rootProperty.serializedObject.targetObject);
+                EditorUtility.SetDirty(m_RootProperty.serializedObject.targetObject);
             }
         }
 
@@ -152,7 +152,7 @@ namespace Editor
         {
             SetupReorderableList(property);
             m_ReorderableList.DoList(position);
-            rootProperty.serializedObject.ApplyModifiedProperties();
+            m_RootProperty.serializedObject.ApplyModifiedProperties();
         }
     }
 }

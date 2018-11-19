@@ -6,12 +6,12 @@ using UnityEngine;
 namespace Editor
 {
 	/// <summary>
-	/// COMMENT TODO
+	/// Custom editor for <see cref="ThirdPersonBrain"/>
 	/// </summary>
 	[CustomEditor(typeof(ThirdPersonBrain))]
 	public class ThirdPersonBrainEditor : UnityEditor.Editor
 	{
-		// COMMENT TODO
+		// Field names/paths
 		const string k_AnimationTurnaroundName 		= "m_AnimationTurnAroundBehaviour";
 		const string k_BlendspaceTurnaroundName 	= "m_BlendspaceTurnAroundBehaviour";
 		const string k_AnimationConfigName 			= "m_Configuration";
@@ -21,19 +21,19 @@ namespace Editor
 		const string k_AdapterName 					= "m_CharacterControllerAdapter";
 		const string k_MotorConfigPath 				= "m_Motor.m_Configuration";
 
-		// COMMENT TODO
+		// Fields that make up the advance section
 		readonly string[] m_AdvancedFields = {k_AdapterName, k_MovementEvent, k_GizmoSettings};
 
-		// COMMENT TODO
+		// Help box text
 		const string k_Help =
 			"Configurations are separate assets (ScriptableObjects). Click on the associated configuration to locate it in the Project View. Values can be edited here during runtime and not be lost. It also allows one to create different settings and swap between them. To create a new setting Right click -> Create -> Standard Assets -> Characters -> ...";
 
-		// COMMENT TODO
+		// Tracks the whether the advanced foldout is open/collapse
 		bool m_AdvancedFoldOut;
 
 
 		/// <summary>
-		/// COMMENT TODO
+		/// Renders the custom editor 
 		/// </summary>
 		public override void OnInspectorGUI()
 		{
@@ -44,10 +44,15 @@ namespace Editor
 			
 			serializedObject.DrawExtendedScriptableObject(k_MotorConfigPath, "Motor Settings");
 			serializedObject.DrawExtendedScriptableObject(k_AnimationConfigName, "Animation Settings");
+			
+			if (GUI.changed)
+			{
+				serializedObject.ApplyModifiedProperties();
+			}
 		}
 
 		/// <summary>
-		/// COMMENT TODO
+		/// Returns the exclusion list
 		/// </summary>
 		string[] GetExclusions()
 		{
@@ -61,7 +66,7 @@ namespace Editor
 			return exclusionList.Concat(m_AdvancedFields).ToArray();
 		}
 
-		// COMMENT TODO
+		// Renders the TurnAround properties based on the type
 		void DrawTurnaround()
 		{
 			ThirdPersonBrain brain = (ThirdPersonBrain)target;

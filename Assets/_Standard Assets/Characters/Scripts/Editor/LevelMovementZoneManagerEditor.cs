@@ -5,24 +5,24 @@ using UnityEngine;
 namespace Editor
 {
 	/// <summary>
-	/// COMMENT TODO
+	/// Custom  editor for <see cref="LevelMovementZoneManager"/>
 	/// </summary>
 	[CustomEditor(typeof(LevelMovementZoneManager))]
 	public class LevelMovementZoneManagerEditor : UnityEditor.Editor
 	{
-		// COMMENT TODO
+		// Configuration field name
 		const string k_Configuration = "m_Configuration";
 
-		// COMMENT TODO
-		string[] exclusions = { k_Configuration };
+		// Field drawing exclusion
+		string[] m_Exclusions = { k_Configuration };
 		
 
 		/// <summary>
-		/// COMMENT TODO
+		/// Handles drawing the inline scriptable object editor
 		/// </summary>
 		public override void OnInspectorGUI()
 		{
-			DrawPropertiesExcluding(serializedObject, exclusions);
+			DrawPropertiesExcluding(serializedObject, m_Exclusions);
 			
 			serializedObject.DrawExtendedScriptableObject(k_Configuration);
 			

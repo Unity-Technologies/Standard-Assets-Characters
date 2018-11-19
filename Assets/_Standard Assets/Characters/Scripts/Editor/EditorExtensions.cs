@@ -200,20 +200,20 @@ namespace Editor
 			return fieldInfo == null ? null : fieldInfo.FieldType;
 		}
 		
-		// COMMENT TODO
+		// Given a SerializedProperty/path get the object
 		static object GetTargetObjectWithProperty(SerializedProperty prop)
 		{
 			object obj = prop.serializedObject.targetObject;
 			var elements = prop.propertyPath.Split('.');
 			foreach (var element in elements.Take(elements.Length - 1))
 			{
-				obj = GetValue_Imp(obj, element);
+				obj = GetValue(obj, element);
 			}
 			return obj;
 		}
 
-		// COMMENT TODO
-		static object GetValue_Imp(object source, string name)
+		// Get Field/property information using recursion
+		static object GetValue(object source, string name)
 		{
 			if (source == null)
 			{

@@ -4,13 +4,13 @@ using UnityEditor;
 namespace Editor
 {
 	/// <summary>
-	/// COMMENT TODO
+	/// Custom editor for rendering advance fields in the <see cref="OpenCharacterController"/>
 	/// </summary>
 	[CustomEditor(typeof(OpenCharacterController))]
 	public class OpenCharacterControllerEditor : UnityEditor.Editor
 	{
-		// COMMENT TODO
-		readonly string[] advancedFields = 
+		// List of names of advanced fields
+		readonly string[] m_AdvancedFields = 
 		{
 			"m_SkinWidth", 
 			"m_MinMoveDistance", 
@@ -20,19 +20,19 @@ namespace Editor
 			"m_QueryTriggerInteraction"
 		};
 
-		// COMMENT TODO
-		bool advancedFoldOut;
+		// Tracks the whether the advanced foldout is open/collapse
+		bool m_AdvancedFoldOut;
 		
 
 		/// <summary>
-		/// COMMENT TODO
+		/// Renders advanced fields
 		/// </summary>
 		public override void OnInspectorGUI()
 		{
-			DrawPropertiesExcluding(serializedObject, advancedFields);
+			DrawPropertiesExcluding(serializedObject, m_AdvancedFields);
 
 			EditorGUILayout.Space();
-			serializedObject.DrawFieldsUnderFoldout("Advanced", advancedFields, ref advancedFoldOut);
+			serializedObject.DrawFieldsUnderFoldout("Advanced", m_AdvancedFields, ref m_AdvancedFoldOut);
 		}
 	}
 }
