@@ -16,7 +16,7 @@ namespace StandardAssets.Characters.Effects.Configs
 		MovementEventZoneDefinitionList m_ZonesDefinition;
 
 		/// <summary>
-		/// COMMENT TODO
+		/// Indexer to return a <see cref="MovementEventLibrary"/> based on a PhysicMaterial
 		/// </summary>
 		public MovementEventLibrary this[PhysicMaterial physicMaterial] { get { return m_ZonesDefinition[physicMaterial]; } }
 

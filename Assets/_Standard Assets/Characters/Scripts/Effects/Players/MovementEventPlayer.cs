@@ -48,7 +48,7 @@ namespace StandardAssets.Characters.Effects.Players
 		protected abstract void PlayMovementEvent(MovementEventData movementEventData, float effectMagnitude);
 
 		/// <summary>
-		/// COMMENT TODO
+		/// Abstract method for calculating the effect magnitude based on the normalizedSpeed
 		/// </summary>
 		protected abstract float Evaluate(float normalizedSpeed);
 	}

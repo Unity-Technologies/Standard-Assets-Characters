@@ -15,27 +15,27 @@ namespace StandardAssets.Characters.Effects
         [SerializeField, Tooltip("List of movement event libraries for different movement zones")]
         MovementEventZoneDefinitionList m_ZonesDefinition;
 
-        // COMMENT TODO
+        // Current movement event library
         MovementEventLibrary m_CurrentMovementEventLibrary;
 
-        // COMMENT TODO
+        // Character brain
         CharacterBrain m_Brain;
 
-        // COMMENT TODO
+        // Current Physic Material
         PhysicMaterial m_PhysicMaterial;
 
         /// <summary>
-        /// COMMENT TODO
+        /// Gets the associated character brain
         /// </summary>
         protected CharacterBrain brain { get { return m_Brain; } }
 
         /// <summary>
-        /// COMMENT TODO
+        /// Gets whether an effect can be played
         /// </summary>
         protected bool canPlayEffect { get { return m_CurrentMovementEventLibrary != null; } }
         
         /// <summary>
-        /// COMMENT TODO
+        /// Gets the default movement event library
         /// </summary>
         protected MovementEventLibrary defaultLibrary
         {
@@ -57,7 +57,6 @@ namespace StandardAssets.Characters.Effects
             }
         }
 
-
         /// <summary>
         /// Sets the current event library to the starting event library
         /// </summary>
@@ -68,9 +67,9 @@ namespace StandardAssets.Characters.Effects
         }
 
         /// <summary>
-        /// COMMENT TODO
+        /// Helper for playing left foot movement effect
         /// </summary>
-        protected virtual void PlayLeftFoot(MovementEventData data)
+        protected void PlayLeftFoot(MovementEventData data)
         {
             if (canPlayEffect)
             {
@@ -79,9 +78,9 @@ namespace StandardAssets.Characters.Effects
         }
 
         /// <summary>
-        /// COMMENT TODO
+        /// Helper for playing the right foot movement effect
         /// </summary>
-        protected virtual void PlayRightFoot(MovementEventData data)
+        protected void PlayRightFoot(MovementEventData data)
         {
             if (canPlayEffect)
             {
@@ -90,9 +89,9 @@ namespace StandardAssets.Characters.Effects
         }
 
         /// <summary>
-        /// COMMENT TODO
+        /// Helper for playing the landing movement effect
         /// </summary>
-        protected virtual void PlayLanding(MovementEventData data)
+        protected void PlayLanding(MovementEventData data)
         {
             if (canPlayEffect)
             {
@@ -101,9 +100,9 @@ namespace StandardAssets.Characters.Effects
         }
 
         /// <summary>
-        /// COMMENT TODO
+        /// Helper for playing the jumping movement effect
         /// </summary>
-        protected virtual void PlayJumping(MovementEventData data)
+        protected void PlayJumping(MovementEventData data)
         {
             if (canPlayEffect)
             {
@@ -112,7 +111,7 @@ namespace StandardAssets.Characters.Effects
         }
 
         /// <summary>
-        /// COMMENT TODO
+        /// Helper for setting the current Physic Material, calls ChangeMovementZone if the Physic Material is different  
         /// </summary>
         protected void SetPhysicMaterial(PhysicMaterial physicMaterial)
         {
@@ -131,7 +130,7 @@ namespace StandardAssets.Characters.Effects
             m_CurrentMovementEventLibrary = newMovementEventLibrary;
         }
         
-        // COMMENT TODO
+        // Changes the movement event library based on the Physic Material
         void ChangeMovementZone(PhysicMaterial physicMaterial)
         {
             var library = m_ZonesDefinition[physicMaterial];
@@ -161,16 +160,15 @@ namespace StandardAssets.Characters.Effects
         }        
     }
 
-
     /// <summary>
     /// Container of data associated with a movement event
     /// </summary>
     public struct MovementEventData
     {
-        // COMMENT TODO
+        // Where the event is fired from
         Transform m_FiredFrom;
 
-        // COMMENT TODO
+        // Normalized speed of the event
         float m_NormalizedSpeed;
 
         /// <summary>
@@ -199,7 +197,6 @@ namespace StandardAssets.Characters.Effects
         }
     }
 
-
     /// <summary>
     /// A library of movement effects.
     /// This is what would be swapped out for different zones.
@@ -225,7 +222,6 @@ namespace StandardAssets.Characters.Effects
         MovementEventPlayer[] m_RightFootStepInstances;
         MovementEventPlayer[] m_LandingInstances;
         MovementEventPlayer[] m_JumpingInstances;
-
 
         /// <summary>
         /// Helper for playing the Left Foot movement event
@@ -303,7 +299,6 @@ namespace StandardAssets.Characters.Effects
         }        
     }
 
-
     /// <summary>
     /// Defines which zone ID matches to which <see cref="MovementEventLibrary"/>
     /// </summary>
@@ -327,7 +322,6 @@ namespace StandardAssets.Characters.Effects
         public MovementEventLibrary library { get { return m_ZoneLibrary; } }
     }
 
-
     /// <summary>
     /// A set of <see cref="MovementEventLibrary"/> for different zone IDs
     /// </summary>
@@ -338,8 +332,9 @@ namespace StandardAssets.Characters.Effects
         MovementEventZoneDefinition[] m_MovementZoneLibraries;
 
         /// <summary>
-        // COMMENT TODO
+        /// Indexer to return a <see cref="MovementEventLibrary"/> based on a PhysicMaterial
         /// </summary>
+        /// <param name="physicMaterial">PhysicMaterial index</param>
         public MovementEventLibrary this[PhysicMaterial physicMaterial]
         {
             get

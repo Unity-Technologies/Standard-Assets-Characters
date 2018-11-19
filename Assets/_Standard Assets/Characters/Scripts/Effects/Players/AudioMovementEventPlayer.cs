@@ -16,11 +16,11 @@ namespace StandardAssets.Characters.Effects.Players
 		[SerializeField, Tooltip("For using multiple audio sources, i.e footstep sounds")]
 		AudioClip[] m_Clips;
 
-		//COMMENT TODO
+		// Index of the current audio clip
 		int m_CurrentSoundIndex;
 
 
-		//COMMENT TODO
+		// Set the index to 0
 		void Awake()
 		{
 			m_CurrentSoundIndex = 0;
@@ -53,7 +53,7 @@ namespace StandardAssets.Characters.Effects.Players
 		}
 
 		/// <summary>
-		/// COMMENT TODO
+		/// Returns the volume based on the normalizedSpeed
 		/// </summary>
 		protected override float Evaluate(float normalizedSpeed)
 		{

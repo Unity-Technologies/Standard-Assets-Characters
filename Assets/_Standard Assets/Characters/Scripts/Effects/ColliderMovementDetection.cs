@@ -19,7 +19,7 @@ namespace StandardAssets.Characters.Effects
 		public event Action<MovementEventData, PhysicMaterial> detection;
 
 
-		// COMMENT TODO
+		// Trigger when foot collider enters ground 
 		void OnTriggerEnter(Collider other)
 		{
 			if (m_LayerMask != (m_LayerMask | (1 << other.gameObject.layer)))
