@@ -488,9 +488,6 @@ namespace StandardAssets.Characters.Physics
 		// The capsule collider.
 		CapsuleCollider m_CapsuleCollider;
 
-		// Cached reference to the transform.
-		Transform m_CachedTransform;
-
 		// The position at the start of the movement.
 		Vector3 m_StartPosition;
 
@@ -561,7 +558,7 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// The capsule center with scaling and rotation applied.
 		/// </summary>
-		public Vector3 transformedCenter { get { return m_CachedTransform.TransformVector(m_Center); } }
+		public Vector3 transformedCenter { get { return transform.TransformVector(m_Center); } }
 
 		/// <summary>
 		/// The capsule radius with the relevant scaling applied (e.g. if object scale is not 1,1,1)
@@ -570,7 +567,7 @@ namespace StandardAssets.Characters.Physics
 		{
 			get
 			{
-				var scale = m_CachedTransform.lossyScale;
+				var scale = transform.lossyScale;
 				var maxScale = Mathf.Max(Mathf.Max(scale.x, scale.y), scale.z);
 				return m_Radius * maxScale;
 			}
@@ -579,12 +576,11 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// The capsule height with the relevant scaling applied (e.g. if object scale is not 1,1,1)
 		/// </summary>
-		public float scaledHeight { get { return m_Height * m_CachedTransform.lossyScale.y; } }
+		public float scaledHeight { get { return m_Height * transform.lossyScale.y; } }
 
 		// Initialise the capsule and rigidbody, and set the root position.
 		void Awake()
 		{
-			m_CachedTransform = transform;
 			InitCapsuleColliderAndRigidbody();
 
 			SetRootToOffset();
@@ -671,7 +667,7 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="updateGrounded">Update the grounded state? This uses a cast, so only set it to true if you need it.</param>
 		public void SetPosition(Vector3 position, bool updateGrounded)
 		{
-			m_CachedTransform.position = position;
+			transform.position = position;
 
 			if (updateGrounded)
 			{
@@ -711,7 +707,7 @@ namespace StandardAssets.Characters.Physics
 
 			// Note: Physics.ComputePenetration does not always return values when the colliders overlap.
 			var result = UnityEngine.Physics.ComputePenetration(m_CapsuleCollider,
-			                                                     m_CachedTransform.position + positionOffset,
+			                                                     transform.position + positionOffset,
 			                                                     Quaternion.identity,
 			                                                     collider, colliderPosition, colliderRotation,
 			                                                     out direction, out distance);
@@ -905,7 +901,7 @@ namespace StandardAssets.Characters.Physics
 		{
 			var oldHeight = m_Height;
 			var oldCenter = m_Center;
-			var oldPosition = m_CachedTransform.position;
+			var oldPosition = transform.position;
 			var cancelPending = true;
 
 			SetCenter(newCenter, false, false);
@@ -924,7 +920,7 @@ namespace StandardAssets.Characters.Physics
 						// Restore data
 						m_Height = oldHeight;
 						m_Center = oldCenter;
-						m_CachedTransform.position = oldPosition;
+						transform.position = oldPosition;
 						ValidateCapsule(true);
 					}
 				}
@@ -971,7 +967,7 @@ namespace StandardAssets.Characters.Physics
 		public void SetCenter(Vector3 newCenter, bool checkForPenetration, bool updateGrounded)
 		{
 			var oldCenter = m_Center;
-			var oldPosition = m_CachedTransform.position;
+			var oldPosition = transform.position;
 			var cancelPending = true;
 
 			m_Center = newCenter;
@@ -989,7 +985,7 @@ namespace StandardAssets.Characters.Physics
 						m_PendingResize.SetCenter(newCenter);
 						// Restore data
 						m_Center = oldCenter;
-						m_CachedTransform.position = oldPosition;
+						transform.position = oldPosition;
 						ValidateCapsule(true);
 					}
 				}
@@ -1070,7 +1066,7 @@ namespace StandardAssets.Characters.Physics
 
 			var oldHeight = m_Height;
 			var oldCenter = m_Center;
-			var oldPosition = m_CachedTransform.position;
+			var oldPosition = transform.position;
 			var cancelPending = true;
 
 			if (changeCenter)
@@ -1106,7 +1102,7 @@ namespace StandardAssets.Characters.Physics
 							m_Center = oldCenter;
 						}
 
-						m_CachedTransform.position = oldPosition;
+						transform.position = oldPosition;
 						ValidateCapsule(true);
 					}
 				}
@@ -1234,7 +1230,7 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		public Vector3 GetFootWorldPosition()
 		{
-			return m_CachedTransform.position + transformedCenter + (Vector3.down * (scaledHeight / 2.0f + m_SkinWidth));
+			return transform.position + transformedCenter + (Vector3.down * (scaledHeight / 2.0f + m_SkinWidth));
 		}
 
 		/// <summary>
@@ -1250,7 +1246,7 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		public Vector3 GetHeadWorldPosition()
 		{
-			return m_CachedTransform.position + transformedCenter + (Vector3.up * (scaledHeight / 2.0f + m_SkinWidth));
+			return transform.position + transformedCenter + (Vector3.up * (scaledHeight / 2.0f + m_SkinWidth));
 		}
 
 		/// <summary>
@@ -1277,7 +1273,7 @@ namespace StandardAssets.Characters.Physics
 		public Vector3 GetTopSphereWorldPosition()
 		{
 			var sphereOffsetY = Vector3.up * (scaledHeight / 2.0f - scaledRadius);
-			return m_CachedTransform.position + transformedCenter + sphereOffsetY;
+			return transform.position + transformedCenter + sphereOffsetY;
 		}
 
 		/// <summary>
@@ -1286,7 +1282,7 @@ namespace StandardAssets.Characters.Physics
 		public Vector3 GetBottomSphereWorldPosition()
 		{
 			var sphereOffsetY = Vector3.up * (scaledHeight / 2.0f - scaledRadius);
-			return m_CachedTransform.position + transformedCenter - sphereOffsetY;
+			return transform.position + transformedCenter - sphereOffsetY;
 		}
 
 		/// <summary>
@@ -1294,7 +1290,7 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		public Vector3 GetCapsuleWorldPosition()
 		{
-			return m_CachedTransform.position + transformedCenter;
+			return transform.position + transformedCenter;
 		}
 
 		/// <summary>
@@ -1309,7 +1305,7 @@ namespace StandardAssets.Characters.Physics
 		// Initialize the capsule collider and the rigidbody
 		void InitCapsuleColliderAndRigidbody()
 		{
-			var go = m_CachedTransform.gameObject;
+			var go = transform.gameObject;
 			m_CapsuleCollider = go.GetComponent<CapsuleCollider>();
 
 			// Copy settings to the capsule collider
@@ -1394,7 +1390,7 @@ namespace StandardAssets.Characters.Physics
 			var moveVectorNoY = new Vector3(moveVector.x, 0.0f, moveVector.z);
 			var tryToStickToGround = wasGrounded && (forceTryStickToGround || (moveVector.y <= 0.0f && moveVectorNoY.sqrMagnitude.NotEqualToZero()));
 
-			m_StartPosition = m_CachedTransform.position;
+			m_StartPosition = transform.position;
 
 			collisionFlags = CollisionFlags.None;
 			m_CollisionInfoDictionary.Clear();
@@ -1412,7 +1408,7 @@ namespace StandardAssets.Characters.Physics
 			var doDownCast = tryToStickToGround ||
 			                  moveVector.y <= 0.0f;
 			UpdateGrounded(collisionFlags, doDownCast);
-			velocity = m_CachedTransform.position - m_StartPosition;
+			velocity = transform.position - m_StartPosition;
 
 			// Check is the changed events should be fired
 			if (onVelocityChanged != null && oldVelocity != velocity)
@@ -1441,7 +1437,7 @@ namespace StandardAssets.Characters.Physics
 
 			foreach (var keyValuePair in m_CollisionInfoDictionary)
 			{
-				m_CachedTransform.gameObject.SendMessage("OnOpenCharacterControllerHit",
+				transform.gameObject.SendMessage("OnOpenCharacterControllerHit",
 				                                       keyValuePair.Value,
 				                                       SendMessageOptions.DontRequireReceiver);
 			}
@@ -1506,7 +1502,7 @@ namespace StandardAssets.Characters.Physics
 				remainingMoveVector.moveVector = refMoveVector;
 
 				// Character stuck?
-				if (m_StuckInfo.UpdateStuck(m_CachedTransform.position, remainingMoveVector.moveVector, moveVector))
+				if (m_StuckInfo.UpdateStuck(transform.position, remainingMoveVector.moveVector, moveVector))
 				{
 					// Stop current move loop vector
 					remainingMoveVector = new MoveVector(Vector3.zero);
@@ -2202,7 +2198,7 @@ namespace StandardAssets.Characters.Physics
 		{
 			if (moveVector.sqrMagnitude.NotEqualToZero())
 			{
-				m_CachedTransform.position += moveVector;
+				transform.position += moveVector;
 			}
 
 			if (collideDirection != null && hitInfo != null)
@@ -2239,7 +2235,7 @@ namespace StandardAssets.Characters.Physics
 				// We only care about the first collision with a collider
 				if (!m_CollisionInfoDictionary.ContainsKey(collider))
 				{
-					var moved = m_CachedTransform.position - m_StartPosition;
+					var moved = transform.position - m_StartPosition;
 					var newCollisionInfo = new CollisionInfo(this, hitInfo.Value, direction, moved.magnitude);
 					m_CollisionInfoDictionary.Add(collider, newCollisionInfo);
 				}

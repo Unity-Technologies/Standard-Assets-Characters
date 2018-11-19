@@ -38,55 +38,56 @@ namespace StandardAssets.Characters.ThirdPerson
 		// The controller controllerAdapter implementation
 		ControllerAdapter m_ControllerAdapter;
 
-		// COMMENT TODO
+		// The movement state as a turn around was triggered.
 		ThirdPersonGroundMovementState m_PreTurnMovementState;
 
-		// COMMENT TODO
+		// The current ground movement state.
 		ThirdPersonGroundMovementState m_MovementState = ThirdPersonGroundMovementState.Walking;
 
-		// COMMENT TODO
+		// The current aerial state.
 		ThirdPersonAerialMovementState m_AerialState = ThirdPersonAerialMovementState.Grounded;
 
-		// COMMENT TODO
+		// Sliding average used to smooth forward velocity so jump velocity is more consistent.
 		SlidingAverage m_AverageForwardVelocity;
 
-		// COMMENT TODO
+		// Sliding average used to smooth input during exploration.
 		SlidingAverage m_ExplorationAverageForwardInput;
 
-		// COMMENT TODO
+		// Sliding average used to smooth forward input during strafe.
 		SlidingAverage m_StrafeAverageForwardInput;
 
-		// COMMENT TODO
+		// Sliding average used to smooth lateral input during strafe.
 		SlidingAverage m_StrafeAverageLateralInput;
 
-		// COMMENT TODO
+		// Time the character has been in a turn around state. Used to ignore forward input for a moment as a turn 
+		// around starts.
 		float m_TurnaroundMovementTime;
 
-		// COMMENT TODO
+		// The time of the character's last idle (no input).
 		float m_LastIdleTime;
 
-		// COMMENT TODO
+		// Has a jump been queued?
 		bool m_JumpQueued;
 
-		// COMMENT TODO
+		// Reference to the Unity Animator.
 		Animator m_Animator;
 
-		// COMMENT TODO
+		// The current fall direction.
 		Vector3 m_FallDirection;
 
-		// COMMENT TODO
+		// Reference to the ThirdPersonBrain's transform.
 		Transform m_Transform;
 
-		// COMMENT TODO
+		// Reference to the ThirdPersonBrain's GameObject.
 		GameObject m_GameObject;
 
-		// COMMENT TODO
+		// Reference to the ThirdPersonBrain.
 		ThirdPersonBrain m_ThirdPersonBrain;
 
-		// COMMENT TODO
+		// A sized queue of previous inputs used to determine if a rapid turn has been triggered.
 		SizedQueue<Vector2> m_PreviousInputs;
 
-		// COMMENT TODO
+		// Reference to the main camera.
 		Camera m_MainCamera;
 		
 		// on start strafe control initial look
@@ -176,18 +177,6 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		// Is rapid turn disabled? (Enable/Disable it via EnableRapidTurn / DisableRapidTurn).
 		bool disableRapidTurn { get { return m_ObjectsThatDisabledRapidTurn.Count > 0; } }
-
-
-		/// <summary>
-		/// Called on the exit of the root motion jump animation.
-		/// </summary>
-		public void OnJumpAnimationComplete()
-		{
-			if (m_ControllerAdapter.IsPredictedFallShort())
-			{
-				OnLanding();
-			}
-		}
 
 		/// <summary>
 		/// Moves the character based on movement and animator state.
@@ -623,8 +612,7 @@ namespace StandardAssets.Characters.ThirdPerson
 													Time.deltaTime * m_Configuration.normalizedTurningSpeedLerpSpeedFactor);
 		}
 
-		// COMMENT TODO
-		// 		NOTE: Subscribes to the currentTurnAroundBehaviour's TurnAroundBehaviour.turnaroundComplete
+		// Resets m_MovementState to its value prior to the turn around.
 		void TurnaroundComplete()
 		{
 			m_MovementState = m_PreTurnMovementState;
@@ -708,7 +696,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 		
 		// Attempts a jump. If successful fires the 'jumpStarted' event and sets 'm_AerialState' to ThirdPersonAerialMovementState.Jumping
-		// 		reattempt: Whether a jump should be reattempted
+		// reattempt: Whether a jump should be reattempted
 		void TryJump(out bool reattempt)
 		{
 			if (m_MovementState == ThirdPersonGroundMovementState.TurningAround || 
@@ -727,7 +715,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			m_AerialState = ThirdPersonAerialMovementState.Jumping;
 			m_FallDirection = CalculateLocalInputDirection();
 			
-			// COMMENT TODO:  WTF is happening in this function???
+			// If an idle forward jump is detected update the normalized speeds to represent a forward jump and pass 
+			// them on to the ThirdPersonBrain.
 			if (IsIdleForwardJump())
 			{
 				cachedForwardVelocity = m_Configuration.standingJumpSpeed;
@@ -764,8 +753,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			reattempt = false;
 		}
 
-		// Helper for deciding jump is idle forward jump
-		// 		return: true if idle forward jump
+		// Helper for deciding jump is idle forward jump.
 		bool IsIdleForwardJump()
 		{
 			return m_CharacterInput.moveInput.magnitude > m_Configuration.standingJumpMinInputThreshold &&

@@ -138,7 +138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UseNormalizedTime: 1
-  m_Curve:
+  m_ScaleBasedOnNormalizedTime:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -4455,7 +4455,7 @@ AnimatorState:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Exploration Locomotion
+  m_Name: ExplorationLocomotion
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -4748,7 +4748,7 @@ AnimatorState:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Strafe Locomotion
+  m_Name: StrafeLocomotion
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:

@@ -2319,7 +2319,6 @@ MonoBehaviour:
   m_TurnAroundType: 1
   m_VCamTarget: {fileID: 4174794399979458}
   m_BlendspaceTurnAroundBehaviour:
-    m_ConfigureBlendspace: 0
     m_Configuration:
       m_TimeToTurn: 0.2
       m_RotationDuringTurn:
@@ -2423,29 +2422,29 @@ MonoBehaviour:
       m_HeadTurnMultiplier: 1
   m_AnimationTurnAroundBehaviour:
     m_RunLeftTurn:
-      name: RunForwardTurnLeft180
-      speed: 1.1
-      headTurnScale: 1
+      m_Name: RunForwardTurnLeft180
+      m_Speed: 1.1
+      m_HeadTurnScale: 1
     m_RunRightTurn:
-      name: RunForwardTurnRight180_Mirror
-      speed: 1.1
-      headTurnScale: 1
+      m_Name: RunForwardTurnRight180_Mirror
+      m_Speed: 1.1
+      m_HeadTurnScale: 1
     m_SprintLeftTurn:
-      name: RunForwardTurnLeft180
-      speed: 1.3
-      headTurnScale: 1
+      m_Name: RunForwardTurnLeft180
+      m_Speed: 1.3
+      m_HeadTurnScale: 1
     m_SprintRightTurn:
-      name: RunForwardTurnRight180_Mirror
-      speed: 1.3
-      headTurnScale: 1
+      m_Name: RunForwardTurnRight180_Mirror
+      m_Speed: 1.3
+      m_HeadTurnScale: 1
     m_IdleLeftTurn:
-      name: IdleTurnLeft180
-      speed: 3
-      headTurnScale: 1
+      m_Name: IdleTurnLeft180
+      m_Speed: 3
+      m_HeadTurnScale: 1
     m_IdleRightTurn:
-      name: IdleTurnRight180_Mirror
-      speed: 3
-      headTurnScale: 1
+      m_Name: IdleTurnRight180_Mirror
+      m_Speed: 3
+      m_HeadTurnScale: 1
     m_RotationCurve:
       serializedVersion: 2
       m_Curve:

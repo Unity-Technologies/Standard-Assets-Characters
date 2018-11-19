@@ -52,7 +52,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
 
         /// <summary>
-        /// COMMENT TODO
+        /// Struct for containing DebugGizmo settings.
         /// </summary>
         [Serializable]
         public struct DebugGizmoSettings
@@ -138,11 +138,15 @@ namespace StandardAssets.Characters.ThirdPerson
             public Color headDesiredDirection { get { return m_HeadDesiredDirection; } }
         }
 
-        // COMMENT TODO
+        // value used when in a turn around state and a rapid head turn is required.
         const float k_HeadTurnSnapBackScale = 100f;
-        const float k_VelocityGizmoScale = 0.2f;
-        const float k_VelocityLerp = 3f;
 
+        // scale used on velocity gizmo
+        const float k_VelocityGizmoScale = 0.2f;
+        
+        // value used to lerp velocity gizmo scale
+        const float k_VelocityLerp = 3f;
+        
         //Gizmo readonly vectors
         readonly Vector3 m_HeadGizmoPosition = new Vector3(0f, 1.55f, 0f);
         readonly Vector3 m_HeadGizmoScale = new Vector3(0.05f, 0.05f, 0.05f);
@@ -187,31 +191,28 @@ namespace StandardAssets.Characters.ThirdPerson
         // time of the last physics jump
         float m_TimeOfLastJumpLand;
 
-        // COMMENT TODO
+        // If a strafe has been queued.
         bool m_IsTryingStrafe;
 
-        // COMMENT TODO
+        // If a jump was preformed this frame.
         bool m_JustJumped;
 
-        // COMMENT TODO
+        // Time in seconds since the current grounded foot swapped.
         float m_TimeSinceGroundedFootChange;
 
         //the camera controller to be used
         bool m_IsChangingCamera;
 
-        // COMMENT TODO
+        // If a rapid direction change was triggered in strafe mode.
         bool m_TriggeredRapidDirectionChange;
 
-        // COMMENT TODO
-        int m_FramesToWait;
-
-        // COMMENT TODO
+        // Reference to the input.
         IThirdPersonInput m_Input;
 
-        // COMMENT TODO
+        // Objects used for drawing helpful gizmos.
         GameObject[] m_GizmoObjects;
 
-        // COMMENT TODO
+        // GameObjects used to draw gizmos.
         GameObject m_BodyCurrentGizmo;
         GameObject m_BodyDesiredGizmo;
         GameObject m_InputDirectionGizmo;
@@ -219,13 +220,13 @@ namespace StandardAssets.Characters.ThirdPerson
         GameObject m_HeadCurrentGizmo;
         GameObject m_HeadDesiredGizmo;
 
-        // COMMENT TODO
+        // Cached reference to the main camera's transform,
         Transform m_MainCameraTransform;
 
-        // COMMENT TODO
+        // Array of the different turn around behaviours.
         TurnAroundBehaviour[] m_TurnAroundBehaviours;
 
-        // COMMENT TODO
+        // The current count and duration of a strafe rapid direction change.
         float m_RapidStrafeTime, m_RapidStrafeChangeDuration;
 
         /// <summary>
@@ -1046,19 +1047,16 @@ namespace StandardAssets.Characters.ThirdPerson
     [Serializable]
     public class ThirdPersonMovementEventHandler : MovementEventHandler
     {
-        // COMMENT TODO: Tooltip required
-        [SerializeField]
+        [SerializeField, Tooltip("Reference to the left foot collider movement detection")]
         ColliderMovementDetection m_LeftFootDetection;
 
-        // COMMENT TODO: Tooltip required
-        [SerializeField]
+        [SerializeField, Tooltip("Reference to the right foot collider movement detection")]
         ColliderMovementDetection m_RightFootDetection;
 
-        // COMMENT TODO: Tooltip required
-        [SerializeField]
+        [SerializeField, Tooltip("The maximum speed used to normalized planar speed")]
         float m_MaximumSpeed = 10f;
 
-        // COMMENT TODO
+        // Cached reference to the ThirdPersonBrain
         ThirdPersonBrain m_ThirdPersonBrain;
 
 
