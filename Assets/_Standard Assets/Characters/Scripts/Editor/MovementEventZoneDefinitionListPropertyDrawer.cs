@@ -89,28 +89,16 @@ namespace Editor
             if (zoneLibary.isExpanded)
             {
                 elementHeight += EditorGUIUtility.singleLineHeight;
-                elementHeight += GetExpandedArrayHeight(zoneLibary.FindPropertyRelative("m_LeftFootStepPrefabs"));
-                elementHeight += GetExpandedArrayHeight(zoneLibary.FindPropertyRelative("m_RightFootStepPrefabs"));
-                elementHeight += GetExpandedArrayHeight(zoneLibary.FindPropertyRelative("m_LandingPrefabs"));
-                elementHeight += GetExpandedArrayHeight(zoneLibary.FindPropertyRelative("m_JumpingPrefabs"));
+                elementHeight += EditorGUI.GetPropertyHeight(zoneLibary.FindPropertyRelative("m_LeftFootStepPrefabs"), true);
+                elementHeight += EditorGUI.GetPropertyHeight(zoneLibary.FindPropertyRelative("m_RightFootStepPrefabs"), true);
+                elementHeight += EditorGUI.GetPropertyHeight(zoneLibary.FindPropertyRelative("m_LandingPrefabs"), true);
+                elementHeight += EditorGUI.GetPropertyHeight(zoneLibary.FindPropertyRelative("m_JumpingPrefabs"), true);
             }
 
             m_ElementHeights[index] = elementHeight;
             if (EditorGUI.EndChangeCheck())
             {
                 EditorUtility.SetDirty(rootProperty.serializedObject.targetObject);
-            }
-        }
-
-        float GetExpandedArrayHeight(SerializedProperty arrayElement)
-        {
-            if (arrayElement.isExpanded)
-            {
-                return ((arrayElement.arraySize + 1) * EditorGUIUtility.singleLineHeight * k_ArrayElementHeightScale) + EditorGUIUtility.singleLineHeight;
-            }
-            else
-            {
-                return EditorGUIUtility.singleLineHeight;
             }
         }
 
