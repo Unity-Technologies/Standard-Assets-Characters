@@ -270,31 +270,29 @@ namespace StandardAssets.Characters.Effects
                 return;
             }
 
+            var arrayLength = prefabs.Length;
             if (instances == null || instances.Length == 0)
             {
-                instances = new MovementEventPlayer[prefabs.Length];
-                var i = -1;
-                foreach (var movementEventPlayer in prefabs)
+                instances = new MovementEventPlayer[arrayLength];
+
+                for (var i = 0; i < arrayLength; i++)
                 {
-                    i++;
-                    instances[i] = Object.Instantiate(movementEventPlayer);
+                    instances[i] = Object.Instantiate(prefabs[i]);
                 }
             }
-
-            var j = -1;
-            foreach (var movementEventPlayer in instances)
+           
+            for (int i = 0; i < arrayLength; i++)
             {
-                j++;
-                if (movementEventPlayer == null)
+                var instance = instances[i];
+                if (instance == null)
                 {
-                    var player = Object.Instantiate(prefabs[j]);
-                    instances[j] =  player;
+                    var player = Object.Instantiate(prefabs[i]);
+                    instances[i] =  player;
+                    instance = player;
                     player.Play(movementEventData);               
                 }
-                else
-                {
-                    movementEventPlayer.Play(movementEventData);
-                }
+                
+                instance.Play(movementEventData); 
             }
         }        
     }
