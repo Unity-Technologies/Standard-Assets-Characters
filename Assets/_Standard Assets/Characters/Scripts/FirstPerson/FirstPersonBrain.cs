@@ -25,13 +25,13 @@ namespace StandardAssets.Characters.FirstPerson
 		[Serializable]
 		public struct MovementProperties
 		{
-			[SerializeField, Tooltip("Maximum movement speed of the character"), Range(0.1f, 20f)]
+			[SerializeField, Tooltip("Maximum movement speed of the character in world units per second"), Range(0.1f, 20f)]
 			float m_MaxSpeed;
 
-			[SerializeField, Tooltip("Initial Y velocity of a Jump"), Range(0f, 10f)]
+			[SerializeField, Tooltip("Initial Y velocity of a Jump in world units per second"), Range(0f, 10f)]
 			float m_JumpSpeed;
 
-			[SerializeField, Tooltip("Distance that is considered a stride"), Range(0f, 1f)]
+			[SerializeField, Tooltip("Distance, in world units, that is considered a stride"), Range(0f, 1f)]
 			float m_StrideLength;
 
 			/// <summary>
@@ -40,17 +40,17 @@ namespace StandardAssets.Characters.FirstPerson
 			public bool canJump { get { return m_JumpSpeed > 0f; } }
 
 			/// <summary>
-			/// Gets the character's maximum movement speed
+			/// Gets the character's maximum movement speed in world units per second
 			/// </summary>
 			public float maxSpeed { get { return m_MaxSpeed; } }
 
 			/// <summary>
-			/// Gets the character's initial Y velocity of a jump 
+			/// Gets the character's initial Y velocity of a jump in world units per second
 			/// </summary>
 			public float jumpSpeed { get { return m_JumpSpeed; } }
 
 			/// <summary>
-			/// Gets the character's stride length
+			/// Gets the character's stride length in world units
 			/// </summary>
 			public float strideLength { get { return m_StrideLength; } }
 		}
