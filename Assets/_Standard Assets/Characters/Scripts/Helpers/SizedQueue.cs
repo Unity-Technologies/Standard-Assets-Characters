@@ -8,7 +8,7 @@ namespace StandardAssets.Characters.Helpers
 	/// </summary>
 	public class SizedQueue<T>
 	{
-		// COMMENT TODO
+		// The maximum number of elements in the Queue
 		readonly int m_WindowSize;
 		
 		/// <summary>
@@ -23,7 +23,7 @@ namespace StandardAssets.Characters.Helpers
 		
 
 		/// <summary>
-		/// COMMENT TODO
+		/// Constructor of the queue
 		/// </summary>
 		public SizedQueue(int size)
 		{

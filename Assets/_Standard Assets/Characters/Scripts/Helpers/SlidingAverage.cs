@@ -8,10 +8,10 @@ namespace StandardAssets.Characters.Helpers
 	/// </summary>
 	public class SlidingAverage
 	{
-		// COMMENT TODO		
+		// SizeQueue used track averages		
 		SizedQueue<float> m_Values;
 
-		// COMMENT TODO
+		// Size of the SizedQueue
 		readonly int m_WindowSize;
 
 		/// <summary>
@@ -37,9 +37,8 @@ namespace StandardAssets.Characters.Helpers
 			}
 		}
 
-
 		/// <summary>
-		/// COMMENT TODO
+		/// Creates a <see cref="SizedQueue{T}"/> of specified size
 		/// </summary>
 		public SlidingAverage(int setWindowSize)
 		{

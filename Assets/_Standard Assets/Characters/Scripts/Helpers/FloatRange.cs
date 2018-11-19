@@ -9,17 +9,15 @@ namespace StandardAssets.Characters.Helpers
 	[Serializable]
 	public struct FloatRange
 	{
-		// COMMENT TODO: Tooltip instead?
-		[SerializeField]
+		[SerializeField, Tooltip("Minimum value in range")]
 		float m_MinValue;
 		
-		// COMMENT TODO: Tooltip instead?
-		[SerializeField]
+		[SerializeField, Tooltip("Maximum value in range")]
 		float m_MaxValue;
 
 
 		/// <summary>
-		/// COMMENT TODO
+		/// Set's up the float range
 		/// </summary>
 		public FloatRange(float minValue, float maxValue)
 		{
@@ -47,17 +45,17 @@ namespace StandardAssets.Characters.Helpers
 	public class FloatRangeSetupAttribute : Attribute
 	{
 		/// <summary>
-		/// COMMENT TODO
+		/// Minimum value in attribute
 		/// </summary>
 		public float min { get; private set; }
 
 		/// <summary>
-		/// COMMENT TODO
+		/// Maximum value in attribute
 		/// </summary>
 		public float max { get; private set; }
 
 		/// <summary>
-		/// COMMENT TODO
+		/// Number of decimal point to show in inspector
 		/// </summary>
 		public int decimalPoints { get; private set; }
 
