@@ -4,7 +4,7 @@ using UnityEngine;
 namespace StandardAssets.Characters.Helpers
 {
 	/// <summary>
-	/// Struct for represent a set of min and max values
+	/// Struct for representing a set of min and max values
 	/// </summary>
 	[Serializable]
 	public struct FloatRange
@@ -14,7 +14,6 @@ namespace StandardAssets.Characters.Helpers
 		
 		[SerializeField, Tooltip("Maximum value in range")]
 		float m_MaxValue;
-
 
 		/// <summary>
 		/// Sets up the float range
@@ -58,7 +57,6 @@ namespace StandardAssets.Characters.Helpers
 		/// Number of decimal points to show in inspector
 		/// </summary>
 		public int decimalPoints { get; private set; }
-
 		
 		/// <summary>
 		/// Sets the min, max and number of decimal points
