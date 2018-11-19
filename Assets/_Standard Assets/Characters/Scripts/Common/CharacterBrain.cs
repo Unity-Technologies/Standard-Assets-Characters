@@ -23,7 +23,7 @@ namespace StandardAssets.Characters.Common
 		public ControllerAdapter controllerAdapter { get { return m_CharacterControllerAdapter; } }
 		
 		/// <summary>
-		/// Gets/sets the planar speed (i.e. ignoring the displacement) of the CharacterBrain
+		/// Gets the planar speed (i.e. ignoring the displacement) of the CharacterBrain
 		/// </summary>
 		public float planarSpeed { get; private set; }
 		
@@ -33,7 +33,7 @@ namespace StandardAssets.Characters.Common
 		public abstract float normalizedForwardSpeed { get;}
 
 		/// <summary>
-		/// Gets the target Y Rotation of the character
+		/// Gets/sets the target Y Rotation of the character
 		/// </summary>
 		public abstract float targetYRotation { get; set; }
 		
@@ -119,10 +119,10 @@ namespace StandardAssets.Characters.Common
 		// Event for falling, includes the predicted fall distance
 		public event Action<float> startedFalling;
 		
-		// the number of time sets used for trajectory prediction.
+		// the number of time sets used for trajectory prediction
 		const int k_TrajectorySteps = 60;
 
-		// the time step used between physics trajectory steps.
+		// the time step used between physics trajectory steps
 		const float k_TrajectoryPredictionTimeStep = 0.016f;
 
 		// colliders used in physics checks for landing prediction
@@ -131,22 +131,22 @@ namespace StandardAssets.Characters.Common
 		// the current value of gravity
 		float m_Gravity;
 
-		// the source of the normalized forward speed.
+		// the source of the normalized forward speed
 		CharacterBrain m_CharacterBrain;
 
-		// The predicted landing position of the character. Null if a position could not be predicted.
+		// The predicted landing position of the character. Null if a position could not be predicted
 		Vector3? m_PredictedLandingPosition;
 
-		// The initial jump velocity.
+		// The initial jump velocity
 		float m_InitialJumpVelocity;
 
-		// The current vertical velocity.
+		// The current vertical velocity
 		float m_CurrentVerticalVelocity;
 
-		// The last used ground (vertical velocity excluded ie 0) velocity.
+		// The last used ground (vertical velocity excluded ie 0) velocity
 		Vector3 m_CachedGroundVelocity;
 
-		// The current vertical vector.
+		// The current vertical vector
 		Vector3 m_VerticalVector = Vector3.zero;
 
 		// Cached character input
@@ -196,27 +196,25 @@ namespace StandardAssets.Characters.Common
 		/// </summary>
 		public float normalizedVerticalSpeed { get; private set; }
 
-		/// <summary>
-		/// Gets/sets the character's air time
-		/// </summary>
+		// Gets/sets the character's air time
 		float airTime { get; set; }
 
-		// Gets the radius of the character.
+		// Gets the radius of the character
 		float radius { get { return characterController.scaledRadius + characterController.GetSkinWidth(); } }
 
-		// Gets the character's world foot position.
+		// Gets the character's world foot position
 		Vector3 footWorldPosition { get { return characterController.GetFootWorldPosition(); } }
 
-		// Gets the collision layer mask used for physics grounding,
+		// Gets the collision layer mask used for physics grounding
 		LayerMask collisionLayerMask { get { return characterController.GetCollisionLayerMask(); } }		
 
-		// Gets the current jump gravity multiplier as a factor of normalized forward speed.
+		// Gets the current jump gravity multiplier as a factor of normalized forward speed
 		float jumpGravityMultiplier { get { return m_JumpGravityMultiplierAsAFactorOfForwardSpeed.Evaluate(m_CharacterBrain.normalizedForwardSpeed); } }
 		
-		// Gets the current minimum jump height gravity multiplier as a factor of normalized forward speed.
+		// Gets the current minimum jump height gravity multiplier as a factor of normalized forward speed
 		float minJumpHeightMultiplier { get { return m_MinJumpHeightMultiplierAsAFactorOfForwardSpeed.Evaluate( m_CharacterBrain.normalizedForwardSpeed); } }
 		
-		// Gets the current fall gravity multiplier as a factor of normalized forward speed.
+		// Gets the current fall gravity multiplier as a factor of normalized forward speed
 		float fallGravityMultiplier { get { return m_FallGravityMultiplierAsAFactorOfForwardSpeed.Evaluate(m_CharacterBrain.normalizedForwardSpeed); } }
 
 
@@ -234,9 +232,9 @@ namespace StandardAssets.Characters.Common
 		}
 		
 		/// <summary>
-		/// Calculates whether the current fall is defined as a short fall.
+		/// Calculates whether the current fall is defined as a short fall
 		/// </summary>
-		/// <returns>True is the current fall distance is less than <see cref="m_MinFallDistance"/> false otherwise.</returns>
+		/// <returns>True is the current fall distance is less than <see cref="m_MinFallDistance"/> false otherwise</returns>
 		public bool IsPredictedFallShort(out float distance)
 		{
 			distance = GetPredictedFallDistance();
@@ -244,9 +242,9 @@ namespace StandardAssets.Characters.Common
 		}
 		
 		/// <summary>
-		/// Calculates whether the current fall is defined as a short fall.
+		/// Calculates whether the current fall is defined as a short fall
 		/// </summary>
-		/// <returns>True is the current fall distance is less than <see cref="m_MinFallDistance"/> false otherwise.</returns>
+		/// <returns>True is the current fall distance is less than <see cref="m_MinFallDistance"/> false otherwise</returns>
 		public bool IsPredictedFallShort()
 		{
 			return GetPredictedFallDistance() <= m_MinFallDistance;
@@ -267,9 +265,9 @@ namespace StandardAssets.Characters.Common
 		}
 
 		/// <summary>
-		/// Initialization on load. Must be manually called.
+		/// Initialization on load. Must be manually called
 		/// </summary>
-		/// <param name="transform">Transform of the game object, on which this class will do work.</param>
+		/// <param name="transform">Transform of the game object, on which this class will do work</param>
 		public virtual void Awake(Transform transform)
 		{
 			cachedTransform = transform;
@@ -396,7 +394,7 @@ namespace StandardAssets.Characters.Common
 			if (m_CurrentVerticalVelocity < 0.0f)
 			{
 				gravityFactor = fallGravityMultiplier;
-				if (!m_DidJump && m_ShortFall) // if a short fall was triggered increase gravity to quickly ground.
+				if (!m_DidJump && m_ShortFall) // if a short fall was triggered increase gravity to quickly ground
 				{
 					gravityFactor *= m_GroundingGravityMultiplier;
 				}
@@ -439,7 +437,7 @@ namespace StandardAssets.Characters.Common
 
 #if UNITY_EDITOR
 		/// <summary>
-		/// Draws gizmos. Must be manually called.
+		/// Draws gizmos. Must be manually called
 		/// </summary>
 		public virtual void OnDrawGizmosSelected()
 		{
