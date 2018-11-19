@@ -13,16 +13,90 @@ namespace StandardAssets.Characters.ThirdPerson
 	[Serializable]
 	public class ThirdPersonMotor
 	{
-		/// <summary>
-		/// Track distance above the ground at these frame intervals (to prevent checking every frame)
-		/// </summary>
-		const int k_TrackGroundFrameIntervals = 5;
-		
-		/// <summary>
-		/// Various configuration settings more movement.
-		/// </summary>
 		[SerializeField, Tooltip("Configuration with all the movement settings")]
 		MotorConfig m_Configuration;
+
+		/// <summary>
+		/// Fired on jump.
+		/// </summary>
+		public event Action jumpStarted;
+
+		/// <summary>
+		/// Fired when the character starts falling.
+		/// </summary>
+		public event Action<float> fallStarted;
+
+		// Track distance above the ground at these frame intervals (to prevent checking every frame)
+		const int k_TrackGroundFrameIntervals = 5;
+
+		// List of objects that disabled rapid turn. To allow multiple objects to disable it temporarily.
+		readonly List<object> m_ObjectsThatDisabledRapidTurn = new List<object>();
+
+		// The input implementation
+		IThirdPersonInput m_CharacterInput;
+
+		// The controller controllerAdapter implementation
+		ControllerAdapter m_ControllerAdapter;
+
+		// COMMENT TODO
+		ThirdPersonGroundMovementState m_PreTurnMovementState;
+
+		// COMMENT TODO
+		ThirdPersonGroundMovementState m_MovementState = ThirdPersonGroundMovementState.Walking;
+
+		// COMMENT TODO
+		ThirdPersonAerialMovementState m_AerialState = ThirdPersonAerialMovementState.Grounded;
+
+		// COMMENT TODO
+		SlidingAverage m_AverageForwardVelocity;
+
+		// COMMENT TODO
+		SlidingAverage m_ExplorationAverageForwardInput;
+
+		// COMMENT TODO
+		SlidingAverage m_StrafeAverageForwardInput;
+
+		// COMMENT TODO
+		SlidingAverage m_StrafeAverageLateralInput;
+
+		// COMMENT TODO
+		float m_TurnaroundMovementTime;
+
+		// COMMENT TODO
+		float m_LastIdleTime;
+
+		// COMMENT TODO
+		bool m_JumpQueued;
+
+		// COMMENT TODO
+		Animator m_Animator;
+
+		// COMMENT TODO
+		Vector3 m_FallDirection;
+
+		// COMMENT TODO
+		Transform m_Transform;
+
+		// COMMENT TODO
+		GameObject m_GameObject;
+
+		// COMMENT TODO
+		ThirdPersonBrain m_ThirdPersonBrain;
+
+		// COMMENT TODO
+		SizedQueue<Vector2> m_PreviousInputs;
+
+		// COMMENT TODO
+		Camera m_MainCamera;
+		
+		// on start strafe control initial look
+		bool m_IsInitialStrafeLook;
+		float m_InitialStrafeLookCount;
+		Quaternion m_RotationOnStrafeStart;
+
+		// Gets whether to track height above the ground.
+		bool m_TrackGroundHeight;
+
 
 		/// <summary>
 		/// Gets the normalized turning speed
@@ -46,10 +120,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// Gets the character's current fall time.
 		/// </summary>
 		/// <value>The time, in seconds, the character has been in a falling state.</value>
-		public float fallTime
-		{
-			get { return m_ControllerAdapter.fallTime; }
-		}
+		public float fallTime { get { return m_ControllerAdapter.fallTime; } }
 
 		/// <summary>
 		/// Gets the desired target y rotation.
@@ -70,86 +141,16 @@ namespace StandardAssets.Characters.ThirdPerson
 		public ThirdPersonMotorMovementMode movementMode { get; private set; }
 
 		/// <summary>
-		/// Is rapid turn disabled? (Enable/Disable it via <see cref="EnableRapidTurn"/>/<see cref="DisableRapidTurn"/>).
-		/// </summary>
-		bool disableRapidTurn
-		{
-			get { return m_ObjectsThatDisabledRapidTurn.Count > 0; }
-		}
-
-		/// <summary>
-		/// Fired on jump.
-		/// </summary>
-		public event Action jumpStarted;
-
-		/// <summary>
-		/// Fired when the character starts falling.
-		/// </summary>
-		public event Action<float> fallStarted;
-
-		/// <summary>
-		/// The input implementation
-		/// </summary>
-		IThirdPersonInput m_CharacterInput;
-
-		/// <summary>
-		/// The controller controllerAdapter implementation
-		/// </summary>
-		ControllerAdapter m_ControllerAdapter;
-
-		ThirdPersonGroundMovementState m_PreTurnMovementState;
-		ThirdPersonGroundMovementState m_MovementState = ThirdPersonGroundMovementState.Walking;
-		ThirdPersonAerialMovementState m_AerialState = ThirdPersonAerialMovementState.Grounded;
-
-		SlidingAverage m_AverageForwardVelocity,
-		                       m_ExplorationAverageForwardInput,
-		                       m_StrafeAverageForwardInput,
-		                       m_StrafeAverageLateralInput;
-
-		float m_TurnaroundMovementTime,
-		              m_LastIdleTime;
-		bool m_JumpQueued;
-		Animator m_Animator;
-		Vector3 m_FallDirection;
-		Transform m_Transform;
-		GameObject m_GameObject;
-		ThirdPersonBrain m_ThirdPersonBrain;
-		SizedQueue<Vector2> m_PreviousInputs;
-		Camera m_MainCamera;
-		
-		// on start strafe control initial look
-		bool m_IsInitialStrafeLook;
-		float m_InitialStrafeLookCount;
-		Quaternion m_RotationOnStrafeStart;
-
-		
-		/// <summary>
-		/// Gets whether to track height above the ground.
-		/// </summary>
-		bool m_TrackGroundHeight;
-
-		/// <summary>
-		/// List of objects that disabled rapid turn. To allow multiple objects to disable it temporarily.
-		/// </summary>
-		readonly List<object> m_ObjectsThatDisabledRapidTurn = new List<object>();
-
-		/// <summary>
 		/// Gets the current <see cref="TurnAroundBehaviour"/>.
 		/// </summary>
-		public TurnAroundBehaviour currentTurnAroundBehaviour
-		{
-			get { return m_ThirdPersonBrain.turnAround; }
-		}
+		public TurnAroundBehaviour currentTurnAroundBehaviour { get { return m_ThirdPersonBrain.turnAround; } }
 	
 		/// <summary>
 		/// Gets the vertical speed.
 		/// </summary>
 		/// <value>Range = -1 (falling) to 1 (jumping).</value>
 		/// <remarks>Returns <see cref="ControllerAdapter"/>'s <see cref="ControllerAdapter.normalizedVerticalSpeed"/>.</remarks>
-		public float normalizedVerticalSpeed
-		{
-			get { return m_ControllerAdapter.normalizedVerticalSpeed; }
-		}
+		public float normalizedVerticalSpeed { get { return m_ControllerAdapter.normalizedVerticalSpeed; } }
 		
 		/// <summary>
 		/// Gets whether the character is in a sprint state.
@@ -160,18 +161,22 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Gets the current <see cref="ThirdPersonGroundMovementState"/>.
 		/// </summary>
-		public ThirdPersonGroundMovementState currentGroundMovementState
-		{
-			get { return m_MovementState; }
-		}
+		public ThirdPersonGroundMovementState currentGroundMovementState { get { return m_MovementState; } }
 		
 		/// <summary>
 		/// Gets the current <see cref="ThirdPersonAerialMovementState"/>.
 		/// </summary>
-		public ThirdPersonAerialMovementState currentAerialMovementState
-		{
-			get { return m_AerialState; }
-		}
+		public ThirdPersonAerialMovementState currentAerialMovementState { get { return m_AerialState; } }
+
+		/// <summary>
+		/// Whether the character it grounded
+		/// </summary>
+		/// <value>True if <see cref="m_AerialState"/> is grounded</value>
+		bool IsGrounded { get { return m_AerialState == ThirdPersonAerialMovementState.Grounded; } }	
+
+		// Is rapid turn disabled? (Enable/Disable it via EnableRapidTurn / DisableRapidTurn).
+		bool disableRapidTurn { get { return m_ObjectsThatDisabledRapidTurn.Count > 0; } }
+
 
 		/// <summary>
 		/// Called on the exit of the root motion jump animation.
@@ -182,15 +187,6 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				OnLanding();
 			}
-		}
-
-		/// <summary>
-		/// Whether the character it grounded
-		/// </summary>
-		/// <value>True if <see cref="m_AerialState"/> is grounded</value>
-		bool IsGrounded
-		{
-			get { return m_AerialState == ThirdPersonAerialMovementState.Grounded; }
 		}
 
 		/// <summary>
@@ -406,71 +402,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 
 		/// <summary>
-		/// Track height above ground when the physics character is in the air, but the animation has not yet changed to
-		/// the fall animation.
-		/// </summary>
-		void UpdateTrackGroundHeight()
-		{
-			if (m_AerialState == ThirdPersonAerialMovementState.Grounded && !m_ControllerAdapter.isGrounded)
-			{
-				if (Time.frameCount % k_TrackGroundFrameIntervals == 0)
-				{
-					float distance;
-					if (!m_ControllerAdapter.IsPredictedFallShort(out distance))
-					{
-						OnStartedFalling(distance);
-					}
-				}
-			}
-			else
-			{
-				m_TrackGroundHeight = false;
-			}
-		}
-
-		/// <summary>
-		/// Sets the aerial state to <see cref="ThirdPersonAerialMovementState.Grounded"/> and clears
-		/// <see cref="m_AverageForwardVelocity"/> if no input.
-		/// </summary>
-		void OnLanding()
-		{
-			m_AerialState = ThirdPersonAerialMovementState.Grounded;
-
-			if (!m_CharacterInput.hasMovementInput)
-			{
-				m_AverageForwardVelocity.Clear();
-			}
-		}
-
-		/// <summary>
-		/// Sets the aerial state to <see cref="ThirdPersonAerialMovementState.Falling"/> and fires the
-		/// <see cref="fallStarted"/> event.
-		/// </summary>
-		/// <remarks>This subscribes to <see cref="ControllerAdapter.startedFalling"/></remarks>
-		void OnStartedFalling(float predictedFallDistance)
-		{
-			// check if far enough from ground to enter fall state
-			if (m_ControllerAdapter.IsPredictedFallShort())
-			{
-				m_TrackGroundHeight = true;
-				return;
-			}
-			m_TrackGroundHeight = false;
-			
-			if (m_AerialState == ThirdPersonAerialMovementState.Grounded)
-			{
-				cachedForwardVelocity = m_AverageForwardVelocity.average;
-			}
-			
-			m_AerialState = ThirdPersonAerialMovementState.Falling;
-			
-			if (fallStarted != null)
-			{
-				fallStarted(predictedFallDistance);
-			}
-		}
-
-		/// <summary>
 		/// Queues a jump.
 		/// </summary>
 		public void OnJumpPressed()
@@ -502,9 +433,64 @@ namespace StandardAssets.Characters.ThirdPerson
 			movementMode = ThirdPersonMotorMovementMode.Exploration;
 		}
 
-		/// <summary>
-		/// Sets the character's look direction during strafe
-		/// </summary>
+		// Track height above ground when the physics character is in the air, but the animation has not yet changed to
+		// the fall animation.
+		void UpdateTrackGroundHeight()
+		{
+			if (m_AerialState == ThirdPersonAerialMovementState.Grounded && !m_ControllerAdapter.isGrounded)
+			{
+				if (Time.frameCount % k_TrackGroundFrameIntervals == 0)
+				{
+					float distance;
+					if (!m_ControllerAdapter.IsPredictedFallShort(out distance))
+					{
+						OnStartedFalling(distance);
+					}
+				}
+			}
+			else
+			{
+				m_TrackGroundHeight = false;
+			}
+		}
+
+		// Sets the aerial state to ThirdPersonAerialMovementState.Grounded and clears 'm_AverageForwardVelocity' if no input.
+		void OnLanding()
+		{
+			m_AerialState = ThirdPersonAerialMovementState.Grounded;
+
+			if (!m_CharacterInput.hasMovementInput)
+			{
+				m_AverageForwardVelocity.Clear();
+			}
+		}
+
+		// Sets the aerial state to ThirdPersonAerialMovementState.Falling and fires the event.
+		// 		NOTE: This subscribes to ControllerAdapter.startedFalling
+		void OnStartedFalling(float predictedFallDistance)
+		{
+			// check if far enough from ground to enter fall state
+			if (m_ControllerAdapter.IsPredictedFallShort())
+			{
+				m_TrackGroundHeight = true;
+				return;
+			}
+			m_TrackGroundHeight = false;
+			
+			if (m_AerialState == ThirdPersonAerialMovementState.Grounded)
+			{
+				cachedForwardVelocity = m_AverageForwardVelocity.average;
+			}
+			
+			m_AerialState = ThirdPersonAerialMovementState.Falling;
+			
+			if (fallStarted != null)
+			{
+				fallStarted(predictedFallDistance);
+			}
+		}
+
+		// Sets the character's look direction during strafe
 		void SetStrafeLookDirection()
 		{
 			Quaternion targetRotation = CalculateTargetRotation(Vector3.forward);
@@ -531,9 +517,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			m_Transform.rotation = newRotation;
 		}
 
-		/// <summary>
-		/// Sets the character's look direction during exploration
-		/// </summary>
+		// Sets the character's look direction during exploration
 		void SetExplorationLookDirection()
 		{
 			if (!m_CharacterInput.hasMovementInput)
@@ -564,9 +548,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			m_Transform.rotation = newRotation;
 		}
 
-		/// <summary>
-		/// Calculates the character's forward normalized speed for exploration
-		/// </summary>
+		// Calculates the character's forward normalized speed for exploration
 		void CalculateForwardMovement()
 		{
 			if (m_MovementState == ThirdPersonGroundMovementState.TurningAround &&
@@ -589,9 +571,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			normalizedForwardSpeed = m_ExplorationAverageForwardInput.average;
 		}
 
-		/// <summary>
-		/// Calculates the character's normalized forward and lateral speeds for strafe
-		/// </summary>
+		// Calculates the character's normalized forward and lateral speeds for strafe
 		void CalculateStrafeMovement()
 		{
 			m_StrafeAverageForwardInput.Add(m_CharacterInput.moveInput.y);
@@ -604,10 +584,8 @@ namespace StandardAssets.Characters.ThirdPerson
 				? 0f : averageLateralInput;
 		}
 
-		/// <summary>
-		/// Calculates the local input direction
-		/// </summary>
-		/// <returns>Input direction relative to main camera</returns>
+		// Calculates the local input direction
+		// 		return: Input direction relative to main camera
 		Vector3 CalculateLocalInputDirection()
 		{
 			var localMovementDirection = new Vector3(m_CharacterInput.moveInput.x, 0f, m_CharacterInput.moveInput.y);
@@ -615,11 +593,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			       localMovementDirection.normalized;
 		}
 
-		/// <summary>
-		/// Calculate character's target rotation
-		/// </summary>
-		/// <param name="localDirection">character's current rotation</param>
-		/// <returns>Target rotation</returns>
+		// Calculate character's target rotation
+		// 		localDirection: character's current rotation
+		// 		return: Target rotation
 		Quaternion CalculateTargetRotation(Vector3 localDirection)
 		{
 			Vector3 flatForward = m_MainCamera.transform.forward;
@@ -632,11 +608,9 @@ namespace StandardAssets.Characters.ThirdPerson
 			return Quaternion.LookRotation(cameraToInputOffset * flatForward);
 		}
 
-		/// <summary>
-		/// Sets <see cref="normalizedForwardSpeed"/> so that a turn will approach the desired rotation.
-		/// </summary>
-		/// <param name="currentRotation">Current rotation.</param>
-		/// <param name="newRotation">Desired rotation.</param>
+		// Sets 'normalizedForwardSpeed' so that a turn will approach the desired rotation.
+		// 		currentRotation: Current rotation
+		// 		newRotation: Desired rotation
 		void SetTurningSpeed(Quaternion currentRotation, Quaternion newRotation)
 		{
 			float currentY = currentRotation.eulerAngles.y;
@@ -649,18 +623,16 @@ namespace StandardAssets.Characters.ThirdPerson
 													Time.deltaTime * m_Configuration.normalizedTurningSpeedLerpSpeedFactor);
 		}
 
-		/// <remarks>Subscribes to the <see cref="currentTurnAroundBehaviour"/>'s
-		/// <see cref="TurnAroundBehaviour.turnaroundComplete"/> </remarks>
+		// COMMENT TODO
+		// 		NOTE: Subscribes to the currentTurnAroundBehaviour's TurnAroundBehaviour.turnaroundComplete
 		void TurnaroundComplete()
 		{
 			m_MovementState = m_PreTurnMovementState;
 		}
 
-		/// <summary>
-		/// Checks and handles rapid turn
-		/// </summary>
-		/// <param name="target">character target rotation</param>
-		/// <returns>true if a rapid turn occurs</returns>
+		// Checks and handles rapid turn
+		// 		target: character target rotation
+		// 		return: true if a rapid turn occurs
 		bool CheckForAndHandleRapidTurn(Quaternion target)
 		{
 			if (m_ThirdPersonBrain.turnAround == null || disableRapidTurn)
@@ -677,10 +649,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			return false;
 		}
 
-		/// <summary>
-		/// Starts the turn around
-		/// </summary>
-		/// <param name="angle">Turn around angle</param>
+		// Starts the turn around
+		// 		angle: Turn around angle
 		void StartTurnAround(float angle)
 		{
 			m_TurnaroundMovementTime = 0f;
@@ -692,9 +662,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			m_ThirdPersonBrain.turnAround.turnaroundComplete += OnTurnAroundComplete;
 		}
 
-		/// <summary>
-		/// Fired when the turn around is finished
-		/// </summary>
+		// Fired when the turn around is finished
 		void OnTurnAroundComplete()
 		{
 			m_ThirdPersonBrain.turnAround.turnaroundComplete -= OnTurnAroundComplete;
@@ -712,12 +680,10 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
-		/// <summary>
-		/// Decides whether a rapid turn should be initiated.
-		/// </summary>
-		/// <param name="angle">The angle of the rapid turn. 0 if no rapid turn was detected.</param>
-		/// <param name="target">Target character direction.</param>
-		/// <returns>True is a rapid turn has been detected.</returns>
+		// Decides whether a rapid turn should be initiated.
+		// 		angle: The angle of the rapid turn. 0 if no rapid turn was detected
+		// 		target: Target character direction
+		// 		return: True is a rapid turn has been detected
 		bool ShouldTurnAround(out float angle, Quaternion target)
 		{
 			if (normalizedForwardSpeed < m_Configuration.standingTurnaroundSpeedThreshold)
@@ -741,11 +707,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			return false;
 		}
 		
-		/// <summary>
-		/// Attempts a jump. If successful fires the <see cref="jumpStarted"/> event and
-		/// sets <see cref="m_AerialState"/> to <see cref="ThirdPersonAerialMovementState.Jumping"/>.
-		/// </summary>
-		/// <param name="reattempt">Whether a jump should be reattempted</param>
+		// Attempts a jump. If successful fires the 'jumpStarted' event and sets 'm_AerialState' to ThirdPersonAerialMovementState.Jumping
+		// 		reattempt: Whether a jump should be reattempted
 		void TryJump(out bool reattempt)
 		{
 			if (m_MovementState == ThirdPersonGroundMovementState.TurningAround || 
@@ -764,6 +727,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			m_AerialState = ThirdPersonAerialMovementState.Jumping;
 			m_FallDirection = CalculateLocalInputDirection();
 			
+			// COMMENT TODO:  WTF is happening in this function???
 			if (IsIdleForwardJump())
 			{
 				cachedForwardVelocity = m_Configuration.standingJumpSpeed;
@@ -800,10 +764,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			reattempt = false;
 		}
 
-		/// <summary>
-		/// Helper for deciding jump is idle forward jump
-		/// </summary>
-		/// <returns>true if idle forward jump</returns>
+		// Helper for deciding jump is idle forward jump
+		// 		return: true if idle forward jump
 		bool IsIdleForwardJump()
 		{
 			return m_CharacterInput.moveInput.magnitude > m_Configuration.standingJumpMinInputThreshold &&
@@ -812,9 +774,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			        m_Configuration.standingJumpMaxMovementThreshold * Time.deltaTime;
 		}
 
-		/// <summary>
-		/// Updates the character fall forward speed
-		/// </summary>
+		// Updates the character fall forward speed
 		void UpdateFallForwardSpeed()
 		{
 			float maxFallForward = m_Configuration.fallingForwardSpeed;
@@ -826,6 +786,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			normalizedForwardSpeed = Mathf.Sign(normalizedForwardSpeed) * cachedForwardVelocity / maxFallForward;
 		}
 	}
+	
 	
 	/// <summary>
 	/// Enum used to describe the third person aerial movement state.

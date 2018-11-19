@@ -6,8 +6,14 @@ using UnityEngine;
 
 namespace Editor
 {
+	/// <summary>
+	/// COMMENT TODO
+	/// </summary>
 	public abstract class ConfigEditor : UnityEditor.Editor
 	{
+		/// <summary>
+		/// COMMENT TODO
+		/// </summary>
 		public override void OnInspectorGUI()
 		{
 			DrawPropertiesExcluding(serializedObject, GetExclusions());
@@ -18,25 +24,44 @@ namespace Editor
 			}
 		}
 
+		/// <summary>
+		/// COMMENT TODO
+		/// </summary>
 		protected abstract string[] GetExclusions();
 	}
 	
+
+	/// <summary>
+	/// COMMENT TODO
+	/// </summary>
 	[CustomEditor(typeof(MotorConfig))]
 	public class MotorConfigEditor : ConfigEditor
 	{
+		/// <summary>
+		/// COMMENT TODO
+		/// </summary>
 		protected override string[] GetExclusions()
 		{
 			return new string[0];
 		}
 	}
+
 	
+	/// <summary>
+	/// COMMENT TODO
+	/// </summary>
 	[CustomEditor(typeof(AnimationConfig))]
 	public class AnimationConfigEditor : ConfigEditor
 	{
-		const string k_HeadTurn = "m_HeadTurnProperties",
-		                     k_StrafeChangeAngle = "m_StrafeRapidDirectionChangeAngle",
-		                     k_StrafeChangeCurve = "m_StrafeRapidDirectionChangeSpeedCurve";
+		// COMMENT TODO
+		const string k_HeadTurn 			= "m_HeadTurnProperties";
+		const string k_StrafeChangeAngle 	= "m_StrafeRapidDirectionChangeAngle";
+		const string k_StrafeChangeCurve 	= "m_StrafeRapidDirectionChangeSpeedCurve";
 		
+		
+		/// <summary>
+		/// COMMENT TODO
+		/// </summary>
 		protected override string[] GetExclusions()
 		{
 			List<string> exclusions = new List<string>();

@@ -9,15 +9,19 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
     /// </summary>
     public class ScaleCharacterColliderState : StateMachineBehaviour
     {
-        const float k_MinHeightScale = 0.0f;
-        const float k_MaxHeightScale = 2.0f;
-
+        // COMMENT TODO
         enum NormalizedMode
         {
             Once,
             Loop,
             PingPong
         }
+
+        // COMMENT TODO
+        const float k_MinHeightScale = 0.0f;
+
+        // COMMENT TODO
+        const float k_MaxHeightScale = 2.0f;
 
         // If true, use the current state's normalizeTime value (ideally, not looped animations),
         // otherwise, we will use our own time.
@@ -36,24 +40,19 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
             }
         };
 
+        // COMMENT TODO
         [SerializeField]
         NormalizedMode m_AnimationMode;
 
-        /// <summary>
-        /// How many seconds it will take to change the height.
-        /// </summary>
+        // How many seconds it will take to change the height.
         [SerializeField]
         float m_Duration = 1.0f;
 
-        /// <summary>
-        /// Adjusted character scale.
-        /// </summary>
+        // Adjusted character scale.
         [SerializeField]
         float m_HeightScale = 1.0f;
 
-        /// <summary>
-        /// Scale character's collider and offset relative to character's height. 0.5 is center.
-        /// </summary>
+        // Scale character's collider and offset relative to character's height. 0.5 is center.
         [SerializeField, Range(0.0f, 1.0f)]
         float m_HeightOrigin = 0.5f;
 
@@ -62,14 +61,24 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
         [SerializeField]
         bool m_ResetOnExit = true;
 
-        /// <summary>
-        /// Using own time as normalized time seems to be looping.
-        /// </summary>
+        // Using own time as normalized time seems to be looping.
         float m_Time;
-        float m_CurrentScale, m_EntryScale;
+
+        // COMMENT TODO
+        float m_CurrentScale;
+
+        // COMMENT TODO
+        float m_EntryScale;
+
+        // COMMENT TODO
         float m_EntryOffset;
+
+        // COMMENT TODO
         ControllerAdapter m_Adapter;
+
+        // COMMENT TODO
         OpenCharacterController m_Controller;
+
 
         /// <summary>
         /// OnStateEnter is called on any state inside this state machine
@@ -107,6 +116,9 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
             m_EntryOffset = m_Controller.GetCenter().y;
         }
 
+        /// <summary>
+        /// COMMENT TODO
+        /// </summary>
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             if (m_Controller == null)
@@ -145,16 +157,23 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
             m_Controller.SetHeightAndCenter(height, new Vector3(0.0f, offset, 0.0f), true, false);
         }
 
+        /// <summary>
+        /// COMMENT TODO
+        /// </summary>
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             HandleStateExit();
         }
 
+        /// <summary>
+        /// COMMENT TODO
+        /// </summary>
         public override void OnStateMachineExit(Animator animator, int stateMachinePathHash)
         {
             HandleStateExit();
         }
 
+        // COMMENT TODO
         void HandleStateExit()
         {
             if (m_Controller == null)
@@ -170,12 +189,14 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
             m_Time = 0.0f;
         }
 
+        // COMMENT TODO
         void OnValidate()
         {
             m_HeightScale = Mathf.Clamp(m_HeightScale, k_MinHeightScale, k_MaxHeightScale);
             m_Duration = Mathf.Max(0.0f, m_Duration);
         }
 
+        // COMMENT TODO
         float Center()
         {
             var charHeight = m_Controller.defaultHeight;

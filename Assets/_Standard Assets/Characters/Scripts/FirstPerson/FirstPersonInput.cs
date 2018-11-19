@@ -20,25 +20,33 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		public event Action crouchEnded; 
 		
-		/// <summary>
-		/// Tracks whether the character is crouching or not
-		/// </summary>
+		// Tracks whether the character is crouching or not
 		bool m_IsCrouching;
 
+
 		/// <summary>
-		/// Registers crouch
+		/// Resets the input states
 		/// </summary>
-		protected override void RegisterAdditionalInputs()
+		/// <remarks>used by the <see cref="StandardAssets.Characters.FirstPerson.FirstPersonBrain"/> to reset inputs when entering the walking state</remarks>
+		public void ResetInputs()
 		{
-			standardControls.Movement.crouch.performed += OnCrouchInput;
+			m_IsCrouching = false;
+			isSprinting = false;
 		}
 
 		/// <summary>
-		/// Registers crouch touch input
+		/// Registers crouch input
 		/// </summary>
-		protected override void RegisterAdditionalTouchInputs()
+		protected override void RegisterAdditionalInputs()
 		{
-			touchControls.Movement.crouch.performed += OnCrouchInput;
+			if(UseTouchControls())
+			{
+				touchControls.Movement.crouch.performed += OnCrouchInput;
+			}
+			else
+			{
+				standardControls.Movement.crouch.performed += OnCrouchInput;
+			}
 		}
 
 		/// <summary>
@@ -51,23 +59,10 @@ namespace StandardAssets.Characters.FirstPerson
 			m_IsCrouching = false;
 		}
 
-		/// <summary>
-		/// Handles the crouch input
-		/// </summary>
-		/// <param name="context">context is required by the performed event</param>
+		// Handles the crouch input
 		void OnCrouchInput(InputAction.CallbackContext context)
 		{
 			BroadcastInputAction(ref m_IsCrouching, crouchStarted, crouchEnded);
-			isSprinting = false;
-		}
-
-		/// <summary>
-		/// Resets the input states
-		/// </summary>
-		/// <remarks>used by the <see cref="StandardAssets.Characters.FirstPerson.FirstPersonBrain"/> to reset inputs when entering the walking state</remarks>
-		public void ResetInputs()
-		{
-			m_IsCrouching = false;
 			isSprinting = false;
 		}
 	}

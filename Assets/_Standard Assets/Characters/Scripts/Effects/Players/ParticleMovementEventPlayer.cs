@@ -11,8 +11,11 @@ namespace StandardAssets.Characters.Effects.Players
 		[SerializeField, Tooltip("Curve used to scale the particle system based on normalizedSpeed")]
 		AnimationCurve m_ParticleScaleFromNormalizedSpeed = AnimationCurve.Linear(0f,0f,1f,1f);
 
+		// COMMENT TODO
 		ParticleSystem[] m_ParticleSystems;
 
+
+		// COMMENT TODO
 		void Awake()
 		{
 			m_ParticleSystems = GetComponentsInChildren<ParticleSystem>();
@@ -33,6 +36,9 @@ namespace StandardAssets.Characters.Effects.Players
 			}
 		}
 		
+		/// <summary>
+		/// COMMENT TODO
+		/// </summary>
 		protected override float Evaluate(float normalizedSpeed)
 		{
 			return m_ParticleScaleFromNormalizedSpeed.Evaluate(normalizedSpeed);

@@ -8,6 +8,7 @@ namespace StandardAssets.Characters.Helpers
 	/// </summary>
 	public class SizedQueue<T>
 	{
+		// COMMENT TODO
 		readonly int m_WindowSize;
 		
 		/// <summary>
@@ -18,11 +19,12 @@ namespace StandardAssets.Characters.Helpers
 		/// <summary>
 		/// Gets the count of <see cref="values"/>.
 		/// </summary>
-		public int count
-		{
-			get { return values.Count; }
-		}
+		public int count { get { return values.Count; } }
+		
 
+		/// <summary>
+		/// COMMENT TODO
+		/// </summary>
 		public SizedQueue(int size)
 		{
 			m_WindowSize = size;

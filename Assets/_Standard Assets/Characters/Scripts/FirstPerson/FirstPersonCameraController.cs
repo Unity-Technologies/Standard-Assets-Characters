@@ -9,6 +9,7 @@ namespace StandardAssets.Characters.FirstPerson
     [RequireComponent(typeof(Animator))]
     public class FirstPersonCameraController : MonoBehaviour
     {
+        // COMMENT TODO
         Animator m_Animator;
 
         /// <summary>

@@ -10,6 +10,7 @@ namespace StandardAssets.Characters.Effects.Players
 		[SerializeField, Tooltip("Should rotation be set on play?")]
 		bool m_SetRotation;
 		
+
 		/// <summary>
 		/// Plays the movement event at a set location
 		/// </summary>
@@ -46,6 +47,9 @@ namespace StandardAssets.Characters.Effects.Players
 		/// <param name="effectMagnitude">The magnitude of the effect - this is the actual value and not a normalized value</param>
 		protected abstract void PlayMovementEvent(MovementEventData movementEventData, float effectMagnitude);
 
+		/// <summary>
+		/// COMMENT TODO
+		/// </summary>
 		protected abstract float Evaluate(float normalizedSpeed);
 	}
 }

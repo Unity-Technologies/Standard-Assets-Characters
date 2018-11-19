@@ -27,31 +27,16 @@ namespace StandardAssets.Characters.Effects
 		/// true if the instance exists.
 		/// false if the instance does not exist.
 		/// </value>
-		public static bool instanceExists
-		{
-			get { return instance != null; }
-		}
+		public static bool instanceExists{ get { return instance != null; } }
 		
 		/// <summary>
 		/// Gets the <see cref="LevelMovementZoneConfig"/>
 		/// </summary>
 		/// <value><see cref="LevelMovementZoneConfig"/> if the instance exists. null if it does not</value>
-		public static LevelMovementZoneConfig config
-		{
-			get
-			{
-				if (instanceExists)
-				{
-					return instance.m_Configuration;
-				}
+		public static LevelMovementZoneConfig config { get { return instanceExists ? instance.m_Configuration : null; } }
 
-				return null;
-			}
-		}
 
-		/// <summary>
-		/// Sets up the instance and destroys the instance if it already exists
-		/// </summary>
+		// Sets up the instance and destroys the instance if it already exists
 		void Awake()
 		{
 			if (!instanceExists)

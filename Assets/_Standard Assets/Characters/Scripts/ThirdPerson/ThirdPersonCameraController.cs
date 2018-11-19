@@ -12,39 +12,49 @@ namespace StandardAssets.Characters.ThirdPerson
 		[SerializeField, Tooltip("The aiming crosshair that is visible during strafe")]
 		GameObject m_Crosshair;
 
+        // The Third Person Brain object registered to the Controller
 		ThirdPersonBrain m_ThirdPersonBrain;
+
+        // The Cinemachine State Driven Camera registered to the Controller
 		CinemachineStateDrivenCamera m_SDC;
 
 
-        /// <summary>
-        /// Gets the <see cref="UserInput"/> for the registered <see cref="ThirdPersonBrain"/>
-        /// </summary>
+        // Gets the UserInput for the registered ThirdPersonBrain
         ThirdPersonInput UserInput
         {
             get { return (m_ThirdPersonBrain != null) ? m_ThirdPersonBrain.thirdPersonInput as ThirdPersonInput : null; }
         }
 
-        /// <summary>
-        /// Gets the currently active <see cref="CinemachineFreeLook"/> (if any) on the registered <see cref="CinemachineStateDrivenCamera"/>
-        /// </summary>
+        // Gets the currently active CinemachineFreeLook (if any) on the registered CinemachineStateDrivenCamera
         CinemachineFreeLook LiveFreeLook
         {
             get { return m_SDC == null ? null : m_SDC.LiveChild as CinemachineFreeLook; }
         }
 
 
-
-        /// <summary>
-        /// On awake of component
-        /// </summary>
+        // On awake of component
         void Awake()
         {
             FindThirdPersonBrain(true);
         }
 
-        /// <summary>
-        /// On enable of component
-        /// </summary>
+#if UNITY_EDITOR
+        /// On reset of component
+        void Reset()
+        {
+            //Design pattern for fetching required scene references
+            FindThirdPersonBrain(false);
+        }
+
+        /// On change of component
+        void OnValidate()
+        {
+            //Design pattern for fetching required scene references
+            FindThirdPersonBrain(false);
+        }
+#endif      
+
+        // On enable of component
         void OnEnable()
         {
         	//register the camera recentering event for input
@@ -63,9 +73,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
         }
 
-        /// <summary>
-        /// On disable of component
-        /// </summary>
+        // On disable of component
         void OnDisable()
         {
         	//deregister the camera recentering event
@@ -82,9 +90,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
         }
 
-        /// <summary>
-        /// On update of component
-        /// </summary>
+        // On update of component
 		void Update()
 		{
 			if (m_ThirdPersonBrain == null)
@@ -102,9 +108,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
-        /// <summary>
-        /// Event registered to handle the Recentering of the CM Freelook camera
-        /// </summary>
+        // Event registered to handle the Recentering of the CM Freelook camera
         void RecenterCamera()
         {
         	//only recenter if there is no user input
@@ -115,10 +119,8 @@ namespace StandardAssets.Characters.ThirdPerson
             }
         }
 
-        /// <summary>
-        /// Tells the specified freeLook camera to start recentering
-        /// </summary>
-        /// <param name="freeLook">CinemachineFreeLook camera that should be recentered</param>
+        // Tells the specified freeLook camera to start recentering
+        //      freeLook: CinemachineFreeLook camera that should be recentered
 		void EnableRecentering(CinemachineFreeLook freeLook)
 		{
 			if(freeLook != null)
@@ -128,10 +130,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
-        /// <summary>
-        /// Tells the specified freeLook camera to stop recentering
-        /// </summary>
-        /// <param name="freeLook">CinemachineFreeLook camera that should stop being recentered</param>
+        // Tells the specified freeLook camera to stop recentering
+        //      freeLook: CinemachineFreeLook camera that should be stop being recentered
 		void DisableRecentering(CinemachineFreeLook freeLook)
 		{
 			if(freeLook != null)
@@ -141,9 +141,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
-        /// <summary>
-        /// Event called whenever the <see cref="ThirdPersonBrain"/> changes cameras
-        /// </summary>
+        // Event called whenever the ThirdPersonBrain changes cameras
 		void OnCameraChange()
 		{
 			//set the crosshairs if we are strafing
@@ -153,9 +151,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 		}
 
-		/// <summary>
-		/// Finds the <see cref="ThirdPersonBrain"/> and automatically sets up the required fields for the Cinemachine cameras
-		/// </summary>
+		// Finds the ThirdPersonBrain and automatically sets up the required fields for the Cinemachine cameras
 		void FindThirdPersonBrain(bool autoDisable)
 		{
 			if(m_ThirdPersonBrain == null)
@@ -188,25 +184,5 @@ namespace StandardAssets.Characters.ThirdPerson
 				m_SDC.m_AnimatedTarget = m_ThirdPersonBrain.GetComponent<Animator>();
 			}
 		}
-
-#if UNITY_EDITOR
-        /// <summary>
-        /// On reset of component
-        /// </summary>
-        void Reset()
-        {
-            //Design pattern for fetching required scene references
-            FindThirdPersonBrain(false);
-        }
-
-        /// <summary>
-        /// On change of component
-        /// </summary>
-        void OnValidate()
-        {
-            //Design pattern for fetching required scene references
-            FindThirdPersonBrain(false);
-        }
-#endif		
 	}
 }

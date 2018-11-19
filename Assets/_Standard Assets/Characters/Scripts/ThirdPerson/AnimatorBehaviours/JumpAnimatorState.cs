@@ -8,6 +8,9 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 	/// </summary>
 	public class JumpAnimatorState : StateMachineBehaviour 
 	{
+        /// <summary>
+        /// COMMENT TODO
+        /// </summary>
 		public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 			var thirdPersonBrain = animator.GetComponent<ThirdPersonBrain>();
@@ -17,6 +20,9 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 			}
 		}
 		
+        /// <summary>
+        /// COMMENT TODO
+        /// </summary>
 		public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 			var thirdPersonBrain = animator.GetComponent<ThirdPersonBrain>();

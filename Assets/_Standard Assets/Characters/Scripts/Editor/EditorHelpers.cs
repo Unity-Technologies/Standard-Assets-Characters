@@ -10,79 +10,59 @@ namespace Editor
 	/// </summary>
 	static class EditorHelpers
 	{
-		static Texture2D s_IconPlus, s_IconMinus;
+		// COMMENT TODO
+		static Texture2D s_IconPlus;
+		static Texture2D s_IconMinus;
 
-		static readonly GUIContent
-			// we will reuse this one over
-			s_SharedContent = new GUIContent();
+		// COMMENT TODO
+		static readonly GUIContent s_SharedContent = new GUIContent();			
 
-		static GUIStyle
-			s_StylePanelHeader,
-			s_StylePanelContent,
-			s_StylePanelElement,
-			s_StylePanelFooter,
-			s_StylePanelFooterButton,
-			s_StyleButtonPlus,
-			s_StyleButtonMinus;
+		// COMMENT TODO
+		static GUIStyle s_StylePanelHeader;
+		static GUIStyle s_StylePanelContent;
+		static GUIStyle s_StylePanelElement;
+		static GUIStyle s_StylePanelFooter;
+		static GUIStyle s_StylePanelFooterButton;
+		static GUIStyle s_StyleButtonPlus;
+		static GUIStyle s_StyleButtonMinus;
 
 		/// <summary>
 		/// Unity's Plus Icon used by RL Prefixed UI elements.
 		/// </summary>
-		public static Texture2D IconPlus
-		{
-			get { return Lazy(ref s_IconPlus, "d_Toolbar Plus"); }
-		}
+		public static Texture2D IconPlus { get { return Lazy(ref s_IconPlus, "d_Toolbar Plus"); } }
 
 		/// <summary>
 		/// Unity's Minus Icon used by RL Prefixed UI elements.
 		/// </summary>
-		public static Texture2D IconMinus
-		{
-			get { return Lazy(ref s_IconMinus, "d_Toolbar Minus"); }
-		}
-		
+		public static Texture2D IconMinus { get { return Lazy(ref s_IconMinus, "d_Toolbar Minus"); } }
 		
 		/// <summary>
 		/// Unity's Header Style used by RL Prefixed UI elements. (EG: Event Drawer)
 		/// </summary>
-		public static GUIStyle PanelHeader
-		{
-			get { return Lazy(ref s_StylePanelHeader, "RL Header"); }
-		}
+		public static GUIStyle PanelHeader { get { return Lazy(ref s_StylePanelHeader, "RL Header"); } }
 
 		/// <summary>
 		/// Unity's Background Style used by RL Prefixed UI elements. (EG: Event Drawer)
 		/// </summary>
-		public static GUIStyle PanelContent
-		{
-			get { return Lazy(ref s_StylePanelContent, "RL Background"); }
-		}
+		public static GUIStyle PanelContent { get { return Lazy(ref s_StylePanelContent, "RL Background"); } }
 		
 		/// <summary>
 		/// Unity's Footer Style used by RL Prefixed UI elements.
 		/// (EG: Event Drawer, footer section where +/- buttons are normally placed)
 		/// </summary>
-		public static GUIStyle PanelFooter
-		{
-			get { return Lazy(ref s_StylePanelFooter, "RL Footer"); }
-		}
+		public static GUIStyle PanelFooter { get { return Lazy(ref s_StylePanelFooter, "RL Footer"); } }
 
 		/// <summary>
 		/// Unity's style for elements placed inside RL prefixed editor styles. (EG: Dragable List Items).
 		/// This style has no graphic and is just a container and margin setup.
 		/// </summary>
-		public static GUIStyle PanelElement
-		{
-			get { return Lazy(ref s_StylePanelElement, "RL Element"); }
-		}
+		public static GUIStyle PanelElement { get { return Lazy(ref s_StylePanelElement, "RL Element"); } }
 
 		/// <summary>
 		/// Unity's style for buttons placed in the footer of RL prefixed editor styles.
 		/// </summary>
-		public static GUIStyle PanelFooterButton
-		{
-			get { return Lazy(ref s_StylePanelFooterButton, "RL FooterButton", SetupPlusMinusButton, true); }
-		}
+		public static GUIStyle PanelFooterButton { get { return Lazy(ref s_StylePanelFooterButton, "RL FooterButton", SetupPlusMinusButton, true); } }
+
 
 		/// <summary>
 		/// Helper for manual draw unity style array/list editor using RL prefixed internal styles.
@@ -180,49 +160,6 @@ namespace Editor
 			EditorGUILayout.EndVertical();
 			EditorGUILayout.Space();
 		}
-
-		// initializer for our RL style buttons.
-		static void SetupPlusMinusButton(GUIStyle style)
-		{
-			style.fixedHeight = 0;
-			style.imagePosition = ImagePosition.ImageOnly;
-			style.margin.top = 0;
-			style.padding = new RectOffset(2, 2, 8, 0);
-			style.contentOffset = new Vector2(0, -10);
-		}
-
-		// lazy passthrough field initializer.
-		static Texture2D Lazy(ref Texture2D field, string src)
-		{
-			if (field == null)
-			{
-				field = EditorGUIUtility.FindTexture(src);
-			}
-
-			return field;
-		}
-
-		static GUIStyle Lazy(ref GUIStyle field, GUIStyle src, Action<GUIStyle> initAction = null,
-									 bool isCopy = false)
-		{
-			if (field == null)
-			{
-				field = isCopy ? new GUIStyle(src) : src;
-				// for some reason still gettig null:
-				if (field == null)
-				{
-					field = new GUIStyle();
-				}
-
-				if (initAction != null)
-				{
-					initAction(field);
-				}
-			}
-
-			return field;
-		}
-		
 		
 		/// <summary>
 		/// Helper to try find another attribute of a specified type.
@@ -261,8 +198,7 @@ namespace Editor
 				default:
 					return string.Empty;
 			}
-		}
-		
+		}	
 		
 		/// <summary>
 		/// Find a property realtive to property.
@@ -296,7 +232,48 @@ namespace Editor
 
 			return parent.FindPropertyRelative(propertyName);
 		}
-		
+
+		// initializer for our RL style buttons.
+		static void SetupPlusMinusButton(GUIStyle style)
+		{
+			style.fixedHeight = 0;
+			style.imagePosition = ImagePosition.ImageOnly;
+			style.margin.top = 0;
+			style.padding = new RectOffset(2, 2, 8, 0);
+			style.contentOffset = new Vector2(0, -10);
+		}
+
+		// lazy passthrough field initializer.
+		static Texture2D Lazy(ref Texture2D field, string src)
+		{
+			if (field == null)
+			{
+				field = EditorGUIUtility.FindTexture(src);
+			}
+
+			return field;
+		}
+
+		// COMMENT TODO
+		static GUIStyle Lazy(ref GUIStyle field, GUIStyle src, Action<GUIStyle> initAction = null, bool isCopy = false)
+		{
+			if (field == null)
+			{
+				field = isCopy ? new GUIStyle(src) : src;
+				// for some reason still gettig null:
+				if (field == null)
+				{
+					field = new GUIStyle();
+				}
+
+				if (initAction != null)
+				{
+					initAction(field);
+				}
+			}
+
+			return field;
+		}		
 	}  
 } 
 

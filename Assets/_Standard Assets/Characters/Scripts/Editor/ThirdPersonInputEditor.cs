@@ -11,9 +11,14 @@ namespace Editor
     [CustomEditor(typeof(ThirdPersonInput))]
     public class ThirdPersonInputEditor : UnityEditor.Editor
     {
-        protected const string k_UseInputSmoother = "useInputSmoother",
-                               k_LocomotionInputSmoother = "locomotionInputSmoother";
+        // COMMENT TODO
+        const string k_UseInputSmoother           = "useInputSmoother";
+        const string k_LocomotionInputSmoother    = "locomotionInputSmoother";
 
+
+        /// <summary>
+        /// COMMENT TODO
+        /// </summary>
         public override void OnInspectorGUI()
         {
             var useInputSmoother = serializedObject.FindProperty(k_UseInputSmoother);
