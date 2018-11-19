@@ -25,7 +25,6 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
         [SerializeField, Tooltip("Should the animator's normalized time be used? Otherwise time is tracked manually.")]
         bool m_UseNormalizedTime = true;
 
-        [FormerlySerializedAs("m_Curve")]
         [SerializeField, Tooltip("Curve used for adjusting the collider scale. This curve is unused for looping animations.")]
         AnimationCurve m_ScaleBasedOnNormalizedTime = new AnimationCurve()
         {
