@@ -38,9 +38,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController.UI
 			}
 		}
 
-		/// <summary>
-		/// Select the default character controller.
-		/// </summary>
+		// Select the default character controller.
 		void Start()
 		{
 			if (m_Characters.Length != m_Toggles.Length)
@@ -51,9 +49,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController.UI
 			SelectCharacter(0);
 		}
 
-		/// <summary>
-		/// Select the character by index.
-		/// </summary>
+		// Select the character by index.
 		void SelectCharacter(int index)
 		{
 			var len = m_Characters.Length;

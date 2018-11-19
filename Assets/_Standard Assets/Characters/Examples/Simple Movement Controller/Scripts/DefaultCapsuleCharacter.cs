@@ -33,21 +33,40 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		[SerializeField, Tooltip("Initial upward velocity applied on jumping")]
 		float m_JumpSpeed = 10f;
 
-		float m_MovementTime, m_CurrentSpeed, m_AirTime, m_CurrentVerticalVelocity, m_InitialJumpVelocity, m_FallTime;
+		// Counter of the current movement time.
+		float m_MovementTime;
+		
+		// Current movement speed.
+		float m_CurrentSpeed;
+		
+		// Time character has been in an aerial state.
+		float m_AirTime;
 
+		// Last applied vertical velocity.
+		float m_CurrentVerticalVelocity;
+
+		// Velocity applied as the jump was initiated.
+		float m_InitialJumpVelocity;
+		
+		// Time character has been in a fall state.
+		float m_FallTime;
+
+		// Whether there was input last fixed update.
 		bool m_PreviouslyHasInput;
 
+		// Cached reference of the CapsuleInput.
 		CapsuleInput m_CharacterInput;
 
+		// Cached reference of the CharacterController.
 		CharacterController m_Controller;
 
+		// Cached reference of the main camera.
 		Transform m_MainCameraTransform;
 
+		// Stores the m_CurrentVerticalVelocity as the y component.
 		Vector3 m_VerticalVector;
 
-		/// <summary>
-		/// Cache main camera and get required components
-		/// </summary>
+		// Cache main camera and get required components
 		void Awake()
 		{
 			m_CharacterInput = GetComponent<CapsuleInput>();
@@ -55,33 +74,25 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 			m_MainCameraTransform = Camera.main.transform;
 		}
 
-		/// <summary>
-		/// Subscribe to jump input
-		/// </summary>
+		// Subscribe to jump input
 		void OnEnable()
 		{
 			m_CharacterInput.jumpPressed += OnJump;
 		}
 
-		/// <summary>
-		/// Set the initial jump velocity
-		/// </summary>
+		// Set the initial jump velocity
 		void OnJump()
 		{
 			m_InitialJumpVelocity = m_JumpSpeed;
 		}
 
-		/// <summary>
-		/// Unsubscribe from jump input
-		/// </summary>
+		// Unsubscribe from jump input
 		void OnDisable()
 		{
 			m_CharacterInput.jumpPressed -= OnJump;
 		}
 
-		/// <summary>
-		/// Calculate character movement and look angle
-		/// </summary>
+		// Calculate character movement and look angle
 		void Update()
 		{
 			if (!m_CharacterInput.hasMovementInput)
@@ -101,9 +112,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 			transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, m_TurnSpeed * Time.deltaTime);
 		}
 		
-		/// <summary>
-		/// Handles movement on Physics update
-		/// </summary>
+		// Handles movement on Physics update
 		void FixedUpdate()
 		{
 			AerialMovement();
@@ -139,9 +148,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 			m_PreviouslyHasInput = m_CharacterInput.hasMovementInput;
 		}
 
-		/// <summary>
-		/// Calculates current speed based on acceleration anim curve
-		/// </summary>
+		// Calculates current speed based on acceleration anim curve
 		void Accelerate()
 		{
 			m_MovementTime += Time.fixedDeltaTime;
@@ -157,10 +164,8 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 			m_CurrentSpeed = 0f;
 		}
 
-		/// <summary>
-		/// Checks if the character is grounded
-		/// </summary>
-		/// <returns>true if character is grounded</returns>
+		// Checks if the character is grounded
+		// returns true if character is grounded
 		bool CheckGrounded()
 		{
 			Debug.DrawRay(transform.position + m_Controller.center, 
@@ -200,9 +205,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 			return false;
 		}
 
-		/// <summary>
-		/// Handles that character's vertical velocity (jumping and falling)
-		/// </summary>
+		// Handles that character's vertical velocity (jumping and falling)
 		void AerialMovement()
 		{
 			m_AirTime += Time.fixedDeltaTime;

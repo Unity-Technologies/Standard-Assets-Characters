@@ -21,34 +21,22 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		[SerializeField, Tooltip("Initial upward velocity applied on jumping")]
 		float m_JumpSpeed = 5f;
 	   
-		/// <summary>
-		/// The current movement properties
-		/// </summary>
+		// The current movement properties
 		float m_CurrentSpeed;
 
-		/// <summary>
-		/// The current movement properties
-		/// </summary>
+		// The current movement properties
 		float m_MovementTime;
 
-		/// <summary>
-		/// A check to see if input was previous being applied
-		/// </summary>
+		// A check to see if input was previous being applied
 		bool m_PreviouslyHasInput;
 
-		/// <summary>
-		/// The main camera's transform, used for calculating look direction.
-		/// </summary>
+		// The main camera's transform, used for calculating look direction.
 		Transform m_MainCameraTransform;
 
-		/// <summary>
-		/// Reference to input system
-		/// </summary>
+		// Reference to input system
 		CapsuleInput m_Input;
 
-		/// <summary>
-		/// Gets the character's input - lazy load mechanism
-		/// </summary>
+		// Gets the character's input - lazy load mechanism
 		CapsuleInput characterInput
 		{
 			get
@@ -95,9 +83,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 			characterInput.jumpPressed += OnJumpPressed;
 		}
 		
-		/// <summary>
-		/// Unsubscribe from jump input
-		/// </summary>
+		// Unsubscribe from jump input
 		void OnDisable()
 		{
 			if (characterInput == null)
@@ -108,9 +94,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 			characterInput.jumpPressed -= OnJumpPressed;
 		}
 		
-		/// <summary>
-		/// Handles camera rotation
-		/// </summary>
+		// Handles camera rotation
 		protected override void Update()
 		{
 			base.Update();
@@ -124,10 +108,8 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 			targetYRotation = targetRotation.eulerAngles.y;
 		}
 		
-		/// <summary>
-		/// Calculates the character's target rotation based on input and the camera rotation
-		/// </summary>
-		/// <returns>Character's target rotation</returns>
+		// Calculates the character's target rotation based on input and the camera rotation
+		// returns Character's target rotation
 		Quaternion CalculateTargetRotation()
 		{
 			var flatForward = m_MainCameraTransform.forward;
@@ -141,9 +123,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 			return Quaternion.LookRotation(cameraToInputOffset * flatForward);
 		}
 
-		/// <summary>
-		/// Handles jumping
-		/// </summary>
+		// Handles jumping
 		void OnJumpPressed()
 		{
 			if (controllerAdapter.isGrounded)
@@ -152,17 +132,13 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 			}	
 		}
 
-		/// <summary>
-		/// Handles movement on Physics update
-		/// </summary>
+		// Handles movement on Physics update
 		void FixedUpdate()
 		{
 			Move();
 		}
 
-		/// <summary>
-		/// State based movement
-		/// </summary>
+		// State based movement
 		void Move()
 		{
 			if (characterInput.hasMovementInput)
@@ -197,9 +173,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 			m_PreviouslyHasInput = characterInput.hasMovementInput;
 		}	
 
-		/// <summary>
-		/// Calculates current speed based on acceleration anim curve
-		/// </summary>
+		// Calculates current speed based on acceleration anim curve
 		void Accelerate()
 		{
 			m_MovementTime += Time.fixedDeltaTime;
@@ -207,9 +181,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 			m_CurrentSpeed = m_MovementTime / m_TimeToMaxSpeed * m_MaxSpeed;
 		}
 		
-		/// <summary>
-		/// Stops the movement
-		/// </summary>
+		// Stops the movement
 		void Stop()
 		{
 			m_CurrentSpeed = 0f;
