@@ -17,7 +17,7 @@ namespace StandardAssets.Characters.Helpers
 
 
 		/// <summary>
-		/// Set's up the float range
+		/// Sets up the float range
 		/// </summary>
 		public FloatRange(float minValue, float maxValue)
 		{
@@ -55,13 +55,13 @@ namespace StandardAssets.Characters.Helpers
 		public float max { get; private set; }
 
 		/// <summary>
-		/// Number of decimal point to show in inspector
+		/// Number of decimal points to show in inspector
 		/// </summary>
 		public int decimalPoints { get; private set; }
 
 		
 		/// <summary>
-		/// COMMENT TODO
+		/// Sets the min, max and number of decimal points
 		/// </summary>
 		public FloatRangeSetupAttribute(float minToUse, float maxToUse, int decimalPointsToUse = 2)
 		{

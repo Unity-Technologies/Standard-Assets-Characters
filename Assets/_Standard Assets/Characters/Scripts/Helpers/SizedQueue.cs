@@ -23,7 +23,7 @@ namespace StandardAssets.Characters.Helpers
 		
 
 		/// <summary>
-		/// Constructor of the queue
+		/// Initialize the queue with a given window size
 		/// </summary>
 		public SizedQueue(int size)
 		{
