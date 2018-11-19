@@ -35,22 +35,22 @@ namespace StandardAssets.Characters.FirstPerson
 			float m_StrideLength;
 
 			/// <summary>
-			/// Can the first person character jump in this state
+			/// Gets if the character can jump
 			/// </summary>
 			public bool canJump { get { return m_JumpSpeed > 0f; } }
 
 			/// <summary>
-			/// COMMENT TODO
+			/// Gets the character's maximum movement speed
 			/// </summary>
 			public float maxSpeed { get { return m_MaxSpeed; } }
 
 			/// <summary>
-			/// COMMENT TODO
+			/// Gets the character's initial Y velocity of a jump 
 			/// </summary>
 			public float jumpSpeed { get { return m_JumpSpeed; } }
 
 			/// <summary>
-			/// COMMENT TODO
+			/// Gets the character's stride length
 			/// </summary>
 			public float strideLength { get { return m_StrideLength; } }
 		}
@@ -334,19 +334,19 @@ namespace StandardAssets.Characters.FirstPerson
 		[SerializeField, Tooltip("Layermask used for checking movement area")]
 		LayerMask m_LayerMask;
 
-		// COMMENT TODO
+		// Squared travel distance of the character before being reset by threshold
 		float m_SqrTravelledDistance;
 
-		// COMMENT TODO
+		// Squared travel distance threshold of the character - based on stride length
 		float m_SqrDistanceThreshold;
 
-		// COMMENT TODO
+		// Position of the character on previous frame
 		Vector3 m_PreviousPosition;
 
-		// COMMENT TODO
+		// Is the character currently striding with the left foot forward
 		bool m_IsLeftFoot;
 
-		// COMMENT TODO
+		// Cached transform of the character brain
 		Transform m_Transform;
 
 
@@ -391,7 +391,7 @@ namespace StandardAssets.Characters.FirstPerson
 		}
 
 		/// <summary>
-		// COMMENT TODO
+		/// Subscribes to jump and land events on the brain's controller adapter
 		/// </summary>
 		public void Subscribe()
 		{
@@ -404,7 +404,7 @@ namespace StandardAssets.Characters.FirstPerson
 		}
 
 		/// <summary>
-		// COMMENT TODO
+		/// Unsubscribes to jump and land events on the brain's controller adapter
 		/// </summary>
 		public void Unsubscribe()
 		{
@@ -439,7 +439,7 @@ namespace StandardAssets.Characters.FirstPerson
 			PlayLanding(new MovementEventData(m_Transform));
 		}
 		
-		// COMMENT TODO
+		// Handles footstep effects
 		void PlayFootstep(MovementEventData movementEventData)
 		{
 			CheckArea();
@@ -455,7 +455,7 @@ namespace StandardAssets.Characters.FirstPerson
 			m_IsLeftFoot = !m_IsLeftFoot;
 		}
 
-		// COMMENT TODO
+		// Checks PhysicMaterial where the character is standing
 		void CheckArea()
 		{
 			RaycastHit hit;

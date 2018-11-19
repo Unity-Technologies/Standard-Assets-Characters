@@ -9,7 +9,7 @@ namespace StandardAssets.Characters.FirstPerson
     [RequireComponent(typeof(Animator))]
     public class FirstPersonCameraController : MonoBehaviour
     {
-        // COMMENT TODO
+        // Unity Animator with blank animation states for Cinemachine State Driven Cameras
         Animator m_Animator;
 
         /// <summary>
