@@ -170,7 +170,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		public ThirdPersonAerialMovementState currentAerialMovementState { get { return m_AerialState; } }
 
 		/// <summary>
-		/// Whether the character it grounded
+		/// Whether the character is grounded
 		/// </summary>
 		/// <value>True if <see cref="m_AerialState"/> is grounded</value>
 		bool IsGrounded { get { return m_AerialState == ThirdPersonAerialMovementState.Grounded; } }	
@@ -267,7 +267,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Toggles sprint
 		/// </summary>
-		public void OnSprintStarted()
+		public void ToggleSprint()
 		{
 			sprint = !sprint;
 		}
@@ -275,7 +275,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <summary>
 		/// Ends sprint
 		/// </summary>
-		public void OnSprintEnded()
+		public void StopSprint()
 		{
 			sprint = false;
 		}
@@ -306,7 +306,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			if (m_Configuration.autoToggleSprint && sprint && !m_CharacterInput.hasMovementInput)
 			{
-				OnSprintEnded();
+				StopSprint();
 			}
 			
 			if (m_MovementState == ThirdPersonGroundMovementState.TurningAround)
@@ -339,7 +339,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 
 		/// <summary>
-		/// Sets the character's look direction
+		/// Sets the character's target direction by checking the <see cref="ThirdPersonMotorMovementMode"/> and passing the work on to helper functions
 		/// </summary>
 		public void SetLookDirection()
 		{

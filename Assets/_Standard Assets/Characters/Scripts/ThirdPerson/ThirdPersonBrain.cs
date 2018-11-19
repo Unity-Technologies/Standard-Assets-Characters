@@ -391,8 +391,8 @@ namespace StandardAssets.Characters.ThirdPerson
                 if (userInput != null)
                 {
                     userInput.jumpPressed += m_Motor.OnJumpPressed;
-                    userInput.sprintStarted += m_Motor.OnSprintStarted;
-                    userInput.sprintEnded += m_Motor.OnSprintEnded;
+                    userInput.sprintStarted += m_Motor.ToggleSprint;
+                    userInput.sprintEnded += m_Motor.StopSprint;
                     userInput.strafeStarted += OnStrafeStarted;
                     userInput.strafeEnded += OnStrafeEnded;
                 }
@@ -419,8 +419,8 @@ namespace StandardAssets.Characters.ThirdPerson
                     if (userInput != null)
                     {
                         userInput.jumpPressed -= m_Motor.OnJumpPressed;
-                        userInput.sprintStarted -= m_Motor.OnSprintStarted;
-                        userInput.sprintEnded -= m_Motor.OnSprintEnded;
+                        userInput.sprintStarted -= m_Motor.ToggleSprint;
+                        userInput.sprintEnded -= m_Motor.StopSprint;
                         userInput.strafeStarted -= OnStrafeStarted;
                         userInput.strafeEnded -= OnStrafeEnded;
                     }
