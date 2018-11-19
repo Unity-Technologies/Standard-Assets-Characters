@@ -9,7 +9,7 @@ namespace Editor
 	/// COMMENT TODO
 	/// </summary>
 	[CustomEditor(typeof(ThirdPersonBrain))]
-	public class ThirdPersonBrainEditor : CharacterBrainEditor
+	public class ThirdPersonBrainEditor : UnityEditor.Editor
 	{
 		// COMMENT TODO
 		const string k_AnimationTurnaroundName 		= "m_AnimationTurnAroundBehaviour";
@@ -38,7 +38,7 @@ namespace Editor
 		public override void OnInspectorGUI()
 		{
 			EditorGUILayout.HelpBox(k_Help, MessageType.Info);
-			base.OnInspectorGUI();
+			DrawPropertiesExcluding(serializedObject, GetExclusions());
 			serializedObject.DrawFieldsUnderFoldout("Advanced", m_AdvancedFields, ref m_AdvancedFoldOut, 
 			                                        DrawTurnaround);
 			
@@ -49,7 +49,7 @@ namespace Editor
 		/// <summary>
 		/// COMMENT TODO
 		/// </summary>
-		protected override string[] GetExclusions()
+		string[] GetExclusions()
 		{
 			string[] exclusionList = 
 			{
