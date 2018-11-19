@@ -20,8 +20,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			[SerializeField, Tooltip("Number of samples used for forward input smoothing.")]
 			int m_ForwardInputSamples = 5;
 
-			// COMMENT TODO:  Tooltip required
-			[SerializeField]
+			[SerializeField, Tooltip("Number of samples used for strafe input smoothing.")]
 			int m_StrafeInputWindowSize = 5;
 			
 			[SerializeField, Tooltip("When using a controller should sprint auto turn off when releasing the left analogue stick?")]
@@ -63,80 +62,80 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			[SerializeField, Tooltip("Number of frames of input that will be used to determine if a rapid turn was triggered")]
 			int m_InputBufferSize = 5;
 
-
-	        /// <summary>
-	        /// COMMENT TODO
-	        /// </summary>
+			/// <summary>
+			/// Gets the increase that sprint will apply to <see cref="ThirdPersonMotor.normalizedForwardSpeed"/>.
+			/// </summary>
 			public float sprintNormalizedSpeedIncrease { get { return m_SprintNormalizedSpeedIncrease; } }
 
-	        /// <summary>
-	        /// COMMENT TODO
-	        /// </summary>
+			/// <summary>
+			/// Gets the forward input window size.
+			/// </summary>
 			public int forwardInputWindowSize { get { return m_ForwardInputSamples; } }
 
-	        /// <summary>
-	        /// COMMENT TODO
-	        /// </summary>
+			/// <summary>
+			/// Gets the strafe input window size.
+			/// </summary>
 			public int strafeInputWindowSize { get { return m_StrafeInputWindowSize; } }
 			
-	        /// <summary>
-	        /// COMMENT TODO
-	        /// </summary>
+			/// <summary>
+			/// Gets whether sprint should auto disable when there is no input.
+			/// </summary>
 			public bool autoToggleSprint { get { return m_AutoToggleSprint; } }
 
-	        /// <summary>
-	        /// COMMENT TODO
-	        /// </summary>
+			/// <summary>
+			/// Gets the number of samples used to average forward velocity to use as jump velocity.
+			/// </summary>
 			public int jumpGroundVelocitySamples { get { return m_JumpGroundVelocitySamples; } }
 
 	        /// <summary>
-	        /// COMMENT TODO
+	        /// Gets the jump turning speed scale.
 	        /// </summary>
 			public float jumpTurningSpeedScale { get { return m_JumpTurningSpeedScale; } }
 
-	        /// <summary>
-	        /// COMMENT TODO
-	        /// </summary>
+			/// <summary>
+			/// Gets the minimum movement input allowed to trigger a standing forward jump.
+			/// </summary>
 			public float minInputThreshold { get { return m_MinInputThreshold; } }
 
-	        /// <summary>
-	        /// COMMENT TODO
-	        /// </summary>
+			/// <summary>
+			/// Gets the maximum movement allowed to trigger a standing forward jump.
+			/// </summary>
 			public float maxMovementThreshold { get { return m_MaxMovementThreshold; } }
 
-	        /// <summary>
-	        /// COMMENT TODO
-	        /// </summary>
+			/// <summary>
+			/// Gets the time, in seconds, allowed after movement from idle that a standing jump can be triggered.
+			/// </summary>
 			public float standingJumpMoveTimeThreshold { get { return m_StandingJumpMoveTimeThreshold; } }
 
-	        /// <summary>
-	        /// COMMENT TODO
-	        /// </summary>
+			/// <summary>
+			/// Gets the value used for effecting how much of the -1 to 1 range of
+			/// <see cref="ThirdPersonMotor.normalizedTurningSpeed"/> can use.
+			/// </summary>
 			public float turningSpeedVisualScale { get { return m_TurningSpeedVisualScale; } }
 
-	        /// <summary>
-	        /// COMMENT TODO
-	        /// </summary>
+			/// <summary>
+			/// Gets the speed at which <see cref="ThirdPersonMotor.normalizedTurningSpeed"/> speed can change.
+			/// </summary>
 			public float normalizedTurningSpeedLerpSpeed { get { return m_NormalizedTurningSpeedLerpSpeed; } }
 
-	        /// <summary>
-	        /// COMMENT TODO
-	        /// </summary>
+			/// <summary>
+			/// Gets the maximum forward speed that will trigger a standing rapid turn.
+			/// </summary>
 			public float maxSpeedForStandingTurnaround { get { return m_MaxSpeedForStandingTurnaround; } }
 
-	        /// <summary>
-	        /// COMMENT TODO
-	        /// </summary>
+			/// <summary>
+			/// Gets the time in seconds to ignore input after a rapid turn is triggered.
+			/// </summary>
 			public float rapidTurnIgnoreInputTime { get { return m_RapidTurnIgnoreInputTime; } }
 
-	        /// <summary>
-	        /// COMMENT TODO
-	        /// </summary>
+			/// <summary>
+			/// Gets the number of frames of input will used to determine if a rapid turn was triggered.
+			/// </summary>
 			public int inputBufferSize { get { return m_InputBufferSize; } }
 			
-	        /// <summary>
-	        /// COMMENT TODO
-	        /// </summary>
+			/// <summary>
+			/// Gets the rate at which normalized turn speed will return to zero when there is no turn input.
+			/// </summary>
 			public float noLookInputTurnSpeedDeceleration { get { return m_NoLookInputTurnSpeedDeceleration; } }
 		}
 		
@@ -188,7 +187,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// <summary>
 		/// Gets the maximum forward speed that will trigger a standing rapid turn.
 		/// </summary>
-		public float standingTurnaroundSpeedThreshold { get { return m_Advanced.maxSpeedForStandingTurnaround; } }
+		public float maxSpeedForStandingTurnaround { get { return m_Advanced.maxSpeedForStandingTurnaround; } }
 
 		/// <summary>
 		/// Gets the speed at which the fall direction can change.
@@ -315,11 +314,11 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// <summary>
 		/// Gets whether sprint should auto disable when there is no input.
 		/// </summary>
-		public bool autoToggleSprintOnNoInput { get { return m_Advanced.autoToggleSprint; } }
+		public bool autoToggleSprint { get { return m_Advanced.autoToggleSprint; } }
 
 		/// <summary>
 		/// Gets the time, in seconds, allowed after movement from idle that a standing jump can be triggered.
 		/// </summary>
-		public float standingJumpMoveThresholdTime { get { return m_Advanced.standingJumpMoveTimeThreshold; } }
+		public float standingJumpMoveTimeThreshold { get { return m_Advanced.standingJumpMoveTimeThreshold; } }
 	}
 }
