@@ -18,7 +18,7 @@ namespace StandardAssets.Characters.Common
 		Vector3 m_LastPosition;
 		
 		/// <summary>
-		/// COMMENT TODO
+		/// Gets the <see cref="ControllerAdapter"/> used to move the character
 		/// </summary>
 		public ControllerAdapter controllerAdapter { get { return m_CharacterControllerAdapter; } }
 		
@@ -28,17 +28,17 @@ namespace StandardAssets.Characters.Common
 		public float planarSpeed { get; private set; }
 		
 		/// <summary>
-		/// COMMENT TODO
+		/// Gets the normalized forward speed of the character
 		/// </summary>
 		public abstract float normalizedForwardSpeed { get;}
 
 		/// <summary>
-		/// COMMENT TODO
+		/// Gets the target Y Rotation of the character
 		/// </summary>
 		public abstract float targetYRotation { get; set; }
 		
 		/// <summary>
-		/// COMMENT TODO
+		/// Gets the planar displacement vector of the character
 		/// </summary>
 		protected Vector3 planarDisplacement { get; private set; }
 
@@ -110,13 +110,13 @@ namespace StandardAssets.Characters.Common
 		[SerializeField, Tooltip("Gravity multiplier applied when falling less that the Min Fall Distance (set above)")]
 		float m_GroundingGravityMultiplier = 2.0f; 
 
-		// COMMENT TODO
+		// Event for when the character lands
 		public event Action landed;
 
-		// COMMENT TODO
+		// Event for jump
 		public event Action jumpVelocitySet;
 
-		// COMMENT TODO
+		// Event for falling, includes the predicted fall distance
 		public event Action<float> startedFalling;
 		
 		// the number of time sets used for trajectory prediction.
@@ -149,46 +149,56 @@ namespace StandardAssets.Characters.Common
 		// The current vertical vector.
 		Vector3 m_VerticalVector = Vector3.zero;
 
-		// COMMENT TODO
+		// Cached character input
 		CharacterInput m_CharacterInput;
 
-		// COMMENT TODO
+		// If the character is doing a short fall
 		bool m_ShortFall;
 
-		// COMMENT TODO
+		// Did the character jump
 		bool m_DidJump;
 
 #if UNITY_EDITOR
-		// COMMENT TODO
+		// Debug vector array for handling jump steps
 		readonly Vector3[] m_JumpSteps = new Vector3[k_TrajectorySteps];
 
-		// COMMENT TODO
+		// Number of array elements in debug vector array
 		int m_JumpStepCount;
 #endif
 
-		// COMMENT TODO
+		/// <summary>
+		/// Gets/sets if the character is grounded
+		/// </summary>
 		public bool isGrounded { get; private set; }
 		
-		// COMMENT TODO
+		/// <summary>
+		/// Gets/sets the <see cref="OpenCharacterController"/> use to do movement
+		/// </summary>
 		public OpenCharacterController characterController { get; private set; }
 
-		// COMMENT TODO
+		/// <summary>
+		/// Gets if the character has started a slide
+		/// </summary>
 		public bool startedSlide { get { return characterController.startedSlide; } }
 
-		// COMMENT TODO
+		/// <summary>
+		/// Gets/sets the character's current fall time
+		/// </summary>
 		public float fallTime { get; private set; }
 
 		/// <summary>
-		/// Reference to the transform of the game object, on which this class will do work.
+		/// Gets/sets the transform 
 		/// </summary>
 		public Transform cachedTransform { get; private set; }
 
 		/// <summary>
-		/// COMMENT TODO
+		/// Gets/sets the character's normalized vertical speed
 		/// </summary>
 		public float normalizedVerticalSpeed { get; private set; }
 
-		// COMMENT TODO
+		/// <summary>
+		/// Gets/sets the character's air time
+		/// </summary>
 		float airTime { get; set; }
 
 		// Gets the radius of the character.
@@ -211,8 +221,10 @@ namespace StandardAssets.Characters.Common
 
 
 		/// <summary>
-		/// COMMENT TODO
+		/// Moves the character
 		/// </summary>
+		/// <param name="moveVector">Movement vector</param>
+		/// <param name="deltaTime">Time since last call</param>
 		public void Move(Vector3 moveVector, float deltaTime)
 		{
 			isGrounded = characterController.isGrounded;
@@ -241,7 +253,7 @@ namespace StandardAssets.Characters.Common
 		}
 
 		/// <summary>
-		/// Tries to jump.
+		/// Tries to jump
 		/// </summary>
 		/// <param name="initialVelocity"></param>
 		public void SetJumpVelocity(float initialVelocity)
@@ -330,7 +342,7 @@ namespace StandardAssets.Characters.Common
 		// Handles Jumping and Falling
 		void AerialMovement(float deltaTime)
 		{
-			// COMMENT TODO: What does this do?
+			// Calculates how long character has been in air and adjusts their vertical velocity accordingly
 			airTime += deltaTime;
 			CalculateGravity(deltaTime);
 			if (m_CurrentVerticalVelocity >= 0.0f)
@@ -341,7 +353,7 @@ namespace StandardAssets.Characters.Common
 			
 			var previousFallTime = fallTime;
 
-			// COMMENT TODO: What does this do?
+			// Checks if the character is falling
 			if (m_CurrentVerticalVelocity < 0.0f)
 			{
 				m_CurrentVerticalVelocity = Mathf.Clamp(m_Gravity * fallTime, m_TerminalVelocity, Mathf.Infinity);
@@ -364,7 +376,7 @@ namespace StandardAssets.Characters.Common
 				}
 			}
 
-			// COMMENT TODO: What does this do?
+			// Checks for the movement that the character has started to fall
 			if (Mathf.Approximately(previousFallTime, 0.0f) && fallTime > Mathf.Epsilon)
 			{
 				var predictedFallDistance = GetPredictedFallDistance();

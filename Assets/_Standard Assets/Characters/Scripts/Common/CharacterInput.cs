@@ -49,7 +49,7 @@ namespace StandardAssets.Characters.Common
 		[SerializeField, Tooltip("Toggle the Cursor Lock Mode? Press ESCAPE during play mode to unlock")]
 		bool m_CursorLocked = true;
 
-		// COMMENT TODO
+		// Is the character sprinting
 		bool m_IsSprinting;
 
 		/// <summary>
@@ -101,7 +101,6 @@ namespace StandardAssets.Characters.Common
 						standardControls as InputActionAssetReference;
 			}
 		}		
-
 
 		// Sets up the Cinemachine delegate and subscribes to new input's performed events
 		void Awake()
