@@ -18,38 +18,23 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 		[SerializeField, Tooltip("Preserve the foot position when only resetting the height? (This is ignored when resetting the center.)")]
 		bool m_PreserveFootPosition = true;
 
-		// COMMENT TODO
-		ControllerAdapter m_ControllerAdapter;
-
-		// COMMENT TODO
+		// Reference to the OpenCharacterController in order to adjust the collider.
 		OpenCharacterController m_OpenCharacterController;
 		
-		
-		/// <inheritdoc />
+		/// <summary>
+		/// Caches a reference to the <see cref=" OpenCharacterController"/>.
+		/// </summary>
 		public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
-			if (m_ControllerAdapter == null)
+			if (m_OpenCharacterController == null)
 			{
-				var characterBrain = animator.GetComponentInChildren<CharacterBrain>();
-				m_ControllerAdapter = characterBrain != null
-					                                 ? characterBrain.controllerAdapter
-					                                 : null;
-				if (m_ControllerAdapter == null)
-				{
-					return;
-				} 
-				m_OpenCharacterController = m_ControllerAdapter.characterController;
-				if (m_OpenCharacterController == null)
-				{
-					return;
-				}
+				m_OpenCharacterController = animator.GetComponent<OpenCharacterController>();
 			}
-
 			HandleReset();
 		}
 		
         /// <summary>
-        /// COMMENT TODO
+        /// Updates the <see cref=" OpenCharacterController"/> collider.
         /// </summary>
 		public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
@@ -57,7 +42,7 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 			HandleReset();
 		}
 
-		// COMMENT TODO
+		// Resets the m_OpenCharacterController collider.
 		void HandleReset()
 		{
 			if (m_OpenCharacterController == null)

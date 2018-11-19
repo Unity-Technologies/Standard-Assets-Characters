@@ -9,7 +9,7 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 	public class JumpAnimatorState : StateMachineBehaviour 
 	{
         /// <summary>
-        /// COMMENT TODO
+        /// Fires <see cref="ThirdPersonBrain.OnJumpAnimationExit"/>.
         /// </summary>
 		public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
@@ -21,7 +21,7 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 		}
 		
         /// <summary>
-        /// COMMENT TODO
+        /// Fires <see cref="ThirdPersonBrain.OnJumpAnimationEnter"/>.
         /// </summary>
 		public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{

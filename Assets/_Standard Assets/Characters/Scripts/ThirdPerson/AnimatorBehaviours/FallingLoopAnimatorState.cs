@@ -8,7 +8,7 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 	public class FallingLoopAnimatorState : StateMachineBehaviour 
 	{
         /// <summary>
-        /// COMMENT TODO
+        /// Fires <see cref="ThirdPersonBrain.OnFallingLoopAnimationEnter"/>.
         /// </summary>
 		public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
