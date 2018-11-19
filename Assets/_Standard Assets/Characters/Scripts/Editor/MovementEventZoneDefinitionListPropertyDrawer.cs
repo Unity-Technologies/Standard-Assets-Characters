@@ -8,16 +8,40 @@ using UnityEngine;
 
 namespace Editor
 {
+    /// <summary>
+    /// Custom property drawer visualizing <see cref="MovementEventZoneDefinitionList"/> as a reorderable list
+    /// </summary>
     [CustomPropertyDrawer(typeof(MovementEventZoneDefinitionList))]
     public class MovementEventZoneDefinitionListPropertyDrawer : PropertyDrawer
     {
-        const float k_ArrayElementHeightScale = 1.1f;
-
+        //Property names used in FindPropertyRelative calls
+        const string k_ListPropertyName = "m_MovementZoneLibraries";
+        const string k_PhysicMaterialPropertyName= "m_PhysicMaterial";
+        const string k_ZoneLibraryPropertyName= "m_ZoneLibrary";
+        const string k_LeftFootPropertyName = "m_LeftFootStepPrefabs";
+        const string k_RightFootPropertyName = "m_RightFootStepPrefabs";
+        const string k_LandingPropertyName = "m_LandingPrefabs";
+        const string k_JumpingPropertyName = "m_JumpingPrefabs";
+        
+        //Header text on the ReorderableList GUI
+        const string k_Header = "Movement Zones";
+        
+        //Cached ReorderableList object
         ReorderableList m_ReorderableList;
+
+        //Reference to root property, i.e. MovementEventZoneDefinitionList
         SerializedProperty rootProperty;
+        
+        //Reference to list property, i.e. m_MovementZoneLibraries
         SerializedProperty listProperty;
+        
+        //List of heights of different elements of the reorderable list
         List<float> m_ElementHeights = new List<float>();
 
+        /// <summary>
+        /// Sets the ReorderableList, its events and all required support variables 
+        /// </summary>
+        /// <param name="property"></param>
         void SetupReorderableList(SerializedProperty property)
         {
             if (m_ReorderableList != null)
@@ -27,7 +51,7 @@ namespace Editor
 
             rootProperty = property;
 
-            listProperty = property.FindPropertyRelative("m_MovementZoneLibraries");
+            listProperty = property.FindPropertyRelative(k_ListPropertyName);
             for (int i = 0; i < listProperty.arraySize; i++)
             {
                 m_ElementHeights.Add(2 * EditorGUIUtility.singleLineHeight);
@@ -36,7 +60,7 @@ namespace Editor
             m_ReorderableList = new ReorderableList(listProperty.serializedObject, listProperty, false, false, true, true);
             m_ReorderableList.drawHeaderCallback = rect =>
             {
-                GUI.Label(rect, "Movement Zones");
+                GUI.Label(rect, k_Header);
             };
 
             m_ReorderableList.drawElementCallback = DrawElementCallback;
@@ -46,11 +70,19 @@ namespace Editor
             m_ReorderableList.onChangedCallback = OnChangedCallback; 
         }
 
+        /// <summary>
+        /// Change callback used to apply the properties
+        /// </summary>
+        /// <param name="list">ReorderableList parameter required by the ReorderableList</param>
         void OnChangedCallback(ReorderableList list)
         {
             rootProperty.serializedObject.ApplyModifiedProperties();
         }
 
+        /// <summary>
+        /// Remove callback used to decrease the size of the element height list
+        /// </summary>
+        /// <param name="list">ReorderableList parameter required by the ReorderableList</param>
         void OnRemoveCallback(ReorderableList list)
         {
             m_ElementHeights.RemoveAt(list.index);
@@ -62,37 +94,53 @@ namespace Editor
             }
         }
 
+        /// <summary>
+        /// Add callback used to increase the size of the element height list
+        /// </summary>
+        /// <param name="list">ReorderableList parameter required by the ReorderableList</param>
         void OnAddCallback(ReorderableList list)
         {
             m_ElementHeights.Add(2 * EditorGUIUtility.singleLineHeight);
             listProperty.arraySize++;
         }
 
+        /// <summary>
+        /// Callback used to adjust the rendered height of an element
+        /// </summary>
+        /// <param name="index">Index in list of the element</param>
+        /// <returns>Height to render the element</returns>
         float ElementHeightCallback(int index)
         {
             return m_ElementHeights[index];
         }
 
-        void DrawElementCallback(Rect rect, int index, bool isactive, bool isfocused)
+        /// <summary>
+        /// Callback for drawing and element
+        /// </summary>
+        /// <param name="rect">Rect of the element</param>
+        /// <param name="index">Index of element in ReorderableList</param>
+        /// <param name="isActive">If element is active</param>
+        /// <param name="isFocused">If element is focused</param>
+        void DrawElementCallback(Rect rect, int index, bool isActive, bool isFocused)
         {
             var elementHeight = EditorGUIUtility.singleLineHeight;
             var elementProperty = listProperty.GetArrayElementAtIndex(index);
 
             EditorGUI.BeginChangeCheck();
-            EditorGUI.PropertyField(rect, elementProperty.FindPropertyRelative("m_PhysicMaterial"), true);
+            EditorGUI.PropertyField(rect, elementProperty.FindPropertyRelative(k_PhysicMaterialPropertyName), true);
             EditorGUI.indentLevel++;
             rect.y += EditorGUIUtility.singleLineHeight;
             elementHeight += EditorGUIUtility.singleLineHeight;
-            var zoneLibary = elementProperty.FindPropertyRelative("m_ZoneLibrary");
+            var zoneLibary = elementProperty.FindPropertyRelative(k_ZoneLibraryPropertyName);
             EditorGUI.PropertyField(rect, zoneLibary, true);
             EditorGUI.indentLevel--;
             if (zoneLibary.isExpanded)
             {
                 elementHeight += EditorGUIUtility.singleLineHeight;
-                elementHeight += EditorGUI.GetPropertyHeight(zoneLibary.FindPropertyRelative("m_LeftFootStepPrefabs"), true);
-                elementHeight += EditorGUI.GetPropertyHeight(zoneLibary.FindPropertyRelative("m_RightFootStepPrefabs"), true);
-                elementHeight += EditorGUI.GetPropertyHeight(zoneLibary.FindPropertyRelative("m_LandingPrefabs"), true);
-                elementHeight += EditorGUI.GetPropertyHeight(zoneLibary.FindPropertyRelative("m_JumpingPrefabs"), true);
+                elementHeight += EditorGUI.GetPropertyHeight(zoneLibary.FindPropertyRelative(k_LeftFootPropertyName), true);
+                elementHeight += EditorGUI.GetPropertyHeight(zoneLibary.FindPropertyRelative(k_RightFootPropertyName), true);
+                elementHeight += EditorGUI.GetPropertyHeight(zoneLibary.FindPropertyRelative(k_LandingPropertyName), true);
+                elementHeight += EditorGUI.GetPropertyHeight(zoneLibary.FindPropertyRelative(k_JumpingPropertyName), true);
             }
 
             m_ElementHeights[index] = elementHeight;
@@ -102,11 +150,23 @@ namespace Editor
             }
         }
 
+        /// <summary>
+        /// Overrides the rendered height of the property drawer
+        /// </summary>
+        /// <param name="property">Reference to SerializedProperty in question</param>
+        /// <param name="label">Reference to GUIContent</param>
+        /// <returns>Rendered height of the property drawer</returns>
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
             return m_ReorderableList == null ? base.GetPropertyHeight(property, label) : m_ReorderableList.GetHeight();
         }
 
+        /// <summary>
+        /// Overrides the default rendering behaviour of the SerializedProperty
+        /// </summary>
+        /// <param name="position">Position of the property</param>
+        /// <param name="property">SerializedProperty being rendered</param>
+        /// <param name="label">Reference to GUIContent</param>
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             SetupReorderableList(property);
