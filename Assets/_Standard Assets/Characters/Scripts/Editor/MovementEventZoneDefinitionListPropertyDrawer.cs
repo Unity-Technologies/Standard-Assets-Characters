@@ -38,10 +38,7 @@ namespace Editor
         //List of heights of different elements of the reorderable list
         List<float> m_ElementHeights = new List<float>();
 
-        /// <summary>
-        /// Sets the ReorderableList, its events and all required support variables 
-        /// </summary>
-        /// <param name="property"></param>
+        // Sets the ReorderableList, its events and all required support variables 
         void SetupReorderableList(SerializedProperty property)
         {
             if (m_ReorderableList != null)
@@ -79,10 +76,7 @@ namespace Editor
             rootProperty.serializedObject.ApplyModifiedProperties();
         }
 
-        /// <summary>
-        /// Remove callback used to decrease the size of the element height list
-        /// </summary>
-        /// <param name="list">ReorderableList parameter required by the ReorderableList</param>
+        // Remove callback used to decrease the size of the element height list
         void OnRemoveCallback(ReorderableList list)
         {
             m_ElementHeights.RemoveAt(list.index);
@@ -94,33 +88,20 @@ namespace Editor
             }
         }
 
-        /// <summary>
-        /// Add callback used to increase the size of the element height list
-        /// </summary>
-        /// <param name="list">ReorderableList parameter required by the ReorderableList</param>
+        // Add callback used to increase the size of the element height list
         void OnAddCallback(ReorderableList list)
         {
             m_ElementHeights.Add(2 * EditorGUIUtility.singleLineHeight);
             listProperty.arraySize++;
         }
 
-        /// <summary>
-        /// Callback used to adjust the rendered height of an element
-        /// </summary>
-        /// <param name="index">Index in list of the element</param>
-        /// <returns>Height to render the element</returns>
+        // Callback used to adjust the rendered height of an element
         float ElementHeightCallback(int index)
         {
             return m_ElementHeights[index];
         }
 
-        /// <summary>
-        /// Callback for drawing and element
-        /// </summary>
-        /// <param name="rect">Rect of the element</param>
-        /// <param name="index">Index of element in ReorderableList</param>
-        /// <param name="isActive">If element is active</param>
-        /// <param name="isFocused">If element is focused</param>
+        // Callback for drawing and element
         void DrawElementCallback(Rect rect, int index, bool isActive, bool isFocused)
         {
             var elementHeight = EditorGUIUtility.singleLineHeight;
