@@ -452,6 +452,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				m_AverageForwardVelocity.Clear();
 			}
+			m_PreviousInputs.Clear();
 		}
 
 		// Sets the aerial state to ThirdPersonAerialMovementState.Falling and fires the event.
