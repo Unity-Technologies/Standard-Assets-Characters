@@ -396,7 +396,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1624864631314756}
-  m_LocalRotation: {x: -0.105569705, y: 0.19408421, z: -0.021013465, w: 0.9750615}
+  m_LocalRotation: {x: -0.105569705, y: 0.19408421, z: -0.021013457, w: 0.9750615}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.99999994, y: 1, z: 1}
   m_Children:
@@ -424,7 +424,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1625353598440320}
-  m_LocalRotation: {x: -0.10556963, y: 0.19408426, z: -0.021013068, w: 0.9750615}
+  m_LocalRotation: {x: -0.10556963, y: 0.19408426, z: -0.021013072, w: 0.9750615}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.99999994, y: 1, z: 1}
   m_Children:
@@ -464,8 +464,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1349669829100196}
-  m_LocalRotation: {x: -0.10556962, y: 0.19408426, z: -0.021013048, w: 0.9750615}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0.024786327, y: 0.1916897, z: -0.0369496, w: 0.9804465}
+  m_LocalPosition: {x: -0.19146241, y: 0.38955492, z: -0.5582017}
   m_LocalScale: {x: 0.99999994, y: 1, z: 1}
   m_Children:
   - {fileID: 4413697049382200}
@@ -698,7 +698,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: 0, z: -2.5}
+  m_FollowOffset: {x: 0, y: 0.5, z: -3}
   m_XDamping: 0
   m_YDamping: 2
   m_ZDamping: 0
@@ -1303,7 +1303,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: 0, z: -2.5}
+  m_FollowOffset: {x: 0, y: 0.5, z: -3}
   m_XDamping: 0
   m_YDamping: 2
   m_ZDamping: 0
@@ -1821,11 +1821,11 @@ MonoBehaviour:
   m_SplineCurvature: 0
   m_Orbits:
   - m_Height: 1
-    m_Radius: 1.1
-  - m_Height: 0
-    m_Radius: 2.5
+    m_Radius: 1.32
+  - m_Height: 0.5
+    m_Radius: 3
   - m_Height: -1.3
-    m_Radius: 2
+    m_Radius: 2.4
   m_LegacyHeadingBias: 3.4028235e+38
   m_Rigs:
   - {fileID: 114535855184611544}
@@ -1855,7 +1855,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: 0, z: -2.5}
+  m_FollowOffset: {x: 0, y: 0.5, z: -3}
   m_XDamping: 0
   m_YDamping: 2
   m_ZDamping: 0
