@@ -18,31 +18,31 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		public struct CollisionInfo
 		{
-			/// The collider that was hit by the controller.
+			// The collider that was hit by the controller.
 			readonly Collider m_Collider;
 
-			/// The controller that hit the collider.
+			// The controller that hit the collider.
 			readonly OpenCharacterController m_Controller;
 
-			/// The game object that was hit by the controller.
+			// The game object that was hit by the controller.
 			readonly GameObject m_GameObject;
 
-			/// The direction the character Controller was moving in when the collision occured.
+			// The direction the character Controller was moving in when the collision occured.
 			readonly Vector3 m_MoveDirection;
 
-			/// How far the character has travelled until it hit the collider.
+			// How far the character has travelled until it hit the collider.
 			readonly float m_MoveLength;
 
-			/// The normal of the surface we collided with in world space.
+			// The normal of the surface we collided with in world space.
 			readonly Vector3 m_Normal;
 
-			/// The impact point in world space.
+			// The impact point in world space.
 			readonly Vector3 m_Point;
 
-			/// The rigidbody that was hit by the controller.
+			// The rigidbody that was hit by the controller.
 			readonly Rigidbody m_Rigidbody;
 
-			/// The transform that was hit by the controller.
+			// The transform that was hit by the controller.
 			readonly Transform m_Transform;
 
 			/// <summary>
