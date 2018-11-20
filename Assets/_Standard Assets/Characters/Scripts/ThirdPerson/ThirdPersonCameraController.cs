@@ -158,12 +158,17 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
                 ThirdPersonBrain[] thirdPersonBrainObjects = FindObjectsOfType<ThirdPersonBrain>();
                 int length = thirdPersonBrainObjects.Length;
+				bool found = true;
                 if (length != 1)
                 {
 		            string errorMessage = "No ThirdPersonBrain in scene! Disabling Camera Controller";
 		            if (length > 1)
 		            {
 		                errorMessage = "Too many ThirdPersonBrains in scene! Disabling Camera Controller";
+		            }
+		            else // none found
+		            {
+			            found = false;
 		            }
 
 		            if (autoDisable)
@@ -172,7 +177,15 @@ namespace StandardAssets.Characters.ThirdPerson
 		                gameObject.SetActive(false);
 		            }
 		        }
-				m_ThirdPersonBrain = thirdPersonBrainObjects[0];
+
+				if (found)
+				{
+					m_ThirdPersonBrain = thirdPersonBrainObjects[0];
+				}
+				else
+				{
+					return;
+				}
 			}
 
 			//auto-set up the necessary state driven camera data
