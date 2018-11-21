@@ -1,5 +1,6 @@
 ﻿using System;
 using Cinemachine;
+using UnityEditor;
 using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson
@@ -18,7 +19,6 @@ namespace StandardAssets.Characters.ThirdPerson
         // The Cinemachine State Driven Camera registered to the Controller
 		CinemachineStateDrivenCamera m_SDC;
 
-
         // Gets the UserInput for the registered ThirdPersonBrain
         ThirdPersonInput UserInput
         {
@@ -30,7 +30,6 @@ namespace StandardAssets.Characters.ThirdPerson
         {
             get { return m_SDC == null ? null : m_SDC.LiveChild as CinemachineFreeLook; }
         }
-
 
         // On awake of component
         void Awake()
@@ -174,6 +173,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		            if (autoDisable)
 		            {
 		                Debug.LogError(errorMessage);
+#if UNITY_EDITOR
+			            EditorUtility.DisplayDialog("Error detecting ThirdPersonBrain", errorMessage, "Ok");
+#endif
 		                gameObject.SetActive(false);
 		            }
 		        }
