@@ -101,6 +101,16 @@ namespace Editor
             return m_ElementHeights[index];
         }
 
+        // Wrapper to make the drawing of a single effect property easier
+        float DrawEffectProperty(string propertyName, SerializedProperty parent, ref Rect rect)
+        {
+            var property = parent.FindPropertyRelative(propertyName);
+            var height = EditorGUI.GetPropertyHeight(property, true);
+            EditorGUI.PropertyField(rect, property, true);
+            rect.y += height;
+            return height;
+        }
+
         // Callback for drawing and element
         void DrawElementCallback(Rect rect, int index, bool isActive, bool isFocused)
         {
@@ -109,20 +119,17 @@ namespace Editor
 
             EditorGUI.BeginChangeCheck();
             EditorGUI.PropertyField(rect, elementProperty.FindPropertyRelative(k_PhysicMaterialPropertyName), true);
-            EditorGUI.indentLevel++;
             rect.y += EditorGUIUtility.singleLineHeight;
             elementHeight += EditorGUIUtility.singleLineHeight;
+
+            //don't draw the default serialized class but instead just draw the internal properties so that it reads better in the Inspector
             var zoneLibary = elementProperty.FindPropertyRelative(k_ZoneLibraryPropertyName);
-            EditorGUI.PropertyField(rect, zoneLibary, true);
+            EditorGUI.indentLevel++;
+            elementHeight += DrawEffectProperty(k_LeftFootPropertyName, zoneLibary, ref rect);
+            elementHeight += DrawEffectProperty(k_RightFootPropertyName, zoneLibary, ref rect);
+            elementHeight += DrawEffectProperty(k_LandingPropertyName, zoneLibary, ref rect);
+            elementHeight += DrawEffectProperty(k_JumpingPropertyName, zoneLibary, ref rect);
             EditorGUI.indentLevel--;
-            if (zoneLibary.isExpanded)
-            {
-                elementHeight += EditorGUIUtility.singleLineHeight;
-                elementHeight += EditorGUI.GetPropertyHeight(zoneLibary.FindPropertyRelative(k_LeftFootPropertyName), true);
-                elementHeight += EditorGUI.GetPropertyHeight(zoneLibary.FindPropertyRelative(k_RightFootPropertyName), true);
-                elementHeight += EditorGUI.GetPropertyHeight(zoneLibary.FindPropertyRelative(k_LandingPropertyName), true);
-                elementHeight += EditorGUI.GetPropertyHeight(zoneLibary.FindPropertyRelative(k_JumpingPropertyName), true);
-            }
 
             m_ElementHeights[index] = elementHeight;
             if (EditorGUI.EndChangeCheck())

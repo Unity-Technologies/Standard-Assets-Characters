@@ -306,7 +306,7 @@ namespace StandardAssets.Characters.Effects
         [SerializeField, Tooltip("The ID of the zone used to play the effect")]
         PhysicMaterial m_PhysicMaterial;
 
-        [SerializeField, Tooltip("The corresponding library of effects")]
+        [SerializeField]
         MovementEventLibrary m_ZoneLibrary;
 
         /// <summary>
