@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 33062891564241634}
   - component: {fileID: 114817739547906142}
   - component: {fileID: 64968959924526034}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 33742944897297508}
   - component: {fileID: 114831207173710642}
   - component: {fileID: 64823966610454946}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Stairs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4340994304750390}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TestLevelLayout
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76,28 +76,12 @@ GameObject:
   - component: {fileID: 33173658442262496}
   - component: {fileID: 114449221374662346}
   - component: {fileID: 64012101608254920}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Bridge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 127
-  m_IsActive: 1
---- !u!1 &1897237098423366
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4650155678372466}
-  - component: {fileID: 108896272529330058}
-  m_Layer: 0
-  m_Name: Directional Light (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!1 &1917905966613614
 GameObject:
@@ -111,7 +95,7 @@ GameObject:
   - component: {fileID: 33808872363196052}
   - component: {fileID: 114905417920580342}
   - component: {fileID: 64395571805339624}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -150,7 +134,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1681712417980270}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 365.75656, y: -135.91348, z: -79.27077}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -158,7 +142,6 @@ Transform:
   - {fileID: 4066625991665118}
   - {fileID: 4310434407809824}
   - {fileID: 4570950238025668}
-  - {fileID: 4650155678372466}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -175,19 +158,6 @@ Transform:
   m_Father: {fileID: 4340994304750390}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4650155678372466
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1897237098423366}
-  m_LocalRotation: {x: 0.17232825, y: -0.17130661, z: -0.098883644, w: 0.9649762}
-  m_LocalPosition: {x: -365.75656, y: 138.91348, z: 79.27077}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4340994304750390}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 162.62, y: 157.534, z: 164.821}
 --- !u!4 &4879725020551450
 Transform:
   m_ObjectHideFlags: 1
@@ -425,43 +395,6 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 0}
---- !u!108 &108896272529330058
-Light:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1897237098423366}
-  m_Enabled: 1
-  serializedVersion: 8
-  m_Type: 1
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 0.8
-  m_Range: 10
-  m_SpotAngle: 30
-  m_CookieSize: 10
-  m_Shadows:
-    m_Type: 2
-    m_Resolution: -1
-    m_CustomResolution: -1
-    m_Strength: 1
-    m_Bias: 0.05
-    m_NormalBias: 0.4
-    m_NearPlane: 0.2
-  m_Cookie: {fileID: 0}
-  m_DrawHalo: 0
-  m_Flare: {fileID: 0}
-  m_RenderMode: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_Lightmapping: 4
-  m_LightShadowCasterMode: 0
-  m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
-  m_ColorTemperature: 6570
-  m_UseColorTemperature: 0
-  m_ShadowRadius: 0
-  m_ShadowAngle: 0
 --- !u!114 &114449221374662346
 MonoBehaviour:
   m_ObjectHideFlags: 1
