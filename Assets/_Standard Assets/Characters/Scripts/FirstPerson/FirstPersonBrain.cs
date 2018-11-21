@@ -12,13 +12,9 @@ namespace StandardAssets.Characters.FirstPerson
 	[RequireComponent(typeof(FirstPersonInput))]
 	public class FirstPersonBrain : CharacterBrain
 	{
-		/// <summary>
-		/// The names of the states in the camera animator
-		/// </summary>
-		const string k_CrouchAnimationStateName 	= "Crouch";
-		const string k_SprintAnimationStateName 	= "Sprint";
-		const string k_WalkAnimationStateName 		= "Walk";
-
+		// Movement state change events
+		public event Action startWalking, startCrouching, startSprinting;
+		
 		/// <summary>
 		/// Stores movement properties for the different states - e.g. walk
 		/// </summary>
@@ -66,9 +62,6 @@ namespace StandardAssets.Characters.FirstPerson
 
 		[SerializeField, Tooltip("Management of movement effects e.g. footsteps")]
 		FirstPersonMovementEventHandler m_MovementEffects;
-
-		// The movement state is passed to the camera manager so that there can be different cameras e.g. crouch
-		FirstPersonCameraController m_FirstPersonCameraController;
 
 		// The current movement properties
 		float m_CurrentSpeed;
@@ -121,14 +114,13 @@ namespace StandardAssets.Characters.FirstPerson
 			}
 		}
 
-
 		/// <summary>
 		/// Get the attached implementations on awake
 		/// </summary>
 		protected override void Awake()
 		{
 			base.Awake();
-			FindCameraController(true);
+
 			m_MovementEffects.Init(this);
 			m_CurrentMovementProperties = m_Walking;
 			m_NewMovementProperties = m_Walking;
@@ -174,20 +166,6 @@ namespace StandardAssets.Characters.FirstPerson
 			Move();
 			m_MovementEffects.Tick();
 		}
-		
-#if UNITY_EDITOR
-		void OnValidate()
-		{
-			//Design pattern for fetching required scene references
-			FindCameraController(false);
-		}
-
-		void Reset()
-		{
-			//Design pattern for fetching required scene references
-			FindCameraController(false);
-		}
-#endif
 
 		/// <summary>
 		/// Change state to the new state and adds to previous state stack
@@ -205,49 +183,6 @@ namespace StandardAssets.Characters.FirstPerson
 		{
 			ChangeState(m_Walking);
 		}		
-
-		// Helper method for setting the animation
-		// 		animation: The case sensitive name of the animation state
-		void SetAnimation(string animation)
-		{
-			if (m_FirstPersonCameraController == null)
-			{
-				Debug.LogWarning("No camera animation manager setup");
-				return;
-			}
-
-			m_FirstPersonCameraController.SetAnimation(animation);
-		}
-
-		// Checks if the FirstPersonCameraController has been assigned otherwise finds it in the scene
-		void FindCameraController(bool autoDisable)
-		{
-			if (m_FirstPersonCameraController == null)
-			{
-				var firstPersonCameraControllers = FindObjectsOfType<FirstPersonCameraController>();
-				var length = firstPersonCameraControllers.Length;
-				if (length != 1)
-				{
-					var errorMessage = "No FirstPersonCameraAnimationManagers in scene! Disabling Brain";
-					if (length > 1)
-					{
-						errorMessage = "Too many FirstPersonCameraAnimationManagers in scene! Disabling Brain";
-					}
-
-					if (autoDisable)
-					{
-						Debug.LogError(errorMessage);
-						gameObject.SetActive(false);	
-					}
-					
-					return;
-				}
-
-				m_FirstPersonCameraController = firstPersonCameraControllers[0];
-			}
-
-			m_FirstPersonCameraController.SetupBrain(this);
-		}
 
 		// Called on character landing
 		void OnLanded()
@@ -291,21 +226,30 @@ namespace StandardAssets.Characters.FirstPerson
 		{
 			characterInput.ResetInputs();
 			ChangeState(m_Walking);
-			SetAnimation(k_WalkAnimationStateName);
+			if (startWalking != null)
+			{
+				startWalking();
+			}
 		}
 
 		// Sets the character to the sprinting state
 		void StartSprinting()
 		{
 			ChangeState(m_Sprinting);
-			SetAnimation(k_SprintAnimationStateName);
+			if (startSprinting != null)
+			{
+				startSprinting();
+			}
 		}
 
 		// Sets the character to crouching state
 		void StartCrouching()
 		{
 			ChangeState(m_Crouching);
-			SetAnimation(k_CrouchAnimationStateName);
+			if (startCrouching != null)
+			{
+				startCrouching();
+			}
 		}
 
 		// Changes the current motor state and play events associated with state change
@@ -348,7 +292,6 @@ namespace StandardAssets.Characters.FirstPerson
 
 		// Cached transform of the character brain
 		Transform m_Transform;
-
 
 		/// <summary>
 		/// Initializes the handler with the correct character brain and sets up the transform and previousPosition needed to calculate distance travelled

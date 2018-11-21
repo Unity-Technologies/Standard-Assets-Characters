@@ -1,7 +1,9 @@
 ﻿using System;
 using Cinemachine;
-using UnityEditor;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace StandardAssets.Characters.ThirdPerson
 {
@@ -34,6 +36,7 @@ namespace StandardAssets.Characters.ThirdPerson
         // On awake of component
         void Awake()
         {
+	        SetupMainCamera();
             FindThirdPersonBrain(true);
         }
 
@@ -43,6 +46,7 @@ namespace StandardAssets.Characters.ThirdPerson
         {
             //Design pattern for fetching required scene references
             FindThirdPersonBrain(false);
+	        SetupMainCamera();
         }
 
         /// On change of component
@@ -50,6 +54,7 @@ namespace StandardAssets.Characters.ThirdPerson
         {
             //Design pattern for fetching required scene references
             FindThirdPersonBrain(false);
+	        SetupMainCamera();
         }
 #endif      
 
@@ -147,6 +152,16 @@ namespace StandardAssets.Characters.ThirdPerson
 			if (m_Crosshair != null)
 			{
 				m_Crosshair.SetActive(m_ThirdPersonBrain.IsStrafing);
+			}
+		}
+		
+		// Ensures that the main camera has a CinemachineBrain
+		void SetupMainCamera()
+		{
+			var mainCamera = Camera.main;
+			if (mainCamera != null && mainCamera.GetComponent<CinemachineBrain>() == null)
+			{
+				mainCamera.gameObject.AddComponent<CinemachineBrain>();
 			}
 		}
 
