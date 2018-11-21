@@ -252,9 +252,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ca96d7838ae4d2aae028f9e6c1ea082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CharacterControllerAdapter:
+  m_OCCSettings:
     m_TerminalVelocity: 10
-    m_JumpGravityMultiplierAsAFactorOfForwardSpeed:
+    m_JumpGravityScale:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -278,7 +278,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_FallGravityMultiplierAsAFactorOfForwardSpeed:
+    m_ShortJumpGravityScale:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -302,7 +302,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_MinJumpHeightMultiplierAsAFactorOfForwardSpeed:
+    m_FallGravityScale:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -326,9 +326,9 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_GravityChangeSpeed: 10
+    m_GroundingGravityScale: 2
     m_MinFallDistance: 1.1
-    m_GroundingGravityMultiplier: 2
+    m_MaxGravityDelta: 10
   m_MaxSpeed: 5
   m_TimeToMaxSpeed: 0.5
   m_TurnSpeed: 300

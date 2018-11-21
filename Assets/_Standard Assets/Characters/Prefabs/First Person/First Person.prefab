@@ -91,9 +91,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eec248ab0c3e4eeaafde0796225ff6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CharacterControllerAdapter:
+  m_OCCSettings:
     m_TerminalVelocity: 10
-    m_JumpGravityMultiplierAsAFactorOfForwardSpeed:
+    m_JumpGravityScale:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -117,7 +117,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_FallGravityMultiplierAsAFactorOfForwardSpeed:
+    m_ShortJumpGravityScale:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -141,7 +141,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_MinJumpHeightMultiplierAsAFactorOfForwardSpeed:
+    m_FallGravityScale:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -165,9 +165,9 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_GravityChangeSpeed: 10
+    m_GroundingGravityScale: 2
     m_MinFallDistance: 1.1
-    m_GroundingGravityMultiplier: 2
+    m_MaxGravityDelta: 10
   m_Walking:
     m_MaxSpeed: 4
     m_JumpSpeed: 5
@@ -180,7 +180,7 @@ MonoBehaviour:
     m_MaxSpeed: 3
     m_JumpSpeed: 0
     m_StrideLength: 0.2
-  m_FirstPersonMovementEventHandler:
+  m_MovementEffects:
     m_ZonesDefinition:
       m_MovementZoneLibraries:
       - m_PhysicMaterial: {fileID: 13400000, guid: 29b2c1bb6c1514a8481c9824004f1bfa,

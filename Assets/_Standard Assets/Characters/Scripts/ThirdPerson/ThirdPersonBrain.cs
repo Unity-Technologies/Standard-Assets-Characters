@@ -19,14 +19,14 @@ namespace StandardAssets.Characters.ThirdPerson
         [SerializeField, Tooltip("Transform that acts as the target for the Cinemachine SDC")]
         Transform m_VCamTarget;
 
-        [SerializeField, Tooltip("Properties of the blendspace-based turn around")]
-        BlendspaceTurnAroundBehaviour m_BlendspaceTurnAroundBehaviour;
+        [SerializeField, Tooltip("Properties of the blendspace-based turn around state")]
+        BlendspaceTurnAroundBehaviour m_BlendspaceTurnAround;
 
-        [SerializeField, Tooltip("Properties of the animation-based turn around")]
-        AnimationTurnAroundBehaviour m_AnimationTurnAroundBehaviour;
+        [SerializeField, Tooltip("Properties of the animation-based turn around state")]
+        AnimationTurnAroundBehaviour m_AnimationTurnAround;
 
         [SerializeField, Tooltip("Properties of the movement event handler")]
-        ThirdPersonMovementEventHandler m_ThirdPersonMovementEventHandler;
+        ThirdPersonMovementEventHandler m_MovementEffects;
 
         [SerializeField, Tooltip("Configuration settings for the animator")]
         AnimationConfig m_Configuration;
@@ -275,8 +275,8 @@ namespace StandardAssets.Characters.ThirdPerson
                 {
                     m_TurnAroundBehaviours = new TurnAroundBehaviour[]
                     {
-                        m_BlendspaceTurnAroundBehaviour,
-                        m_AnimationTurnAroundBehaviour
+                        m_BlendspaceTurnAround,
+                        m_AnimationTurnAround
                     };
                 }
 
@@ -353,15 +353,15 @@ namespace StandardAssets.Characters.ThirdPerson
         protected override void Awake()
         {
             base.Awake();
-            m_BlendspaceTurnAroundBehaviour.Init(this);
-            m_AnimationTurnAroundBehaviour.Init(this);
+            m_BlendspaceTurnAround.Init(this);
+            m_AnimationTurnAround.Init(this);
             turnAround = GetCurrentTurnaroundBehaviour();
             m_Motor.Init(this);
 
             InitAnimator();
             m_MainCameraTransform = Camera.main.transform;
 
-            m_ThirdPersonMovementEventHandler.Init(this);
+            m_MovementEffects.Init(this);
             SetupGizmos();
         }
 
@@ -377,8 +377,8 @@ namespace StandardAssets.Characters.ThirdPerson
         // Subscribes to various events
         void OnEnable()
         {
-            controllerAdapter.jumpVelocitySet += m_ThirdPersonMovementEventHandler.Jumped;
-            controllerAdapter.landed += m_ThirdPersonMovementEventHandler.Landed;
+            controllerAdapter.jumpVelocitySet += m_MovementEffects.Jumped;
+            controllerAdapter.landed += m_MovementEffects.Landed;
             controllerAdapter.landed += OnLanding;
 
             m_Motor.jumpStarted += OnJumpStarted;
@@ -398,7 +398,7 @@ namespace StandardAssets.Characters.ThirdPerson
                 }
             }
 
-            m_ThirdPersonMovementEventHandler.Subscribe();
+            m_MovementEffects.Subscribe();
         }
 
         // Unsubscribes from various events
@@ -406,8 +406,8 @@ namespace StandardAssets.Characters.ThirdPerson
         {
             if (controllerAdapter != null)
             {
-                controllerAdapter.jumpVelocitySet -= m_ThirdPersonMovementEventHandler.Jumped;
-                controllerAdapter.landed -= m_ThirdPersonMovementEventHandler.Landed;
+                controllerAdapter.jumpVelocitySet -= m_MovementEffects.Jumped;
+                controllerAdapter.landed -= m_MovementEffects.Landed;
                 controllerAdapter.landed -= OnLanding;
             }
 
@@ -431,7 +431,7 @@ namespace StandardAssets.Characters.ThirdPerson
                 m_Motor.Unsubscribe();
             }
 
-            m_ThirdPersonMovementEventHandler.Unsubscribe();
+            m_MovementEffects.Unsubscribe();
         }
 
         /// <summary>
@@ -752,9 +752,9 @@ namespace StandardAssets.Characters.ThirdPerson
                 case TurnAroundType.None:
                     return null;
                 case TurnAroundType.Blendspace:
-                    return m_BlendspaceTurnAroundBehaviour;
+                    return m_BlendspaceTurnAround;
                 case TurnAroundType.Animation:
-                    return m_AnimationTurnAroundBehaviour;
+                    return m_AnimationTurnAround;
                 default:
                     return null;
             }

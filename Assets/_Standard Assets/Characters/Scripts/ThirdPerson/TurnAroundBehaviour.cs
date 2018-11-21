@@ -124,37 +124,28 @@ namespace StandardAssets.Characters.ThirdPerson
             float m_HeadTurnScale = 1.0f;
 
             /// <summary>
+            /// Gets the animation state name.
+            /// </summary>
+            public string name { get { return m_Name; } }
+
+            /// <summary>
+            /// Gets the animation play speed.
+            /// </summary>
+            public float speed { get { return m_Speed; } }
+
+            /// <summary>
+            /// Gets the head look at angle scale during animation.
+            /// </summary>
+            public float headTurnScale { get { return m_HeadTurnScale; } }            
+
+
+            /// <summary>
             /// Initialized <see cref="m_Name"/>.
             /// </summary>
             public AnimationInfo(string name)
             {
                 m_Name = name;
             }
-            
-            /// <summary>
-            /// Gets the animation state name.
-            /// </summary>
-            public string name
-            {
-                get { return m_Name; }
-            }
-
-            /// <summary>
-            /// Gets the animation play speed.
-            /// </summary>
-            public float speed
-            {
-                get { return m_Speed; }
-            }
-
-            /// <summary>
-            /// Gets the head look at angle scale during animation.
-            /// </summary>
-            public float headTurnScale
-            {
-                get { return m_HeadTurnScale; }
-            }
-            
         }
 
         [SerializeField, Tooltip("Configuration for run 180 left turn animation")]
@@ -175,11 +166,11 @@ namespace StandardAssets.Characters.ThirdPerson
         [SerializeField, Tooltip("Configuration for idle 180 right turn animation")]
         AnimationInfo m_IdleRightTurn = new AnimationInfo("IdleTurnRight180_Mirror");
 
-        [SerializeField, Tooltip("Curve used to determine rotation during animation")]
-        AnimationCurve m_RotationCurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
+        [SerializeField, Tooltip("Curve used to evaluate rotation throughout turn around")]
+        AnimationCurve m_RotationMap = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
 
-        [SerializeField, Tooltip("Value used to determine if a run turn should be used")]
-        float m_NormalizedRunSpeedThreshold = 0.1f;
+        [SerializeField, Tooltip("Value (normalized forward speed) used to determine if a run turn should be used instead of an idle turn")]
+        float m_RunTurnThreshold = 0.1f;
 
         [SerializeField, Tooltip("Duration of the cross fade into turn animation")]
         float m_CrossfadeDuration = 0.125f;
@@ -264,7 +255,7 @@ namespace StandardAssets.Characters.ThirdPerson
 
             m_ThirdPersonBrain.UpdateForwardSpeed(m_CacheForwardSpeed, float.MaxValue);
 
-            var rotationProgress = m_RotationCurve.Evaluate(normalizedTime);
+            var rotationProgress = m_RotationMap.Evaluate(normalizedTime);
             m_Transform.rotation = Quaternion.AngleAxis(rotationProgress * m_TargetAngle, Vector3.up) * m_StartRotation;
         }
 
@@ -312,7 +303,7 @@ namespace StandardAssets.Characters.ThirdPerson
         AnimationInfo GetCurrent(float forwardSpeed, bool turningClockwise, bool leftFootPlanted)
         {
             // idle turn
-            if (forwardSpeed < m_NormalizedRunSpeedThreshold)
+            if (forwardSpeed < m_RunTurnThreshold)
             {
                 return turningClockwise ? m_IdleRightTurn : m_IdleLeftTurn;
             }
@@ -355,29 +346,29 @@ namespace StandardAssets.Characters.ThirdPerson
     [Serializable]
     public class BlendspaceTurnAroundBehaviour : TurnAroundBehaviour
     {
-        [SerializeField, Tooltip("Duration of the turn around")]
+        [SerializeField, Tooltip("Duration in seconds of the turn around")]
         float m_TimeToTurn = 0.2f;
 
         [SerializeField, Tooltip("Curve used to evaluate rotation throughout turn around")]
-        AnimationCurve m_RotationDuringTurn = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
+        AnimationCurve m_RotationMap = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
 
         [SerializeField, Tooltip("Curve used to evaluate forward speed throughout turn around")]
-        AnimationCurve m_ForwardSpeed = AnimationCurve.Linear(0.0f, 1.0f, 1.0f, 1.0f);
+        AnimationCurve m_ForwardSpeedMap = AnimationCurve.Linear(0.0f, 1.0f, 1.0f, 1.0f);
 
         [SerializeField, Tooltip("Method to apply forward speed during turn around")]
-        BlendspaceCalculation m_ForwardSpeedCalculation = BlendspaceCalculation.Multiplicative;
+        BlendspaceCalculation m_ForwardSpeedType = BlendspaceCalculation.Multiplicative;
 
-        [SerializeField, Tooltip("An angle less than this is classified as a small turn")]
-        float m_TurnClassificationAngle = 150.0f;
+        [SerializeField, Tooltip("An turning angle larger than this will be a large (180 degree) turn, otherwise it is a small (90 degree) turn")]
+        float m_TurnAngleThreshold = 150.0f;
 
-        [SerializeField, Tooltip("Curve used to evaluate movement throughout a 180° turn around")]
-        AnimationCurve m_MovementDuring180Turn = AnimationCurve.Linear(0.0f, 1.0f, 1.0f, 1.0f);
+        [SerializeField, Tooltip("Curve used to evaluate movement throughout a large (180 dgree) turn around")]
+        AnimationCurve m_LargeTurnMap = AnimationCurve.Linear(0.0f, 1.0f, 1.0f, 1.0f);
 
-        [SerializeField, Tooltip("Curve used to evaluate movement throughout a 90° turn around")]
-        AnimationCurve m_MovementDuring90Turn = AnimationCurve.Linear(0.0f, 1.0f, 1.0f, 1.0f);
+        [SerializeField, Tooltip("Curve used to evaluate movement throughout a small (90 degree) turn around")]
+        AnimationCurve m_SmallTurnMap = AnimationCurve.Linear(0.0f, 1.0f, 1.0f, 1.0f);
 
-        [SerializeField, Tooltip("Head look at angle scale during animation")]
-        float m_HeadTurnMultiplier = 1.0f;
+        [SerializeField, Tooltip("Amount to scale the dynamic head look at angle during a turn around")]
+        float m_HeadTurnScale = 1.0f;
 
         // Has the current turn been classified as a small turn.
         bool m_IsSmallTurn;
@@ -406,20 +397,12 @@ namespace StandardAssets.Characters.ThirdPerson
         // Cached reference of the ThirdPersonBrain's transform
         Transform m_Transform;
 
-        // The curve used to evaluate movement throughout a turnaround.
-        AnimationCurve turnMovementOverTime
-        {
-            get
-            {
-                return m_IsSmallTurn ? m_MovementDuring90Turn : m_MovementDuring180Turn;
-            }
-        }
-
         /// <inheritdoc/>
-        public override float headTurnScale
-        {
-            get { return m_HeadTurnMultiplier; }
-        }
+        public override float headTurnScale { get { return m_HeadTurnScale; } }
+
+        // The curve used to evaluate movement throughout a turnaround.
+        AnimationCurve turnMovementOverTime { get { return m_IsSmallTurn ? m_SmallTurnMap : m_LargeTurnMap; } }
+
 
         /// <inheritdoc/>
         public override void Init(ThirdPersonBrain brain)
@@ -468,7 +451,7 @@ namespace StandardAssets.Characters.ThirdPerson
         /// <param name="angle">The target angle.</param>
         protected override void StartTurningAround(float angle)
         {
-            m_IsSmallTurn = Mathf.Abs(angle) < m_TurnClassificationAngle;
+            m_IsSmallTurn = Mathf.Abs(angle) < m_TurnAngleThreshold;
             m_TargetAngle = angle.Wrap180();
             m_TurningTime = 0.0f;
             m_CurrentForwardSpeed = m_ThirdPersonBrain.animatorForwardSpeed;
@@ -490,9 +473,9 @@ namespace StandardAssets.Characters.ThirdPerson
         {
             var normalizedTime = m_TurningTime / m_TimeToTurn;
 
-            var forwardSpeedValue = m_ForwardSpeed.Evaluate(normalizedTime);
+            var forwardSpeedValue = m_ForwardSpeedMap.Evaluate(normalizedTime);
 
-            if (m_ForwardSpeedCalculation == BlendspaceCalculation.Multiplicative)
+            if (m_ForwardSpeedType == BlendspaceCalculation.Multiplicative)
             {
                 forwardSpeedValue = forwardSpeedValue * m_CurrentForwardSpeed;
             }
@@ -504,7 +487,7 @@ namespace StandardAssets.Characters.ThirdPerson
             m_ThirdPersonBrain.UpdateForwardSpeed(forwardSpeedValue, Time.deltaTime);
 
             var newRotation =
-                m_StartRotation + new Vector3(0.0f, m_RotationDuringTurn.Evaluate(normalizedTime) * m_TargetAngle, 0.0f);
+                m_StartRotation + new Vector3(0.0f, m_RotationMap.Evaluate(normalizedTime) * m_TargetAngle, 0.0f);
             m_Transform.rotation = Quaternion.Euler(newRotation);
         }
 

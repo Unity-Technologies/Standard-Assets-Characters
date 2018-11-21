@@ -12,13 +12,13 @@ namespace Editor
 	public class ThirdPersonBrainEditor : UnityEditor.Editor
 	{
 		// Field names/paths
-		const string k_AnimationTurnaroundName 		= "m_AnimationTurnAroundBehaviour";
-		const string k_BlendspaceTurnaroundName 	= "m_BlendspaceTurnAroundBehaviour";
+		const string k_AnimationTurnaroundName 		= "m_AnimationTurnAround";
+		const string k_BlendspaceTurnaroundName 	= "m_BlendspaceTurnAround";
 		const string k_AnimationConfigName 			= "m_Configuration";
 		const string k_MotorName 					= "m_Motor";
 		const string k_GizmoSettings 				= "m_GizmoSettings";
-		const string k_MovementEvent 				= "m_ThirdPersonMovementEventHandler";
-		const string k_AdapterName 					= "m_CharacterControllerAdapter";
+		const string k_MovementEvent 				= "m_MovementEffects";
+		const string k_AdapterName 					= "m_OCCSettings";
 		const string k_MotorConfigPath 				= "m_Motor.m_Configuration";
 
 		// Fields that make up the advance section

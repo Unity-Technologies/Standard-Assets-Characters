@@ -2181,9 +2181,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 475c226dbac9416ea06c859daeb6d183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CharacterControllerAdapter:
+  m_OCCSettings:
     m_TerminalVelocity: 10
-    m_JumpGravityMultiplierAsAFactorOfForwardSpeed:
+    m_JumpGravityScale:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -2207,7 +2207,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_FallGravityMultiplierAsAFactorOfForwardSpeed:
+    m_ShortJumpGravityScale:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -2231,7 +2231,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_MinJumpHeightMultiplierAsAFactorOfForwardSpeed:
+    m_FallGravityScale:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -2255,16 +2255,16 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_GravityChangeSpeed: 10
+    m_GroundingGravityScale: 2
     m_MinFallDistance: 1.1
-    m_GroundingGravityMultiplier: 2
+    m_MaxGravityDelta: 10
   m_Motor:
     m_Configuration: {fileID: 11400000, guid: 33e0d88026c128b4ca3076e2e5149510, type: 2}
   m_TurnAroundType: 1
   m_VCamTarget: {fileID: 0}
-  m_BlendspaceTurnAroundBehaviour:
+  m_BlendspaceTurnAround:
     m_TimeToTurn: 0.2
-    m_RotationDuringTurn:
+    m_RotationMap:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -2288,7 +2288,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_ForwardSpeed:
+    m_ForwardSpeedMap:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -2312,9 +2312,9 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_ForwardSpeedCalculation: 1
-    m_TurnClassificationAngle: 150
-    m_MovementDuring180Turn:
+    m_ForwardSpeedType: 1
+    m_TurnAngleThreshold: 150
+    m_LargeTurnMap:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -2338,7 +2338,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_MovementDuring90Turn:
+    m_SmallTurnMap:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -2362,8 +2362,8 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_HeadTurnMultiplier: 1
-  m_AnimationTurnAroundBehaviour:
+    m_HeadTurnScale: 1
+  m_AnimationTurnAround:
     m_RunLeftTurn:
       m_Name: RunForwardTurnLeft180
       m_Speed: 1
@@ -2388,7 +2388,7 @@ MonoBehaviour:
       m_Name: IdleTurnRight180_Mirror
       m_Speed: 1
       m_HeadTurnScale: 1
-    m_RotationCurve:
+    m_RotationMap:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -2412,9 +2412,9 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_NormalizedRunSpeedThreshold: 0.1
+    m_RunTurnThreshold: 0.1
     m_CrossfadeDuration: 0.125
-  m_ThirdPersonMovementEventHandler:
+  m_MovementEffects:
     m_ZonesDefinition:
       m_MovementZoneLibraries: []
     m_LeftFootDetection: {fileID: 0}

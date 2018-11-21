@@ -12,7 +12,7 @@ namespace StandardAssets.Characters.Common
 	public abstract class CharacterBrain : MonoBehaviour
 	{
 		[SerializeField, Tooltip("Settings for the OpenCharacterController.")]
-		ControllerAdapter m_CharacterControllerAdapter;
+		ControllerAdapter m_OCCSettings;
 
 		// cached last position vector
 		Vector3 m_LastPosition;
@@ -20,7 +20,7 @@ namespace StandardAssets.Characters.Common
 		/// <summary>
 		/// Gets the <see cref="ControllerAdapter"/> used to move the character
 		/// </summary>
-		public ControllerAdapter controllerAdapter { get { return m_CharacterControllerAdapter; } }
+		public ControllerAdapter controllerAdapter { get { return m_OCCSettings; } }
 		
 		/// <summary>
 		/// Gets the planar speed (i.e. ignoring the displacement) of the CharacterBrain
@@ -50,9 +50,9 @@ namespace StandardAssets.Characters.Common
 		{
 			m_LastPosition = transform.position;
 
-			if (m_CharacterControllerAdapter != null)
+			if (m_OCCSettings != null)
 			{
-				m_CharacterControllerAdapter.Awake(transform);
+				m_OCCSettings.Awake(transform);
 			}
 			else
 			{
@@ -91,24 +91,24 @@ namespace StandardAssets.Characters.Common
 		[SerializeField, Tooltip("Maximum speed that the character can move downwards")]
 		float m_TerminalVelocity = 10f;
 
-		[SerializeField, Tooltip("Gravity scale applied during a jump")]
-		AnimationCurve m_JumpGravityMultiplierAsAFactorOfForwardSpeed = AnimationCurve.Constant(0.0f, 1.0f, 1.0f);
+		[SerializeField, Tooltip("Curve that defines the gravity scale to be applied during the rising motion of a jump, relative to the character's forward speed")]
+		AnimationCurve m_JumpGravityScale = AnimationCurve.Constant(0.0f, 1.0f, 1.0f);
 
-		[SerializeField, Tooltip("Gravity scale applied during a fall")]
-		AnimationCurve m_FallGravityMultiplierAsAFactorOfForwardSpeed = AnimationCurve.Constant(0.0f, 1.0f, 1.0f);
+		[SerializeField, Tooltip("Curve that defines the gravity scale applied during the rising mostion of a jump if the jump button is no longer being held, relative to the character's forward speed")]
+		AnimationCurve m_ShortJumpGravityScale = AnimationCurve.Constant(0.0f, 1.0f, 1.0f);
 
-		[SerializeField, Tooltip("Gravity scale applied during a jump without jump button held")]
-		AnimationCurve m_MinJumpHeightMultiplierAsAFactorOfForwardSpeed = AnimationCurve.Constant(0.0f, 1.0f, 1.0f);
+		[SerializeField, Tooltip("Curve that defines the gravity scale to be applied while falling, relative to the character's forward speed")]
+		AnimationCurve m_FallGravityScale = AnimationCurve.Constant(0.0f, 1.0f, 1.0f);
+		
+		[SerializeField, Tooltip("Gravity scale applied when falling less that the Min Fall Distance (set below)")]
+		float m_GroundingGravityScale = 2.0f; 
+
+		[SerializeField, Tooltip("How far the character must fall in order to trigger the Fall State")]
+		float m_MinFallDistance = 1.1f;
 
 		[SerializeField, Tooltip("How quickly the Gravity that affects the character is allowed to change, when it is" +
 		                         " being dynamically modified by Jumping or Falling Gravity modifiers")]
-		float m_GravityChangeSpeed = 10f;
-		
-		[SerializeField, Tooltip("How far the character must fall in order to trigger the Fall State")]
-		float m_MinFallDistance = 1.1f;
-		
-		[SerializeField, Tooltip("Gravity multiplier applied when falling less that the Min Fall Distance (set above)")]
-		float m_GroundingGravityMultiplier = 2.0f; 
+		float m_MaxGravityDelta = 10f;		
 
 		// Event for when the character lands
 		public event Action landed;
@@ -208,14 +208,14 @@ namespace StandardAssets.Characters.Common
 		// Gets the collision layer mask used for physics grounding
 		LayerMask collisionLayerMask { get { return characterController.GetCollisionLayerMask(); } }		
 
-		// Gets the current jump gravity multiplier as a factor of normalized forward speed
-		float jumpGravityMultiplier { get { return m_JumpGravityMultiplierAsAFactorOfForwardSpeed.Evaluate(m_CharacterBrain.normalizedForwardSpeed); } }
+		// Gets the current jump gravity multiplier
+		float jumpGravityMultiplier { get { return m_JumpGravityScale.Evaluate(m_CharacterBrain.normalizedForwardSpeed); } }
 		
-		// Gets the current minimum jump height gravity multiplier as a factor of normalized forward speed
-		float minJumpHeightMultiplier { get { return m_MinJumpHeightMultiplierAsAFactorOfForwardSpeed.Evaluate( m_CharacterBrain.normalizedForwardSpeed); } }
+		// Gets the current short jump gravity multiplier
+		float shortJumpGravityMultiplier { get { return m_ShortJumpGravityScale.Evaluate( m_CharacterBrain.normalizedForwardSpeed); } }
 		
-		// Gets the current fall gravity multiplier as a factor of normalized forward speed
-		float fallGravityMultiplier { get { return m_FallGravityMultiplierAsAFactorOfForwardSpeed.Evaluate(m_CharacterBrain.normalizedForwardSpeed); } }
+		// Gets the current fall gravity multiplier
+		float fallGravityMultiplier { get { return m_FallGravityScale.Evaluate(m_CharacterBrain.normalizedForwardSpeed); } }
 
 
 		/// <summary>
@@ -396,7 +396,7 @@ namespace StandardAssets.Characters.Common
 				gravityFactor = fallGravityMultiplier;
 				if (!m_DidJump && m_ShortFall) // if a short fall was triggered increase gravity to quickly ground
 				{
-					gravityFactor *= m_GroundingGravityMultiplier;
+					gravityFactor *= m_GroundingGravityScale;
 				}
 				if (m_InitialJumpVelocity < Mathf.Epsilon)
 				{
@@ -411,16 +411,16 @@ namespace StandardAssets.Characters.Common
 			else
 			{
 				gravityFactor = jumpGravityMultiplier;
-				if (m_CharacterInput  != null && !m_CharacterInput.hasJumpInput) // if no input apply min jump modifier
+				if (m_CharacterInput != null && !m_CharacterInput.hasJumpInput) // if no input apply min jump modifier
 				{
-					gravityFactor *= minJumpHeightMultiplier;
+					gravityFactor *= shortJumpGravityMultiplier;
 				}
 				normalizedVerticalSpeed = m_InitialJumpVelocity > 0.0f ? m_CurrentVerticalVelocity / m_InitialJumpVelocity 
 																	   : 0.0f;
 			}
 
 			var newGravity = gravityFactor * UnityPhysics.gravity.y;
-			m_Gravity = Mathf.Lerp(m_Gravity, newGravity, deltaTime * m_GravityChangeSpeed);
+			m_Gravity = Mathf.Lerp(m_Gravity, newGravity, deltaTime * m_MaxGravityDelta);
 		}
 
 		// Moves the character by 'movement' world units

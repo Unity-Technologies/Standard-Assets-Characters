@@ -64,8 +64,8 @@ namespace StandardAssets.Characters.FirstPerson
 		[SerializeField, Tooltip("Movement properties of the character while crouching")]
 		MovementProperties m_Crouching;
 
-		[SerializeField, Tooltip("Management of movement events e.g. footsteps")]
-		FirstPersonMovementEventHandler m_FirstPersonMovementEventHandler;
+		[SerializeField, Tooltip("Management of movement effects e.g. footsteps")]
+		FirstPersonMovementEventHandler m_MovementEffects;
 
 		// The movement state is passed to the camera manager so that there can be different cameras e.g. crouch
 		FirstPersonCameraController m_FirstPersonCameraController;
@@ -129,10 +129,10 @@ namespace StandardAssets.Characters.FirstPerson
 		{
 			base.Awake();
 			FindCameraController(true);
-			m_FirstPersonMovementEventHandler.Init(this);
+			m_MovementEffects.Init(this);
 			m_CurrentMovementProperties = m_Walking;
 			m_NewMovementProperties = m_Walking;
-			m_FirstPersonMovementEventHandler.AdjustTriggerThreshold(m_CurrentMovementProperties.strideLength);
+			m_MovementEffects.AdjustTriggerThreshold(m_CurrentMovementProperties.strideLength);
 			m_MainCamera = Camera.main;
 		}
 
@@ -140,7 +140,7 @@ namespace StandardAssets.Characters.FirstPerson
 		void OnEnable()
 		{
 			controllerAdapter.landed += OnLanded;
-			m_FirstPersonMovementEventHandler.Subscribe();
+			m_MovementEffects.Subscribe();
 			characterInput.jumpPressed += OnJumpPressed;
 			characterInput.sprintStarted += StartSprinting;
 			characterInput.sprintEnded += StartWalking;
@@ -152,7 +152,7 @@ namespace StandardAssets.Characters.FirstPerson
 		void OnDisable()
 		{
 			controllerAdapter.landed -= OnLanded;
-			m_FirstPersonMovementEventHandler.Unsubscribe();
+			m_MovementEffects.Unsubscribe();
 			if (characterInput == null)
 			{
 				return;
@@ -172,7 +172,7 @@ namespace StandardAssets.Characters.FirstPerson
 			currentRotation.y = m_MainCamera.transform.rotation.eulerAngles.y;
 			transform.rotation = Quaternion.Euler(currentRotation);
 			Move();
-			m_FirstPersonMovementEventHandler.Tick();
+			m_MovementEffects.Tick();
 		}
 		
 #if UNITY_EDITOR
@@ -318,7 +318,7 @@ namespace StandardAssets.Characters.FirstPerson
 				m_CurrentMovementProperties = m_NewMovementProperties;
 			}
 
-			m_FirstPersonMovementEventHandler.AdjustTriggerThreshold(newState.strideLength);
+			m_MovementEffects.AdjustTriggerThreshold(newState.strideLength);
 		}
 	}
 	

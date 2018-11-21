@@ -665,6 +665,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4617604628190288}
+  - component: {fileID: 135724061741436522}
+  - component: {fileID: 54044464869534962}
+  - component: {fileID: 114691607450998618}
   m_Layer: 0
   m_Name: LeftFoot
   m_TagString: Untagged
@@ -1010,6 +1013,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4560137652920066}
+  - component: {fileID: 135655159668849798}
+  - component: {fileID: 54549028519627978}
+  - component: {fileID: 114929563827658170}
   m_Layer: 0
   m_Name: RightFoot
   m_TagString: Untagged
@@ -2105,12 +2111,42 @@ Transform:
   m_Father: {fileID: 4294547043128174}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &54044464869534962
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1556561806392140}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!54 &54244630408656574
 Rigidbody:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1990983976190814}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!54 &54549028519627978
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1956521204524848}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
@@ -2149,90 +2185,90 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 475c226dbac9416ea06c859daeb6d183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CharacterControllerAdapter:
+  m_OCCSettings:
     m_TerminalVelocity: 10
-    m_JumpGravityMultiplierAsAFactorOfForwardSpeed:
+    m_JumpGravityScale:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
+        value: 0.85
+        inSlope: -0.050000012
+        outSlope: -0.050000012
+        tangentMode: 34
         weightedMode: 0
         inWeight: 0
-        outWeight: 0
+        outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
+        value: 0.8
+        inSlope: -0.050000012
+        outSlope: -0.050000012
+        tangentMode: 34
         weightedMode: 0
-        inWeight: 0
+        inWeight: 0.33333334
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_FallGravityMultiplierAsAFactorOfForwardSpeed:
+    m_ShortJumpGravityScale:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
+        value: 1.5
+        inSlope: 0.5
+        outSlope: 0.5
+        tangentMode: 34
         weightedMode: 0
         inWeight: 0
-        outWeight: 0
+        outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
+        value: 2
+        inSlope: 0.5
+        outSlope: 0.5
+        tangentMode: 34
         weightedMode: 0
-        inWeight: 0
+        inWeight: 0.33333334
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_MinJumpHeightMultiplierAsAFactorOfForwardSpeed:
+    m_FallGravityScale:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
+        value: 1.6
+        inSlope: -0.20000005
+        outSlope: -0.20000005
+        tangentMode: 34
         weightedMode: 0
         inWeight: 0
-        outWeight: 0
+        outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
+        value: 1.4
+        inSlope: -0.20000005
+        outSlope: -0.20000005
+        tangentMode: 34
         weightedMode: 0
-        inWeight: 0
+        inWeight: 0.33333334
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_GravityChangeSpeed: 10
+    m_GroundingGravityScale: 2
     m_MinFallDistance: 1.1
-    m_GroundingGravityMultiplier: 2
+    m_MaxGravityDelta: 10
   m_Motor:
     m_Configuration: {fileID: 11400000, guid: 33e0d88026c128b4ca3076e2e5149510, type: 2}
   m_TurnAroundType: 1
   m_VCamTarget: {fileID: 4802759213599164}
-  m_BlendspaceTurnAroundBehaviour:
+  m_BlendspaceTurnAround:
     m_TimeToTurn: 0.2
-    m_RotationDuringTurn:
+    m_RotationMap:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -2256,7 +2292,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_ForwardSpeed:
+    m_ForwardSpeedMap:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -2280,9 +2316,9 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_ForwardSpeedCalculation: 1
-    m_TurnClassificationAngle: 150
-    m_MovementDuring180Turn:
+    m_ForwardSpeedType: 1
+    m_TurnAngleThreshold: 150
+    m_LargeTurnMap:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -2306,7 +2342,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_MovementDuring90Turn:
+    m_SmallTurnMap:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -2330,8 +2366,8 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_HeadTurnMultiplier: 1
-  m_AnimationTurnAroundBehaviour:
+    m_HeadTurnScale: 1
+  m_AnimationTurnAround:
     m_RunLeftTurn:
       m_Name: RunForwardTurnLeft180
       m_Speed: 1.1
@@ -2356,7 +2392,7 @@ MonoBehaviour:
       m_Name: IdleTurnRight180_Mirror
       m_Speed: 3
       m_HeadTurnScale: 1
-    m_RotationCurve:
+    m_RotationMap:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -2380,13 +2416,13 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_NormalizedRunSpeedThreshold: 0.35
+    m_RunTurnThreshold: 0.35
     m_CrossfadeDuration: 0.25
-  m_ThirdPersonMovementEventHandler:
+  m_MovementEffects:
     m_ZonesDefinition:
       m_MovementZoneLibraries: []
-    m_LeftFootDetection: {fileID: 0}
-    m_RightFootDetection: {fileID: 0}
+    m_LeftFootDetection: {fileID: 114691607450998618}
+    m_RightFootDetection: {fileID: 114929563827658170}
     m_MaximumSpeed: 10
   m_Configuration: {fileID: 11400000, guid: 16861f506e03f4b39a1b25e1bb3e307f, type: 2}
   m_ShowDebugGizmos: 0
@@ -2401,6 +2437,20 @@ MonoBehaviour:
     m_ShowHeadGizmos: 0
     m_HeadCurrentDirection: {r: 0, g: 0, b: 0, a: 0}
     m_HeadDesiredDirection: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &114691607450998618
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1556561806392140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcb74f21ba404856bb13390a1b5f29ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!114 &114779351724003978
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2453,6 +2503,44 @@ MonoBehaviour:
   m_XSensitivity: 1
   m_YSensitivity: 1
   m_CursorLocked: 1
+--- !u!114 &114929563827658170
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1956521204524848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcb74f21ba404856bb13390a1b5f29ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 256
+--- !u!135 &135655159668849798
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1956521204524848}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.05
+  m_Center: {x: 0.05, y: 0.1, z: 0}
+--- !u!135 &135724061741436522
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1556561806392140}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.05
+  m_Center: {x: -0.05, y: -0.1, z: 0}
 --- !u!136 &136357341931638132
 CapsuleCollider:
   m_ObjectHideFlags: 1
