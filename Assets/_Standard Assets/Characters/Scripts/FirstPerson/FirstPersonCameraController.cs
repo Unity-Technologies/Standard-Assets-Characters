@@ -1,5 +1,8 @@
 using Cinemachine;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace StandardAssets.Characters.FirstPerson
 {
@@ -9,8 +12,18 @@ namespace StandardAssets.Characters.FirstPerson
     [RequireComponent(typeof(Animator))]
     public class FirstPersonCameraController : MonoBehaviour
     {
+        /// <summary>
+        /// The names of the states in the camera animator
+        /// </summary>
+        const string k_CrouchAnimationStateName = "Crouch";
+        const string k_SprintAnimationStateName = "Sprint";
+        const string k_WalkAnimationStateName = "Walk";
+
         // Unity Animator with blank animation states for Cinemachine State Driven Cameras
         Animator m_Animator;
+
+        // Brain 
+        FirstPersonBrain m_FirstPersonBrain;
 
         /// <summary>
         /// Sets the animation to the defined state
@@ -23,20 +36,121 @@ namespace StandardAssets.Characters.FirstPerson
             {
                 m_Animator = GetComponent<Animator>();
             }
-            m_Animator.Play(state,layer);
+
+            m_Animator.Play(state, layer);
+        }
+
+        // On awake of component
+        void Awake()
+        {
+            FindFirstPersonBrain(true);
+        }
+
+        // Subscribes to movement state changes
+        void OnEnable()
+        {
+            if (m_FirstPersonBrain == null)
+            {
+                return;
+            }
+
+            m_FirstPersonBrain.startWalking += OnStartedWalking;
+            m_FirstPersonBrain.startCrouching += OnStartCrouching;
+            m_FirstPersonBrain.startSprinting += OnStartSprinting;
         }
         
-        /// <summary>
-        /// Sends through the <see cref="FirstPersonBrain"/> and allows Follow field of <see cref="CinemachineStateDrivenCamera"/> to be set correctly
-        /// </summary>
-        /// <param name="brainToUse">The FirstPersonBrain component which has a transform for the <see cref="CinemachineStateDrivenCamera"/> to follow</param>
-        public void SetupBrain(FirstPersonBrain brainToUse)
+        // Unsubscribes from movement state changes
+        void OnDisable()
         {
-            var rootSdc = GetComponent<CinemachineStateDrivenCamera>();
-            if (rootSdc != null)
+            if (m_FirstPersonBrain == null)
             {
-                rootSdc.m_Follow = brainToUse.transform;
+                return;
             }
+
+            m_FirstPersonBrain.startWalking -= OnStartedWalking;
+            m_FirstPersonBrain.startCrouching -= OnStartCrouching;
+            m_FirstPersonBrain.startSprinting -= OnStartSprinting;
+        }
+
+#if UNITY_EDITOR
+        /// On reset of component
+        void Reset()
+        {
+            //Design pattern for fetching required scene references
+            FindFirstPersonBrain(false);
+        }
+
+        /// On change of component
+        void OnValidate()
+        {
+            //Design pattern for fetching required scene references
+            FindFirstPersonBrain(false);
+        }
+#endif
+
+        // Finds the FirstPersonBrain and automatically sets up the required fields for the Cinemachine cameras
+        void FindFirstPersonBrain(bool autoDisable)
+        {
+            if (m_FirstPersonBrain == null)
+            {
+                FirstPersonBrain[] firstPersonBrains = FindObjectsOfType<FirstPersonBrain>();
+                int length = firstPersonBrains.Length;
+                bool found = true;
+                if (length != 1)
+                {
+                    string errorMessage = "No FirstPersonBrain in scene! Disabling Camera Controller";
+                    if (length > 1)
+                    {
+                        errorMessage = "Too many FirstPersonBrain in scene! Disabling Camera Controller";
+                    }
+                    else // none found
+                    {
+                        found = false;
+                    }
+
+                    if (autoDisable)
+                    {
+                        Debug.LogError(errorMessage);
+#if UNITY_EDITOR
+                        EditorUtility.DisplayDialog("Error detecting FirstPersonBrain", errorMessage, "Ok");
+#endif
+                        gameObject.SetActive(false);
+                    }
+                }
+
+                if (found)
+                {
+                    m_FirstPersonBrain = firstPersonBrains[0];
+                }
+                else
+                {
+                    return;
+                }
+
+                var rootSdc = GetComponent<CinemachineStateDrivenCamera>();
+                if (rootSdc != null)
+                {
+                    rootSdc.m_Follow = m_FirstPersonBrain.transform;
+                }
+            }
+        }
+        
+        // Sets camera animation to sprint
+        void OnStartSprinting()
+        {
+            SetAnimation(k_SprintAnimationStateName);
+        }
+
+        // Sets camera animation to crouch
+        void OnStartCrouching()
+        {
+            SetAnimation(k_CrouchAnimationStateName);
+        }
+
+        // Sets camera animation to walk
+        void OnStartedWalking()
+        {
+            SetAnimation(k_WalkAnimationStateName);
         }
     }
 }
