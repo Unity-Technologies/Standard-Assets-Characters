@@ -18,10 +18,10 @@ namespace Editor
         const string k_ListPropertyName = "m_MovementZoneLibraries";
         const string k_PhysicMaterialPropertyName= "m_PhysicMaterial";
         const string k_ZoneLibraryPropertyName= "m_ZoneLibrary";
-        const string k_LeftFootPropertyName = "m_LeftFootStepPrefabs";
-        const string k_RightFootPropertyName = "m_RightFootStepPrefabs";
-        const string k_LandingPropertyName = "m_LandingPrefabs";
-        const string k_JumpingPropertyName = "m_JumpingPrefabs";
+        const string k_LeftFootPropertyName = "m_LeftFootEffects";
+        const string k_RightFootPropertyName = "m_RightFootEffects";
+        const string k_LandingPropertyName = "m_LandingEffects";
+        const string k_JumpingPropertyName = "m_JumpingEffects";
         
         //Header text on the ReorderableList GUI
         const string k_Header = "Movement Zones";

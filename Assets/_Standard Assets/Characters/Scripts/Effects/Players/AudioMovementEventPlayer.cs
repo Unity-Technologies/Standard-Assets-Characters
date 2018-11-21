@@ -8,7 +8,7 @@ namespace StandardAssets.Characters.Effects.Players
 	public class AudioMovementEventPlayer : MovementEventPlayer
 	{
 		[SerializeField, Tooltip("Curve for scaling volume based on normalizedSpeed")]
-		AnimationCurve m_VolumeFromNormalizedSpeed = AnimationCurve.Linear(0f,0f,1f,1f);
+		AnimationCurve m_VolumeCurve = AnimationCurve.Linear(0f,0f,1f,1f);
 		
 		[SerializeField, Tooltip("AudioSource used to play the selected clip")]
 		AudioSource m_Source;
@@ -57,7 +57,7 @@ namespace StandardAssets.Characters.Effects.Players
 		/// </summary>
 		protected override float Evaluate(float normalizedSpeed)
 		{
-			return m_VolumeFromNormalizedSpeed.Evaluate(normalizedSpeed);
+			return m_VolumeCurve.Evaluate(normalizedSpeed);
 		}
 	}
 }

@@ -382,36 +382,36 @@ namespace StandardAssets.Characters.Physics
 		[SerializeField, Tooltip("The Character’s Capsule Collider height. It should be at least double the radius.")]
 		float m_Height = 2.0f;
 
-		[SerializeField, Tooltip("Layers to test for collision.")]
+		[SerializeField, Tooltip("Layers to test against for collisions.")]
 		LayerMask m_CollisionLayerMask = ~0; // ~0 sets it to Everything
 
 		[SerializeField, Tooltip("Is the character controlled by a local human? If true then more calculations are done for more " +
 		         "accurate movement.")]
-		bool m_LocalHumanControlled = true;
+		bool m_IsLocalHuman = true;
 
 		[SerializeField, Tooltip("Can character slide vertically when touching the ceiling? (For example, if ceiling is sloped.)")]
-		bool m_CanSlideAgainstCeiling = true;
+		bool m_SlideAlongCeiling = true;
 
 		[SerializeField, Tooltip(
 			"Send \"OnOpenCharacterControllerHit\" messages to game objects? Messages are sent when the character " +
 			"hits a collider while performing a move. WARNING: This does create garbage.")]
-		bool m_SendColliderHitMessages;
+		bool m_SendHitMessages;
 
-		[SerializeField, Tooltip("Should cast queries hit trigger colliders?")]
-		QueryTriggerInteraction m_QueryTriggerInteraction = QueryTriggerInteraction.Ignore;
+		[SerializeField, Tooltip("The desired interaction that cast calls should make against triggers")]
+		QueryTriggerInteraction m_TriggerQuery = QueryTriggerInteraction.Ignore;
 
-		[Header("Slide Down Slopes")]
-		[SerializeField, Tooltip("Slide down slopes when their angle is more than the slope limit?")]
+		[Header("Sliding")]
+		[SerializeField, Tooltip("Should the character slide down slopes when their angle is more than the slope limit?")]
 		bool m_SlideDownSlopes = true;
 
 		[SerializeField, Tooltip("The maximum speed that the character can slide downwards")]
-		float m_SlideDownTerminalVelocity = 10.0f;
+		float m_SlideMaxSpeed = 10.0f;
 
-		[SerializeField, Tooltip("Scale gravity when sliding down slopes.")]
-		float m_SlideDownGravityScale = 1.0f;
+		[SerializeField, Tooltip("Gravity scale to apply when sliding down slopes.")]
+		float m_SlideGravityScale = 1.0f;
 
-		[SerializeField, Tooltip("The time after initiating a slide classified as a slide start. Used to disable jumping.")]
-		float m_SlideDownStartDuration = 0.25f;
+		[SerializeField, Tooltip("The time (in seconds) after initiating a slide classified as a slide start. Used to disable jumping.")]
+		float m_SlideStartTime = 0.25f;
 
 		/// <summary>
 		/// Fired when the grounded state changed.
@@ -548,7 +548,7 @@ namespace StandardAssets.Characters.Physics
 		/// <summary>
 		/// Is the character sliding and has been sliding less than slideDownTimeUntilJumAllowed
 		/// </summary>
-		public bool startedSlide { get { return isSlidingDownSlope && slidingDownSlopeTime <= m_SlideDownStartDuration; } }
+		public bool startedSlide { get { return isSlidingDownSlope && slidingDownSlopeTime <= m_SlideStartTime; } }
 
 		/// <summary>
 		/// How long has character been sliding down a steep slope? (Zero means not busy sliding.)
@@ -745,7 +745,7 @@ namespace StandardAssets.Characters.Physics
 				                                out hitInfo,
 				                                distance + extraDistance,
 				                                GetCollisionLayerMask(),
-				                                m_QueryTriggerInteraction))
+				                                m_TriggerQuery))
 				{
 					didCollide = true;
 					hitInfo.distance = Mathf.Max(0.0f, hitInfo.distance - extraDistance);
@@ -805,7 +805,7 @@ namespace StandardAssets.Characters.Physics
 				                                out hitInfo,
 				                                distance + extraDistance,
 				                                GetCollisionLayerMask(),
-				                                m_QueryTriggerInteraction))
+				                                m_TriggerQuery))
 				{
 					didCollide = true;
 					hitInfo.distance = Mathf.Max(0.0f, hitInfo.distance - extraDistance);
@@ -1166,8 +1166,8 @@ namespace StandardAssets.Characters.Physics
 				                               out hitInfo,
 				                               Vector3.zero,
 				                               true,
-				                               m_LocalHumanControlled,
-				                               m_LocalHumanControlled);
+				                               m_IsLocalHuman,
+				                               m_IsLocalHuman);
 			}
 			else
 			{
@@ -1176,8 +1176,8 @@ namespace StandardAssets.Characters.Physics
 				                               out hitInfo,
 				                               Vector3.zero,
 				                               true,
-				                               m_LocalHumanControlled,
-				                               m_LocalHumanControlled);
+				                               m_IsLocalHuman,
+				                               m_IsLocalHuman);
 				if (!collided)
 				{
 					// Check for collision below
@@ -1185,8 +1185,8 @@ namespace StandardAssets.Characters.Physics
 					                               out hitInfo,
 					                               Vector3.zero,
 					                               true,
-					                               m_LocalHumanControlled,
-					                               m_LocalHumanControlled);
+					                               m_IsLocalHuman,
+					                               m_IsLocalHuman);
 				}
 			}
 
@@ -1206,7 +1206,7 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		public bool GetLocalHumanControlled()
 		{
-			return m_LocalHumanControlled;
+			return m_IsLocalHuman;
 		}
 
 		/// <summary>
@@ -1214,7 +1214,7 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		public QueryTriggerInteraction GetQueryTriggerInteraction()
 		{
-			return m_QueryTriggerInteraction;
+			return m_TriggerQuery;
 		}
 
 		/// <summary>
@@ -1421,7 +1421,7 @@ namespace StandardAssets.Characters.Physics
 				onCollisionFlagsChanged(collisionFlags);
 			}
 
-			if (m_SendColliderHitMessages)
+			if (m_SendHitMessages)
 			{
 				SendHitMessages();
 			}
@@ -1461,8 +1461,8 @@ namespace StandardAssets.Characters.Physics
 				                                 out hitinfo,
 				                                 Vector3.zero,
 				                                 true,
-				                                 m_LocalHumanControlled,
-				                                 m_LocalHumanControlled);
+				                                 m_IsLocalHuman,
+				                                 m_IsLocalHuman);
 			}
 			else
 			{
@@ -1507,7 +1507,7 @@ namespace StandardAssets.Characters.Physics
 					// Stop current move loop vector
 					remainingMoveVector = new MoveVector(Vector3.zero);
 				}
-				else if (!m_LocalHumanControlled && collided)
+				else if (!m_IsLocalHuman && collided)
 				{
 					// Only slide once for non-human controlled characters
 					remainingMoveVector.canSlide = false;
@@ -1669,7 +1669,7 @@ namespace StandardAssets.Characters.Physics
 			}
 
 			// Only need to do the second test for human controlled character
-			if (!alsoCheckForStepOffset || !m_LocalHumanControlled)
+			if (!alsoCheckForStepOffset || !m_IsLocalHuman)
 			{
 				return false;
 			}
@@ -1711,7 +1711,7 @@ namespace StandardAssets.Characters.Physics
 			                                out hitInfoRay,
 			                                rayDirection.magnitude * k_RaycastScaleDistance,
 			                                GetCollisionLayerMask(),
-			                                m_QueryTriggerInteraction) &&
+			                                m_TriggerQuery) &&
 			    hitInfoRay.collider == hitInfoCapsule.collider)
 			{
 				hitInfoCapsule = hitInfoRay;
@@ -1748,13 +1748,13 @@ namespace StandardAssets.Characters.Physics
 				if (horizontal.x.NotEqualToZero() || horizontal.z.NotEqualToZero())
 				{
 					// Move up then horizontal
-					AddMoveVector(vertical, m_CanSlideAgainstCeiling);
+					AddMoveVector(vertical, m_SlideAlongCeiling);
 					AddMoveVector(horizontal);
 				}
 				else
 				{
 					// Move up
-					AddMoveVector(vertical, m_CanSlideAgainstCeiling);
+					AddMoveVector(vertical, m_SlideAlongCeiling);
 				}
 			}
 			else if (vertical.y < 0.0f)
@@ -1888,7 +1888,7 @@ namespace StandardAssets.Characters.Physics
 			                                    out smallRadiusHitInfo,
 			                                    distance + extraDistance,
 			                                    GetCollisionLayerMask(),
-			                                    m_QueryTriggerInteraction))
+			                                    m_TriggerQuery))
 			{
 				return smallRadiusHitInfo.distance <= distance;
 			}
@@ -1916,7 +1916,7 @@ namespace StandardAssets.Characters.Physics
 			                                    out bigRadiusHitInfo,
 			                                    distance + extraDistance,
 			                                    GetCollisionLayerMask(),
-			                                    m_QueryTriggerInteraction))
+			                                    m_TriggerQuery))
 			{
 				return bigRadiusHitInfo.distance <= distance;
 			}
@@ -1946,7 +1946,7 @@ namespace StandardAssets.Characters.Physics
 			                                   out smallRadiusHitInfo,
 			                                   distance + extraDistance,
 			                                   GetCollisionLayerMask(),
-			                                   m_QueryTriggerInteraction))
+			                                   m_TriggerQuery))
 			{
 				return smallRadiusHitInfo.distance <= distance;
 			}
@@ -1976,7 +1976,7 @@ namespace StandardAssets.Characters.Physics
 			                                   out bigRadiusHitInfo,
 			                                   distance + extraDistance,
 			                                   GetCollisionLayerMask(),
-			                                   m_QueryTriggerInteraction))
+			                                   m_TriggerQuery))
 			{
 				return bigRadiusHitInfo.distance <= distance;
 			}
@@ -2023,7 +2023,7 @@ namespace StandardAssets.Characters.Physics
 			                                out hitInfoRay,
 			                                rayDirection.magnitude * k_RaycastScaleDistance,
 			                                GetCollisionLayerMask(),
-			                                m_QueryTriggerInteraction) &&
+			                                m_TriggerQuery) &&
 			    hitInfoRay.collider == hitInfoCapsule.collider &&
 			    Vector3.Angle(hitInfoCapsule.normal, hitInfoRay.normal) <= k_MaxAngleToUseRaycastNormal)
 			{
@@ -2131,7 +2131,7 @@ namespace StandardAssets.Characters.Physics
 			                                                              scaledRadius + tempSkinWidth,
 			                                                              m_PenetrationInfoColliders,
 			                                                              GetCollisionLayerMask(),
-			                                                              m_QueryTriggerInteraction);
+			                                                              m_TriggerQuery);
 			if (overlapCount <= 0 || m_PenetrationInfoColliders.Length <= 0)
 			{
 				return false;
@@ -2187,7 +2187,7 @@ namespace StandardAssets.Characters.Physics
 			                                        GetBottomSphereWorldPosition() + offset,
 			                                        scaledRadius + tempSkinWidth,
 			                                        GetCollisionLayerMask(),
-			                                        m_QueryTriggerInteraction);
+			                                        m_TriggerQuery);
 		}
 
 		// Move the capsule position.
@@ -2228,7 +2228,7 @@ namespace StandardAssets.Characters.Physics
 
 			m_StuckInfo.hitCount++;
 
-			if (m_SendColliderHitMessages && hitInfo != null)
+			if (m_SendHitMessages && hitInfo != null)
 			{
 				var collider = hitInfo.Value.collider;
 				
@@ -2313,7 +2313,7 @@ namespace StandardAssets.Characters.Physics
 				                                out hitInfoRay,
 				                                rayDirection.magnitude * k_RaycastScaleDistance,
 				                                GetCollisionLayerMask(),
-				                                m_QueryTriggerInteraction) &&
+				                                m_TriggerQuery) &&
 				    hitInfoRay.collider == hitInfoSphere.collider)
 				{
 					hitNormal = hitInfoRay.normal;
@@ -2340,8 +2340,8 @@ namespace StandardAssets.Characters.Physics
 			var slideSpeedScale = Mathf.Clamp01(slopeAngle / k_MaxSlopeSlideAngle);
 
 			// Apply gravity and slide along the obstacle
-			var gravity = Mathf.Abs(UnityEngine.Physics.gravity.y) * m_SlideDownGravityScale * slideSpeedScale;
-			var verticalVelocity = Mathf.Clamp(gravity * slidingDownSlopeTime, 0.0f, Mathf.Abs(m_SlideDownTerminalVelocity));
+			var gravity = Mathf.Abs(UnityEngine.Physics.gravity.y) * m_SlideGravityScale * slideSpeedScale;
+			var verticalVelocity = Mathf.Clamp(gravity * slidingDownSlopeTime, 0.0f, Mathf.Abs(m_SlideMaxSpeed));
 			var moveVector = new Vector3(0.0f, -verticalVelocity, 0.0f) * dt;
 
 			// Push slightly away from the slope

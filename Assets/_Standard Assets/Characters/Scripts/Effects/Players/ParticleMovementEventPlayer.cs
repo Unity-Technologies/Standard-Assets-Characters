@@ -9,7 +9,7 @@ namespace StandardAssets.Characters.Effects.Players
 	public class ParticleMovementEventPlayer : MovementEventPlayer
 	{
 		[SerializeField, Tooltip("Curve used to scale the particle system based on normalizedSpeed")]
-		AnimationCurve m_ParticleScaleFromNormalizedSpeed = AnimationCurve.Linear(0f,0f,1f,1f);
+		AnimationCurve m_ScaleCurve = AnimationCurve.Linear(0f,0f,1f,1f);
 
 		// Particle Systems used in effect
 		ParticleSystem[] m_ParticleSystems;
@@ -41,7 +41,7 @@ namespace StandardAssets.Characters.Effects.Players
 		/// </summary>
 		protected override float Evaluate(float normalizedSpeed)
 		{
-			return m_ParticleScaleFromNormalizedSpeed.Evaluate(normalizedSpeed);
+			return m_ScaleCurve.Evaluate(normalizedSpeed);
 		}
 	}
 }
