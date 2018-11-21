@@ -44,6 +44,7 @@ namespace StandardAssets.Characters.FirstPerson
         void Awake()
         {
             FindFirstPersonBrain(true);
+            SetupMainCamera();
         }
 
         // Subscribes to movement state changes
@@ -78,6 +79,7 @@ namespace StandardAssets.Characters.FirstPerson
         {
             //Design pattern for fetching required scene references
             FindFirstPersonBrain(false);
+            SetupMainCamera();
         }
 
         /// On change of component
@@ -85,9 +87,20 @@ namespace StandardAssets.Characters.FirstPerson
         {
             //Design pattern for fetching required scene references
             FindFirstPersonBrain(false);
+            SetupMainCamera();
         }
 #endif
 
+        // Ensures that the main camera has a CinemachineBrain
+        void SetupMainCamera()
+        {
+            var mainCamera = Camera.main;
+            if (mainCamera != null && mainCamera.GetComponent<CinemachineBrain>() == null)
+            {
+                mainCamera.gameObject.AddComponent<CinemachineBrain>();
+            }
+        }
+        
         // Finds the FirstPersonBrain and automatically sets up the required fields for the Cinemachine cameras
         void FindFirstPersonBrain(bool autoDisable)
         {
