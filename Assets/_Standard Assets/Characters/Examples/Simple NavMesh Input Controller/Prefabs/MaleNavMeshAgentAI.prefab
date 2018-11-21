@@ -2162,14 +2162,14 @@ MonoBehaviour:
   m_CollisionLayerMask:
     serializedVersion: 2
     m_Bits: 257
-  m_LocalHumanControlled: 1
-  m_CanSlideAgainstCeiling: 1
-  m_SendColliderHitMessages: 0
-  m_QueryTriggerInteraction: 1
+  m_IsLocalHuman: 1
+  m_SlideAlongCeiling: 1
+  m_SendHitMessages: 0
+  m_TriggerQuery: 1
   m_SlideDownSlopes: 1
-  m_SlideDownTerminalVelocity: 10
-  m_SlideDownGravityScale: 1
-  m_SlideDownStartDuration: 0.25
+  m_SlideMaxSpeed: 10
+  m_SlideGravityScale: 1
+  m_SlideStartTime: 0.25
 --- !u!114 &114403526203746496
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2261,134 +2261,133 @@ MonoBehaviour:
   m_Motor:
     m_Configuration: {fileID: 11400000, guid: 33e0d88026c128b4ca3076e2e5149510, type: 2}
   m_TurnAroundType: 1
+  m_VCamTarget: {fileID: 0}
   m_BlendspaceTurnAroundBehaviour:
-    m_ConfigureBlendspace: 0
-    m_Configuration:
-      m_TimeToTurn: 0.2
-      m_RotationDuringTurn:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 1
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 1
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      m_ForwardSpeed:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      m_ForwardSpeedCalculation: 1
-      m_TurnClassificationAngle: 150
-      m_MovementDuring180Turn:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      m_MovementDuring90Turn:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      m_HeadTurnMultiplier: 1
+    m_TimeToTurn: 0.2
+    m_RotationDuringTurn:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 1
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_ForwardSpeed:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_ForwardSpeedCalculation: 1
+    m_TurnClassificationAngle: 150
+    m_MovementDuring180Turn:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MovementDuring90Turn:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_HeadTurnMultiplier: 1
   m_AnimationTurnAroundBehaviour:
     m_RunLeftTurn:
-      name: RunForwardTurnLeft180
-      speed: 1
-      headTurnScale: 1
+      m_Name: RunForwardTurnLeft180
+      m_Speed: 1
+      m_HeadTurnScale: 1
     m_RunRightTurn:
-      name: RunForwardTurnRight180_Mirror
-      speed: 1
-      headTurnScale: 1
+      m_Name: RunForwardTurnRight180_Mirror
+      m_Speed: 1
+      m_HeadTurnScale: 1
     m_SprintLeftTurn:
-      name: RunForwardTurnLeft180
-      speed: 1
-      headTurnScale: 1
+      m_Name: RunForwardTurnLeft180
+      m_Speed: 1
+      m_HeadTurnScale: 1
     m_SprintRightTurn:
-      name: RunForwardTurnRight180_Mirror
-      speed: 1
-      headTurnScale: 1
+      m_Name: RunForwardTurnRight180_Mirror
+      m_Speed: 1
+      m_HeadTurnScale: 1
     m_IdleLeftTurn:
-      name: IdleTurnLeft180
-      speed: 1
-      headTurnScale: 1
+      m_Name: IdleTurnLeft180
+      m_Speed: 1
+      m_HeadTurnScale: 1
     m_IdleRightTurn:
-      name: IdleTurnRight180_Mirror
-      speed: 1
-      headTurnScale: 1
+      m_Name: IdleTurnRight180_Mirror
+      m_Speed: 1
+      m_HeadTurnScale: 1
     m_RotationCurve:
       serializedVersion: 2
       m_Curve:

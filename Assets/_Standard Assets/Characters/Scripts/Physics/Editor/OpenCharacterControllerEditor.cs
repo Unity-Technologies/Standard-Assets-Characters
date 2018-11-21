@@ -14,10 +14,10 @@ namespace Editor
 		{
 			"m_SkinWidth", 
 			"m_MinMoveDistance", 
-			"m_LocalHumanControlled",
-			"m_CanSlideAgainstCeiling", 
-			"m_SendColliderHitMessages", 
-			"m_QueryTriggerInteraction"
+			"m_IsLocalHuman",
+			"m_SlideAlongCeiling", 
+			"m_SendHitMessages", 
+			"m_TriggerQuery"
 		};
 
 		// Tracks the whether the advanced foldout is open/collapse

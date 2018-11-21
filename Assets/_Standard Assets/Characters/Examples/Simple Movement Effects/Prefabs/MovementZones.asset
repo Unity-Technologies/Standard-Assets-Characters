@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 979c01115def454ba10ad1af450a9bdf, type: 3}
+  m_Name: MovementZones
+  m_EditorClassIdentifier: 
+  m_DefaultPhysicMaterial: {fileID: 13400000, guid: 29b2c1bb6c1514a8481c9824004f1bfa,
+    type: 2}
+  m_ZonesDefinition:
+    m_MovementZoneLibraries:
+    - m_PhysicMaterial: {fileID: 13400000, guid: 6940cb6fb8efe45f18f8f38410c06794,
+        type: 2}
+      m_ZoneLibrary:
+        m_LeftFootEffects:
+        - {fileID: 114958508550175952, guid: 394a8cff30d674216ab8a2697ff41bf5, type: 2}
+        - {fileID: 114703649657986578, guid: d5b731d417b5a43f0970e4eb0b903491, type: 2}
+        m_RightFootEffects:
+        - {fileID: 114573446991303072, guid: 28245b52fbd7344629177cbdb3f67dc3, type: 2}
+        - {fileID: 114303766495856896, guid: 117ab76cf73814692bc3891a8f04bada, type: 2}
+        m_LandingEffects:
+        - {fileID: 114805303375849546, guid: ecb7fd2a290b048dabc44bf7feffd33e, type: 2}
+        m_JumpingEffects:
+        - {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868, type: 2}
+    - m_PhysicMaterial: {fileID: 13400000, guid: 29b2c1bb6c1514a8481c9824004f1bfa,
+        type: 2}
+      m_ZoneLibrary:
+        m_LeftFootEffects:
+        - {fileID: 114958508550175952, guid: 394a8cff30d674216ab8a2697ff41bf5, type: 2}
+        - {fileID: 114703649657986578, guid: 39b499a1da7614637b04ee652e561932, type: 2}
+        m_RightFootEffects:
+        - {fileID: 114573446991303072, guid: 28245b52fbd7344629177cbdb3f67dc3, type: 2}
+        - {fileID: 114303766495856896, guid: 12ff91133c90745e9bef34ba039e129d, type: 2}
+        m_LandingEffects:
+        - {fileID: 114805303375849546, guid: ecb7fd2a290b048dabc44bf7feffd33e, type: 2}
+        m_JumpingEffects:
+        - {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868, type: 2}
+    - m_PhysicMaterial: {fileID: 13400000, guid: 61e4433a36eda45909e5fc80900eeff5,
+        type: 2}
+      m_ZoneLibrary:
+        m_LeftFootEffects:
+        - {fileID: 114703649657986578, guid: ceb6ec415aaa84fb4a73dcf5f152407e, type: 2}
+        m_RightFootEffects:
+        - {fileID: 114303766495856896, guid: f594c798303724941b43c5af006154dc, type: 2}
+        m_LandingEffects:
+        - {fileID: 114805303375849546, guid: ecb7fd2a290b048dabc44bf7feffd33e, type: 2}
+        m_JumpingEffects:
+        - {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868, type: 2}
+    - m_PhysicMaterial: {fileID: 13400000, guid: 1f4a4e305582244e5a77ee89c2e7d0dc,
+        type: 2}
+      m_ZoneLibrary:
+        m_LeftFootEffects:
+        - {fileID: 114703649657986578, guid: 73c4ea376d906458eaa1ecc057497fe4, type: 2}
+        m_RightFootEffects:
+        - {fileID: 114303766495856896, guid: ac35542f86e3c485b8b686cd56dd261c, type: 2}
+        m_LandingEffects:
+        - {fileID: 114805303375849546, guid: ecb7fd2a290b048dabc44bf7feffd33e, type: 2}
+        m_JumpingEffects:
+        - {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868, type: 2}

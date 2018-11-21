@@ -186,24 +186,24 @@ MonoBehaviour:
       - m_PhysicMaterial: {fileID: 13400000, guid: 29b2c1bb6c1514a8481c9824004f1bfa,
           type: 2}
         m_ZoneLibrary:
-          m_LeftFootStepPrefabs:
+          m_LeftFootEffects:
           - {fileID: 114703649657986578, guid: 39b499a1da7614637b04ee652e561932, type: 2}
-          m_RightFootStepPrefabs:
+          m_RightFootEffects:
           - {fileID: 114303766495856896, guid: 12ff91133c90745e9bef34ba039e129d, type: 2}
-          m_LandingPrefabs:
+          m_LandingEffects:
           - {fileID: 114805303375849546, guid: ecb7fd2a290b048dabc44bf7feffd33e, type: 2}
-          m_JumpingPrefabs:
+          m_JumpingEffects:
           - {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868, type: 2}
       - m_PhysicMaterial: {fileID: 13400000, guid: 6940cb6fb8efe45f18f8f38410c06794,
           type: 2}
         m_ZoneLibrary:
-          m_LeftFootStepPrefabs:
+          m_LeftFootEffects:
           - {fileID: 114703649657986578, guid: d5b731d417b5a43f0970e4eb0b903491, type: 2}
-          m_RightFootStepPrefabs:
+          m_RightFootEffects:
           - {fileID: 114303766495856896, guid: 117ab76cf73814692bc3891a8f04bada, type: 2}
-          m_LandingPrefabs:
+          m_LandingEffects:
           - {fileID: 114805303375849546, guid: ecb7fd2a290b048dabc44bf7feffd33e, type: 2}
-          m_JumpingPrefabs:
+          m_JumpingEffects:
           - {fileID: 114403976645686668, guid: a9342873cbbcd4dee83f201b44d61868, type: 2}
     m_MaximumSpeed: 10
     m_LayerMask:
@@ -232,14 +232,14 @@ MonoBehaviour:
   m_CollisionLayerMask:
     serializedVersion: 2
     m_Bits: 257
-  m_LocalHumanControlled: 1
-  m_CanSlideAgainstCeiling: 1
-  m_SendColliderHitMessages: 1
-  m_QueryTriggerInteraction: 1
+  m_IsLocalHuman: 1
+  m_SlideAlongCeiling: 1
+  m_SendHitMessages: 1
+  m_TriggerQuery: 1
   m_SlideDownSlopes: 1
-  m_SlideDownTerminalVelocity: 10
-  m_SlideDownGravityScale: 1
-  m_SlideDownStartDuration: 0.25
+  m_SlideMaxSpeed: 10
+  m_SlideGravityScale: 1
+  m_SlideStartTime: 0.25
 --- !u!136 &136368833332200808
 CapsuleCollider:
   m_ObjectHideFlags: 1
