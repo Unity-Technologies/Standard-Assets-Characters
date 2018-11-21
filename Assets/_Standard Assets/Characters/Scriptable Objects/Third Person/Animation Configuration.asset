@@ -11,20 +11,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a968cd77fa044ffdaab9a7f295931436, type: 3}
   m_Name: Animation Configuration
   m_EditorClassIdentifier: 
-  m_NormalizedForwardSpeedRequiredToRoll: 0.3
-  m_FallTimeRequiredToTriggerRoll: 0.75
+  m_RollSpeedThreshold: 0.3
+  m_RollFallTimeThreshold: 0.75
   m_EnableHeadTurn: 1
   m_Advanced:
-    m_ForwardSpeedInterpolationRange:
+    m_RightFootGrounded: 0
+    m_ForwardSpeedRange:
       m_MinValue: 0.2
       m_MaxValue: 0.35
-    m_LateralSpeedInterpolationRange:
+    m_LateralSpeedRange:
       m_MinValue: 0.2
       m_MaxValue: 0.35
-    m_TurningSpeedInterpolationRange:
+    m_TurningSpeedRange:
       m_MinValue: 0.01
       m_MaxValue: 0.05
-    m_TurningSpeedCurve:
+    m_TurningSpeedMap:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -51,7 +52,7 @@ MonoBehaviour:
     m_StrafeRapidDirectionChangeConfig:
       m_Enable: 1
       m_Angle: 140
-      m_SpeedCurve:
+      m_SpeedMap:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 3
@@ -84,7 +85,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    m_JumpTransitionAsAFactorOfSpeed:
+    m_JumpTransitionMap:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -108,7 +109,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_StrafeJumpTransitionAsAFactorOfSpeed:
+    m_StrafeJumpTransitionMap:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -133,7 +134,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     m_JumpBlendTimeInc: 0.05
-    m_FootPositionJumpIncRemap:
+    m_FootPositionMap:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -184,7 +185,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_JumpEndTransitionAsAFactorOfSpeed:
+    m_JumpEndTransitionMap:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -208,10 +209,10 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_RightFootJumpLandAnimationTimeOffset: 0.6
-    m_LeftFootJumpLandAnimationTimeOffset: 0.3
+    m_RightFootLandOffset: 0.6
+    m_LeftFootLandOffset: 0.3
     m_SkipJumpLandWindow: 0.38
-    m_LandSpeedAsAFactorOfSpeed:
+    m_LandSpeedMap:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -235,13 +236,12 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_RollAnimationBlendTime: 0.15
-    m_LandAnimationBlendTime: 0.11
-    m_StartRightFootGrounded: 0
+    m_RollBlendTime: 0.15
+    m_LandBlendTime: 0.11
     m_HeadTurnProperties:
-      m_HeadLookAtWeight: 1
-      m_HeadLookAtMaxRotation: 75
-      m_HeadLookAtRotationSpeed: 15
-      m_NoInputHeadLookAtScale: 0.5
-      m_AdjustHeadLookAtWhileAerial: 0
-      m_AdjustHeadLookAtDuringTurnaround: 1
+      m_LookAtWeight: 1
+      m_LookAtMaxRotation: 75
+      m_LookAtRotationSpeed: 15
+      m_LookAtDecay: 0.5
+      m_ActiveWhileAerial: 0
+      m_ActiveWhileTurnAround: 1

@@ -14,6 +14,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		[Serializable]
 		class AdvancedAnimationConfig
 		{
+			// Internal helper class used to make the Inspector UX groupings more readible
 			[Serializable]
 			class StrafeRapidDirectionChangeConfig
 			{
@@ -26,7 +27,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 				float m_Angle = 140.0f;
 			
 				[SerializeField, Tooltip("Curve used to change animator movement speeds during a strafe rapid direction change")]
-				AnimationCurve m_SpeedCurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
+				AnimationCurve m_SpeedMap = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
 
 				public bool enable
 				{
@@ -40,68 +41,68 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 
 				public AnimationCurve speedCurve
 				{
-					get { return m_SpeedCurve; }
+					get { return m_SpeedMap; }
 				}
 			}
 			
 			[Header("Ground Movement")]
+			[SerializeField, Tooltip("Should the right foot start as grounded? Default is the left foot")]
+			bool m_RightFootGrounded;
+					
 			[SerializeField, Tooltip("Configuration for the forward speed animation parameter")]
-			FloatRange m_ForwardSpeedInterpolationRange = new FloatRange(0.2f, 0.35f);
+			FloatRange m_ForwardSpeedRange = new FloatRange(0.2f, 0.35f);
 
 			[SerializeField, Tooltip("Configuration for the lateral speed animation parameter")]
-			FloatRange m_LateralSpeedInterpolationRange = new FloatRange(0.2f, 0.35f);
+			FloatRange m_LateralSpeedRange = new FloatRange(0.2f, 0.35f);
 
 			[SerializeField, Tooltip("Configuration for the turning speed animation parameter")]
-			FloatRange m_TurningSpeedInterpolationRange = new FloatRange(0.01f, 0.05f);
+			FloatRange m_TurningSpeedRange = new FloatRange(0.01f, 0.05f);
 			
 			[SerializeField, Tooltip("Curve used to remap raw normalized turning speed")]
-			AnimationCurve m_TurningSpeedCurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
+			AnimationCurve m_TurningSpeedMap = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
 
-			[SerializeField]
+			[SerializeField, Tooltip("Configuration data for rapid direction changes while strafing")]
 			StrafeRapidDirectionChangeConfig m_StrafeRapidDirectionChangeConfig;
-					
+
 			[Header("Jumping")]
 			[SerializeField, Tooltip("Curve used to determine the cross fade duration of the transition into the jump " +
 			                         "animation state in exploration mode")]
-			AnimationCurve m_JumpTransitionAsAFactorOfSpeed = AnimationCurve.Constant(0.0f, 1.0f, 0.15f);
+			AnimationCurve m_JumpTransitionMap = AnimationCurve.Constant(0.0f, 1.0f, 0.15f);
+			
 			[SerializeField, Tooltip("Curve used to determine the cross fade duration of the transition into the jump " +
 			                         "animation state in strafe mode")]
-			AnimationCurve m_StrafeJumpTransitionAsAFactorOfSpeed = AnimationCurve.Constant(0.0f, 1.0f, 0.15f);
+			AnimationCurve m_StrafeJumpTransitionMap = AnimationCurve.Constant(0.0f, 1.0f, 0.15f);
 
 			[SerializeField, Tooltip("Time to add to the jump blend duration based on current grounded foot's position")]
 			float m_JumpBlendTimeInc = 0.05f;
 
-			[SerializeField, Tooltip("Curved used to evaluate the current foots position in order to add Jump Blend Time Inc")]
-			AnimationCurve m_FootPositionJumpIncRemap = AnimationCurve.Constant(0.0f, 0.0f, 0.0f);
+			[SerializeField, Tooltip("Curved used to evaluate the current foot's position in order to add Jump Blend Time Inc")]
+			AnimationCurve m_FootPositionMap = AnimationCurve.Constant(0.0f, 0.0f, 0.0f);
 			
 			[SerializeField, Tooltip("Curve used to determine the cross fade duration of the transition into the " +
 			                         "locomotion animation from the jump animation state")]
-			AnimationCurve m_JumpEndTransitionAsAFactorOfSpeed = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 0.125f);
+			AnimationCurve m_JumpEndTransitionMap = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 0.125f);
 			
-			[SerializeField, Tooltip("Cross fade cycle offset for transition into locomotion state after a right foot jump")]
-			float m_RightFootJumpLandAnimationTimeOffset = 0.6f;
+			[SerializeField, Tooltip("Cross fade cycle time offset (in seconds) for transition into locomotion state after a right foot jump")]
+			float m_RightFootLandOffset = 0.6f;
 			
-			[SerializeField, Tooltip("Cross fade cycle offset for transition into locomotion state after a left foot jump")]
-			float m_LeftFootJumpLandAnimationTimeOffset = 0.3f;
+			[SerializeField, Tooltip("Cross fade cycle time offset (in seconds) for transition into locomotion state after a left foot jump")]
+			float m_LeftFootLandOffset = 0.3f;
 
-			[SerializeField, Tooltip("Time in seconds allowed between jumps to create a skip effect")]
+			[SerializeField, Tooltip("Time (in seconds) allowed between jumps to create a skip effect")]
 			float m_SkipJumpLandWindow = 0.38f;
 			
 			[Header("Landing")]
 			[SerializeField, Tooltip("Curve used to determine the land animation speed")]
-			AnimationCurve m_LandSpeedAsAFactorOfSpeed = AnimationCurve.Linear(0.0f, 1.0f, 1.0f, 2.0f);
+			AnimationCurve m_LandSpeedMap = AnimationCurve.Linear(0.0f, 1.0f, 1.0f, 2.0f);
 			
-			[SerializeField, Tooltip("Time used for the cross fade into the roll animation state")]
-			float m_RollAnimationBlendTime = 0.15f;
+			[SerializeField, Tooltip("Time (in seconds) sed for the cross fade into the roll animation state")]
+			float m_RollBlendTime = 0.15f;
 
-			[SerializeField, Tooltip("Time used for the cross fade into the land animation state")]
-			float m_LandAnimationBlendTime = 0.11f;
+			[SerializeField, Tooltip("Time (in seconds) used for the cross fade into the land animation state")]
+			float m_LandBlendTime = 0.11f;
 			
-			[Header("Grounded Foot")]
-			[SerializeField, Tooltip("Should the right foot start as grounded? Default is the left foot")]
-			bool m_StartRightFootGrounded;
-			
-			[Header("Head Turn")]
+			[Header("Other")]
 			[SerializeField, Tooltip("Configuration for the head turning/looking")]
 			HeadTurnProperties m_HeadTurnProperties;
 
@@ -119,22 +120,22 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			/// Gets whether the right foot should start as grounded.
 			/// </summary>
 			/// <value>True if the right foot should start grounded; false if the left foot should.</value>
-			public bool startRightFootGrounded { get { return m_StartRightFootGrounded; } }
+			public bool startRightFootGrounded { get { return m_RightFootGrounded; } }
 
 			/// <summary>
 			/// Gets the duration of the transition into the land animator state.
 			/// </summary>
-			public float landAnimationBlendTime { get { return m_LandAnimationBlendTime; } }
+			public float landAnimationBlendTime { get { return m_LandBlendTime; } }
 
 			/// <summary>
 			/// Gets the duration of the transition into the roll land animator state.
 			/// </summary>
-			public float rollAnimationBlendTime { get { return m_RollAnimationBlendTime; } }
+			public float rollAnimationBlendTime { get { return m_RollBlendTime; } }
 
 			/// <summary>
 			/// Gets the curve to be used to evaluate the animation speed of a land animation.
 			/// </summary>
-			public AnimationCurve landSpeedAsAFactorOfSpeed { get { return m_LandSpeedAsAFactorOfSpeed; } }
+			public AnimationCurve landSpeedAsAFactorOfSpeed { get { return m_LandSpeedMap; } }
 
 			/// <summary>
 			/// Gets the time allowed between physics jumps to alternate the grounded foot.
@@ -144,27 +145,27 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			/// <summary>
 			/// Gets the offset used during the cross fade out of left foot physics jump.
 			/// </summary>
-			public float leftFootJumpLandAnimationTimeOffset { get { return m_LeftFootJumpLandAnimationTimeOffset; } }
+			public float leftFootJumpLandAnimationTimeOffset { get { return m_LeftFootLandOffset; } }
 
 			/// <summary>
 			/// Gets the offset used during the cross fade out of right foot physics jump.
 			/// </summary>
-			public float rightFootJumpLandAnimationTimeOffset { get { return m_RightFootJumpLandAnimationTimeOffset; } }
+			public float rightFootJumpLandAnimationTimeOffset { get { return m_RightFootLandOffset; } }
 
 			/// <summary>
 			/// Gets the curve to be used to evaluate the transition duration out of the jump state.
 			/// </summary>
-			public AnimationCurve jumpEndTransitionAsAFactorOfSpeed { get { return m_JumpEndTransitionAsAFactorOfSpeed; } }
+			public AnimationCurve jumpEndTransitionAsAFactorOfSpeed { get { return m_JumpEndTransitionMap; } }
 
 			/// <summary>
 			/// Gets the curve to be used to evaluate the transition duration into the jump state in strafe mode.
 			/// </summary>
-			public AnimationCurve strafeJumpTransitionAsAFactorOfSpeed { get { return m_StrafeJumpTransitionAsAFactorOfSpeed; } }
+			public AnimationCurve strafeJumpTransitionAsAFactorOfSpeed { get { return m_StrafeJumpTransitionMap; } }
 
 			/// <summary>
 			/// Gets the curve to be used to evaluate the transition duration into the jump state in exploration mode.
 			/// </summary>
-			public AnimationCurve jumpTransitionAsAFactorOfSpeed { get { return m_JumpTransitionAsAFactorOfSpeed; } }
+			public AnimationCurve jumpTransitionAsAFactorOfSpeed { get { return m_JumpTransitionMap; } }
 			
 			/// <summary>
 			/// Gets the time to add to the jump blend duration based on current grounded foot's position.
@@ -174,12 +175,12 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			/// <summary>
 			/// Gets the curved used to evaluate the current foots position in order to add <see cref="jumpBlendTimeInc"/>
 			/// </summary>
-			public AnimationCurve footPositionJumpIncRemap { get { return m_FootPositionJumpIncRemap; } }
+			public AnimationCurve footPositionJumpIncRemap { get { return m_FootPositionMap; } }
 			
 			/// <summary>
 			/// Gets the animation curved used for remapping turning speed.
 			/// </summary>
-			public AnimationCurve turningSpeedCurve { get { return m_TurningSpeedCurve; } }
+			public AnimationCurve turningSpeedCurve { get { return m_TurningSpeedMap; } }
 
 			/// <summary>
 			/// Gets the curve used to interpolate animator movement speeds during a strafe rapid direction change.
@@ -194,17 +195,17 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			/// <summary>
 			/// Gets the turning speed parameter configuration.
 			/// </summary>
-			public FloatRange turningSpeedInterpolationRange { get { return m_TurningSpeedInterpolationRange; } }
+			public FloatRange turningSpeedInterpolationRange { get { return m_TurningSpeedRange; } }
 
 			/// <summary>
 			/// Gets the lateral speed parameter configuration.
 			/// </summary>
-			public FloatRange lateralSpeedInterpolationRange { get { return m_LateralSpeedInterpolationRange; } }
+			public FloatRange lateralSpeedInterpolationRange { get { return m_LateralSpeedRange; } }
 
 			/// <summary>
 			/// Gets the forward speed parameter configuration.
 			/// </summary>
-			public FloatRange forwardSpeedInterpolationRange { get { return m_ForwardSpeedInterpolationRange; } }
+			public FloatRange forwardSpeedInterpolationRange { get { return m_ForwardSpeedRange; } }
 		}
 		
 		// values used to determine the grounded foot based on animation normalized time. These should only be changed
@@ -214,11 +215,10 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 
 		[Header("Landing")]
 		[SerializeField, Tooltip("A forward speed higher than this will trigger a roll on land")]
-		float m_NormalizedForwardSpeedRequiredToRoll = 0.3f;
+		float m_RollSpeedThreshold = 0.3f;
 
-		[SerializeField, Tooltip("A fall time greater than this will trigger a roll. Less than this will transition to" +
-								 "locomotion")]
-		float m_FallTimeRequiredToTriggerRoll = 1.0f;
+		[SerializeField, Tooltip("A fall time (in seconds) greater than this will trigger a roll. Less than this will transition directly to locomotion")]
+		float m_RollFallTimeThreshold = 1.0f;
 
 		[Header("Head Movement"), Tooltip("Should the head look be turned off?")]
 		[SerializeField]
@@ -337,12 +337,12 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// <summary>
 		/// Gets the normalized forward speed required to initiate a roll during a land.
 		/// </summary>
-		public float forwardSpeedRequiredToRoll { get { return m_NormalizedForwardSpeedRequiredToRoll; } }
+		public float forwardSpeedRequiredToRoll { get { return m_RollSpeedThreshold; } }
 
 		/// <summary>
 		/// Gets the fall time in seconds required to trigger a roll on land.
 		/// </summary>
-		public float fallTimeRequiredToRoll { get { return m_FallTimeRequiredToTriggerRoll; } }
+		public float fallTimeRequiredToRoll { get { return m_RollFallTimeThreshold; } }
 
 		/// <summary>
 		/// Gets the duration of the transition into the land animator state.
@@ -387,52 +387,52 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		protected class HeadTurnProperties
 		{
 			[SerializeField, Tooltip("The animator head look at weight.")]
-			float m_HeadLookAtWeight = 1f;
+			float m_LookAtWeight = 1f;
 
 			[SerializeField, Tooltip("The max angle the head can rotate.")]
-			float m_HeadLookAtMaxRotation = 75f;
+			float m_LookAtMaxRotation = 75f;
 
 			[SerializeField, Tooltip("The speed at which head can rotate.")]
-			float m_HeadLookAtRotationSpeed = 15f;
+			float m_LookAtRotationSpeed = 15f;
 			
 			[SerializeField, Tooltip("A scale applied to look at speed when there is no look input.")]
-			float m_NoInputHeadLookAtScale = 0.5f;
+			float m_LookAtDecay = 0.5f;
 
 			[SerializeField, Tooltip("Should head rotation take place while aerial?")]
-			bool m_AdjustHeadLookAtWhileAerial = true;
+			bool m_ActiveWhileAerial = true;
 		
 			[SerializeField, Tooltip("Should head rotation take place during rapid turnarounds?")]
-			bool m_AdjustHeadLookAtDuringTurnaround = true;
+			bool m_ActiveWhileTurnAround = true;
 		
 			/// <summary>
 			/// Gets the look at weight used by the animator.
 			/// </summary>
-			public float lookAtWeight { get { return m_HeadLookAtWeight; } }
+			public float lookAtWeight { get { return m_LookAtWeight; } }
 
 			/// <summary>
 			/// Gets the max look at rotation.
 			/// </summary>
-			public float lookAtMaxRotation { get { return m_HeadLookAtMaxRotation; } }
+			public float lookAtMaxRotation { get { return m_LookAtMaxRotation; } }
 
 			/// <summary>
 			/// Gets the rotation look at speed.
 			/// </summary>
-			public float lookAtRotationSpeed { get { return m_HeadLookAtRotationSpeed; } }
+			public float lookAtRotationSpeed { get { return m_LookAtRotationSpeed; } }
 
 			/// <summary>
 			/// Gets whether the head look at should be applied while aerial.
 			/// </summary>
-			public bool lookAtWhileAerial { get { return m_AdjustHeadLookAtWhileAerial; } }
+			public bool lookAtWhileAerial { get { return m_ActiveWhileAerial; } }
 
 			/// <summary>
 			/// Gets whether the head look at should be applied during a turnaround.
 			/// </summary>
-			public bool lookAtWhileTurnaround { get { return m_AdjustHeadLookAtDuringTurnaround; } }
+			public bool lookAtWhileTurnaround { get { return m_ActiveWhileTurnAround; } }
 
 			/// <summary>
 			/// Gets the scale applied to look at speed when there is no look input.
 			/// </summary>
-			public float noLookInputHeadLookAtScale { get { return m_NoInputHeadLookAtScale; } }
+			public float noLookInputHeadLookAtScale { get { return m_LookAtDecay; } }
 		}
 	}
 }

@@ -675,7 +675,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		// 		return: True is a rapid turn has been detected
 		bool ShouldTurnAround(out float angle, Quaternion target)
 		{
-			if (normalizedForwardSpeed < m_Configuration.maxSpeedForStandingTurnaround)
+			if (normalizedForwardSpeed < m_Configuration.standingTurnThreshold)
 			{
 				m_PreviousInputs.Clear();
 				angle = (target.eulerAngles.y - m_Transform.eulerAngles.y).Wrap180();

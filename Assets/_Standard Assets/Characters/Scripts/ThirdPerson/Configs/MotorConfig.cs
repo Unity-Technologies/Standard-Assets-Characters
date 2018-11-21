@@ -14,8 +14,8 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		class AdvancedMotorConfig
 		{
 			[Header("Ground Motion")]
-			[SerializeField, Tooltip("During sprint normalized speed will be 1 + this. Used to extend the locomotion blend tree.")]
-			float m_SprintNormalizedSpeedIncrease = 0.5f;
+			[SerializeField, Tooltip("Used to extend the locomotion blend tree during sprinting, making the normalized speed as 1 + this value.")]
+			float m_SprintSpeedModifier = 0.5f;
 		
 			[SerializeField, Tooltip("Number of samples used for forward input smoothing.")]
 			int m_ForwardInputSamples = 5;
@@ -28,36 +28,36 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			
 			[Header("Jump")]
 			[SerializeField, Tooltip("Number of move input samples used to average forward velocity to use as jump velocity")]
-			int m_JumpGroundVelocitySamples = 10;
+			int m_ForwardVelocitySamples = 10;
 
 			[SerializeField, Tooltip("Turn speed is scaled by this value during an aerial state")]
-			float m_JumpTurningSpeedScale = 0.25f;
+			float m_AirTurnSpeedScale = 0.25f;
 			
 			[Header("Standing Jump")]
 			[SerializeField, Tooltip("Minimum input allowed to trigger a standing forward jump")]
 			float m_MinInputThreshold = 0.05f;
 		
-			[SerializeField, Tooltip("A forward movement less than this would allow a standing forward jump")]
+			[SerializeField, Tooltip("A forward movement of the character less than this would allow a standing forward jump")]
 			float m_MaxMovementThreshold = 0.75f;
 
 			[SerializeField, Tooltip("How long after a character starts moving that a standing jump can still be initiated")]
-			float m_StandingJumpMoveTimeThreshold = 0.5f;
+			float m_MovementTimeThreshold = 0.5f;
 			
 			[Header("Turning")]
 			[SerializeField, Tooltip("Used for effecting how much of the -1 to 1 range of normalizedTurningSpeed")]
-			float m_TurningSpeedVisualScale = 1.4f;
+			float m_TurnSpeedScale = 1.4f;
 
-			[SerializeField, Tooltip("Speed at which the normalized turning speed can change")]
-			float m_NormalizedTurningSpeedLerpSpeed = 2f;
-			
 			[SerializeField, Tooltip("Rate at which normalized turn speed will return to zero when there is no turn input")]
-			float m_NoLookInputTurnSpeedDeceleration = 5.0f;
+			float m_TurnSpeedDecay = 5.0f;
 			
-			[SerializeField, Tooltip("A forward movement less than this would allow a standing turnaround")] 
-			float m_MaxSpeedForStandingTurnaround = 0.25f;
+			[SerializeField, Tooltip("Speed at which the normalized turning speed can change")]
+			float m_NormalizedTurnSpeedDelta = 2f;
+			
+			[SerializeField, Tooltip("A forward movement less than this would allow a standing turn around")] 
+			float m_StandingTurnAroundSpeed = 0.25f;
 
-			[SerializeField, Tooltip("Time that input will be ignored after the triggering of a rapid turn")]
-			float m_RapidTurnIgnoreInputTime = 0.1f;
+			[SerializeField, Tooltip("Time (in seconds) that input will be ignored after the triggering of a rapid turn")]
+			float m_TurnAroundIgnoreTime = 0.1f;
 
 			[SerializeField, Tooltip("Number of frames of input that will be used to determine if a rapid turn was triggered")]
 			int m_InputBufferSize = 5;
@@ -65,7 +65,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			/// <summary>
 			/// Gets the increase that sprint will apply to <see cref="ThirdPersonMotor.normalizedForwardSpeed"/>.
 			/// </summary>
-			public float sprintNormalizedSpeedIncrease { get { return m_SprintNormalizedSpeedIncrease; } }
+			public float sprintNormalizedSpeedIncrease { get { return m_SprintSpeedModifier; } }
 
 			/// <summary>
 			/// Gets the forward input window size.
@@ -85,12 +85,12 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			/// <summary>
 			/// Gets the number of samples used to average forward velocity to use as jump velocity.
 			/// </summary>
-			public int jumpGroundVelocitySamples { get { return m_JumpGroundVelocitySamples; } }
+			public int jumpGroundVelocitySamples { get { return m_ForwardVelocitySamples; } }
 
 	        /// <summary>
 	        /// Gets the jump turning speed scale.
 	        /// </summary>
-			public float jumpTurningSpeedScale { get { return m_JumpTurningSpeedScale; } }
+			public float jumpTurningSpeedScale { get { return m_AirTurnSpeedScale; } }
 
 			/// <summary>
 			/// Gets the minimum movement input allowed to trigger a standing forward jump.
@@ -105,28 +105,28 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			/// <summary>
 			/// Gets the time, in seconds, allowed after movement from idle that a standing jump can be triggered.
 			/// </summary>
-			public float standingJumpMoveTimeThreshold { get { return m_StandingJumpMoveTimeThreshold; } }
+			public float standingJumpMoveTimeThreshold { get { return m_MovementTimeThreshold; } }
 
 			/// <summary>
 			/// Gets the value used for effecting how much of the -1 to 1 range of
 			/// <see cref="ThirdPersonMotor.normalizedTurningSpeed"/> can use.
 			/// </summary>
-			public float turningSpeedVisualScale { get { return m_TurningSpeedVisualScale; } }
+			public float turningSpeedVisualScale { get { return m_TurnSpeedScale; } }
 
 			/// <summary>
 			/// Gets the speed at which <see cref="ThirdPersonMotor.normalizedTurningSpeed"/> speed can change.
 			/// </summary>
-			public float normalizedTurningSpeedLerpSpeed { get { return m_NormalizedTurningSpeedLerpSpeed; } }
+			public float normalizedTurningSpeedLerpSpeed { get { return m_NormalizedTurnSpeedDelta; } }
 
 			/// <summary>
 			/// Gets the maximum forward speed that will trigger a standing rapid turn.
 			/// </summary>
-			public float maxSpeedForStandingTurnaround { get { return m_MaxSpeedForStandingTurnaround; } }
+			public float standingTurnThreshold { get { return m_StandingTurnAroundSpeed; } }
 
 			/// <summary>
 			/// Gets the time in seconds to ignore input after a rapid turn is triggered.
 			/// </summary>
-			public float rapidTurnIgnoreInputTime { get { return m_RapidTurnIgnoreInputTime; } }
+			public float rapidTurnIgnoreInputTime { get { return m_TurnAroundIgnoreTime; } }
 
 			/// <summary>
 			/// Gets the number of frames of input will used to determine if a rapid turn was triggered.
@@ -136,50 +136,50 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			/// <summary>
 			/// Gets the rate at which normalized turn speed will return to zero when there is no turn input.
 			/// </summary>
-			public float noLookInputTurnSpeedDeceleration { get { return m_NoLookInputTurnSpeedDeceleration; } }
+			public float noLookInputTurnSpeedDeceleration { get { return m_TurnSpeedDecay; } }
 		}
 		
 		[Header("Ground Motion")]
 		[SerializeField, Tooltip("Root motion will be scaled by this before movement is applied")]
-		float m_RootMotionMovementScale = 1f;
+		float m_RootMotionScale = 1f;
 
 		[SerializeField, Tooltip("Time it takes for the character to turn and face the camera orientation when Strafe " +
 		                         "Mode has been entered")]
-		float m_TurnForwardOnStartStrafeDuration = 0.125f;
+		float m_StrafeOrientTime = 0.125f;
 		
 		[SerializeField, Tooltip("Scale applied to a lateral strafe jump speed")]
-		float m_LateralStrafeJumpMultiplier = 1.0f;
+		float m_LateralStrafeJumpScale = 1.0f;
 
 		[Header("Jumping")]
 		[SerializeField, Tooltip("Curve used to determine jump height based on normalized forward speed")]
-		AnimationCurve m_JumpHeightAsAFactorOfForwardSpeed = AnimationCurve.Constant(0,1,4);
+		AnimationCurve m_JumpHeightMap = AnimationCurve.Constant(0,1,4);
 		
 		[Header("Standing Jump")]
 		[SerializeField, Tooltip("Fixed jump speed used when a character initiated a Standing Forward Jump")]
-		float m_StandingJumpForwardSpeed = 3.5f;
+		float m_StandingJumpSpeed = 3.5f;
 
 		[Header("Falling")]
 		[SerializeField, Tooltip("Maximum forward speed while falling")]
-		float m_FallingMaxForwardSpeed = 5.0f;
-
-		[SerializeField, Tooltip("Rate at which falling forward speed can decrease")]
-		float m_FallForwardSpeedDeceleration = 0.0025f;
+		float m_FallForwardSpeedMax = 5.0f;
 		
 		[SerializeField, Tooltip("Rate at which falling forward speed can increase")]
-		float m_FallForwardSpeedAcceleration = 0.05f;
+		float m_FallForwardSpeedInc = 0.05f;
+
+		[SerializeField, Tooltip("Rate at which falling forward speed can decrease")]
+		float m_FallForwardSpeedDecay = 0.0025f;
 
 		[SerializeField, Tooltip("Speed at which fall direction can change")] 
-		float m_FallDirectionChangeSpeed = 0.025f;
+		float m_FallDirectionDelta = 0.025f;
 
 		[Header("Turning")]
 		[SerializeField, Tooltip("Degrees per second that the character can turn")]
 		float m_TurningSpeed = 300f;
 
-		[SerializeField, Tooltip("Minimum angle required to trigger a rapid turn during movement")]
-		float m_RapidTurnInputAngle = 140f;
+		[SerializeField, Tooltip("Minimum angle required to trigger a turn around during movement")]
+		float m_TurnAroundAngle = 140f;
 
 		[SerializeField, Tooltip("Minimum angle required to trigger a stationary rapid")]
-		float m_StationaryRapidTurnAngle = 90f;
+		float m_StandingTurnAroundAngle = 90f;
 
 		[SerializeField, Space]
 		AdvancedMotorConfig m_Advanced;
@@ -187,17 +187,17 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// <summary>
 		/// Gets the maximum forward speed that will trigger a standing rapid turn.
 		/// </summary>
-		public float maxSpeedForStandingTurnaround { get { return m_Advanced.maxSpeedForStandingTurnaround; } }
+		public float standingTurnThreshold { get { return m_Advanced.standingTurnThreshold; } }
 
 		/// <summary>
 		/// Gets the speed at which the fall direction can change.
 		/// </summary>
-		public float fallDirectionChange { get { return m_FallDirectionChangeSpeed; } }
+		public float fallDirectionChange { get { return m_FallDirectionDelta; } }
 
 		/// <summary>
 		/// Gets the curve used to evaluate the jump height based on <see cref="ThirdPersonMotor.normalizedForwardSpeed"/>
 		/// </summary>
-		public AnimationCurve jumpHeightAsFactorOfForwardSpeed { get { return m_JumpHeightAsAFactorOfForwardSpeed; } }
+		public AnimationCurve jumpHeightAsFactorOfForwardSpeed { get { return m_JumpHeightMap; } }
 
 		/// <summary>
 		/// Gets the degrees per second that the character can turn.
@@ -213,7 +213,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// <summary>
 		/// Gets the degrees per second that the character can turn during a jump.
 		/// </summary>
-		/// <value><see cref="m_TurningSpeed"/> with <see cref="AdvancedMotorConfig.m_JumpTurningSpeedScale"/> applied.</value>
+		/// <value><see cref="m_TurningSpeed"/> with <see cref="AdvancedMotorConfig.m_AirTurnSpeedScale"/> applied.</value>
 		public float jumpTurningYSpeed { get { return m_TurningSpeed * m_Advanced.jumpTurningSpeedScale; } }
 		
 		/// <summary>
@@ -229,7 +229,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// <summary>
 		/// Gets the scale to be applied on the root motion movement before moving the character.
 		/// </summary>
-		public float scaleRootMovement { get { return m_RootMotionMovementScale; } }
+		public float scaleRootMovement { get { return m_RootMotionScale; } }
 
 		/// <summary>
 		/// Gets the speed at which <see cref="ThirdPersonMotor.normalizedTurningSpeed"/> speed can change.
@@ -239,12 +239,12 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// <summary>
 		/// Gets the minimum angle required to trigger a rapid turn during movement.
 		/// </summary>
-		public float inputAngleRapidTurn { get { return m_RapidTurnInputAngle; } }
+		public float inputAngleRapidTurn { get { return m_TurnAroundAngle; } }
 
 		/// <summary>
 		/// Gets the minimum angle required to trigger a stationary rapid turn.
 		/// </summary>
-		public float stationaryAngleRapidTurn { get { return m_StationaryRapidTurnAngle; } }
+		public float stationaryAngleRapidTurn { get { return m_StandingTurnAroundAngle; } }
 
 		/// <summary>
 		/// Gets the time in seconds to ignore input after a rapid turn is triggered.
@@ -254,12 +254,12 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// <summary>
 		/// Gets the duration of the initial strafe look.
 		/// </summary>
-		public float turnForwardOnStartStrafeDuration { get { return m_TurnForwardOnStartStrafeDuration; } }
+		public float turnForwardOnStartStrafeDuration { get { return m_StrafeOrientTime; } }
 		
 		/// <summary>
 		/// Gets the multiplier applied to a lateral strafe jump.
 		/// </summary>
-		public float lateralStrafeJumpMultiplier { get { return m_LateralStrafeJumpMultiplier; } }
+		public float lateralStrafeJumpMultiplier { get { return m_LateralStrafeJumpScale; } }
 
 		/// <summary>
 		/// Gets the strafe input window size.
@@ -274,17 +274,17 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// <summary>
 		/// Gets the maximum falling forward speed.
 		/// </summary>
-		public float fallingForwardSpeed { get { return m_FallingMaxForwardSpeed; } }
+		public float fallingForwardSpeed { get { return m_FallForwardSpeedMax; } }
 
 		/// <summary>
 		/// Gets the forward deceleration applied during a fall.
 		/// </summary>
-		public float fallSpeedDeceleration { get { return m_FallForwardSpeedDeceleration; } }
+		public float fallSpeedDeceleration { get { return m_FallForwardSpeedDecay; } }
 
 		/// <summary>
 		/// Gets the forward acceleration applied during a fall.
 		/// </summary>
-		public float fallSpeedAcceleration { get { return m_FallForwardSpeedAcceleration; } }
+		public float fallSpeedAcceleration { get { return m_FallForwardSpeedInc; } }
 
 		/// <summary>
 		/// Gets the increase that sprint will apply to <see cref="ThirdPersonMotor.normalizedForwardSpeed"/>.
@@ -299,7 +299,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// <summary>
 		/// Gets the speed of a standing forward jump
 		/// </summary>
-		public float standingJumpSpeed { get { return m_StandingJumpForwardSpeed; } }
+		public float standingJumpSpeed { get { return m_StandingJumpSpeed; } }
 
 		/// <summary>
 		/// Gets the minimum movement input allowed to trigger a standing forward jump.
