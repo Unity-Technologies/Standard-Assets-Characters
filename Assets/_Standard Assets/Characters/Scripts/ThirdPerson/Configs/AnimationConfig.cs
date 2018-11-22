@@ -49,13 +49,13 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			[SerializeField, Tooltip("Should the right foot start as grounded? Default is the left foot")]
 			bool m_RightFootGrounded;
 					
-			[SerializeField, Tooltip("Configuration for the forward speed animation parameter")]
+			[SerializeField, Tooltip("The range used to interpolate the forward speed animation parameter")]
 			FloatRange m_ForwardSpeedRange = new FloatRange(0.2f, 0.35f);
 
-			[SerializeField, Tooltip("Configuration for the lateral speed animation parameter")]
+			[SerializeField, Tooltip("The range used to interpolate the lateral speed animation parameter")]
 			FloatRange m_LateralSpeedRange = new FloatRange(0.2f, 0.35f);
 
-			[SerializeField, Tooltip("Configuration for the turning speed animation parameter")]
+			[SerializeField, Tooltip("The range used to interpolate the turning speed animation parameter")]
 			FloatRange m_TurningSpeedRange = new FloatRange(0.01f, 0.05f);
 			
 			[SerializeField, Tooltip("Curve used to remap raw normalized turning speed")]
@@ -125,51 +125,57 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			/// <summary>
 			/// Gets the duration of the transition into the land animator state.
 			/// </summary>
+			/// <value>Time in seconds.</value>
 			public float landAnimationBlendTime { get { return m_LandBlendTime; } }
 
 			/// <summary>
 			/// Gets the duration of the transition into the roll land animator state.
 			/// </summary>
+			/// <value>Time in seconds.</value>
 			public float rollAnimationBlendTime { get { return m_RollBlendTime; } }
 
 			/// <summary>
-			/// Gets the curve to be used to evaluate the animation speed of a land animation.
+			/// Gets the curve to be used to evaluate the animation speed of a land animation based on normalized time.
 			/// </summary>
 			public AnimationCurve landSpeedAsAFactorOfSpeed { get { return m_LandSpeedMap; } }
 
 			/// <summary>
 			/// Gets the time allowed between physics jumps to alternate the grounded foot.
 			/// </summary>
+			/// <value>Time in seconds.</value>
 			public float skipJumpLandWindow { get { return m_SkipJumpLandWindow; } }
 
 			/// <summary>
 			/// Gets the offset used during the cross fade out of left foot physics jump.
 			/// </summary>
+			/// <value>Time in seconds.</value>
 			public float leftFootJumpLandAnimationTimeOffset { get { return m_LeftFootLandOffset; } }
 
 			/// <summary>
 			/// Gets the offset used during the cross fade out of right foot physics jump.
 			/// </summary>
+			/// <value>Time in seconds.</value>
 			public float rightFootJumpLandAnimationTimeOffset { get { return m_RightFootLandOffset; } }
 
 			/// <summary>
-			/// Gets the curve to be used to evaluate the transition duration out of the jump state.
+			/// Gets the curve to be used to evaluate the transition duration out of the jump state based on normalized speed.
 			/// </summary>
 			public AnimationCurve jumpEndTransitionAsAFactorOfSpeed { get { return m_JumpEndTransitionMap; } }
 
 			/// <summary>
-			/// Gets the curve to be used to evaluate the transition duration into the jump state in strafe mode.
+			/// Gets the curve to be used to evaluate the transition duration into the jump state in strafe mode based on normalized speed.
 			/// </summary>
 			public AnimationCurve strafeJumpTransitionAsAFactorOfSpeed { get { return m_StrafeJumpTransitionMap; } }
 
 			/// <summary>
-			/// Gets the curve to be used to evaluate the transition duration into the jump state in exploration mode.
+			/// Gets the curve to be used to evaluate the transition duration into the jump state in exploration mode based on normalized speed.
 			/// </summary>
 			public AnimationCurve jumpTransitionAsAFactorOfSpeed { get { return m_JumpTransitionMap; } }
 			
 			/// <summary>
 			/// Gets the time to add to the jump blend duration based on current grounded foot's position.
 			/// </summary>
+			/// <value>Time in seconds.</value>
 			public float jumpBlendTimeInc { get { return m_JumpBlendTimeInc; } }
 			
 			/// <summary>
@@ -184,26 +190,31 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 
 			/// <summary>
 			/// Gets the curve used to interpolate animator movement speeds during a strafe rapid direction change.
+			/// The curve represents speed over time.
 			/// </summary>
 			public AnimationCurve strafeRapidDirectionChangeSpeedCurve { get { return  m_StrafeRapidDirectionChangeConfig.speedCurve; } }
 
 			/// <summary>
 			/// Gets the angle threshold used to trigger a strafe rapid direction change.
 			/// </summary>
+			/// <value>Angle in degrees.</value>
 			public float strafeRapidDirectionChangeAngle{ get { return  m_StrafeRapidDirectionChangeConfig.angle; } }
 
 			/// <summary>
-			/// Gets the turning speed parameter configuration.
+			/// Gets the range used to interpolate the animator's turning speed. This range will return a damp time that
+			/// is passed on to the animator in <see cref="Animator.SetFloat(string, float, float, float)"/>.
 			/// </summary>
 			public FloatRange turningSpeedInterpolationRange { get { return m_TurningSpeedRange; } }
 
 			/// <summary>
-			/// Gets the lateral speed parameter configuration.
+			/// Gets the range used to interpolate the animator's lateral speed. This range will return a damp time that
+			/// is passed on to the animator in <see cref="Animator.SetFloat(string, float, float, float)"/>.
 			/// </summary>
 			public FloatRange lateralSpeedInterpolationRange { get { return m_LateralSpeedRange; } }
 
 			/// <summary>
-			/// Gets the forward speed parameter configuration.
+			/// Gets the range used to interpolate the animator's forward speed. This range will return a damp time that
+			/// is passed on to the animator in <see cref="Animator.SetFloat(string, float, float, float)"/>.
 			/// </summary>
 			public FloatRange forwardSpeedInterpolationRange { get { return m_ForwardSpeedRange; } }
 		}

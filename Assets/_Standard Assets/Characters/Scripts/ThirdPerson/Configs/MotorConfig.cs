@@ -68,12 +68,12 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			public float sprintNormalizedSpeedIncrease { get { return m_SprintSpeedModifier; } }
 
 			/// <summary>
-			/// Gets the forward input window size.
+			/// Gets the window size for sampling forward input.
 			/// </summary>
 			public int forwardInputWindowSize { get { return m_ForwardInputSamples; } }
 
 			/// <summary>
-			/// Gets the strafe input window size.
+			/// Gets the window size for sampling strafe input.
 			/// </summary>
 			public int strafeInputWindowSize { get { return m_StrafeInputWindowSize; } }
 			
@@ -262,12 +262,12 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		public float lateralStrafeJumpMultiplier { get { return m_LateralStrafeJumpScale; } }
 
 		/// <summary>
-		/// Gets the strafe input window size.
+		/// Gets the window size for sampling strafe input.
 		/// </summary>
 		public int strafeInputWindowSize { get { return m_Advanced.strafeInputWindowSize; } }
 
 		/// <summary>
-		/// Gets the forward input window size.
+		/// Gets the window size for sampling forward input.
 		/// </summary>
 		public int forwardInputWindowSize { get { return m_Advanced.forwardInputWindowSize;} }
 
