@@ -200,9 +200,9 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		public AnimationCurve jumpHeightAsFactorOfForwardSpeed { get { return m_JumpHeightMap; } }
 
 		/// <summary>
-		/// Gets the degrees per second that the character can turn.
+		/// Gets the radians per second that the character can turn.
 		/// </summary>
-		public float turningYSpeed { get { return m_TurningSpeed; } }
+		public float turningYSpeed { get { return Mathf.Deg2Rad * m_TurningSpeed; } }
 
 		/// <summary>
 		/// Gets the value used for effecting how much of the -1 to 1 range of
