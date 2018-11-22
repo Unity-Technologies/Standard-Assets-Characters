@@ -13,6 +13,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		public const string k_LeftFootStrafeJump 			= "LeftFootStrafeJump";
 		public const string k_RollLandState 				= "RollLand";
 		public const string k_LandState 					= "Land";
+		public const string k_Run180TurnLeftState 			= "RunForwardTurnLeft180";
+		public const string k_Run180TurnRightState 			= "RunForwardTurnRight180_Mirror";
+		public const string k_Idle180TurnLeftState 			= "IdleTurnLeft180";
+		public const string k_Idle180TurnRightState 		= "IdleTurnRight180_Mirror";
 		public const string k_GroundedFootRightParameter	= "OnRightFoot";
 		public const string k_VerticalSpeedParameter 		= "VerticalSpeed";
 		public const string k_StrafeParameter 				= "Strafe";
