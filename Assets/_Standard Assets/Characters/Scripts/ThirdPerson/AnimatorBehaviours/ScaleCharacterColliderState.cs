@@ -47,7 +47,7 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
         [SerializeField, Range(0.0f, 1.0f), Tooltip("Scale character's collider and offset relative to character's height. 0.5 is center")]
         float m_HeightOrigin = 0.5f;
 
-        [SerializeField, Tooltip("If false, we will not restore collider on exit this allows another state behavior " +
+        [SerializeField, Tooltip("If false, we will not restore collider on exit. This allows another state behavior " +
              "to use the last state of the collider")]
         bool m_ResetOnExit = true;
 

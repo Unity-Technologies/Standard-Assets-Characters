@@ -30,7 +30,7 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 			{
 				m_OpenCharacterController = animator.GetComponent<OpenCharacterController>();
 			}
-			HandleReset();
+			ResetControllerCollider();
 		}
 		
         /// <summary>
@@ -39,11 +39,11 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 		public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 		{
 			// Have to call this every frame, in case we're busy transitioning from another state that's updating the size as well.
-			HandleReset();
+			ResetControllerCollider();
 		}
 
 		// Resets the m_OpenCharacterController collider.
-		void HandleReset()
+		void ResetControllerCollider()
 		{
 			if (m_OpenCharacterController == null)
 			{
