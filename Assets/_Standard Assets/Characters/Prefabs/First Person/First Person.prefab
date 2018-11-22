@@ -38,7 +38,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1627797537853366}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 33, y: 1, z: 6.98}
+  m_LocalPosition: {x: 33, y: 0, z: 6.98}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -74,7 +74,8 @@ MonoBehaviour:
     m_Asset: {fileID: 11400000, guid: 6b7e0365c2048446aafe64ff5b240173, type: 3}
   m_TouchControls:
     m_Asset: {fileID: 11400000, guid: 5e0a061bdf17543b6b5dc2ab23540605, type: 3}
-  m_TouchControlsCanvas: {fileID: 0}
+  m_TouchControlsCanvasPrefab: {fileID: 1201311427779892, guid: 412a843d79095470db5a469eead8163c,
+    type: 2}
   m_InvertX: 0
   m_InvertY: 0
   m_XSensitivity: 1

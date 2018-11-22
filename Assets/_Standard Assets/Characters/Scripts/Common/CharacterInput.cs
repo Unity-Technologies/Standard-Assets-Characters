@@ -31,8 +31,8 @@ namespace StandardAssets.Characters.Common
 		[SerializeField, Tooltip("Input Action Map asset for touch controls")]
 		TouchControls m_TouchControls;
 
-		[SerializeField, Tooltip("Canvas used to render the on screen touch control graphics")]
-		GameObject m_TouchControlsCanvas;
+		[SerializeField, Tooltip("Prefab of canvas used to render the on screen touch control graphics")]
+		GameObject m_TouchControlsCanvasPrefab;
 
 		[SerializeField, Tooltip("Invert horizontal look direction?")]
 		bool m_InvertX;
@@ -49,6 +49,9 @@ namespace StandardAssets.Characters.Common
 		[SerializeField, Tooltip("Toggle the Cursor Lock Mode? Press ESCAPE during play mode to unlock")]
 		bool m_CursorLocked = true;
 
+		// Instance of UI for Touch Controls
+		GameObject m_TouchControlsCanvasInstance;
+		
 		// Is the character sprinting
 		bool m_IsSprinting;
 
@@ -144,7 +147,7 @@ namespace StandardAssets.Characters.Common
 		/// <summary>
 		/// Enables associated controls
 		/// </summary>
-		protected virtual void OnEnable()
+		protected void OnEnable()
 		{
 			currentControls.Enable();
 			HandleCursorLock();
@@ -153,7 +156,7 @@ namespace StandardAssets.Characters.Common
 		/// <summary>
 		/// Disables associated controls
 		/// </summary>
-		protected virtual void OnDisable()
+		protected void OnDisable()
 		{
 			currentControls.Disable();
 		}
@@ -161,7 +164,7 @@ namespace StandardAssets.Characters.Common
 		/// <summary>
 		/// Checks for lock state input
 		/// </summary>
-		protected virtual void Update()
+		protected void Update()
 		{
 			if (Input.GetKeyDown(KeyCode.Escape))
 			{
@@ -251,12 +254,18 @@ namespace StandardAssets.Characters.Common
 			}
 		}
 
-		// Toggle the onscreen controls canvas 
+		// Initializes the Touch Controls when need
 		void ToggleTouchControlsCanvas(bool active)
 		{
-			if (m_TouchControlsCanvas != null)
+			if (m_TouchControlsCanvasInstance != null)
 			{
-				m_TouchControlsCanvas.SetActive(active);
+				m_TouchControlsCanvasInstance.SetActive(active);
+			}
+
+			if (active && m_TouchControlsCanvasInstance == null)
+			{
+				m_TouchControlsCanvasInstance = Instantiate(m_TouchControlsCanvasPrefab);
+				m_TouchControlsCanvasInstance.SetActive(true);
 			}
 		}		
 
