@@ -114,7 +114,6 @@ namespace StandardAssets.Characters.ThirdPerson
         [Serializable]
         protected class AnimationInfo
         {
-            [SerializeField, Tooltip("Animation state name")]
             string m_Name;
 
             [SerializeField, Tooltip("Animation play speed")]
@@ -149,22 +148,22 @@ namespace StandardAssets.Characters.ThirdPerson
         }
 
         [SerializeField, Tooltip("Configuration for run 180 left turn animation")]
-        AnimationInfo m_RunLeftTurn = new AnimationInfo("RunForwardTurnLeft180");
+        AnimationInfo m_RunLeftTurn = new AnimationInfo(AnimationControllerInfo.k_Run180TurnLeftState);
         
         [SerializeField, Tooltip("Configuration for run 180 right turn animation")]
-        AnimationInfo m_RunRightTurn = new AnimationInfo("RunForwardTurnRight180_Mirror");
+        AnimationInfo m_RunRightTurn = new AnimationInfo(AnimationControllerInfo.k_Run180TurnRightState);
         
         [SerializeField, Tooltip("Configuration for sprint 180 left turn animation")]
-        AnimationInfo m_SprintLeftTurn = new AnimationInfo("RunForwardTurnLeft180");
+        AnimationInfo m_SprintLeftTurn = new AnimationInfo(AnimationControllerInfo.k_Run180TurnLeftState);
         
         [SerializeField, Tooltip("Configuration for sprint 180 right turn animation")]
-        AnimationInfo m_SprintRightTurn = new AnimationInfo("RunForwardTurnRight180_Mirror");
+        AnimationInfo m_SprintRightTurn = new AnimationInfo(AnimationControllerInfo.k_Run180TurnRightState);
         
         [SerializeField, Tooltip("Configuration for idle 180 left turn animation")]
-        AnimationInfo m_IdleLeftTurn = new AnimationInfo("IdleTurnLeft180");
+        AnimationInfo m_IdleLeftTurn = new AnimationInfo(AnimationControllerInfo.k_Idle180TurnLeftState);
         
         [SerializeField, Tooltip("Configuration for idle 180 right turn animation")]
-        AnimationInfo m_IdleRightTurn = new AnimationInfo("IdleTurnRight180_Mirror");
+        AnimationInfo m_IdleRightTurn = new AnimationInfo(AnimationControllerInfo.k_Idle180TurnRightState);
 
         [SerializeField, Tooltip("Curve used to evaluate rotation throughout turn around")]
         AnimationCurve m_RotationMap = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
