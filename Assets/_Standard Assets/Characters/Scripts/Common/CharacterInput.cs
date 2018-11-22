@@ -2,6 +2,7 @@
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.Experimental.Input;
+using UnityEngine.Serialization;
 
 namespace StandardAssets.Characters.Common
 {
@@ -32,7 +33,7 @@ namespace StandardAssets.Characters.Common
 		TouchControls m_TouchControls;
 
 		[SerializeField, Tooltip("Prefab of canvas used to render the on screen touch control graphics")]
-		GameObject m_TouchControlsCanvasPrefab;
+		GameObject m_TouchControlsPrefab;
 
 		[SerializeField, Tooltip("Invert horizontal look direction?")]
 		bool m_InvertX;
@@ -264,7 +265,7 @@ namespace StandardAssets.Characters.Common
 
 			if (active && m_TouchControlsCanvasInstance == null)
 			{
-				m_TouchControlsCanvasInstance = Instantiate(m_TouchControlsCanvasPrefab);
+				m_TouchControlsCanvasInstance = Instantiate(m_TouchControlsPrefab);
 				m_TouchControlsCanvasInstance.SetActive(true);
 			}
 		}		
