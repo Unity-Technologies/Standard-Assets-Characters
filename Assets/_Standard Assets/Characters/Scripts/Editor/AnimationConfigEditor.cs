@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using StandardAssets.Characters.ThirdPerson.Configs;
 using UnityEditor;
 using UnityEngine;
