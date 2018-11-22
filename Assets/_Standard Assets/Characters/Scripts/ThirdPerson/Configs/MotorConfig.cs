@@ -47,7 +47,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			[SerializeField, Tooltip("Used for effecting how much of the -1 to 1 range of normalizedTurningSpeed")]
 			float m_TurnSpeedScale = 1.4f;
 
-			[SerializeField, Tooltip("Rate at which normalized turn speed will return to zero when there is no turn input")]
+			[SerializeField, Tooltip("Normalized percentage per second normalized turn speed will return to zero when there is no turn input")]
 			float m_TurnSpeedDecay = 5.0f;
 			
 			[SerializeField, Tooltip("Speed at which the normalized turning speed can change")]
@@ -136,6 +136,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			/// <summary>
 			/// Gets the rate at which normalized turn speed will return to zero when there is no turn input.
 			/// </summary>
+			/// <value>Percentage per second.</value>
 			public float noLookInputTurnSpeedDeceleration { get { return m_TurnSpeedDecay; } }
 		}
 		
