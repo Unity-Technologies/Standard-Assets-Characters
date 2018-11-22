@@ -39,7 +39,7 @@ namespace StandardAssets.Characters.Helpers
 	}
 	
 	/// <summary>
-	/// Attribute for set minimum and maximum values on <see cref="FloatRange"/>
+	/// Attribute for setting minimum and maximum values on <see cref="FloatRange"/>
 	/// </summary>
 	public class FloatRangeSetupAttribute : Attribute
 	{
