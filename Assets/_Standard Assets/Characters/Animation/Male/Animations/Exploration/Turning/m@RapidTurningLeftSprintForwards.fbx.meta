@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c0f04258feff0fc48877eae1bc51caf8
+guid: bc7c28e9430d0564a953ce9ec1be418e
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -143,8 +143,8 @@ ModelImporter:
     400134: Root
     400136: Spine
     400138: UpperChest
-    7400000: TurningLeftSprintForwards
-    7400002: TurningRightSprintForwards_Mirror
+    7400000: RapidTurningLeftSprintForwards
+    7400002: RapidTurningRightSprintForwards_Mirror
     9500000: //RootNode
   externalObjects: {}
   materials:
@@ -175,7 +175,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: TurningLeftSprintForwards
+      name: RapidTurningLeftSprintForwards
       takeName: Take 001
       firstFrame: 1
       lastFrame: 17
@@ -203,14 +203,14 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: TurningRightSprintForwards_Mirror
+      name: RapidTurningRightSprintForwards_Mirror
       takeName: Take 001
       firstFrame: 1
       lastFrame: 17
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
-      cycleOffset: 0
+      cycleOffset: 0.5
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 1
@@ -222,7 +222,7 @@ ModelImporter:
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0
       heightFromFeet: 0
-      mirror: 0
+      mirror: 1
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events: []
