@@ -43,11 +43,36 @@ For more detailed documentation, please see the WIP Google Docs:
 
 ## Getting Started
 
+### From Repo
 * Pull the repository and open the project in the relevant version of Unity
 * Open the Protoland Scene
 * Press Play
 * Select First or Third Person modes
 
+### Importing the Package
+* Import the SAC package.
+* Copy the manifest.json into the Packages folder. (NEED TO UPLOAD AND ADD LINK)
+    * This might result in packages being downloaded (internet access is required).
+    
+### Base Setup
+* Create a new Scene.
+* Place a plane in the Scene to act as the floor and resize to preference.
+* Optional set-up for effects:
+    * Drag in Movement Zone Manager prefab.
+    * To change the level default effects, create a new LevelMovementZoneConfiguration via Create -> Standard Assets -> Characters -> Level Movement Zone Configuration and set it on this prefab
+    * Set the plane’s layer to Ground, in order for Third Person footsteps to work.
+    
+### First Person Setup
+* Drag in the First Person prefab.
+
+### Third Person Setup
+* Drag in the Third Person (Male) prefab.
+    * Ensure that the Y value is greater than the Ground Plane’s Y value.
+* Drag in the Third Person Camera (Male) prefab.
+
+There is a female third person character. Delete the male prefabs from the scene and drag in the female prefabs:
+* Third Person (Female)
+* Third Person Camera (Female)
 
 ## Controls
 
