@@ -184,7 +184,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			public AnimationCurve footPositionJumpIncRemap { get { return m_FootPositionMap; } }
 			
 			/// <summary>
-			/// Gets the animation curved used for remapping turning speed.
+			/// Gets the curve used to remap the raw turning speed calculated by the motor.
 			/// </summary>
 			public AnimationCurve turningSpeedCurve { get { return m_TurningSpeedMap; } }
 
