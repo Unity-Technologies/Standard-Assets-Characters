@@ -96,7 +96,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			[SerializeField, Tooltip("Curve used to determine the land animation speed")]
 			AnimationCurve m_LandSpeedMap = AnimationCurve.Linear(0.0f, 1.0f, 1.0f, 2.0f);
 			
-			[SerializeField, Tooltip("Time (in seconds) sed for the cross fade into the roll animation state")]
+			[SerializeField, Tooltip("Time (in seconds) used for the cross fade into the roll animation state")]
 			float m_RollBlendTime = 0.15f;
 
 			[SerializeField, Tooltip("Time (in seconds) used for the cross fade into the land animation state")]
