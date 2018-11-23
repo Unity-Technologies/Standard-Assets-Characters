@@ -14,6 +14,11 @@ namespace StandardAssets.Characters.Physics
 	public class OpenCharacterController : MonoBehaviour
 	{
 		/// <summary>
+		/// Fired on collision with colliders in the world
+		/// </summary>
+		public event Action<CollisionInfo> collision;
+		
+		/// <summary>
 		/// Collision info used by the OpenCharacterController and sent to the OnOpenCharacterControllerHit message.
 		/// </summary>
 		public struct CollisionInfo
@@ -238,7 +243,6 @@ namespace StandardAssets.Characters.Physics
 			}
 		}
 
-
 		// Stuck info and logic used by the OpenCharacterController.
 		class StuckInfo
 		{
@@ -391,11 +395,6 @@ namespace StandardAssets.Characters.Physics
 
 		[SerializeField, Tooltip("Can character slide vertically when touching the ceiling? (For example, if ceiling is sloped.)")]
 		bool m_SlideAlongCeiling = true;
-
-		[SerializeField, Tooltip(
-			"Send \"OnOpenCharacterControllerHit\" messages to game objects? Messages are sent when the character " +
-			"hits a collider while performing a move. WARNING: This does create garbage.")]
-		bool m_SendHitMessages;
 
 		[SerializeField, Tooltip("The desired interaction that cast calls should make against triggers")]
 		QueryTriggerInteraction m_TriggerQuery = QueryTriggerInteraction.Ignore;
@@ -1421,25 +1420,21 @@ namespace StandardAssets.Characters.Physics
 				onCollisionFlagsChanged(collisionFlags);
 			}
 
-			if (m_SendHitMessages)
-			{
-				SendHitMessages();
-			}
+
+			BroadcastCollisionEvent();
 		}
 
 		// Send hit messages.
-		void SendHitMessages()
+		void BroadcastCollisionEvent()
 		{
-			if (m_CollisionInfoDictionary == null || m_CollisionInfoDictionary.Count <= 0)
+			if (collision == null || m_CollisionInfoDictionary == null || m_CollisionInfoDictionary.Count <= 0)
 			{
 				return;
 			}
 
 			foreach (var keyValuePair in m_CollisionInfoDictionary)
 			{
-				transform.gameObject.SendMessage("OnOpenCharacterControllerHit",
-				                                       keyValuePair.Value,
-				                                       SendMessageOptions.DontRequireReceiver);
+				collision(keyValuePair.Value);
 			}
 		}
 
@@ -2228,7 +2223,7 @@ namespace StandardAssets.Characters.Physics
 
 			m_StuckInfo.hitCount++;
 
-			if (m_SendHitMessages && hitInfo != null)
+			if (hitInfo != null)
 			{
 				var collider = hitInfo.Value.collider;
 				

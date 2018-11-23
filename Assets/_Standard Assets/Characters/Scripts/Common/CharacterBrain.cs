@@ -81,13 +81,21 @@ namespace StandardAssets.Characters.Common
 		}
 	}
 
-	
 	/// <summary>
 	/// Wrapper for the OpenCharacterController
 	/// </summary>
 	[Serializable]
 	public class ControllerAdapter
 	{
+		// the number of time sets used for trajectory prediction
+		const int k_TrajectorySteps = 60;
+
+		// the time step used between physics trajectory steps
+		const float k_TrajectoryPredictionTimeStep = 0.016f;
+		
+		// the scale that is used to convert character's current velocity to force applied to rigidbody
+		const float k_VelocityToForceScale = 0.1f;
+		
 		[SerializeField, Tooltip("Maximum speed that the character can move downwards")]
 		float m_TerminalVelocity = 10f;
 
@@ -118,12 +126,6 @@ namespace StandardAssets.Characters.Common
 
 		// Event for falling, includes the predicted fall distance
 		public event Action<float> startedFalling;
-		
-		// the number of time sets used for trajectory prediction
-		const int k_TrajectorySteps = 60;
-
-		// the time step used between physics trajectory steps
-		const float k_TrajectoryPredictionTimeStep = 0.016f;
 
 		// colliders used in physics checks for landing prediction
 		readonly Collider[] m_TrajectoryPredictionColliders = new Collider[1];
@@ -217,7 +219,6 @@ namespace StandardAssets.Characters.Common
 		// Gets the current fall gravity multiplier
 		float fallGravityMultiplier { get { return m_FallGravityScale.Evaluate(m_CharacterBrain.normalizedForwardSpeed); } }
 
-
 		/// <summary>
 		/// Moves the character
 		/// </summary>
@@ -275,6 +276,7 @@ namespace StandardAssets.Characters.Common
 			m_CharacterInput = cachedTransform.GetComponent<CharacterInput>();
 			m_CharacterBrain = cachedTransform.GetComponent<CharacterBrain>();
 			characterController = cachedTransform.GetComponent<OpenCharacterController>();
+			characterController.collision += OnCollision;
 
 			if (m_TerminalVelocity > 0.0f)
 			{
@@ -283,7 +285,27 @@ namespace StandardAssets.Characters.Common
 
 			m_Gravity = UnityPhysics.gravity.y;
 		}
-		
+
+		// Handles interactions with collideable objects in the world
+		// Applies for to Rigidbodies
+		void OnCollision(OpenCharacterController.CollisionInfo collisionInfo)
+		{
+			OpenCharacterController controller = collisionInfo.controller;
+
+			if (controller == null || controller.collisionFlags == CollisionFlags.Below || controller.collisionFlags == CollisionFlags.Above)
+			{
+				return;
+			}
+			
+			Rigidbody body = collisionInfo.rigidbody;
+			if (body == null)
+			{
+				return;
+			}
+
+			body.AddForceAtPosition(m_CachedGroundVelocity * k_VelocityToForceScale, collisionInfo.point, ForceMode.Impulse);
+		}
+
 		// Calculates the current predicted fall distance based on the predicted landing position
 		// 		return: The predicted fall distance
 		float GetPredictedFallDistance()
