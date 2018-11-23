@@ -102,7 +102,7 @@ namespace StandardAssets.Characters.Common
 		[SerializeField, Tooltip("Curve that defines the gravity scale to be applied during the rising motion of a jump, relative to the character's forward speed")]
 		AnimationCurve m_JumpGravityScale = AnimationCurve.Constant(0.0f, 1.0f, 1.0f);
 
-		[SerializeField, Tooltip("Curve that defines the gravity scale applied during the rising mostion of a jump if the jump button is no longer being held, relative to the character's forward speed")]
+		[SerializeField, Tooltip("Curve that defines the gravity scale applied during the rising motion of a jump if the jump button is no longer being held, relative to the character's forward speed")]
 		AnimationCurve m_ShortJumpGravityScale = AnimationCurve.Constant(0.0f, 1.0f, 1.0f);
 
 		[SerializeField, Tooltip("Curve that defines the gravity scale to be applied while falling, relative to the character's forward speed")]
