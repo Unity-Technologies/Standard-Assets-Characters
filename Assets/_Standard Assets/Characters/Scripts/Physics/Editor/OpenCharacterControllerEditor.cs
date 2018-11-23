@@ -16,7 +16,6 @@ namespace Editor
 			"m_MinMoveDistance", 
 			"m_IsLocalHuman",
 			"m_SlideAlongCeiling", 
-			"m_SendHitMessages", 
 			"m_TriggerQuery"
 		};
 
