@@ -287,7 +287,7 @@ namespace StandardAssets.Characters.Common
 		}
 
 		// Handles interactions with collideable objects in the world
-		// Applies for to Rigidbodies
+		// Applies force to Rigidbodies
 		void OnCollision(OpenCharacterController.CollisionInfo collisionInfo)
 		{
 			OpenCharacterController controller = collisionInfo.controller;
