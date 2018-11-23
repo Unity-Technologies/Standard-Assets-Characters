@@ -518,7 +518,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 
 			Quaternion targetRotation = CalculateTargetRotation(
-				new Vector3(m_CharacterInput.moveInput.x, 0, m_CharacterInput.moveInput.y));
+				new Vector3(m_CharacterInput.moveInput.x, 0.0f, m_CharacterInput.moveInput.y));
 			targetYRotation = targetRotation.eulerAngles.y;
 
 			if (IsGrounded && CheckForAndHandleRapidTurn(targetRotation))
