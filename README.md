@@ -47,9 +47,12 @@ Movement Effects:
 
 ### Importing the Package
 * Import the SAC package.
-* Copy the manifest.json into the Packages folder
-	* https://drive.google.com/open?id=1EqaP4aRlrxD9-fmgLVFnq53Wvcwu-Efh
-    * This might result in packages being downloaded (internet access is required).
+* Make sure that you have the following Unity Packages added in your manifest.json:
+	* "com.unity.cinemachine": "2.2.8-preview.13"
+	* "com.unity.inputsystem": "0.0.12-preview"
+	* "com.unity.postprocessing": "2.0.19"
+	* "com.unity.probuilder": "4.0.0-preview.29"
+	* "com.unity.progrids": "3.0.3-preview.0"
 * Open the Protoland Scene
 * Enable either the First Person or the Third Person Game Object under Characters
 * Press Play
