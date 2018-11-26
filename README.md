@@ -59,6 +59,7 @@ Movement Effects:
     
 ### Base Setup
 * Create a new Scene.
+* Make sure that the main scene camera has the Main Camera Tag set on it
 * Place a plane in the Scene to act as the floor and resize to preference.
 * Optional set-up for Movement Effects:
     * Drag in Movement Zone Manager prefab.
