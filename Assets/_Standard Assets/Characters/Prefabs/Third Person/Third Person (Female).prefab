@@ -668,7 +668,7 @@ GameObject:
   - component: {fileID: 135724061741436522}
   - component: {fileID: 54044464869534962}
   - component: {fileID: 114691607450998618}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: LeftFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1016,7 +1016,7 @@ GameObject:
   - component: {fileID: 135655159668849798}
   - component: {fileID: 54549028519627978}
   - component: {fileID: 114929563827658170}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RightFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1602,7 +1602,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1990983976190814}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 33, y: 0, z: 8}
+  m_LocalPosition: {x: 33, y: -1, z: 8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4365263576841622}
@@ -2470,7 +2470,6 @@ MonoBehaviour:
     m_Bits: 257
   m_IsLocalHuman: 1
   m_SlideAlongCeiling: 1
-  m_SendHitMessages: 0
   m_TriggerQuery: 1
   m_SlideDownSlopes: 1
   m_SlideMaxSpeed: 10
@@ -2491,7 +2490,8 @@ MonoBehaviour:
     m_Asset: {fileID: 11400000, guid: 6b7e0365c2048446aafe64ff5b240173, type: 3}
   m_TouchControls:
     m_Asset: {fileID: 11400000, guid: 5e0a061bdf17543b6b5dc2ab23540605, type: 3}
-  m_TouchControlsPrefab: {fileID: 0}
+  m_TouchControlsPrefab: {fileID: 1201311427779892, guid: 412a843d79095470db5a469eead8163c,
+    type: 2}
   m_InvertX: 0
   m_InvertY: 0
   m_XSensitivity: 1
