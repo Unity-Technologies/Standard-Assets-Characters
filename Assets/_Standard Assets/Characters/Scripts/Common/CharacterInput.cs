@@ -64,6 +64,12 @@ namespace StandardAssets.Characters.Common
 		/// Gets/sets the look input vector
 		/// </summary>
 		public Vector2 lookInput { get; private set; }
+		
+		
+		/// <summary>
+		/// TEMP look vector to fix mouse input issues. 
+		/// </summary>
+		private Vector2 rawLookInput;
 
 		/// <summary>
 		/// Gets/sets the move input vector
@@ -171,6 +177,11 @@ namespace StandardAssets.Characters.Common
 				m_CursorLocked = !m_CursorLocked;
 				HandleCursorLock();
 			}
+			
+			//Fix for mouse issue with low frame rate
+			lookInput = rawLookInput;
+			rawLookInput = default(Vector2);
+			
 		}	
 
 		/// <summary>
@@ -229,7 +240,15 @@ namespace StandardAssets.Characters.Common
 		// Provides the input vector for the look control
 		void OnLookInput(InputAction.CallbackContext context)
 		{
-			lookInput = context.ReadValue<Vector2>();
+			//Work around for mouse input issues with low frame rate
+			var currentLookInput =  context.ReadValue<Vector2>();
+			if (currentLookInput.sqrMagnitude > rawLookInput.sqrMagnitude)
+			{
+				rawLookInput = currentLookInput;
+			}
+			
+			//Old method of getting mouse inputs, removed due to issues with low frame rates
+			//lookInput = context.ReadValue<Vector2>();
 		}
 
 		// Provides the input vector for the move control
