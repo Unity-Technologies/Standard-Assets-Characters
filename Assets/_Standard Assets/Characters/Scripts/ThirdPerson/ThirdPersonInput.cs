@@ -28,7 +28,6 @@ namespace StandardAssets.Characters.ThirdPerson
 		// Tracks if the character is strafing 
 		bool m_IsStrafing;
 
-
 		/// <summary>
 		/// Sets the sprinting state to false
 		/// </summary>
@@ -42,15 +41,15 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// </summary>
 		protected override void RegisterAdditionalInputs()
 		{
+			standardControls.Movement.recentre.performed += OnRecentreInput;
+		
 			if(UseTouchControls())
 			{
-				touchControls.Movement.strafe.performed += OnStrafeInput;
-				touchControls.Movement.recentre.performed += OnRecentreInput;
+				standardControls.Movement.strafeToggle.performed += OnStrafeInput;
 			}
 			else
 			{
 				standardControls.Movement.strafe.performed += OnStrafeInput;
-				standardControls.Movement.recentre.performed += OnRecentreInput;
 			}
 		}
 

@@ -23,7 +23,6 @@ namespace StandardAssets.Characters.FirstPerson
 		// Tracks whether the character is crouching or not
 		bool m_IsCrouching;
 
-
 		/// <summary>
 		/// Resets the input states
 		/// </summary>
@@ -39,14 +38,7 @@ namespace StandardAssets.Characters.FirstPerson
 		/// </summary>
 		protected override void RegisterAdditionalInputs()
 		{
-			if(UseTouchControls())
-			{
-				touchControls.Movement.crouch.performed += OnCrouchInput;
-			}
-			else
-			{
-				standardControls.Movement.crouch.performed += OnCrouchInput;
-			}
+			standardControls.Movement.crouch.performed += OnCrouchInput;
 		}
 
 		/// <summary>
