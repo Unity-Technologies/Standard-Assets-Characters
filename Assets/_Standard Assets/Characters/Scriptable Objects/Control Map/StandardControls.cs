@@ -27,6 +27,7 @@ public class StandardControls : InputActionAssetReference
         m_Movement_sprint = m_Movement.GetAction("sprint");
         m_Movement_crouch = m_Movement.GetAction("crouch");
         m_Movement_recentre = m_Movement.GetAction("recentre");
+        m_Movement_strafeToggle = m_Movement.GetAction("strafeToggle");
         m_Initialized = true;
     }
     private void Uninitialize()
@@ -39,6 +40,7 @@ public class StandardControls : InputActionAssetReference
         m_Movement_sprint = null;
         m_Movement_crouch = null;
         m_Movement_recentre = null;
+        m_Movement_strafeToggle = null;
         m_Initialized = false;
     }
     public void SetAsset(InputActionAsset newAsset)
@@ -60,6 +62,7 @@ public class StandardControls : InputActionAssetReference
     private InputAction m_Movement_sprint;
     private InputAction m_Movement_crouch;
     private InputAction m_Movement_recentre;
+    private InputAction m_Movement_strafeToggle;
     public struct MovementActions
     {
         private StandardControls m_Wrapper;
@@ -71,6 +74,7 @@ public class StandardControls : InputActionAssetReference
         public InputAction @sprint { get { return m_Wrapper.m_Movement_sprint; } }
         public InputAction @crouch { get { return m_Wrapper.m_Movement_crouch; } }
         public InputAction @recentre { get { return m_Wrapper.m_Movement_recentre; } }
+        public InputAction @strafeToggle { get { return m_Wrapper.m_Movement_strafeToggle; } }
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }

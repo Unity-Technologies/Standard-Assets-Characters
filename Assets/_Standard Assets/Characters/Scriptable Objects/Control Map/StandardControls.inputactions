@@ -1,5 +1,5 @@
 {
-    "name": "Controls",
+    "name": "StandardControls",
     "maps": [
         {
             "name": "Movement",
@@ -44,6 +44,12 @@
                 {
                     "name": "recentre",
                     "id": "a5ab7386-88ae-43ec-8d8e-5b268dda6685",
+                    "expectedControlLayout": "",
+                    "bindings": []
+                },
+                {
+                    "name": "strafeToggle",
+                    "id": "ffb6c583-b934-4b18-a8e4-fe6dd926c77b",
                     "expectedControlLayout": "",
                     "bindings": []
                 }
@@ -260,6 +266,18 @@
                     "processors": "",
                     "groups": "",
                     "action": "recentre",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "right",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "strafeToggle",
                     "chainWithPrevious": false,
                     "isComposite": false,
                     "isPartOfComposite": false,
