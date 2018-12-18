@@ -28,9 +28,6 @@ namespace StandardAssets.Characters.Common
 		[SerializeField, Tooltip("Input Action Map asset for mouse/keyboard and game pad inputs")]
 		StandardControls m_StandardControls;
 
-		[SerializeField, Tooltip("Input Action Map asset for touch controls")]
-		TouchControls m_TouchControls;
-
 		[SerializeField, Tooltip("Prefab of canvas used to render the on screen touch control graphics")]
 		GameObject m_TouchControlsPrefab;
 
@@ -65,9 +62,8 @@ namespace StandardAssets.Characters.Common
 		/// </summary>
 		public Vector2 lookInput { get; private set; }
 		
-		
 		/// <summary>
-		/// TEMP look vector to fix mouse input issues. 
+		/// Raw look vector. 
 		/// </summary>
 		private Vector2 rawLookInput;
 
@@ -80,11 +76,6 @@ namespace StandardAssets.Characters.Common
 		/// Gets whether or not the jump input is currently applied
 		/// </summary>
 		public bool hasJumpInput { get; private set; }
-		
-        /// <summary>
-        /// Gets a reference to the currently set Touch Controls scriptable object
-        /// </summary>
-		protected TouchControls touchControls { get { return m_TouchControls; } }
 
         /// <summary>
         /// Gets a reference to the currently set Standard Controls asset
@@ -100,52 +91,31 @@ namespace StandardAssets.Characters.Common
 			set { m_IsSprinting = value; }
 		}
 
-        // Gets a reference to the currently set Controls scriptable object
-		InputActionAssetReference currentControls
-		{
-			get 
-			{ 
-				return UseTouchControls() ? 
-						touchControls as InputActionAssetReference : 
-						standardControls as InputActionAssetReference;
-			}
-		}		
-
 		// Sets up the Cinemachine delegate and subscribes to new input's performed events
 		void Awake()
 		{
 			hasJumpInput = false;
 			CinemachineCore.GetInputAxis = LookInputOverride;
+			
+			if(standardControls != null)
+			{
+				standardControls.Movement.move.performed += OnMoveInput;
+				standardControls.Movement.look.performed += OnLookInput;
+				standardControls.Movement.jump.performed += OnJumpInputEnded;
+				standardControls.Movement.jump.started += OnJumpInputStarted;
+				standardControls.Movement.sprint.performed += OnSprintInput;
+				RegisterAdditionalInputs();
+			}
 
-			//handle Touch versus Standard controls
+			//Handle Touch/OnScreen versus Standard controls
 			if(UseTouchControls())
 			{
-				if(touchControls != null)
-				{
-					touchControls.Movement.move.performed += OnMoveInput;
-					touchControls.Movement.look.performed += OnLookInput;
-					touchControls.Movement.jump.performed += OnJumpInputEnded;
-					touchControls.Movement.jump.started += OnJumpInputStarted;
-					touchControls.Movement.sprint.performed += OnSprintInput;
-					RegisterAdditionalInputs();
-				}
-
 				m_CursorLocked = false;
 				HandleCursorLock();
 				ToggleTouchControlsCanvas(true);
 			}	
 			else
 			{
-				if(standardControls != null)
-				{
-					standardControls.Movement.move.performed += OnMoveInput;
-					standardControls.Movement.look.performed += OnLookInput;
-					standardControls.Movement.jump.performed += OnJumpInputEnded;
-					standardControls.Movement.jump.started += OnJumpInputStarted;
-					standardControls.Movement.sprint.performed += OnSprintInput;
-					RegisterAdditionalInputs();
-				}
-
 				ToggleTouchControlsCanvas(false);	
 			}	
 		}
@@ -155,7 +125,7 @@ namespace StandardAssets.Characters.Common
 		/// </summary>
 		protected void OnEnable()
 		{
-			currentControls.Enable();
+			standardControls.Enable();
 			HandleCursorLock();
 		}
 
@@ -164,7 +134,7 @@ namespace StandardAssets.Characters.Common
 		/// </summary>
 		protected void OnDisable()
 		{
-			currentControls.Disable();
+			standardControls.Disable();
 		}
 
 		/// <summary>
@@ -178,7 +148,7 @@ namespace StandardAssets.Characters.Common
 				HandleCursorLock();
 			}
 			
-			//Fix for mouse issue with low frame rate
+			//For mouse issue with low frame rate
 			lookInput = rawLookInput;
 			rawLookInput = default(Vector2);
 			
@@ -229,7 +199,7 @@ namespace StandardAssets.Characters.Common
 		/// </summary>
 		protected bool UseTouchControls()
 		{
-			//assume Touch Controls are wanted for iOS and Android builds
+			//Assume Touch Controls are wanted for iOS and Android builds
 #if !UNITY_EDITOR && (UNITY_ANDROID || UNITY_IOS)
 			return true;
 #else
