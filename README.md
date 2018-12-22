@@ -4,6 +4,8 @@ Note: this project is work in progress and currently considered a beta. It conta
 
 ## READ ME FIRST
 
+This package can be used in 2018.2, but we are currently working in 2018.3 so we recommend you follow suit as fixes to aspects we use like new input will be applied to an 18.3 compatible package first.
+
 * All project items currently under ** /Assets/_24BitDemo/**  are merely temporary assets used for prototyping and testing purposes and should be ignored, and *WILL NOT* be included in the Package generated for release! This Github repo is our work in progress live project, and as such you will currently find some test assets inside. Consider the Standard Assets folder contents those that we will ship post beta.
 
 ## Feedback
