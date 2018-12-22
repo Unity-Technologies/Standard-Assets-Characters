@@ -1,5 +1,6 @@
-# Standard Assets: Character Package
+# Standard Assets: Character Package (BETA)
 
+Note: this project is work in progress and currently considered a beta. It contains dependency on packages such as our new Input System which is in preview, and as such will continue to be in beta so long as it relies on in Preview tech. We will ship this content as a package in 2019.
 
 ## READ ME FIRST
 
