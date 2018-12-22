@@ -3,7 +3,7 @@
 
 ## READ ME FIRST
 
-* All project items currently under ** /Assets/_24BitDemo/**  are merely temporary assets used for prototyping and testing purposes and should be ignored, and *SHOULD NOT* be included in the Package generated for release!
+* All project items currently under ** /Assets/_24BitDemo/**  are merely temporary assets used for prototyping and testing purposes and should be ignored, and *WILL NOT* be included in the Package generated for release! This Github repo is our work in progress live project, and as such you will currently find some test assets inside. Consider the Standard Assets folder contents those that we will ship post beta.
 
 
 ## Overview
