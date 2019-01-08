@@ -473,6 +473,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			
 			m_AerialState = ThirdPersonAerialMovementState.Falling;
+			m_FallDirection = CalculateLocalInputDirection();
 			
 			if (fallStarted != null)
 			{
