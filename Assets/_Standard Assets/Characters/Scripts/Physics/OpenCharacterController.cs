@@ -508,6 +508,9 @@ namespace StandardAssets.Characters.Physics
 		// Default center of the capsule (e.g. for resetting it).
 		Vector3 m_DefaultCenter;
 
+		// Used to offset movement raycast when determining if a slope is travesable.
+		float m_SlopeMovementOffset;
+
 		// Is character busy sliding down a steep slope?
 		bool isSlidingDownSlope { get { return m_SlidingDownSlopeTime > 0.0f; } }
 
@@ -556,6 +559,8 @@ namespace StandardAssets.Characters.Physics
 			InitCapsuleColliderAndRigidbody();
 
 			SetRootToOffset();
+			
+			m_SlopeMovementOffset =  m_StepOffset / Mathf.Tan(m_SlopeLimit * Mathf.Deg2Rad);
 		}
 
 		// Set the root position.
@@ -1354,17 +1359,17 @@ namespace StandardAssets.Characters.Physics
 		bool CanStepOffset(Vector3 moveVector)
 		{
 			var moveVectorMagnitude = moveVector.magnitude;
+			var position = transform.position;
 			RaycastHit hitInfo;
 
 			// Only step up if there's an obstacle at the character's feet (e.g. do not step when only character's head collides)
-			if (!SmallSphereCast(moveVector, moveVectorMagnitude, out hitInfo, Vector3.zero, true, transform.position) &&
-			    !BigSphereCast(moveVector, moveVectorMagnitude, transform.position, out hitInfo, Vector3.zero, true))
+			if (!SmallSphereCast(moveVector, moveVectorMagnitude, out hitInfo, Vector3.zero, true, position) &&
+			    !BigSphereCast(moveVector, moveVectorMagnitude, position, out hitInfo, Vector3.zero, true))
 			{
 				return false;
 			}
 
-			var tempStepOffset = m_StepOffset;
-			var upDistance = Mathf.Max(tempStepOffset, k_MinStepOffsetHeight);
+			var upDistance = Mathf.Max(m_StepOffset, k_MinStepOffsetHeight);
 
 			// We only step over obstacles if we can partially fit on it (i.e. fit the capsule's radius)
 			var horizontal = moveVector * scaledRadius;
@@ -1373,8 +1378,8 @@ namespace StandardAssets.Characters.Physics
 
 			// Any obstacles ahead (after we moved up)?
 			var up = Vector3.up * upDistance;
-			if (SmallCapsuleCast(horizontal, GetSkinWidth() + horizontalSize, out hitInfo, up, transform.position) ||
-			    BigCapsuleCast(horizontal, horizontalSize, out hitInfo, up, transform.position))
+			if (SmallCapsuleCast(horizontal, GetSkinWidth() + horizontalSize, out hitInfo, up, position) ||
+			    BigCapsuleCast(horizontal, horizontalSize, out hitInfo, up, position))
 			{
 				return false;
 			}
@@ -1430,7 +1435,8 @@ namespace StandardAssets.Characters.Physics
 
 			RaycastHit hitInfoRay;
 			var rayOrigin = transform.position + transformedCenter + offsetPosition;
-			var rayDirection = hitInfoCapsule.point - rayOrigin;
+
+			var rayDirection = (hitInfoCapsule.point + direction * m_SlopeMovementOffset) - rayOrigin;
 
 			// Raycast returns a more accurate normal than SphereCast/CapsuleCast
 			if (UnityEngine.Physics.Raycast(rayOrigin,
@@ -1442,6 +1448,10 @@ namespace StandardAssets.Characters.Physics
 			    hitInfoRay.collider == hitInfoCapsule.collider)
 			{
 				hitInfoCapsule = hitInfoRay;
+			}
+			else
+			{
+				return false;
 			}
 
 			var slopeAngle = Vector3.Angle(Vector3.up, hitInfoCapsule.normal);
