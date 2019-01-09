@@ -57,7 +57,7 @@ Movement Effects:
 * Make sure that you have the following Unity Packages added in your manifest.json:
 	* "com.unity.cinemachine": "2.2.8"
 	* "com.unity.inputsystem": "0.1.2-preview"
-	* "com.unity.postprocessing": "2.0.19"
+	* "com.unity.postprocessing": "2.1.2"
 	* "com.unity.probuilder": "4.0.0-preview.37"
 	* "com.unity.progrids": "3.0.3-preview.0"
 * Open the Protoland Scene
