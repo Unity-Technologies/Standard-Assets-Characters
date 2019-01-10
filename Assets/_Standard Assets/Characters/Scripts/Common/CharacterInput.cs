@@ -95,7 +95,6 @@ namespace StandardAssets.Characters.Common
 		void Awake()
 		{
 			hasJumpInput = false;
-			CinemachineCore.GetInputAxis = LookInputOverride;
 			
 			if(standardControls != null)
 			{
@@ -127,6 +126,7 @@ namespace StandardAssets.Characters.Common
 		{
 			standardControls.Enable();
 			HandleCursorLock();
+			CinemachineCore.GetInputAxis += LookInputOverride;
 		}
 
 		/// <summary>
@@ -135,6 +135,7 @@ namespace StandardAssets.Characters.Common
 		protected void OnDisable()
 		{
 			standardControls.Disable();
+			CinemachineCore.GetInputAxis -= LookInputOverride;
 		}
 
 		/// <summary>
