@@ -468,6 +468,9 @@ namespace StandardAssets.Characters.Physics
 
 		// Scale the capsule/sphere hit distance when doing the additional raycast to get a more accurate normal
 		const float k_RaycastScaleDistance = 2.0f;
+		
+		// Slope check ahead is clamped by the distance moved multiplied by this scale.
+		const int k_SlopeCheckDistanceMultiplier = 5;
 
 		// The capsule collider.
 		CapsuleCollider m_CapsuleCollider;
@@ -1436,7 +1439,8 @@ namespace StandardAssets.Characters.Physics
 			RaycastHit hitInfoRay;
 			var rayOrigin = transform.position + transformedCenter + offsetPosition;
 
-			var rayDirection = (hitInfoCapsule.point + direction * m_SlopeMovementOffset) - rayOrigin;
+			var offset = Mathf.Clamp(m_SlopeMovementOffset, 0.0f, distance * k_SlopeCheckDistanceMultiplier);
+			var rayDirection = (hitInfoCapsule.point + direction * offset) - rayOrigin;
 
 			// Raycast returns a more accurate normal than SphereCast/CapsuleCast
 			if (UnityEngine.Physics.Raycast(rayOrigin,
