@@ -786,7 +786,8 @@ namespace StandardAssets.Characters.ThirdPerson
         void OnLanding()
         {
             m_IsGrounded = true;
-
+            animator.ResetTrigger(m_HashFall);
+            
             switch (animatorState)
             {
                 // if coming from a physics jump handle animation transition

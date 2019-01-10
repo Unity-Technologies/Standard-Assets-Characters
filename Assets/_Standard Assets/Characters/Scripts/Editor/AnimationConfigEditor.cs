@@ -3,7 +3,7 @@ using StandardAssets.Characters.ThirdPerson.Configs;
 using UnityEditor;
 using UnityEngine;
 
-namespace Editor
+namespace StandardAssets.Characters.Editor
 {
 	/// <summary>
 	/// Custom Editor for <see cref="AnimationConfig"/>

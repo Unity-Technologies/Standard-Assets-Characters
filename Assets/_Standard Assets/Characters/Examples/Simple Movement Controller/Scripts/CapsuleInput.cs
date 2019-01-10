@@ -13,7 +13,6 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// </summary>
 		protected override void RegisterAdditionalInputs()
 		{
-			Debug.Log("No extra inputs");
 		}
 	}
 }
