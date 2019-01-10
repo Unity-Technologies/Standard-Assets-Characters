@@ -60,6 +60,11 @@ namespace StandardAssets.Characters.Common
 			}
 		}
 
+		void OnDrawGizmosSelected()
+		{
+			controllerAdapter.OnDrawGizmosSelected();
+		}
+
 		/// <summary>
 		/// Calculates the planarSpeed of the CharacterBrain
 		/// </summary>
@@ -109,10 +114,10 @@ namespace StandardAssets.Characters.Common
 		AnimationCurve m_FallGravityScale = AnimationCurve.Constant(0.0f, 1.0f, 1.0f);
 		
 		[SerializeField, Tooltip("Gravity scale applied when falling less that the Min Fall Distance (set below)")]
-		float m_GroundingGravityScale = 2.0f; 
+		float m_GroundingGravityScale = 5.0f; 
 
-		[SerializeField, Tooltip("How far the character must fall in order to trigger the Fall State")]
-		float m_MinFallDistance = 1.1f;
+		[SerializeField, Tooltip("A fall less than this will trigger 'grounding'. GroundingGravityScale is applied to quickly ground the character.")]
+		float m_GroundingDistance = 0.5f;
 
 		[SerializeField, Tooltip("How quickly the Gravity that affects the character is allowed to change, when it is" +
 		                         " being dynamically modified by Jumping or Falling Gravity modifiers")]
@@ -154,8 +159,8 @@ namespace StandardAssets.Characters.Common
 		// Cached character input
 		CharacterInput m_CharacterInput;
 
-		// If the character is doing a short fall
-		bool m_ShortFall;
+		// If the character is being 'grounded' by a gravity multiplier (m_GroundingGravityScale) during a short fall (m_GroundingDistance);
+		bool m_Grounding;
 
 		// Did the character jump
 		bool m_DidJump;
@@ -235,20 +240,20 @@ namespace StandardAssets.Characters.Common
 		/// <summary>
 		/// Calculates whether the current fall is defined as a short fall
 		/// </summary>
-		/// <returns>True is the current fall distance is less than <see cref="m_MinFallDistance"/> false otherwise</returns>
+		/// <returns>True is the current fall distance is less than <see cref="m_GroundingDistance"/> false otherwise</returns>
 		public bool IsPredictedFallShort(out float distance)
 		{
 			distance = GetPredictedFallDistance();
-			return distance <= m_MinFallDistance;
+			return distance <= m_GroundingDistance;
 		}
 		
 		/// <summary>
 		/// Calculates whether the current fall is defined as a short fall
 		/// </summary>
-		/// <returns>True is the current fall distance is less than <see cref="m_MinFallDistance"/> false otherwise</returns>
+		/// <returns>True is the current fall distance is less than <see cref="m_GroundingDistance"/> false otherwise</returns>
 		public bool IsPredictedFallShort()
 		{
-			return GetPredictedFallDistance() <= m_MinFallDistance;
+			return GetPredictedFallDistance() <= m_GroundingDistance;
 		}
 
 		/// <summary>
@@ -310,11 +315,18 @@ namespace StandardAssets.Characters.Common
 		// 		return: The predicted fall distance
 		float GetPredictedFallDistance()
 		{
+			RaycastHit hitInfo;
+			if (UnityPhysics.Raycast(new Ray(footWorldPosition, Vector3.down), out hitInfo,
+				m_GroundingDistance, collisionLayerMask))
+			{
+				return hitInfo.distance;
+			}
+			
 			UpdatePredictedLandingPosition();
 			return m_PredictedLandingPosition == null
 				? float.MaxValue
 				: footWorldPosition.y - ((Vector3) m_PredictedLandingPosition).y;
-		}
+		}	
 
 		/// Updates the predicted landing position by stepping through the fall trajectory
 		void UpdatePredictedLandingPosition()
@@ -365,10 +377,11 @@ namespace StandardAssets.Characters.Common
 			// Calculates how long character has been in air and adjusts their vertical velocity accordingly
 			airTime += deltaTime;
 			CalculateGravity(deltaTime);
+			var minVelocity = m_Grounding ? -Mathf.Infinity : m_TerminalVelocity;
 			if (m_CurrentVerticalVelocity >= 0.0f)
 			{
-				m_CurrentVerticalVelocity = Mathf.Clamp(m_InitialJumpVelocity + m_Gravity * airTime, m_TerminalVelocity,
-													  Mathf.Infinity);
+				m_CurrentVerticalVelocity = Mathf.Clamp(m_InitialJumpVelocity + m_Gravity * airTime, 
+														minVelocity, Mathf.Infinity);
 			}
 			
 			var previousFallTime = fallTime;
@@ -376,7 +389,7 @@ namespace StandardAssets.Characters.Common
 			// Checks if the character is falling
 			if (m_CurrentVerticalVelocity < 0.0f)
 			{
-				m_CurrentVerticalVelocity = Mathf.Clamp(m_Gravity * fallTime, m_TerminalVelocity, Mathf.Infinity);
+				m_CurrentVerticalVelocity = Mathf.Clamp(m_Gravity * fallTime, minVelocity, Mathf.Infinity);
 				fallTime += deltaTime;
 				if (isGrounded)
 				{
@@ -384,10 +397,14 @@ namespace StandardAssets.Characters.Common
 					m_VerticalVector = Vector3.zero;
 
 					//Play the moment that the character lands and only at that moment
-					if (Math.Abs(airTime - deltaTime) > Mathf.Epsilon && landed != null)
+					if (Math.Abs(airTime - deltaTime) > Mathf.Epsilon)
 					{
-						landed();
+						if (landed != null)
+						{
+							landed();
+						}
 						m_DidJump = false;
+						m_Grounding = false;
 					}
 
 					fallTime = 0.0f;
@@ -400,10 +417,16 @@ namespace StandardAssets.Characters.Common
 			if (Mathf.Approximately(previousFallTime, 0.0f) && fallTime > Mathf.Epsilon)
 			{
 				var predictedFallDistance = GetPredictedFallDistance();
-				m_ShortFall = predictedFallDistance <= m_MinFallDistance;
-				if (startedFalling != null)
+				if (predictedFallDistance > m_GroundingDistance)
 				{
-					startedFalling(predictedFallDistance);
+					if (startedFalling != null)
+					{
+						startedFalling(predictedFallDistance);
+					}
+				}
+				else
+				{
+					m_Grounding = true;
 				}
 			}
 			m_VerticalVector = new Vector3(0.0f, m_CurrentVerticalVelocity * deltaTime, 0.0f);
@@ -416,9 +439,12 @@ namespace StandardAssets.Characters.Common
 			if (m_CurrentVerticalVelocity < 0.0f)
 			{
 				gravityFactor = fallGravityMultiplier;
-				if (!m_DidJump && m_ShortFall) // if a short fall was triggered increase gravity to quickly ground
+				if (!m_DidJump && m_Grounding) // if a short fall was triggered increase gravity to quickly ground
 				{
 					gravityFactor *= m_GroundingGravityScale;
+					// We don't want to slowly lerp gravity for grounding so set it here.
+					m_Gravity = gravityFactor * UnityPhysics.gravity.y;
+					return;
 				}
 				if (m_InitialJumpVelocity < Mathf.Epsilon)
 				{
