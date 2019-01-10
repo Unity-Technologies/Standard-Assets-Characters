@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
-using Cinemachine.Editor;
 using StandardAssets.Characters.Effects;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
 
-namespace Editor
+namespace StandardAssets.Characters.Editor
 {
     /// <summary>
     /// Custom property drawer visualizing <see cref="MovementEventZoneDefinitionList"/> as a reorderable list

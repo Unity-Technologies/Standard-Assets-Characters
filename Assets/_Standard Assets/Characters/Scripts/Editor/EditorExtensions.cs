@@ -8,7 +8,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-namespace Editor
+namespace StandardAssets.Characters.Editor
 {
 	/// <summary>
 	/// <see cref="SerializedObject"/> extensions.

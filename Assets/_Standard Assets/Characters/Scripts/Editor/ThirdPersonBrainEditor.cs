@@ -3,7 +3,7 @@ using StandardAssets.Characters.ThirdPerson;
 using UnityEditor;
 using UnityEngine;
 
-namespace Editor
+namespace StandardAssets.Characters.Editor
 {
 	/// <summary>
 	/// Custom editor for <see cref="ThirdPersonBrain"/>

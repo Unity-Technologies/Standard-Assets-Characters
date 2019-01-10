@@ -2,7 +2,7 @@ using StandardAssets.Characters.Effects;
 using UnityEditor;
 using UnityEngine;
 
-namespace Editor
+namespace StandardAssets.Characters.Editor
 {
 	/// <summary>
 	/// Custom  editor for <see cref="LevelMovementZoneManager"/>

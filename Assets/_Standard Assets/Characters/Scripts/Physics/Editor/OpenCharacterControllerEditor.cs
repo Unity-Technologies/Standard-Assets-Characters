@@ -1,7 +1,7 @@
 ﻿using StandardAssets.Characters.Physics;
 using UnityEditor;
 
-namespace Editor
+namespace StandardAssets.Characters.Editor
 {
 	/// <summary>
 	/// Custom editor for rendering advance fields in the <see cref="OpenCharacterController"/>
