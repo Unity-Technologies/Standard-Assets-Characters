@@ -59,11 +59,12 @@ namespace StandardAssets.Characters.Common
 				gameObject.SetActive(false);
 			}
 		}
-
+#if UNITY_EDITOR
 		void OnDrawGizmosSelected()
 		{
 			controllerAdapter.OnDrawGizmosSelected();
 		}
+#endif
 
 		/// <summary>
 		/// Calculates the planarSpeed of the CharacterBrain
