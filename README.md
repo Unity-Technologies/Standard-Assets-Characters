@@ -112,7 +112,7 @@ Movement Effects:
 		* Camera:		Right Thumbstick
 		* Sprint:		Left Thumbstick Click [TOGGLE]
 		* Jump:			PS4 [X]  Xbox [A]
-		* Strafe:		Left Bumper [TOGGLE]
+		* Strafe:		Left Trigger [TOGGLE]
 		* Recenter:		Right Thumstick Click
 
 
