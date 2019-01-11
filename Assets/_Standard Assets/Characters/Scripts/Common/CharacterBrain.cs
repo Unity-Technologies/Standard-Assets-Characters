@@ -93,6 +93,43 @@ namespace StandardAssets.Characters.Common
 	[Serializable]
 	public class ControllerAdapter
 	{
+		// Scales used to adjust gravity depending on aerial state.
+		[Serializable]
+		class GravityScales
+		{
+			[SerializeField, Tooltip("Curve that defines the gravity scale to be applied during the rising motion of a jump, relative to the character's forward speed")]
+			AnimationCurve m_JumpHold = AnimationCurve.Linear(0.0f, 0.85f, 1.0f, 0.8f);
+
+			[SerializeField, Tooltip("Curve that defines the gravity scale applied during the rising motion of a jump if the jump button is no longer being held, relative to the character's forward speed")]
+			AnimationCurve m_JumpRelease = AnimationCurve.Linear(0.0f, 1.5f, 1.0f, 2.0f);
+
+			[SerializeField, Tooltip("Curve that defines the gravity scale to be applied while falling, relative to the character's forward speed")]
+			AnimationCurve m_Fall = AnimationCurve.Linear(0.0f, 1.6f, 1.0f, 1.4f);
+		
+			[SerializeField, Tooltip("Gravity scale applied when falling less that the Min Fall Distance (set below)")]
+			float m_Grounding = 5.0f;
+
+			public float grounding
+			{
+				get { return m_Grounding; }
+			}
+
+			public AnimationCurve fall
+			{
+				get { return m_Fall; }
+			}
+
+			public AnimationCurve jumpRelease
+			{
+				get { return m_JumpRelease; }
+			}
+
+			public AnimationCurve jumpHold
+			{
+				get { return m_JumpHold; }
+			}
+		}
+		
 		// the number of time sets used for trajectory prediction
 		const int k_TrajectorySteps = 60;
 
@@ -105,17 +142,8 @@ namespace StandardAssets.Characters.Common
 		[SerializeField, Tooltip("Maximum speed that the character can move downwards")]
 		float m_TerminalVelocity = 10f;
 
-		[SerializeField, Tooltip("Curve that defines the gravity scale to be applied during the rising motion of a jump, relative to the character's forward speed")]
-		AnimationCurve m_JumpGravityScale = AnimationCurve.Constant(0.0f, 1.0f, 1.0f);
-
-		[SerializeField, Tooltip("Curve that defines the gravity scale applied during the rising motion of a jump if the jump button is no longer being held, relative to the character's forward speed")]
-		AnimationCurve m_ShortJumpGravityScale = AnimationCurve.Constant(0.0f, 1.0f, 1.0f);
-
-		[SerializeField, Tooltip("Curve that defines the gravity scale to be applied while falling, relative to the character's forward speed")]
-		AnimationCurve m_FallGravityScale = AnimationCurve.Constant(0.0f, 1.0f, 1.0f);
-		
-		[SerializeField, Tooltip("Gravity scale applied when falling less that the Min Fall Distance (set below)")]
-		float m_GroundingGravityScale = 5.0f; 
+		[SerializeField, Tooltip("Scales used to adjust gravity depending on aerial state.")]
+		GravityScales m_GravityScales;
 
 		[SerializeField, Tooltip("A fall less than this will trigger 'grounding'. GroundingGravityScale is applied to quickly ground the character.")]
 		float m_GroundingDistance = 0.5f;
@@ -161,7 +189,7 @@ namespace StandardAssets.Characters.Common
 		CharacterInput m_CharacterInput;
 
 		// If the character is being 'grounded' by a gravity multiplier (m_GroundingGravityScale) during a short fall (m_GroundingDistance);
-		bool m_Grounding;
+		bool m_IsGrounding;
 
 		// Did the character jump
 		bool m_DidJump;
@@ -217,13 +245,13 @@ namespace StandardAssets.Characters.Common
 		LayerMask collisionLayerMask { get { return characterController.GetCollisionLayerMask(); } }		
 
 		// Gets the current jump gravity multiplier
-		float jumpGravityMultiplier { get { return m_JumpGravityScale.Evaluate(m_CharacterBrain.normalizedForwardSpeed); } }
+		float jumpGravityMultiplier { get { return m_GravityScales.jumpHold.Evaluate(m_CharacterBrain.normalizedForwardSpeed); } }
 		
 		// Gets the current short jump gravity multiplier
-		float shortJumpGravityMultiplier { get { return m_ShortJumpGravityScale.Evaluate( m_CharacterBrain.normalizedForwardSpeed); } }
+		float shortJumpGravityMultiplier { get { return m_GravityScales.jumpRelease.Evaluate( m_CharacterBrain.normalizedForwardSpeed); } }
 		
 		// Gets the current fall gravity multiplier
-		float fallGravityMultiplier { get { return m_FallGravityScale.Evaluate(m_CharacterBrain.normalizedForwardSpeed); } }
+		float fallGravityMultiplier { get { return m_GravityScales.fall.Evaluate(m_CharacterBrain.normalizedForwardSpeed); } }
 
 		/// <summary>
 		/// Moves the character
@@ -378,7 +406,7 @@ namespace StandardAssets.Characters.Common
 			// Calculates how long character has been in air and adjusts their vertical velocity accordingly
 			airTime += deltaTime;
 			CalculateGravity(deltaTime);
-			var minVelocity = m_Grounding ? -Mathf.Infinity : m_TerminalVelocity;
+			var minVelocity = m_IsGrounding ? -Mathf.Infinity : m_TerminalVelocity;
 			if (m_CurrentVerticalVelocity >= 0.0f)
 			{
 				m_CurrentVerticalVelocity = Mathf.Clamp(m_InitialJumpVelocity + m_Gravity * airTime, 
@@ -405,7 +433,7 @@ namespace StandardAssets.Characters.Common
 							landed();
 						}
 						m_DidJump = false;
-						m_Grounding = false;
+						m_IsGrounding = false;
 					}
 
 					fallTime = 0.0f;
@@ -427,7 +455,7 @@ namespace StandardAssets.Characters.Common
 				}
 				else
 				{
-					m_Grounding = true;
+					m_IsGrounding = true;
 				}
 			}
 			m_VerticalVector = new Vector3(0.0f, m_CurrentVerticalVelocity * deltaTime, 0.0f);
@@ -440,9 +468,9 @@ namespace StandardAssets.Characters.Common
 			if (m_CurrentVerticalVelocity < 0.0f)
 			{
 				gravityFactor = fallGravityMultiplier;
-				if (!m_DidJump && m_Grounding) // if a short fall was triggered increase gravity to quickly ground
+				if (!m_DidJump && m_IsGrounding) // if a short fall was triggered increase gravity to quickly ground
 				{
-					gravityFactor *= m_GroundingGravityScale;
+					gravityFactor *= m_GravityScales.grounding;
 					// We don't want to slowly lerp gravity for grounding so set it here.
 					m_Gravity = gravityFactor * UnityPhysics.gravity.y;
 					return;
