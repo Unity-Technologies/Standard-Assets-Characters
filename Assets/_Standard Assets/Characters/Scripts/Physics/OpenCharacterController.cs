@@ -709,6 +709,10 @@ namespace StandardAssets.Characters.Physics
 			var extraDistance = adjustPositionSlightly ? k_CollisionOffset : 0.0f;
 			if (!useSphereCast)
 			{
+#if UNITY_EDITOR
+				var start = GetFootWorldPosition(currentPosition) + offsetPosition + Vector3.up * extraDistance;
+				Debug.DrawLine(start, start + Vector3.down * (distance + extraDistance), Color.red);
+#endif
 				if (UnityEngine.Physics.Raycast(GetFootWorldPosition(currentPosition) + offsetPosition + Vector3.up * extraDistance,
 				                                Vector3.down,
 				                                out hitInfo,
@@ -722,6 +726,14 @@ namespace StandardAssets.Characters.Physics
 			}
 			else
 			{
+#if UNITY_EDITOR
+				Debug.DrawRay(currentPosition, Vector3.down, Color.red); // Center
+			
+				Debug.DrawRay(currentPosition +  new Vector3(scaledRadius, 0), Vector3.down, Color.blue);
+				Debug.DrawRay(currentPosition +  new Vector3(-scaledRadius, 0), Vector3.down, Color.blue);
+				Debug.DrawRay(currentPosition +  new Vector3(0, 0, scaledRadius), Vector3.down, Color.blue);
+				Debug.DrawRay(currentPosition +  new Vector3(0, 0, -scaledRadius), Vector3.down, Color.blue);
+#endif
 				if (SmallSphereCast(Vector3.down,
 				                    GetSkinWidth() + distance,
 				                    out hitInfo,

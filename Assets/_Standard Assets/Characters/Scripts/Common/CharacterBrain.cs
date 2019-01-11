@@ -490,15 +490,26 @@ namespace StandardAssets.Characters.Common
 		/// </summary>
 		public virtual void OnDrawGizmosSelected()
 		{
+			if (!Application.isPlaying)
+			{
+				return;
+			}
+			if (!isGrounded)
+			{
+				UpdatePredictedLandingPosition();
+			}
+			
+			Gizmos.color = Color.green;
 			for (var index = 0; index < m_JumpStepCount - 1; index++)
 			{
 				Gizmos.DrawLine(m_JumpSteps[index], m_JumpSteps[index + 1]);
 			}
 
-			Gizmos.color = Color.green;
 			if (m_PredictedLandingPosition != null)
 			{
-				Gizmos.DrawSphere((Vector3) m_PredictedLandingPosition, 0.05f);
+				var land = (Vector3)m_PredictedLandingPosition;
+				Gizmos.DrawLine(land - new Vector3(0.5f, 0), land + new Vector3(0.5f, 0));
+				Gizmos.DrawLine(land - new Vector3(0, 0, 0.5f), land + new Vector3(0, 0,0.5f));
 			}
 		}
 #endif
