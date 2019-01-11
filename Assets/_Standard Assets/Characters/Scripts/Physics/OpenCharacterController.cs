@@ -470,7 +470,7 @@ namespace StandardAssets.Characters.Physics
 		const float k_RaycastScaleDistance = 2.0f;
 		
 		// Slope check ahead is clamped by the distance moved multiplied by this scale.
-		const int k_SlopeCheckDistanceMultiplier = 5;
+		const float k_SlopeCheckDistanceMultiplier = 5.0f;
 
 		// The capsule collider.
 		CapsuleCollider m_CapsuleCollider;
