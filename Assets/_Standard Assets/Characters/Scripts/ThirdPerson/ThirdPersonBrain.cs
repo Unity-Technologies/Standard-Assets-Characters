@@ -782,7 +782,7 @@ namespace StandardAssets.Characters.ThirdPerson
             animator.SetTrigger(m_HashFall);
         }
 
-        // Logic for dealing with animation on landing. Fires when the 'm_Motor' enters a rapid turn
+        // Logic for dealing with animation on landing. Fires when the 'controllerAdapter' enters a land
         void OnLanding()
         {
             m_IsGrounded = true;
@@ -895,7 +895,7 @@ namespace StandardAssets.Characters.ThirdPerson
             return false;
         }
 
-        // Sets the animator strafe parameter to true.
+        // Enter a state that attempts to enter the strafe state. Fired by an input event.
         void OnStrafeStarted()
         {
             m_IsChangingCamera = true;
@@ -906,7 +906,7 @@ namespace StandardAssets.Characters.ThirdPerson
             }
         }
 
-        // Sets the animator strafe parameter to false.
+        // Enter a state that attempts to end the strafe state. Fired by an input event.
         void OnStrafeEnded()
         {
             m_IsChangingCamera = true;
@@ -936,7 +936,7 @@ namespace StandardAssets.Characters.ThirdPerson
                 m_Motor.EndStrafe();
             }
             
-            //call any registered events for when the camera has hagned
+            // Call any registered events for when the camera has changed
             if(onCameraChange != null)
             {
                 onCameraChange();
