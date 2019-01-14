@@ -58,7 +58,7 @@ Movement Effects:
 	* "com.unity.cinemachine": "2.2.8"
 	* "com.unity.inputsystem": "0.1.2-preview"
 	* "com.unity.postprocessing": "2.1.2"
-	* "com.unity.probuilder": "4.0.0-preview.37"
+	* "com.unity.probuilder": "4.0.0-preview.40"
 	* "com.unity.progrids": "3.0.3-preview.0"
 * Open the Protoland Scene
 * Enable either the First Person or the Third Person Game Object under Characters
