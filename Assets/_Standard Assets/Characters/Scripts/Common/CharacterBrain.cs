@@ -104,9 +104,9 @@ namespace StandardAssets.Characters.Common
 			AnimationCurve m_JumpRelease = AnimationCurve.Linear(0.0f, 1.5f, 1.0f, 2.0f);
 
 			[SerializeField, Tooltip("Curve that defines the gravity scale to be applied while falling, relative to the character's forward speed")]
-			AnimationCurve m_Fall = AnimationCurve.Linear(0.0f, 1.6f, 1.0f, 1.4f);
+			AnimationCurve m_Falling = AnimationCurve.Linear(0.0f, 1.6f, 1.0f, 1.4f);
 		
-			[SerializeField, Tooltip("Gravity scale applied when falling less that the Min Fall Distance (set below)")]
+			[SerializeField, Tooltip("Gravity scale applied when falling less that the Grounding Distance (set below)")]
 			float m_Grounding = 5.0f;
 
 			public float grounding
@@ -114,9 +114,9 @@ namespace StandardAssets.Characters.Common
 				get { return m_Grounding; }
 			}
 
-			public AnimationCurve fall
+			public AnimationCurve falling
 			{
-				get { return m_Fall; }
+				get { return m_Falling; }
 			}
 
 			public AnimationCurve jumpRelease
@@ -251,7 +251,7 @@ namespace StandardAssets.Characters.Common
 		float shortJumpGravityMultiplier { get { return m_GravityScales.jumpRelease.Evaluate( m_CharacterBrain.normalizedForwardSpeed); } }
 		
 		// Gets the current fall gravity multiplier
-		float fallGravityMultiplier { get { return m_GravityScales.fall.Evaluate(m_CharacterBrain.normalizedForwardSpeed); } }
+		float fallGravityMultiplier { get { return m_GravityScales.falling.Evaluate(m_CharacterBrain.normalizedForwardSpeed); } }
 
 		/// <summary>
 		/// Moves the character

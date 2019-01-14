@@ -729,10 +729,10 @@ namespace StandardAssets.Characters.Physics
 #if UNITY_EDITOR
 				Debug.DrawRay(currentPosition, Vector3.down, Color.red); // Center
 			
-				Debug.DrawRay(currentPosition +  new Vector3(scaledRadius, 0), Vector3.down, Color.blue);
-				Debug.DrawRay(currentPosition +  new Vector3(-scaledRadius, 0), Vector3.down, Color.blue);
-				Debug.DrawRay(currentPosition +  new Vector3(0, 0, scaledRadius), Vector3.down, Color.blue);
-				Debug.DrawRay(currentPosition +  new Vector3(0, 0, -scaledRadius), Vector3.down, Color.blue);
+				Debug.DrawRay(currentPosition +  new Vector3(scaledRadius, 0.0f), Vector3.down, Color.blue);
+				Debug.DrawRay(currentPosition +  new Vector3(-scaledRadius, 0.0f), Vector3.down, Color.blue);
+				Debug.DrawRay(currentPosition +  new Vector3(0.0f, 0.0f, scaledRadius), Vector3.down, Color.blue);
+				Debug.DrawRay(currentPosition +  new Vector3(0.0f, 0.0f, -scaledRadius), Vector3.down, Color.blue);
 #endif
 				if (SmallSphereCast(Vector3.down,
 				                    GetSkinWidth() + distance,
