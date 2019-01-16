@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using StandardAssets.Characters.Helpers;
 using UnityEngine;
@@ -1146,12 +1146,6 @@ namespace StandardAssets.Characters.Physics
 		                                    bool forceTryStickToGround = false,
 		                                    bool doNotStepOffset = false)
 		{
-			var sqrDistance = moveVector.sqrMagnitude;
-			if (sqrDistance <= 0.0f || sqrDistance < GetMinMoveSqrDistance() || sqrDistance < k_MinMoveSqrDistance)
-			{
-				return;
-			}
-
 			var wasGrounded = isGrounded;
 			var moveVectorNoY = new Vector3(moveVector.x, 0.0f, moveVector.z);
 			var tryToStickToGround = wasGrounded && (forceTryStickToGround || (moveVector.y <= 0.0f && moveVectorNoY.sqrMagnitude.NotEqualToZero()));
