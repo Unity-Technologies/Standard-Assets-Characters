@@ -89,6 +89,9 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		// Reference to the main camera.
 		Camera m_MainCamera;
+
+		// Current ground speed for non root motion ground movement.
+		float m_GroundSpeed;
 		
 		// on start strafe control initial look
 		bool m_IsInitialStrafeLook;
@@ -98,6 +101,13 @@ namespace StandardAssets.Characters.ThirdPerson
 		// Gets whether to track height above the ground.
 		bool m_TrackGroundHeight;
 
+		// Current GroundMovementConfig to use for non root motion ground movement.
+		GroundMovementConfig m_CurrentGroundMovementConfig;
+
+		public bool useRootMotion
+		{
+			get { return m_CurrentGroundMovementConfig.useRootMotion; }
+		}
 
 		/// <summary>
 		/// Gets the normalized turning speed
@@ -179,10 +189,19 @@ namespace StandardAssets.Characters.ThirdPerson
 		bool disableRapidTurn { get { return m_ObjectsThatDisabledRapidTurn.Count > 0; } }
 
 		/// <summary>
+		/// Sets the current <see cref="GroundMovementConfig"/> to be used.
+		/// </summary>
+		/// <param name="config">Config to use.</param>
+		public void SetMovementConfig(GroundMovementConfig config)
+		{
+			m_CurrentGroundMovementConfig = config;
+		}
+		
+		/// <summary>
 		/// Moves the character based on movement and animator state.
 		/// </summary>
-		/// <remarks>Called by the Animator</remarks>
-		public void OnAnimatorMove()
+		/// <remarks>Called by the Animator if root motion is enabled otherwise by <see cref="ThirdPersonBrain"/>'s Update.</remarks>
+		public void OnMove()
 		{
 			if (m_MovementState == ThirdPersonGroundMovementState.TurningAround)
 			{
@@ -190,17 +209,17 @@ namespace StandardAssets.Characters.ThirdPerson
 				return;
 			}
 
-			if (m_ThirdPersonBrain.isRootMotionState)
+			if (m_ThirdPersonBrain.isGroundedState)
 			{
-				Vector3 groundMovementVector = m_Animator.deltaPosition * m_Configuration.scaleRootMovement;
+				Vector3 groundMovementVector = GetMovementVector();
 				groundMovementVector.y = 0.0f;
 				
 				m_ControllerAdapter.Move(groundMovementVector, Time.deltaTime);
 				
 				//Update the average movement speed
 				var direction = movementMode == ThirdPersonMotorMovementMode.Exploration
-					                ? m_Transform.forward
-					                : CalculateLocalInputDirection();              
+					? m_Transform.forward
+					: CalculateLocalInputDirection();              
 				float movementVelocity = groundMovementVector.GetMagnitudeOnAxis(direction)/Time.deltaTime;
 				if (movementVelocity > 0)
 				{
@@ -245,7 +264,8 @@ namespace StandardAssets.Characters.ThirdPerson
 			m_StrafeAverageLateralInput = new SlidingAverage(m_Configuration.strafeInputWindowSize);
 			m_PreviousInputs = new SizedQueue<Vector2>(m_Configuration.bufferSizeInput);
 			movementMode = ThirdPersonMotorMovementMode.Exploration;
-
+			m_CurrentGroundMovementConfig = m_Configuration.defaultGroundMovementConfig;
+			
 			EndStrafe();
 		}
 
@@ -421,6 +441,34 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			movementMode = ThirdPersonMotorMovementMode.Exploration;
 		}
+		
+		// Calculates and returns the movement vector of the character.
+		Vector3 GetMovementVector()
+		{
+			if (useRootMotion)
+			{
+				return m_Animator.deltaPosition * m_CurrentGroundMovementConfig.rootMotionScale;
+			}
+
+			var inputMagnitude = m_CharacterInput.moveInput.magnitude;
+			var maxSpeed = m_CurrentGroundMovementConfig.maxSpeed.Evaluate(inputMagnitude);
+			if (sprint)
+			{
+				maxSpeed *= m_CurrentGroundMovementConfig.sprintScale;
+			}
+			if (Mathf.Approximately(m_ExplorationAverageForwardInput.average, 0.0f) &&
+				Mathf.Approximately(m_StrafeAverageForwardInput.average, 0.0f) &&
+				Mathf.Approximately(m_StrafeAverageLateralInput.average, 0.0f))
+			{
+				m_GroundSpeed = 0.0f;
+			}
+			else
+			{
+				m_GroundSpeed = Mathf.Lerp(m_GroundSpeed, maxSpeed, m_CurrentGroundMovementConfig.movementSpeedDelta);
+			}
+			return CalculateLocalInputDirection() * inputMagnitude * m_GroundSpeed * Time.deltaTime;
+		}
+
 
 		// Track height above ground when the physics character is in the air, but the animation has not yet changed to
 		// the fall animation.
@@ -556,8 +604,13 @@ namespace StandardAssets.Characters.ThirdPerson
 			{
 				inputVector.Normalize();
 			}
-			m_ExplorationAverageForwardInput.Add(inputVector.magnitude + (sprint && m_CharacterInput.hasMovementInput
-											  ? m_Configuration.sprintNormalizedForwardSpeedIncrease : 0));
+
+			var input = inputVector.magnitude;
+			if (sprint && m_CharacterInput.hasMovementInput)
+			{
+				input *= m_CurrentGroundMovementConfig.sprintScale;
+			}
+			m_ExplorationAverageForwardInput.Add(input);
 			
 			normalizedForwardSpeed = m_ExplorationAverageForwardInput.average;
 		}
@@ -708,7 +761,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				reattempt = true;
 				return;
 			}
-			if (!IsGrounded || m_ControllerAdapter.startedSlide || !m_ThirdPersonBrain.isRootMotionState)
+			if (!IsGrounded || m_ControllerAdapter.startedSlide || !m_ThirdPersonBrain.isGroundedState)
 			{
 				reattempt = false;
 				return;

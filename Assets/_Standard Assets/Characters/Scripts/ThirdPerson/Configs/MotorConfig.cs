@@ -9,14 +9,12 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 	[CreateAssetMenu(fileName = "Third Person Motor Configuration",
 		menuName = "Standard Assets/Characters/Third Person Motor Configuration", order = 1)]
 	public class MotorConfig : ScriptableObject
-	{
+	{	
 		[Serializable]
 		class AdvancedMotorConfig
 		{
+			
 			[Header("Ground Motion")]
-			[SerializeField, Tooltip("Used to extend the locomotion blend tree during sprinting, making the normalized speed as 1 + this value.")]
-			float m_SprintSpeedModifier = 0.5f;
-		
 			[SerializeField, Tooltip("Number of samples used for forward input smoothing.")]
 			int m_ForwardInputSamples = 5;
 
@@ -61,11 +59,6 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 
 			[SerializeField, Tooltip("Number of frames of input that will be used to determine if a rapid turn was triggered")]
 			int m_InputBufferSize = 5;
-
-			/// <summary>
-			/// Gets the increase that sprint will apply to <see cref="ThirdPersonMotor.normalizedForwardSpeed"/>.
-			/// </summary>
-			public float sprintNormalizedSpeedIncrease { get { return m_SprintSpeedModifier; } }
 
 			/// <summary>
 			/// Gets the window size for sampling forward input.
@@ -139,11 +132,11 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			/// <value>Percentage per second.</value>
 			public float noLookInputTurnSpeedDeceleration { get { return m_TurnSpeedDecay; } }
 		}
-		
-		[Header("Ground Motion")]
-		[SerializeField, Tooltip("Root motion will be scaled by this before movement is applied")]
-		float m_RootMotionScale = 1f;
 
+		[SerializeField, Tooltip("The default movement config. Will be overriden if configs are setup on the " +
+			 "Animator locomotion states.")]
+		GroundMovementConfig m_DefaultGroundMovementConfig;
+		
 		[SerializeField, Tooltip("Time it takes for the character to turn and face the camera orientation when Strafe " +
 		                         "Mode has been entered")]
 		float m_StrafeOrientTime = 0.125f;
@@ -184,6 +177,14 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 
 		[SerializeField, Space]
 		AdvancedMotorConfig m_Advanced;
+		
+		/// <summary>
+		/// Gets the default GroundMovementConfig.
+		/// </summary>
+		public GroundMovementConfig defaultGroundMovementConfig
+		{
+			get { return m_DefaultGroundMovementConfig; }
+		}
 
 		/// <summary>
 		/// Gets the maximum forward speed that will trigger a standing rapid turn.
@@ -226,11 +227,6 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// Gets the number of samples used to average forward velocity to use as jump velocity.
 		/// </summary>
 		public int jumpGroundVelocityWindowSize { get { return m_Advanced.jumpGroundVelocitySamples; } }
-
-		/// <summary>
-		/// Gets the scale to be applied on the root motion movement before moving the character.
-		/// </summary>
-		public float scaleRootMovement { get { return m_RootMotionScale; } }
 
 		/// <summary>
 		/// Gets the speed at which <see cref="ThirdPersonMotor.normalizedTurningSpeed"/> speed can change.
@@ -286,11 +282,6 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		/// Gets the forward acceleration applied during a fall.
 		/// </summary>
 		public float fallSpeedAcceleration { get { return m_FallForwardSpeedInc; } }
-
-		/// <summary>
-		/// Gets the increase that sprint will apply to <see cref="ThirdPersonMotor.normalizedForwardSpeed"/>.
-		/// </summary>
-		public float sprintNormalizedForwardSpeedIncrease { get { return m_Advanced.sprintNormalizedSpeedIncrease; } }
 
 		/// <summary>
 		/// Gets the number of frames of input will used to determine if a rapid turn was triggered.

@@ -30,14 +30,7 @@ namespace StandardAssets.Characters.Editor
 			SerializedProperty property = null;
 			foreach (string s in properties)
 			{
-				if (property == null)
-				{
-					property = serializedObject.FindProperty(s);
-				}
-				else
-				{
-					property = property.FindPropertyRelative(s);
-				}
+				property = property == null ? serializedObject.FindProperty(s) : property.FindPropertyRelative(s);
 			}
 			
 			if (property == null || property.propertyType != SerializedPropertyType.ObjectReference || 
