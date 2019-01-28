@@ -129,8 +129,9 @@ namespace StandardAssets.Characters.FirstPerson
 		}
 
 		// Subscribes to the various events
-		void OnEnable()
+		protected override void OnEnable()
 		{
+			base.OnEnable();
 			controllerAdapter.landed += OnLanded;
 			m_MovementEffects.Subscribe();
 			characterInput.jumpPressed += OnJumpPressed;
@@ -141,8 +142,9 @@ namespace StandardAssets.Characters.FirstPerson
 		}
 
 		// Unsubscribes to the various events
-		void OnDisable()
+		protected override void OnDisable()
 		{
+			base.OnDisable();
 			controllerAdapter.landed -= OnLanded;
 			m_MovementEffects.Unsubscribe();
 			if (characterInput == null)
@@ -160,7 +162,7 @@ namespace StandardAssets.Characters.FirstPerson
 		// Handles movement and rotation
 		void FixedUpdate()
 		{
-			var currentRotation = transform.rotation.eulerAngles;
+			var currentRotation = transform.rotation.eulerAngles;			
 			currentRotation.y = m_MainCamera.transform.rotation.eulerAngles.y;
 			transform.rotation = Quaternion.Euler(currentRotation);
 			Move();
@@ -263,6 +265,14 @@ namespace StandardAssets.Characters.FirstPerson
 			}
 
 			m_MovementEffects.AdjustTriggerThreshold(newState.strideLength);
+		}
+		
+		/// <summary>
+		/// Can moving platforms rotate the current camera?
+		/// </summary>
+		public override bool MovingPlatformCanRotateCamera()
+		{
+			return true;
 		}
 	}
 	

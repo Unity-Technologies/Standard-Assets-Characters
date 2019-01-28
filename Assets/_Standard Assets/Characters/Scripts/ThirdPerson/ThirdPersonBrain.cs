@@ -375,8 +375,9 @@ namespace StandardAssets.Characters.ThirdPerson
 #endif
 
         // Subscribes to various events
-        void OnEnable()
-        {
+	    protected override void OnEnable()
+	    {
+		    base.OnEnable();
             controllerAdapter.jumpVelocitySet += m_MovementEffects.Jumped;
             controllerAdapter.landed += m_MovementEffects.Landed;
             controllerAdapter.landed += OnLanding;
@@ -402,8 +403,9 @@ namespace StandardAssets.Characters.ThirdPerson
         }
 
         // Unsubscribes from various events
-        void OnDisable()
-        {
+	    protected override void OnDisable()
+	    {
+		    base.OnDisable();
             if (controllerAdapter != null)
             {
                 controllerAdapter.jumpVelocitySet -= m_MovementEffects.Jumped;
@@ -1038,6 +1040,14 @@ namespace StandardAssets.Characters.ThirdPerson
         {
             return Mathf.Abs(speed) > 0.0f;
         }
+	    
+	    /// <summary>
+	    /// Can moving platforms rotate the current camera?
+	    /// </summary>
+	    public override bool MovingPlatformCanRotateCamera()
+	    {
+		    return IsStrafing;
+	    }
     }
 
 

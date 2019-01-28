@@ -78,14 +78,16 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		/// <summary>
 		/// Subscribes to jump input
 		/// </summary>
-		void OnEnable()
+		protected override void OnEnable()
 		{
+			base.OnEnable();
 			characterInput.jumpPressed += OnJumpPressed;
 		}
 		
 		// Unsubscribe from jump input
-		void OnDisable()
+		protected override void OnDisable()
 		{
+			base.OnDisable();
 			if (characterInput == null)
 			{
 				return;
@@ -185,6 +187,14 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		void Stop()
 		{
 			m_CurrentSpeed = 0f;
+		}
+		
+		/// <summary>
+		/// Can moving platforms rotate the current camera?
+		/// </summary>
+		public override bool MovingPlatformCanRotateCamera()
+		{
+			return false;
 		}
 	}
 }

@@ -63,6 +63,11 @@ namespace StandardAssets.Characters.Common
 		public Vector2 lookInput { get; private set; }
 		
 		/// <summary>
+		/// Rotation of a moving platform applied to the look input vector (so that the platform rotates the camera)
+		/// </summary>
+		public Vector2 movingPlatformLookInput { get; set; }
+		
+		/// <summary>
 		/// Raw look vector. 
 		/// </summary>
 		private Vector2 rawLookInput;
@@ -264,7 +269,9 @@ namespace StandardAssets.Characters.Common
 		{
 			if (axis == "Horizontal")
 			{
-				return m_InvertX ? lookInput.x * m_XSensitivity : -lookInput.x * m_XSensitivity;
+				return m_InvertX
+					? lookInput.x * m_XSensitivity + movingPlatformLookInput.x
+					: -lookInput.x * m_XSensitivity + movingPlatformLookInput.x;
 			}
 
 			if (axis == "Vertical")
