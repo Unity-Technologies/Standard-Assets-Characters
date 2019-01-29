@@ -15,6 +15,13 @@ namespace StandardAssets.Characters.ThirdPerson
 	{
 		[SerializeField, Tooltip("Configuration with all the movement settings")]
 		MotorConfig m_Configuration;
+		
+#if UNITY_EDITOR
+		public MotorConfig configuration
+		{
+			get { return m_Configuration; }
+		}
+#endif
 
 		/// <summary>
 		/// Fired on jump.
@@ -194,7 +201,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <param name="config">Config to use.</param>
 		public void SetMovementConfig(GroundMovementConfig config)
 		{
-			m_CurrentGroundMovementConfig = config;
+			m_CurrentGroundMovementConfig = config != null ? config : m_Configuration.defaultGroundMovementConfig;
 		}
 		
 		/// <summary>

@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09bf14eec0b5496285f24fff2cf4563a, type: 3}
   m_Name: Default Movement Config
   m_EditorClassIdentifier: 
-  m_GroundMovementType: 0
+  m_MotionType: 0
   m_RootMotionScale: 1
-  m_MaxSpeed:
+  m_MaxSpeedType: 0
+  m_MaxSpeed: 5
+  m_MaxSpeedCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3

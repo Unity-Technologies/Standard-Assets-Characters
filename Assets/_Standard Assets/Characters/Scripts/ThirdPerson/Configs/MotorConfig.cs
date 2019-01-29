@@ -10,10 +10,13 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		menuName = "Standard Assets/Characters/Third Person Motor Configuration", order = 1)]
 	public class MotorConfig : ScriptableObject
 	{	
+#if UNITY_EDITOR
+		public Animator animator { get; set; }
+#endif
+
 		[Serializable]
 		class AdvancedMotorConfig
 		{
-			
 			[Header("Ground Motion")]
 			[SerializeField, Tooltip("Number of samples used for forward input smoothing.")]
 			int m_ForwardInputSamples = 5;
@@ -132,7 +135,7 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 			/// <value>Percentage per second.</value>
 			public float noLookInputTurnSpeedDeceleration { get { return m_TurnSpeedDecay; } }
 		}
-
+		
 		[SerializeField, Tooltip("The default movement config. Will be overriden if configs are setup on the " +
 			 "Animator locomotion states.")]
 		GroundMovementConfig m_DefaultGroundMovementConfig;

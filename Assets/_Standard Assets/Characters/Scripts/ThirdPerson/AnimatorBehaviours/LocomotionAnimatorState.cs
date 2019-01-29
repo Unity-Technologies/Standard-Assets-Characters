@@ -10,6 +10,21 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours
 	{
 		[SerializeField, Tooltip("Movement config used during this state.")]
 		GroundMovementConfig m_MovementConfig;
+
+		// Used by the custom editor.
+		[SerializeField, HideInInspector]
+		string m_StateName;
+
+		public string stateName
+		{
+			get { return m_StateName; }
+			set { m_StateName = value; }
+		}
+
+		public GroundMovementConfig movementConfig
+		{
+			get { return m_MovementConfig; }
+		}
 		
         /// <summary>
         /// Fires <see cref="ThirdPersonBrain.OnLocomotionAnimationEnter"/>.

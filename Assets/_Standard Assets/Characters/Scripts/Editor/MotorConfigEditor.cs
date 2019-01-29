@@ -1,3 +1,5 @@
+using StandardAssets.Characters.ThirdPerson.AnimatorBehaviours;
+using StandardAssets.Characters.ThirdPerson.AnimatorBehaviours.Editor;
 using StandardAssets.Characters.ThirdPerson.Configs;
 using UnityEditor;
 using UnityEngine;
@@ -13,16 +15,48 @@ namespace StandardAssets.Characters.Editor
 		//Property names
 		const string k_DefaultGroundMovementConfig = "m_DefaultGroundMovementConfig";
 		const string k_Script = "m_Script";
-		const string k_Help = "Setup movement configs per locomotion state on the animator otherwise this default will be used.";
-		
+
+		MotorConfig m_MotorConfig;
+
+		void OnEnable()
+		{
+			m_MotorConfig = (MotorConfig)target;
+		}
+
 		/// <summary>
 		/// Draws the inspector GUI using exclusions
 		/// </summary>
 		public override void OnInspectorGUI()
 		{
-			EditorGUILayout.ObjectField(serializedObject.FindProperty(k_Script));
-			EditorGUILayout.HelpBox(k_Help, MessageType.Info);
-			serializedObject.DrawExtendedScriptableObject(k_DefaultGroundMovementConfig);
+			var script = serializedObject.FindProperty(k_Script);
+			EditorGUILayout.ObjectField(script);
+			EditorGUILayout.LabelField("Ground Motion", new GUIStyle { fontStyle = FontStyle.Bold });
+			serializedObject.DrawExtendedScriptableObject(k_DefaultGroundMovementConfig, "Default Config");
+
+			script.isExpanded = EditorGUILayout.Foldout(script.isExpanded,
+				"Animation State Configs");
+			
+			if (script.isExpanded && m_MotorConfig.animator != null)
+			{
+				EditorGUI.indentLevel++;
+				foreach (var locomotionState in m_MotorConfig.animator.GetBehaviours<LocomotionAnimatorState>())
+				{
+					EditorGUILayout.LabelField(locomotionState.stateName, new GUIStyle{fontStyle = FontStyle.Bold});
+					if (locomotionState.movementConfig == null)
+					{
+						EditorGUILayout.LabelField("No GroundMovementConfig assigned. You can assign one on the Locomotion Animator State behaviour.");
+					}
+					else
+					{
+						var editor = (LocomotionStateEditor)CreateEditor(locomotionState);
+						editor.DrawScriptableObject();
+						editor.serializedObject.ApplyModifiedProperties();
+					}
+					
+					EditorGUILayout.Space();
+				}
+				EditorGUI.indentLevel--;
+			}
 			EditorGUILayout.Space();
 			DrawPropertiesExcluding(serializedObject, k_DefaultGroundMovementConfig, k_Script);
 			

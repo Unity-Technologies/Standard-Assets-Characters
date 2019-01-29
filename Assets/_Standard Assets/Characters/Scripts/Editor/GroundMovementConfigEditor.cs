@@ -13,17 +13,17 @@ namespace StandardAssets.Characters.Editor
     {
         //Property names
         const string k_RootMotionScale = "m_RootMotionScale";
-        const string k_MaxSpeed = "m_MaxSpeed";
+        const string k_MaxSpeedCurve = "m_MaxSpeedCurve";
         const string k_MovementSpeedDelta = "m_MovementSpeedDelta";
+        const string k_MaxSpeed = "m_MaxSpeed";
+        const string k_MaxSpeedType = "m_MaxSpeedType";
 		
         /// <summary>
         /// Draws the inspector GUI using exclusions
         /// </summary>
         public override void OnInspectorGUI()
         {
-            EditorGUI.indentLevel++;
             DrawPropertiesExcluding(serializedObject, GetExclusions());
-            EditorGUI.indentLevel--;
 			
             if (GUI.changed)
             {
@@ -38,10 +38,19 @@ namespace StandardAssets.Characters.Editor
         string[] GetExclusions()
         {
             var config =  (GroundMovementConfig)target;
-            var exclusions = config.useRootMotion ? 
-                new List<string> { k_MovementSpeedDelta, k_MaxSpeed } : 
-                new List<string> { k_RootMotionScale };
+            var exclusions = new List<string>();
+            if (config.useRootMotion)
+            {
+                exclusions = new List<string> { k_MovementSpeedDelta, k_MaxSpeed, k_MaxSpeedType, k_MaxSpeedCurve };
+            }
+            else
+            {
+                exclusions.Add(k_RootMotionScale);
+                exclusions.Add(config.isMaxSpeedValue ? k_MaxSpeedCurve : k_MaxSpeed);
+            }
             return exclusions.ToArray();
         }
+        
+        
     }
 }

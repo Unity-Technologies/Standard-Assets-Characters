@@ -49,6 +49,9 @@ namespace StandardAssets.Characters.Editor
 			{
 				serializedObject.ApplyModifiedProperties();
 			}
+
+			var brain = (ThirdPersonBrain)target;
+			brain.thirdPersonMotor.configuration.animator = brain.GetComponent<Animator>();
 		}
 
 		/// <summary>
