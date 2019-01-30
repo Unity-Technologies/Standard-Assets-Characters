@@ -20,68 +20,37 @@ namespace StandardAssets.Characters.Editor
 		const string k_DefaultGroundMovementConfig = "m_DefaultGroundMovementConfig";
 		const string k_Script = "m_Script";
 
+		GUIStyle m_BoldLabelStyle;
+
 		/// <summary>
 		/// Draws the inspector GUI using exclusions
 		/// </summary>
 		public override void OnInspectorGUI()
 		{
-			var boldLabelStyle = new GUIStyle
+			m_BoldLabelStyle = new GUIStyle
 			{
 				fontStyle = FontStyle.Bold,
 				normal = { textColor = GUI.skin.label.normal.textColor },
 			};
-
+			
 			var script = serializedObject.FindProperty(k_Script);
 			EditorGUILayout.ObjectField(script);
-			EditorGUILayout.LabelField("Ground Motion", boldLabelStyle);
+			GUILayout.Space(10);
+			EditorGUILayout.LabelField("Ground Motion", m_BoldLabelStyle);
 			serializedObject.DrawExtendedScriptableObject(k_DefaultGroundMovementConfig, "Default Config");
 
-
-			var current = Selection.activeGameObject.GetComponent<ThirdPersonBrain>();
+			var selected = Selection.activeGameObject;
+			if (selected == null)
+			{
+				return;
+			}
+			
+			var current = selected.GetComponent<ThirdPersonBrain>();
 			if (current != null)
 			{
-				var animator = current.GetComponent<Animator>();
-				if (animator != null)
-				{
-					script.isExpanded = EditorGUILayout.Foldout(script.isExpanded,
-						"Animation State Configs");
-					if (script.isExpanded)
-					{
-						var dict = new Dictionary<AnimatorState, LocomotionAnimatorState>();
-						var animatorController = (AnimatorController)animator.runtimeAnimatorController;
-						foreach (var layer in animatorController.layers)
-						{
-							TraverseStatemachineToFindBehaviour(layer.stateMachine, ref dict);
-						}
-						if (dict.Count == 0)
-						{
-							EditorGUILayout.LabelField("No LocomotionAnimatorStates could be found. Set them up " +
-								"in the Animator.", boldLabelStyle);
-						}
-						else
-						{
-							EditorGUI.indentLevel++;
-							foreach (var keyValuePair in dict)
-							{
-								var locomotionState = keyValuePair.Value;
-								EditorGUILayout.LabelField(keyValuePair.Key.name, boldLabelStyle);
-								if (locomotionState.movementConfig == null)
-								{
-									EditorGUILayout.LabelField("No GroundMovementConfig assigned. You can assign one on the Locomotion Animator State behaviour.");
-								}
-								else
-								{
-									var editor = (LocomotionStateEditor)CreateEditor(locomotionState);
-									editor.DrawScriptableObject();
-									editor.serializedObject.ApplyModifiedProperties();
-								}
-
-								EditorGUILayout.Space();
-							}
-							EditorGUI.indentLevel--;
-						}
-					}
-				}
+				var foldout = script.isExpanded;
+				DrawAnimatorStateConfigs(current.GetComponent<Animator>(), ref foldout);
+				script.isExpanded = foldout;
 			}
 
 			EditorGUILayout.Space();
@@ -90,6 +59,50 @@ namespace StandardAssets.Characters.Editor
 			if (GUI.changed)
 			{
 				serializedObject.ApplyModifiedProperties();
+			}
+		}
+
+		void DrawAnimatorStateConfigs(Animator animator, ref bool foldout)
+		{
+			if (animator != null)
+			{
+				foldout = EditorGUILayout.Foldout(foldout,	"Animation State Configs");
+				if (foldout)
+				{
+					var dict = new Dictionary<AnimatorState, LocomotionAnimatorState>();
+					var animatorController = (AnimatorController)animator.runtimeAnimatorController;
+					foreach (var layer in animatorController.layers)
+					{
+						TraverseStatemachineToFindBehaviour(layer.stateMachine, ref dict);
+					}
+					if (dict.Count == 0)
+					{
+						EditorGUILayout.LabelField("No LocomotionAnimatorStates could be found. Set them up " +
+							"in the Animator.", m_BoldLabelStyle);
+					}
+					else
+					{
+						EditorGUI.indentLevel++;
+						foreach (var keyValuePair in dict)
+						{
+							var locomotionState = keyValuePair.Value;
+							EditorGUILayout.LabelField(keyValuePair.Key.name, m_BoldLabelStyle);
+							if (locomotionState.movementConfig == null)
+							{
+								EditorGUILayout.LabelField("No GroundMovementConfig assigned. You can assign one on the Locomotion Animator State behaviour.");
+							}
+							else
+							{
+								var editor = (LocomotionStateEditor)CreateEditor(locomotionState);
+								editor.DrawScriptableObject();
+								editor.serializedObject.ApplyModifiedProperties();
+							}
+
+							EditorGUILayout.Space();
+						}
+						EditorGUI.indentLevel--;
+					}
+				}
 			}
 		}
 		

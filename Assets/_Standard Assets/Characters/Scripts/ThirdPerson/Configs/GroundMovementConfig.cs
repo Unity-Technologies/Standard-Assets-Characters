@@ -42,8 +42,8 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
         [SerializeField, Tooltip("Value to scale speed by while sprinting.")] 
         float m_SprintScale = 1.1f;
         
-        [SerializeField, Tooltip("Speed at which max speed can change.")]
-        float m_MovementSpeedDelta = 0.025f;
+        [SerializeField, Tooltip("Rate at which the max speed will change.")]
+        float m_SpeedDelta = 0.025f;
 
 #if UNITY_EDITOR
         public bool isMaxSpeedValue
@@ -79,9 +79,9 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
         /// <summary>
         /// Gets the value used to interpolate max speed.
         /// </summary>
-        public float movementSpeedDelta
+        public float speedDelta
         {
-            get { return m_MovementSpeedDelta; }
+            get { return m_SpeedDelta; }
         }
 
         /// <summary>

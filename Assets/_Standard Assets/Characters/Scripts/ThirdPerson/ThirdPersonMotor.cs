@@ -474,7 +474,7 @@ namespace StandardAssets.Characters.ThirdPerson
 			}
 			else
 			{
-				m_GroundSpeed = Mathf.Lerp(m_GroundSpeed, maxSpeed, m_CurrentGroundMovementConfig.movementSpeedDelta);
+				m_GroundSpeed = Mathf.Lerp(m_GroundSpeed, maxSpeed, m_CurrentGroundMovementConfig.speedDelta);
 			}
 			return CalculateLocalInputDirection() * inputMagnitude * m_GroundSpeed * Time.deltaTime;
 		}
