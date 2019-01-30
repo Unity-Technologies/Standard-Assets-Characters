@@ -14,7 +14,7 @@ namespace StandardAssets.Characters.Editor
         //Property names
         const string k_RootMotionScale = "m_RootMotionScale";
         const string k_MaxSpeedCurve = "m_MaxSpeedCurve";
-        const string k_MovementSpeedDelta = "m_MovementSpeedDelta";
+        const string k_SpeedDelta = "m_SpeedDelta";
         const string k_MaxSpeed = "m_MaxSpeed";
         const string k_MaxSpeedType = "m_MaxSpeedType";
 		
@@ -41,7 +41,7 @@ namespace StandardAssets.Characters.Editor
             var exclusions = new List<string>();
             if (config.useRootMotion)
             {
-                exclusions = new List<string> { k_MovementSpeedDelta, k_MaxSpeed, k_MaxSpeedType, k_MaxSpeedCurve };
+                exclusions = new List<string> { k_SpeedDelta, k_MaxSpeed, k_MaxSpeedType, k_MaxSpeedCurve };
             }
             else
             {
