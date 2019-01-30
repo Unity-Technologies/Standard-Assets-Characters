@@ -22,9 +22,10 @@ namespace StandardAssets.Characters.Editor
 		/// <param name="serializedObject">The serializedProperty containing the ScriptableObject.</param>
 		/// <param name="scriptableObjectName">The field name of the ScriptableObject to draw.</param>
 		/// <param name="labelOverride">The title of the field</param>
+		/// <param name="isScriptableObjectFieldEditable">Whether the ScriptableObject property field is editable.</param>
 		/// <param name="bindingFlags">The flags used to find the field's type through reflection.</param>
 		public static void DrawExtendedScriptableObject(this SerializedObject serializedObject, string scriptableObjectName, string labelOverride = "",
-		                                bool isScripitableObjectReplaceable = true, 
+		                                bool isScriptableObjectFieldEditable = true, 
 		                                BindingFlags bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance)
 		{
 			string[] properties = scriptableObjectName.Split('.');
@@ -46,12 +47,12 @@ namespace StandardAssets.Characters.Editor
 				GUILayout.BeginHorizontal();
 				var title = string.IsNullOrEmpty(labelOverride) ? property.displayName : labelOverride;
 				property.isExpanded = EditorGUILayout.Foldout(property.isExpanded, title, true);
-				if (!isScripitableObjectReplaceable)
+				if (!isScriptableObjectFieldEditable)
 				{
 					EditorGUI.BeginDisabledGroup(true);
 				}
 				EditorGUILayout.PropertyField(property, GUIContent.none, true);
-				if (!isScripitableObjectReplaceable)
+				if (!isScriptableObjectFieldEditable)
 				{
 					EditorGUI.EndDisabledGroup();
 				}

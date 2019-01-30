@@ -111,6 +111,9 @@ namespace StandardAssets.Characters.ThirdPerson
 		// Current GroundMovementConfig to use for non root motion ground movement.
 		GroundMovementConfig m_CurrentGroundMovementConfig;
 
+		/// <summary>
+		/// Gets whether <see cref="m_CurrentGroundMovementConfig"/> is set to use root motion.
+		/// </summary>
 		public bool useRootMotion
 		{
 			get { return m_CurrentGroundMovementConfig.useRootMotion; }

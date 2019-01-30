@@ -29,6 +29,10 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours.Editor
             }
         }
 
+        /// <summary>
+        /// Draws the <see cref="LocomotionAnimatorState.m_MovementConfig"/> ScriptableObject so it can be edited
+        /// but hides the script field./>
+        /// </summary>
         public void DrawScriptableObject()
         {
             DrawPropertiesExcluding(serializedObject, k_MovementConfig, k_Script);

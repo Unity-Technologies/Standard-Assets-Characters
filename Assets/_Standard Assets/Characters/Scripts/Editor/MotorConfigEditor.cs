@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using StandardAssets.Characters.ThirdPerson;
 using StandardAssets.Characters.ThirdPerson.AnimatorBehaviours;
 using StandardAssets.Characters.ThirdPerson.AnimatorBehaviours.Editor;
@@ -93,7 +92,13 @@ namespace StandardAssets.Characters.Editor
 				serializedObject.ApplyModifiedProperties();
 			}
 		}
-
+		
+		/// <summary>
+		/// Traverses the given state machine to find all the StateMachineBehaviours of type <typeparamref name="T"/>.
+		/// </summary>
+		/// <param name="stateMachine">StateMachine to traverse.</param>
+		/// <param name="dict">Dictionary to populate with the results.</param>
+		/// <typeparam name="T">StateMachineBehaviour type to find.</typeparam>
 		static void TraverseStatemachineToFindBehaviour<T>(AnimatorStateMachine stateMachine, 
 			ref Dictionary<AnimatorState, T> dict) where T : StateMachineBehaviour
 		{
