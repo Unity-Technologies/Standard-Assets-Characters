@@ -12,20 +12,7 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours.Editor
     public class LocomotionStateEditor : UnityEditor.Editor
     {
         const string k_MovementConfig = "m_MovementConfig";
-        
-        public void OnEnable()
-        {
-            var locomotionAnimator = (LocomotionAnimatorState)target;
-            var context = UnityEditor.Animations.AnimatorController.FindStateMachineBehaviourContext(locomotionAnimator);
-            if (context != null && context.Length > 0)
-            {
-                var state = context[0].animatorObject as UnityEditor.Animations.AnimatorState;
-                if (state != null)
-                {
-                    locomotionAnimator.stateName = state.name;
-                }
-            };
-        }
+        const string k_Script = "m_Script";
         
         /// <summary>
         /// Draws the <see cref="LocomotionAnimatorState.m_MovementConfig"/> ScriptableObject so it can be edited here./>
@@ -44,9 +31,10 @@ namespace StandardAssets.Characters.ThirdPerson.AnimatorBehaviours.Editor
 
         public void DrawScriptableObject()
         {
-            DrawPropertiesExcluding(serializedObject, k_MovementConfig, "m_Script");
+            DrawPropertiesExcluding(serializedObject, k_MovementConfig, k_Script);
 			
-            serializedObject.DrawExtendedScriptableObject(k_MovementConfig, "Movement Config");
+            serializedObject.DrawExtendedScriptableObject(k_MovementConfig, 
+                "Movement Config", !Application.isPlaying);
             if (GUI.changed)
             {
                 serializedObject.ApplyModifiedProperties();

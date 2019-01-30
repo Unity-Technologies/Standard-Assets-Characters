@@ -10,10 +10,6 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		menuName = "Standard Assets/Characters/Third Person Motor Configuration", order = 1)]
 	public class MotorConfig : ScriptableObject
 	{	
-#if UNITY_EDITOR
-		public Animator animator { get; set; }
-#endif
-
 		[Serializable]
 		class AdvancedMotorConfig
 		{

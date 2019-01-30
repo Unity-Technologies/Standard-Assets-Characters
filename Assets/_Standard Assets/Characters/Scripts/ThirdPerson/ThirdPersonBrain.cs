@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
-    [RequireComponent(typeof(IThirdPersonInput))]
+    [RequireComponent(typeof(IThirdPersonInput)), RequireComponent(typeof(Animator))]
     public class ThirdPersonBrain : CharacterBrain
     {
         [SerializeField, Tooltip("Properties of the root motion motor")]
