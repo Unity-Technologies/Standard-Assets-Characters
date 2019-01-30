@@ -77,8 +77,8 @@ namespace StandardAssets.Characters.Editor
 					}
 					if (dict.Count == 0)
 					{
-						EditorGUILayout.LabelField("No LocomotionAnimatorStates could be found. Set them up " +
-							"in the Animator.", m_BoldLabelStyle);
+						EditorGUILayout.LabelField("No LocomotionAnimatorStates could be found. You can add these " +
+							"to the locomotion animator states in the Animator.", m_BoldLabelStyle);
 					}
 					else
 					{
