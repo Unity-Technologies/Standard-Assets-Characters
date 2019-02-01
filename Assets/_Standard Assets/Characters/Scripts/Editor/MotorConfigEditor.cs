@@ -40,17 +40,15 @@ namespace StandardAssets.Characters.Editor
 			serializedObject.DrawExtendedScriptableObject(k_DefaultGroundMovementConfig, "Default Config");
 
 			var selected = Selection.activeGameObject;
-			if (selected == null)
+			if (selected != null)
 			{
-				return;
-			}
-			
-			var current = selected.GetComponent<ThirdPersonBrain>();
-			if (current != null)
-			{
-				var foldout = script.isExpanded;
-				DrawAnimatorStateConfigs(current.GetComponent<Animator>(), ref foldout);
-				script.isExpanded = foldout;
+				var current = selected.GetComponent<ThirdPersonBrain>();
+				if (current != null)
+				{
+					var foldout = script.isExpanded;
+					DrawAnimatorStateConfigs(current.GetComponent<Animator>(), ref foldout);
+					script.isExpanded = foldout;
+				}
 			}
 
 			EditorGUILayout.Space();
