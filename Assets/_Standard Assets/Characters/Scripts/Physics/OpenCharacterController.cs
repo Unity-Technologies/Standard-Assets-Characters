@@ -396,6 +396,12 @@ namespace StandardAssets.Characters.Physics
 		[SerializeField, Tooltip("Can character slide vertically when touching the ceiling? (For example, if ceiling is sloped.)")]
 		bool m_SlideAlongCeiling = true;
 
+		[SerializeField, Tooltip("Should the character keep a perfect velocity when sliding on walls?")]
+		bool m_OnWallsKeepVelocity = true;
+
+		[SerializeField, Tooltip("The maximal angle to keep a perfect velocity when sliding on walls.")]
+		float m_OnWallsMaxAngle = 10.0f;
+
 		[SerializeField, Tooltip("The desired interaction that cast calls should make against triggers")]
 		QueryTriggerInteraction m_TriggerQuery = QueryTriggerInteraction.Ignore;
 
@@ -1836,7 +1842,22 @@ namespace StandardAssets.Characters.Physics
 				project.Normalize();
 
 				// Slide along the obstacle
-				moveVector = project * remainingDistance;
+				// If m_OnWallsKeepVelocity is enabled or the angle is under m_OnWallsMaxAngle, there will be no slowdown
+				var slowDownAngle = Vector3.Angle(project, moveVector);
+				var angleIsUnderMaximum = slowDownAngle < m_OnWallsMaxAngle;
+				var slowDownFactor = m_OnWallsKeepVelocity || angleIsUnderMaximum ? 1.0f : 1.0f - slowDownAngle / 90.0f;
+				
+				if (angleIsUnderMaximum)
+				{
+					// The value left between the max angle and the slow down angle is added to the slow down factor.
+					// It help to provide a smooth transition when a character go after the maximum angle,
+					// or else there will be a noticeable jittery movement. 
+					var remain = 1.0f - (m_OnWallsMaxAngle - slowDownAngle) / 90.0f;
+					
+					slowDownFactor = Mathf.Min(slowDownAngle + remain, 1.0f);
+				}
+				
+				moveVector = project * (remainingDistance * slowDownFactor);
 			}
 			else
 			{
