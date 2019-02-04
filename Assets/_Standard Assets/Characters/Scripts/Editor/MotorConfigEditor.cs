@@ -19,9 +19,11 @@ namespace StandardAssets.Characters.Editor
 		//Property names
 		const string k_DefaultGroundMovementConfig = "m_DefaultGroundMovementConfig";
 		const string k_Script = "m_Script";
+		const string k_AlwaysUseDefaultConfig = "m_AlwaysUseDefaultConfig";
 
 		GUIStyle m_BoldLabelStyle;
-
+		MotorConfig m_MotorConfig;
+		
 		/// <summary>
 		/// Draws the inspector GUI using exclusions
 		/// </summary>
@@ -37,8 +39,15 @@ namespace StandardAssets.Characters.Editor
 			EditorGUILayout.ObjectField(script);
 			GUILayout.Space(10);
 			EditorGUILayout.LabelField("Ground Motion", m_BoldLabelStyle);
+
+			EditorGUILayout.PropertyField(serializedObject.FindProperty(k_AlwaysUseDefaultConfig));
 			serializedObject.DrawExtendedScriptableObject(k_DefaultGroundMovementConfig, "Default Config");
 
+			if (m_MotorConfig.alwaysUseDefaultConfig)
+			{
+				EditorGUI.BeginDisabledGroup(true);
+			}
+			
 			var selected = Selection.activeGameObject;
 			if (selected != null)
 			{
@@ -50,9 +59,15 @@ namespace StandardAssets.Characters.Editor
 					script.isExpanded = foldout;
 				}
 			}
+			
+			if (m_MotorConfig.alwaysUseDefaultConfig)
+			{
+				EditorGUI.EndDisabledGroup();
+			}
 
 			EditorGUILayout.Space();
-			DrawPropertiesExcluding(serializedObject, k_DefaultGroundMovementConfig, k_Script);
+			DrawPropertiesExcluding(serializedObject, k_DefaultGroundMovementConfig, k_Script,
+				k_AlwaysUseDefaultConfig);
 
 			if (GUI.changed)
 			{
@@ -103,7 +118,12 @@ namespace StandardAssets.Characters.Editor
 				}
 			}
 		}
-		
+
+		void OnEnable()
+		{
+			m_MotorConfig = (MotorConfig)target;
+		}
+
 		/// <summary>
 		/// Traverses the given state machine to find all the StateMachineBehaviours of type <typeparamref name="T"/>.
 		/// </summary>

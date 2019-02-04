@@ -135,6 +135,9 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 		[SerializeField, Tooltip("The default movement config. Will be overriden if configs are setup on the " +
 			 "Animator locomotion states.")]
 		GroundMovementConfig m_DefaultGroundMovementConfig;
+
+		[SerializeField, Tooltip("Should the Default Config be used for every state?")]
+		bool m_AlwaysUseDefaultConfig;
 		
 		[SerializeField, Tooltip("Time it takes for the character to turn and face the camera orientation when Strafe " +
 		                         "Mode has been entered")]
@@ -176,13 +179,21 @@ namespace StandardAssets.Characters.ThirdPerson.Configs
 
 		[SerializeField, Space]
 		AdvancedMotorConfig m_Advanced;
-		
+
 		/// <summary>
 		/// Gets the default GroundMovementConfig.
 		/// </summary>
 		public GroundMovementConfig defaultGroundMovementConfig
 		{
 			get { return m_DefaultGroundMovementConfig; }
+		}
+
+		/// <summary>
+		/// Gets whether <see cref="defaultGroundMovementConfig"/> should always be used.
+		/// </summary>
+		public bool alwaysUseDefaultConfig
+		{
+			get { return m_AlwaysUseDefaultConfig; }
 		}
 
 		/// <summary>
