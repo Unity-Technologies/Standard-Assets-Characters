@@ -193,7 +193,7 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// Whether the character is grounded
 		/// </summary>
 		/// <value>True if <see cref="m_AerialState"/> is grounded</value>
-		bool IsGrounded { get { return m_AerialState == ThirdPersonAerialMovementState.Grounded; } }	
+		bool isGrounded { get { return m_AerialState == ThirdPersonAerialMovementState.Grounded; } }	
 
 		// Is rapid turn disabled? (Enable/Disable it via EnableRapidTurn / DisableRapidTurn).
 		bool disableRapidTurn { get { return m_ObjectsThatDisabledRapidTurn.Count > 0; } }
@@ -204,7 +204,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		/// <param name="config">Config to use.</param>
 		public void SetMovementConfig(GroundMovementConfig config)
 		{
-			m_CurrentGroundMovementConfig = config != null ? config : m_Configuration.defaultGroundMovementConfig;
+			m_CurrentGroundMovementConfig = !m_Configuration.alwaysUseDefaultConfig && config != null
+				? config : m_Configuration.defaultGroundMovementConfig;
 		}
 		
 		/// <summary>
@@ -580,12 +581,12 @@ namespace StandardAssets.Characters.ThirdPerson
 				new Vector3(m_CharacterInput.moveInput.x, 0.0f, m_CharacterInput.moveInput.y));
 			targetYRotation = targetRotation.eulerAngles.y;
 
-			if (IsGrounded && CheckForAndHandleRapidTurn(targetRotation))
+			if (isGrounded && CheckForAndHandleRapidTurn(targetRotation))
 			{
 				return;
 			}
 
-			float turnSpeed = IsGrounded
+			float turnSpeed = isGrounded
 				? m_Configuration.turningYSpeed
 				: m_Configuration.jumpTurningYSpeed;
 
@@ -771,7 +772,7 @@ namespace StandardAssets.Characters.ThirdPerson
 				reattempt = true;
 				return;
 			}
-			if (!IsGrounded || m_ControllerAdapter.startedSlide || !m_ThirdPersonBrain.isGroundedState)
+			if (!isGrounded || m_ControllerAdapter.startedSlide || !m_ThirdPersonBrain.isGroundedState)
 			{
 				reattempt = false;
 				return;
