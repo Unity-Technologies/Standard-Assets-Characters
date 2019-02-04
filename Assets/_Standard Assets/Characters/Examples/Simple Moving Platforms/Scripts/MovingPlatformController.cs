@@ -8,9 +8,12 @@ namespace StandardAssets.Characters.Examples.SimpleMovingPlatforms
 	public class MovingPlatformController : MonoBehaviour
 	{
 		/// <summary>
-		/// Use FixedUpdate instead of Update (e.g. set this to true for first person).
+		/// Use FixedUpdate instead of Update. Set this to true if the player's movement is updated in FixedUpdate. So 
+		/// that the player and platform's movement are updated at the same rate, to prevent jerkiness.
 		/// </summary>
-		[SerializeField, Tooltip("Use FixedUpdate instead of Update (e.g. set this to true for first person).")]
+		[SerializeField, Tooltip("Use FixedUpdate instead of Update. Set this to true if the player's movement is " +
+			 "updated in FixedUpdate. So that the player and platform's movement are updated at the same rate, to " +
+			 "prevent jerkiness.")]
 		bool m_UseFixedUpdate;
 		
 		/// <summary>
@@ -121,7 +124,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovingPlatforms
 		}
 
 		// Update the movement and rotation
-		private void Update()
+		void Update()
 		{
 			if (!m_UseFixedUpdate)
 			{
@@ -130,7 +133,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovingPlatforms
 		}
 
 		// Update the movement and rotation
-		private void FixedUpdate()
+		void FixedUpdate()
 		{
 			if (m_UseFixedUpdate)
 			{
@@ -213,7 +216,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovingPlatforms
 		
 #if UNITY_EDITOR
 		// Draw the path waypoints
-		private void OnDrawGizmosSelected()
+		void OnDrawGizmosSelected()
 		{
 			if (m_Waypoints == null || m_Waypoints.Length <= 1)
 			{
@@ -265,7 +268,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovingPlatforms
 		}
 
 		// Check if a waypoint is selected then draw the whole path
-		private void OnDrawGizmos()
+		void OnDrawGizmos()
 		{
 			if (m_Waypoints == null || m_Waypoints.Length <= 1)
 			{

@@ -189,7 +189,8 @@ namespace StandardAssets.Characters.Common
 			}
 			
 			/// <summary>
-			/// Treat an object as a moving platform when its surface normal Y is greater than this (i.e. it is pointing up).
+			/// Treat an object as a moving platform when its surface normal Y is greater/equal than this (i.e. it is
+			/// pointing up).
 			/// </summary>
 			public float minNormalY { get; set; }
 			
@@ -689,7 +690,7 @@ namespace StandardAssets.Characters.Common
 		void CheckMovingPlatformCollision(Vector3 hitDirection, Vector3 hitNormal, Transform hitTransform)
 		{
 			// Did character move down and hit an up-facing normal?
-			if (hitDirection.y < 0.0f && hitNormal.y > m_MovingPlatforms.minNormalY)
+			if (hitDirection.y < 0.0f && hitNormal.y >= m_MovingPlatforms.minNormalY)
 			{
 				m_MovingPlatforms.activePlatform = hitTransform;
 			}

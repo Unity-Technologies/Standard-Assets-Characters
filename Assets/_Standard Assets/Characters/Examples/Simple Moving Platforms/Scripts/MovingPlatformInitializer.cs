@@ -9,15 +9,17 @@ namespace StandardAssets.Characters.Examples.SimpleMovingPlatforms
 	public class MovingPlatformInitializer : MonoBehaviour
 	{
 		// Initialize the platforms. Check if a first person input is active in the scene.
-		private void Start()
+		void Start()
 		{
 			InitializePlatforms(FindObjectOfType<FirstPersonInput>() != null);
 		}
-
+		
 		/// <summary>
 		/// Initialize the moving platforms for a third person or first person player.
 		/// </summary>
-		/// <param name="useFixedUpdate">Use FixedUpdate instead of Update (e.g. set this to true for first person).</param>
+		/// <param name="useFixedUpdate">Use FixedUpdate instead of Update. Set this to true if the player's movement
+		/// is updated in FixedUpdate. So that the player and platform's movement are updated at the same rate, to
+		/// prevent jerkiness.</param>
 		public void InitializePlatforms(bool useFixedUpdate)
 		{
 			var controllers = FindObjectsOfType<MovingPlatformController>();
