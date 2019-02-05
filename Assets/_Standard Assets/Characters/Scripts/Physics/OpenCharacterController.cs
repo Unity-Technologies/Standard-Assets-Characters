@@ -1849,13 +1849,7 @@ namespace StandardAssets.Characters.Physics
 				project.Normalize();
 
 				// Slide along the obstacle
-				var isWallSlowingDown = m_SlowAgainstWalls;
-				
-				if (isWallSlowingDown && m_MinSlowAgainstWallsAngle >= 90.0f)
-				{
-					// If the user has set the minimum angle to slow down to 90.0f, we disable the functionality.
-					isWallSlowingDown = false;
-				}
+				var isWallSlowingDown = m_SlowAgainstWalls && m_MinSlowAgainstWallsAngle < 90.0f;
 
 				if (isWallSlowingDown)
 				{
