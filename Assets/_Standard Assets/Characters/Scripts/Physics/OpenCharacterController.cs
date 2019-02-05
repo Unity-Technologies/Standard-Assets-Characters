@@ -547,6 +547,9 @@ namespace StandardAssets.Characters.Physics
 		/// </summary>
 		public float defaultHeight { get; private set; }
 		
+		/// <summary>
+		/// Is the character being slowed down by walls?
+		/// </summary>
 		public bool slowAgainstWalls { get { return m_SlowAgainstWalls; } }
 
 		/// <summary>
@@ -573,8 +576,8 @@ namespace StandardAssets.Characters.Physics
 			InitCapsuleColliderAndRigidbody();
 
 			SetRootToOffset();
-			UpdateSlowAgainstWalls();
 			
+			m_InvRescaleFactor = 1 / Mathf.Cos(m_MinSlowAgainstWallsAngle * Mathf.Deg2Rad);
 			m_SlopeMovementOffset =  m_StepOffset / Mathf.Tan(m_SlopeLimit * Mathf.Deg2Rad);
 		}
 
@@ -599,7 +602,8 @@ namespace StandardAssets.Characters.Physics
 			ValidateCapsule(false, ref position);
 			transform.position = position;
 			SetRootToOffset();
-			UpdateSlowAgainstWalls();
+			
+			m_InvRescaleFactor = 1 / Mathf.Cos(m_MinSlowAgainstWallsAngle * Mathf.Deg2Rad);
 		}
 
 		// Draws the debug Gizmos
@@ -2194,9 +2198,5 @@ namespace StandardAssets.Characters.Physics
 		}
 
 		// Update values that are used for computing slow down against walls.
-		void UpdateSlowAgainstWalls()
-		{
-			m_InvRescaleFactor = 1 / Mathf.Cos(m_MinSlowAgainstWallsAngle * Mathf.Deg2Rad);
-		}
 	}
 }
