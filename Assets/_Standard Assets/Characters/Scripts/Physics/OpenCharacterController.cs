@@ -396,11 +396,11 @@ namespace StandardAssets.Characters.Physics
 		[SerializeField, Tooltip("Can character slide vertically when touching the ceiling? (For example, if ceiling is sloped.)")]
 		bool m_SlideAlongCeiling = true;
 
-		[SerializeField, Tooltip("Should the character keep a perfect velocity when sliding on walls?")]
-		bool m_OnWallsKeepVelocity = true;
+		[SerializeField, Tooltip("Should the character slow down against walls?")]
+		bool m_SlowAgainstWalls = true;
 
-		[SerializeField, Tooltip("The maximal angle to keep a perfect velocity when sliding on walls.")]
-		float m_OnWallsMaxAngle = 10.0f;
+		[SerializeField, Range(0.0f, 90.0f), Tooltip("The minimal angle from which the character will start slowing down on walls.")]
+		float m_MinSlowAgainstWallsAngle = 10.0f;
 
 		[SerializeField, Tooltip("The desired interaction that cast calls should make against triggers")]
 		QueryTriggerInteraction m_TriggerQuery = QueryTriggerInteraction.Ignore;
@@ -511,6 +511,9 @@ namespace StandardAssets.Characters.Physics
 		// Velocity of the last movement. It's the new position minus the old position.
 		Vector3 m_Velocity;
 
+		// Factor used to perform a slow down against the walls.
+		float m_InvRescaleFactor;
+
 		// How long has character been sliding down a steep slope? (Zero means not busy sliding.)
 		float m_SlidingDownSlopeTime;
 
@@ -543,6 +546,8 @@ namespace StandardAssets.Characters.Physics
 		/// Default height of the capsule (e.g. for resetting it).
 		/// </summary>
 		public float defaultHeight { get; private set; }
+		
+		public bool slowAgainstWalls { get { return m_SlowAgainstWalls; } }
 
 		/// <summary>
 		/// Is the character sliding and has been sliding less than slideDownTimeUntilJumAllowed
@@ -568,6 +573,7 @@ namespace StandardAssets.Characters.Physics
 			InitCapsuleColliderAndRigidbody();
 
 			SetRootToOffset();
+			UpdateSlowAgainstWalls();
 			
 			m_SlopeMovementOffset =  m_StepOffset / Mathf.Tan(m_SlopeLimit * Mathf.Deg2Rad);
 		}
@@ -593,6 +599,7 @@ namespace StandardAssets.Characters.Physics
 			ValidateCapsule(false, ref position);
 			transform.position = position;
 			SetRootToOffset();
+			UpdateSlowAgainstWalls();
 		}
 
 		// Draws the debug Gizmos
@@ -1842,22 +1849,29 @@ namespace StandardAssets.Characters.Physics
 				project.Normalize();
 
 				// Slide along the obstacle
-				// If m_OnWallsKeepVelocity is enabled or the angle is under m_OnWallsMaxAngle, there will be no slowdown
-				var slowDownAngle = Vector3.Angle(project, moveVector);
-				var angleIsUnderMaximum = slowDownAngle < m_OnWallsMaxAngle;
-				var slowDownFactor = m_OnWallsKeepVelocity || angleIsUnderMaximum ? 1.0f : 1.0f - slowDownAngle / 90.0f;
+				var isWallSlowingDown = m_SlowAgainstWalls;
 				
-				if (angleIsUnderMaximum)
+				if (isWallSlowingDown && m_MinSlowAgainstWallsAngle >= 90.0f)
 				{
-					// The value left between the max angle and the slow down angle is added to the slow down factor.
-					// It help to provide a smooth transition when a character go after the maximum angle,
-					// or else there will be a noticeable jittery movement. 
-					var remain = 1.0f - (m_OnWallsMaxAngle - slowDownAngle) / 90.0f;
-					
-					slowDownFactor = Mathf.Min(slowDownAngle + remain, 1.0f);
+					// If the user has set the minimum angle to slow down to 90.0f, we disable the functionality.
+					isWallSlowingDown = false;
 				}
-				
-				moveVector = project * (remainingDistance * slowDownFactor);
+
+				if (isWallSlowingDown)
+				{
+					// Cosine of angle between the movement direction and the tangent is equivalent to the sin of
+					// the angle between the movement direction and the normal, which is the sliding component of
+					// our movement.
+					var cosine = Vector3.Dot(project, direction);
+					var slowDownFactor = Mathf.Clamp01(cosine * m_InvRescaleFactor);
+					
+					moveVector = project * (remainingDistance * slowDownFactor);
+				}
+				else
+				{
+					// No slow down, keep the same speed even against walls.
+					moveVector = project * remainingDistance;
+				}
 			}
 			else
 			{
@@ -2183,6 +2197,12 @@ namespace StandardAssets.Characters.Physics
 			{
 				m_PlayerRootTransform.localPosition = m_RootTransformOffset;
 			}
+		}
+
+		// Update values that are used for computing slow down against walls.
+		void UpdateSlowAgainstWalls()
+		{
+			m_InvRescaleFactor = 1 / Mathf.Cos(m_MinSlowAgainstWallsAngle * Mathf.Deg2Rad);
 		}
 	}
 }
