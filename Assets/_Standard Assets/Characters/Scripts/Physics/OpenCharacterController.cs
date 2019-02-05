@@ -548,7 +548,7 @@ namespace StandardAssets.Characters.Physics
 		public float defaultHeight { get; private set; }
 		
 		/// <summary>
-		/// Is the character being slowed down by walls?
+		/// Is the character able to be slowed down by walls?
 		/// </summary>
 		public bool slowAgainstWalls { get { return m_SlowAgainstWalls; } }
 
