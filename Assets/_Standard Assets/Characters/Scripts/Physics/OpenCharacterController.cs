@@ -2196,7 +2196,5 @@ namespace StandardAssets.Characters.Physics
 				m_PlayerRootTransform.localPosition = m_RootTransformOffset;
 			}
 		}
-
-		// Update values that are used for computing slow down against walls.
 	}
 }
