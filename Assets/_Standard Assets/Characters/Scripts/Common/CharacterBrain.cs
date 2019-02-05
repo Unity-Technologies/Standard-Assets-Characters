@@ -1,5 +1,6 @@
 using System;
 using Cinemachine;
+using StandardAssets.Characters.Helpers;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
 using UnityPhysics = UnityEngine.Physics;
@@ -768,9 +769,7 @@ namespace StandardAssets.Characters.Common
 			
 			var rotation = m_MovingPlatforms.activePlatformRotation;
 			// Clamp and wrap angle to range -180 to 180
-			var angle = rotation.eulerAngles.y > 180.0f
-				? -(rotation.eulerAngles.y - 360.0f)
-				: -rotation.eulerAngles.y;
+			var angle = -rotation.eulerAngles.y.Wrap180();
 			var x = angle / (m_MovingPlatforms.cameraMaxRotationSpeed.Value * deltaTime);
 			m_CharacterInput.movingPlatformLookInput = new Vector2(x, 0.0f);
 		}

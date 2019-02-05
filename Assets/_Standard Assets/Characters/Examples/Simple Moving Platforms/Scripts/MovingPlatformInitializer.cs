@@ -18,8 +18,8 @@ namespace StandardAssets.Characters.Examples.SimpleMovingPlatforms
 		/// Initialize the moving platforms for a third person or first person player.
 		/// </summary>
 		/// <param name="useFixedUpdate">Use FixedUpdate instead of Update. Set this to true if the player's movement
-		/// is updated in FixedUpdate. So that the player and platform's movement are updated at the same rate, to
-		/// prevent jerkiness.</param>
+		/// is updated in FixedUpdate. This ensures that player and platform movement is updated at the same frequency
+		/// and prevents jerky movement.</param>
 		public void InitializePlatforms(bool useFixedUpdate)
 		{
 			var controllers = FindObjectsOfType<MovingPlatformController>();

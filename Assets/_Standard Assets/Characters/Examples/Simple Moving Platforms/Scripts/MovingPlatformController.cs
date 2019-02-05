@@ -8,12 +8,10 @@ namespace StandardAssets.Characters.Examples.SimpleMovingPlatforms
 	public class MovingPlatformController : MonoBehaviour
 	{
 		/// <summary>
-		/// Use FixedUpdate instead of Update. Set this to true if the player's movement is updated in FixedUpdate. So 
-		/// that the player and platform's movement are updated at the same rate, to prevent jerkiness.
+		/// This <see cref="MovingPlatformController"/> will perform movement calculations in FixedUpdate if true.
+		/// See <see cref="MovingPlatformInitializer.InitializePlatforms" /> for more details.
 		/// </summary>
-		[SerializeField, Tooltip("Use FixedUpdate instead of Update. Set this to true if the player's movement is " +
-			 "updated in FixedUpdate. So that the player and platform's movement are updated at the same rate, to " +
-			 "prevent jerkiness.")]
+		[SerializeField, Tooltip("Set to true to if player movement is physics-driven.")]
 		bool m_UseFixedUpdate;
 		
 		/// <summary>
