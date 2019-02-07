@@ -397,7 +397,7 @@ namespace StandardAssets.Characters.Physics
 		bool m_SlideAlongCeiling = true;
 
 		[SerializeField, Tooltip("Should the character slow down against walls?")]
-		bool m_SlowAgainstWalls = true;
+		bool m_SlowAgainstWalls = false;
 
 		[SerializeField, Range(0.0f, 90.0f), Tooltip("The minimal angle from which the character will start slowing down on walls.")]
 		float m_MinSlowAgainstWallsAngle = 10.0f;
