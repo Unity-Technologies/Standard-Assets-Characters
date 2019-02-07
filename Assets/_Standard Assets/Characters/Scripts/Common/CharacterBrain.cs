@@ -441,6 +441,20 @@ namespace StandardAssets.Characters.Common
 				jumpVelocitySet();
 			}
 		}
+		
+		/// <summary>
+		/// Sets the velocity when falling.
+		/// </summary>
+		public void SetFallVelocity()
+		{
+			// If jumped, platform velocity would already have been taken into account on jump.
+			if (m_DidJump)
+			{
+				return;
+			}
+			m_MovingPlatforms.aerialVector = new Vector3(m_MovingPlatforms.activePlatformVelocity.x, 0.0f,
+				m_MovingPlatforms.activePlatformVelocity.z);
+		}
 
 		/// <summary>
 		/// Initialization on load. This method must be manually called.
