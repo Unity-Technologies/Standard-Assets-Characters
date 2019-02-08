@@ -8,13 +8,6 @@ namespace StandardAssets.Characters.Examples.SimpleMovingPlatforms
 	public class MovingPlatformController : MonoBehaviour
 	{
 		/// <summary>
-		/// This <see cref="MovingPlatformController"/> will perform movement calculations in FixedUpdate if true.
-		/// See <see cref="MovingPlatformInitializer.InitializePlatforms" /> for more details.
-		/// </summary>
-		[SerializeField, Tooltip("Set to true to if player movement is physics-driven.")]
-		bool m_UseFixedUpdate;
-		
-		/// <summary>
 		/// Movement path waypoints. Must have at least 2.
 		/// </summary>
 		[Header("Movement")]
@@ -98,15 +91,6 @@ namespace StandardAssets.Characters.Examples.SimpleMovingPlatforms
 		// Current tilt pause time.
 		float m_PauseTiltTime;
 
-		/// <summary>
-		/// Use FixedUpdate instead of Update (e.g. set this to true for first person).
-		/// </summary>
-		public bool useFixedUpdate
-		{
-			get { return m_UseFixedUpdate; }
-			set { m_UseFixedUpdate = value; }
-		}
-
 		// Set the tilt angle
 		void Awake()
 		{
@@ -122,21 +106,9 @@ namespace StandardAssets.Characters.Examples.SimpleMovingPlatforms
 		}
 
 		// Update the movement and rotation
-		void Update()
-		{
-			if (!m_UseFixedUpdate)
-			{
-				UpdatePlatform(Time.deltaTime);
-			}
-		}
-
-		// Update the movement and rotation
 		void FixedUpdate()
 		{
-			if (m_UseFixedUpdate)
-			{
-				UpdatePlatform(Time.fixedDeltaTime);
-			}
+			UpdatePlatform(Time.fixedDeltaTime);
 		}
 
 		// Update the movement and rotation
