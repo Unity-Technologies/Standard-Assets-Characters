@@ -4,7 +4,7 @@ using UnityEngine;
 namespace StandardAssets.Characters.Examples.SimpleMovingPlatforms
 {
 	/// <summary>
-	/// Initialize the moving platforms for a third person or first person player.
+	/// Initializes the moving platforms for a third person or first person player.
 	/// </summary>
 	public class MovingPlatformInitializer : MonoBehaviour
 	{
