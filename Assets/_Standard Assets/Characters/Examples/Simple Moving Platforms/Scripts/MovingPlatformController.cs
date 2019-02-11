@@ -197,17 +197,19 @@ namespace StandardAssets.Characters.Examples.SimpleMovingPlatforms
 			Transform waypoint;
 			var prevPoint = Vector3.zero;
 			Gizmos.color = Color.green;
-			BoxCollider boxCollider = GetComponentInChildren<BoxCollider>(true);
-			Vector3 size = boxCollider != null
-				? new Vector3(boxCollider.transform.lossyScale.x * boxCollider.size.x,
-					boxCollider.transform.lossyScale.y * boxCollider.size.y,
-					boxCollider.transform.lossyScale.z * boxCollider.size.z)
-				: Vector3.one;
-			Vector3 centre = boxCollider != null
-				? new Vector3(boxCollider.transform.lossyScale.x * boxCollider.center.x,
-					boxCollider.transform.lossyScale.y * boxCollider.center.y,
-					boxCollider.transform.lossyScale.z * boxCollider.center.z)
-				: Vector3.zero;
+
+			var mesh = GetComponentInChildren<MeshCollider>(true);
+			var boxCollider = GetComponentInChildren<BoxCollider>(true);
+			Vector3 size = Vector3.one, centre = Vector3.one;
+			if (mesh == null && boxCollider != null)
+			{
+				var lossyScale = boxCollider.transform.lossyScale;
+				size = new Vector3(lossyScale.x * boxCollider.size.x, lossyScale.y * boxCollider.size.y,
+					lossyScale.z * boxCollider.size.z);
+				centre = new Vector3(lossyScale.x * boxCollider.center.x, lossyScale.y * boxCollider.center.y,
+						lossyScale.z * boxCollider.center.z);
+			}
+
 			for (int i = 0, len = m_Waypoints.Length; i < len; i++)
 			{
 				waypoint = m_Waypoints[i];
@@ -221,7 +223,18 @@ namespace StandardAssets.Characters.Examples.SimpleMovingPlatforms
 				}
 				prevPoint = waypoint.position;
 
-				if (boxCollider != null)
+				if (mesh != null)
+				{
+					var offset = mesh.transform == transform ? Vector3.zero : mesh.transform.localPosition;
+					var rotation = Quaternion.identity;
+					if (m_RotateToWaypoint)
+					{
+						var previousWaypoint = m_Waypoints[i > 0 ? i - 1 : m_Waypoints.Length - 1];
+						rotation = Quaternion.LookRotation(waypoint.position - previousWaypoint.position);
+					}
+					Gizmos.DrawWireMesh(mesh.sharedMesh, waypoint.position + offset, rotation);
+				}
+				else
 				{
 					Gizmos.DrawWireCube(waypoint.position + centre, size);
 				}
