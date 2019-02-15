@@ -472,6 +472,8 @@ namespace StandardAssets.Characters.ThirdPerson
 				cachedForwardVelocity = m_AverageForwardVelocity.average;
 			}
 			
+			m_ControllerAdapter.SetFallVelocity();
+			
 			m_AerialState = ThirdPersonAerialMovementState.Falling;
 			m_FallDirection = CalculateLocalInputDirection();
 			

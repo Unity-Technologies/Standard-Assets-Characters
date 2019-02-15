@@ -570,6 +570,11 @@ namespace StandardAssets.Characters.Physics
 			}
 		}
 
+		/// <summary>
+		/// Is the character controlled by a local human? If true then more calculations are done for more accurate movement.
+		/// </summary>
+		public bool IsLocalHuman { get { return m_IsLocalHuman; } }
+
 		// Initialise the capsule and rigidbody, and set the root position.
 		void Awake()
 		{
@@ -716,7 +721,7 @@ namespace StandardAssets.Characters.Physics
 		/// <param name="adjustPositionSlightly">Adjust position slightly up, in case it's already inside an obstacle.</param>
 		/// <param name="currentPosition">Position of the character</param>
 		/// <returns>True if collision occurred.</returns>
-		bool CheckCollisionBelow(float distance, out RaycastHit hitInfo, Vector3 currentPosition,
+		public bool CheckCollisionBelow(float distance, out RaycastHit hitInfo, Vector3 currentPosition,
 		                                Vector3 offsetPosition,
 		                                bool useSphereCast = false,
 		                                bool useSecondSphereCast = false,
@@ -1215,9 +1220,9 @@ namespace StandardAssets.Characters.Physics
 			}
 			else if (doDownCast)
 			{
-				RaycastHit hitinfo;
+				RaycastHit hitInfo;
 				isGrounded = CheckCollisionBelow(k_GroundedTestDistance,
-				                                 out hitinfo, transform.position,
+				                                 out hitInfo, transform.position,
 				                                 Vector3.zero,
 				                                 true,
 				                                 m_IsLocalHuman,

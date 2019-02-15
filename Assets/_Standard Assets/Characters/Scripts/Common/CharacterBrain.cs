@@ -1,4 +1,6 @@
 using System;
+using Cinemachine;
+using StandardAssets.Characters.Helpers;
 using StandardAssets.Characters.Physics;
 using UnityEngine;
 using UnityPhysics = UnityEngine.Physics;
@@ -42,7 +44,6 @@ namespace StandardAssets.Characters.Common
 		/// </summary>
 		protected Vector3 planarDisplacement { get; private set; }
 
-
 		/// <summary>
 		/// Get controller adapters and input on Awake
 		/// </summary>
@@ -59,13 +60,36 @@ namespace StandardAssets.Characters.Common
 				gameObject.SetActive(false);
 			}
 		}
+
+		/// <summary>
+		/// Call the controller adapter's OnEnable
+		/// </summary>
+		protected virtual void OnEnable()
+		{
+			if (m_OCCSettings != null)
+			{
+				m_OCCSettings.OnEnable();
+			}
+		}
+		
+		/// <summary>
+		/// Call the controller adapter's OnDisable
+		/// </summary>
+		protected virtual void OnDisable()
+		{
+			if (m_OCCSettings != null)
+			{
+				m_OCCSettings.OnDisable();
+			}
+		}
+
 #if UNITY_EDITOR
 		void OnDrawGizmosSelected()
 		{
 			controllerAdapter.OnDrawGizmosSelected();
 		}
 #endif
-
+		
 		/// <summary>
 		/// Calculates the planarSpeed of the CharacterBrain
 		/// </summary>
@@ -85,6 +109,11 @@ namespace StandardAssets.Characters.Common
 			}
 			m_LastPosition = newPosition;
 		}
+
+		/// <summary>
+		/// Can moving platforms rotate the current camera?
+		/// </summary>
+		public abstract bool MovingPlatformCanRotateCamera();
 	}
 
 	/// <summary>
@@ -129,6 +158,103 @@ namespace StandardAssets.Characters.Common
 				get { return m_JumpHold; }
 			}
 		}
+
+		// Moving platforms fields and properties
+		[Serializable]
+		class MovingPlatforms
+		{
+			[SerializeField, Tooltip("Can moving platforms rotate the cameras? (E.g. Set to true for a human player if " +
+			                         "the player has a first person or strafe camera)")]
+			bool m_CanPlatformsRotateCameras;
+
+			[SerializeField, Tooltip("Set this to true for human controlled characters. It removes sliding on slightly " +
+			                         "tilted platforms. It uses additional collision detection, so avoid using it for " +
+			                         "all characters.")]
+			bool m_PreventSlidingOnPlatforms;
+			
+			/// <summary>
+			/// Can moving platforms rotate the cameras? (E.g. Set to true for a human player if the player has a first
+			/// person or strafe camera.)
+			/// </summary>
+			public bool canRotateCameras
+			{
+				get { return m_CanPlatformsRotateCameras; }
+			}
+
+			/// <summary>
+			/// Prevent sliding on slightly tilted platforms.
+			/// </summary>
+			public bool preventSliding
+			{
+				get { return m_PreventSlidingOnPlatforms; }
+			}
+			
+			/// <summary>
+			/// Treat an object as a moving platform when its surface normal Y is greater/equal than this (i.e. it is
+			/// pointing up).
+			/// </summary>
+			public float minNormalY { get; set; }
+			
+			/// <summary>
+			/// Active moving platform the character is standing on.
+			/// </summary>
+			public Transform activePlatform { get; set; }
+			
+			/// <summary>
+			/// The moving platform whose properties were recorded in the previous move.
+			/// </summary>
+			public Transform recordedPlatform { get; set; }
+			
+			/// <summary>
+			/// The character's position relative to the moving platform.
+			/// </summary>
+			public Vector3 activePlatformLocalPoint { get; set; }
+			
+			/// <summary>
+			/// The character's position during the last platform movement.
+			/// </summary>
+			public Vector3 activePlatformGlobalPoint { get; set; }
+			
+			/// <summary>
+			/// The platform's velocity. Added to the player's jump velocity when jumping while on a platform.
+			/// </summary>
+			public Vector3 activePlatformVelocity { get; set; }
+			
+			/// <summary>
+			/// The platform's movement vector. This is only set when <see cref="m_PreventSlidingOnPlatforms"/> is false.
+			/// </summary>
+			public Vector3 activePlatformMoveVector { get; set; }
+			
+			/// <summary>
+			/// The character's rotation relative to the moving platform.
+			/// </summary>
+			public Quaternion activePlatformLocalRotation { get; set; }
+			
+			/// <summary>
+			/// The character's rotation during the last platform movement.
+			/// </summary>
+			public Quaternion activePlatformGlobalRotation { get; set; }
+			
+			/// <summary>
+			/// The rotation the moving platform applied to the character.
+			/// </summary>
+			public Quaternion activePlatformRotation { get; set; }
+			
+			/// <summary>
+			/// Horizontal force to add to the character when jumping off a moving platform.
+			/// </summary>
+			public Vector3 aerialVector { get; set; }
+			
+			/// <summary>
+			/// The Cinemachine brain that controls the character's cameras.
+			/// </summary>
+			public CinemachineBrain cinemachineBrain { get; set; }
+			
+			/// <summary>
+			/// The live camera's max rotation speed of its horizontal axis.
+			/// </summary>
+			public float? cameraMaxRotationSpeed { get; set; }
+		}
 		
 		// the number of time sets used for trajectory prediction
 		const int k_TrajectorySteps = 60;
@@ -138,6 +264,13 @@ namespace StandardAssets.Characters.Common
 		
 		// the scale that is used to convert character's current velocity to force applied to rigidbody
 		const float k_VelocityToForceScale = 0.1f;
+		
+		// Check for moving platforms this distance below the character.
+		const float k_TestPlatformDistance = 0.01f;
+
+		// Max angle of a moving platform's surface normal, relative to the world up vector. If angle is greater than
+		// this then the object is not considered to be a moving platform.
+		const float k_MaxPlatformAngle = 60.0f;
 		
 		[SerializeField, Tooltip("Maximum speed that the character can move downwards")]
 		float m_TerminalVelocity = 10f;
@@ -150,8 +283,11 @@ namespace StandardAssets.Characters.Common
 
 		[SerializeField, Tooltip("How quickly the Gravity that affects the character is allowed to change, when it is" +
 		                         " being dynamically modified by Jumping or Falling Gravity modifiers")]
-		float m_MaxGravityDelta = 10f;		
+		float m_MaxGravityDelta = 10f;
 
+		[SerializeField, Tooltip("Moving platform properties")]
+		MovingPlatforms m_MovingPlatforms;
+		
 		// Event for when the character lands
 		public event Action landed;
 
@@ -261,9 +397,13 @@ namespace StandardAssets.Characters.Common
 		public void Move(Vector3 moveVector, float deltaTime)
 		{
 			isGrounded = characterController.isGrounded;
+			Transform previousActivePlatform = m_MovingPlatforms.activePlatform;
+			UpdateMovingPlatform(deltaTime);
 			AerialMovement(deltaTime);
-			MoveCharacter(moveVector + m_VerticalVector);
+			MoveCharacter(moveVector + m_VerticalVector + m_MovingPlatforms.activePlatformMoveVector +
+			              m_MovingPlatforms.aerialVector * deltaTime);
 			m_CachedGroundVelocity = moveVector / deltaTime;
+			PostUpdateMovingPlatform(previousActivePlatform);
 		}
 		
 		/// <summary>
@@ -292,15 +432,32 @@ namespace StandardAssets.Characters.Common
 		public void SetJumpVelocity(float initialVelocity)
 		{
 			m_DidJump = true;
-			m_CurrentVerticalVelocity = m_InitialJumpVelocity = initialVelocity;
+			m_CurrentVerticalVelocity = m_InitialJumpVelocity = initialVelocity + 
+			                                                    Mathf.Max(m_MovingPlatforms.activePlatformVelocity.y, 0.0f);
+			m_MovingPlatforms.aerialVector = new Vector3(m_MovingPlatforms.activePlatformVelocity.x, 0.0f,
+				m_MovingPlatforms.activePlatformVelocity.z);
 			if (jumpVelocitySet != null)
 			{
 				jumpVelocitySet();
 			}
 		}
+		
+		/// <summary>
+		/// Sets the velocity when falling.
+		/// </summary>
+		public void SetFallVelocity()
+		{
+			// If jumped, platform velocity would already have been taken into account on jump.
+			if (m_DidJump)
+			{
+				return;
+			}
+			m_MovingPlatforms.aerialVector = new Vector3(m_MovingPlatforms.activePlatformVelocity.x, 0.0f,
+				m_MovingPlatforms.activePlatformVelocity.z);
+		}
 
 		/// <summary>
-		/// Initialization on load. Must be manually called
+		/// Initialization on load. This method must be manually called.
 		/// </summary>
 		/// <param name="transform">Transform of the game object, on which this class will do work</param>
 		public virtual void Awake(Transform transform)
@@ -318,13 +475,44 @@ namespace StandardAssets.Characters.Common
 			}
 
 			m_Gravity = UnityPhysics.gravity.y;
+
+			// Calculate the minimum surface normal for moving platforms
+			var vector = Quaternion.Euler(k_MaxPlatformAngle, 0.0f, 0.0f) * Vector3.up;
+			m_MovingPlatforms.minNormalY = vector.y;
+		}
+
+		/// <summary>
+		/// Subscribe to Cinemachine's camera change event. This method must be manually called.
+		/// </summary>
+		public virtual void OnEnable()
+		{
+			if (m_MovingPlatforms.cinemachineBrain != null)
+			{
+				m_MovingPlatforms.cinemachineBrain.m_CameraActivatedEvent.RemoveListener(OnCameraActivated);
+				m_MovingPlatforms.cinemachineBrain.m_CameraActivatedEvent.AddListener(OnCameraActivated);
+				FindLiveCamera();
+			}
+		}
+
+		/// <summary>
+		/// Unsubscribe from Cinemachine's camera change event. This method must be manually called.
+		/// </summary>
+		public virtual void OnDisable()
+		{
+			if (m_MovingPlatforms.cinemachineBrain != null)
+			{
+				m_MovingPlatforms.cinemachineBrain.m_CameraActivatedEvent.RemoveListener(OnCameraActivated);
+			}
 		}
 
 		// Handles interactions with collideable objects in the world
-		// Applies force to Rigidbodies
+		// Applies force to Rigidbodies. Also checks if the character lands on the top of a moving platform.
 		void OnCollision(OpenCharacterController.CollisionInfo collisionInfo)
 		{
 			OpenCharacterController controller = collisionInfo.controller;
+
+			CheckMovingPlatformCollision(collisionInfo.moveDirection, collisionInfo.normal,
+				collisionInfo.collider.transform);
 
 			if (controller == null || controller.collisionFlags == CollisionFlags.Below || controller.collisionFlags == CollisionFlags.Above)
 			{
@@ -424,6 +612,7 @@ namespace StandardAssets.Characters.Common
 				{
 					m_InitialJumpVelocity = 0.0f;
 					m_VerticalVector = Vector3.zero;
+					m_MovingPlatforms.aerialVector = Vector3.zero;
 
 					//Play the moment that the character lands and only at that moment
 					if (Math.Abs(airTime - deltaTime) > Mathf.Epsilon)
@@ -510,6 +699,186 @@ namespace StandardAssets.Characters.Common
 				m_CurrentVerticalVelocity = 0f;
 				m_InitialJumpVelocity = 0f;
 			}
+		}
+		
+		// Check if character collided with a potential moving platform
+		void CheckMovingPlatformCollision(Vector3 hitDirection, Vector3 hitNormal, Transform hitTransform)
+		{
+			// Did character move down and hit an up-facing normal?
+			if (hitDirection.y < 0.0f && hitNormal.y >= m_MovingPlatforms.minNormalY)
+			{
+				m_MovingPlatforms.activePlatform = hitTransform;
+			}
+		}
+
+		// Handles moving platform movement
+		void UpdateMovingPlatform(float deltaTime)
+		{
+			if (m_MovingPlatforms.activePlatform == null || m_MovingPlatforms.recordedPlatform == null)
+			{
+				m_MovingPlatforms.activePlatformVelocity = Vector3.zero;
+				m_MovingPlatforms.activePlatformRotation = Quaternion.identity;
+				m_MovingPlatforms.activePlatformMoveVector = Vector3.zero;
+				UpdateMovingPlatformCamera(deltaTime);
+				return;
+			}
+
+			var usePlatform = m_MovingPlatforms.activePlatform;
+			
+			// If the character just landed on the platform then process the previous platform for 1 more frame. This
+			// handles the case where a platform consists of more than 1 collider (transform) and the character is
+			// caught between 2 of the colliders.
+			if (m_MovingPlatforms.activePlatform != m_MovingPlatforms.recordedPlatform)
+			{
+				usePlatform = m_MovingPlatforms.recordedPlatform;
+			}
+			
+			m_MovingPlatforms.activePlatform = null;
+			
+			// Position
+			var newGlobalPlatformPoint = usePlatform.TransformPoint(m_MovingPlatforms.activePlatformLocalPoint);
+			var moveDistance = (newGlobalPlatformPoint - m_MovingPlatforms.activePlatformGlobalPoint);
+			if (!m_MovingPlatforms.preventSliding)
+			{
+				m_MovingPlatforms.activePlatformMoveVector = moveDistance;
+			}
+			else if (moveDistance != Vector3.zero)
+			{
+				characterController.Move(moveDistance);
+			}
+			m_MovingPlatforms.activePlatformVelocity = moveDistance / deltaTime;
+			
+			// Rotation
+			var newGlobalPlatformRotation = usePlatform.rotation * m_MovingPlatforms.activePlatformLocalRotation;
+			var rotationDiff = newGlobalPlatformRotation * Quaternion.Inverse(m_MovingPlatforms.activePlatformGlobalRotation);
+			// Prevent rotation of the local up vector
+			rotationDiff = Quaternion.FromToRotation(rotationDiff * cachedTransform.up, cachedTransform.up) * rotationDiff;
+			cachedTransform.rotation = rotationDiff * cachedTransform.rotation;
+			m_MovingPlatforms.activePlatformRotation = rotationDiff;
+			
+			UpdateMovingPlatformCamera(deltaTime);
+		}
+		
+		// Rotates the camera based on the moving platform rotation (e.g. the first person or strafe camera).
+		void UpdateMovingPlatformCamera(float deltaTime)
+		{
+			if (m_CharacterInput == null)
+			{
+				return;
+			}
+			m_CharacterInput.movingPlatformLookInput = Vector2.zero;
+			if (!m_MovingPlatforms.canRotateCameras || !m_CharacterBrain.MovingPlatformCanRotateCamera() || 
+			    m_MovingPlatforms.activePlatformRotation == Quaternion.identity)
+			{
+				return;
+			}
+			if (m_MovingPlatforms.cinemachineBrain == null)
+			{
+				FindLiveCamera();
+			}
+			if (m_MovingPlatforms.cameraMaxRotationSpeed == null)
+			{
+				return;
+			}
+			
+			var rotation = m_MovingPlatforms.activePlatformRotation;
+			// Clamp and wrap angle to range -180 to 180
+			var angle = -rotation.eulerAngles.y.Wrap180();
+			var x = angle / (m_MovingPlatforms.cameraMaxRotationSpeed.Value * deltaTime);
+			m_CharacterInput.movingPlatformLookInput = new Vector2(x, 0.0f);
+		}
+
+		// Update moving platform data after the character moved
+		void PostUpdateMovingPlatform(Transform previousActivePlatform)
+		{
+			// Is character not on a platform, but was at the start of the movement?
+			if (m_MovingPlatforms.activePlatform == null && previousActivePlatform != null)
+			{
+				// Check if a potential platform is still below the character
+				RaycastHit hitInfo;
+				var distance = k_TestPlatformDistance;
+				if (characterController.CheckCollisionBelow(distance,
+					out hitInfo, cachedTransform.position, Vector3.zero, true,
+					characterController.IsLocalHuman, characterController.IsLocalHuman))
+				{
+					CheckMovingPlatformCollision(new Vector3(0.0f, -distance, 0.0f), hitInfo.normal, hitInfo.transform);
+				}
+			}
+
+			m_MovingPlatforms.recordedPlatform = m_MovingPlatforms.activePlatform;
+			if (m_MovingPlatforms.activePlatform == null)
+			{
+				return;
+			}
+			
+			// Position
+			m_MovingPlatforms.activePlatformGlobalPoint = cachedTransform.position;
+			m_MovingPlatforms.activePlatformLocalPoint = m_MovingPlatforms.activePlatform.InverseTransformPoint(cachedTransform.position);
+			// Rotation
+			m_MovingPlatforms.activePlatformGlobalRotation = cachedTransform.rotation;
+			m_MovingPlatforms.activePlatformLocalRotation = Quaternion.Inverse(m_MovingPlatforms.activePlatform.rotation) * cachedTransform.rotation;
+		}
+
+		// Called when the Cinemachine brain's active camera changes
+		void OnCameraActivated(ICinemachineCamera newCamera, ICinemachineCamera oldCamera)
+		{			
+			if (m_MovingPlatforms.canRotateCameras)
+			{
+				m_MovingPlatforms.cameraMaxRotationSpeed = GetLiveCameraMaxRotationSpeed(newCamera);
+			}
+		}
+		
+		// Find the live camera and get the max rotation speed of its horizontal axis, used by the moving platforms.
+		void FindLiveCamera()
+		{
+			m_MovingPlatforms.cameraMaxRotationSpeed = null;
+			if (!m_MovingPlatforms.canRotateCameras)
+			{
+				return;
+			}
+			if (m_MovingPlatforms.cinemachineBrain == null && CinemachineCore.Instance.BrainCount > 0)
+			{
+				m_MovingPlatforms.cinemachineBrain = CinemachineCore.Instance.GetActiveBrain(0);
+				if (m_MovingPlatforms.cinemachineBrain != null)
+				{
+					m_MovingPlatforms.cinemachineBrain.m_CameraActivatedEvent.RemoveListener(OnCameraActivated);
+					m_MovingPlatforms.cinemachineBrain.m_CameraActivatedEvent.AddListener(OnCameraActivated);
+				}
+			}
+			if (m_MovingPlatforms.cinemachineBrain == null)
+			{
+				return;
+			}
+			var stateCamera = m_MovingPlatforms.cinemachineBrain.ActiveVirtualCamera as CinemachineStateDrivenCamera;
+			if (stateCamera == null)
+			{
+				return;
+			}
+			m_MovingPlatforms.cameraMaxRotationSpeed = GetLiveCameraMaxRotationSpeed(stateCamera.LiveChild);
+		}
+
+		// Get the live camera's max rotation speed of its horizontal axis, used by the moving platforms.
+		float? GetLiveCameraMaxRotationSpeed(ICinemachineCamera liveCamera)
+		{
+			var virtualCamera = liveCamera as CinemachineVirtualCamera;
+			if (virtualCamera != null)
+			{
+				// POV camera used for first person mode
+				var pov = virtualCamera.GetCinemachineComponent<CinemachinePOV>();
+				if (pov == null)
+				{
+					return null;
+				}
+				return pov.m_HorizontalAxis.m_MaxSpeed;
+			}
+
+			// Free look camera used for strafe mode
+			var freeLook = liveCamera as CinemachineFreeLook;
+			if (freeLook == null)
+			{
+				return null;
+			}
+			return freeLook.m_XAxis.m_MaxSpeed;
 		}
 
 #if UNITY_EDITOR
