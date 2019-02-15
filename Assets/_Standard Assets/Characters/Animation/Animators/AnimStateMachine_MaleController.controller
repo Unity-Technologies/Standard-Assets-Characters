@@ -234,6 +234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f70fa96a2b2045dca8ddb6fec4cbcde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_MovementConfig: {fileID: 11400000, guid: 6c5cce80a14866d4e8e80a62a5420333, type: 2}
 --- !u!114 &114305113248570782
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -333,6 +334,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f70fa96a2b2045dca8ddb6fec4cbcde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_MovementConfig: {fileID: 11400000, guid: 973c5da6fa30fcf49a07dd14818dafab, type: 2}
 --- !u!114 &114781573458052828
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -345,6 +347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f70fa96a2b2045dca8ddb6fec4cbcde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_MovementConfig: {fileID: 0}
 --- !u!114 &114845893765770242
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -866,7 +869,7 @@ BlendTree:
     m_Mirror: 0
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: c0f04258feff0fc48877eae1bc51caf8, type: 3}
-    m_Threshold: 1.5
+    m_Threshold: 1.1
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -875,7 +878,7 @@ BlendTree:
   m_BlendParameter: ForwardSpeed
   m_BlendParameterY: ForwardSpeed
   m_MinThreshold: 0
-  m_MaxThreshold: 1.5
+  m_MaxThreshold: 1.1
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
   m_BlendType: 0
@@ -1314,7 +1317,7 @@ BlendTree:
     m_Mirror: 0
   - serializedVersion: 2
     m_Motion: {fileID: 7400002, guid: c0f04258feff0fc48877eae1bc51caf8, type: 3}
-    m_Threshold: 1.5
+    m_Threshold: 1.1
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -1323,7 +1326,7 @@ BlendTree:
   m_BlendParameter: ForwardSpeed
   m_BlendParameterY: ForwardSpeed
   m_MinThreshold: 0
-  m_MaxThreshold: 1.5
+  m_MaxThreshold: 1.1
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
   m_BlendType: 0
@@ -2803,7 +2806,7 @@ BlendTree:
     m_Mirror: 0
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: f5929a78ddc0f40518df247d645a7747, type: 3}
-    m_Threshold: 1.5
+    m_Threshold: 1.1
     m_Position: {x: 0, y: 1.5}
     m_TimeScale: 1.1
     m_CycleOffset: 0
@@ -2812,7 +2815,7 @@ BlendTree:
   m_BlendParameter: ForwardSpeed
   m_BlendParameterY: ForwardSpeed
   m_MinThreshold: 0
-  m_MaxThreshold: 1.5
+  m_MaxThreshold: 1.1
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
   m_BlendType: 0
@@ -2919,7 +2922,7 @@ BlendTree:
     m_Mirror: 0
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: c0f04258feff0fc48877eae1bc51caf8, type: 3}
-    m_Threshold: 1.5
+    m_Threshold: 1.1
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -2928,7 +2931,7 @@ BlendTree:
   m_BlendParameter: ForwardSpeed
   m_BlendParameterY: ForwardSpeed
   m_MinThreshold: 0
-  m_MaxThreshold: 1.5
+  m_MaxThreshold: 1.1
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
   m_BlendType: 0
@@ -3507,7 +3510,7 @@ BlendTree:
     m_Mirror: 0
   - serializedVersion: 2
     m_Motion: {fileID: 7400002, guid: bc7c28e9430d0564a953ce9ec1be418e, type: 3}
-    m_Threshold: 1.5
+    m_Threshold: 1.1
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -3516,7 +3519,7 @@ BlendTree:
   m_BlendParameter: ForwardSpeed
   m_BlendParameterY: ForwardSpeed
   m_MinThreshold: 0
-  m_MaxThreshold: 1.5
+  m_MaxThreshold: 1.1
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
   m_BlendType: 0

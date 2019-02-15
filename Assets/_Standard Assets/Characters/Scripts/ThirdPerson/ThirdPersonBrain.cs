@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace StandardAssets.Characters.ThirdPerson
 {
-    [RequireComponent(typeof(IThirdPersonInput))]
+    [RequireComponent(typeof(IThirdPersonInput)), RequireComponent(typeof(Animator))]
     public class ThirdPersonBrain : CharacterBrain
     {
         [SerializeField, Tooltip("Properties of the root motion motor")]
@@ -331,10 +331,10 @@ namespace StandardAssets.Characters.ThirdPerson
         public bool isRightFootPlanted { get; private set; }
 
         /// <summary>
-        /// Gets whether the character in a root motion state.
+        /// Gets whether the character in a grounded state.
         /// </summary>
         /// <value>True if the state is in a grounded state; false if aerial.</value>
-        public bool isRootMotionState
+        public bool isGroundedState
         {
             get
             {
@@ -455,6 +455,15 @@ namespace StandardAssets.Characters.ThirdPerson
             targetYRotation = m_Motor.targetYRotation;
         }
 
+        // Calls the motor's move if not using root motion.
+        void FixedUpdate()
+        {
+            if (!m_Motor.useRootMotion)
+            {
+                m_Motor.OnMove();           
+            }
+        }
+
         // Updates the motor look direction and the gizmos
         void LateUpdate()
         {
@@ -465,7 +474,10 @@ namespace StandardAssets.Characters.ThirdPerson
         // Handles motor movement
         void OnAnimatorMove()
         {
-            m_Motor.OnAnimatorMove();
+            if (m_Motor.useRootMotion)
+            {
+                m_Motor.OnMove();
+            }
         }
 
         // Handles head turn
@@ -572,7 +584,7 @@ namespace StandardAssets.Characters.ThirdPerson
         /// Called on the enter of the locomotion animation.
         /// </summary>
         /// <remarks>Should only be called by a locomotion StateMachineBehaviour</remarks>
-        public void OnLocomotionAnimationEnter()
+        public void OnLocomotionAnimationEnter(GroundMovementConfig movementConfig)
         {
             if (animatorState == AnimatorState.Falling)
             {
@@ -582,6 +594,7 @@ namespace StandardAssets.Characters.ThirdPerson
             {
                 animatorState = AnimatorState.JumpLanding;
             }
+            m_Motor.SetMovementConfig(movementConfig);
         }
 
         /// <summary>
