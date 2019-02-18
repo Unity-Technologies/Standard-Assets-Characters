@@ -46,10 +46,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			if(UseTouchControls())
 			{
 				standardControls.Movement.strafeToggle.performed += OnStrafeInput;
+				standardControls.Movement.strafeToggle.cancelled += OnStrafeInput;
 			}
 			else
 			{
 				standardControls.Movement.strafe.performed += OnStrafeInput;
+				standardControls.Movement.strafe.cancelled += OnStrafeInput;
 			}
 		}
 

@@ -105,9 +105,14 @@ namespace StandardAssets.Characters.Common
 			{
 				standardControls.Movement.move.performed += OnMoveInput;
 				standardControls.Movement.look.performed += OnLookInput;
-				standardControls.Movement.jump.performed += OnJumpInputEnded;
 				standardControls.Movement.jump.started += OnJumpInputStarted;
 				standardControls.Movement.sprint.performed += OnSprintInput;
+				
+				standardControls.Movement.move.cancelled += OnMoveInputCancelled;
+				standardControls.Movement.look.cancelled += OnLookInputCancelled;
+				standardControls.Movement.sprint.cancelled += OnSprintInput;
+				standardControls.Movement.jump.cancelled += OnJumpInputEnded;
+
 				RegisterAdditionalInputs();
 			}
 
@@ -153,10 +158,6 @@ namespace StandardAssets.Characters.Common
 				m_CursorLocked = !m_CursorLocked;
 				HandleCursorLock();
 			}
-			
-			//For mouse issue with low frame rate
-			lookInput = rawLookInput;
-			rawLookInput = default(Vector2);
 			
 		}	
 
@@ -216,21 +217,25 @@ namespace StandardAssets.Characters.Common
 		// Provides the input vector for the look control
 		void OnLookInput(InputAction.CallbackContext context)
 		{
-			//Work around for mouse input issues with low frame rate
-			var currentLookInput =  context.ReadValue<Vector2>();
-			if (currentLookInput.sqrMagnitude > rawLookInput.sqrMagnitude)
-			{
-				rawLookInput = currentLookInput;
-			}
-			
-			//Old method of getting mouse inputs, removed due to issues with low frame rates
-			//lookInput = context.ReadValue<Vector2>();
+			lookInput = context.ReadValue<Vector2>();
 		}
 
 		// Provides the input vector for the move control
 		void OnMoveInput(InputAction.CallbackContext context)
 		{
 			moveInput = context.ReadValue<Vector2>();
+		}
+		
+		// Resets the move input vector to zero once input has stopped
+		void OnMoveInputCancelled(InputAction.CallbackContext context)
+		{
+			moveInput = Vector2.zero;
+		}
+			
+		// Resets the look input vector to zero once input has stopped
+		void OnLookInputCancelled(InputAction.CallbackContext context)
+		{
+			lookInput = Vector2.zero;
 		}
 
 		// Handles the ending of jump event from the new input system

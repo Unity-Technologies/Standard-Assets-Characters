@@ -39,6 +39,7 @@ namespace StandardAssets.Characters.FirstPerson
 		protected override void RegisterAdditionalInputs()
 		{
 			standardControls.Movement.crouch.performed += OnCrouchInput;
+			standardControls.Movement.crouch.cancelled += OnCrouchInput;
 		}
 
 		/// <summary>
@@ -57,5 +58,6 @@ namespace StandardAssets.Characters.FirstPerson
 			BroadcastInputAction(ref m_IsCrouching, crouchStarted, crouchEnded);
 			isSprinting = false;
 		}
+
 	}
 }
