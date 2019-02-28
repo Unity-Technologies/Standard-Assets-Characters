@@ -144,7 +144,7 @@ ModelImporter:
     400136: Spine
     400138: UpperChest
     7400000: RunForwardsJump_Frame01
-    7400002: RunForwardsJump_Frame01_Miror
+    7400002: RunForwardsJump_Frame01_Mirror
     9500000: //RootNode
     2186277476908879412: ImportLogs
   externalObjects: {}
@@ -204,7 +204,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: RunForwardsJump_Frame01_Miror
+      name: RunForwardsJump_Frame01_Mirror
       takeName: Take 001
       firstFrame: 1
       lastFrame: 40
@@ -237,6 +237,7 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
@@ -261,6 +262,9 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
   importAnimation: 1
   copyAvatar: 1
   humanDescription:
