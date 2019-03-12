@@ -28,7 +28,7 @@ MonoBehaviour:
     m_To: CM FL Run
     m_Blend:
       m_Style: 1
-      m_Time: 2
+      m_Time: 1
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
@@ -39,7 +39,7 @@ MonoBehaviour:
     m_To: CM FL Exploration
     m_Blend:
       m_Style: 1
-      m_Time: 1.5
+      m_Time: 1
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
@@ -83,7 +83,7 @@ MonoBehaviour:
     m_To: CM FL Sprint
     m_Blend:
       m_Style: 1
-      m_Time: 1.5
+      m_Time: 1
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
@@ -145,11 +145,11 @@ MonoBehaviour:
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 0
-  - m_From: '**ANY CAMERA**'
-    m_To: CM FL Sprint jump
+  - m_From: CM FL Sprint jump
+    m_To: '**ANY CAMERA**'
     m_Blend:
       m_Style: 1
-      m_Time: 2
+      m_Time: 0.5
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
