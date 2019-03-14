@@ -124,10 +124,21 @@ MonoBehaviour:
         m_PostInfinity: 0
         m_RotationOrder: 0
   - m_From: '**ANY CAMERA**'
-    m_To: CM FL Jump
+    m_To: CM FL Stand jump
     m_Blend:
       m_Style: 1
-      m_Time: 0.3
+      m_Time: 0.1
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: '**ANY CAMERA**'
+    m_To: CM FL Run jump
+    m_Blend:
+      m_Style: 1
+      m_Time: 0.2
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
@@ -139,6 +150,28 @@ MonoBehaviour:
     m_Blend:
       m_Style: 1
       m_Time: 0.2
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: CM FL Stand jump
+    m_To: CM FL Exploration
+    m_Blend:
+      m_Style: 1
+      m_Time: 1
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: CM FL Run jump
+    m_To: '**ANY CAMERA**'
+    m_Blend:
+      m_Style: 1
+      m_Time: 0.5
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
