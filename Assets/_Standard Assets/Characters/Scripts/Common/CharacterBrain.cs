@@ -226,6 +226,19 @@ namespace StandardAssets.Characters.Common
 			public Vector3 activePlatformMoveVector { get; set; }
 			
 			/// <summary>
+			/// The active moving platform's last position.
+			/// </summary>
+			public Vector3 activePlatformLastPosition { get; set; }
+
+			/// <summary>
+			/// Gets whether the player is on a platform that has moved.
+			/// </summary>
+			public bool didPlatformMove
+			{
+				get { return  activePlatform != null && activePlatformLastPosition != activePlatform.position; }
+			}
+			
+			/// <summary>
 			/// The character's rotation relative to the moving platform.
 			/// </summary>
 			public Quaternion activePlatformLocalRotation { get; set; }
@@ -733,18 +746,19 @@ namespace StandardAssets.Characters.Common
 				usePlatform = m_MovingPlatforms.recordedPlatform;
 			}
 			
-			m_MovingPlatforms.activePlatform = null;
-			
 			// Position
 			var newGlobalPlatformPoint = usePlatform.TransformPoint(m_MovingPlatforms.activePlatformLocalPoint);
 			var moveDistance = (newGlobalPlatformPoint - m_MovingPlatforms.activePlatformGlobalPoint);
-			if (!m_MovingPlatforms.preventSliding)
+			if (m_MovingPlatforms.didPlatformMove)
 			{
-				m_MovingPlatforms.activePlatformMoveVector = moveDistance;
-			}
-			else if (moveDistance != Vector3.zero)
-			{
-				characterController.Move(moveDistance);
+				if (!m_MovingPlatforms.preventSliding)
+				{
+					m_MovingPlatforms.activePlatformMoveVector = moveDistance;
+				}
+				else
+				{
+					characterController.Move(moveDistance);
+				}
 			}
 			m_MovingPlatforms.activePlatformVelocity = moveDistance / deltaTime;
 			
@@ -757,6 +771,8 @@ namespace StandardAssets.Characters.Common
 			m_MovingPlatforms.activePlatformRotation = rotationDiff;
 			
 			UpdateMovingPlatformCamera(deltaTime);
+			
+			m_MovingPlatforms.activePlatform = null;
 		}
 		
 		// Rotates the camera based on the moving platform rotation (e.g. the first person or strafe camera).
@@ -813,6 +829,7 @@ namespace StandardAssets.Characters.Common
 			
 			// Position
 			m_MovingPlatforms.activePlatformGlobalPoint = cachedTransform.position;
+			m_MovingPlatforms.activePlatformLastPosition = m_MovingPlatforms.activePlatform.position;
 			m_MovingPlatforms.activePlatformLocalPoint = m_MovingPlatforms.activePlatform.InverseTransformPoint(cachedTransform.position);
 			// Rotation
 			m_MovingPlatforms.activePlatformGlobalRotation = cachedTransform.rotation;
