@@ -100,6 +100,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		protected override void Update()
 		{
 			base.Update();
+			Move();
 			if (!characterInput.hasMovementInput)
 			{
 				return;
@@ -134,12 +135,6 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 			}	
 		}
 
-		// Handles movement on Physics update
-		void FixedUpdate()
-		{
-			Move();
-		}
-
 		// State based movement
 		void Move()
 		{
@@ -170,7 +165,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 			var forward = transform.forward * input.magnitude;
 			var sideways = Vector3.zero;
 			
-			controllerAdapter.Move((forward + sideways) * m_CurrentSpeed * Time.fixedDeltaTime, Time.fixedDeltaTime);
+			controllerAdapter.Move((forward + sideways) * m_CurrentSpeed * Time.deltaTime, Time.deltaTime);
 
 			m_PreviouslyHasInput = characterInput.hasMovementInput;
 		}	
@@ -178,7 +173,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		// Calculates current speed based on acceleration anim curve
 		void Accelerate()
 		{
-			m_MovementTime += Time.fixedDeltaTime;
+			m_MovementTime += Time.deltaTime;
 			m_MovementTime = Mathf.Clamp(m_MovementTime, 0f, m_TimeToMaxSpeed);
 			m_CurrentSpeed = m_MovementTime / m_TimeToMaxSpeed * m_MaxSpeed;
 		}

@@ -160,7 +160,7 @@ namespace StandardAssets.Characters.FirstPerson
 		}
 
 		// Handles movement and rotation
-		void FixedUpdate()
+		void Update()
 		{
 			var currentRotation = transform.rotation.eulerAngles;			
 			currentRotation.y = m_MainCamera.transform.rotation.eulerAngles.y;
@@ -220,7 +220,7 @@ namespace StandardAssets.Characters.FirstPerson
 			var sideways = transform.right * move.x;
 			var currentVelocity = (forward + sideways) * m_CurrentMovementProperties.maxSpeed;
 			m_CurrentSpeed = currentVelocity.magnitude;
-			controllerAdapter.Move(currentVelocity * Time.fixedDeltaTime, Time.fixedDeltaTime);
+			controllerAdapter.Move(currentVelocity * Time.deltaTime, Time.deltaTime);
 		}
 
 		// Sets the character to the walking state

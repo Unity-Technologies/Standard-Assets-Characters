@@ -443,9 +443,14 @@ namespace StandardAssets.Characters.ThirdPerson
         {
             base.Update();
 
+            m_Motor.Update();
+            if (!m_Motor.useRootMotion)
+            {
+                m_Motor.OnMove();           
+            }
+            
             UpdateAnimatorParameters();
 
-            m_Motor.Update();
 
             if (turnAround != null)
             {
@@ -455,18 +460,10 @@ namespace StandardAssets.Characters.ThirdPerson
             targetYRotation = m_Motor.targetYRotation;
         }
 
-        // Calls the motor's move if not using root motion.
-        void FixedUpdate()
-        {
-            if (!m_Motor.useRootMotion)
-            {
-                m_Motor.OnMove();           
-            }
-        }
-
         // Updates the motor look direction and the gizmos
-        void LateUpdate()
+        protected override void LateUpdate()
         {
+            base.LateUpdate();
             m_Motor.SetLookDirection();
             UpdateGizmos();
         }        

@@ -71,7 +71,23 @@ namespace StandardAssets.Characters.Common
 				m_OCCSettings.OnEnable();
 			}
 		}
-		
+
+		protected virtual void LateUpdate()
+		{
+			if (m_OCCSettings.movingPlatformLateUpdate)
+			{
+				controllerAdapter.UpdateMovingPlatformVelocity(Time.deltaTime);
+			}
+		}
+
+		protected virtual void FixedUpdate()
+		{
+			if (!m_OCCSettings.movingPlatformLateUpdate)
+			{
+				controllerAdapter.UpdateMovingPlatformVelocity(Time.fixedDeltaTime);
+			}
+		}
+
 		/// <summary>
 		/// Call the controller adapter's OnDisable
 		/// </summary>
@@ -163,6 +179,16 @@ namespace StandardAssets.Characters.Common
 		[Serializable]
 		class MovingPlatforms
 		{
+			protected enum UpdateType
+			{
+				LateUpdate,
+				FixedUpdate
+			}
+
+			[SerializeField,
+			 Tooltip("Should the the character check for moving platform's in late update or fixed update?")]
+			UpdateType m_UpdateType;
+			
 			[SerializeField, Tooltip("Can moving platforms rotate the cameras? (E.g. Set to true for a human player if " +
 			                         "the player has a first person or strafe camera)")]
 			bool m_CanPlatformsRotateCameras;
@@ -171,7 +197,15 @@ namespace StandardAssets.Characters.Common
 			                         "tilted platforms. It uses additional collision detection, so avoid using it for " +
 			                         "all characters.")]
 			bool m_PreventSlidingOnPlatforms;
-			
+
+			/// <summary>
+			/// Gets whether the the character check for moving platform's in late update or fixed update.
+			/// </summary>
+			public bool isLateUpdate
+			{
+				get { return m_UpdateType == UpdateType.LateUpdate; }
+			}
+
 			/// <summary>
 			/// Can moving platforms rotate the cameras? (E.g. Set to true for a human player if the player has a first
 			/// person or strafe camera.)
@@ -343,6 +377,10 @@ namespace StandardAssets.Characters.Common
 		// Did the character jump
 		bool m_DidJump;
 
+		// Velocity of the platform moving the player.
+		private Vector3 movingPlatformVelocity;
+
+		
 #if UNITY_EDITOR
 		// Debug vector array for handling jump steps
 		readonly Vector3[] m_JumpSteps = new Vector3[k_TrajectorySteps];
@@ -381,6 +419,12 @@ namespace StandardAssets.Characters.Common
 		/// </summary>
 		public float normalizedVerticalSpeed { get; private set; }
 
+		public bool movingPlatformLateUpdate
+		{
+			get { return m_MovingPlatforms.isLateUpdate; }
+		}
+		
+
 		// Gets/sets the character's air time
 		float airTime { get; set; }
 
@@ -410,15 +454,24 @@ namespace StandardAssets.Characters.Common
 		public void Move(Vector3 moveVector, float deltaTime)
 		{
 			isGrounded = characterController.isGrounded;
+			AerialMovement(deltaTime);
+			MoveCharacter(moveVector + m_VerticalVector + movingPlatformVelocity * deltaTime);
+			m_CachedGroundVelocity = moveVector / deltaTime;
+		}
+
+		/// <summary>
+		/// Updates the velocity of the platform moving the player.
+		/// </summary>
+		/// <param name="deltaTime"></param>
+		public void UpdateMovingPlatformVelocity(float deltaTime)
+		{
 			Transform previousActivePlatform = m_MovingPlatforms.activePlatform;
 			UpdateMovingPlatform(deltaTime);
-			AerialMovement(deltaTime);
-			MoveCharacter(moveVector + m_VerticalVector + m_MovingPlatforms.activePlatformMoveVector +
-			              m_MovingPlatforms.aerialVector * deltaTime);
-			m_CachedGroundVelocity = moveVector / deltaTime;
+			movingPlatformVelocity = ( m_MovingPlatforms.activePlatformMoveVector +
+			              m_MovingPlatforms.aerialVector);
 			PostUpdateMovingPlatform(previousActivePlatform);
 		}
-		
+
 		/// <summary>
 		/// Calculates whether the current fall is defined as a short fall
 		/// </summary>
@@ -761,7 +814,7 @@ namespace StandardAssets.Characters.Common
 				}
 			}
 			m_MovingPlatforms.activePlatformVelocity = moveDistance / deltaTime;
-			
+		
 			// Rotation
 			var newGlobalPlatformRotation = usePlatform.rotation * m_MovingPlatforms.activePlatformLocalRotation;
 			var rotationDiff = newGlobalPlatformRotation * Quaternion.Inverse(m_MovingPlatforms.activePlatformGlobalRotation);

@@ -2386,7 +2386,7 @@ Animator:
   m_Avatar: {fileID: 9000000, guid: f0e07a2a187e3479b8ea069b45211486, type: 3}
   m_Controller: {fileID: 9100000, guid: 56ccff586cfce0f428572af3e1f785c5, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 1
+  m_UpdateMode: 0
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
@@ -2449,6 +2449,8 @@ MonoBehaviour:
     m_Bits: 257
   m_IsLocalHuman: 1
   m_SlideAlongCeiling: 1
+  m_SlowAgainstWalls: 0
+  m_MinSlowAgainstWallsAngle: 10
   m_TriggerQuery: 1
   m_SlideDownSlopes: 1
   m_SlideMaxSpeed: 10
@@ -2545,6 +2547,7 @@ MonoBehaviour:
     m_GroundingDistance: 0.5
     m_MaxGravityDelta: 10
     m_MovingPlatforms:
+      m_UpdateType: 0
       m_CanPlatformsRotateCameras: 1
       m_PreventSlidingOnPlatforms: 1
   m_Motor:

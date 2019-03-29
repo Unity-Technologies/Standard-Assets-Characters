@@ -7,6 +7,15 @@ namespace StandardAssets.Characters.Examples.SimpleMovingPlatforms
 	/// </summary>
 	public class MovingPlatformController : MonoBehaviour
 	{
+		protected enum UpdateType
+		{
+			Update,
+			LateUpdate,
+			FixedUpdate
+		}
+
+		[SerializeField] private UpdateType updateType;
+		
 		/// <summary>
 		/// Movement path waypoints. Must have at least 2.
 		/// </summary>
@@ -108,8 +117,33 @@ namespace StandardAssets.Characters.Examples.SimpleMovingPlatforms
 		// Update the movement and rotation
 		void FixedUpdate()
 		{
-			UpdatePlatform(Time.fixedDeltaTime);
+			if (updateType == UpdateType.FixedUpdate)
+			{
+				UpdatePlatform(Time.fixedDeltaTime);
+			}
 		}
+		
+		void LateUpdate()
+		{
+			if (updateType == UpdateType.LateUpdate)
+			{
+				UpdatePlatform(Time.deltaTime);
+			}
+			Debug.Log($"LateUpdate : {Vector3.Distance(transform.position, lateUpdate)} {Time.frameCount}");
+			lateUpdate = transform.position;
+		}
+		
+		void Update()
+		{
+			if (updateType == UpdateType.Update)
+			{
+				UpdatePlatform(Time.deltaTime);
+			}
+			Debug.Log($"Update : {Vector3.Distance(transform.position, update)} {Time.frameCount}");
+			update = transform.position;
+		}
+
+		private Vector3 update, lateUpdate;
 
 		// Update the movement and rotation
 		void UpdatePlatform(float deltaTime)
