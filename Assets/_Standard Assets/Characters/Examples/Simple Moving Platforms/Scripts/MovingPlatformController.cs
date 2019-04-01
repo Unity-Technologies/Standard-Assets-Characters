@@ -129,8 +129,6 @@ namespace StandardAssets.Characters.Examples.SimpleMovingPlatforms
 			{
 				UpdatePlatform(Time.deltaTime);
 			}
-			Debug.Log($"LateUpdate : {Vector3.Distance(transform.position, lateUpdate)} {Time.frameCount}");
-			lateUpdate = transform.position;
 		}
 		
 		void Update()
@@ -139,11 +137,7 @@ namespace StandardAssets.Characters.Examples.SimpleMovingPlatforms
 			{
 				UpdatePlatform(Time.deltaTime);
 			}
-			Debug.Log($"Update : {Vector3.Distance(transform.position, update)} {Time.frameCount}");
-			update = transform.position;
 		}
-
-		private Vector3 update, lateUpdate;
 
 		// Update the movement and rotation
 		void UpdatePlatform(float deltaTime)
