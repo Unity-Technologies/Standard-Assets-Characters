@@ -1,7 +1,7 @@
 using System;
 using StandardAssets.Characters.Common;
-using UnityEngine;
-using UnityEngine.Experimental.Input;
+using UnityEngine.InputSystem;
+
 
 namespace StandardAssets.Characters.FirstPerson
 {
@@ -39,7 +39,7 @@ namespace StandardAssets.Characters.FirstPerson
 		protected override void RegisterAdditionalInputs()
 		{
 			standardControls.Movement.crouch.performed += OnCrouchInput;
-			standardControls.Movement.crouch.cancelled += OnCrouchInput;
+			standardControls.Movement.crouch.canceled += OnCrouchInput;
 		}
 
 		/// <summary>

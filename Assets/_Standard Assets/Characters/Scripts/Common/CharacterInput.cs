@@ -1,7 +1,7 @@
 ﻿using System;
 using Cinemachine;
 using UnityEngine;
-using UnityEngine.Experimental.Input;
+using UnityEngine.InputSystem;
 
 namespace StandardAssets.Characters.Common
 {
@@ -101,6 +101,8 @@ namespace StandardAssets.Characters.Common
 		{
 			hasJumpInput = false;
 			
+			m_StandardControls = new StandardControls();
+			
 			if(standardControls != null)
 			{
 				standardControls.Movement.move.performed += OnMoveInput;
@@ -108,10 +110,10 @@ namespace StandardAssets.Characters.Common
 				standardControls.Movement.jump.started += OnJumpInputStarted;
 				standardControls.Movement.sprint.performed += OnSprintInput;
 				
-				standardControls.Movement.move.cancelled += OnMoveInputCancelled;
-				standardControls.Movement.look.cancelled += OnLookInputCancelled;
-				standardControls.Movement.sprint.cancelled += OnSprintInput;
-				standardControls.Movement.jump.cancelled += OnJumpInputEnded;
+				standardControls.Movement.move.canceled += OnMoveInputCancelled;
+				standardControls.Movement.look.canceled += OnLookInputCancelled;
+				standardControls.Movement.sprint.canceled += OnSprintInput;
+				standardControls.Movement.jump.canceled += OnJumpInputEnded;
 
 				RegisterAdditionalInputs();
 			}
