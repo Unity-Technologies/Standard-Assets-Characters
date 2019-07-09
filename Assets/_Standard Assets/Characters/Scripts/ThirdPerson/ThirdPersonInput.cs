@@ -1,7 +1,7 @@
 using System;
 using StandardAssets.Characters.Common;
-using UnityEngine;
-using UnityEngine.Experimental.Input;
+using UnityEngine.InputSystem;
+
 
 namespace StandardAssets.Characters.ThirdPerson
 {
@@ -46,12 +46,12 @@ namespace StandardAssets.Characters.ThirdPerson
 			if(UseTouchControls())
 			{
 				standardControls.Movement.strafeToggle.performed += OnStrafeInput;
-				standardControls.Movement.strafeToggle.cancelled += OnStrafeInput;
+				standardControls.Movement.strafeToggle.canceled += OnStrafeInput;
 			}
 			else
 			{
 				standardControls.Movement.strafe.performed += OnStrafeInput;
-				standardControls.Movement.strafe.cancelled += OnStrafeInput;
+				standardControls.Movement.strafe.canceled += OnStrafeInput;
 			}
 		}
 
