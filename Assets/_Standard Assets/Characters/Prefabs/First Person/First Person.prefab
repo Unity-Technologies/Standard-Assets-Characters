@@ -75,14 +75,11 @@ MonoBehaviour:
   m_Priority: 10
   m_StandbyUpdate: 1
   m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 0}
+  m_Follow: {fileID: 4529930359431332}
   m_AnimatedTarget: {fileID: 95283820790929226}
   m_LayerIndex: 0
   m_ShowDebugText: 1
-  m_ChildCameras:
-  - {fileID: 114848538302285420}
-  - {fileID: 114354627929224774}
-  - {fileID: 114704028789022342}
+  m_ChildCameras: []
   m_Instructions:
   - m_FullHash: 81563449
     m_VirtualCamera: {fileID: 114848538302285420}
@@ -105,7 +102,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  m_CustomBlends: {fileID: 0}
+  m_CustomBlends: {fileID: 11400000, guid: 65e48e2907c3ffe438a57e028e85512d, type: 2}
   m_ParentHash:
   - m_Hash: 81563449
     m_ParentHash: 756556552
@@ -307,8 +304,8 @@ MonoBehaviour:
   m_HorizontalAxis:
     Value: 12.530506
     m_MaxSpeed: 300
-    m_AccelTime: 0.02
-    m_DecelTime: 0.02
+    m_AccelTime: 0.09
+    m_DecelTime: 0.03
     m_InputAxisName: Horizontal
     m_InputAxisValue: 0
     m_InvertInput: 1
@@ -482,7 +479,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_VerticalAxis:
     Value: -3.3479033
-    m_MaxSpeed: 220
+    m_MaxSpeed: 600
     m_AccelTime: 0.02
     m_DecelTime: 0.02
     m_InputAxisName: Vertical
@@ -505,9 +502,9 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_HorizontalAxis:
     Value: 49.455856
-    m_MaxSpeed: 300
-    m_AccelTime: 0.02
-    m_DecelTime: 0.02
+    m_MaxSpeed: 1000
+    m_AccelTime: 0.09
+    m_DecelTime: 0.03
     m_InputAxisName: Horizontal
     m_InputAxisValue: 0
     m_InvertInput: 1
@@ -639,6 +636,8 @@ MonoBehaviour:
     m_Bits: 257
   m_IsLocalHuman: 1
   m_SlideAlongCeiling: 1
+  m_SlowAgainstWalls: 0
+  m_MinSlowAgainstWallsAngle: 10
   m_TriggerQuery: 1
   m_SlideDownSlopes: 1
   m_SlideMaxSpeed: 10
@@ -790,14 +789,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0d18c90d0624c479e19c99103789302, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_StandardControls:
-    m_Asset: {fileID: 11400000, guid: 6b7e0365c2048446aafe64ff5b240173, type: 3}
   m_TouchControlsPrefab: {fileID: 1201311427779892, guid: 412a843d79095470db5a469eead8163c,
     type: 3}
   m_InvertX: 0
   m_InvertY: 0
-  m_XSensitivity: 1
-  m_YSensitivity: 1
+  m_MouseSensitivity: 1.5
+  m_AnalogueStickSensitivity: 0.4
   m_CursorLocked: 1
 --- !u!1 &1537643626592488
 GameObject:
@@ -858,7 +855,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_VerticalAxis:
     Value: 6.7868767
-    m_MaxSpeed: 220
+    m_MaxSpeed: 500
     m_AccelTime: 0.02
     m_DecelTime: 0.02
     m_InputAxisName: Vertical
@@ -881,9 +878,9 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_HorizontalAxis:
     Value: 12.530506
-    m_MaxSpeed: 300
-    m_AccelTime: 0.02
-    m_DecelTime: 0.02
+    m_MaxSpeed: 800
+    m_AccelTime: 0.09
+    m_DecelTime: 0.03
     m_InputAxisName: Horizontal
     m_InputAxisValue: 0
     m_InvertInput: 1
@@ -949,7 +946,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1603272091487936}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.8000001, z: 0}
+  m_LocalPosition: {x: 0, y: 0.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4336105935122792}
@@ -1087,7 +1084,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1776008768862898}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.8000001, z: 0}
+  m_LocalPosition: {x: 0, y: 0.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4628960612161210}
@@ -1146,7 +1143,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4651183836439746
 Transform:
   m_ObjectHideFlags: 0
