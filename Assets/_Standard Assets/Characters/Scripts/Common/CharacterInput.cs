@@ -308,7 +308,6 @@ namespace StandardAssets.Characters.Common
 	
 				lookVertical *= m_UsingMouseInput ? m_MouseSensitivity : m_AnalogueStickSensitivity;		
 				ClearLookInput(1.0f, 0.0f);
-				
 				return lookVertical;
 			}
 
