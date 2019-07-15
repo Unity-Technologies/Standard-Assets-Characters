@@ -37,7 +37,7 @@ namespace StandardAssets.Characters.Common
 		[SerializeField, Tooltip("Invert vertical look direction?")]
 		bool m_InvertY;
 		
-		[SerializeField, Range(0.1f, 5f), Tooltip("Horizontal look sensitivity for mouse")]
+		[SerializeField, Range(0.1f, 2f), Tooltip("Horizontal look sensitivity for mouse")]
 		float m_MouseSensitivity = 1f;
 
 		[SerializeField, Range(0.1f, 2f), Tooltip("Vertical look sensitivity for mouse")]
@@ -55,9 +55,12 @@ namespace StandardAssets.Characters.Common
 		// Was the last look input from a mouse
 		bool m_UsingMouseInput;
 		
-		// Did CinemachineCore.GetInputAxis consume a lookInput value
-		bool m_CinemachineConsumedLookValue;
-
+		// The frame count when a mouse look input was set
+		int m_LookInputSetFrame;
+		
+		// The frame count when a Cinemachine input axis was set
+		int m_LookInputProcessedFrame;
+		
 		/// <summary>
 		/// Gets if the movement input is being applied
 		/// </summary>
@@ -72,11 +75,6 @@ namespace StandardAssets.Characters.Common
 		/// Rotation of a moving platform applied to the look input vector (so that the platform rotates the camera)
 		/// </summary>
 		public Vector2 movingPlatformLookInput { get; set; }
-		
-		/// <summary>
-		/// Raw look vector. 
-		/// </summary>
-		private Vector2 rawLookInput;
 
 		/// <summary>
 		/// Gets/sets the move input vector
@@ -100,14 +98,14 @@ namespace StandardAssets.Characters.Common
 		{
 			get { return m_IsSprinting; }
 			set { m_IsSprinting = value; }
-		} 
-
+		}
+		
 		// Sets up the Cinemachine delegate and subscribes to new input's performed events
 		void Awake()
 		{			
 			hasJumpInput = false;
 			
-			m_StandardControls = new StandardControls();			
+			m_StandardControls = new StandardControls();	
 			
 			if(standardControls != null)
 			{
@@ -116,12 +114,11 @@ namespace StandardAssets.Characters.Common
 				standardControls.Movement.gamepadLook.performed += OnGamepadLookInput;
 				standardControls.Movement.jump.started += OnJumpInputStarted;
 				standardControls.Movement.sprint.performed += OnSprintInput;
-				
-				standardControls.Movement.move.canceled += OnMoveInputCancelled;
-				standardControls.Movement.gamepadLook.canceled += OnLookCanceled;
-				standardControls.Movement.mouseLook.canceled += OnLookCanceled;
+				 
+				standardControls.Movement.move.canceled += OnMoveInputCanceled;
 				standardControls.Movement.sprint.canceled += OnSprintInput;
 				standardControls.Movement.jump.canceled += OnJumpInputEnded;
+				standardControls.Movement.gamepadLook.canceled += OnLookInputCanceld;
 				
 				RegisterAdditionalInputs();
 			}
@@ -144,9 +141,9 @@ namespace StandardAssets.Characters.Common
 		/// </summary>
 		protected void OnEnable()
 		{
+			CinemachineCore.GetInputAxis += LookInputOverride;
 			standardControls.Enable();
 			HandleCursorLock();
-			CinemachineCore.GetInputAxis += LookInputOverride;
 		}
 
 		/// <summary>
@@ -154,8 +151,8 @@ namespace StandardAssets.Characters.Common
 		/// </summary>
 		protected void OnDisable()
 		{
-			standardControls.Disable();
 			CinemachineCore.GetInputAxis -= LookInputOverride;
+			standardControls.Disable();
 		}
 
 		/// <summary>
@@ -221,21 +218,25 @@ namespace StandardAssets.Characters.Common
 #else
 			return false;
 #endif
-		}		
-		
-		// Provides the input vector for the mouse look control
+		}
+
+		// Provides the input vector for the mouse look control.
+		// If the mouse look input action was already called this frame, then accumulate the lookInput value.
+		// Set the frame count when lookInput vector was last set, so that it can be reset once Cinemachine has used it.
 		void OnMouseLookInput(InputAction.CallbackContext context)
 		{
-			// If Cinemachine has used the lookInput value, then reset the lookInput to zero
-			if (m_CinemachineConsumedLookValue)
-			{
-				lookInput = Vector2.zero;
-				m_CinemachineConsumedLookValue = false;
-			}
-
+			var newInput = context.ReadValue<Vector2>();
 			m_UsingMouseInput = true;
-				
-			lookInput += context.ReadValue<Vector2>();			
+			
+			if (m_LookInputSetFrame == Time.frameCount)
+			{
+				lookInput += newInput;
+			}
+			else
+			{
+				lookInput = newInput;
+				m_LookInputSetFrame = Time.frameCount;	
+			}
 		}
 
 		// Provides the input vector for the gamepad look control
@@ -252,13 +253,13 @@ namespace StandardAssets.Characters.Common
 		}
 		
 		// Resets the move input vector to zero once input has stopped
-		void OnMoveInputCancelled(InputAction.CallbackContext context)
+		void OnMoveInputCanceled(InputAction.CallbackContext context)
 		{
 			moveInput = Vector2.zero;
 		}
-			
-		// Resets the look input vector to zero once input has stopped, only used for analoge stick input
-		void OnLookCanceled(InputAction.CallbackContext context)
+		
+		// Resets the look input vector to zero once it has stopped. This is only used for analogue stick input
+		void OnLookInputCanceld(InputAction.CallbackContext context)
 		{
 			lookInput = Vector2.zero;
 		}
@@ -292,54 +293,50 @@ namespace StandardAssets.Characters.Common
 				m_TouchControlsCanvasInstance = Instantiate(m_TouchControlsPrefab);
 				m_TouchControlsCanvasInstance.SetActive(true);
 			}
-		}		
-
+		}
+		
 		// Handles the Cinemachine delegate
+		// Keeps track of the last frame when Cinemachine used a look input vector value, if this is after it has been
+		// set by the mouse look input, then reset the vector value to 0.
+		// This method can be called more than once per frame by Cinemachine when
+		// using a Freelook Camera with an Orbital Transposer
 		float LookInputOverride(string axis)
 		{
-			m_CinemachineConsumedLookValue = true;
-			
 			if (axis == "Vertical")
-			{
-				var lookVertical = 0f;
-			
-				if (!m_UsingMouseInput)
-				{
-					lookVertical = m_InvertY
-						? lookInput.y * m_AnalogueStickSensitivity
-						: -lookInput.y * m_AnalogueStickSensitivity;
-				}
-				else
-				{
-					lookVertical = m_InvertY
-						? lookInput.y * m_MouseSensitivity
-						: -lookInput.y * m_MouseSensitivity;
-				}
+			{	
+				var lookVertical = m_InvertY ? lookInput.y : -lookInput.y;
+	
+				lookVertical *= m_UsingMouseInput ? m_MouseSensitivity : m_AnalogueStickSensitivity;		
+				ClearLookInput(1.0f, 0.0f);
 				
 				return lookVertical;
 			}
 
 			if (axis == "Horizontal")
-			{
-				var lookHorizontal = 0f;
+			{	
+				var lookHorizontal = m_InvertX ? lookInput.x + movingPlatformLookInput.x 
+					: -lookInput.x + movingPlatformLookInput.x;
 
-				if (!m_UsingMouseInput)
-				{
-					lookHorizontal = m_InvertX
-						? lookInput.x * m_AnalogueStickSensitivity + movingPlatformLookInput.x
-						: -lookInput.x * m_AnalogueStickSensitivity + movingPlatformLookInput.x;
-				}
-				else
-				{
-					lookHorizontal = m_InvertX
-						? lookInput.x * m_MouseSensitivity + movingPlatformLookInput.x
-						: -lookInput.x * m_MouseSensitivity + movingPlatformLookInput.x;
-				}
-			
+				lookHorizontal *= m_UsingMouseInput ? m_MouseSensitivity : m_AnalogueStickSensitivity;
+				ClearLookInput(0.0f, 1.0f);
 				return lookHorizontal;
 			}
 			
 			return 0;
+		}
+		
+		// Clears the look input vector 
+		void ClearLookInput(float xMask, float yMask)
+		{
+			// If Cinemachine has already used this look input value value after it was set inside of OnMouseLookInput,
+			// then it should be reset to zero before being used again. 
+			if (m_LookInputProcessedFrame > m_LookInputSetFrame && m_UsingMouseInput)
+			{
+				// Reset only the masked component of the look vector as Cinemachine may not have consumed it yet.
+				lookInput *= new Vector2(xMask, yMask);
+			}
+			
+			m_LookInputProcessedFrame = Time.frameCount;
 		}
 
 		// Handles the cursor lock state
