@@ -75,11 +75,14 @@ MonoBehaviour:
   m_Priority: 10
   m_StandbyUpdate: 1
   m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 4529930359431332}
+  m_Follow: {fileID: 0}
   m_AnimatedTarget: {fileID: 95283820790929226}
   m_LayerIndex: 0
   m_ShowDebugText: 1
-  m_ChildCameras: []
+  m_ChildCameras:
+  - {fileID: 114848538302285420}
+  - {fileID: 114354627929224774}
+  - {fileID: 114704028789022342}
   m_Instructions:
   - m_FullHash: 81563449
     m_VirtualCamera: {fileID: 114848538302285420}
@@ -281,7 +284,7 @@ MonoBehaviour:
   m_VerticalAxis:
     Value: 6.7868767
     m_MaxSpeed: 220
-    m_AccelTime: 0.02
+    m_AccelTime: 0.05
     m_DecelTime: 0.02
     m_InputAxisName: Vertical
     m_InputAxisValue: 0
@@ -304,8 +307,8 @@ MonoBehaviour:
   m_HorizontalAxis:
     Value: 12.530506
     m_MaxSpeed: 300
-    m_AccelTime: 0.09
-    m_DecelTime: 0.03
+    m_AccelTime: 0.05
+    m_DecelTime: 0.02
     m_InputAxisName: Horizontal
     m_InputAxisValue: 0
     m_InvertInput: 1
@@ -793,7 +796,7 @@ MonoBehaviour:
     type: 3}
   m_InvertX: 0
   m_InvertY: 0
-  m_MouseSensitivity: 1.5
+  m_MouseSensitivity: 0.8
   m_AnalogueStickSensitivity: 0.4
   m_CursorLocked: 1
 --- !u!1 &1537643626592488
@@ -856,7 +859,7 @@ MonoBehaviour:
   m_VerticalAxis:
     Value: 6.7868767
     m_MaxSpeed: 500
-    m_AccelTime: 0.02
+    m_AccelTime: 0.05
     m_DecelTime: 0.02
     m_InputAxisName: Vertical
     m_InputAxisValue: 0
@@ -879,8 +882,8 @@ MonoBehaviour:
   m_HorizontalAxis:
     Value: 12.530506
     m_MaxSpeed: 800
-    m_AccelTime: 0.09
-    m_DecelTime: 0.03
+    m_AccelTime: 0.05
+    m_DecelTime: 0.02
     m_InputAxisName: Horizontal
     m_InputAxisValue: 0
     m_InvertInput: 1
@@ -1143,7 +1146,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4651183836439746
 Transform:
   m_ObjectHideFlags: 0
