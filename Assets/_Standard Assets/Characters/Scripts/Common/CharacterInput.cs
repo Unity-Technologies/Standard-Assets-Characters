@@ -37,10 +37,10 @@ namespace StandardAssets.Characters.Common
 		[SerializeField, Tooltip("Invert vertical look direction?")]
 		bool m_InvertY;
 		
-		[SerializeField, Range(0.1f, 2f), Tooltip("Horizontal look sensitivity for mouse")]
+		[SerializeField, Range(0.01f, 2f), Tooltip("Look sensitivity for mouse")]
 		float m_MouseSensitivity = 1f;
 
-		[SerializeField, Range(0.1f, 2f), Tooltip("Vertical look sensitivity for mouse")]
+		[SerializeField, Range(0.01f, 2f), Tooltip("Look sensitivity for analogue stick")]
 		float m_AnalogueStickSensitivity = 1f;
 
 		[SerializeField, Tooltip("Toggle the Cursor Lock Mode? Press ESCAPE during play mode to unlock")]
@@ -58,7 +58,7 @@ namespace StandardAssets.Characters.Common
 		// The frame count when a mouse look input was set
 		int m_LookInputSetFrame;
 		
-		// The frame count when a Cinemachine input axis was set
+		// The frame count when an input axis was processed 
 		int m_LookInputProcessedFrame;
 		
 		/// <summary>
@@ -118,7 +118,7 @@ namespace StandardAssets.Characters.Common
 				standardControls.Movement.move.canceled += OnMoveInputCanceled;
 				standardControls.Movement.sprint.canceled += OnSprintInput;
 				standardControls.Movement.jump.canceled += OnJumpInputEnded;
-				standardControls.Movement.gamepadLook.canceled += OnLookInputCanceld;
+				standardControls.Movement.gamepadLook.canceled += OnLookInputCanceled;
 				
 				RegisterAdditionalInputs();
 			}
@@ -259,7 +259,7 @@ namespace StandardAssets.Characters.Common
 		}
 		
 		// Resets the look input vector to zero once it has stopped. This is only used for analogue stick input
-		void OnLookInputCanceld(InputAction.CallbackContext context)
+		void OnLookInputCanceled(InputAction.CallbackContext context)
 		{
 			lookInput = Vector2.zero;
 		}
