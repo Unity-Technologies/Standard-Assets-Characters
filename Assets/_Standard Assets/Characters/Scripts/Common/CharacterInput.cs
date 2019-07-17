@@ -131,29 +131,12 @@ namespace StandardAssets.Characters.Common
 			set { m_IsSprinting = value; }
 		}
 		
-		// Sets up the Cinemachine delegate and subscribes to new input's performed events
 		void Awake()
 		{			
 			hasJumpInput = false;
 			
 			m_StandardControls = new StandardControls();	
 			
-			/*if(standardControls != null)
-			{
-				standardControls.Movement.move.performed += OnMoveInput;
-				standardControls.Movement.mouseLook.performed += OnMouseLookInput;
-				standardControls.Movement.gamepadLook.performed += OnGamepadLookInput;
-				standardControls.Movement.jump.started += OnJumpInputStarted;
-				standardControls.Movement.sprint.performed += OnSprintInput;
-				 
-				standardControls.Movement.move.canceled += OnMoveInputCanceled;
-				standardControls.Movement.sprint.canceled += OnSprintInput;
-				standardControls.Movement.jump.canceled += OnJumpInputEnded;
-				standardControls.Movement.gamepadLook.canceled += OnLookInputCanceled;
-				
-				RegisterAdditionalInputs();
-			}*/
-
 			//Handle Touch/OnScreen versus Standard controls
 			if(UseTouchControls())
 			{
@@ -168,7 +151,8 @@ namespace StandardAssets.Characters.Common
 		}
 
 		/// <summary>
-		/// Enables associated controls
+		/// Sets up the Cinemachine delegate.
+		/// Enables associated controls and subscribes to new input's performed events.
 		/// </summary>
 		protected void OnEnable()
 		{
@@ -196,7 +180,8 @@ namespace StandardAssets.Characters.Common
 		}
 
 		/// <summary>
-		/// Disables associated controls
+		/// Disables the Cinemachine delegate.
+		/// Disables associated controls and unsubscribes from new input's performed events.
 		/// </summary>
 		protected void OnDisable()
 		{
