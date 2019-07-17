@@ -257,7 +257,7 @@ public class StandardControls : IInputActionCollection
                     ""id"": ""6350393e-2ea8-4399-88ad-38aa713e5cc5"",
                     ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""ScaleVector2(x=0.2,y=0.2)"",
                     ""groups"": """",
                     ""action"": ""gamepadLook"",
                     ""isComposite"": false,
