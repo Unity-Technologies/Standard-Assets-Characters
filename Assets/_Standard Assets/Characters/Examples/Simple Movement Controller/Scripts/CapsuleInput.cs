@@ -14,5 +14,9 @@ namespace StandardAssets.Characters.Examples.SimpleMovementController
 		protected override void RegisterAdditionalInputs()
 		{
 		}
+
+		protected override void DeRegisterAdditionalInputs()
+		{
+		}
 	}
 }

@@ -41,6 +41,15 @@ namespace StandardAssets.Characters.FirstPerson
 			standardControls.Movement.crouch.performed += OnCrouchInput;
 			standardControls.Movement.crouch.canceled += OnCrouchInput;
 		}
+		
+		/// <summary>
+		/// Deregisters crouch input
+		/// </summary>
+		protected override void DeRegisterAdditionalInputs()
+		{
+			standardControls.Movement.crouch.performed -= OnCrouchInput;
+			standardControls.Movement.crouch.canceled -= OnCrouchInput;
+		}
 
 		/// <summary>
 		/// Handles the sprint input

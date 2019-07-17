@@ -54,6 +54,25 @@ namespace StandardAssets.Characters.ThirdPerson
 				standardControls.Movement.strafe.canceled += OnStrafeInput;
 			}
 		}
+		
+		/// <summary>
+		/// Deregisters strafe and recentre inputs.
+		/// </summary>
+		protected override void DeRegisterAdditionalInputs()
+		{
+			standardControls.Movement.recentre.performed -= OnRecentreInput;
+		
+			if(UseTouchControls())
+			{
+				standardControls.Movement.strafeToggle.performed -= OnStrafeInput;
+				standardControls.Movement.strafeToggle.canceled -= OnStrafeInput;
+			}
+			else
+			{
+				standardControls.Movement.strafe.performed -= OnStrafeInput;
+				standardControls.Movement.strafe.canceled -= OnStrafeInput;
+			}
+		}
 
 		// Handles the recentre input 
 		void OnRecentreInput(InputAction.CallbackContext context)

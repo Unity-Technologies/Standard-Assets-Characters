@@ -138,7 +138,7 @@ namespace StandardAssets.Characters.Common
 			
 			m_StandardControls = new StandardControls();	
 			
-			if(standardControls != null)
+			/*if(standardControls != null)
 			{
 				standardControls.Movement.move.performed += OnMoveInput;
 				standardControls.Movement.mouseLook.performed += OnMouseLookInput;
@@ -152,7 +152,7 @@ namespace StandardAssets.Characters.Common
 				standardControls.Movement.gamepadLook.canceled += OnLookInputCanceled;
 				
 				RegisterAdditionalInputs();
-			}
+			}*/
 
 			//Handle Touch/OnScreen versus Standard controls
 			if(UseTouchControls())
@@ -173,7 +173,25 @@ namespace StandardAssets.Characters.Common
 		protected void OnEnable()
 		{
 			CinemachineCore.GetInputAxis += LookInputOverride;
-			standardControls.Enable();
+
+			if (standardControls != null)
+			{
+				standardControls.Movement.move.performed += OnMoveInput;
+				standardControls.Movement.mouseLook.performed += OnMouseLookInput;
+				standardControls.Movement.gamepadLook.performed += OnGamepadLookInput;
+				standardControls.Movement.jump.started += OnJumpInputStarted;
+				standardControls.Movement.sprint.performed += OnSprintInput;
+				 
+				standardControls.Movement.move.canceled += OnMoveInputCanceled;
+				standardControls.Movement.sprint.canceled += OnSprintInput;
+				standardControls.Movement.jump.canceled += OnJumpInputEnded;
+				standardControls.Movement.gamepadLook.canceled += OnLookInputCanceled;
+				
+				RegisterAdditionalInputs();
+				
+				standardControls.Enable();
+			}
+			
 			HandleCursorLock();
 		}
 
@@ -183,7 +201,24 @@ namespace StandardAssets.Characters.Common
 		protected void OnDisable()
 		{
 			CinemachineCore.GetInputAxis -= LookInputOverride;
-			standardControls.Disable();
+
+			if (standardControls != null)
+			{
+				standardControls.Movement.move.performed -= OnMoveInput;
+				standardControls.Movement.mouseLook.performed -= OnMouseLookInput;
+				standardControls.Movement.gamepadLook.performed -= OnGamepadLookInput;
+				standardControls.Movement.jump.started -= OnJumpInputStarted;
+				standardControls.Movement.sprint.performed += OnSprintInput;
+				 
+				standardControls.Movement.move.canceled -= OnMoveInputCanceled;
+				standardControls.Movement.sprint.canceled -= OnSprintInput;
+				standardControls.Movement.jump.canceled -= OnJumpInputEnded;
+				standardControls.Movement.gamepadLook.canceled -= OnLookInputCanceled;
+
+				DeRegisterAdditionalInputs();
+			
+				standardControls.Disable();
+			}
 		}
 
 		/// <summary>
@@ -202,6 +237,11 @@ namespace StandardAssets.Characters.Common
 		/// Handles registration of additional inputs that are not common between the First and Third person characters
 		/// </summary>
 		protected abstract void RegisterAdditionalInputs();
+		
+		/// <summary>
+		/// Handles registration of additional inputs that are not common between the First and Third person characters
+		/// </summary>
+		protected abstract void DeRegisterAdditionalInputs();
 
 		/// <summary>
 		/// Handles the sprint input
