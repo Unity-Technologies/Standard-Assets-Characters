@@ -282,7 +282,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_VerticalAxis:
-    Value: 6.7868767
+    Value: 0
     m_MaxSpeed: 220
     m_AccelTime: 0.05
     m_DecelTime: 0.02
@@ -305,7 +305,7 @@ MonoBehaviour:
     m_LegacyHeadingDefinition: -1
     m_LegacyVelocityFilterStrength: -1
   m_HorizontalAxis:
-    Value: 12.530506
+    Value: 0
     m_MaxSpeed: 300
     m_AccelTime: 0.05
     m_DecelTime: 0.02
@@ -481,7 +481,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_VerticalAxis:
-    Value: -3.3479033
+    Value: 0
     m_MaxSpeed: 600
     m_AccelTime: 0.02
     m_DecelTime: 0.02
@@ -504,7 +504,7 @@ MonoBehaviour:
     m_LegacyHeadingDefinition: -1
     m_LegacyVelocityFilterStrength: -1
   m_HorizontalAxis:
-    Value: 49.455856
+    Value: 0
     m_MaxSpeed: 1000
     m_AccelTime: 0.09
     m_DecelTime: 0.03
@@ -796,8 +796,13 @@ MonoBehaviour:
     type: 3}
   m_InvertX: 0
   m_InvertY: 0
-  m_MouseSensitivity: 0.8
-  m_AnalogueStickSensitivity: 0.15
+  m_CameraLookSensitivity:
+    m_MouseVertical: 1
+    m_MouseHorizontal: 1
+    m_GamepadVertical: 1
+    m_GamepadHorizontal: 1
+    m_TouchVertical: 0.5
+    m_TouchHorizontal: 0.5
   m_CursorLocked: 1
 --- !u!1 &1537643626592488
 GameObject:
@@ -857,7 +862,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_VerticalAxis:
-    Value: 6.7868767
+    Value: 0
     m_MaxSpeed: 500
     m_AccelTime: 0.05
     m_DecelTime: 0.02
@@ -880,7 +885,7 @@ MonoBehaviour:
     m_LegacyHeadingDefinition: -1
     m_LegacyVelocityFilterStrength: -1
   m_HorizontalAxis:
-    Value: 12.530506
+    Value: 0
     m_MaxSpeed: 800
     m_AccelTime: 0.05
     m_DecelTime: 0.02
@@ -1146,7 +1151,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4651183836439746
 Transform:
   m_ObjectHideFlags: 0

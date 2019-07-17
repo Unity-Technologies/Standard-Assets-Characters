@@ -2734,8 +2734,13 @@ MonoBehaviour:
     type: 3}
   m_InvertX: 0
   m_InvertY: 0
-  m_MouseSensitivity: 0.8
-  m_AnalogueStickSensitivity: 0.2
+  m_CameraLookSensitivity:
+    m_MouseVertical: 1
+    m_MouseHorizontal: 1
+    m_GamepadVertical: 1
+    m_GamepadHorizontal: 1
+    m_TouchVertical: 0.5
+    m_TouchHorizontal: 0.5
   m_CursorLocked: 1
 --- !u!1 &1993848533972480
 GameObject:
