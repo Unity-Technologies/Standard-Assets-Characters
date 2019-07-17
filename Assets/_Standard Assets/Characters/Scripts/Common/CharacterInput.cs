@@ -24,6 +24,40 @@ namespace StandardAssets.Characters.Common
 		/// Fired when the sprint input is disengaged
 		/// </summary>
 		public event Action sprintEnded;
+		
+		/// <summary>
+		/// Look input axis sensitivity
+		/// </summary>
+		[Serializable]
+		public struct Sensitivity
+		{	
+			[SerializeField, Range(0.01f, 3f), Tooltip("Look sensitivity for mouse")]
+			float m_MouseVertical;
+			[SerializeField, Range(0.01f, 3f), Tooltip("Look sensitivity for mouse")] 
+			float m_MouseHorizontal;
+						
+			[SerializeField, Range(0.01f, 3f), Tooltip("Look sensitivity for analog gamepad stick")]
+			float m_GamepadVertical;
+			[SerializeField, Range(0.01f, 3f), Tooltip("Look sensitivity for analog gamepad stick")]
+			float m_GamepadHorizontal;
+			
+			[SerializeField, Range(0.01f, 3f), Tooltip("Look sensitivity for on screen touch stick")]
+			float m_TouchVertical;
+			[SerializeField, Range(0.01f, 3f), Tooltip("Look sensitivity for on screen touch stick")]
+			float m_TouchHorizontal;
+
+			public float mouseVerticalSensitivity { get { return m_MouseVertical; } }
+			
+			public float mouseHorizontalSensitivity { get { return m_MouseHorizontal; } }
+			
+			public float gamepadVerticalSensitivity { get { return m_GamepadVertical; } }
+			
+			public float gamepadHorizontalSensitivity { get { return m_GamepadHorizontal; } }
+			
+			public float touchVerticalSensitivity { get { return m_TouchVertical; } }
+			
+			public float touchHorizontalSensitivity { get { return m_TouchHorizontal; } }
+		}
 
 		[SerializeField, Tooltip("Input Action Map asset for mouse/keyboard and game pad inputs")]
 		StandardControls m_StandardControls;
@@ -37,11 +71,8 @@ namespace StandardAssets.Characters.Common
 		[SerializeField, Tooltip("Invert vertical look direction?")]
 		bool m_InvertY;
 		
-		[SerializeField, Range(0.01f, 2f), Tooltip("Look sensitivity for mouse")]
-		float m_MouseSensitivity = 1f;
-
-		[SerializeField, Range(0.01f, 2f), Tooltip("Look sensitivity for analogue stick")]
-		float m_AnalogueStickSensitivity = 1f;
+		[SerializeField, Tooltip("Vertical and Horizontal axis sensitivity")]
+		Sensitivity m_CameraLookSensitivity; 
 
 		[SerializeField, Tooltip("Toggle the Cursor Lock Mode? Press ESCAPE during play mode to unlock")]
 		bool m_CursorLocked = true;
@@ -165,7 +196,7 @@ namespace StandardAssets.Characters.Common
 				m_CursorLocked = !m_CursorLocked;
 				HandleCursorLock();
 			}
-		}	
+		}
 
 		/// <summary>
 		/// Handles registration of additional inputs that are not common between the First and Third person characters
@@ -227,7 +258,6 @@ namespace StandardAssets.Characters.Common
 		{
 			var newInput = context.ReadValue<Vector2>();
 			m_UsingMouseInput = true;
-			
 			if (m_LookInputSetFrame == Time.frameCount)
 			{
 				lookInput += newInput;
@@ -305,22 +335,38 @@ namespace StandardAssets.Characters.Common
 			if (axis == "Vertical")
 			{	
 				var lookVertical = m_InvertY ? lookInput.y : -lookInput.y;
-	
-				lookVertical *= m_UsingMouseInput ? m_MouseSensitivity : m_AnalogueStickSensitivity;		
+				if (UseTouchControls())
+				{
+					lookVertical *= m_CameraLookSensitivity.touchVerticalSensitivity;
+				}
+				else
+				{
+					lookVertical *= m_UsingMouseInput
+						? m_CameraLookSensitivity.mouseVerticalSensitivity
+						: m_CameraLookSensitivity.gamepadVerticalSensitivity;
+				}
 				ClearLookInput(1.0f, 0.0f);
 				return lookVertical;
 			}
 
 			if (axis == "Horizontal")
-			{	
-				var lookHorizontal = m_InvertX ? lookInput.x + movingPlatformLookInput.x 
+			{
+				var lookHorizontal = m_InvertX
+					? lookInput.x + movingPlatformLookInput.x
 					: -lookInput.x + movingPlatformLookInput.x;
-
-				lookHorizontal *= m_UsingMouseInput ? m_MouseSensitivity : m_AnalogueStickSensitivity;
+				if (UseTouchControls())
+				{
+					lookHorizontal *= m_CameraLookSensitivity.touchHorizontalSensitivity;
+				}
+				else
+				{
+					lookHorizontal *= m_UsingMouseInput 
+						? m_CameraLookSensitivity.mouseHorizontalSensitivity 
+						: m_CameraLookSensitivity.gamepadHorizontalSensitivity;
+				}
 				ClearLookInput(0.0f, 1.0f);
 				return lookHorizontal;
 			}
-			
 			return 0;
 		}
 		
@@ -334,7 +380,6 @@ namespace StandardAssets.Characters.Common
 				// Reset only the masked component of the look vector as Cinemachine may not have consumed it yet.
 				lookInput *= new Vector2(xMask, yMask);
 			}
-			
 			m_LookInputProcessedFrame = Time.frameCount;
 		}
 
