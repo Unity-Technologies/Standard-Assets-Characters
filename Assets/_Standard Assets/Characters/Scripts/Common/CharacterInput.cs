@@ -283,15 +283,12 @@ namespace StandardAssets.Characters.Common
 		{
 			var newInput = context.ReadValue<Vector2>();
 			m_UsingMouseInput = true;
-			if (m_LookInputSetFrame == Time.frameCount)
+			m_LookInputSetFrame = Time.frameCount;	
+			if (m_LookInputSetFrame > m_LookInputProcessedFrame)
 			{
-				lookInput += newInput;
+				lookInput = Vector2.zero;
 			}
-			else
-			{
-				lookInput = newInput;
-				m_LookInputSetFrame = Time.frameCount;	
-			}
+			lookInput += newInput;
 		}
 
 		// Provides the input vector for the gamepad look control
