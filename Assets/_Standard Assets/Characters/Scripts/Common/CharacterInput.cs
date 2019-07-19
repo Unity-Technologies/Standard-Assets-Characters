@@ -86,8 +86,8 @@ namespace StandardAssets.Characters.Common
 		// Was the last look input from a mouse
 		bool m_UsingMouseInput;
 		
-		// The frame count when a mouse look input was set
-		int m_LookInputSetFrame;
+		// Check if look input was processed
+		bool m_MouseLookInputHasProcessed;
 		
 		// The frame count when an input axis was processed 
 		int m_LookInputProcessedFrame;
@@ -277,18 +277,19 @@ namespace StandardAssets.Characters.Common
 		}
 
 		// Provides the input vector for the mouse look control.
-		// If the mouse look input action was already called this frame, then accumulate the lookInput value.
-		// Set the frame count when lookInput vector was last set, so that it can be reset once Cinemachine has used it.
+		// If the mouse look input was already processed, then clear the value before accumulating again. 
 		void OnMouseLookInput(InputAction.CallbackContext context)
 		{
 			var newInput = context.ReadValue<Vector2>();
 			m_UsingMouseInput = true;
-			m_LookInputSetFrame = Time.frameCount;	
-			if (m_LookInputSetFrame > m_LookInputProcessedFrame)
+			
+			if (m_MouseLookInputHasProcessed)
 			{
 				lookInput = Vector2.zero;
+				m_MouseLookInputHasProcessed = false;
 			}
-			lookInput += newInput;
+			
+			lookInput += newInput;		
 		}
 
 		// Provides the input vector for the gamepad look control
@@ -348,12 +349,14 @@ namespace StandardAssets.Characters.Common
 		}
 		
 		// Handles the Cinemachine delegate
-		// Keeps track of the last frame when Cinemachine used a look input vector value, if this is after it has been
-		// set by the mouse look input, then reset the vector value to 0.
-		// This method can be called more than once per frame by Cinemachine when
-		// using a Freelook Camera with an Orbital Transposer
 		float LookInputOverride(string axis)
 		{
+			// Handle the clearing of mouse look inputs 
+			if (m_UsingMouseInput)
+			{
+				ProcessMouseInput();
+			}
+			
 			if (axis == "Vertical")
 			{	
 				var lookVertical = m_InvertY ? lookInput.y : -lookInput.y;
@@ -367,7 +370,6 @@ namespace StandardAssets.Characters.Common
 						? m_CameraLookSensitivity.mouseVerticalSensitivity
 						: m_CameraLookSensitivity.gamepadVerticalSensitivity;
 				}
-				ClearLookInput(1.0f, 0.0f);
 				return lookVertical;
 			}
 
@@ -386,23 +388,23 @@ namespace StandardAssets.Characters.Common
 						? m_CameraLookSensitivity.mouseHorizontalSensitivity 
 						: m_CameraLookSensitivity.gamepadHorizontalSensitivity;
 				}
-				ClearLookInput(0.0f, 1.0f);
 				return lookHorizontal;
 			}
 			return 0;
 		}
 		
-		// Clears the look input vector 
-		void ClearLookInput(float xMask, float yMask)
+		// Called at the beginning of LookInputOverride when using mouse input.
+		// This is to ensure that mouse look inputs are properly cleared once they have been processed as mouse
+		// input has no canceled action event subscribed to it, and can be set more than once per frame.
+		void ProcessMouseInput()
 		{
-			// If Cinemachine has already used this look input value value after it was set inside of OnMouseLookInput,
-			// then it should be reset to zero before being used again. 
-			if (m_LookInputProcessedFrame > m_LookInputSetFrame && m_UsingMouseInput)
+			var currentFrame = Time.frameCount;
+			if ((m_LookInputProcessedFrame < currentFrame) && m_MouseLookInputHasProcessed)
 			{
-				// Reset only the masked component of the look vector as Cinemachine may not have consumed it yet.
-				lookInput *= new Vector2(xMask, yMask);
+				lookInput = Vector2.zero;
 			}
-			m_LookInputProcessedFrame = Time.frameCount;
+			m_LookInputProcessedFrame = currentFrame;
+			m_MouseLookInputHasProcessed = true;
 		}
 
 		// Handles the cursor lock state
