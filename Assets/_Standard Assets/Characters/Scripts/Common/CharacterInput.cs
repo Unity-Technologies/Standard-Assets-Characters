@@ -31,19 +31,19 @@ namespace StandardAssets.Characters.Common
 		[Serializable]
 		public struct Sensitivity
 		{	
-			[SerializeField, Range(0.01f, 3f), Tooltip("Look sensitivity for mouse")]
+			[SerializeField, Range(0.2f, 2f), Tooltip("Look sensitivity for mouse")]
 			float m_MouseVertical;
-			[SerializeField, Range(0.01f, 3f), Tooltip("Look sensitivity for mouse")] 
+			[SerializeField, Range(0.2f, 2f), Tooltip("Look sensitivity for mouse")] 
 			float m_MouseHorizontal;
 						
-			[SerializeField, Range(0.01f, 3f), Tooltip("Look sensitivity for analog gamepad stick")]
+			[SerializeField, Range(0.2f, 2f), Tooltip("Look sensitivity for analog gamepad stick")]
 			float m_GamepadVertical;
-			[SerializeField, Range(0.01f, 3f), Tooltip("Look sensitivity for analog gamepad stick")]
+			[SerializeField, Range(0.2f, 2f), Tooltip("Look sensitivity for analog gamepad stick")]
 			float m_GamepadHorizontal;
 			
-			[SerializeField, Range(0.01f, 3f), Tooltip("Look sensitivity for on screen touch stick")]
+			[SerializeField, Range(0.2f, 2f), Tooltip("Look sensitivity for on screen touch stick")]
 			float m_TouchVertical;
-			[SerializeField, Range(0.01f, 3f), Tooltip("Look sensitivity for on screen touch stick")]
+			[SerializeField, Range(0.2f, 2f), Tooltip("Look sensitivity for on screen touch stick")]
 			float m_TouchHorizontal;
 
 			public float mouseVerticalSensitivity { get { return m_MouseVertical; } }
@@ -87,7 +87,7 @@ namespace StandardAssets.Characters.Common
 		bool m_UsingMouseInput;
 		
 		// Check if look input was processed
-		bool m_MouseLookInputHasProcessed;
+		bool m_HasProcessedMouseLookInput;
 		
 		// The frame count when an input axis was processed 
 		int m_LookInputProcessedFrame;
@@ -276,17 +276,17 @@ namespace StandardAssets.Characters.Common
 #endif
 		}
 
-		// Provides the input vector for the mouse look control.
-		// If the mouse look input was already processed, then clear the value before accumulating again. 
+		// Provides the input vector for the mouse look control
 		void OnMouseLookInput(InputAction.CallbackContext context)
 		{
 			var newInput = context.ReadValue<Vector2>();
 			m_UsingMouseInput = true;
 			
-			if (m_MouseLookInputHasProcessed)
+			// If the mouse look input was already processed, then clear the value before accumulating again
+			if (m_HasProcessedMouseLookInput)
 			{
 				lookInput = Vector2.zero;
-				m_MouseLookInputHasProcessed = false;
+				m_HasProcessedMouseLookInput = false;
 			}
 			
 			lookInput += newInput;		
@@ -351,10 +351,17 @@ namespace StandardAssets.Characters.Common
 		// Handles the Cinemachine delegate
 		float LookInputOverride(string axis)
 		{
-			// Handle the clearing of mouse look inputs 
+			// This is to ensure that mouse look inputs are properly cleared once they have been processed as mouse
+			// input has no canceled action event subscribed to it, and can be set more than once per frame
 			if (m_UsingMouseInput)
 			{
-				ProcessMouseInput();
+				var currentFrame = Time.frameCount;
+				if ((m_LookInputProcessedFrame < currentFrame) && m_HasProcessedMouseLookInput)
+				{
+					lookInput = Vector2.zero;
+				}
+				m_LookInputProcessedFrame = currentFrame;
+				m_HasProcessedMouseLookInput = true;
 			}
 			
 			if (axis == "Vertical")
@@ -393,20 +400,6 @@ namespace StandardAssets.Characters.Common
 			return 0;
 		}
 		
-		// Called at the beginning of LookInputOverride when using mouse input.
-		// This is to ensure that mouse look inputs are properly cleared once they have been processed as mouse
-		// input has no canceled action event subscribed to it, and can be set more than once per frame.
-		void ProcessMouseInput()
-		{
-			var currentFrame = Time.frameCount;
-			if ((m_LookInputProcessedFrame < currentFrame) && m_MouseLookInputHasProcessed)
-			{
-				lookInput = Vector2.zero;
-			}
-			m_LookInputProcessedFrame = currentFrame;
-			m_MouseLookInputHasProcessed = true;
-		}
-
 		// Handles the cursor lock state
 		void HandleCursorLock()
 		{
