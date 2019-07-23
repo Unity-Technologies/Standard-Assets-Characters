@@ -193,7 +193,7 @@ namespace StandardAssets.Characters.Common
 				standardControls.Movement.mouseLook.performed -= OnMouseLookInput;
 				standardControls.Movement.gamepadLook.performed -= OnGamepadLookInput;
 				standardControls.Movement.jump.started -= OnJumpInputStarted;
-				standardControls.Movement.sprint.performed += OnSprintInput;
+				standardControls.Movement.sprint.performed -= OnSprintInput;
 				 
 				standardControls.Movement.move.canceled -= OnMoveInputCanceled;
 				standardControls.Movement.sprint.canceled -= OnSprintInput;
