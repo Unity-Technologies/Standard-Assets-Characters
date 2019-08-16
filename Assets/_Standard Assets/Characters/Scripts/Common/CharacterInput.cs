@@ -66,16 +66,18 @@ namespace StandardAssets.Characters.Common
 		GameObject m_TouchControlsPrefab;
 
 		[SerializeField, Tooltip("Invert horizontal look direction?")]
-		bool m_InvertX;
+		public bool m_InvertX ;
 		
 		[SerializeField, Tooltip("Invert vertical look direction?")]
-		bool m_InvertY;
+		public bool m_InvertY;
 		
 		[SerializeField, Tooltip("Vertical and Horizontal axis sensitivity")]
 		Sensitivity m_CameraLookSensitivity; 
 
 		[SerializeField, Tooltip("Toggle the Cursor Lock Mode? Press ESCAPE during play mode to unlock")]
 		bool m_CursorLocked = true;
+
+		CameraInputGainAcceleration cameraInputGainAcceleration;
 
 		// Instance of UI for Touch Controls
 		GameObject m_TouchControlsCanvasInstance;
@@ -89,18 +91,46 @@ namespace StandardAssets.Characters.Common
 		// Check if look input was processed
 		bool m_HasProcessedMouseLookInput;
 		
+		// If there is a not Camera InputGainAcceleration  component on the character,
+		// then the camera will be controlled from the CharacterInput script.
+		bool m_UseInputGainAcceleration;
+		
 		// The frame count when an input axis was processed 
 		int m_LookInputProcessedFrame;
+		
+		// Look input vector
+		Vector2 m_lookInput;
 		
 		/// <summary>
 		/// Gets if the movement input is being applied
 		/// </summary>
 		public bool hasMovementInput { get { return moveInput != Vector2.zero; } }
+		
+		/// <summary>
+		/// Gets whether or not the jump input is currently applied
+		/// </summary>
+		public bool hasJumpInput { get; private set; }
+		
+		// Was the last look input from a mouse
+		public bool usingMouseInput
+		{
+			get { return m_UsingMouseInput;}
+		}
+
+		// The camera look sensitivity
+		public Sensitivity cameraLookSensitivity
+		{
+			get { return m_CameraLookSensitivity; }
+		}
 
 		/// <summary>
 		/// Gets/sets the look input vector
 		/// </summary>
-		public Vector2 lookInput { get; private set; }
+		public Vector2 lookInput
+		{
+			get { return m_lookInput; }
+			set { m_lookInput = value; }
+		}
 		
 		/// <summary>
 		/// Rotation of a moving platform applied to the look input vector (so that the platform rotates the camera)
@@ -111,11 +141,6 @@ namespace StandardAssets.Characters.Common
 		/// Gets/sets the move input vector
 		/// </summary>
 		public Vector2 moveInput { get; private set; }
-
-		/// <summary>
-		/// Gets whether or not the jump input is currently applied
-		/// </summary>
-		public bool hasJumpInput { get; private set; }
 
         /// <summary>
         /// Gets a reference to the currently set Standard Controls asset
@@ -135,7 +160,21 @@ namespace StandardAssets.Characters.Common
 		{			
 			hasJumpInput = false;
 			
-			m_StandardControls = new StandardControls();	
+			m_StandardControls = new StandardControls();
+
+			cameraInputGainAcceleration = GetComponent<CameraInputGainAcceleration>();
+
+			// If no CameraInputGainAcceleration component is present, then there will be no acceleration or deceleration 
+			// applied to the look input. If that is the case, it is advised to set the Speed Mode of the Cinemachine cameras
+			// to 'Max Speed' if it is desirable to have acceleration and deceleration for gamepad look input. 
+			if (cameraInputGainAcceleration != null)
+			{
+				m_UseInputGainAcceleration = true;
+			}
+			else
+			{
+				Debug.LogWarning("No CharacterInputGainAcceleration component detected, make sure Cinemachine axis control speed mode is set to 'Max Speed' or add a CameraInputGainAcceleration component to this character");
+			}
 			
 			//Handle Touch/OnScreen versus Standard controls
 			if(UseTouchControls())
@@ -151,13 +190,16 @@ namespace StandardAssets.Characters.Common
 		}
 
 		/// <summary>
-		/// Sets up the Cinemachine delegate.
+		/// Sets up the Cinemachine delegate if there is no CameraInputGainAcceleration component present.
 		/// Enables associated controls and subscribes to new input's performed events.
 		/// </summary>
 		protected void OnEnable()
 		{
-			CinemachineCore.GetInputAxis += LookInputOverride;
-
+			if (!m_UseInputGainAcceleration)
+			{
+				CinemachineCore.GetInputAxis += LookInputOverride;
+			}
+			
 			if (standardControls != null)
 			{
 				standardControls.Movement.move.performed += OnMoveInput;
@@ -180,12 +222,15 @@ namespace StandardAssets.Characters.Common
 		}
 
 		/// <summary>
-		/// Disables the Cinemachine delegate.
+		/// Disables the Cinemachine delegate if there is no CameraInputGainAcceleration component present.
 		/// Disables associated controls and unsubscribes from new input's performed events.
 		/// </summary>
 		protected void OnDisable()
 		{
-			CinemachineCore.GetInputAxis -= LookInputOverride;
+			if (!m_UseInputGainAcceleration)
+			{
+				CinemachineCore.GetInputAxis -= LookInputOverride;
+			}
 
 			if (standardControls != null)
 			{
@@ -266,7 +311,7 @@ namespace StandardAssets.Characters.Common
 		/// <summary>
 		/// Can be called to determine whether or not Touch Controls are being used (instead of Standard Controls)
 		/// </summary>
-		protected bool UseTouchControls()
+		public bool UseTouchControls()
 		{
 			//Assume Touch Controls are wanted for iOS and Android builds
 #if !UNITY_EDITOR && (UNITY_ANDROID || UNITY_IOS)
@@ -283,20 +328,31 @@ namespace StandardAssets.Characters.Common
 			m_UsingMouseInput = true;
 			
 			// If the mouse look input was already processed, then clear the value before accumulating again
-			if (m_HasProcessedMouseLookInput)
+			if (m_UseInputGainAcceleration)
 			{
-				lookInput = Vector2.zero;
-				m_HasProcessedMouseLookInput = false;
+				if (cameraInputGainAcceleration.hasProcessedMouseLookInput)
+				{
+					m_lookInput = Vector2.zero;
+					cameraInputGainAcceleration.hasProcessedMouseLookInput = false;
+				}
+			}
+			else
+			{
+				if (m_HasProcessedMouseLookInput)
+				{
+					m_lookInput = Vector2.zero;
+					m_HasProcessedMouseLookInput = false;
+				}
 			}
 			
-			lookInput += newInput;		
+			m_lookInput += newInput;		
 		}
 
 		// Provides the input vector for the gamepad look control
 		void OnGamepadLookInput(InputAction.CallbackContext context)
 		{
 			m_UsingMouseInput = false;
-			lookInput = context.ReadValue<Vector2>();
+			m_lookInput = context.ReadValue<Vector2>();
 		}
 		
 		// Provides the input vector for the move control
@@ -314,7 +370,7 @@ namespace StandardAssets.Characters.Common
 		// Resets the look input vector to zero once it has stopped. This is only used for analogue stick input
 		void OnLookInputCanceled(InputAction.CallbackContext context)
 		{
-			lookInput = Vector2.zero;
+			m_lookInput = Vector2.zero;
 		}
 
 		// Handles the ending of jump event from the new input system
@@ -348,7 +404,8 @@ namespace StandardAssets.Characters.Common
 			}
 		}
 		
-		// Handles the Cinemachine delegate
+		// Handles the Cinemachine delegate. This will only ever get called by Cinemachine if
+		// there is no CameraInputGainAcceleration component on the character.
 		float LookInputOverride(string axis)
 		{
 			// This is to ensure that mouse look inputs are properly cleared once they have been processed as mouse
