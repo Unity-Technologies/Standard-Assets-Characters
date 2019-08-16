@@ -79,6 +79,7 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 21.06662
+    m_SpeedMode: 0
     m_MaxSpeed: 200
     m_AccelTime: 0.05
     m_DecelTime: 0.05
@@ -204,10 +205,11 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 800
     m_AccelTime: 0.03
     m_DecelTime: 0.05
-    m_InputAxisName: Horizontal
+    m_InputAxisName: 
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
@@ -329,10 +331,11 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 800
     m_AccelTime: 0.03
     m_DecelTime: 0.05
-    m_InputAxisName: Horizontal
+    m_InputAxisName: 
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
@@ -454,6 +457,7 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 21.06662
+    m_SpeedMode: 0
     m_MaxSpeed: 200
     m_AccelTime: 0.05
     m_DecelTime: 0.05
@@ -630,7 +634,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1347731958961072}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -650,6 +654,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &1349669829100196
 GameObject:
   m_ObjectHideFlags: 0
@@ -674,7 +679,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1349669829100196}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0.19385102, y: 0.17867407, z: -0.078649946, w: 0.9614113}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.99999994, y: 1, z: 1}
   m_Children:
@@ -956,6 +961,7 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 21.06662
+    m_SpeedMode: 0
     m_MaxSpeed: 200
     m_AccelTime: 0.05
     m_DecelTime: 0.05
@@ -1081,10 +1087,11 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 800
     m_AccelTime: 0.03
     m_DecelTime: 0.05
-    m_InputAxisName: Horizontal
+    m_InputAxisName: 
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
@@ -1194,14 +1201,14 @@ MonoBehaviour:
   m_LayerIndex: 0
   m_ShowDebugText: 0
   m_ChildCameras:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 114794560682323098}
+  - {fileID: 114652817645092506}
+  - {fileID: 8347500682046758014}
+  - {fileID: 8420657466912384300}
+  - {fileID: 745367552046568016}
+  - {fileID: 7638910256428144776}
+  - {fileID: 3793038842783372406}
+  - {fileID: 3372864859479035260}
   m_Instructions:
   - m_FullHash: 1542144977
     m_VirtualCamera: {fileID: 114794560682323098}
@@ -1584,6 +1591,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Offset: {x: 0.2, y: 0, z: 0}
   m_ApplyAfter: 1
+  m_PreserveComposition: 0
 --- !u!114 &114035265273455104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1651,7 +1659,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1624864631314756}
-  m_LocalRotation: {x: -0.024786416, y: 0.1916897, z: -0.036950026, w: 0.9804465}
+  m_LocalRotation: {x: 0.19385105, y: 0.17867406, z: -0.07864995, w: 0.9614113}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.99999994, y: 1, z: 1}
   m_Children:
@@ -1726,7 +1734,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1625353598440320}
-  m_LocalRotation: {x: -0.024786416, y: 0.1916897, z: -0.036950026, w: 0.9804465}
+  m_LocalRotation: {x: 0.19385105, y: 0.17867404, z: -0.078649916, w: 0.96141124}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.99999994, y: 1, z: 1}
   m_Children:
@@ -1850,9 +1858,10 @@ MonoBehaviour:
   m_LegacyBlendHint: 0
   m_YAxis:
     Value: 0.5
-    m_MaxSpeed: 5
-    m_AccelTime: 0.03
-    m_DecelTime: 0.05
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Vertical
     m_InputAxisValue: -0
     m_InvertInput: 0
@@ -1873,9 +1882,10 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
-    m_MaxSpeed: 800
-    m_AccelTime: 0.03
-    m_DecelTime: 0.05
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Horizontal
     m_InputAxisValue: 0
     m_InvertInput: 1
@@ -1985,9 +1995,10 @@ MonoBehaviour:
   m_LegacyBlendHint: 0
   m_YAxis:
     Value: 0.5
-    m_MaxSpeed: 3
-    m_AccelTime: 0.05
-    m_DecelTime: 0.05
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Vertical
     m_InputAxisValue: -0
     m_InvertInput: 0
@@ -2008,9 +2019,10 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
-    m_MaxSpeed: 500
-    m_AccelTime: 0.05
-    m_DecelTime: 0.05
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Horizontal
     m_InputAxisValue: -0
     m_InvertInput: 1
@@ -2044,9 +2056,9 @@ MonoBehaviour:
     m_Radius: 1.5
   m_LegacyHeadingBias: 3.4028235e+38
   m_Rigs:
-  - {fileID: 114630263761402916}
-  - {fileID: 114000318457291636}
-  - {fileID: 114451276904078464}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &1865460685988256
 GameObject:
   m_ObjectHideFlags: 0
@@ -2116,7 +2128,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1865460685988256}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_UiScaleMode: 1
@@ -2138,7 +2150,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1865460685988256}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreReversedGraphics: 1
@@ -2302,6 +2314,7 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 400
     m_AccelTime: 0.05
     m_DecelTime: 0.05
@@ -2361,6 +2374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NoiseProfile: {fileID: 11400000, guid: 404943610f0bbc341b7b94f90b3cf90d, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
   m_AmplitudeGain: 1
   m_FrequencyGain: 1
   mNoiseOffsets: {x: 0, y: 0, z: 0}
@@ -2377,6 +2391,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NoiseProfile: {fileID: 11400000, guid: 404943610f0bbc341b7b94f90b3cf90d, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
   m_AmplitudeGain: 1
   m_FrequencyGain: 1
   mNoiseOffsets: {x: 0, y: 0, z: 0}
@@ -2453,9 +2468,10 @@ MonoBehaviour:
   m_LegacyBlendHint: 0
   m_YAxis:
     Value: 0.5
-    m_MaxSpeed: 1.25
-    m_AccelTime: 0.05
-    m_DecelTime: 0.05
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Vertical
     m_InputAxisValue: -0
     m_InvertInput: 0
@@ -2476,9 +2492,10 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
-    m_MaxSpeed: 200
-    m_AccelTime: 0.05
-    m_DecelTime: 0.05
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Horizontal
     m_InputAxisValue: 0
     m_InvertInput: 1
@@ -2669,10 +2686,11 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 200
     m_AccelTime: 0.05
     m_DecelTime: 0.05
-    m_InputAxisName: Horizontal
+    m_InputAxisName: 
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
@@ -2800,6 +2818,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5802812188188021100}
   - component: {fileID: 3372864859479035260}
+  - component: {fileID: 1216816875}
   m_Layer: 0
   m_Name: CM FL Sprint jump
   m_TagString: Untagged
@@ -2863,9 +2882,10 @@ MonoBehaviour:
   m_LegacyBlendHint: 0
   m_YAxis:
     Value: 0.5
-    m_MaxSpeed: 1.25
-    m_AccelTime: 0.05
-    m_DecelTime: 0.05
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Vertical
     m_InputAxisValue: -0
     m_InvertInput: 0
@@ -2886,9 +2906,10 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
-    m_MaxSpeed: 200
-    m_AccelTime: 0.05
-    m_DecelTime: 0.05
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Horizontal
     m_InputAxisValue: 0
     m_InvertInput: 1
@@ -2922,9 +2943,24 @@ MonoBehaviour:
     m_Radius: 1.5
   m_LegacyHeadingBias: 3.4028235e+38
   m_Rigs:
-  - {fileID: 1035210306782076542}
-  - {fileID: 8283471324118338932}
-  - {fileID: 5639656711975337668}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+--- !u!114 &1216816875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1751395587490475874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FocusTracksTarget: 0
+  m_FocusOffset: 0
+  m_Profile: {fileID: 11400000, guid: e0499d1567582e64189fef43b15bbf1a, type: 2}
 --- !u!1 &1854765215338629964
 GameObject:
   m_ObjectHideFlags: 0
@@ -3004,6 +3040,7 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 800
     m_AccelTime: 0.03
     m_DecelTime: 0.05
@@ -3129,6 +3166,7 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 200
     m_AccelTime: 0.05
     m_DecelTime: 0.05
@@ -3254,6 +3292,7 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 800
     m_AccelTime: 0.03
     m_DecelTime: 0.05
@@ -3604,6 +3643,7 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 200
     m_AccelTime: 0.05
     m_DecelTime: 0.05
@@ -3731,6 +3771,7 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 400
     m_AccelTime: 0.05
     m_DecelTime: 0.05
@@ -3790,6 +3831,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NoiseProfile: {fileID: 11400000, guid: 404943610f0bbc341b7b94f90b3cf90d, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
   m_AmplitudeGain: 1
   m_FrequencyGain: 1
   mNoiseOffsets: {x: 0, y: 0, z: 0}
@@ -3806,6 +3848,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NoiseProfile: {fileID: 11400000, guid: 404943610f0bbc341b7b94f90b3cf90d, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
   m_AmplitudeGain: 1
   m_FrequencyGain: 1
   mNoiseOffsets: {x: 0, y: 0, z: 0}
@@ -3890,6 +3933,7 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 400
     m_AccelTime: 0.05
     m_DecelTime: 0.05
@@ -3949,6 +3993,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NoiseProfile: {fileID: 11400000, guid: 404943610f0bbc341b7b94f90b3cf90d, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
   m_AmplitudeGain: 1
   m_FrequencyGain: 1
   mNoiseOffsets: {x: 0, y: 0, z: 0}
@@ -3965,6 +4010,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NoiseProfile: {fileID: 11400000, guid: 404943610f0bbc341b7b94f90b3cf90d, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
   m_AmplitudeGain: 1
   m_FrequencyGain: 1
   mNoiseOffsets: {x: 0, y: 0, z: 0}
@@ -4116,9 +4162,10 @@ MonoBehaviour:
   m_LegacyBlendHint: 0
   m_YAxis:
     Value: 0.5
-    m_MaxSpeed: 5
-    m_AccelTime: 0.03
-    m_DecelTime: 0.05
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Vertical
     m_InputAxisValue: -0
     m_InvertInput: 0
@@ -4139,9 +4186,10 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
-    m_MaxSpeed: 800
-    m_AccelTime: 0.03
-    m_DecelTime: 0.05
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Horizontal
     m_InputAxisValue: 0
     m_InvertInput: 1
@@ -4175,9 +4223,9 @@ MonoBehaviour:
     m_Radius: 2.4
   m_LegacyHeadingBias: 3.4028235e+38
   m_Rigs:
-  - {fileID: 7575389797484906179}
-  - {fileID: 690101595295835708}
-  - {fileID: 1291463539429669511}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &4240794836963434794
 GameObject:
   m_ObjectHideFlags: 0
@@ -4257,6 +4305,7 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 200
     m_AccelTime: 0.05
     m_DecelTime: 0.05
@@ -4313,6 +4362,7 @@ GameObject:
   m_Component:
   - component: {fileID: 460178782637118646}
   - component: {fileID: 745367552046568016}
+  - component: {fileID: 1216816876}
   m_Layer: 0
   m_Name: CM FL Sprint
   m_TagString: Untagged
@@ -4376,9 +4426,10 @@ MonoBehaviour:
   m_LegacyBlendHint: 0
   m_YAxis:
     Value: 0.5
-    m_MaxSpeed: 3
-    m_AccelTime: 0.05
-    m_DecelTime: 0.05
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Vertical
     m_InputAxisValue: -0
     m_InvertInput: 0
@@ -4399,9 +4450,10 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
-    m_MaxSpeed: 800
-    m_AccelTime: 0.05
-    m_DecelTime: 0.05
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Horizontal
     m_InputAxisValue: 0
     m_InvertInput: 1
@@ -4435,9 +4487,24 @@ MonoBehaviour:
     m_Radius: 1.5
   m_LegacyHeadingBias: 3.4028235e+38
   m_Rigs:
-  - {fileID: 2086681344257916137}
-  - {fileID: 6974609924286494380}
-  - {fileID: 6898418422365469143}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+--- !u!114 &1216816876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4410133518944275135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FocusTracksTarget: 0
+  m_FocusOffset: 0
+  m_Profile: {fileID: 11400000, guid: e0499d1567582e64189fef43b15bbf1a, type: 2}
 --- !u!1 &4511167301943147919
 GameObject:
   m_ObjectHideFlags: 0
@@ -4594,6 +4661,7 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 200
     m_AccelTime: 0.05
     m_DecelTime: 0.05
@@ -4653,6 +4721,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NoiseProfile: {fileID: 11400000, guid: 404943610f0bbc341b7b94f90b3cf90d, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
   m_AmplitudeGain: 1
   m_FrequencyGain: 1
   mNoiseOffsets: {x: 0, y: 0, z: 0}
@@ -4669,6 +4738,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NoiseProfile: {fileID: 11400000, guid: 404943610f0bbc341b7b94f90b3cf90d, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
   m_AmplitudeGain: 1
   m_FrequencyGain: 1
   mNoiseOffsets: {x: 0, y: 0, z: 0}
@@ -4895,9 +4965,10 @@ MonoBehaviour:
   m_LegacyBlendHint: 0
   m_YAxis:
     Value: 0.5
-    m_MaxSpeed: 5
-    m_AccelTime: 0.03
-    m_DecelTime: 0.05
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Vertical
     m_InputAxisValue: -0
     m_InvertInput: 0
@@ -4918,9 +4989,10 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
-    m_MaxSpeed: 800
-    m_AccelTime: 0.03
-    m_DecelTime: 0.05
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Horizontal
     m_InputAxisValue: 0
     m_InvertInput: 1
@@ -4954,9 +5026,9 @@ MonoBehaviour:
     m_Radius: 2.4
   m_LegacyHeadingBias: 3.4028235e+38
   m_Rigs:
-  - {fileID: 3411463226576066636}
-  - {fileID: 1920023328345787923}
-  - {fileID: 381248224158566925}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &5665897025257109578
 GameObject:
   m_ObjectHideFlags: 0
@@ -5186,10 +5258,11 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 200
     m_AccelTime: 0.05
     m_DecelTime: 0.05
-    m_InputAxisName: Horizontal
+    m_InputAxisName: 
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
@@ -5386,10 +5459,11 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 200
     m_AccelTime: 0.05
     m_DecelTime: 0.05
-    m_InputAxisName: Horizontal
+    m_InputAxisName: 
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
@@ -5513,6 +5587,7 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 200
     m_AccelTime: 0.05
     m_DecelTime: 0.05
@@ -5572,6 +5647,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NoiseProfile: {fileID: 11400000, guid: 404943610f0bbc341b7b94f90b3cf90d, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
   m_AmplitudeGain: 1
   m_FrequencyGain: 1
   mNoiseOffsets: {x: 0, y: 0, z: 0}
@@ -5588,6 +5664,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NoiseProfile: {fileID: 11400000, guid: 404943610f0bbc341b7b94f90b3cf90d, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
   m_AmplitudeGain: 1
   m_FrequencyGain: 1
   mNoiseOffsets: {x: 0, y: 0, z: 0}
@@ -5672,6 +5749,7 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 200
     m_AccelTime: 0.05
     m_DecelTime: 0.05
@@ -5731,6 +5809,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NoiseProfile: {fileID: 11400000, guid: 404943610f0bbc341b7b94f90b3cf90d, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
   m_AmplitudeGain: 1
   m_FrequencyGain: 1
   mNoiseOffsets: {x: 0, y: 0, z: 0}
@@ -5747,6 +5826,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NoiseProfile: {fileID: 11400000, guid: 404943610f0bbc341b7b94f90b3cf90d, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
   m_AmplitudeGain: 1
   m_FrequencyGain: 1
   mNoiseOffsets: {x: 0, y: 0, z: 0}
@@ -5904,6 +5984,7 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 200
     m_AccelTime: 0.05
     m_DecelTime: 0.05
@@ -6029,6 +6110,7 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 800
     m_AccelTime: 0.03
     m_DecelTime: 0.05
@@ -6379,6 +6461,7 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 200
     m_AccelTime: 0.05
     m_DecelTime: 0.05
@@ -6573,9 +6656,10 @@ MonoBehaviour:
   m_LegacyBlendHint: 0
   m_YAxis:
     Value: 0.5
-    m_MaxSpeed: 1.25
-    m_AccelTime: 0.05
-    m_DecelTime: 0.05
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Vertical
     m_InputAxisValue: -0
     m_InvertInput: 0
@@ -6596,9 +6680,10 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
-    m_MaxSpeed: 200
-    m_AccelTime: 0.05
-    m_DecelTime: 0.05
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Horizontal
     m_InputAxisValue: 0
     m_InvertInput: 1
@@ -6632,9 +6717,9 @@ MonoBehaviour:
     m_Radius: 2.4
   m_LegacyHeadingBias: 3.4028235e+38
   m_Rigs:
-  - {fileID: 7003655396228164021}
-  - {fileID: 3107153736189291181}
-  - {fileID: 3876145905886900890}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &8838036825611971339
 GameObject:
   m_ObjectHideFlags: 0
@@ -6714,6 +6799,7 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 200
     m_AccelTime: 0.05
     m_DecelTime: 0.05

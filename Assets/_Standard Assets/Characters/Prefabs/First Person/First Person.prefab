@@ -194,7 +194,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1113645584280934}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_UiScaleMode: 1
@@ -216,7 +216,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1113645584280934}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreReversedGraphics: 1
@@ -281,11 +281,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c9beda531928fc40968802117a5d256, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_ApplyBeforeBody: 0
+  m_RecenterTarget: 0
   m_VerticalAxis:
     Value: 0
-    m_MaxSpeed: 220
-    m_AccelTime: 0.05
-    m_DecelTime: 0.02
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Vertical
     m_InputAxisValue: 0
     m_InvertInput: 0
@@ -306,9 +309,10 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_HorizontalAxis:
     Value: 0
-    m_MaxSpeed: 300
-    m_AccelTime: 0.05
-    m_DecelTime: 0.02
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Horizontal
     m_InputAxisValue: 0
     m_InvertInput: 1
@@ -403,7 +407,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1392504883572240}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -423,6 +427,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &1405914655873862
 GameObject:
   m_ObjectHideFlags: 0
@@ -480,11 +485,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c9beda531928fc40968802117a5d256, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_ApplyBeforeBody: 0
+  m_RecenterTarget: 0
   m_VerticalAxis:
-    Value: 0
-    m_MaxSpeed: 600
-    m_AccelTime: 0.02
-    m_DecelTime: 0.02
+    Value: 9.46232
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Vertical
     m_InputAxisValue: 0
     m_InvertInput: 0
@@ -505,9 +513,10 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_HorizontalAxis:
     Value: 0
-    m_MaxSpeed: 1000
-    m_AccelTime: 0.09
-    m_DecelTime: 0.03
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Horizontal
     m_InputAxisValue: 0
     m_InvertInput: 1
@@ -562,6 +571,7 @@ GameObject:
   - component: {fileID: 114419598158252930}
   - component: {fileID: 114423841659335666}
   - component: {fileID: 114933985877629584}
+  - component: {fileID: 19447205}
   m_Layer: 11
   m_Name: Controller
   m_TagString: Untagged
@@ -799,11 +809,27 @@ MonoBehaviour:
   m_CameraLookSensitivity:
     m_MouseVertical: 1
     m_MouseHorizontal: 1
-    m_GamepadVertical: 1
-    m_GamepadHorizontal: 1
+    m_GamepadVertical: 0.5
+    m_GamepadHorizontal: 0.5
     m_TouchVertical: 0.5
     m_TouchHorizontal: 0.5
   m_CursorLocked: 1
+--- !u!114 &19447205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1447930708252272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57f0e0baa18c44d2ad875c16c4528f06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Acceleration: 0.1
+  m_Deceleration: 0.1
+  m_XAxisMultiplier: 5
+  m_YAxisMultiplier: 5
 --- !u!1 &1537643626592488
 GameObject:
   m_ObjectHideFlags: 0
@@ -861,11 +887,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c9beda531928fc40968802117a5d256, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_ApplyBeforeBody: 0
+  m_RecenterTarget: 0
   m_VerticalAxis:
     Value: 0
-    m_MaxSpeed: 500
-    m_AccelTime: 0.05
-    m_DecelTime: 0.02
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Vertical
     m_InputAxisValue: 0
     m_InvertInput: 0
@@ -886,9 +915,10 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_HorizontalAxis:
     Value: 0
-    m_MaxSpeed: 800
-    m_AccelTime: 0.05
-    m_DecelTime: 0.02
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Horizontal
     m_InputAxisValue: 0
     m_InvertInput: 1

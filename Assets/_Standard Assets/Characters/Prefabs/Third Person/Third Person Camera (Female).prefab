@@ -54,7 +54,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1347731958961072}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -74,6 +74,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &1443475841456598
 GameObject:
   m_ObjectHideFlags: 0
@@ -141,14 +142,14 @@ MonoBehaviour:
   m_LayerIndex: 0
   m_ShowDebugText: 0
   m_ChildCameras:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 3833946603192559586}
+  - {fileID: 3838168273470674474}
+  - {fileID: 4462155053166945520}
+  - {fileID: 911814748953815703}
+  - {fileID: 6210172498407872774}
+  - {fileID: 8544828759377820092}
+  - {fileID: 3240407583059146618}
+  - {fileID: 7233493898778014179}
   m_Instructions:
   - m_FullHash: 1990199958
     m_VirtualCamera: {fileID: 3833946603192559586}
@@ -531,6 +532,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Offset: {x: 0.2, y: 0, z: 0}
   m_ApplyAfter: 1
+  m_PreserveComposition: 0
 --- !u!114 &114035265273455104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -643,7 +645,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1865460685988256}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_UiScaleMode: 1
@@ -665,7 +667,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1865460685988256}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreReversedGraphics: 1
@@ -754,10 +756,11 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 400
     m_AccelTime: 0.05
     m_DecelTime: 0.05
-    m_InputAxisName: Horizontal
+    m_InputAxisName: 
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
@@ -813,6 +816,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NoiseProfile: {fileID: 11400000, guid: 404943610f0bbc341b7b94f90b3cf90d, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
   m_AmplitudeGain: 1
   m_FrequencyGain: 1
   mNoiseOffsets: {x: 0, y: 0, z: 0}
@@ -829,6 +833,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NoiseProfile: {fileID: 11400000, guid: 404943610f0bbc341b7b94f90b3cf90d, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
   m_AmplitudeGain: 1
   m_FrequencyGain: 1
   mNoiseOffsets: {x: 0, y: 0, z: 0}
@@ -913,10 +918,11 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 200
     m_AccelTime: 0.05
     m_DecelTime: 0.05
-    m_InputAxisName: Horizontal
+    m_InputAxisName: 
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
@@ -972,6 +978,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NoiseProfile: {fileID: 11400000, guid: 404943610f0bbc341b7b94f90b3cf90d, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
   m_AmplitudeGain: 1
   m_FrequencyGain: 1
   mNoiseOffsets: {x: 0, y: 0, z: 0}
@@ -988,6 +995,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NoiseProfile: {fileID: 11400000, guid: 404943610f0bbc341b7b94f90b3cf90d, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
   m_AmplitudeGain: 1
   m_FrequencyGain: 1
   mNoiseOffsets: {x: 0, y: 0, z: 0}
@@ -1070,10 +1078,11 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 200
     m_AccelTime: 0.05
     m_DecelTime: 0.05
-    m_InputAxisName: Horizontal
+    m_InputAxisName: 
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
@@ -1270,10 +1279,11 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 200
     m_AccelTime: 0.05
     m_DecelTime: 0.05
-    m_InputAxisName: Horizontal
+    m_InputAxisName: 
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
@@ -1472,10 +1482,11 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 400
     m_AccelTime: 0.05
     m_DecelTime: 0.05
-    m_InputAxisName: Horizontal
+    m_InputAxisName: 
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
@@ -1531,6 +1542,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NoiseProfile: {fileID: 11400000, guid: 404943610f0bbc341b7b94f90b3cf90d, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
   m_AmplitudeGain: 1
   m_FrequencyGain: 1
   mNoiseOffsets: {x: 0, y: 0, z: 0}
@@ -1547,6 +1559,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NoiseProfile: {fileID: 11400000, guid: 404943610f0bbc341b7b94f90b3cf90d, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
   m_AmplitudeGain: 1
   m_FrequencyGain: 1
   mNoiseOffsets: {x: 0, y: 0, z: 0}
@@ -1629,10 +1642,11 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 200
     m_AccelTime: 0.05
     m_DecelTime: 0.05
-    m_InputAxisName: Horizontal
+    m_InputAxisName: 
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
@@ -1754,10 +1768,11 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 76.37301
+    m_SpeedMode: 0
     m_MaxSpeed: 800
     m_AccelTime: 0.05
     m_DecelTime: 0.05
-    m_InputAxisName: Horizontal
+    m_InputAxisName: 
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
@@ -1873,9 +1888,10 @@ MonoBehaviour:
   m_LegacyBlendHint: 0
   m_YAxis:
     Value: 0.5
-    m_MaxSpeed: 5
-    m_AccelTime: 0.05
-    m_DecelTime: 0.05
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Vertical
     m_InputAxisValue: -0
     m_InvertInput: 0
@@ -1896,9 +1912,10 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
-    m_MaxSpeed: 800
-    m_AccelTime: 0.05
-    m_DecelTime: 0.05
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Horizontal
     m_InputAxisValue: 0
     m_InvertInput: 1
@@ -2239,10 +2256,11 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 200
     m_AccelTime: 0.05
     m_DecelTime: 0.05
-    m_InputAxisName: Horizontal
+    m_InputAxisName: 
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
@@ -2364,10 +2382,11 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 200
     m_AccelTime: 0.05
     m_DecelTime: 0.05
-    m_InputAxisName: Horizontal
+    m_InputAxisName: 
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
@@ -2564,10 +2583,11 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 200
     m_AccelTime: 0.05
     m_DecelTime: 0.05
-    m_InputAxisName: Horizontal
+    m_InputAxisName: 
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
@@ -2689,10 +2709,11 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 76.37301
+    m_SpeedMode: 0
     m_MaxSpeed: 800
     m_AccelTime: 0.05
     m_DecelTime: 0.05
-    m_InputAxisName: Horizontal
+    m_InputAxisName: 
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
@@ -2836,7 +2857,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3929981357208601169}
   m_LocalRotation: {x: 0.105569705, y: -0.19408421, z: 0.02101346, w: 0.9750615}
-  m_LocalPosition: {x: 7.6127014, y: 0.66136444, z: -18.233849}
+  m_LocalPosition: {x: 8.340237, y: 0.66136444, z: -18.806086}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 441419131473014733}
@@ -2884,9 +2905,10 @@ MonoBehaviour:
   m_LegacyBlendHint: 0
   m_YAxis:
     Value: 0.37388077
-    m_MaxSpeed: 5
-    m_AccelTime: 0.05
-    m_DecelTime: 0.05
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Vertical
     m_InputAxisValue: -0
     m_InvertInput: 0
@@ -2907,9 +2929,10 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 76.37301
-    m_MaxSpeed: 800
-    m_AccelTime: 0.05
-    m_DecelTime: 0.05
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Horizontal
     m_InputAxisValue: 0
     m_InvertInput: 1
@@ -2956,6 +2979,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6703335685319143605}
   - component: {fileID: 6210172498407872774}
+  - component: {fileID: 2104060305}
   m_Layer: 0
   m_Name: CM FL Sprint
   m_TagString: Untagged
@@ -2971,7 +2995,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4173219870350656611}
   m_LocalRotation: {x: 0.105569705, y: -0.19408421, z: 0.02101346, w: 0.9750615}
-  m_LocalPosition: {x: 10.497017, y: 1.1926857, z: -20.534622}
+  m_LocalPosition: {x: 10.497017, y: 0.60202, z: -19.561995}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6072570499106922748}
@@ -3019,9 +3043,10 @@ MonoBehaviour:
   m_LegacyBlendHint: 0
   m_YAxis:
     Value: 0.5
-    m_MaxSpeed: 1.25
-    m_AccelTime: 0.05
-    m_DecelTime: 0.05
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Vertical
     m_InputAxisValue: -0
     m_InvertInput: 0
@@ -3042,9 +3067,10 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
-    m_MaxSpeed: 400
-    m_AccelTime: 0.05
-    m_DecelTime: 0.05
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Horizontal
     m_InputAxisValue: 0
     m_InvertInput: 1
@@ -3081,6 +3107,21 @@ MonoBehaviour:
   - {fileID: 7819817597440606799}
   - {fileID: 7946819279075019867}
   - {fileID: 616243350260278756}
+--- !u!114 &2104060305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4173219870350656611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FocusTracksTarget: 0
+  m_FocusOffset: 0
+  m_Profile: {fileID: 11400000, guid: e0499d1567582e64189fef43b15bbf1a, type: 2}
 --- !u!1 &4317924623684632895
 GameObject:
   m_ObjectHideFlags: 0
@@ -3160,10 +3201,11 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 200
     m_AccelTime: 0.05
     m_DecelTime: 0.05
-    m_InputAxisName: Horizontal
+    m_InputAxisName: 
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
@@ -3429,9 +3471,10 @@ MonoBehaviour:
   m_LegacyBlendHint: 0
   m_YAxis:
     Value: 0.5
-    m_MaxSpeed: 5
-    m_AccelTime: 0.05
-    m_DecelTime: 0.05
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Vertical
     m_InputAxisValue: -0
     m_InvertInput: 0
@@ -3452,9 +3495,10 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
-    m_MaxSpeed: 800
-    m_AccelTime: 0.05
-    m_DecelTime: 0.05
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Horizontal
     m_InputAxisValue: 0
     m_InvertInput: 1
@@ -3591,7 +3635,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5497644745097631947}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0002803182, y: -0.0013107889, z: 0.00024011641}
+  m_LocalPosition: {x: 1.5602456, y: -1.6391745, z: -1.553569}
   m_LocalScale: {x: 0.99999994, y: 1, z: 1}
   m_Children:
   - {fileID: 5590886602248541315}
@@ -3722,10 +3766,11 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 400
     m_AccelTime: 0.05
     m_DecelTime: 0.05
-    m_InputAxisName: Horizontal
+    m_InputAxisName: 
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
@@ -3781,6 +3826,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NoiseProfile: {fileID: 11400000, guid: 404943610f0bbc341b7b94f90b3cf90d, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
   m_AmplitudeGain: 1
   m_FrequencyGain: 1
   mNoiseOffsets: {x: 0, y: 0, z: 0}
@@ -3797,6 +3843,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NoiseProfile: {fileID: 11400000, guid: 404943610f0bbc341b7b94f90b3cf90d, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
   m_AmplitudeGain: 1
   m_FrequencyGain: 1
   mNoiseOffsets: {x: 0, y: 0, z: 0}
@@ -3879,10 +3926,11 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 21.06662
+    m_SpeedMode: 0
     m_MaxSpeed: 200
     m_AccelTime: 0.05
     m_DecelTime: 0.05
-    m_InputAxisName: Horizontal
+    m_InputAxisName: 
     m_InputAxisValue: -0
     m_InvertInput: 1
     m_MinValue: -180
@@ -4154,10 +4202,11 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 76.37301
+    m_SpeedMode: 0
     m_MaxSpeed: 800
     m_AccelTime: 0.05
     m_DecelTime: 0.05
-    m_InputAxisName: Horizontal
+    m_InputAxisName: 
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
@@ -4224,8 +4273,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6080311067678697931}
-  m_LocalRotation: {x: -0.105569705, y: 0.19408421, z: -0.02101346, w: 0.9750615}
-  m_LocalPosition: {x: -32.39935, y: 0.6415071, z: 8.067263}
+  m_LocalRotation: {x: -0.12732978, y: 0.19450527, z: -0.01667166, w: 0.97245926}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4300528814652916863}
@@ -4375,8 +4424,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6302412495125998674}
-  m_LocalRotation: {x: -0.07339688, y: 0.7557775, z: -0.07779548, w: 0.64603496}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0.07339688, y: 0.7557774, z: -0.077795476, w: 0.64603513}
+  m_LocalPosition: {x: -0.45295835, y: 0.17276815, z: 0.78850657}
   m_LocalScale: {x: 0.99999994, y: 1, z: 1}
   m_Children:
   - {fileID: 8020848875149632789}
@@ -4505,10 +4554,11 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 200
     m_AccelTime: 0.05
     m_DecelTime: 0.05
-    m_InputAxisName: Horizontal
+    m_InputAxisName: 
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
@@ -4630,10 +4680,11 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 21.06662
+    m_SpeedMode: 0
     m_MaxSpeed: 200
     m_AccelTime: 0.05
     m_DecelTime: 0.05
-    m_InputAxisName: Horizontal
+    m_InputAxisName: 
     m_InputAxisValue: -0
     m_InvertInput: 1
     m_MinValue: -180
@@ -4749,9 +4800,10 @@ MonoBehaviour:
   m_LegacyBlendHint: 0
   m_YAxis:
     Value: 0.5
-    m_MaxSpeed: 1.25
-    m_AccelTime: 0.05
-    m_DecelTime: 0.05
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Vertical
     m_InputAxisValue: -0
     m_InvertInput: 0
@@ -4772,9 +4824,10 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
-    m_MaxSpeed: 200
-    m_AccelTime: 0.05
-    m_DecelTime: 0.05
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Horizontal
     m_InputAxisValue: 0
     m_InvertInput: 1
@@ -4884,9 +4937,10 @@ MonoBehaviour:
   m_LegacyBlendHint: 0
   m_YAxis:
     Value: 0.5
-    m_MaxSpeed: 3
-    m_AccelTime: 0.05
-    m_DecelTime: 0.05
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Vertical
     m_InputAxisValue: -0
     m_InvertInput: 0
@@ -4907,9 +4961,10 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
-    m_MaxSpeed: 500
-    m_AccelTime: 0.05
-    m_DecelTime: 0.05
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Horizontal
     m_InputAxisValue: -0
     m_InvertInput: 1
@@ -5025,10 +5080,11 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 200
     m_AccelTime: 0.05
     m_DecelTime: 0.05
-    m_InputAxisName: Horizontal
+    m_InputAxisName: 
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
@@ -5081,6 +5137,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3757250156273750581}
   - component: {fileID: 7233493898778014179}
+  - component: {fileID: 945056790}
   m_Layer: 0
   m_Name: CM FL Sprint Jump
   m_TagString: Untagged
@@ -5144,9 +5201,10 @@ MonoBehaviour:
   m_LegacyBlendHint: 0
   m_YAxis:
     Value: 0.5
-    m_MaxSpeed: 1.25
-    m_AccelTime: 0.05
-    m_DecelTime: 0.05
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Vertical
     m_InputAxisValue: -0
     m_InvertInput: 0
@@ -5167,9 +5225,10 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
-    m_MaxSpeed: 200
-    m_AccelTime: 0.05
-    m_DecelTime: 0.05
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Horizontal
     m_InputAxisValue: 0
     m_InvertInput: 1
@@ -5206,6 +5265,21 @@ MonoBehaviour:
   - {fileID: 3000505292984870618}
   - {fileID: 5772014463395730585}
   - {fileID: 1983321522520113399}
+--- !u!114 &945056790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7658879848595371171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FocusTracksTarget: 0
+  m_FocusOffset: 0
+  m_Profile: {fileID: 11400000, guid: e0499d1567582e64189fef43b15bbf1a, type: 2}
 --- !u!1 &7795776459395092772
 GameObject:
   m_ObjectHideFlags: 0
@@ -5285,10 +5359,11 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 21.06662
+    m_SpeedMode: 0
     m_MaxSpeed: 200
     m_AccelTime: 0.05
     m_DecelTime: 0.05
-    m_InputAxisName: Horizontal
+    m_InputAxisName: 
     m_InputAxisValue: -0
     m_InvertInput: 1
     m_MinValue: -180
@@ -5355,8 +5430,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7799704541378039931}
-  m_LocalRotation: {x: -0.105569705, y: 0.19408421, z: -0.02101346, w: 0.9750615}
-  m_LocalPosition: {x: -32.39935, y: 0.6415071, z: 8.067263}
+  m_LocalRotation: {x: -0.1273298, y: 0.19450532, z: -0.016671658, w: 0.97245926}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7211660314354682287}
@@ -5485,10 +5560,11 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 200
     m_AccelTime: 0.05
     m_DecelTime: 0.05
-    m_InputAxisName: Horizontal
+    m_InputAxisName: 
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
@@ -5555,8 +5631,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7903384473515283481}
-  m_LocalRotation: {x: -0.07339688, y: 0.7557775, z: -0.07779548, w: 0.64603496}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0.11071309, y: 0.19419222, z: -0.019989057, w: 0.97449094}
+  m_LocalPosition: {x: 1.3427973, y: -0.5121712, z: -2.3375278}
   m_LocalScale: {x: 0.99999994, y: 1, z: 1}
   m_Children:
   - {fileID: 6712101029279923964}
@@ -5685,10 +5761,11 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 200
     m_AccelTime: 0.05
     m_DecelTime: 0.05
-    m_InputAxisName: Horizontal
+    m_InputAxisName: 
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
@@ -5887,10 +5964,11 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 200
     m_AccelTime: 0.05
     m_DecelTime: 0.05
-    m_InputAxisName: Horizontal
+    m_InputAxisName: 
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
@@ -5946,6 +6024,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NoiseProfile: {fileID: 11400000, guid: 404943610f0bbc341b7b94f90b3cf90d, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
   m_AmplitudeGain: 1
   m_FrequencyGain: 1
   mNoiseOffsets: {x: 0, y: 0, z: 0}
@@ -5962,6 +6041,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NoiseProfile: {fileID: 11400000, guid: 404943610f0bbc341b7b94f90b3cf90d, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
   m_AmplitudeGain: 1
   m_FrequencyGain: 1
   mNoiseOffsets: {x: 0, y: 0, z: 0}
@@ -6195,10 +6275,11 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 200
     m_AccelTime: 0.05
     m_DecelTime: 0.05
-    m_InputAxisName: Horizontal
+    m_InputAxisName: 
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
@@ -6314,9 +6395,10 @@ MonoBehaviour:
   m_LegacyBlendHint: 0
   m_YAxis:
     Value: 0.5
-    m_MaxSpeed: 1.25
-    m_AccelTime: 0.05
-    m_DecelTime: 0.05
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Vertical
     m_InputAxisValue: -0
     m_InvertInput: 0
@@ -6337,9 +6419,10 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
-    m_MaxSpeed: 200
-    m_AccelTime: 0.05
-    m_DecelTime: 0.05
+    m_SpeedMode: 1
+    m_MaxSpeed: 1
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Horizontal
     m_InputAxisValue: 0
     m_InvertInput: 1
@@ -6550,8 +6633,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8952921518659242165}
-  m_LocalRotation: {x: -0.105569705, y: 0.19408421, z: -0.02101346, w: 0.9750615}
-  m_LocalPosition: {x: -32.39935, y: 0.6415071, z: 8.067263}
+  m_LocalRotation: {x: -0.12732978, y: 0.19450527, z: -0.01667166, w: 0.97245926}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3174448645543961911}
@@ -6682,10 +6765,11 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
+    m_SpeedMode: 0
     m_MaxSpeed: 200
     m_AccelTime: 0.05
     m_DecelTime: 0.05
-    m_InputAxisName: Horizontal
+    m_InputAxisName: 
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: -180
@@ -6741,6 +6825,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NoiseProfile: {fileID: 11400000, guid: 404943610f0bbc341b7b94f90b3cf90d, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
   m_AmplitudeGain: 1
   m_FrequencyGain: 1
   mNoiseOffsets: {x: 0, y: 0, z: 0}
@@ -6757,6 +6842,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NoiseProfile: {fileID: 11400000, guid: 404943610f0bbc341b7b94f90b3cf90d, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
   m_AmplitudeGain: 1
   m_FrequencyGain: 1
   mNoiseOffsets: {x: 0, y: 0, z: 0}
