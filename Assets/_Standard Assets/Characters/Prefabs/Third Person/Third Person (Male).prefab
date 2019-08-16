@@ -911,8 +911,8 @@ GameObject:
   - component: {fileID: 54341791654325916}
   - component: {fileID: 114299815650658612}
   - component: {fileID: 114403526203746496}
+  - component: {fileID: 6530303066215960769}
   - component: {fileID: 114317971631851810}
-  - component: {fileID: 1771896390}
   m_Layer: 11
   m_Name: Third Person (Male)
   m_TagString: Player
@@ -1281,6 +1281,22 @@ MonoBehaviour:
     m_ShowHeadGizmos: 1
     m_HeadCurrentDirection: {r: 1, g: 0, b: 0, a: 1}
     m_HeadDesiredDirection: {r: 0, g: 0, b: 1, a: 1}
+--- !u!114 &6530303066215960769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1294013925418394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 609ce7cda7a6ad747b950f73f820efb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Acceleration: 0.1
+  m_Deceleration: 0.1
+  m_XAxisMultiplier: 5
+  m_YAxisMultiplier: 0.05
 --- !u!114 &114317971631851810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1305,22 +1321,6 @@ MonoBehaviour:
     m_TouchVertical: 0.5
     m_TouchHorizontal: 0.5
   m_CursorLocked: 1
---- !u!114 &1771896390
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1294013925418394}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57f0e0baa18c44d2ad875c16c4528f06, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Acceleration: 0.1
-  m_Deceleration: 0.1
-  m_XAxisMultiplier: 5
-  m_YAxisMultiplier: 0.05
 --- !u!1 &1320574585163914
 GameObject:
   m_ObjectHideFlags: 0

@@ -2352,7 +2352,7 @@ GameObject:
   - component: {fileID: 114779351724003978}
   - component: {fileID: 114167438058447236}
   - component: {fileID: 114877076533816532}
-  - component: {fileID: 3747319708493034482}
+  - component: {fileID: 2980699148173183071}
   m_Layer: 11
   m_Name: Third Person (Female)
   m_TagString: Player
@@ -2744,7 +2744,7 @@ MonoBehaviour:
     m_TouchVertical: 0.5
     m_TouchHorizontal: 0.5
   m_CursorLocked: 1
---- !u!114 &3747319708493034482
+--- !u!114 &2980699148173183071
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2753,13 +2753,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1990983976190814}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57f0e0baa18c44d2ad875c16c4528f06, type: 3}
+  m_Script: {fileID: 11500000, guid: 609ce7cda7a6ad747b950f73f820efb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Acceleration: 0.1
   m_Deceleration: 0.1
-  m_XAxisMultiplier: 5
-  m_YAxisMultiplier: 0.05
+  m_XAxisMultiplier: 1
+  m_YAxisMultiplier: 0.01
 --- !u!1 &1993848533972480
 GameObject:
   m_ObjectHideFlags: 0

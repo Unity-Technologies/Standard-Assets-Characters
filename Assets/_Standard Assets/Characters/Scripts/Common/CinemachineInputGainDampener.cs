@@ -9,7 +9,7 @@ namespace StandardAssets.Characters.Common
     /// using Input Value Gain speed mode on a Cinemachine camera.
     /// </summary>
     [RequireComponent(typeof(CharacterInput))]
-    public class CameraInputGainAcceleration: MonoBehaviour
+    public class CinemachineInputGainDampener: MonoBehaviour
     {
         [SerializeField, Tooltip("Time in seconds to accelerate look inputs to max speed")]
         protected float m_Acceleration = 0.1f;

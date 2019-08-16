@@ -77,7 +77,7 @@ namespace StandardAssets.Characters.Common
 		[SerializeField, Tooltip("Toggle the Cursor Lock Mode? Press ESCAPE during play mode to unlock")]
 		bool m_CursorLocked = true;
 
-		CameraInputGainAcceleration cameraInputGainAcceleration;
+		CinemachineInputGainDampener cameraInputGainAcceleration;
 
 		// Instance of UI for Touch Controls
 		GameObject m_TouchControlsCanvasInstance;
@@ -91,7 +91,7 @@ namespace StandardAssets.Characters.Common
 		// Check if look input was processed
 		bool m_HasProcessedMouseLookInput;
 		
-		// If there is a not Camera InputGainAcceleration  component on the character,
+		// If there is a not Camera CinemachineInputGainDampener component on the character,
 		// then the camera will be controlled from the CharacterInput script.
 		bool m_UseInputGainAcceleration;
 		
@@ -162,9 +162,9 @@ namespace StandardAssets.Characters.Common
 			
 			m_StandardControls = new StandardControls();
 
-			cameraInputGainAcceleration = GetComponent<CameraInputGainAcceleration>();
+			cameraInputGainAcceleration = GetComponent<CinemachineInputGainDampener>();
 
-			// If no CameraInputGainAcceleration component is present, then there will be no acceleration or deceleration 
+			// If no CinemachineInputGainDampener component is present, then there will be no acceleration or deceleration 
 			// applied to the look input. If that is the case, it is advised to set the Speed Mode of the Cinemachine cameras
 			// to 'Max Speed' if it is desirable to have acceleration and deceleration for gamepad look input. 
 			if (cameraInputGainAcceleration != null)
@@ -190,7 +190,7 @@ namespace StandardAssets.Characters.Common
 		}
 
 		/// <summary>
-		/// Sets up the Cinemachine delegate if there is no CameraInputGainAcceleration component present.
+		/// Sets up the Cinemachine delegate if there is no CinemachineInputGainDampener component present.
 		/// Enables associated controls and subscribes to new input's performed events.
 		/// </summary>
 		protected void OnEnable()
@@ -222,7 +222,7 @@ namespace StandardAssets.Characters.Common
 		}
 
 		/// <summary>
-		/// Disables the Cinemachine delegate if there is no CameraInputGainAcceleration component present.
+		/// Disables the Cinemachine delegate if there is no CinemachineInputGainDampener component present.
 		/// Disables associated controls and unsubscribes from new input's performed events.
 		/// </summary>
 		protected void OnDisable()
@@ -405,7 +405,7 @@ namespace StandardAssets.Characters.Common
 		}
 		
 		// Handles the Cinemachine delegate. This will only ever get called by Cinemachine if
-		// there is no CameraInputGainAcceleration component on the character.
+		// there is no CinemachineInputGainDampener component on the character.
 		float LookInputOverride(string axis)
 		{
 			// This is to ensure that mouse look inputs are properly cleared once they have been processed as mouse
