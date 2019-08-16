@@ -1,9 +1,7 @@
 // GENERATED AUTOMATICALLY FROM 'Assets/_Standard Assets/Characters/Scriptable Objects/Control Map/StandardControls.inputactions'
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
@@ -21,102 +19,75 @@ public class StandardControls : IInputActionCollection
             ""actions"": [
                 {
                     ""name"": ""gamepadLook"",
+                    ""type"": ""Value"",
                     ""id"": ""18ffe753-4cc1-45fc-8377-f9b5292b1a4b"",
-                    ""expectedControlLayout"": """",
-                    ""continuous"": false,
-                    ""passThrough"": false,
-                    ""initialStateCheck"": false,
+                    ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": """",
-                    ""bindings"": []
+                    ""interactions"": """"
                 },
                 {
                     ""name"": ""move"",
+                    ""type"": ""Value"",
                     ""id"": ""21a14e86-4fb7-49f9-af14-ddbfc9451078"",
-                    ""expectedControlLayout"": """",
-                    ""continuous"": false,
-                    ""passThrough"": false,
-                    ""initialStateCheck"": false,
+                    ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": """",
-                    ""bindings"": []
+                    ""interactions"": """"
                 },
                 {
                     ""name"": ""crouch"",
+                    ""type"": ""Value"",
                     ""id"": ""5800e495-214e-474b-b3e0-57242409f8c1"",
-                    ""expectedControlLayout"": """",
-                    ""continuous"": false,
-                    ""passThrough"": false,
-                    ""initialStateCheck"": false,
+                    ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": """",
-                    ""bindings"": []
+                    ""interactions"": """"
                 },
                 {
                     ""name"": ""recentre"",
+                    ""type"": ""Value"",
                     ""id"": ""f8e6d38a-3004-4632-bb57-209532eda966"",
-                    ""expectedControlLayout"": """",
-                    ""continuous"": false,
-                    ""passThrough"": false,
-                    ""initialStateCheck"": false,
+                    ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": """",
-                    ""bindings"": []
+                    ""interactions"": """"
                 },
                 {
                     ""name"": ""sprint"",
+                    ""type"": ""Value"",
                     ""id"": ""cba1b438-67f2-4fc1-b3d0-9129c5ba7640"",
-                    ""expectedControlLayout"": """",
-                    ""continuous"": false,
-                    ""passThrough"": false,
-                    ""initialStateCheck"": false,
+                    ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": """",
-                    ""bindings"": []
+                    ""interactions"": """"
                 },
                 {
                     ""name"": ""strafe"",
+                    ""type"": ""Value"",
                     ""id"": ""fb80f938-13a8-4a49-aacb-b1323e025a3d"",
-                    ""expectedControlLayout"": """",
-                    ""continuous"": false,
-                    ""passThrough"": false,
-                    ""initialStateCheck"": false,
+                    ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": """",
-                    ""bindings"": []
+                    ""interactions"": """"
                 },
                 {
                     ""name"": ""strafeToggle"",
+                    ""type"": ""Value"",
                     ""id"": ""75ce618e-7b75-4ffb-a37e-d115370f4cc5"",
-                    ""expectedControlLayout"": """",
-                    ""continuous"": false,
-                    ""passThrough"": false,
-                    ""initialStateCheck"": false,
+                    ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": """",
-                    ""bindings"": []
+                    ""interactions"": """"
                 },
                 {
                     ""name"": ""jump"",
+                    ""type"": ""Value"",
                     ""id"": ""e0e21268-ad74-44f1-bd3d-e2909ad65769"",
-                    ""expectedControlLayout"": """",
-                    ""continuous"": false,
-                    ""passThrough"": false,
-                    ""initialStateCheck"": false,
+                    ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": """",
-                    ""bindings"": []
+                    ""interactions"": """"
                 },
                 {
                     ""name"": ""mouseLook"",
+                    ""type"": ""Value"",
                     ""id"": ""94fe90c2-2b91-475e-9d50-bb9f6e833c98"",
-                    ""expectedControlLayout"": """",
-                    ""continuous"": false,
-                    ""passThrough"": false,
-                    ""initialStateCheck"": false,
+                    ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": """",
-                    ""bindings"": []
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -129,8 +100,7 @@ public class StandardControls : IInputActionCollection
                     ""groups"": """",
                     ""action"": ""crouch"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false,
-                    ""modifiers"": """"
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
@@ -141,8 +111,7 @@ public class StandardControls : IInputActionCollection
                     ""groups"": """",
                     ""action"": ""crouch"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false,
-                    ""modifiers"": """"
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
@@ -153,8 +122,7 @@ public class StandardControls : IInputActionCollection
                     ""groups"": """",
                     ""action"": ""recentre"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false,
-                    ""modifiers"": """"
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
@@ -165,8 +133,7 @@ public class StandardControls : IInputActionCollection
                     ""groups"": """",
                     ""action"": ""recentre"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false,
-                    ""modifiers"": """"
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
@@ -177,8 +144,7 @@ public class StandardControls : IInputActionCollection
                     ""groups"": """",
                     ""action"": ""sprint"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false,
-                    ""modifiers"": """"
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
@@ -189,8 +155,7 @@ public class StandardControls : IInputActionCollection
                     ""groups"": """",
                     ""action"": ""sprint"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false,
-                    ""modifiers"": """"
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
@@ -201,8 +166,7 @@ public class StandardControls : IInputActionCollection
                     ""groups"": """",
                     ""action"": ""strafe"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false,
-                    ""modifiers"": """"
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
@@ -213,8 +177,7 @@ public class StandardControls : IInputActionCollection
                     ""groups"": """",
                     ""action"": ""strafe"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false,
-                    ""modifiers"": """"
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
@@ -225,8 +188,7 @@ public class StandardControls : IInputActionCollection
                     ""groups"": """",
                     ""action"": ""strafeToggle"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false,
-                    ""modifiers"": """"
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
@@ -237,8 +199,7 @@ public class StandardControls : IInputActionCollection
                     ""groups"": """",
                     ""action"": ""jump"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false,
-                    ""modifiers"": """"
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
@@ -249,20 +210,18 @@ public class StandardControls : IInputActionCollection
                     ""groups"": """",
                     ""action"": ""jump"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false,
-                    ""modifiers"": """"
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
                     ""id"": ""6350393e-2ea8-4399-88ad-38aa713e5cc5"",
                     ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",
-                    ""processors"": ""ScaleVector2(x=0.2,y=0.2)"",
+                    ""processors"": """",
                     ""groups"": """",
                     ""action"": ""gamepadLook"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false,
-                    ""modifiers"": """"
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
@@ -273,8 +232,7 @@ public class StandardControls : IInputActionCollection
                     ""groups"": """",
                     ""action"": ""move"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false,
-                    ""modifiers"": """"
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": ""WASD"",
@@ -285,8 +243,7 @@ public class StandardControls : IInputActionCollection
                     ""groups"": """",
                     ""action"": ""move"",
                     ""isComposite"": true,
-                    ""isPartOfComposite"": false,
-                    ""modifiers"": """"
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": ""up"",
@@ -297,8 +254,7 @@ public class StandardControls : IInputActionCollection
                     ""groups"": """",
                     ""action"": ""move"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true,
-                    ""modifiers"": """"
+                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""down"",
@@ -309,8 +265,7 @@ public class StandardControls : IInputActionCollection
                     ""groups"": """",
                     ""action"": ""move"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true,
-                    ""modifiers"": """"
+                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""left"",
@@ -321,8 +276,7 @@ public class StandardControls : IInputActionCollection
                     ""groups"": """",
                     ""action"": ""move"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true,
-                    ""modifiers"": """"
+                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""right"",
@@ -333,8 +287,7 @@ public class StandardControls : IInputActionCollection
                     ""groups"": """",
                     ""action"": ""move"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true,
-                    ""modifiers"": """"
+                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": """",
@@ -345,8 +298,7 @@ public class StandardControls : IInputActionCollection
                     ""groups"": """",
                     ""action"": ""mouseLook"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false,
-                    ""modifiers"": """"
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -383,10 +335,7 @@ public class StandardControls : IInputActionCollection
         set => asset.devices = value;
     }
 
-    public ReadOnlyArray<InputControlScheme> controlSchemes
-    {
-        get => asset.controlSchemes;
-    }
+    public ReadOnlyArray<InputControlScheme> controlSchemes => asset.controlSchemes;
 
     public bool Contains(InputAction action)
     {
@@ -414,35 +363,34 @@ public class StandardControls : IInputActionCollection
     }
 
     // Movement
-    private InputActionMap m_Movement;
+    private readonly InputActionMap m_Movement;
     private IMovementActions m_MovementActionsCallbackInterface;
-    private InputAction m_Movement_gamepadLook;
-    private InputAction m_Movement_move;
-    private InputAction m_Movement_crouch;
-    private InputAction m_Movement_recentre;
-    private InputAction m_Movement_sprint;
-    private InputAction m_Movement_strafe;
-    private InputAction m_Movement_strafeToggle;
-    private InputAction m_Movement_jump;
-    private InputAction m_Movement_mouseLook;
+    private readonly InputAction m_Movement_gamepadLook;
+    private readonly InputAction m_Movement_move;
+    private readonly InputAction m_Movement_crouch;
+    private readonly InputAction m_Movement_recentre;
+    private readonly InputAction m_Movement_sprint;
+    private readonly InputAction m_Movement_strafe;
+    private readonly InputAction m_Movement_strafeToggle;
+    private readonly InputAction m_Movement_jump;
+    private readonly InputAction m_Movement_mouseLook;
     public struct MovementActions
     {
         private StandardControls m_Wrapper;
         public MovementActions(StandardControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @gamepadLook { get { return m_Wrapper.m_Movement_gamepadLook; } }
-        public InputAction @move { get { return m_Wrapper.m_Movement_move; } }
-        public InputAction @crouch { get { return m_Wrapper.m_Movement_crouch; } }
-        public InputAction @recentre { get { return m_Wrapper.m_Movement_recentre; } }
-        public InputAction @sprint { get { return m_Wrapper.m_Movement_sprint; } }
-        public InputAction @strafe { get { return m_Wrapper.m_Movement_strafe; } }
-        public InputAction @strafeToggle { get { return m_Wrapper.m_Movement_strafeToggle; } }
-        public InputAction @jump { get { return m_Wrapper.m_Movement_jump; } }
-        public InputAction @mouseLook { get { return m_Wrapper.m_Movement_mouseLook; } }
+        public InputAction @gamepadLook => m_Wrapper.m_Movement_gamepadLook;
+        public InputAction @move => m_Wrapper.m_Movement_move;
+        public InputAction @crouch => m_Wrapper.m_Movement_crouch;
+        public InputAction @recentre => m_Wrapper.m_Movement_recentre;
+        public InputAction @sprint => m_Wrapper.m_Movement_sprint;
+        public InputAction @strafe => m_Wrapper.m_Movement_strafe;
+        public InputAction @strafeToggle => m_Wrapper.m_Movement_strafeToggle;
+        public InputAction @jump => m_Wrapper.m_Movement_jump;
+        public InputAction @mouseLook => m_Wrapper.m_Movement_mouseLook;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
-        public bool enabled { get { return Get().enabled; } }
-        public InputActionMap Clone() { return Get().Clone(); }
+        public bool enabled => Get().enabled;
         public static implicit operator InputActionMap(MovementActions set) { return set.Get(); }
         public void SetCallbacks(IMovementActions instance)
         {
@@ -509,13 +457,7 @@ public class StandardControls : IInputActionCollection
             }
         }
     }
-    public MovementActions @Movement
-    {
-        get
-        {
-            return new MovementActions(this);
-        }
-    }
+    public MovementActions @Movement => new MovementActions(this);
     public interface IMovementActions
     {
         void OnGamepadLook(InputAction.CallbackContext context);
