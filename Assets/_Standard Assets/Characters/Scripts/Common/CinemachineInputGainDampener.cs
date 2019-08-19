@@ -35,7 +35,7 @@ namespace StandardAssets.Characters.Common
         // The frame count when an input axis was processed 
         int m_LookInputProcessedFrame;
             
-        // The delta time used to calculate the input acceleration
+        // The delta time used to calculate the input acceleration and deceleration 
         float m_accelerationAppliedDeltaTime;
     
         // The delta time of the Cinemachine update calls 
