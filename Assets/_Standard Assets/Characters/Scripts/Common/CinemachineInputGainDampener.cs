@@ -36,7 +36,7 @@ namespace StandardAssets.Characters.Common
         int m_LookInputProcessedFrame;
             
         // The delta time used to calculate the input acceleration
-        float accelerationAppliedDeltaTime;
+        float m_accelerationAppliedDeltaTime;
     
         // The delta time of the Cinemachine update calls 
         float cameraUpdateDeltaTime;
@@ -58,7 +58,7 @@ namespace StandardAssets.Characters.Common
         // Constant Epsilon, 0.0001f
         const float Epsilon = UnityVectorExtensions.Epsilon;
         
-        private void Awake()
+        void Awake()
         {
             if (characterInput == null)
             {
@@ -69,7 +69,7 @@ namespace StandardAssets.Characters.Common
         /// <summary>
         /// Sets up the Cinemachine delegate
         /// </summary>
-        private void OnEnable()
+        void OnEnable()
         {
             CinemachineCore.GetInputAxis += LookInputOverride;
         }
@@ -77,7 +77,7 @@ namespace StandardAssets.Characters.Common
         /// <summary>
         /// Disables the Cinemachine delegate
         /// </summary>
-        private void OnDisable()
+        void OnDisable()
         {
             CinemachineCore.GetInputAxis -= LookInputOverride;
         }
@@ -153,9 +153,9 @@ namespace StandardAssets.Characters.Common
             }
             else
             {
-                accelerationAppliedDeltaTime = Time.fixedUnscaledTime - cameraUpdateDeltaTime;
+                m_accelerationAppliedDeltaTime = Time.fixedUnscaledTime - cameraUpdateDeltaTime;
                 acceleratedLookInput = ApplyAcceleration(characterInput.lookInput, 
-                    acceleratedLookInput, accelerationAppliedDeltaTime,
+                    acceleratedLookInput, m_accelerationAppliedDeltaTime,
                     m_Acceleration, m_Deceleration);
                 cameraUpdateDeltaTime = Time.fixedUnscaledTime;
             }
