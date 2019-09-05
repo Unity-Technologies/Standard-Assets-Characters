@@ -18,6 +18,14 @@ public class StandardControls : IInputActionCollection
             ""id"": ""401f0562-653c-45d7-b6af-d43a16e5e984"",
             ""actions"": [
                 {
+                    ""name"": ""mouseLook"",
+                    ""type"": ""Value"",
+                    ""id"": ""94fe90c2-2b91-475e-9d50-bb9f6e833c98"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
                     ""name"": ""gamepadLook"",
                     ""type"": ""Value"",
                     ""id"": ""18ffe753-4cc1-45fc-8377-f9b5292b1a4b"",
@@ -66,25 +74,9 @@ public class StandardControls : IInputActionCollection
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""strafeToggle"",
-                    ""type"": ""Value"",
-                    ""id"": ""75ce618e-7b75-4ffb-a37e-d115370f4cc5"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
                     ""name"": ""jump"",
                     ""type"": ""Value"",
                     ""id"": ""e0e21268-ad74-44f1-bd3d-e2909ad65769"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""mouseLook"",
-                    ""type"": ""Value"",
-                    ""id"": ""94fe90c2-2b91-475e-9d50-bb9f6e833c98"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
@@ -106,7 +98,7 @@ public class StandardControls : IInputActionCollection
                     ""name"": """",
                     ""id"": ""e7171b02-bd2f-4eaa-90a5-3de8ca9d7c4b"",
                     ""path"": ""<Gamepad>/rightStickPress"",
-                    ""interactions"": ""Press,Press(behavior=2)"",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""crouch"",
@@ -150,7 +142,7 @@ public class StandardControls : IInputActionCollection
                     ""name"": """",
                     ""id"": ""6916ba45-ea9d-43b1-909c-427e71ef7072"",
                     ""path"": ""<Gamepad>/leftStickPress"",
-                    ""interactions"": ""Press,Press(behavior=2)"",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""sprint"",
@@ -172,21 +164,10 @@ public class StandardControls : IInputActionCollection
                     ""name"": """",
                     ""id"": ""afaf61b1-2cc6-4419-87cc-1658b7d3796f"",
                     ""path"": ""<Gamepad>/leftTrigger"",
-                    ""interactions"": ""Press,Press(behavior=2)"",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""strafe"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""7b3fcf09-ec1d-41c8-9a2b-f51ce04f6260"",
-                    ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""strafeToggle"",
+                    ""action"": ""strafe"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -307,15 +288,14 @@ public class StandardControls : IInputActionCollection
 }");
         // Movement
         m_Movement = asset.GetActionMap("Movement");
+        m_Movement_mouseLook = m_Movement.GetAction("mouseLook");
         m_Movement_gamepadLook = m_Movement.GetAction("gamepadLook");
         m_Movement_move = m_Movement.GetAction("move");
         m_Movement_crouch = m_Movement.GetAction("crouch");
         m_Movement_recentre = m_Movement.GetAction("recentre");
         m_Movement_sprint = m_Movement.GetAction("sprint");
         m_Movement_strafe = m_Movement.GetAction("strafe");
-        m_Movement_strafeToggle = m_Movement.GetAction("strafeToggle");
         m_Movement_jump = m_Movement.GetAction("jump");
-        m_Movement_mouseLook = m_Movement.GetAction("mouseLook");
     }
 
     ~StandardControls()
@@ -365,28 +345,26 @@ public class StandardControls : IInputActionCollection
     // Movement
     private readonly InputActionMap m_Movement;
     private IMovementActions m_MovementActionsCallbackInterface;
+    private readonly InputAction m_Movement_mouseLook;
     private readonly InputAction m_Movement_gamepadLook;
     private readonly InputAction m_Movement_move;
     private readonly InputAction m_Movement_crouch;
     private readonly InputAction m_Movement_recentre;
     private readonly InputAction m_Movement_sprint;
     private readonly InputAction m_Movement_strafe;
-    private readonly InputAction m_Movement_strafeToggle;
     private readonly InputAction m_Movement_jump;
-    private readonly InputAction m_Movement_mouseLook;
     public struct MovementActions
     {
         private StandardControls m_Wrapper;
         public MovementActions(StandardControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @mouseLook => m_Wrapper.m_Movement_mouseLook;
         public InputAction @gamepadLook => m_Wrapper.m_Movement_gamepadLook;
         public InputAction @move => m_Wrapper.m_Movement_move;
         public InputAction @crouch => m_Wrapper.m_Movement_crouch;
         public InputAction @recentre => m_Wrapper.m_Movement_recentre;
         public InputAction @sprint => m_Wrapper.m_Movement_sprint;
         public InputAction @strafe => m_Wrapper.m_Movement_strafe;
-        public InputAction @strafeToggle => m_Wrapper.m_Movement_strafeToggle;
         public InputAction @jump => m_Wrapper.m_Movement_jump;
-        public InputAction @mouseLook => m_Wrapper.m_Movement_mouseLook;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -396,6 +374,9 @@ public class StandardControls : IInputActionCollection
         {
             if (m_Wrapper.m_MovementActionsCallbackInterface != null)
             {
+                mouseLook.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnMouseLook;
+                mouseLook.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnMouseLook;
+                mouseLook.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnMouseLook;
                 gamepadLook.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnGamepadLook;
                 gamepadLook.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnGamepadLook;
                 gamepadLook.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnGamepadLook;
@@ -414,19 +395,16 @@ public class StandardControls : IInputActionCollection
                 strafe.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnStrafe;
                 strafe.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnStrafe;
                 strafe.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnStrafe;
-                strafeToggle.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnStrafeToggle;
-                strafeToggle.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnStrafeToggle;
-                strafeToggle.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnStrafeToggle;
                 jump.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnJump;
                 jump.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnJump;
                 jump.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnJump;
-                mouseLook.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnMouseLook;
-                mouseLook.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnMouseLook;
-                mouseLook.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnMouseLook;
             }
             m_Wrapper.m_MovementActionsCallbackInterface = instance;
             if (instance != null)
             {
+                mouseLook.started += instance.OnMouseLook;
+                mouseLook.performed += instance.OnMouseLook;
+                mouseLook.canceled += instance.OnMouseLook;
                 gamepadLook.started += instance.OnGamepadLook;
                 gamepadLook.performed += instance.OnGamepadLook;
                 gamepadLook.canceled += instance.OnGamepadLook;
@@ -445,29 +423,22 @@ public class StandardControls : IInputActionCollection
                 strafe.started += instance.OnStrafe;
                 strafe.performed += instance.OnStrafe;
                 strafe.canceled += instance.OnStrafe;
-                strafeToggle.started += instance.OnStrafeToggle;
-                strafeToggle.performed += instance.OnStrafeToggle;
-                strafeToggle.canceled += instance.OnStrafeToggle;
                 jump.started += instance.OnJump;
                 jump.performed += instance.OnJump;
                 jump.canceled += instance.OnJump;
-                mouseLook.started += instance.OnMouseLook;
-                mouseLook.performed += instance.OnMouseLook;
-                mouseLook.canceled += instance.OnMouseLook;
             }
         }
     }
     public MovementActions @Movement => new MovementActions(this);
     public interface IMovementActions
     {
+        void OnMouseLook(InputAction.CallbackContext context);
         void OnGamepadLook(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
         void OnRecentre(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
         void OnStrafe(InputAction.CallbackContext context);
-        void OnStrafeToggle(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
-        void OnMouseLook(InputAction.CallbackContext context);
     }
 }

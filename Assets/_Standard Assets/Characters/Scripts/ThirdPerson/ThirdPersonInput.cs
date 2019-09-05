@@ -43,16 +43,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			standardControls.Movement.recentre.performed += OnRecentreInput;
 		
-			if(UseTouchControls())
-			{
-				standardControls.Movement.strafeToggle.performed += OnStrafeInput;
-				standardControls.Movement.strafeToggle.canceled += OnStrafeInput;
-			}
-			else
-			{
-				standardControls.Movement.strafe.performed += OnStrafeInput;
-				standardControls.Movement.strafe.canceled += OnStrafeInput;
-			}
+			standardControls.Movement.strafe.performed += OnStrafeInput;
+			standardControls.Movement.strafe.canceled += OnStrafeInput;
 		}
 		
 		/// <summary>
@@ -62,16 +54,8 @@ namespace StandardAssets.Characters.ThirdPerson
 		{
 			standardControls.Movement.recentre.performed -= OnRecentreInput;
 		
-			if(UseTouchControls())
-			{
-				standardControls.Movement.strafeToggle.performed -= OnStrafeInput;
-				standardControls.Movement.strafeToggle.canceled -= OnStrafeInput;
-			}
-			else
-			{
-				standardControls.Movement.strafe.performed -= OnStrafeInput;
-				standardControls.Movement.strafe.canceled -= OnStrafeInput;
-			}
+			standardControls.Movement.strafe.performed -= OnStrafeInput;
+			standardControls.Movement.strafe.canceled -= OnStrafeInput;
 		}
 
 		// Handles the recentre input 

@@ -6,103 +6,68 @@
             "id": "401f0562-653c-45d7-b6af-d43a16e5e984",
             "actions": [
                 {
-                    "name": "gamepadLook",
-                    "id": "18ffe753-4cc1-45fc-8377-f9b5292b1a4b",
-                    "expectedControlLayout": "",
-                    "continuous": false,
-                    "passThrough": false,
-                    "initialStateCheck": false,
+                    "name": "mouseLook",
+                    "type": "Value",
+                    "id": "94fe90c2-2b91-475e-9d50-bb9f6e833c98",
+                    "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
-                    "bindings": []
+                    "interactions": ""
+                },
+                {
+                    "name": "gamepadLook",
+                    "type": "Value",
+                    "id": "18ffe753-4cc1-45fc-8377-f9b5292b1a4b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
                 },
                 {
                     "name": "move",
+                    "type": "Value",
                     "id": "21a14e86-4fb7-49f9-af14-ddbfc9451078",
-                    "expectedControlLayout": "",
-                    "continuous": false,
-                    "passThrough": false,
-                    "initialStateCheck": false,
+                    "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
-                    "bindings": []
+                    "interactions": ""
                 },
                 {
                     "name": "crouch",
+                    "type": "Value",
                     "id": "5800e495-214e-474b-b3e0-57242409f8c1",
-                    "expectedControlLayout": "",
-                    "continuous": false,
-                    "passThrough": false,
-                    "initialStateCheck": false,
+                    "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
-                    "bindings": []
+                    "interactions": ""
                 },
                 {
                     "name": "recentre",
+                    "type": "Value",
                     "id": "f8e6d38a-3004-4632-bb57-209532eda966",
-                    "expectedControlLayout": "",
-                    "continuous": false,
-                    "passThrough": false,
-                    "initialStateCheck": false,
+                    "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
-                    "bindings": []
+                    "interactions": ""
                 },
                 {
                     "name": "sprint",
+                    "type": "Value",
                     "id": "cba1b438-67f2-4fc1-b3d0-9129c5ba7640",
-                    "expectedControlLayout": "",
-                    "continuous": false,
-                    "passThrough": false,
-                    "initialStateCheck": false,
+                    "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
-                    "bindings": []
+                    "interactions": ""
                 },
                 {
                     "name": "strafe",
+                    "type": "Value",
                     "id": "fb80f938-13a8-4a49-aacb-b1323e025a3d",
-                    "expectedControlLayout": "",
-                    "continuous": false,
-                    "passThrough": false,
-                    "initialStateCheck": false,
+                    "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
-                    "bindings": []
-                },
-                {
-                    "name": "strafeToggle",
-                    "id": "75ce618e-7b75-4ffb-a37e-d115370f4cc5",
-                    "expectedControlLayout": "",
-                    "continuous": false,
-                    "passThrough": false,
-                    "initialStateCheck": false,
-                    "processors": "",
-                    "interactions": "",
-                    "bindings": []
+                    "interactions": ""
                 },
                 {
                     "name": "jump",
+                    "type": "Value",
                     "id": "e0e21268-ad74-44f1-bd3d-e2909ad65769",
-                    "expectedControlLayout": "",
-                    "continuous": false,
-                    "passThrough": false,
-                    "initialStateCheck": false,
+                    "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
-                    "bindings": []
-                },
-                {
-                    "name": "mouseLook",
-                    "id": "94fe90c2-2b91-475e-9d50-bb9f6e833c98",
-                    "expectedControlLayout": "",
-                    "continuous": false,
-                    "passThrough": false,
-                    "initialStateCheck": false,
-                    "processors": "",
-                    "interactions": "",
-                    "bindings": []
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -115,20 +80,18 @@
                     "groups": "",
                     "action": "crouch",
                     "isComposite": false,
-                    "isPartOfComposite": false,
-                    "modifiers": ""
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "e7171b02-bd2f-4eaa-90a5-3de8ca9d7c4b",
                     "path": "<Gamepad>/rightStickPress",
-                    "interactions": "Press,Press(behavior=2)",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "",
                     "action": "crouch",
                     "isComposite": false,
-                    "isPartOfComposite": false,
-                    "modifiers": ""
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
@@ -139,8 +102,7 @@
                     "groups": "",
                     "action": "recentre",
                     "isComposite": false,
-                    "isPartOfComposite": false,
-                    "modifiers": ""
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
@@ -151,8 +113,7 @@
                     "groups": "",
                     "action": "recentre",
                     "isComposite": false,
-                    "isPartOfComposite": false,
-                    "modifiers": ""
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
@@ -163,20 +124,18 @@
                     "groups": "",
                     "action": "sprint",
                     "isComposite": false,
-                    "isPartOfComposite": false,
-                    "modifiers": ""
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "6916ba45-ea9d-43b1-909c-427e71ef7072",
                     "path": "<Gamepad>/leftStickPress",
-                    "interactions": "Press,Press(behavior=2)",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "",
                     "action": "sprint",
                     "isComposite": false,
-                    "isPartOfComposite": false,
-                    "modifiers": ""
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
@@ -187,32 +146,18 @@
                     "groups": "",
                     "action": "strafe",
                     "isComposite": false,
-                    "isPartOfComposite": false,
-                    "modifiers": ""
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "afaf61b1-2cc6-4419-87cc-1658b7d3796f",
                     "path": "<Gamepad>/leftTrigger",
-                    "interactions": "Press,Press(behavior=2)",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "",
                     "action": "strafe",
                     "isComposite": false,
-                    "isPartOfComposite": false,
-                    "modifiers": ""
-                },
-                {
-                    "name": "",
-                    "id": "7b3fcf09-ec1d-41c8-9a2b-f51ce04f6260",
-                    "path": "<Gamepad>/leftTrigger",
-                    "interactions": "Press",
-                    "processors": "",
-                    "groups": "",
-                    "action": "strafeToggle",
-                    "isComposite": false,
-                    "isPartOfComposite": false,
-                    "modifiers": ""
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
@@ -223,8 +168,7 @@
                     "groups": "",
                     "action": "jump",
                     "isComposite": false,
-                    "isPartOfComposite": false,
-                    "modifiers": ""
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
@@ -235,8 +179,7 @@
                     "groups": "",
                     "action": "jump",
                     "isComposite": false,
-                    "isPartOfComposite": false,
-                    "modifiers": ""
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
@@ -247,8 +190,7 @@
                     "groups": "",
                     "action": "gamepadLook",
                     "isComposite": false,
-                    "isPartOfComposite": false,
-                    "modifiers": ""
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
@@ -259,8 +201,7 @@
                     "groups": "",
                     "action": "move",
                     "isComposite": false,
-                    "isPartOfComposite": false,
-                    "modifiers": ""
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "WASD",
@@ -271,8 +212,7 @@
                     "groups": "",
                     "action": "move",
                     "isComposite": true,
-                    "isPartOfComposite": false,
-                    "modifiers": ""
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "up",
@@ -283,8 +223,7 @@
                     "groups": "",
                     "action": "move",
                     "isComposite": false,
-                    "isPartOfComposite": true,
-                    "modifiers": ""
+                    "isPartOfComposite": true
                 },
                 {
                     "name": "down",
@@ -295,8 +234,7 @@
                     "groups": "",
                     "action": "move",
                     "isComposite": false,
-                    "isPartOfComposite": true,
-                    "modifiers": ""
+                    "isPartOfComposite": true
                 },
                 {
                     "name": "left",
@@ -307,8 +245,7 @@
                     "groups": "",
                     "action": "move",
                     "isComposite": false,
-                    "isPartOfComposite": true,
-                    "modifiers": ""
+                    "isPartOfComposite": true
                 },
                 {
                     "name": "right",
@@ -319,8 +256,7 @@
                     "groups": "",
                     "action": "move",
                     "isComposite": false,
-                    "isPartOfComposite": true,
-                    "modifiers": ""
+                    "isPartOfComposite": true
                 },
                 {
                     "name": "",
@@ -331,8 +267,7 @@
                     "groups": "",
                     "action": "mouseLook",
                     "isComposite": false,
-                    "isPartOfComposite": false,
-                    "modifiers": ""
+                    "isPartOfComposite": false
                 }
             ]
         }
