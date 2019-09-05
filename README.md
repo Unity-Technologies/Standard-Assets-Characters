@@ -42,6 +42,12 @@ Third Person Contoller:
 Movement Effects:
 
 	https://docs.google.com/document/d/1544ZvaGuWcW47CViHq1lHZkiuuqwVaxz7Cd4htyea-A/edit?usp=sharing	
+	
+Character Input:
+
+	https://docs.google.com/document/d/1f8HcBEjz-Fpd-FJPg7npfB8XOuSzAWaM4b_g_2aEhT0/edit?usp=sharing
+
+	
 
 
 ## Getting Started
@@ -56,9 +62,9 @@ Movement Effects:
 * Import the SAC package.
 * Make sure that you have the following Unity Packages added in your manifest.json:
 	* "com.unity.cinemachine": "2.3.4"
-	* "com.unity.inputsystem": "0.2.10-preview"
-	* "com.unity.postprocessing": "2.1.4"
-	* "com.unity.probuilder": "4.0.3"
+	* "com.unity.inputsystem": "0.9.5-preview"
+	* "com.unity.postprocessing": "2.1.7"
+	* "com.unity.probuilder": "4.0.5"
 * Open the Protoland Scene
 * Enable either the First Person or the Third Person Game Object under Characters
 * Press Play
