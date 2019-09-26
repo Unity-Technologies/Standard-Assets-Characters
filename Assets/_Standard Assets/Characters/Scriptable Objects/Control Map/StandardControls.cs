@@ -241,7 +241,7 @@ public class StandardControls : IInputActionCollection
                     ""name"": """",
                     ""id"": ""b108f8e1-f249-4186-8008-ff46f366162c"",
                     ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press(behavior=2)"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""strafe"",

@@ -1,5 +1,6 @@
 using System;
 using StandardAssets.Characters.Common;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 
@@ -40,7 +41,10 @@ namespace StandardAssets.Characters.ThirdPerson
 		// Handles the strafe input
 		public override void  OnStrafe(InputAction.CallbackContext context)
 		{
-			BroadcastInputAction(ref m_IsStrafing, strafeStarted, strafeEnded);
+			if (context.performed)
+			{
+				BroadcastInputAction(ref m_IsStrafing, strafeStarted, strafeEnded);
+			}
 		}
 	}
 }
