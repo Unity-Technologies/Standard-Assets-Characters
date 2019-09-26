@@ -15,68 +15,68 @@ public class StandardControls : IInputActionCollection
     ""maps"": [
         {
             ""name"": ""Movement"",
-            ""id"": ""401f0562-653c-45d7-b6af-d43a16e5e984"",
+            ""id"": ""65634749-06eb-49be-bc33-237d1110cd9e"",
             ""actions"": [
                 {
                     ""name"": ""mouseLook"",
                     ""type"": ""Value"",
-                    ""id"": ""94fe90c2-2b91-475e-9d50-bb9f6e833c98"",
-                    ""expectedControlType"": """",
+                    ""id"": ""8bcd5ab3-6e10-44e8-b7c8-b7822ceaf2a9"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
                 {
                     ""name"": ""gamepadLook"",
                     ""type"": ""Value"",
-                    ""id"": ""18ffe753-4cc1-45fc-8377-f9b5292b1a4b"",
-                    ""expectedControlType"": """",
+                    ""id"": ""d01f4d0b-39c2-4cdd-8b5c-795fed85bf3b"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
                 {
                     ""name"": ""move"",
                     ""type"": ""Value"",
-                    ""id"": ""21a14e86-4fb7-49f9-af14-ddbfc9451078"",
-                    ""expectedControlType"": """",
+                    ""id"": ""24ff786e-ba87-4a90-ac39-e8655d3635e0"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
                 {
                     ""name"": ""crouch"",
-                    ""type"": ""Value"",
-                    ""id"": ""5800e495-214e-474b-b3e0-57242409f8c1"",
+                    ""type"": ""Button"",
+                    ""id"": ""c54534bb-f30a-457a-b7bb-82fb4bdb41b3"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
                 },
                 {
                     ""name"": ""recentre"",
-                    ""type"": ""Value"",
-                    ""id"": ""f8e6d38a-3004-4632-bb57-209532eda966"",
+                    ""type"": ""Button"",
+                    ""id"": ""03efe845-00ab-4e8f-9e1e-3726eb9bc960"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
                 },
                 {
                     ""name"": ""sprint"",
-                    ""type"": ""Value"",
-                    ""id"": ""cba1b438-67f2-4fc1-b3d0-9129c5ba7640"",
+                    ""type"": ""Button"",
+                    ""id"": ""0a324a27-8d7e-4d33-b25a-b6edcfca3a88"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
                 },
                 {
                     ""name"": ""strafe"",
-                    ""type"": ""Value"",
-                    ""id"": ""fb80f938-13a8-4a49-aacb-b1323e025a3d"",
+                    ""type"": ""Button"",
+                    ""id"": ""7e03292e-3c45-49c4-b62a-1aae3f0e67f8"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
                 },
                 {
                     ""name"": ""jump"",
-                    ""type"": ""Value"",
-                    ""id"": ""e0e21268-ad74-44f1-bd3d-e2909ad65769"",
+                    ""type"": ""Button"",
+                    ""id"": ""8c88f173-ac42-4036-a5e3-d4d45ac60c1a"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
@@ -85,120 +85,21 @@ public class StandardControls : IInputActionCollection
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""b5e4169a-ddc2-444e-8947-5c50310ce7ce"",
-                    ""path"": ""<Keyboard>/leftCtrl"",
+                    ""id"": ""3972b889-1874-4d53-b9b1-1c7a02ecce65"",
+                    ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""ScaleVector2(x=0.01,y=0.01)"",
                     ""groups"": """",
-                    ""action"": ""crouch"",
+                    ""action"": ""mouseLook"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""e7171b02-bd2f-4eaa-90a5-3de8ca9d7c4b"",
-                    ""path"": ""<Gamepad>/rightStickPress"",
-                    ""interactions"": ""Press"",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""crouch"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""5823f7a4-35f6-4490-8075-00e60e53960a"",
-                    ""path"": ""<Keyboard>/v"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""recentre"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""8a3fdf70-fad4-4d19-bcf7-434572a3a2ff"",
-                    ""path"": ""<Gamepad>/rightStickPress"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""recentre"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""effb5bdc-89f2-4815-931b-381c603a16ed"",
-                    ""path"": ""<Keyboard>/leftShift"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""sprint"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""6916ba45-ea9d-43b1-909c-427e71ef7072"",
-                    ""path"": ""<Gamepad>/leftStickPress"",
-                    ""interactions"": ""Press"",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""sprint"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""480c3b85-5bd5-47bd-a6d1-a4fa3d4698d0"",
-                    ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""strafe"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""afaf61b1-2cc6-4419-87cc-1658b7d3796f"",
-                    ""path"": ""<Gamepad>/leftTrigger"",
-                    ""interactions"": ""Press"",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""strafe"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""d71f3c76-ea57-455a-817f-7a2a9708f387"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""dc020caf-f33b-4678-a947-14711e61e59a"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""6350393e-2ea8-4399-88ad-38aa713e5cc5"",
+                    ""id"": ""85cacec1-b2b4-40eb-bbad-062274fe319e"",
                     ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",
-                    ""processors"": ""ScaleVector2(x=0.2,y=0.2)"",
+                    ""processors"": """",
                     ""groups"": """",
                     ""action"": ""gamepadLook"",
                     ""isComposite"": false,
@@ -206,7 +107,7 @@ public class StandardControls : IInputActionCollection
                 },
                 {
                     ""name"": """",
-                    ""id"": ""08a6f928-9ff7-4bfd-94a8-42d5c1e5965c"",
+                    ""id"": ""6797f34d-9cf8-4fd9-bf7f-8612a221fb78"",
                     ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -217,7 +118,7 @@ public class StandardControls : IInputActionCollection
                 },
                 {
                     ""name"": ""WASD"",
-                    ""id"": ""b0b67dc2-e40e-400e-b741-0ac7a433e00a"",
+                    ""id"": ""adc73c83-19f4-4d71-8126-33efbb0bf655"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -228,7 +129,7 @@ public class StandardControls : IInputActionCollection
                 },
                 {
                     ""name"": ""up"",
-                    ""id"": ""940c555b-5bf3-4002-a31e-37d5c07b02f6"",
+                    ""id"": ""a3e2a044-fa62-41f8-8793-1061a35ac333"",
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -239,7 +140,7 @@ public class StandardControls : IInputActionCollection
                 },
                 {
                     ""name"": ""down"",
-                    ""id"": ""6e468804-50f7-4d55-934f-b3a48b83bfed"",
+                    ""id"": ""bd1d97fe-b83d-44f8-a87e-10c0db796793"",
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -250,7 +151,7 @@ public class StandardControls : IInputActionCollection
                 },
                 {
                     ""name"": ""left"",
-                    ""id"": ""9511bfd7-bfde-4706-9974-7e8e7322c223"",
+                    ""id"": ""be5b2e45-bb2d-46e0-8cc5-dfcc373ed682"",
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -261,7 +162,7 @@ public class StandardControls : IInputActionCollection
                 },
                 {
                     ""name"": ""right"",
-                    ""id"": ""1c9ac3f5-20aa-4d8d-8b0b-e5f0276aa445"",
+                    ""id"": ""0da3026a-bfd6-4c01-870a-7970d7e648ec"",
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -272,12 +173,111 @@ public class StandardControls : IInputActionCollection
                 },
                 {
                     ""name"": """",
-                    ""id"": ""d0ea204a-b4ba-4d75-b646-ab2c4ed37ece"",
-                    ""path"": ""<Mouse>/delta"",
+                    ""id"": ""7b61220b-f3e2-4527-8ac4-463cb3806931"",
+                    ""path"": ""<Keyboard>/leftCtrl"",
                     ""interactions"": """",
-                    ""processors"": ""ScaleVector2(x=0.01,y=0.01)"",
+                    ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""mouseLook"",
+                    ""action"": ""crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9a2d2357-4c7e-4f2a-871e-f5458c148bcc"",
+                    ""path"": ""<Gamepad>/rightStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""427dd64f-4bc3-4231-84ca-5eb4e9246712"",
+                    ""path"": ""<Keyboard>/v"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""recentre"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""91750d8a-70b5-42f7-9060-3150924ab1f5"",
+                    ""path"": ""<Gamepad>/rightStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""recentre"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c24bfa19-a888-4983-ade9-6058df154c07"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": ""Press,Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e85d4ce2-c7d7-4a9e-842b-5b6110cc89ca"",
+                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b108f8e1-f249-4186-8008-ff46f366162c"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""strafe"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6497843a-0ed2-4481-8bd7-257df8919303"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""strafe"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""451c9834-2c5e-45c5-a4ec-2b2c09a2efcb"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2d9b2eb3-871a-4b37-8acd-b4e91d99d9a0"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -287,15 +287,15 @@ public class StandardControls : IInputActionCollection
     ""controlSchemes"": []
 }");
         // Movement
-        m_Movement = asset.GetActionMap("Movement");
-        m_Movement_mouseLook = m_Movement.GetAction("mouseLook");
-        m_Movement_gamepadLook = m_Movement.GetAction("gamepadLook");
-        m_Movement_move = m_Movement.GetAction("move");
-        m_Movement_crouch = m_Movement.GetAction("crouch");
-        m_Movement_recentre = m_Movement.GetAction("recentre");
-        m_Movement_sprint = m_Movement.GetAction("sprint");
-        m_Movement_strafe = m_Movement.GetAction("strafe");
-        m_Movement_jump = m_Movement.GetAction("jump");
+        m_Movement = asset.FindActionMap("Movement", throwIfNotFound: true);
+        m_Movement_mouseLook = m_Movement.FindAction("mouseLook", throwIfNotFound: true);
+        m_Movement_gamepadLook = m_Movement.FindAction("gamepadLook", throwIfNotFound: true);
+        m_Movement_move = m_Movement.FindAction("move", throwIfNotFound: true);
+        m_Movement_crouch = m_Movement.FindAction("crouch", throwIfNotFound: true);
+        m_Movement_recentre = m_Movement.FindAction("recentre", throwIfNotFound: true);
+        m_Movement_sprint = m_Movement.FindAction("sprint", throwIfNotFound: true);
+        m_Movement_strafe = m_Movement.FindAction("strafe", throwIfNotFound: true);
+        m_Movement_jump = m_Movement.FindAction("jump", throwIfNotFound: true);
     }
 
     ~StandardControls()
