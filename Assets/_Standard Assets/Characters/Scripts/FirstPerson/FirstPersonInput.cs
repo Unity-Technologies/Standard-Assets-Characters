@@ -34,35 +34,20 @@ namespace StandardAssets.Characters.FirstPerson
 		}
 
 		/// <summary>
-		/// Registers crouch input
-		/// </summary>
-		protected override void RegisterAdditionalInputs()
-		{
-			standardControls.Movement.crouch.performed += OnCrouchInput;
-			standardControls.Movement.crouch.canceled += OnCrouchInput;
-		}
-		
-		/// <summary>
-		/// Deregisters crouch input
-		/// </summary>
-		protected override void DeRegisterAdditionalInputs()
-		{
-			standardControls.Movement.crouch.performed -= OnCrouchInput;
-			standardControls.Movement.crouch.canceled -= OnCrouchInput;
-		}
-
-		/// <summary>
 		/// Handles the sprint input
 		/// </summary>
 		/// <param name="context">context is required by the performed event</param>
-		protected override void OnSprintInput(InputAction.CallbackContext context)
+		public override void OnSprint(InputAction.CallbackContext context)
 		{
-			base.OnSprintInput(context);
+			base.OnSprint(context);
 			m_IsCrouching = false;
 		}
-
-		// Handles the crouch input
-		void OnCrouchInput(InputAction.CallbackContext context)
+		
+		/// <summary>
+		/// Handles the crouch input
+		/// </summary>
+		/// <param name="context">context is required by the performed event</param>
+		public override void OnCrouch(InputAction.CallbackContext context)
 		{
 			BroadcastInputAction(ref m_IsCrouching, crouchStarted, crouchEnded);
 			isSprinting = false;

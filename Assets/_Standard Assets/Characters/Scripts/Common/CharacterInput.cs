@@ -3,12 +3,13 @@ using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
 namespace StandardAssets.Characters.Common
 {
 	/// <summary>
 	/// Abstract base class for First Person and Third Person characters
 	/// </summary>
-	public abstract class CharacterInput : MonoBehaviour
+	public abstract class CharacterInput : MonoBehaviour, StandardControls.IMovementActions
 	{
 		/// <summary>
 		/// Fired when the jump input is pressed - i.e. on key down
@@ -118,11 +119,6 @@ namespace StandardAssets.Characters.Common
 		public bool hasJumpInput { get; private set; }
 
         /// <summary>
-        /// Gets a reference to the currently set Standard Controls asset
-        /// </summary>
-		protected StandardControls standardControls { get { return m_StandardControls; } }
-
-        /// <summary>
         /// Gets/sets the internal flag that tracks the Sprinting state
         /// </summary>
 		protected bool isSprinting
@@ -134,8 +130,6 @@ namespace StandardAssets.Characters.Common
 		void Awake()
 		{			
 			hasJumpInput = false;
-			
-			m_StandardControls = new StandardControls();	
 			
 			//Handle Touch/OnScreen versus Standard controls
 			if(UseTouchControls())
@@ -158,23 +152,12 @@ namespace StandardAssets.Characters.Common
 		{
 			CinemachineCore.GetInputAxis += LookInputOverride;
 
-			if (standardControls != null)
+			if (m_StandardControls == null)
 			{
-				standardControls.Movement.move.performed += OnMoveInput;
-				standardControls.Movement.mouseLook.performed += OnMouseLookInput;
-				standardControls.Movement.gamepadLook.performed += OnGamepadLookInput;
-				standardControls.Movement.jump.started += OnJumpInputStarted;
-				standardControls.Movement.sprint.performed += OnSprintInput;
-				 
-				standardControls.Movement.move.canceled += OnMoveInputCanceled;
-				standardControls.Movement.sprint.canceled += OnSprintInput;
-				standardControls.Movement.jump.canceled += OnJumpInputEnded;
-				standardControls.Movement.gamepadLook.canceled += OnLookInputCanceled;
-				
-				RegisterAdditionalInputs();
-				
-				standardControls.Enable();
+				m_StandardControls = new StandardControls();
+				m_StandardControls.Movement.SetCallbacks(this);
 			}
+			m_StandardControls.Movement.Enable();
 			
 			HandleCursorLock();
 		}
@@ -186,24 +169,8 @@ namespace StandardAssets.Characters.Common
 		protected void OnDisable()
 		{
 			CinemachineCore.GetInputAxis -= LookInputOverride;
-
-			if (standardControls != null)
-			{
-				standardControls.Movement.move.performed -= OnMoveInput;
-				standardControls.Movement.mouseLook.performed -= OnMouseLookInput;
-				standardControls.Movement.gamepadLook.performed -= OnGamepadLookInput;
-				standardControls.Movement.jump.started -= OnJumpInputStarted;
-				standardControls.Movement.sprint.performed -= OnSprintInput;
-				 
-				standardControls.Movement.move.canceled -= OnMoveInputCanceled;
-				standardControls.Movement.sprint.canceled -= OnSprintInput;
-				standardControls.Movement.jump.canceled -= OnJumpInputEnded;
-				standardControls.Movement.gamepadLook.canceled -= OnLookInputCanceled;
-
-				DeRegisterAdditionalInputs();
 			
-				standardControls.Disable();
-			}
+			m_StandardControls.Disable();
 		}
 
 		/// <summary>
@@ -219,24 +186,41 @@ namespace StandardAssets.Characters.Common
 		}
 
 		/// <summary>
-		/// Handles registration of additional inputs that are not common between the First and Third person characters
-		/// </summary>
-		protected abstract void RegisterAdditionalInputs();
-		
-		/// <summary>
-		/// Handles registration of additional inputs that are not common between the First and Third person characters
-		/// </summary>
-		protected abstract void DeRegisterAdditionalInputs();
-
-		/// <summary>
 		/// Handles the sprint input
 		/// </summary>
 		/// <param name="context">context is required by the performed event</param>
-		protected virtual void OnSprintInput(InputAction.CallbackContext context)
+		public virtual void OnSprint(InputAction.CallbackContext context)
 		{
 			BroadcastInputAction(ref m_IsSprinting, sprintStarted, sprintEnded);
 		}
+		
+		/// <summary>
+		/// Handles the recentre input. 
+		/// </summary>
+		/// <param name="context">context is required by the performed event</param>
+		public virtual void OnRecentre(InputAction.CallbackContext context)
+		{
+			//This implementation is done in ThirdPersonInput
+		}
 
+		/// <summary>
+		/// Handles the strafe input.
+		/// </summary>
+		/// <param name="context">context is required by the performed event</param>
+		public virtual void OnStrafe(InputAction.CallbackContext context)
+		{
+			//This implementation is done in ThirdPersonInput
+		}
+		
+		/// <summary>
+		/// Handles the crouch input. 
+		/// </summary>
+		/// <param name="context">context is required by the performed event</param>
+		public virtual void OnCrouch(InputAction.CallbackContext context)
+		{
+			//This implementation is done in FirstPersonInput
+		}
+		
 		/// <summary>
 		/// Helper function for broadcasting the start and end events of a specific action. e.g. start sprint and end sprint
 		/// </summary>
@@ -276,8 +260,11 @@ namespace StandardAssets.Characters.Common
 #endif
 		}
 
-		// Provides the input vector for the mouse look control
-		void OnMouseLookInput(InputAction.CallbackContext context)
+		/// <summary>
+		/// Provides the input vector for the mouse look control.
+		/// </summary>
+		/// <param name="context">context is required by the performed event</param>
+		public void OnMouseLook(InputAction.CallbackContext context)
 		{
 			var newInput = context.ReadValue<Vector2>();
 			m_UsingMouseInput = true;
@@ -291,45 +278,57 @@ namespace StandardAssets.Characters.Common
 			
 			lookInput += newInput;		
 		}
-
-		// Provides the input vector for the gamepad look control
-		void OnGamepadLookInput(InputAction.CallbackContext context)
-		{
-			m_UsingMouseInput = false;
-			lookInput = context.ReadValue<Vector2>();
-		}
 		
-		// Provides the input vector for the move control
-		void OnMoveInput(InputAction.CallbackContext context)
+		/// <summary>
+		/// Provides the input vector for the gamepad look control.
+		/// </summary>
+		/// <param name="context">context is required by the performed event</param>
+		public void OnGamepadLook(InputAction.CallbackContext context)
 		{
-			moveInput = context.ReadValue<Vector2>();
-		}
-		
-		// Resets the move input vector to zero once input has stopped
-		void OnMoveInputCanceled(InputAction.CallbackContext context)
-		{
-			moveInput = Vector2.zero;
-		}
-		
-		// Resets the look input vector to zero once it has stopped. This is only used for analogue stick input
-		void OnLookInputCanceled(InputAction.CallbackContext context)
-		{
-			lookInput = Vector2.zero;
-		}
-
-		// Handles the ending of jump event from the new input system
-		void OnJumpInputEnded(InputAction.CallbackContext context)
-		{
-			hasJumpInput = false;
-		}
-		
-		// Handles the start of the jump event from the new input system
-		void OnJumpInputStarted(InputAction.CallbackContext context)
-		{
-			hasJumpInput = true;
-			if (jumpPressed != null)
+			if (context.performed)
 			{
-				jumpPressed();
+				m_UsingMouseInput = false;
+				lookInput = context.ReadValue<Vector2>();
+			}
+			else if (context.canceled)
+			{
+				lookInput = Vector2.zero;
+			}
+		}
+		
+		/// <summary>
+		/// Provides the input vector for the move control.
+		/// </summary>
+		/// <param name="context">context is required by the performed event</param>
+		public void OnMove(InputAction.CallbackContext context)
+		{
+			if (context.performed)
+			{
+				moveInput = context.ReadValue<Vector2>();
+			}
+			else if (context.canceled)
+			{
+				moveInput = Vector2.zero;
+			}
+		}
+		
+		/// <summary>
+		/// Handles the jump event from the new input system.
+		/// </summary>
+		/// <param name="context">context is required by the performed event</param>
+		public void OnJump(InputAction.CallbackContext context)
+		{
+			if (context.performed)
+			{
+				hasJumpInput = true;
+				if (jumpPressed != null)
+				{
+					jumpPressed();
+				}
+			}
+			else if (context.canceled)
+			{
+				hasJumpInput = false;
 			}
 		}
 
