@@ -1,14 +1,15 @@
 // GENERATED AUTOMATICALLY FROM 'Assets/_Standard Assets/Characters/Scriptable Objects/Control Map/StandardControls.inputactions'
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-public class StandardControls : IInputActionCollection
+public class @StandardControls : IInputActionCollection, IDisposable
 {
     private InputActionAsset asset;
-    public StandardControls()
+    public @StandardControls()
     {
         asset = InputActionAsset.FromJson(@"{
     ""name"": ""StandardControls"",
@@ -298,7 +299,7 @@ public class StandardControls : IInputActionCollection
         m_Movement_jump = m_Movement.FindAction("jump", throwIfNotFound: true);
     }
 
-    ~StandardControls()
+    public void Dispose()
     {
         UnityEngine.Object.Destroy(asset);
     }
@@ -355,8 +356,8 @@ public class StandardControls : IInputActionCollection
     private readonly InputAction m_Movement_jump;
     public struct MovementActions
     {
-        private StandardControls m_Wrapper;
-        public MovementActions(StandardControls wrapper) { m_Wrapper = wrapper; }
+        private @StandardControls m_Wrapper;
+        public MovementActions(@StandardControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @mouseLook => m_Wrapper.m_Movement_mouseLook;
         public InputAction @gamepadLook => m_Wrapper.m_Movement_gamepadLook;
         public InputAction @move => m_Wrapper.m_Movement_move;
@@ -374,58 +375,58 @@ public class StandardControls : IInputActionCollection
         {
             if (m_Wrapper.m_MovementActionsCallbackInterface != null)
             {
-                mouseLook.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnMouseLook;
-                mouseLook.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnMouseLook;
-                mouseLook.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnMouseLook;
-                gamepadLook.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnGamepadLook;
-                gamepadLook.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnGamepadLook;
-                gamepadLook.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnGamepadLook;
-                move.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnMove;
-                move.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnMove;
-                move.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnMove;
-                crouch.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnCrouch;
-                crouch.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnCrouch;
-                crouch.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnCrouch;
-                recentre.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnRecentre;
-                recentre.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnRecentre;
-                recentre.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnRecentre;
-                sprint.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnSprint;
-                sprint.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnSprint;
-                sprint.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnSprint;
-                strafe.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnStrafe;
-                strafe.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnStrafe;
-                strafe.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnStrafe;
-                jump.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnJump;
-                jump.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnJump;
-                jump.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnJump;
+                @mouseLook.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnMouseLook;
+                @mouseLook.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnMouseLook;
+                @mouseLook.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnMouseLook;
+                @gamepadLook.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnGamepadLook;
+                @gamepadLook.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnGamepadLook;
+                @gamepadLook.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnGamepadLook;
+                @move.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnMove;
+                @move.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnMove;
+                @move.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnMove;
+                @crouch.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnCrouch;
+                @crouch.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnCrouch;
+                @crouch.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnCrouch;
+                @recentre.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnRecentre;
+                @recentre.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnRecentre;
+                @recentre.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnRecentre;
+                @sprint.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnSprint;
+                @sprint.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnSprint;
+                @sprint.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnSprint;
+                @strafe.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnStrafe;
+                @strafe.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnStrafe;
+                @strafe.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnStrafe;
+                @jump.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnJump;
+                @jump.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnJump;
+                @jump.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnJump;
             }
             m_Wrapper.m_MovementActionsCallbackInterface = instance;
             if (instance != null)
             {
-                mouseLook.started += instance.OnMouseLook;
-                mouseLook.performed += instance.OnMouseLook;
-                mouseLook.canceled += instance.OnMouseLook;
-                gamepadLook.started += instance.OnGamepadLook;
-                gamepadLook.performed += instance.OnGamepadLook;
-                gamepadLook.canceled += instance.OnGamepadLook;
-                move.started += instance.OnMove;
-                move.performed += instance.OnMove;
-                move.canceled += instance.OnMove;
-                crouch.started += instance.OnCrouch;
-                crouch.performed += instance.OnCrouch;
-                crouch.canceled += instance.OnCrouch;
-                recentre.started += instance.OnRecentre;
-                recentre.performed += instance.OnRecentre;
-                recentre.canceled += instance.OnRecentre;
-                sprint.started += instance.OnSprint;
-                sprint.performed += instance.OnSprint;
-                sprint.canceled += instance.OnSprint;
-                strafe.started += instance.OnStrafe;
-                strafe.performed += instance.OnStrafe;
-                strafe.canceled += instance.OnStrafe;
-                jump.started += instance.OnJump;
-                jump.performed += instance.OnJump;
-                jump.canceled += instance.OnJump;
+                @mouseLook.started += instance.OnMouseLook;
+                @mouseLook.performed += instance.OnMouseLook;
+                @mouseLook.canceled += instance.OnMouseLook;
+                @gamepadLook.started += instance.OnGamepadLook;
+                @gamepadLook.performed += instance.OnGamepadLook;
+                @gamepadLook.canceled += instance.OnGamepadLook;
+                @move.started += instance.OnMove;
+                @move.performed += instance.OnMove;
+                @move.canceled += instance.OnMove;
+                @crouch.started += instance.OnCrouch;
+                @crouch.performed += instance.OnCrouch;
+                @crouch.canceled += instance.OnCrouch;
+                @recentre.started += instance.OnRecentre;
+                @recentre.performed += instance.OnRecentre;
+                @recentre.canceled += instance.OnRecentre;
+                @sprint.started += instance.OnSprint;
+                @sprint.performed += instance.OnSprint;
+                @sprint.canceled += instance.OnSprint;
+                @strafe.started += instance.OnStrafe;
+                @strafe.performed += instance.OnStrafe;
+                @strafe.canceled += instance.OnStrafe;
+                @jump.started += instance.OnJump;
+                @jump.performed += instance.OnJump;
+                @jump.canceled += instance.OnJump;
             }
         }
     }
