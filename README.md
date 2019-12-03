@@ -4,7 +4,7 @@ Note: this project is work in progress and currently considered a beta. It conta
 
 ## READ ME FIRST
 
-This package is intended for use in 2019.1.8f1 so we recommend you follow suit as fixes to aspects we use like new input will be applied to a 2019.1.8f1 compatible package first.
+This package is intended for use in 2019.3.0f1 so we recommend you follow suit as fixes to aspects we use like new input will be applied to a 2019.3.0f1 compatible package first.
 
 
 ## Feedback
@@ -62,9 +62,9 @@ Character Input:
 * Import the SAC package.
 * Make sure that you have the following Unity Packages added in your manifest.json:
 	* "com.unity.cinemachine": "2.3.4"
-	* "com.unity.inputsystem": "0.9.5-preview"
-	* "com.unity.postprocessing": "2.1.7"
-	* "com.unity.probuilder": "4.0.5"
+	* "com.unity.inputsystem": "1.0.0-preview.3"
+	* "com.unity.postprocessing": "2.2.2"
+	* "com.unity.probuilder": "4.1.2"
 * Open the Protoland Scene
 * Enable either the First Person or the Third Person Game Object under Characters
 * Press Play
