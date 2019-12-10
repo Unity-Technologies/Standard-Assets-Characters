@@ -39,13 +39,13 @@ namespace StandardAssets.Characters.Common
         float m_accelerationAppliedDeltaTime;
     
         // The delta time of the Cinemachine update calls 
-        float cameraUpdateDeltaTime;
+        float m_CameraUpdateDeltaTime;
     
         // The look vector used by Cinemachine with acceleration or deceleration applied
-        Vector2 acceleratedLookInput;
+        Vector2 m_AcceleratedLookInput;
         
         // Character input component that handles setting of the actual look inputs from a given input device 
-        CharacterInput characterInput;
+        CharacterInput m_CharacterInput;
     
         // Has cinemachine consumed the current look input value? This is to ensure it is cleared in the CharacterInput 
         // component so look input values are not used more than once 
@@ -60,9 +60,9 @@ namespace StandardAssets.Characters.Common
         
         void Awake()
         {
-            if (characterInput == null)
+            if (m_CharacterInput == null)
             {
-                characterInput = GetComponent<CharacterInput>();
+                m_CharacterInput = GetComponent<CharacterInput>();
             }
         }
         
@@ -141,23 +141,23 @@ namespace StandardAssets.Characters.Common
             
             // Sensitivity is applied after acceleration or deceleration.
             
-            if (characterInput.usingMouseInput)
+            if (m_CharacterInput.usingMouseInput)
             {
                 var currentFrame = Time.frameCount;
                 if ((m_LookInputProcessedFrame < currentFrame) && m_HasProcessedMouseLookInput)
                 {
-                    characterInput.lookInput = Vector2.zero;
+                    m_CharacterInput.lookInput = Vector2.zero;
                 }
                 m_LookInputProcessedFrame = currentFrame;
                 m_HasProcessedMouseLookInput = true;
             }
             else
             {
-                m_accelerationAppliedDeltaTime = Time.fixedUnscaledTime - cameraUpdateDeltaTime;
-                acceleratedLookInput = ApplyAcceleration(characterInput.lookInput, 
-                    acceleratedLookInput, m_accelerationAppliedDeltaTime,
+                m_accelerationAppliedDeltaTime = Time.fixedUnscaledTime - m_CameraUpdateDeltaTime;
+                m_AcceleratedLookInput = ApplyAcceleration(m_CharacterInput.lookInput, 
+                    m_AcceleratedLookInput, m_accelerationAppliedDeltaTime,
                     m_Acceleration, m_Deceleration);
-                cameraUpdateDeltaTime = Time.fixedUnscaledTime;
+                m_CameraUpdateDeltaTime = Time.fixedUnscaledTime;
             }
 
             
@@ -165,28 +165,28 @@ namespace StandardAssets.Characters.Common
             {
                 float lookVertical = 0.0f;
                 
-                if (characterInput.usingMouseInput)
+                if (m_CharacterInput.usingMouseInput)
                 {
-                    lookVertical = characterInput.m_InvertY 
-                        ? characterInput.lookInput.y 
-                        : -characterInput.lookInput.y;
+                    lookVertical = m_CharacterInput.m_InvertY 
+                        ? m_CharacterInput.lookInput.y 
+                        : -m_CharacterInput.lookInput.y;
                 }
                 else
                 {
-                    lookVertical = characterInput.m_InvertY 
-                        ? acceleratedLookInput.y 
-                        : -acceleratedLookInput.y;
+                    lookVertical = m_CharacterInput.m_InvertY 
+                        ? m_AcceleratedLookInput.y 
+                        : -m_AcceleratedLookInput.y;
                 }
 
-                if (characterInput.UseTouchControls())
+                if (m_CharacterInput.UseTouchControls())
                 {
-                    lookVertical *= characterInput.cameraLookSensitivity.touchVerticalSensitivity;
+                    lookVertical *= m_CharacterInput.cameraLookSensitivity.touchVerticalSensitivity;
                 }
                 else
                 {
-                    lookVertical *= characterInput.usingMouseInput
-                        ? characterInput.cameraLookSensitivity.mouseVerticalSensitivity
-                        : characterInput.cameraLookSensitivity.gamepadVerticalSensitivity;
+                    lookVertical *= m_CharacterInput.usingMouseInput
+                        ? m_CharacterInput.cameraLookSensitivity.mouseVerticalSensitivity
+                        : m_CharacterInput.cameraLookSensitivity.gamepadVerticalSensitivity;
                 }
 
                 lookVertical *= m_YAxisMultiplier;
@@ -199,28 +199,28 @@ namespace StandardAssets.Characters.Common
             {
                 float lookHorizontal = 0.0f;
 
-                if (characterInput.usingMouseInput)
+                if (m_CharacterInput.usingMouseInput)
                 {
-                    lookHorizontal = characterInput.m_InvertX
-                        ? characterInput.lookInput.x + characterInput.movingPlatformLookInput.x
-                        : -characterInput.lookInput.x + characterInput.movingPlatformLookInput.x;
+                    lookHorizontal = m_CharacterInput.m_InvertX
+                        ? m_CharacterInput.lookInput.x + m_CharacterInput.movingPlatformLookInput.x
+                        : -m_CharacterInput.lookInput.x + m_CharacterInput.movingPlatformLookInput.x;
                 }
                 else
                 {
-                    lookHorizontal = characterInput.m_InvertX
-                        ? acceleratedLookInput.x + characterInput.movingPlatformLookInput.x
-                        : -acceleratedLookInput.x + characterInput.movingPlatformLookInput.x;
+                    lookHorizontal = m_CharacterInput.m_InvertX
+                        ? m_AcceleratedLookInput.x + m_CharacterInput.movingPlatformLookInput.x
+                        : -m_AcceleratedLookInput.x + m_CharacterInput.movingPlatformLookInput.x;
                 }
 
-                if (characterInput.UseTouchControls())
+                if (m_CharacterInput.UseTouchControls())
                 {
-                    lookHorizontal *= characterInput.cameraLookSensitivity.touchHorizontalSensitivity;
+                    lookHorizontal *= m_CharacterInput.cameraLookSensitivity.touchHorizontalSensitivity;
                 }
                 else
                 {
-                    lookHorizontal *= characterInput.usingMouseInput 
-                    ? characterInput.cameraLookSensitivity.mouseHorizontalSensitivity 
-                    :characterInput.cameraLookSensitivity.gamepadHorizontalSensitivity;
+                    lookHorizontal *= m_CharacterInput.usingMouseInput 
+                    ? m_CharacterInput.cameraLookSensitivity.mouseHorizontalSensitivity 
+                    :m_CharacterInput.cameraLookSensitivity.gamepadHorizontalSensitivity;
                 }
                 
                 lookHorizontal *= m_XAxisMultiplier;
