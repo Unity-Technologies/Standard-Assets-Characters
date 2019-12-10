@@ -61,7 +61,7 @@ Character Input:
 ### Importing the Package
 * Import the SAC package.
 * Make sure that you have the following Unity Packages added in your manifest.json:
-	* "com.unity.cinemachine": "2.3.4"
+	* "com.unity.cinemachine": "2.4.0-preview.8"
 	* "com.unity.inputsystem": "1.0.0-preview.3"
 	* "com.unity.postprocessing": "2.2.2"
 	* "com.unity.probuilder": "4.1.2"
