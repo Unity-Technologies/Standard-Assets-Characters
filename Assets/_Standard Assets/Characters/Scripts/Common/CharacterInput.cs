@@ -72,6 +72,7 @@ namespace StandardAssets.Characters.Common
 		[SerializeField, Tooltip("Toggle the Cursor Lock Mode? Press ESCAPE during play mode to unlock")]
 		bool m_CursorLocked = true;
 		
+		//Component used to allow for more precise mouse look as well as dampened gamepad look
 		CinemachineInputGainDampener m_CameraInputGainAcceleration;
 
 		// Instance of UI for Touch Controls
