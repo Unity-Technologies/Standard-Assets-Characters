@@ -1,5 +1,6 @@
 using System;
 using StandardAssets.Characters.Common;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 
@@ -27,55 +28,9 @@ namespace StandardAssets.Characters.ThirdPerson
 
 		// Tracks if the character is strafing 
 		bool m_IsStrafing;
-
-		/// <summary>
-		/// Sets the sprinting state to false
-		/// </summary>
-		public void ResetSprint()
-		{
-			isSprinting = false;
-		}
-
-		/// <summary>
-		/// Registers strafe and recentre inputs.
-		/// </summary>
-		protected override void RegisterAdditionalInputs()
-		{
-			standardControls.Movement.recentre.performed += OnRecentreInput;
 		
-			if(UseTouchControls())
-			{
-				standardControls.Movement.strafeToggle.performed += OnStrafeInput;
-				standardControls.Movement.strafeToggle.canceled += OnStrafeInput;
-			}
-			else
-			{
-				standardControls.Movement.strafe.performed += OnStrafeInput;
-				standardControls.Movement.strafe.canceled += OnStrafeInput;
-			}
-		}
-		
-		/// <summary>
-		/// Deregisters strafe and recentre inputs.
-		/// </summary>
-		protected override void DeRegisterAdditionalInputs()
-		{
-			standardControls.Movement.recentre.performed -= OnRecentreInput;
-		
-			if(UseTouchControls())
-			{
-				standardControls.Movement.strafeToggle.performed -= OnStrafeInput;
-				standardControls.Movement.strafeToggle.canceled -= OnStrafeInput;
-			}
-			else
-			{
-				standardControls.Movement.strafe.performed -= OnStrafeInput;
-				standardControls.Movement.strafe.canceled -= OnStrafeInput;
-			}
-		}
-
 		// Handles the recentre input 
-		void OnRecentreInput(InputAction.CallbackContext context)
+		public override void OnRecentre(InputAction.CallbackContext context)
 		{
 			if (recentreCamera != null)
 			{
@@ -84,9 +39,12 @@ namespace StandardAssets.Characters.ThirdPerson
 		}
 
 		// Handles the strafe input
-		void OnStrafeInput(InputAction.CallbackContext context)
+		public override void  OnStrafe(InputAction.CallbackContext context)
 		{
-			BroadcastInputAction(ref m_IsStrafing, strafeStarted, strafeEnded);
+			if (context.performed)
+			{
+				BroadcastInputAction(ref m_IsStrafing, strafeStarted, strafeEnded);
+			}
 		}
 	}
 }

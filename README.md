@@ -4,7 +4,7 @@ Note: this project is work in progress and currently considered a beta. It conta
 
 ## READ ME FIRST
 
-This package is intended for use in 2019.1.8f1 so we recommend you follow suit as fixes to aspects we use like new input will be applied to a 2019.1.8f1 compatible package first.
+This package is intended for use in 2019.3.0f1 so we recommend you follow suit as fixes to aspects we use like new input will be applied to a 2019.3.0f1 compatible package first.
 
 
 ## Feedback
@@ -42,6 +42,12 @@ Third Person Contoller:
 Movement Effects:
 
 	https://docs.google.com/document/d/1544ZvaGuWcW47CViHq1lHZkiuuqwVaxz7Cd4htyea-A/edit?usp=sharing	
+	
+Character Input:
+
+	https://docs.google.com/document/d/1f8HcBEjz-Fpd-FJPg7npfB8XOuSzAWaM4b_g_2aEhT0/edit?usp=sharing
+
+	
 
 
 ## Getting Started
@@ -56,9 +62,9 @@ Movement Effects:
 * Import the SAC package.
 * Make sure that you have the following Unity Packages added in your manifest.json:
 	* "com.unity.cinemachine": "2.3.4"
-	* "com.unity.inputsystem": "0.2.10-preview"
-	* "com.unity.postprocessing": "2.1.4"
-	* "com.unity.probuilder": "4.0.3"
+	* "com.unity.inputsystem": "1.0.0-preview.3"
+	* "com.unity.postprocessing": "2.2.2"
+	* "com.unity.probuilder": "4.1.2"
 * Open the Protoland Scene
 * Enable either the First Person or the Third Person Game Object under Characters
 * Press Play

@@ -3,12 +3,13 @@ using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
 namespace StandardAssets.Characters.Common
 {
 	/// <summary>
 	/// Abstract base class for First Person and Third Person characters
 	/// </summary>
-	public abstract class CharacterInput : MonoBehaviour
+	public abstract class CharacterInput : MonoBehaviour, StandardControls.IMovementActions
 	{
 		/// <summary>
 		/// Fired when the jump input is pressed - i.e. on key down
@@ -70,7 +71,7 @@ namespace StandardAssets.Characters.Common
 
 		[SerializeField, Tooltip("Toggle the Cursor Lock Mode? Press ESCAPE during play mode to unlock")]
 		bool m_CursorLocked = true;
-
+		
 		CinemachineInputGainDampener m_CameraInputGainAcceleration;
 
 		// Instance of UI for Touch Controls
@@ -96,26 +97,9 @@ namespace StandardAssets.Characters.Common
 		Vector2 m_lookInput;
 		
 		/// <summary>
-		/// Invert the X camera look input axis 
-		/// </summary>
-		[Tooltip("Invert horizontal look direction?")]
-		public bool m_InvertX ;
-		
-		/// <summary>
-		/// Invert the Y camera look input axis 
-		/// </summary>
-		[Tooltip("Invert vertical look direction?")]
-		public bool m_InvertY;
-		
-		/// <summary>
 		/// Gets if the movement input is being applied
 		/// </summary>
 		public bool hasMovementInput { get { return moveInput != Vector2.zero; } }
-		
-		/// <summary>
-		/// Gets whether or not the jump input is currently applied
-		/// </summary>
-		public bool hasJumpInput { get; private set; }
 		
 		/// <summary>
 		/// Used to check if the last look input came from a mouse
@@ -124,7 +108,7 @@ namespace StandardAssets.Characters.Common
 		{
 			get { return m_UsingMouseInput;}
 		}
-
+		
 		/// <summary>
 		/// The camera look sensitivity
 		/// </summary>
@@ -132,6 +116,18 @@ namespace StandardAssets.Characters.Common
 		{
 			get { return m_CameraLookSensitivity; }
 		}
+		
+		/// <summary>
+		/// Invert the X axis input
+		/// </summary>
+		[Tooltip("Invert horizontal look direction?")]
+		public bool m_InvertX;
+		
+		/// <summary>
+		/// Invert the Y axis input
+		/// </summary>
+		[Tooltip("Invert vertical look direction?")]
+		public bool m_InvertY;
 
 		/// <summary>
 		/// Gets/sets the look input vector
@@ -152,10 +148,10 @@ namespace StandardAssets.Characters.Common
 		/// </summary>
 		public Vector2 moveInput { get; private set; }
 
-        /// <summary>
-        /// Gets a reference to the currently set Standard Controls asset
-        /// </summary>
-		protected StandardControls standardControls { get { return m_StandardControls; } }
+		/// <summary>
+		/// Gets whether or not the jump input is currently applied
+		/// </summary>
+		public bool hasJumpInput { get; private set; }
 
         /// <summary>
         /// Gets/sets the internal flag that tracks the Sprinting state
@@ -170,8 +166,6 @@ namespace StandardAssets.Characters.Common
 		{			
 			hasJumpInput = false;
 			
-			m_StandardControls = new StandardControls();
-
 			m_CameraInputGainAcceleration = GetComponent<CinemachineInputGainDampener>();
 
 			// If no CinemachineInputGainDampener component is present, then there will be no acceleration or deceleration 
@@ -200,39 +194,30 @@ namespace StandardAssets.Characters.Common
 		}
 
 		/// <summary>
-		/// Sets up the Cinemachine delegate if there is no CinemachineInputGainDampener component present.
+		/// Sets up the Cinemachine delegate.
 		/// Enables associated controls and subscribes to new input's performed events.
 		/// </summary>
 		protected void OnEnable()
 		{
+			//Do not register the Cinemachine LookInputOverride when using a CinemachineInputGainDampener component
+			//This LookInputOverride will take place in CinemachineInputGainDampner
 			if (!m_UseInputGainAcceleration)
 			{
 				CinemachineCore.GetInputAxis += LookInputOverride;
 			}
-			
-			if (standardControls != null)
+
+			if (m_StandardControls == null)
 			{
-				standardControls.Movement.move.performed += OnMoveInput;
-				standardControls.Movement.mouseLook.performed += OnMouseLookInput;
-				standardControls.Movement.gamepadLook.performed += OnGamepadLookInput;
-				standardControls.Movement.jump.started += OnJumpInputStarted;
-				standardControls.Movement.sprint.performed += OnSprintInput;
-				 
-				standardControls.Movement.move.canceled += OnMoveInputCanceled;
-				standardControls.Movement.sprint.canceled += OnSprintInput;
-				standardControls.Movement.jump.canceled += OnJumpInputEnded;
-				standardControls.Movement.gamepadLook.canceled += OnLookInputCanceled;
-				
-				RegisterAdditionalInputs();
-				
-				standardControls.Enable();
+				m_StandardControls = new StandardControls();
+				m_StandardControls.Movement.SetCallbacks(this);
 			}
+			m_StandardControls.Movement.Enable();
 			
 			HandleCursorLock();
 		}
 
 		/// <summary>
-		/// Disables the Cinemachine delegate if there is no CinemachineInputGainDampener component present.
+		/// Disables the Cinemachine delegate.
 		/// Disables associated controls and unsubscribes from new input's performed events.
 		/// </summary>
 		protected void OnDisable()
@@ -241,24 +226,8 @@ namespace StandardAssets.Characters.Common
 			{
 				CinemachineCore.GetInputAxis -= LookInputOverride;
 			}
-
-			if (standardControls != null)
-			{
-				standardControls.Movement.move.performed -= OnMoveInput;
-				standardControls.Movement.mouseLook.performed -= OnMouseLookInput;
-				standardControls.Movement.gamepadLook.performed -= OnGamepadLookInput;
-				standardControls.Movement.jump.started -= OnJumpInputStarted;
-				standardControls.Movement.sprint.performed -= OnSprintInput;
-				 
-				standardControls.Movement.move.canceled -= OnMoveInputCanceled;
-				standardControls.Movement.sprint.canceled -= OnSprintInput;
-				standardControls.Movement.jump.canceled -= OnJumpInputEnded;
-				standardControls.Movement.gamepadLook.canceled -= OnLookInputCanceled;
-
-				DeRegisterAdditionalInputs();
 			
-				standardControls.Disable();
-			}
+			m_StandardControls.Disable();
 		}
 
 		/// <summary>
@@ -274,24 +243,41 @@ namespace StandardAssets.Characters.Common
 		}
 
 		/// <summary>
-		/// Handles registration of additional inputs that are not common between the First and Third person characters
-		/// </summary>
-		protected abstract void RegisterAdditionalInputs();
-		
-		/// <summary>
-		/// Handles registration of additional inputs that are not common between the First and Third person characters
-		/// </summary>
-		protected abstract void DeRegisterAdditionalInputs();
-
-		/// <summary>
 		/// Handles the sprint input
 		/// </summary>
 		/// <param name="context">context is required by the performed event</param>
-		protected virtual void OnSprintInput(InputAction.CallbackContext context)
+		public virtual void OnSprint(InputAction.CallbackContext context)
 		{
 			BroadcastInputAction(ref m_IsSprinting, sprintStarted, sprintEnded);
 		}
+		
+		/// <summary>
+		/// Handles the recentre input. 
+		/// </summary>
+		/// <param name="context">context is required by the performed event</param>
+		public virtual void OnRecentre(InputAction.CallbackContext context)
+		{
+			//This implementation is done in ThirdPersonInput
+		}
 
+		/// <summary>
+		/// Handles the strafe input.
+		/// </summary>
+		/// <param name="context">context is required by the performed event</param>
+		public virtual void OnStrafe(InputAction.CallbackContext context)
+		{
+			//This implementation is done in ThirdPersonInput
+		}
+		
+		/// <summary>
+		/// Handles the crouch input. 
+		/// </summary>
+		/// <param name="context">context is required by the performed event</param>
+		public virtual void OnCrouch(InputAction.CallbackContext context)
+		{
+			//This implementation is done in FirstPersonInput
+		}
+		
 		/// <summary>
 		/// Helper function for broadcasting the start and end events of a specific action. e.g. start sprint and end sprint
 		/// </summary>
@@ -331,13 +317,16 @@ namespace StandardAssets.Characters.Common
 #endif
 		}
 
-		// Provides the input vector for the mouse look control
-		void OnMouseLookInput(InputAction.CallbackContext context)
+		/// <summary>
+		/// Provides the input vector for the mouse look control.
+		/// </summary>
+		/// <param name="context">context is required by the performed event</param>
+		public void OnMouseLook(InputAction.CallbackContext context)
 		{
 			var newInput = context.ReadValue<Vector2>();
 			m_UsingMouseInput = true;
 			
-			// If the mouse look input was already processed, then clear the value before accumulating again
+			//When using an InputGainAcceleration component, the look input processing should happen there.
 			if (m_UseInputGainAcceleration)
 			{
 				if (m_CameraInputGainAcceleration.hasProcessedMouseLookInput)
@@ -348,6 +337,7 @@ namespace StandardAssets.Characters.Common
 			}
 			else
 			{
+				// If the mouse look input was already processed, then clear the value before accumulating again
 				if (m_HasProcessedMouseLookInput)
 				{
 					m_lookInput = Vector2.zero;
@@ -355,47 +345,59 @@ namespace StandardAssets.Characters.Common
 				}
 			}
 			
-			m_lookInput += newInput;		
-		}
-
-		// Provides the input vector for the gamepad look control
-		void OnGamepadLookInput(InputAction.CallbackContext context)
-		{
-			m_UsingMouseInput = false;
-			m_lookInput = context.ReadValue<Vector2>();
+			m_lookInput += newInput;			
 		}
 		
-		// Provides the input vector for the move control
-		void OnMoveInput(InputAction.CallbackContext context)
+		/// <summary>
+		/// Provides the input vector for the gamepad look control.
+		/// </summary>
+		/// <param name="context">context is required by the performed event</param>
+		public void OnGamepadLook(InputAction.CallbackContext context)
 		{
-			moveInput = context.ReadValue<Vector2>();
-		}
-		
-		// Resets the move input vector to zero once input has stopped
-		void OnMoveInputCanceled(InputAction.CallbackContext context)
-		{
-			moveInput = Vector2.zero;
-		}
-		
-		// Resets the look input vector to zero once it has stopped. This is only used for analogue stick input
-		void OnLookInputCanceled(InputAction.CallbackContext context)
-		{
-			m_lookInput = Vector2.zero;
-		}
-
-		// Handles the ending of jump event from the new input system
-		void OnJumpInputEnded(InputAction.CallbackContext context)
-		{
-			hasJumpInput = false;
-		}
-		
-		// Handles the start of the jump event from the new input system
-		void OnJumpInputStarted(InputAction.CallbackContext context)
-		{
-			hasJumpInput = true;
-			if (jumpPressed != null)
+			if (context.performed)
 			{
-				jumpPressed();
+				m_UsingMouseInput = false;
+				m_lookInput = context.ReadValue<Vector2>();
+			}
+			else if (context.canceled)
+			{
+				m_lookInput = Vector2.zero;
+			}
+		}
+		
+		/// <summary>
+		/// Provides the input vector for the move control.
+		/// </summary>
+		/// <param name="context">context is required by the performed event</param>
+		public void OnMove(InputAction.CallbackContext context)
+		{
+			if (context.performed)
+			{
+				moveInput = context.ReadValue<Vector2>();
+			}
+			else if (context.canceled)
+			{
+				moveInput = Vector2.zero;
+			}
+		}
+		
+		/// <summary>
+		/// Handles the jump event from the new input system.
+		/// </summary>
+		/// <param name="context">context is required by the performed event</param>
+		public void OnJump(InputAction.CallbackContext context)
+		{
+			if (context.performed)
+			{
+				hasJumpInput = true;
+				if (jumpPressed != null)
+				{
+					jumpPressed();
+				}
+			}
+			else if (context.canceled)
+			{
+				hasJumpInput = false;
 			}
 		}
 
@@ -414,8 +416,7 @@ namespace StandardAssets.Characters.Common
 			}
 		}
 		
-		// Handles the Cinemachine delegate. This will only ever get called by Cinemachine if
-		// there is no CinemachineInputGainDampener component on the character.
+		// Handles the Cinemachine delegate
 		float LookInputOverride(string axis)
 		{
 			// This is to ensure that mouse look inputs are properly cleared once they have been processed as mouse
@@ -425,7 +426,7 @@ namespace StandardAssets.Characters.Common
 				var currentFrame = Time.frameCount;
 				if ((m_LookInputProcessedFrame < currentFrame) && m_HasProcessedMouseLookInput)
 				{
-					lookInput = Vector2.zero;
+					m_lookInput = Vector2.zero;
 				}
 				m_LookInputProcessedFrame = currentFrame;
 				m_HasProcessedMouseLookInput = true;
@@ -433,7 +434,7 @@ namespace StandardAssets.Characters.Common
 			
 			if (axis == "Vertical")
 			{	
-				var lookVertical = m_InvertY ? lookInput.y : -lookInput.y;
+				var lookVertical = m_InvertY ? m_lookInput.y : -m_lookInput.y;
 				if (UseTouchControls())
 				{
 					lookVertical *= m_CameraLookSensitivity.touchVerticalSensitivity;
@@ -450,8 +451,8 @@ namespace StandardAssets.Characters.Common
 			if (axis == "Horizontal")
 			{
 				var lookHorizontal = m_InvertX
-					? lookInput.x + movingPlatformLookInput.x
-					: -lookInput.x + movingPlatformLookInput.x;
+					? m_lookInput.x + movingPlatformLookInput.x
+					: -m_lookInput.x + movingPlatformLookInput.x;
 				if (UseTouchControls())
 				{
 					lookHorizontal *= m_CameraLookSensitivity.touchHorizontalSensitivity;

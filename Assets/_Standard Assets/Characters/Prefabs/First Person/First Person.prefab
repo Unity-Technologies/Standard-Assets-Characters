@@ -416,8 +416,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: 1a1da36a104725048b8d2388fb8d321d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
@@ -488,7 +486,7 @@ MonoBehaviour:
   m_ApplyBeforeBody: 0
   m_RecenterTarget: 0
   m_VerticalAxis:
-    Value: 9.46232
+    Value: 0
     m_SpeedMode: 1
     m_MaxSpeed: 1
     m_AccelTime: 0
@@ -804,8 +802,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_TouchControlsPrefab: {fileID: 1201311427779892, guid: 412a843d79095470db5a469eead8163c,
     type: 3}
-  m_InvertX: 0
-  m_InvertY: 0
   m_CameraLookSensitivity:
     m_MouseVertical: 1
     m_MouseHorizontal: 1
@@ -814,6 +810,8 @@ MonoBehaviour:
     m_TouchVertical: 0.5
     m_TouchHorizontal: 0.5
   m_CursorLocked: 1
+  m_InvertX: 0
+  m_InvertY: 0
 --- !u!114 &2640458278173793038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -828,8 +826,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Acceleration: 0.1
   m_Deceleration: 0.1
-  m_XAxisMultiplier: 1
-  m_YAxisMultiplier: 1
+  m_XAxisMultiplier: 5
+  m_YAxisMultiplier: 5
 --- !u!1 &1537643626592488
 GameObject:
   m_ObjectHideFlags: 0
@@ -1024,8 +1022,6 @@ MonoBehaviour:
     m_OnCameraLive:
       m_PersistentCalls:
         m_Calls: []
-      m_TypeName: Cinemachine.CinemachineBrain+VcamActivatedEvent, Cinemachine, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 4336105935122792}
 --- !u!1 &1768713972908062
@@ -1093,8 +1089,6 @@ MonoBehaviour:
     m_OnCameraLive:
       m_PersistentCalls:
         m_Calls: []
-      m_TypeName: Cinemachine.CinemachineBrain+VcamActivatedEvent, Cinemachine, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 4616418079778226}
 --- !u!1 &1776008768862898
@@ -1122,7 +1116,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1776008768862898}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.2, y: 1.1, z: 5}
+  m_LocalPosition: {x: 0, y: 0.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4628960612161210}
@@ -1162,8 +1156,6 @@ MonoBehaviour:
     m_OnCameraLive:
       m_PersistentCalls:
         m_Calls: []
-      m_TypeName: Cinemachine.CinemachineBrain+VcamActivatedEvent, Cinemachine, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 4628960612161210}
 --- !u!1 &1786620140907972

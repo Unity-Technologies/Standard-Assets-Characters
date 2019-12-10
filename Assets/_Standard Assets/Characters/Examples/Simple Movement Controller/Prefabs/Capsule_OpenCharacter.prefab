@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 114160862697937592}
   - component: {fileID: 114733511240769224}
   - component: {fileID: 114418168072071566}
+  - component: {fileID: 7560432142804859925}
   m_Layer: 11
   m_Name: Capsule_OpenCharacter
   m_TagString: Untagged
@@ -90,6 +91,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -101,6 +103,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -139,6 +142,8 @@ MonoBehaviour:
     m_Bits: 257
   m_IsLocalHuman: 1
   m_SlideAlongCeiling: 1
+  m_SlowAgainstWalls: 0
+  m_MinSlowAgainstWallsAngle: 10
   m_TriggerQuery: 1
   m_SlideDownSlopes: 1
   m_SlideMaxSpeed: 10
@@ -234,6 +239,9 @@ MonoBehaviour:
       m_Grounding: 5
     m_GroundingDistance: 0.5
     m_MaxGravityDelta: 10
+    m_MovingPlatforms:
+      m_CanPlatformsRotateCameras: 0
+      m_PreventSlidingOnPlatforms: 0
   m_MaxSpeed: 5
   m_TimeToMaxSpeed: 0.5
   m_TurnSpeed: 300
@@ -250,14 +258,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5745c47e1fe497bafd5e8e235deaea9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_StandardControls:
-    m_Asset: {fileID: 11400000, guid: 6b7e0365c2048446aafe64ff5b240173, type: 3}
   m_TouchControlsPrefab: {fileID: 0}
+  m_CameraLookSensitivity:
+    m_MouseVertical: 1
+    m_MouseHorizontal: 1
+    m_GamepadVertical: 1
+    m_GamepadHorizontal: 1
+    m_TouchVertical: 1
+    m_TouchHorizontal: 1
+  m_CursorLocked: 1
   m_InvertX: 0
   m_InvertY: 0
-  m_XSensitivity: 1
-  m_YSensitivity: 1
-  m_CursorLocked: 1
+--- !u!114 &7560432142804859925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942727258898328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 609ce7cda7a6ad747b950f73f820efb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Acceleration: 0.1
+  m_Deceleration: 0.1
+  m_XAxisMultiplier: 5
+  m_YAxisMultiplier: 0.05
 --- !u!1 &1962632340296288
 GameObject:
   m_ObjectHideFlags: 0
@@ -313,6 +340,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -324,6 +352,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
