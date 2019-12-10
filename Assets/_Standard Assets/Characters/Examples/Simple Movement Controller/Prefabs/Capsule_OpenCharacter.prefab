@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 114160862697937592}
   - component: {fileID: 114733511240769224}
   - component: {fileID: 114418168072071566}
+  - component: {fileID: 7560432142804859925}
   m_Layer: 11
   m_Name: Capsule_OpenCharacter
   m_TagString: Untagged
@@ -258,8 +259,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TouchControlsPrefab: {fileID: 0}
-  m_InvertX: 0
-  m_InvertY: 0
   m_CameraLookSensitivity:
     m_MouseVertical: 1
     m_MouseHorizontal: 1
@@ -268,6 +267,24 @@ MonoBehaviour:
     m_TouchVertical: 1
     m_TouchHorizontal: 1
   m_CursorLocked: 1
+  m_InvertX: 0
+  m_InvertY: 0
+--- !u!114 &7560432142804859925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942727258898328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 609ce7cda7a6ad747b950f73f820efb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Acceleration: 0.1
+  m_Deceleration: 0.1
+  m_XAxisMultiplier: 5
+  m_YAxisMultiplier: 0.05
 --- !u!1 &1962632340296288
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 143417532114150374}
   - component: {fileID: 114311130167470710}
   - component: {fileID: 114672970358626264}
+  - component: {fileID: 8246594111541835628}
   m_Layer: 11
   m_Name: Capsule_DefaultCharacter
   m_TagString: Untagged
@@ -114,8 +115,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TouchControlsPrefab: {fileID: 0}
-  m_InvertX: 0
-  m_InvertY: 0
   m_CameraLookSensitivity:
     m_MouseVertical: 1
     m_MouseHorizontal: 1
@@ -124,6 +123,8 @@ MonoBehaviour:
     m_TouchVertical: 1
     m_TouchHorizontal: 1
   m_CursorLocked: 1
+  m_InvertX: 0
+  m_InvertY: 0
 --- !u!114 &114672970358626264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,6 +147,22 @@ MonoBehaviour:
   m_Gravity: -9.81
   m_TerminalVelocity: -100
   m_JumpSpeed: 5
+--- !u!114 &8246594111541835628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1147844468901238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 609ce7cda7a6ad747b950f73f820efb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Acceleration: 0.1
+  m_Deceleration: 0.1
+  m_XAxisMultiplier: 5
+  m_YAxisMultiplier: 0.05
 --- !u!1 &1270125034216490
 GameObject:
   m_ObjectHideFlags: 0

@@ -65,18 +65,14 @@ namespace StandardAssets.Characters.Common
 
 		[SerializeField, Tooltip("Prefab of canvas used to render the on screen touch control graphics")]
 		GameObject m_TouchControlsPrefab;
-
-		[SerializeField, Tooltip("Invert horizontal look direction?")]
-		bool m_InvertX;
-		
-		[SerializeField, Tooltip("Invert vertical look direction?")]
-		bool m_InvertY;
 		
 		[SerializeField, Tooltip("Vertical and Horizontal axis sensitivity")]
 		Sensitivity m_CameraLookSensitivity; 
 
 		[SerializeField, Tooltip("Toggle the Cursor Lock Mode? Press ESCAPE during play mode to unlock")]
 		bool m_CursorLocked = true;
+		
+		CinemachineInputGainDampener m_CameraInputGainAcceleration;
 
 		// Instance of UI for Touch Controls
 		GameObject m_TouchControlsCanvasInstance;
@@ -90,18 +86,57 @@ namespace StandardAssets.Characters.Common
 		// Check if look input was processed
 		bool m_HasProcessedMouseLookInput;
 		
+		// If there is a not Camera CinemachineInputGainDampener component on the character,
+		// then the camera will be controlled from the CharacterInput script.
+		bool m_UseInputGainAcceleration;
+		
 		// The frame count when an input axis was processed 
 		int m_LookInputProcessedFrame;
+		
+		// Look input vector
+		Vector2 m_lookInput;
 		
 		/// <summary>
 		/// Gets if the movement input is being applied
 		/// </summary>
 		public bool hasMovementInput { get { return moveInput != Vector2.zero; } }
+		
+		/// <summary>
+		/// Used to check if the last look input came from a mouse
+		/// </summary>
+		public bool usingMouseInput
+		{
+			get { return m_UsingMouseInput;}
+		}
+		
+		/// <summary>
+		/// The camera look sensitivity
+		/// </summary>
+		public Sensitivity cameraLookSensitivity
+		{
+			get { return m_CameraLookSensitivity; }
+		}
+		
+		/// <summary>
+		/// Invert the X axis input
+		/// </summary>
+		[Tooltip("Invert horizontal look direction?")]
+		public bool m_InvertX;
+		
+		/// <summary>
+		/// Invert the Y axis input
+		/// </summary>
+		[Tooltip("Invert vertical look direction?")]
+		public bool m_InvertY;
 
 		/// <summary>
 		/// Gets/sets the look input vector
 		/// </summary>
-		public Vector2 lookInput { get; private set; }
+		public Vector2 lookInput
+		{
+			get { return m_lookInput; }
+			set { m_lookInput = value; }
+		}
 		
 		/// <summary>
 		/// Rotation of a moving platform applied to the look input vector (so that the platform rotates the camera)
@@ -131,6 +166,20 @@ namespace StandardAssets.Characters.Common
 		{			
 			hasJumpInput = false;
 			
+			m_CameraInputGainAcceleration = GetComponent<CinemachineInputGainDampener>();
+
+			// If no CinemachineInputGainDampener component is present, then there will be no acceleration or deceleration 
+			// applied to the look input. If that is the case, it is advised to set the Speed Mode of the Cinemachine cameras
+			// to 'Max Speed' if it is desirable to have acceleration and deceleration for gamepad look input. 
+			if (m_CameraInputGainAcceleration != null)
+			{
+				m_UseInputGainAcceleration = true;
+			}
+			else
+			{
+				Debug.LogWarning("No CinemachineInputGainDampener component detected, make sure Cinemachine axis control speed mode is set to 'Max Speed' or add a CameraInputGainAcceleration component to this character");
+			}
+			
 			//Handle Touch/OnScreen versus Standard controls
 			if(UseTouchControls())
 			{
@@ -150,7 +199,12 @@ namespace StandardAssets.Characters.Common
 		/// </summary>
 		protected void OnEnable()
 		{
-			CinemachineCore.GetInputAxis += LookInputOverride;
+			//Do not register the Cinemachine LookInputOverride when using a CinemachineInputGainDampener component
+			//This LookInputOverride will take place in CinemachineInputGainDampner
+			if (!m_UseInputGainAcceleration)
+			{
+				CinemachineCore.GetInputAxis += LookInputOverride;
+			}
 
 			if (m_StandardControls == null)
 			{
@@ -168,7 +222,10 @@ namespace StandardAssets.Characters.Common
 		/// </summary>
 		protected void OnDisable()
 		{
-			CinemachineCore.GetInputAxis -= LookInputOverride;
+			if (!m_UseInputGainAcceleration)
+			{
+				CinemachineCore.GetInputAxis -= LookInputOverride;
+			}
 			
 			m_StandardControls.Disable();
 		}
@@ -250,7 +307,7 @@ namespace StandardAssets.Characters.Common
 		/// <summary>
 		/// Can be called to determine whether or not Touch Controls are being used (instead of Standard Controls)
 		/// </summary>
-		protected bool UseTouchControls()
+		public bool UseTouchControls()
 		{
 			//Assume Touch Controls are wanted for iOS and Android builds
 #if !UNITY_EDITOR && (UNITY_ANDROID || UNITY_IOS)
@@ -269,14 +326,26 @@ namespace StandardAssets.Characters.Common
 			var newInput = context.ReadValue<Vector2>();
 			m_UsingMouseInput = true;
 			
-			// If the mouse look input was already processed, then clear the value before accumulating again
-			if (m_HasProcessedMouseLookInput)
+			//When using an InputGainAcceleration component, the look input processing should happen there.
+			if (m_UseInputGainAcceleration)
 			{
-				lookInput = Vector2.zero;
-				m_HasProcessedMouseLookInput = false;
+				if (m_CameraInputGainAcceleration.hasProcessedMouseLookInput)
+				{
+					m_lookInput = Vector2.zero;
+					m_CameraInputGainAcceleration.hasProcessedMouseLookInput = false;
+				}
+			}
+			else
+			{
+				// If the mouse look input was already processed, then clear the value before accumulating again
+				if (m_HasProcessedMouseLookInput)
+				{
+					m_lookInput = Vector2.zero;
+					m_HasProcessedMouseLookInput = false;
+				}
 			}
 			
-			lookInput += newInput;		
+			m_lookInput += newInput;			
 		}
 		
 		/// <summary>
@@ -288,11 +357,11 @@ namespace StandardAssets.Characters.Common
 			if (context.performed)
 			{
 				m_UsingMouseInput = false;
-				lookInput = context.ReadValue<Vector2>();
+				m_lookInput = context.ReadValue<Vector2>();
 			}
 			else if (context.canceled)
 			{
-				lookInput = Vector2.zero;
+				m_lookInput = Vector2.zero;
 			}
 		}
 		
@@ -357,7 +426,7 @@ namespace StandardAssets.Characters.Common
 				var currentFrame = Time.frameCount;
 				if ((m_LookInputProcessedFrame < currentFrame) && m_HasProcessedMouseLookInput)
 				{
-					lookInput = Vector2.zero;
+					m_lookInput = Vector2.zero;
 				}
 				m_LookInputProcessedFrame = currentFrame;
 				m_HasProcessedMouseLookInput = true;
@@ -365,7 +434,7 @@ namespace StandardAssets.Characters.Common
 			
 			if (axis == "Vertical")
 			{	
-				var lookVertical = m_InvertY ? lookInput.y : -lookInput.y;
+				var lookVertical = m_InvertY ? m_lookInput.y : -m_lookInput.y;
 				if (UseTouchControls())
 				{
 					lookVertical *= m_CameraLookSensitivity.touchVerticalSensitivity;
@@ -382,8 +451,8 @@ namespace StandardAssets.Characters.Common
 			if (axis == "Horizontal")
 			{
 				var lookHorizontal = m_InvertX
-					? lookInput.x + movingPlatformLookInput.x
-					: -lookInput.x + movingPlatformLookInput.x;
+					? m_lookInput.x + movingPlatformLookInput.x
+					: -m_lookInput.x + movingPlatformLookInput.x;
 				if (UseTouchControls())
 				{
 					lookHorizontal *= m_CameraLookSensitivity.touchHorizontalSensitivity;
