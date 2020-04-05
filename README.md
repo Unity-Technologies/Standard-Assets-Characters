@@ -4,7 +4,7 @@ Note: this project is work in progress and currently considered a beta. It conta
 
 ## READ ME FIRST
 
-This package is intended for use in 2019.3.0f1 so we recommend you follow suit as fixes to aspects we use like new input will be applied to a 2019.3.0f1 compatible package first.
+This package is intended for use in 2019.3.0f6 so we recommend you follow suit as fixes to aspects we use like new input will be applied to a 2019.3.0f6 compatible package first.
 
 
 ## Feedback
